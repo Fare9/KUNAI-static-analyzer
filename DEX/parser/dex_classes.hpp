@@ -31,6 +31,41 @@
 
 namespace KUNAI {
     namespace DEX {
+        
+        class EncodedValue
+        {
+        public:
+            EncodedValue(std::ifstream& input_file);
+            ~EncodedValue();
+
+            std::vector<std::uint8_t> get_values();
+            std::vector<std::shared_ptr<EncodedValue>> get_array();
+
+        private:
+            std::vector<std::uint8_t> values;
+            std::vector<std::shared_ptr<EncodedValue>> array;
+        };
+
+        class EncodedArray
+        {
+        public:
+            EncodedArray(std::ifstream& input_file);
+            ~EncodedArray();
+        private:
+            std::uint64_t size;
+            std::vector<std::shared_ptr<EncodedValue>> values;
+        };
+
+        class EncodedArrayItem
+        {
+        public:
+            EncodedArrayItem(std::ifstream& input_file);
+            ~EncodedArrayItem();
+
+            std::shared_ptr<EncodedArray> get_encoded_array();
+        private:
+            std::shared_ptr<EncodedArray> array;
+        };
 
         class EncodedField
         {
@@ -159,14 +194,39 @@ namespace KUNAI {
              * 
              * offset to different fields and
              * methods
+             * 
+             * ClassDataItem:
+             *  static_fields_size: uleb128
+             *  instance_fields_size: uleb128
+             *  direct_methods_size: uleb128
+             *  virtual_methods_size: uleb128
+             *  static_fields: EncodedField
+             *  instance_fields: EncodedField
+             *  direct_methods: EncodedMethod
+             *  virtual_methods: EncodedMethod
+             * 
+             * EncodedField:
+             *  field_id: uleb128
+             *  access_flags: uleb128
+             * EncodedMethod:
+             *  method_id: uleb128
+             *  access_flags: uleb128
+             *  code_off: uleb128
              */
             std::uint32_t classess_off;
             std::shared_ptr<ClassDataItem> class_data_items;
 
             /**
              * static values
+             * 
+             * offset to different static variables.
+             * 
+             *  EncodedArrayItem
+             *      size: uleb128
+             *      values: EncodedValue[size]
              */
             std::uint32_t static_values_off;
+            std::shared_ptr<EncodedArrayItem> static_values;
         };
 
         class DexClasses

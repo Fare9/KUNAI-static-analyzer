@@ -4,6 +4,112 @@ namespace KUNAI
 {
     namespace DEX
     {
+        
+        EncodedValue::EncodedValue(std::ifstream& input_file)
+        {
+            std::uint8_t value, value_type, value_args;
+
+            if (!KUNAI::read_data_file<std::uint8_t>(value, sizeof(std::uint8_t), input_file))
+                throw exceptions::ParserReadingException("Error reading EncodedValue 'value' from file");
+            
+            value_type = value & 0x1f;
+            value_args = ((value & 0xe0) >> 5);
+
+            switch(value_type)
+            {
+            case DVMTypes::VALUE_BYTE:
+            case DVMTypes::VALUE_SHORT:
+            case DVMTypes::VALUE_CHAR:
+            case DVMTypes::VALUE_INT:
+            case DVMTypes::VALUE_LONG:
+            case DVMTypes::VALUE_FLOAT:
+            case DVMTypes::VALUE_DOUBLE:
+            case DVMTypes::VALUE_STRING:
+            case DVMTypes::VALUE_TYPE:
+            case DVMTypes::VALUE_FIELD:
+            case DVMTypes::VALUE_METHOD:
+            case DVMTypes::VALUE_ENUM:
+            {
+                std::uint8_t aux;
+                for (size_t i = 0; i < value_args; i++)
+                {
+                    if (!KUNAI::read_data_file<std::uint8_t>(aux, sizeof(std::uint8_t), input_file))
+                        throw exceptions::ParserReadingException("Error reading EncodedValue 'aux' from file");
+                    values.push_back(aux);
+                }
+                break;
+            }
+            case DVMTypes::VALUE_ARRAY:
+            {
+                std::uint64_t size = KUNAI::read_uleb128(input_file);
+                for (size_t i = 0; i < size; i++)
+                {
+                    array.push_back(std::make_shared<EncodedValue>(input_file));
+                }
+                break;
+            }
+            case DVMTypes::VALUE_ANNOTATION:
+            {
+                // ToDo
+                break;
+            }
+            case DVMTypes::VALUE_NULL:
+            case DVMTypes::VALUE_BOOLEAN:
+                break;
+            }
+        }
+        
+        EncodedValue::~EncodedValue()
+        {
+            if (!values.empty())
+                values.clear();
+        }
+
+        std::vector<std::uint8_t> EncodedValue::get_values()
+        {
+            return values;
+        }
+
+        std::vector<std::shared_ptr<EncodedValue>> EncodedValue::get_array()
+        {
+            return array;
+        }
+        /***
+         * EncodedArray
+         */
+        EncodedArray::EncodedArray(std::ifstream& input_file)
+        {
+            size = KUNAI::read_uleb128(input_file);
+            std::shared_ptr<EncodedValue> encoded_value;
+
+            for (size_t i = 0; i < size; i++)
+            {
+                encoded_value = std::make_shared<EncodedValue>(input_file);
+                values.push_back(encoded_value);
+            }
+        }
+
+        EncodedArray::~EncodedArray()
+        {
+            if (!values.empty())
+                values.clear();
+        }
+
+
+        /***
+         * EncodedArrayItem
+         */
+        EncodedArrayItem::EncodedArrayItem(std::ifstream& input_file)
+        {
+            this->array = std::make_shared<EncodedArray>(input_file);
+        }
+
+        EncodedArrayItem::~EncodedArrayItem() {}
+
+        std::shared_ptr<EncodedArray> EncodedArrayItem::get_encoded_array()
+        {
+            return array;
+        }
         /***
          * EncodedField
          */
@@ -305,9 +411,7 @@ namespace KUNAI
             {
                 input_file.seekg(static_values_off);
 
-                //std::uint64_t static_values_size = KUNAI::read_uleb128(input_file);
-
-                // ToDo
+                static_values = std::make_shared<EncodedArrayItem>(input_file);
             }
 
             input_file.seekg(current_offset);
