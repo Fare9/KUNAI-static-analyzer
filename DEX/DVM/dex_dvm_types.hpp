@@ -103,10 +103,28 @@ namespace KUNAI {
                 {ACC_DECLARED_SYNCHRONIZED, "synchronized"}
             };
 
-
+            enum VALUE_FORMATS
+            {
+                VALUE_BYTE = 0x0,           // ubyte[1]
+                VALUE_SHORT = 0x2,          // ubyte[size]
+                VALUE_CHAR = 0x3,           // ubyte[size]
+                VALUE_INT = 0x4,            // ubyte[size]
+                VALUE_LONG = 0x6,           // ubyte[size]
+                VALUE_FLOAT = 0x10,         // ubyte[size]
+                VALUE_DOUBLE = 0x11,        // ubyte[size]
+                VALUE_METHOD_TYPE = 0x15,   // ubyte[size]
+                VALUE_METHOD_HANDLE = 0x16, // ubyte[size]
+                VALUE_STRING = 0x17,        // ubyte[size]
+                VALUE_TYPE = 0x18,          // ubyte[size]
+                VALUE_FIELD = 0x19,         // ubyte[size]
+                VALUE_METHOD = 0x1A,        // ubyte[size]
+                VALUE_ENUM = 0x1B,          // ubyte[size]
+                VALUE_ARRAY = 0x1C,         // EncodedArray
+                VALUE_ANNOTATION = 0x1D,    // EncodedAnnotation
+                VALUE_NULL = 0x1E,          // None
+                VALUE_BOOLEAN = 0x1F        // None
+            };
             
-
-
         };
     }
 }
