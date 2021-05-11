@@ -11,6 +11,8 @@
  *     ushort proto_idx, # method prototype with return value and the parameters
  *     uint name_idx # id of string with method name 
  * }
+ * 
+ * MethodIDStruct[] dex_methods;
  */
 
 #pragma once
@@ -48,6 +50,7 @@ namespace KUNAI {
             ProtoID* get_method_prototype();
             std::string* get_method_name();
 
+            friend std::ostream& operator<<(std::ostream& os, const MethodID& entry);
         private:
             std::map<std::uint16_t, Type*> class_idx;
             std::map<std::uint16_t, ProtoID*> proto_idx;

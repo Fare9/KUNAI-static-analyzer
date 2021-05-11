@@ -10,6 +10,8 @@
  *      ushort type_idx, # type_id of field type
  *      uint name_idx # Field name
  *  }
+ * 
+ *  FieldID[] dex_fields;
  */
 
 #pragma once
@@ -43,7 +45,8 @@ namespace KUNAI {
             Type* get_class_idx();
             Type* get_type_idx();
             std::string* get_name_idx();
-
+            
+            friend std::ostream& operator<<(std::ostream& os, const FieldID& entry);
         private:
             std::map<std::uint16_t, Type*> class_idx;
             std::map<std::uint16_t, Type*> type_idx;

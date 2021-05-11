@@ -41,6 +41,24 @@ namespace KUNAI {
             return name_idx.begin()->second;
         }
 
+        std::ostream& operator<<(std::ostream& os, const FieldID& entry)
+        {
+            if (entry.type_idx.size() > 0)
+            {
+                os << entry.type_idx.begin()->second->get_raw();
+                os << " ";
+            }
+            if (entry.class_idx.size() > 0)
+            {
+                os << entry.class_idx.begin()->second->get_raw();
+                os << "->";
+            }
+            if (entry.name_idx.size() > 0)
+                os << *entry.name_idx.begin()->second;
+            os << std::endl;
+            return os;
+        }
+
         /***
          * DexFields class
          */
@@ -132,7 +150,7 @@ namespace KUNAI {
             {
                 FieldID* field_id = *it;
                 os << std::left << std::setfill(' ') << "Field (" << std::dec << i++ << std::hex << "): ";
-                os << field_id->get_type_idx()->get_raw() << " " << field_id->get_class_idx()->get_raw() << "->" << *field_id->get_name_idx() << std::endl;
+                os << *field_id;
             }
 
             return os;

@@ -41,6 +41,21 @@ namespace KUNAI {
             return name_idx.begin()->second;
         }
 
+        std::ostream& operator<<(std::ostream& os, const MethodID& entry)
+        {
+            os << entry.class_idx.begin()->second->get_raw() << "." << *entry.name_idx.begin()->second;
+            os << "(";
+            for (size_t j = 0; j < entry.proto_idx.begin()->second->get_number_of_parameters(); j++)
+            {
+                os << entry.proto_idx.begin()->second->get_parameter_type_by_order(j)->get_raw();
+                if (j != entry.proto_idx.begin()->second->get_number_of_parameters()-1)
+                    os << ", ";
+            }
+            os << ")" << entry.proto_idx.begin()->second->get_return_idx()->get_raw();
+            os << std::endl;
+            return os;
+        }
+
         /***
          * Class DexMethods
          */
@@ -132,18 +147,9 @@ namespace KUNAI {
             os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Methods ===========" << std::endl;
             for (auto it = entry.method_ids.begin(); it != entry.method_ids.end(); it++)
             {
-                auto* method_id = *it;
-                os << std::left << std::setfill(' ') << "Method (" << std::dec << i++ << std::hex << "): ";
-                os << method_id->get_method_class()->get_raw() << "->" << *method_id->get_method_name();
-                os << "(";
-                for (size_t j = 0; j < method_id->get_method_prototype()->get_number_of_parameters(); j++)
-                {
-                    os << method_id->get_method_prototype()->get_parameter_type_by_order(j)->get_raw();
-                    if (j != method_id->get_method_prototype()->get_number_of_parameters()-1)
-                        os << ", ";
-                }
-                os << ")" << method_id->get_method_prototype()->get_return_idx()->get_raw();
-                os << std::endl;
+                auto method_id = *it;
+                os << "Method (" << i++ << "): ";
+                os << *method_id;
             }
 
             return os;
