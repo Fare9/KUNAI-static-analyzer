@@ -27,6 +27,8 @@
  *  type_item {
  *      ushort type_idx # type_idx of each member
  *  }
+ * 
+ *  ProtoID[] protos
  */
 
 #pragma once

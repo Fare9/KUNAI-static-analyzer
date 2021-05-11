@@ -58,7 +58,14 @@ namespace KUNAI
             os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Header ===========" << std::endl;
             os << std::setw(30) << std::left << std::setfill(' ') << "Magic: ";
             for (i = 0; i < 8; i++)
-                os << static_cast<int>(entry.dex_struct.magic[i]) << " ";
+            {
+                os << static_cast<int>(entry.dex_struct.magic[i]);
+                if (entry.dex_struct.magic[i] == 0xa)
+                    os << "(\\n)";
+                else if (isprint(entry.dex_struct.magic[i]))
+                    os << "(" << static_cast<char>(entry.dex_struct.magic[i]) << ")";
+                os << " ";
+            }
             os << std::endl;
             os << std::setw(30) << std::left << std::setfill(' ') << "Checksum: " << entry.dex_struct.checksum << std::endl;
             os << std::setw(30) << std::left << std::setfill(' ') << "Signature: ";

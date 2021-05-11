@@ -5,6 +5,21 @@
  * DEX file strings, these are the
  * offsets in the file, we will store
  * the strings too.
+ * 
+ * string_id_item{
+ *  uint string_data_off; ---> |
+ * }                           |
+ *                             |
+ * -----------------------------
+ * |
+ * v 
+ * string_data_item{
+ *  uleb128 utf16_size;
+ *  ubyte[] data;
+ * }
+ * 
+ * string_ids string_id_item[]
+ * 
  */
 
 #pragma once

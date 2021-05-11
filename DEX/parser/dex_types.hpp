@@ -7,6 +7,11 @@
  * Each one of the types point to an index in the
  * string lookup table.
  * 
+ * type_id_item[]
+ * 
+ * type_id_item:
+ *  descriptor_idx: uint -> index into string_ids list
+ * 
  * types:
  *  X --> strings[X] --> class1
  *  Y --> strings[Y] --> class2
