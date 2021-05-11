@@ -14,6 +14,11 @@
 
 namespace KUNAI {
     namespace DEX {
+        static const std::uint8_t dex_magic_035[] = {'d','e','x','\n','0','3','5','\0'};
+        static const std::uint8_t dex_magic_037[] = {'d','e','x','\n','0','3','7','\0'};
+        static const std::uint8_t dex_magic_038[] = {'d','e','x','\n','0','3','8','\0'};
+        static const std::uint8_t dex_magic_039[] = {'d','e','x','\n','0','3','9','\0'};
+
         class DVMTypes
         {
         public:
@@ -103,6 +108,19 @@ namespace KUNAI {
                 {ACC_DECLARED_SYNCHRONIZED, "synchronized"}
             };
 
+            // already managed by dex_types
+            std::map<char, std::string> TYPE_DESCRIPTOR = {
+                {'V',"void"},
+                {'Z',"boolean"},
+                {'B',"byte"},
+                {'S',"short"},
+                {'C',"char"},
+                {'I',"int"},
+                {'J',"long"},
+                {'F',"float"},
+                {'D',"double"}
+            };
+
             enum VALUE_FORMATS
             {
                 VALUE_BYTE = 0x0,           // ubyte[1]
@@ -123,6 +141,19 @@ namespace KUNAI {
                 VALUE_ANNOTATION = 0x1D,    // EncodedAnnotation
                 VALUE_NULL = 0x1E,          // None
                 VALUE_BOOLEAN = 0x1F        // None
+            };
+
+            enum METHOD_HANDLE_TYPE_CODES
+            {
+                METHOD_HANDLE_TYPE_STATIC_PUT = 0x0,
+                METHOD_HANDLE_TYPE_STATIC_GET,
+                METHOD_HANDLE_TYPE_INSTANCE_PUT,
+                METHOD_HANDLE_TYPE_INSTANCE_GET,
+                METHOD_HANDLE_TYPE_INVOKE_STATIC,
+                METHOD_HANDLE_TYPE_INVOKE_INSTANCE,
+                METHOD_HANDLE_TYPE_INVOKE_CONSTRUCTOR,
+                METHOD_HANDLE_TYPE_INVOKE_DIRECT,
+                METHOD_HANDLE_TYPE_INVOKE_INTERFACE
             };
             
         };
