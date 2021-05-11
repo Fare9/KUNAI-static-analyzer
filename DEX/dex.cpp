@@ -30,6 +30,8 @@ namespace KUNAI {
                 os << *entry.dex_fields;
             if (entry.dex_methods)
                 os << *entry.dex_methods;
+            if (entry.dex_classes)
+                os << *entry.dex_classes;
             
             return os;
         }
