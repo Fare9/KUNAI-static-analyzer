@@ -8,7 +8,7 @@ UTILITIES = -I Exceptions/ -I Utils/
 ALL_INCLUDE = ${FILE_MODULES} ${UTILITIES}
 OBJ_FILES= ${OBJ}utils.o ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_types.o ${OBJ}dex_protos.o ${OBJ}dex_fields.o \
-			${OBJ}dex_methods.o ${OBJ}dex_classes.o\
+			${OBJ}dex_methods.o ${OBJ}dex_classes.o ${OBJ}dex_encoded.o\
 			${OBJ}dex.o ${OBJ}main.o
 
 .PHONY: clean
