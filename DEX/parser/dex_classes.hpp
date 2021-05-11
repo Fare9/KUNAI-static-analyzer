@@ -27,76 +27,12 @@
 #include "dex_types.hpp"
 #include "dex_fields.hpp"
 #include "dex_methods.hpp"
+#include "dex_encoded.hpp"
 #include "exceptions.hpp"
 
 namespace KUNAI {
     namespace DEX {
         
-        class EncodedValue
-        {
-        public:
-            EncodedValue(std::ifstream& input_file);
-            ~EncodedValue();
-
-            std::vector<std::uint8_t> get_values();
-            std::vector<std::shared_ptr<EncodedValue>> get_array();
-
-        private:
-            std::vector<std::uint8_t> values;
-            std::vector<std::shared_ptr<EncodedValue>> array;
-        };
-
-        class EncodedArray
-        {
-        public:
-            EncodedArray(std::ifstream& input_file);
-            ~EncodedArray();
-        private:
-            std::uint64_t size;
-            std::vector<std::shared_ptr<EncodedValue>> values;
-        };
-
-        class EncodedArrayItem
-        {
-        public:
-            EncodedArrayItem(std::ifstream& input_file);
-            ~EncodedArrayItem();
-
-            std::shared_ptr<EncodedArray> get_encoded_array();
-        private:
-            std::shared_ptr<EncodedArray> array;
-        };
-
-        class EncodedField
-        {
-        public:
-            EncodedField(FieldID* field_idx, std::uint64_t access_flags);
-            ~EncodedField();
-
-            FieldID* get_field();
-            DVMTypes::ACCESS_FLAGS get_access_flags();
-
-        private:
-            FieldID* field_idx;
-            DVMTypes::ACCESS_FLAGS access_flags;
-        };
-
-        class EncodedMethod
-        {
-        public:
-            EncodedMethod(MethodID* method_id, std::uint64_t access_flags, std::uint64_t code_off);
-            ~EncodedMethod();
-
-            MethodID* get_method();
-            DVMTypes::ACCESS_FLAGS get_access_flags();
-            std::uint64_t get_code_offset();
-
-        private:
-            MethodID* method_id;
-            DVMTypes::ACCESS_FLAGS access_flags;
-            std::uint64_t code_off;
-        };
-
         class ClassDataItem
         {
         public:
@@ -244,6 +180,8 @@ namespace KUNAI {
 
             std::uint32_t get_number_of_classes();
             std::shared_ptr<ClassDef> get_class_by_pos(std::uint64_t pos);
+
+            friend std::ostream& operator<<(std::ostream& os, const DexClasses& entry);
         private:
             bool parse_classes(std::ifstream& input_file, std::uint64_t file_size);
 

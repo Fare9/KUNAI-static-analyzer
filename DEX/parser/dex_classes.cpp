@@ -4,160 +4,6 @@ namespace KUNAI
 {
     namespace DEX
     {
-        
-        EncodedValue::EncodedValue(std::ifstream& input_file)
-        {
-            std::uint8_t value, value_type, value_args;
-
-            if (!KUNAI::read_data_file<std::uint8_t>(value, sizeof(std::uint8_t), input_file))
-                throw exceptions::ParserReadingException("Error reading EncodedValue 'value' from file");
-            
-            value_type = value & 0x1f;
-            value_args = ((value & 0xe0) >> 5);
-
-            switch(value_type)
-            {
-            case DVMTypes::VALUE_BYTE:
-            case DVMTypes::VALUE_SHORT:
-            case DVMTypes::VALUE_CHAR:
-            case DVMTypes::VALUE_INT:
-            case DVMTypes::VALUE_LONG:
-            case DVMTypes::VALUE_FLOAT:
-            case DVMTypes::VALUE_DOUBLE:
-            case DVMTypes::VALUE_STRING:
-            case DVMTypes::VALUE_TYPE:
-            case DVMTypes::VALUE_FIELD:
-            case DVMTypes::VALUE_METHOD:
-            case DVMTypes::VALUE_ENUM:
-            {
-                std::uint8_t aux;
-                for (size_t i = 0; i < value_args; i++)
-                {
-                    if (!KUNAI::read_data_file<std::uint8_t>(aux, sizeof(std::uint8_t), input_file))
-                        throw exceptions::ParserReadingException("Error reading EncodedValue 'aux' from file");
-                    values.push_back(aux);
-                }
-                break;
-            }
-            case DVMTypes::VALUE_ARRAY:
-            {
-                std::uint64_t size = KUNAI::read_uleb128(input_file);
-                for (size_t i = 0; i < size; i++)
-                {
-                    array.push_back(std::make_shared<EncodedValue>(input_file));
-                }
-                break;
-            }
-            case DVMTypes::VALUE_ANNOTATION:
-            {
-                // ToDo
-                break;
-            }
-            case DVMTypes::VALUE_NULL:
-            case DVMTypes::VALUE_BOOLEAN:
-                break;
-            }
-        }
-        
-        EncodedValue::~EncodedValue()
-        {
-            if (!values.empty())
-                values.clear();
-        }
-
-        std::vector<std::uint8_t> EncodedValue::get_values()
-        {
-            return values;
-        }
-
-        std::vector<std::shared_ptr<EncodedValue>> EncodedValue::get_array()
-        {
-            return array;
-        }
-        /***
-         * EncodedArray
-         */
-        EncodedArray::EncodedArray(std::ifstream& input_file)
-        {
-            size = KUNAI::read_uleb128(input_file);
-            std::shared_ptr<EncodedValue> encoded_value;
-
-            for (size_t i = 0; i < size; i++)
-            {
-                encoded_value = std::make_shared<EncodedValue>(input_file);
-                values.push_back(encoded_value);
-            }
-        }
-
-        EncodedArray::~EncodedArray()
-        {
-            if (!values.empty())
-                values.clear();
-        }
-
-
-        /***
-         * EncodedArrayItem
-         */
-        EncodedArrayItem::EncodedArrayItem(std::ifstream& input_file)
-        {
-            this->array = std::make_shared<EncodedArray>(input_file);
-        }
-
-        EncodedArrayItem::~EncodedArrayItem() {}
-
-        std::shared_ptr<EncodedArray> EncodedArrayItem::get_encoded_array()
-        {
-            return array;
-        }
-        /***
-         * EncodedField
-         */
-        EncodedField::EncodedField(FieldID *field_idx, std::uint64_t access_flags)
-        {
-            this->field_idx = field_idx;
-            this->access_flags = static_cast<DVMTypes::ACCESS_FLAGS>(access_flags);
-        }
-
-        EncodedField::~EncodedField() {}
-
-        FieldID *EncodedField::get_field()
-        {
-            return field_idx;
-        }
-
-        DVMTypes::ACCESS_FLAGS EncodedField::get_access_flags()
-        {
-            return access_flags;
-        }
-        /***
-         * EncodedMethod
-         */
-        EncodedMethod::EncodedMethod(MethodID *method_id,
-                                     std::uint64_t access_flags,
-                                     std::uint64_t code_off)
-        {
-            this->method_id = method_id;
-            this->access_flags = static_cast<DVMTypes::ACCESS_FLAGS>(access_flags);
-            this->code_off = code_off;
-        }
-
-        EncodedMethod::~EncodedMethod() {}
-
-        MethodID *EncodedMethod::get_method()
-        {
-            return method_id;
-        }
-
-        DVMTypes::ACCESS_FLAGS EncodedMethod::get_access_flags()
-        {
-            return access_flags;
-        }
-
-        std::uint64_t EncodedMethod::get_code_offset()
-        {
-            return code_off;
-        }
         /***
          * ClassDataItem
          */
@@ -171,10 +17,10 @@ namespace KUNAI
                 instance_fields_size,
                 direct_methods_size,
                 virtual_methods_size;
-            std::uint64_t static_field,
-                instance_field,
-                direct_method,
-                virtual_method,
+            std::uint64_t static_field = 0,
+                instance_field = 0,
+                direct_method = 0,
+                virtual_method = 0,
                 access_flags,
                 code_off;
 
@@ -185,7 +31,10 @@ namespace KUNAI
 
             for (size_t i = 0; i < static_fields_size; i++)
             {
-                static_field = KUNAI::read_uleb128(input_file);
+                // value as it's field_idx_diff, needs to be incremented
+                // taking care of previous value
+                // static_field = static_field_read + prev
+                static_field += KUNAI::read_uleb128(input_file);
 
                 if (static_field >= dex_fields->get_number_of_fields())
                     throw exceptions::IncorrectFieldId("Error reading ClassDataItem static_field out of field bound");
@@ -197,7 +46,7 @@ namespace KUNAI
 
             for (size_t i = 0; i < instance_fields_size; i++)
             {
-                instance_field = KUNAI::read_uleb128(input_file);
+                instance_field += KUNAI::read_uleb128(input_file);
 
                 if (instance_field >= dex_fields->get_number_of_fields())
                     throw exceptions::IncorrectFieldId("Error reading ClassDataItem instance_field out of field bound");
@@ -208,7 +57,7 @@ namespace KUNAI
 
             for (size_t i = 0; i < direct_methods_size; i++)
             {
-                direct_method = KUNAI::read_uleb128(input_file);
+                direct_method += KUNAI::read_uleb128(input_file);
 
                 if (direct_method >= dex_methods->get_number_of_methods())
                     throw exceptions::IncorrectMethodId("Error reading ClassDataItem direct_method out of method bound");
@@ -222,7 +71,7 @@ namespace KUNAI
 
             for (size_t i = 0; i < virtual_methods_size; i++)
             {
-                virtual_method = KUNAI::read_uleb128(input_file);
+                virtual_method += KUNAI::read_uleb128(input_file);
 
                 if (virtual_method >= dex_methods->get_number_of_methods())
                     throw exceptions::IncorrectMethodId("Error reading ClassDataItem virtual_method out of method bound");
@@ -258,7 +107,11 @@ namespace KUNAI
         {
             if (pos >= static_fields.size())
                 return nullptr;
-            return static_fields[pos];
+            
+            auto it = static_fields.begin();
+            while(pos-- != 0)
+                it++;
+            return it->second;
         }
 
         std::uint64_t ClassDataItem::get_number_of_instance_fields()
@@ -280,7 +133,11 @@ namespace KUNAI
         {
             if (pos >= instance_fields.size())
                 return nullptr;
-            return instance_fields[pos];
+            
+            auto it = instance_fields.begin();
+            while(pos-- != 0)
+                it++;
+            return it->second;
         }
 
         std::uint64_t ClassDataItem::get_number_of_direct_methods()
@@ -302,7 +159,11 @@ namespace KUNAI
         {
             if (pos >= direct_methods.size())
                 return nullptr;
-            return direct_methods[pos];
+            
+            auto it = direct_methods.begin();
+            while(pos-- != 0)
+                it++;
+            return it->second;
         }
 
         std::uint64_t ClassDataItem::get_number_of_virtual_methods()
@@ -324,7 +185,11 @@ namespace KUNAI
         {
             if (pos >= virtual_methods.size())
                 return nullptr;
-            return virtual_methods[pos];
+            
+            auto it = virtual_methods.begin();
+            while(pos-- != 0)
+                it++;
+            return it->second;
         }
 
         /***
@@ -457,7 +322,10 @@ namespace KUNAI
         {
             if (pos >= interfaces.size())
                 return nullptr;
-            return interfaces[pos];
+            auto it = interfaces.begin();
+            while(pos-- != 0)
+                it++;
+            return it->second;
         }
 
         std::shared_ptr<ClassDataItem> ClassDef::get_class_data()
@@ -552,6 +420,80 @@ namespace KUNAI
 
             input_file.seekg(current_offset);
             return true;
+        }
+
+        std::ostream& operator<<(std::ostream& os, const DexClasses& entry)
+        {
+            size_t i = 0;
+            os << std::hex;
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Classes ===========" << std::endl;
+            for (auto it = entry.class_defs.begin(); it != entry.class_defs.end(); it++)
+            {
+                std::shared_ptr<ClassDef> class_def = *it;
+                os << "Class (" << i++ << "):" << std::endl;
+                os << "\tClass idx: " << class_def->get_class_idx()->get_name() << std::endl;
+                os << "\tAccess Flags: " << class_def->get_access_flags() << std::endl;
+                if (class_def->get_superclass_idx())
+                    os << "\tSuperclass: " << class_def->get_superclass_idx()->get_name() << std::endl;
+                if (class_def->get_source_file_idx())
+                    os << "\tSource File: " << *class_def->get_source_file_idx() << std::endl;
+                
+                if (class_def->get_number_of_interfaces() > 0)
+                    os << "\tInterfaces: " << std::endl;
+                for (size_t j = 0; j < class_def->get_number_of_interfaces(); j++)
+                {
+                    os << "\t\tInterface(" << j << "):" << class_def->get_interface_by_pos(j)->get_name() << std::endl;
+                }
+                
+                std::shared_ptr<ClassDataItem> class_data_item = class_def->get_class_data();
+
+                if (class_data_item)
+                {
+                    os << "\tClassDataItem:" << std::endl;
+
+                    if (class_data_item->get_number_of_static_fields() > 0)
+                        os << "\t\tStatic fields:" << std::endl;
+                    for (size_t j = 0; j < class_data_item->get_number_of_static_fields(); j++)
+                    {
+                        os << "\t\t\tStatic field(" << j << "): " << std::endl;
+                        os << "\t\t\t\tAccess flags: " << class_data_item->get_static_field_by_pos(j)->get_access_flags() << std::endl;
+                        os << "\t\t\t\tField: " << *class_data_item->get_static_field_by_pos(j)->get_field();
+                    }
+
+                    if (class_data_item->get_number_of_instance_fields() > 0)
+                        os << "\t\tInstance fields:" << std::endl;
+                    for (size_t j = 0; j < class_data_item->get_number_of_instance_fields(); j++)
+                    {
+                        os << "\t\t\tInstance field(" << j << "): " << std::endl;
+                        os << "\t\t\t\tAccess flags: " << class_data_item->get_instance_field_by_pos(j)->get_access_flags() << std::endl;
+                        os << "\t\t\t\tField: " << *class_data_item->get_instance_field_by_pos(j)->get_field();
+                    }
+
+                    if (class_data_item->get_number_of_direct_methods() > 0)
+                        os << "\t\tDirect methods: " << std::endl;
+                    for (size_t j = 0; j < class_data_item->get_number_of_direct_methods(); j++)
+                    {
+                        os << "\t\t\tDirect method(" << j << "): " << std::endl;
+                        os << "\t\t\t\tAccess flags: " << class_data_item->get_direct_method_by_pos(j)->get_access_flags() << std::endl;
+                        os << "\t\t\t\tCode offset: " << class_data_item->get_direct_method_by_pos(j)->get_code_offset() << std::endl;
+                        os << "\t\t\t\tMethod: " << *class_data_item->get_direct_method_by_pos(j)->get_method() << std::endl;
+                    }
+
+                    if (class_data_item->get_number_of_virtual_methods() > 0)
+                        os << "\t\tVirtual methods: " << std::endl;
+                    for (size_t j = 0; j < class_data_item->get_number_of_virtual_methods(); j++)
+                    {
+                        os << "\t\t\tVirtual method(" << j << "): " << std::endl;
+                        os << "\t\t\t\tAccess flags: " << class_data_item->get_virtual_method_by_pos(j)->get_access_flags() << std::endl;
+                        os << "\t\t\t\tCode offset: " << class_data_item->get_virtual_method_by_pos(j)->get_code_offset() << std::endl;
+                        os << "\t\t\t\tMethod: " << *class_data_item->get_virtual_method_by_pos(j)->get_method() << std::endl;
+                    }
+                }
+            }
+
+            
+
+            return os;
         }
 
     }
