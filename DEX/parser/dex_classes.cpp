@@ -8,8 +8,10 @@ namespace KUNAI
          * ClassDataItem
          */
         ClassDataItem::ClassDataItem(std::ifstream &input_file,
+                                     std::uint64_t file_size,
                                      std::shared_ptr<DexFields> dex_fields,
-                                     std::shared_ptr<DexMethods> dex_methods)
+                                     std::shared_ptr<DexMethods> dex_methods,
+                                     std::shared_ptr<DexTypes> dex_types)
         {
             auto current_offset = input_file.tellg();
 
@@ -18,11 +20,11 @@ namespace KUNAI
                 direct_methods_size,
                 virtual_methods_size;
             std::uint64_t static_field = 0,
-                instance_field = 0,
-                direct_method = 0,
-                virtual_method = 0,
-                access_flags,
-                code_off;
+                          instance_field = 0,
+                          direct_method = 0,
+                          virtual_method = 0,
+                          access_flags,
+                          code_off;
 
             static_fields_size = KUNAI::read_uleb128(input_file);
             instance_fields_size = KUNAI::read_uleb128(input_file);
@@ -66,7 +68,7 @@ namespace KUNAI
 
                 code_off = KUNAI::read_uleb128(input_file);
 
-                direct_methods[direct_method] = std::make_shared<EncodedMethod>(dex_methods->get_method_by_order(direct_method), access_flags, code_off);
+                direct_methods[direct_method] = std::make_shared<EncodedMethod>(dex_methods->get_method_by_order(direct_method), access_flags, code_off, input_file, file_size, dex_types);
             }
 
             for (size_t i = 0; i < virtual_methods_size; i++)
@@ -80,7 +82,7 @@ namespace KUNAI
 
                 code_off = KUNAI::read_uleb128(input_file);
 
-                virtual_methods[virtual_method] = std::make_shared<EncodedMethod>(dex_methods->get_method_by_order(virtual_method), access_flags, code_off);
+                virtual_methods[virtual_method] = std::make_shared<EncodedMethod>(dex_methods->get_method_by_order(virtual_method), access_flags, code_off, input_file, file_size, dex_types);
             }
 
             input_file.seekg(current_offset);
@@ -107,9 +109,9 @@ namespace KUNAI
         {
             if (pos >= static_fields.size())
                 return nullptr;
-            
+
             auto it = static_fields.begin();
-            while(pos-- != 0)
+            while (pos-- != 0)
                 it++;
             return it->second;
         }
@@ -133,9 +135,9 @@ namespace KUNAI
         {
             if (pos >= instance_fields.size())
                 return nullptr;
-            
+
             auto it = instance_fields.begin();
-            while(pos-- != 0)
+            while (pos-- != 0)
                 it++;
             return it->second;
         }
@@ -159,9 +161,9 @@ namespace KUNAI
         {
             if (pos >= direct_methods.size())
                 return nullptr;
-            
+
             auto it = direct_methods.begin();
-            while(pos-- != 0)
+            while (pos-- != 0)
                 it++;
             return it->second;
         }
@@ -185,9 +187,9 @@ namespace KUNAI
         {
             if (pos >= virtual_methods.size())
                 return nullptr;
-            
+
             auto it = virtual_methods.begin();
-            while(pos-- != 0)
+            while (pos-- != 0)
                 it++;
             return it->second;
         }
@@ -214,10 +216,10 @@ namespace KUNAI
             else
                 this->source_file_idx[class_def.source_file_idx] = dex_str->get_string_from_order(class_def.source_file_idx);
             this->access_flag = static_cast<DVMTypes::ACCESS_FLAGS>(class_def.access_flags);
-            this->interfaces_off        = class_def.interfaces_off;
-            this->annotations_off       = class_def.annotations_off;
-            this->classess_off          = class_def.class_data_off;
-            this->static_values_off     = class_def.static_values_off;
+            this->interfaces_off = class_def.interfaces_off;
+            this->annotations_off = class_def.annotations_off;
+            this->classess_off = class_def.class_data_off;
+            this->static_values_off = class_def.static_values_off;
             if (!parse_class_defs(input_file, file_size, dex_str, dex_types, dex_fields, dex_methods))
                 throw exceptions::ParserReadingException("Error reading DEX ClassDef");
         }
@@ -269,7 +271,7 @@ namespace KUNAI
             {
                 input_file.seekg(classess_off);
 
-                class_data_items = std::make_shared<ClassDataItem>(input_file, dex_fields, dex_methods);
+                class_data_items = std::make_shared<ClassDataItem>(input_file, file_size, dex_fields, dex_methods, dex_types);
             }
 
             if (static_values_off > 0)
@@ -323,7 +325,7 @@ namespace KUNAI
             if (pos >= interfaces.size())
                 return nullptr;
             auto it = interfaces.begin();
-            while(pos-- != 0)
+            while (pos-- != 0)
                 it++;
             return it->second;
         }
@@ -422,7 +424,7 @@ namespace KUNAI
             return true;
         }
 
-        std::ostream& operator<<(std::ostream& os, const DexClasses& entry)
+        std::ostream &operator<<(std::ostream &os, const DexClasses &entry)
         {
             size_t i = 0;
             os << std::hex;
@@ -437,14 +439,14 @@ namespace KUNAI
                     os << "\tSuperclass: " << class_def->get_superclass_idx()->get_name() << std::endl;
                 if (class_def->get_source_file_idx())
                     os << "\tSource File: " << *class_def->get_source_file_idx() << std::endl;
-                
+
                 if (class_def->get_number_of_interfaces() > 0)
                     os << "\tInterfaces: " << std::endl;
                 for (size_t j = 0; j < class_def->get_number_of_interfaces(); j++)
                 {
                     os << "\t\tInterface(" << j << "):" << class_def->get_interface_by_pos(j)->get_name() << std::endl;
                 }
-                
+
                 std::shared_ptr<ClassDataItem> class_data_item = class_def->get_class_data();
 
                 if (class_data_item)
@@ -490,8 +492,6 @@ namespace KUNAI
                     }
                 }
             }
-
-            
 
             return os;
         }

@@ -37,8 +37,10 @@ namespace KUNAI {
         {
         public:
             ClassDataItem(std::ifstream& input_file,
+                            std::uint64_t file_size,
                             std::shared_ptr<DexFields> dex_fields,
-                            std::shared_ptr<DexMethods> dex_methods);
+                            std::shared_ptr<DexMethods> dex_methods,
+                            std::shared_ptr<DexTypes> dex_types);
             ~ClassDataItem();
 
             std::uint64_t get_number_of_static_fields();
