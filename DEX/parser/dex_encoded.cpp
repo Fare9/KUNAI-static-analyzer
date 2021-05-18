@@ -423,16 +423,19 @@ namespace KUNAI
             auto current_offset = input_file.tellg();
             CodeItemStruct::code_item_struct_t code_item_struct;
 
-            input_file.seekg(code_off);
+            if (code_off > 0)
+            {
+                input_file.seekg(code_off);
 
-            if (!KUNAI::read_data_file<CodeItemStruct::code_item_struct_t>(code_item_struct, sizeof(CodeItemStruct::code_item_struct_t), input_file))
-                return false;
+                if (!KUNAI::read_data_file<CodeItemStruct::code_item_struct_t>(code_item_struct, sizeof(CodeItemStruct::code_item_struct_t), input_file))
+                    return false;
 
-            if (code_item_struct.debug_info_off >= file_size)
-                throw exceptions::OutOfBoundException("Error reading code_item_struct_t.debug_info_off out of file bound");
+                if (code_item_struct.debug_info_off >= file_size)
+                    throw exceptions::OutOfBoundException("Error reading code_item_struct_t.debug_info_off out of file bound");
 
-            code_item = std::make_shared<CodeItemStruct>(input_file, file_size, code_item_struct, dex_types);
-
+                code_item = std::make_shared<CodeItemStruct>(input_file, file_size, code_item_struct, dex_types);
+            }
+            
             input_file.seekg(current_offset);
             return true;
         }
