@@ -263,7 +263,7 @@ namespace KUNAI
             {
                 input_file.seekg(annotations_off);
 
-                // ToDo
+                annotation_directory_item = std::make_shared<AnnotationsDirectoryItem>(input_file);
             }
 
             // parse class data

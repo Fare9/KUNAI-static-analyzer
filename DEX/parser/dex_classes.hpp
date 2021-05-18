@@ -15,6 +15,22 @@
  *  uint class_data_off, // offset from start of the file to the associated class data for this item, or 0 if no class data.
  *  uint static_values_off // offset from the start of the file to the list of initial values for static fields, or 0 if there are none.
  * }
+ * 
+ * interfaces_off points to:
+ *  list of Class type
+ * 
+ * class_data_off points to:
+ * 
+ * ClassDataItem {
+ *  uleb128 static_fields_size, // number of static fields defined in item
+ *  uleb128 instance_fields_size, // number of instance fields defined in item
+ *  uleb128 direct_methods_size, // number of direct methods defined in item
+ *  uleb128 virtual_methods_size, // number of virtual methods defined in item
+ *  encoded_field[static_fields_size] static_fields, // defined static fields, fields must be sorted by field_idx
+ *  encoded_field[instance_fields_size] instance fields, // defined instance fields, fields must be sorted by field_idx
+ *  encoded_method[direct_methods_size] direct_methods, // defined (static, private or constructor) methods. Must be sorted by method_idx in increasing order.
+ *  encoded_method[virtual_methods_size] virtual_methods // defined virtual (static, private or constructor) methods. Must be sorted by method_idx in increasing order.
+ * }
  */
 
 #ifndef DEX_CLASSES_HPP
@@ -28,6 +44,7 @@
 #include "dex_fields.hpp"
 #include "dex_methods.hpp"
 #include "dex_encoded.hpp"
+#include "dex_annotations.hpp"
 #include "exceptions.hpp"
 
 namespace KUNAI {
@@ -126,7 +143,7 @@ namespace KUNAI {
             std::map<std::uint16_t, Class*> interfaces;
 
             std::uint32_t annotations_off;
-
+            std::shared_ptr<AnnotationsDirectoryItem> annotation_directory_item;
             /**
              * classes def
              * 
