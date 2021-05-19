@@ -26,7 +26,8 @@ main(int argc, char **argv)
 
     std::unique_ptr<KUNAI::DEX::DEX> dex = std::make_unique<KUNAI::DEX::DEX>(dex_file, fsize);
 
-    std::cout << *dex;
+    if (dex->get_parser())
+        std::cout << *dex->get_parser();
 
     return 0;
 }

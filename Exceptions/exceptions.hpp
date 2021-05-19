@@ -11,5 +11,6 @@
 #include "incorrectvalue_exception.hpp"
 #include "incorrectfieldid_exception.hpp"
 #include "incorrectmethodid_exception.hpp"
+#include "incorrectdexfile_exception.hpp"
 
 #endif
