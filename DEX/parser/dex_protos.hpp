@@ -1,10 +1,10 @@
 /***
- * File: dex_protos.hpp
- * Author: @Farenain
+ * @file dex_protos.hpp
+ * @author @Farenain
  * 
- * Method prototypes in the java files of Android.
- * Using proto_ids with relevant type_ids, the method_ids
- * are assembled.
+ * @brief Method prototypes in the java files of Android.
+ *        Using proto_ids with relevant type_ids, the method_ids
+ *        are assembled.
  * 
  * Each proto structure is:
  *  ProtoID {

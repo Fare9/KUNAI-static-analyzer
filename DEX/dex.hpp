@@ -1,8 +1,13 @@
 /***
- * File: dex.hpp
- * Author: @Farenain
+ * @file dex.hpp
+ * @author @Farenain
  * 
- * Class which represents a dex file.
+ * @brief Class to manage a DEX file.
+ * 
+ * This class must serve to the user as an starting
+ * point of the analysis of a DEX file, here user should
+ * have access to analysis objets for classes, methods,
+ * instructions and so on.
  */
 
 #pragma once

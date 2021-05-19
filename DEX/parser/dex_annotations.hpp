@@ -1,10 +1,10 @@
 /***
- * File: dex_annotations.hpp
- * Author: @Farenain
+ * @file dex_annotations.hpp
+ * @author @Farenain
  * 
- * Android classes used to represent
- * annotations. These are pointed by
- * the offset annotations_off from ClassDefStruct.
+ * @brief Android classes used to represent
+ *        annotations. These are pointed by
+ *        the offset annotations_off from ClassDefStruct.
  * 
  * annotations_off points to:
  * 

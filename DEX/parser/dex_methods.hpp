@@ -1,10 +1,10 @@
 /***
- * File: dex_methods.hpp
- * Author: @Farenain
+ * @file dex_methods.hpp
+ * @author @Farenain
  * 
- * Android methods in the java files of Android.
- * From these methods we could start applying the
- * disassembly.
+ * @brief Android methods in the java files of Android.
+ *        From these methods we could start applying the
+ *        disassembly.
  * 
  * MethodIDStruct {
  *     ushort class_idx, # id of class where is the method, it is a type_id

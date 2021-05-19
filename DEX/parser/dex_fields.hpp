@@ -1,9 +1,9 @@
 /***
- * File: dex_fields.hpp
- * Author: @Farenain
+ * @file dex_fields.hpp
+ * @author @Farenain
  * 
- * Android fields of the Java code, composed by class name,
- * type and name of the field.
+ * @brief Android fields of the Java code, composed by class name,
+ *        type and name of the field.
  * 
  *  FieldID {
  *      ushort class_idx, # type_id for class name

@@ -1,9 +1,9 @@
 /***
- * File: dex_classes.hpp
- * Author: @Farenain
+ * @file dex_classes.hpp
+ * @author @Farenain
  * 
- * Android classes of the java code, composed
- * by different fields:
+ * @brief Android classes of the java code, composed
+ *        by different fields:
  * 
  * ClassDefsStruct{
  *  uint class_idx, // index into type_ids list, must be a class type not array or primitive type.

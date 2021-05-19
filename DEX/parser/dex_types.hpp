@@ -1,8 +1,10 @@
 /***
- * File: dex_types.hpp
- * Author: @Farenain
+ * @file dex_types.hpp
+ * @author @Farenain
  * 
- * Serie of types which points to string values
+ * @brief Serie of types which points to string values.
+ * 
+ * 
  * we will get the string values too.
  * Each one of the types point to an index in the
  * string lookup table.

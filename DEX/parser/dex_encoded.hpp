@@ -1,11 +1,11 @@
 /***
- * File: dex_encoded.hpp
- * Author: @Farenain
+ * @file dex_encoded.hpp
+ * @author @Farenain
  * 
- * All the different Encoded types from
- * DEX format, I think is a good way
- * to separate them from other logic of
- * the parser.
+ * @brief All the different Encoded types from
+ *        DEX format, I think is a good way
+ *        to separate them from other logic of
+ *        the parser.
  */
 
 #ifndef DEX_ENCODED_HPP

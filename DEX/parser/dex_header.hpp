@@ -1,6 +1,9 @@
 /***
- *  File: dex_header.hpp
- *  Author: @Farenain
+ *  @file dex_header.hpp
+ *  @author @Farenain
+ * 
+ *  @brief Class that represents and contains
+ *         the DEX file header structure.
  * 
  *  Header of DEX file:
  *      DexfileHeader{

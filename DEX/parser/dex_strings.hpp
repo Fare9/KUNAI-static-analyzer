@@ -1,10 +1,10 @@
 /***
- * File: dex_strings.hpp
- * Author: @Farenain
+ * @file dex_strings.hpp
+ * @author @Farenain
  * 
- * DEX file strings, these are the
- * offsets in the file, we will store
- * the strings too.
+ * @brief DEX file strings, these are the
+ *        offsets in the file, we will store
+ *        the strings too.
  * 
  * string_id_item{
  *  uint string_data_off; ---> |
