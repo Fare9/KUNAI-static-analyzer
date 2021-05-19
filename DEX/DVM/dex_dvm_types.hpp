@@ -12,12 +12,14 @@
 #include <iostream>
 #include <map>
 
-namespace KUNAI {
-    namespace DEX {
-        static const std::uint8_t dex_magic_035[] = {'d','e','x','\n','0','3','5','\0'};
-        static const std::uint8_t dex_magic_037[] = {'d','e','x','\n','0','3','7','\0'};
-        static const std::uint8_t dex_magic_038[] = {'d','e','x','\n','0','3','8','\0'};
-        static const std::uint8_t dex_magic_039[] = {'d','e','x','\n','0','3','9','\0'};
+namespace KUNAI
+{
+    namespace DEX
+    {
+        static const std::uint8_t dex_magic_035[] = {'d', 'e', 'x', '\n', '0', '3', '5', '\0'};
+        static const std::uint8_t dex_magic_037[] = {'d', 'e', 'x', '\n', '0', '3', '7', '\0'};
+        static const std::uint8_t dex_magic_038[] = {'d', 'e', 'x', '\n', '0', '3', '8', '\0'};
+        static const std::uint8_t dex_magic_039[] = {'d', 'e', 'x', '\n', '0', '3', '9', '\0'};
 
         class DVMTypes
         {
@@ -32,18 +34,19 @@ namespace KUNAI {
              * argument inside a Dalvik Instruction.
              */
             {
-                METH=0,             // method reference
-                STRING=1,           // string index
-                FIELD=2,            // field reference
-                TYPE=3,             // type reference
-                PROTO=9,            // prototype reference
-                METH_PROTO=10,      // method reference and proto reference
-                CALL_SITE=11,       // call site item
-                VARIES=4,
-                INLINE_METHOD=5,    // Inlined method
-                VTABLE_OFFSET=6,    // static linked
-                FIELD_OFFSET=7,
-                RAW_STRING=8
+                METH = 0,        // method reference
+                STRING = 1,      // string index
+                FIELD = 2,       // field reference
+                TYPE = 3,        // type reference
+                PROTO = 9,       // prototype reference
+                METH_PROTO = 10, // method reference and proto reference
+                CALL_SITE = 11,  // call site item
+                VARIES = 4,
+                INLINE_METHOD = 5, // Inlined method
+                VTABLE_OFFSET = 6, // static linked
+                FIELD_OFFSET = 7,
+                RAW_STRING = 8,
+                NONE = 99
             };
 
             enum Operand
@@ -88,39 +91,6 @@ namespace KUNAI {
                 ACC_DECLARED_SYNCHRONIZED = 0x20000
             };
 
-            std::map<ACCESS_FLAGS, std::string> ACCESS_FLAGS_STR = {
-                {ACC_PUBLIC, "public"},
-                {ACC_PRIVATE, "private"},
-                {ACC_PROTECTED, "protected"},
-                {ACC_STATIC, "static"},
-                {ACC_FINAL, "final"},
-                {ACC_SYNCHRONIZED, "synchronized"},
-                {ACC_BRIDGE, "bridge"},
-                {ACC_VARARGS, "varargs"},
-                {ACC_NATIVE, "native"},
-                {ACC_INTERFACE, "interface"},
-                {ACC_ABSTRACT, "abstract"},
-                {ACC_STRICT, "strictfp"},
-                {ACC_SYNTHETIC, "synthetic"},
-                {ACC_ENUM, "enum"},
-                {UNUSED, "unused"},
-                {ACC_CONSTRUCTOR, "constructor"},
-                {ACC_DECLARED_SYNCHRONIZED, "synchronized"}
-            };
-
-            // already managed by dex_types
-            std::map<char, std::string> TYPE_DESCRIPTOR = {
-                {'V',"void"},
-                {'Z',"boolean"},
-                {'B',"byte"},
-                {'S',"short"},
-                {'C',"char"},
-                {'I',"int"},
-                {'J',"long"},
-                {'F',"float"},
-                {'D',"double"}
-            };
-
             enum VALUE_FORMATS
             {
                 VALUE_BYTE = 0x0,           // ubyte[1]
@@ -155,8 +125,53 @@ namespace KUNAI {
                 METHOD_HANDLE_TYPE_INVOKE_DIRECT,
                 METHOD_HANDLE_TYPE_INVOKE_INTERFACE
             };
-            
         };
+
+                static std::map<DVMTypes::Kind, std::string> KindString = {
+            {DVMTypes::METH, "METH"},
+            {DVMTypes::STRING, "STRING"},
+            {DVMTypes::FIELD, "FIELD"},
+            {DVMTypes::TYPE, "TYPE"},
+            {DVMTypes::PROTO, "PROTO"},
+            {DVMTypes::METH_PROTO, "METH_PROTO"},
+            {DVMTypes::CALL_SITE, "CALL_SITE"},
+            {DVMTypes::VARIES, "VARIES"},
+            {DVMTypes::INLINE_METHOD, "INLINE_METHOD"},
+            {DVMTypes::VTABLE_OFFSET, "VTABLE_OFFSET"},
+            {DVMTypes::FIELD_OFFSET, "FIELD_OFFSET"},
+            {DVMTypes::RAW_STRING, "RAW_STRING"},
+            {DVMTypes::NONE, "NONE"}};
+
+        static std::map<DVMTypes::ACCESS_FLAGS, std::string> ACCESS_FLAGS_STR = {
+            {DVMTypes::ACC_PUBLIC, "public"},
+            {DVMTypes::ACC_PRIVATE, "private"},
+            {DVMTypes::ACC_PROTECTED, "protected"},
+            {DVMTypes::ACC_STATIC, "static"},
+            {DVMTypes::ACC_FINAL, "final"},
+            {DVMTypes::ACC_SYNCHRONIZED, "synchronized"},
+            {DVMTypes::ACC_BRIDGE, "bridge"},
+            {DVMTypes::ACC_VARARGS, "varargs"},
+            {DVMTypes::ACC_NATIVE, "native"},
+            {DVMTypes::ACC_INTERFACE, "interface"},
+            {DVMTypes::ACC_ABSTRACT, "abstract"},
+            {DVMTypes::ACC_STRICT, "strictfp"},
+            {DVMTypes::ACC_SYNTHETIC, "synthetic"},
+            {DVMTypes::ACC_ENUM, "enum"},
+            {DVMTypes::UNUSED, "unused"},
+            {DVMTypes::ACC_CONSTRUCTOR, "constructor"},
+            {DVMTypes::ACC_DECLARED_SYNCHRONIZED, "synchronized"}};
+
+        // already managed by dex_types
+        static std::map<char, std::string> TYPE_DESCRIPTOR = {
+            {'V', "void"},
+            {'Z', "boolean"},
+            {'B', "byte"},
+            {'S', "short"},
+            {'C', "char"},
+            {'I', "int"},
+            {'J', "long"},
+            {'F', "float"},
+            {'D', "double"}};
     }
 }
 
