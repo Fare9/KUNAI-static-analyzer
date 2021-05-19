@@ -127,7 +127,7 @@ namespace KUNAI
             };
         };
 
-                static std::map<DVMTypes::Kind, std::string> KindString = {
+        static std::map<DVMTypes::Kind, std::string> KindString = {
             {DVMTypes::METH, "METH"},
             {DVMTypes::STRING, "STRING"},
             {DVMTypes::FIELD, "FIELD"},
