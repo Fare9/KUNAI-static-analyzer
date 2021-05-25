@@ -10,6 +10,7 @@ OBJ_FILES= ${OBJ}utils.o ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_types.o ${OBJ}dex_protos.o ${OBJ}dex_fields.o \
 			${OBJ}dex_methods.o ${OBJ}dex_classes.o ${OBJ}dex_encoded.o\
 			${OBJ}dex_annotations.o ${OBJ}dex_parser.o\
+			${OBJ}dex_dalvik_opcodes.o ${OBJ}dex_instructions.o\
 			${OBJ}dex.o ${OBJ}main.o
 
 .PHONY: clean
@@ -46,6 +47,11 @@ ${OBJ}dex.o: ${DEX_MODULE}dex.cpp
 ${OBJ}%.o: ${DEX_PARSER}%.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} -I${DEX_PARSER} -I${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}
+
+${OBJ}%.o: ${DEX_DVM}%.cpp
+	@echo "Compiling $< -> $@"
+	${CPP} -I${DEX_PARSER} -I${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}
+
 
 
 ########################################################
