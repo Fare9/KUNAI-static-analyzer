@@ -13,4 +13,8 @@
 #include "incorrectmethodid_exception.hpp"
 #include "incorrectdexfile_exception.hpp"
 
+#include "invalidinstruction_exception.hpp"
+#include "disassembler_exception.hpp"
+
+
 #endif
