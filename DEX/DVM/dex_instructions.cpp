@@ -65,9 +65,9 @@ namespace KUNAI {
             return this->OP;
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands;
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
 
             return operands;
         }
@@ -141,9 +141,9 @@ namespace KUNAI {
             return (this->get_OP() | vA << 8 | vB << 12);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction12x::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction12x::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vA},
                 {DVMTypes::Operand::REGISTER, vB}
             };
@@ -200,9 +200,9 @@ namespace KUNAI {
             return (this->get_OP() | vAA << 8 | vBBBB << 16);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction22x::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22x::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vAA},
                 {DVMTypes::Operand::REGISTER, vBBBB}
             };
@@ -263,9 +263,9 @@ namespace KUNAI {
             return (get_OP() | vAAAA << 16 | vBBBB << 24);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction32x::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction32x::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vAAAA},
                 {DVMTypes::Operand::REGISTER, vBBBB}
             };
@@ -321,9 +321,9 @@ namespace KUNAI {
             return (get_OP() | vAA << 8);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction11x::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction11x::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vAA}
             };
 
@@ -369,9 +369,9 @@ namespace KUNAI {
             return (this->get_OP() | this->vA << 8 | this->nB << 12);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction11n::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction11n::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vA},
                 {DVMTypes::Operand::LITERAL, nB}
             };
@@ -426,9 +426,9 @@ namespace KUNAI {
             return (get_OP() | vA << 8 | nBBBB << 16);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction21s::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction21s::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vA},
                 {DVMTypes::Operand::LITERAL, nBBBB}
             };
@@ -485,9 +485,9 @@ namespace KUNAI {
             return (get_OP() | vAA << 8 | nBBBBBBBB << 16);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction31i::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction31i::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vAA},
                 {DVMTypes::Operand::LITERAL, nBBBBBBBB}
             };
@@ -559,9 +559,9 @@ namespace KUNAI {
             return (get_OP() | vAA << 8 | nBBBB << 16);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction21h::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction21h::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vAA},
                 {DVMTypes::Operand::LITERAL, nBBBB}
             };
@@ -618,9 +618,9 @@ namespace KUNAI {
             return (get_OP() | vAA << 8 | nBBBBBBBBBBBBBBBB << 16);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction51l::get_operands()        
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction51l::get_operands()        
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vAA},
                 {DVMTypes::Operand::LITERAL, nBBBBBBBBBBBBBBBB}
             };
@@ -701,9 +701,9 @@ namespace KUNAI {
             return (get_OP() | vAA << 8 | iBBBB << 16);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction21c::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction21c::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vAA},
                 {DVMTypes::Operand::KIND, iBBBB}
             };
@@ -786,9 +786,9 @@ namespace KUNAI {
             return (get_OP() | vAA << 8 | iBBBBBBBB << 16);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction31c::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction31c::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vAA},
                 {DVMTypes::Operand::KIND, iBBBBBBBB}
             };
@@ -871,9 +871,9 @@ namespace KUNAI {
             return (get_OP() | vA << 8 | vB << 12 | iCCCC << 16);
         }
 
-        std::map<DVMTypes::Operand, std::uint64_t> Instruction22c::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22c::get_operands()
         {
-            std::map<DVMTypes::Operand, std::uint64_t> operands = {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vA},
                 {DVMTypes::Operand::REGISTER, vB},
                 {DVMTypes::Operand::KIND, iCCCC}
@@ -929,6 +929,110 @@ namespace KUNAI {
             if (get_kind() == DVMTypes::Kind::FIELD)
                 return this->get_dalvik_opcodes()->get_dalvik_field_by_id(iCCCC);
             return nullptr;
+        }
+
+        /**
+         * Instruction35c
+         */
+        Instruction35c::Instruction35c(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream& input_file) :
+            Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t reg[5];
+            
+
+            std::uint8_t instruction[6];
+            this->set_length(6);
+
+            if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction35c");
+
+            this->set_OP(instruction[0]);
+            this->array_size = (instruction[1] & 0xf0) >> 4;
+            this->type_index = *(reinterpret_cast<std::uint16_t*>(&instruction[2]));
+            reg[4] = (instruction[1] & 0x0f);
+            reg[0] = (instruction[4] & 0x0f);
+            reg[1] = (instruction[4] & 0xf0) >> 4;
+            reg[2] = (instruction[5] & 0x0f);
+            reg[3] = (instruction[5] & 0xf0) >> 4;
+
+            if (this->array_size > 5)
+                throw exceptions::InvalidInstruction("Error in array size of Instruction35c, cannot be greater than 5");
+
+            for (size_t i = 0; i < this->array_size; i++)
+                this->registers.push_back(reg[i]);
+        }
+
+        std::string Instruction35c::get_output()
+        {
+            std::string output = "";
+
+            for(size_t i = 0; i < array_size; i++)
+                output += "v" + std::to_string(registers[i]) + ", ";
+            
+            output += this->get_dalvik_opcodes()->get_dalvik_type_by_id_str(type_index);
+
+            return output;
+        }
+
+        std::uint64_t Instruction35c::get_raw()
+        {
+            std::uint8_t raw[8] = {0,0,0,0,0,0,0,0};
+            std::uint8_t reg[5] = {0,0,0,0,0};
+
+            for (size_t i = 0; i < array_size; i++)
+                reg[i] = registers[i];
+
+            raw[0] = get_OP();
+            raw[1] = array_size << 4 | reg[4];
+            *reinterpret_cast<std::uint16_t*>(&raw[2]) = type_index;
+            raw[4] = reg[1] << 4 | reg[0];
+            raw[5] = reg[3] << 4 | reg[2];
+
+            return *(reinterpret_cast<std::uint64_t*>(raw));
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction35c::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
+
+            for (size_t i = 0; i < array_size; i++)
+                operands.push_back({DVMTypes::Operand::REGISTER, registers[i]});
+
+            operands.push_back({DVMTypes::Operand::KIND, type_index});
+
+            return operands;
+        }
+
+        std::uint8_t Instruction35c::get_array_size()
+        {
+            return array_size;
+        }
+
+        std::uint16_t Instruction35c::get_type_index()
+        {
+            return type_index;
+        }
+
+        DVMTypes::Operand Instruction35c::get_operands_types()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        Type* Instruction35c::get_operands_kind()
+        {
+            return this->get_dalvik_opcodes()->get_dalvik_Type_by_id(type_index);
+        }
+
+        std::string Instruction35c::get_operands_kind_str()
+        {
+            return this->get_dalvik_opcodes()->get_dalvik_type_by_id_str(type_index);
+        }
+
+        std::uint8_t Instruction35c::get_operand_register(std::uint8_t index)
+        {
+            if (index >= array_size)
+                return 0;
+            return registers[index];
         }
     }
 }

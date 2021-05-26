@@ -12,6 +12,8 @@
 #include <iostream>
 #include <memory>
 #include <fstream>
+#include <tuple>
+#include <vector>
 
 #include "dex_dalvik_opcodes.hpp"
 #include "dex_dvm_types.hpp"
@@ -40,7 +42,7 @@ namespace KUNAI {
             virtual void show_instruction();
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
         private:
             std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
             std::uint32_t length;
@@ -90,7 +92,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type();
             std::uint8_t get_source();
@@ -119,7 +121,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type();
             std::uint16_t get_source();
@@ -148,7 +150,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type();
             std::uint16_t get_source();
@@ -177,7 +179,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_destination_type();
             std::uint8_t get_destination();
@@ -203,7 +205,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type();
             std::int8_t get_source();
@@ -232,7 +234,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type();
             std::int16_t get_source();
@@ -261,7 +263,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type();
             std::int32_t get_source();
@@ -290,7 +292,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type();
             std::int64_t get_source();
@@ -320,7 +322,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type();
             std::uint64_t get_source();
@@ -349,7 +351,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type();
             std::uint16_t get_source();
@@ -386,7 +388,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type();
             std::uint16_t get_source();
@@ -421,7 +423,7 @@ namespace KUNAI {
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
-            virtual std::map<DVMTypes::Operand, std::uint64_t> get_operands();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_first_operand_type();
             std::uint8_t get_first_operand();
@@ -438,6 +440,43 @@ namespace KUNAI {
             std::uint8_t vA;
             std::uint8_t vB;
             std::uint16_t iCCCC;
+        };
+
+        class Instruction35c : public Instruction
+        /***
+         * Construct array of given type and size, filling it with supplied
+         * contents. Type must be an array type. Array's contents must be
+         * single-word.
+         * 
+         * Example instruction:
+         * 
+         *  filled-new-array {vC, vD, vE, vF, vG}, type@BBBB
+         * 
+         * A: array size and argument word count (4 bits).
+         * B: type index (16 bits).
+         * C..G: argument registers (4 bits each).
+         */ 
+        {
+            Instruction35c(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream& input_file);
+            ~Instruction35c();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
+            std::uint8_t get_array_size();
+
+            std::uint16_t get_type_index();
+
+            DVMTypes::Operand get_operands_types();
+            Type* get_operands_kind();
+            std::string get_operands_kind_str();
+            std::uint8_t get_operand_register(std::uint8_t index);
+
+        private:
+            std::uint8_t array_size;
+            std::uint16_t type_index;
+            std::vector<std::uint8_t> registers;
         };
     }
 }
