@@ -81,14 +81,12 @@ namespace KUNAI
         /**
          * Instruction00x
          */
-
         Instruction00x::Instruction00x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             this->set_length(0);
         }
 
         Instruction00x::~Instruction00x() {}
-
         /**
          * Instruction10x
          */
@@ -137,7 +135,7 @@ namespace KUNAI
 
         std::uint64_t Instruction12x::get_raw()
         {
-            return (this->get_OP() | vA << 8 | vB << 12);
+            return (get_OP() | vA << 8 | vB << 12);
         }
 
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction12x::get_operands()
@@ -168,7 +166,6 @@ namespace KUNAI
         {
             return vA;
         }
-
         /**
          * Instruction11n
          */
@@ -194,7 +191,7 @@ namespace KUNAI
 
         std::uint64_t Instruction11n::get_raw()
         {
-            return (this->get_OP() | this->vA << 8 | this->nB << 12);
+            return (get_OP() | vA << 8 | nB << 12);
         }
 
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction11n::get_operands()
@@ -225,7 +222,6 @@ namespace KUNAI
         {
             return vA;
         }
-
         /**
          * Instruction11x
          */
@@ -270,7 +266,6 @@ namespace KUNAI
         {
             return vAA;
         }
-
         /***
          * Instruction10t
          */
@@ -318,7 +313,6 @@ namespace KUNAI
         {
             return nAA;
         }
-
         /**
          * Instruction20t
          */
@@ -369,7 +363,6 @@ namespace KUNAI
         {
             return nAAAA;
         }
-
         /**
          * Instruction20bc
          */
@@ -417,16 +410,15 @@ namespace KUNAI
             return nAA;
         }
 
-        DVMTypes::Operand Instruction20bc::get_index_data_type()
+        DVMTypes::Operand Instruction20bc::get_index_table_data_type()
         {
             return DVMTypes::Operand::LITERAL;
         }
 
-        std::uint16_t Instruction20bc::get_index()
+        std::uint16_t Instruction20bc::get_index_table()
         {
             return nBBBB;
         }
-
         /**
          * Instruction22x
          */
@@ -483,68 +475,65 @@ namespace KUNAI
         {
             return vAA;
         }
-
         /**
-         * Instruction32x
+         * Instruction21t
          */
-        Instruction32x::Instruction32x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction21t::Instruction21t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
-            std::uint8_t instruction[6];
+            std::uint8_t instruction[4];
+            this->set_length(4);
 
-            this->set_length(6);
-
-            if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
-                throw exceptions::DisassemblerException("Error disassembling Instruction32x");
-
-            if (instruction[1] != 0)
-                throw exceptions::InvalidInstruction("Instruction32x OP code high byte should be 0");
+            if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction21t");
 
             this->set_OP(instruction[0]);
-            this->vAAAA = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
-            this->vBBBB = *(reinterpret_cast<std::uint16_t *>(&instruction[4]));
+            this->vAA = instruction[1];
+            this->nBBBB = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
+
+            if (this->nBBBB == 0)
+                throw exceptions::InvalidInstruction("Error reading Instruction21t offset cannot be 0");
         }
 
-        Instruction32x::~Instruction32x() {}
+        Instruction21t::~Instruction21t() {}
 
-        std::string Instruction32x::get_output()
+        std::string Instruction21t::get_output()
         {
-            return "v" + std::to_string(vAAAA) + ", v" + std::to_string(vBBBB);
+            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBB);
         }
 
-        std::uint64_t Instruction32x::get_raw()
+        std::uint64_t Instruction21t::get_raw()
         {
-            return (get_OP() | vAAAA << 16 | vBBBB << 24);
+            return get_OP() | vAA << 8 | nBBBB << 16;
         }
 
-        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction32x::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction21t::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
-                {DVMTypes::Operand::REGISTER, vAAAA},
-                {DVMTypes::Operand::REGISTER, vBBBB}};
+                {DVMTypes::Operand::REGISTER, vAA},
+                {DVMTypes::Operand::OFFSET, nBBBB}};
 
             return operands;
         }
 
-        DVMTypes::Operand Instruction32x::get_source_type()
+        DVMTypes::Operand Instruction21t::get_check_reg_type()
         {
             return DVMTypes::Operand::REGISTER;
         }
 
-        std::uint16_t Instruction32x::get_source()
+        std::uint8_t Instruction21t::get_check_reg()
         {
-            return vBBBB;
+            return vAA;
         }
 
-        DVMTypes::Operand Instruction32x::get_destination_type()
+        DVMTypes::Operand Instruction21t::get_ref_type()
         {
-            return DVMTypes::Operand::REGISTER;
+            return DVMTypes::Operand::OFFSET;
         }
 
-        std::uint16_t Instruction32x::get_destination()
+        std::int16_t Instruction21t::get_ref()
         {
-            return vAAAA;
+            return nBBBB;
         }
-
         /**
          * Instruction21s
          */
@@ -599,64 +588,6 @@ namespace KUNAI
         {
             return vA;
         }
-
-        /**
-         * Instruction31i
-         */
-        Instruction31i::Instruction31i(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
-        {
-            this->set_length(6);
-            std::uint8_t instruction[6];
-
-            if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
-                throw exceptions::DisassemblerException("Error disassembling Instruction31i");
-
-            this->set_OP(instruction[0]);
-            this->vAA = instruction[1];
-            this->nBBBBBBBB = *(reinterpret_cast<std::uint32_t *>(&instruction[2]));
-        }
-
-        Instruction31i::~Instruction31i() {}
-
-        std::string Instruction31i::get_output()
-        {
-            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBBBBBB);
-        }
-
-        std::uint64_t Instruction31i::get_raw()
-        {
-            return (get_OP() | vAA << 8 | nBBBBBBBB << 16);
-        }
-
-        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction31i::get_operands()
-        {
-            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
-                {DVMTypes::Operand::REGISTER, vAA},
-                {DVMTypes::Operand::LITERAL, nBBBBBBBB}};
-
-            return operands;
-        }
-
-        DVMTypes::Operand Instruction31i::get_source_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::int32_t Instruction31i::get_source()
-        {
-            return nBBBBBBBB;
-        }
-
-        DVMTypes::Operand Instruction31i::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction31i::get_destination()
-        {
-            return vAA;
-        }
-
         /**
          * Instruction21h
          */
@@ -727,64 +658,6 @@ namespace KUNAI
         {
             return vAA;
         }
-
-        /**
-         * Instruction51l
-         */
-        Instruction51l::Instruction51l(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
-        {
-            std::uint8_t instruction[10];
-            this->set_length(10);
-
-            if (!KUNAI::read_data_file<std::uint8_t[10]>(instruction, this->get_length(), input_file))
-                throw exceptions::DisassemblerException("Error disassembling Instruction51l");
-
-            this->set_OP(instruction[0]);
-            this->vAA = instruction[1];
-            this->nBBBBBBBBBBBBBBBB = *(reinterpret_cast<std::uint64_t *>(&instruction[2]));
-        }
-
-        Instruction51l::~Instruction51l() {}
-
-        std::string Instruction51l::get_output()
-        {
-            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBBBBBBBBBBBBBB);
-        }
-
-        std::uint64_t Instruction51l::get_raw()
-        {
-            return (get_OP() | vAA << 8 | nBBBBBBBBBBBBBBBB << 16);
-        }
-
-        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction51l::get_operands()
-        {
-            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
-                {DVMTypes::Operand::REGISTER, vAA},
-                {DVMTypes::Operand::LITERAL, nBBBBBBBBBBBBBBBB}};
-
-            return operands;
-        }
-
-        DVMTypes::Operand Instruction51l::get_source_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::uint64_t Instruction51l::get_source()
-        {
-            return nBBBBBBBBBBBBBBBB;
-        }
-
-        DVMTypes::Operand Instruction51l::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction51l::get_destination()
-        {
-            return vAA;
-        }
-
         /**
          * Instruction21c
          */
@@ -891,74 +764,282 @@ namespace KUNAI
         {
             return vAA;
         }
-
         /**
-         * Instruction31c
+         * Instruction23x
          */
-        Instruction31c::Instruction31c(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction23x::Instruction23x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
-            std::uint8_t instruction[6];
-            this->set_length(6);
+            std::uint8_t instruction[4];
+            this->set_length(4);
 
-            if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
-                throw exceptions::DisassemblerException("Error disassembling Instruction31c");
+            if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction23x");
 
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
-            this->iBBBBBBBB = *(reinterpret_cast<std::uint32_t *>(&instruction[2]));
+            this->vBB = instruction[2];
+            this->vCC = instruction[3];
         }
 
-        Instruction31c::~Instruction31c() {}
+        Instruction23x::~Instruction23x() {}
 
-        std::string Instruction31c::get_output()
+        std::string Instruction23x::get_output()
         {
-            return "v" + std::to_string(vAA) + ", " + this->get_dalvik_opcodes()->get_dalvik_string_by_id_str(iBBBBBBBB);
+            return "v" + std::to_string(vAA) + ", v" + std::to_string(vBB) + ", v" + std::to_string(vCC);
         }
 
-        std::uint64_t Instruction31c::get_raw()
+        std::uint64_t Instruction23x::get_raw()
         {
-            return (get_OP() | vAA << 8 | iBBBBBBBB << 16);
+            return get_OP() | vAA << 8 | vBB << 16 | vCC << 24;
         }
 
-        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction31c::get_operands()
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction23x::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
                 {DVMTypes::Operand::REGISTER, vAA},
-                {DVMTypes::Operand::KIND, iBBBBBBBB}};
+                {DVMTypes::Operand::REGISTER, vBB},
+                {DVMTypes::Operand::REGISTER, vCC},
+            };
 
             return operands;
         }
 
-        DVMTypes::Operand Instruction31c::get_source_type()
-        {
-            return DVMTypes::Operand::KIND;
-        }
-
-        std::uint16_t Instruction31c::get_source()
-        {
-            return iBBBBBBBB;
-        }
-
-        DVMTypes::Kind Instruction31c::get_source_kind()
-        {
-            return this->get_kind();
-        }
-
-        std::string *Instruction31c::get_source_str()
-        {
-            return this->get_dalvik_opcodes()->get_dalvik_string_by_id(iBBBBBBBB);
-        }
-
-        DVMTypes::Operand Instruction31c::get_destination_type()
+        DVMTypes::Operand Instruction23x::get_destination_type()
         {
             return DVMTypes::Operand::REGISTER;
         }
 
-        std::uint8_t Instruction31c::get_destination()
+        std::uint8_t Instruction23x::get_destination()
         {
             return vAA;
         }
 
+        DVMTypes::Operand Instruction23x::get_first_source_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction23x::get_first_source()
+        {
+            return vBB;
+        }
+
+        DVMTypes::Operand Instruction23x::get_second_source_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction23x::get_second_source()
+        {
+            return vCC;
+        }
+        /**
+         * Instruction22b
+         */
+        Instruction22b::Instruction22b(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t instruction[4];
+            this->set_length(4);
+
+            if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction22b");
+
+            this->set_OP(instruction[0]);
+            this->vAA = instruction[1];
+            this->vBB = instruction[2];
+            this->nCC = instruction[3];
+        }
+
+        Instruction22b::~Instruction22b() {}
+
+        std::string Instruction22b::get_output()
+        {
+            return "v" + std::to_string(vAA) + ", v" + std::to_string(vBB) + ", " + std::to_string(nCC);
+        }
+
+        std::uint64_t Instruction22b::get_raw()
+        {
+            return get_OP() | vAA << 8 | vBB << 16 | nCC << 24;
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22b::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operators = {
+                {DVMTypes::Operand::REGISTER, vAA},
+                {DVMTypes::Operand::REGISTER, vBB},
+                {DVMTypes::Operand::LITERAL, nCC}};
+
+            return operators;
+        }
+
+        DVMTypes::Operand Instruction22b::get_destination_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction22b::get_destination()
+        {
+            return vAA;
+        }
+
+        DVMTypes::Operand Instruction22b::get_source_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction22b::get_source()
+        {
+            return vBB;
+        }
+
+        DVMTypes::Operand Instruction22b::get_number_type()
+        {
+            return DVMTypes::Operand::LITERAL;
+        }
+
+        std::int8_t Instruction22b::get_number()
+        {
+            return nCC;
+        }
+        /**
+         * Instruction22t
+         */
+        Instruction22t::Instruction22t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t instruction[4];
+            this->set_length(4);
+
+            if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction22t");
+
+            this->set_OP(instruction[0]);
+            this->vA = instruction[1] & 0x0F;
+            this->vB = (instruction[1] & 0xF0) >> 4;
+            this->nCCCC = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
+
+            if (this->nCCCC == 0)
+                throw exceptions::InvalidInstruction("Error reading Instruction22t offset cannot be 0");
+        }
+
+        Instruction22t::~Instruction22t() {}
+
+        std::string Instruction22t::get_output()
+        {
+            return "v" + std::to_string(vA) + ", v" + std::to_string(vB) + ", " + std::to_string(nCCCC);
+        }
+
+        std::uint64_t Instruction22t::get_raw()
+        {
+            return get_OP() | vA << 8 | vB << 12 | nCCCC << 16;
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22t::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
+                {DVMTypes::Operand::REGISTER, vA},
+                {DVMTypes::Operand::REGISTER, vB},
+                {DVMTypes::Operand::OFFSET, nCCCC}};
+
+            return operands;
+        }
+
+        DVMTypes::Operand Instruction22t::get_first_check_reg_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction22t::get_first_check_reg()
+        {
+            return vA;
+        }
+
+        DVMTypes::Operand Instruction22t::get_second_check_reg_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction22t::get_second_check_reg()
+        {
+            return vB;
+        }
+
+        DVMTypes::Operand Instruction22t::get_ref_type()
+        {
+            return DVMTypes::Operand::OFFSET;
+        }
+
+        std::int16_t Instruction22t::get_ref()
+        {
+            return nCCCC;
+        }
+        /**
+         * Instruction22s
+         */
+        Instruction22s::Instruction22s(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t instruction[4];
+            this->set_length(4);
+
+            if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction22s");
+
+            this->set_OP(instruction[0]);
+            this->vA = instruction[1] & 0x0F;
+            this->vB = (instruction[1] & 0xF0) >> 4;
+            this->nCCCC = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
+        }
+
+        Instruction22s::~Instruction22s() {}
+
+        std::string Instruction22s::get_output()
+        {
+            return "v" + std::to_string(vA) + ", v" + std::to_string(vB) + ", " + std::to_string(nCCCC);
+        }
+
+        std::uint64_t Instruction22s::get_raw()
+        {
+            return get_OP() | vA << 8 | vB << 12 | nCCCC << 16;
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22s::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
+                {DVMTypes::Operand::REGISTER, vA},
+                {DVMTypes::Operand::REGISTER, vB},
+                {DVMTypes::Operand::LITERAL, nCCCC}};
+
+            return operands;
+        }
+
+        DVMTypes::Operand Instruction22s::get_destination_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction22s::get_destination()
+        {
+            return vA;
+        }
+
+        DVMTypes::Operand Instruction22s::get_source_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction22s::get_source()
+        {
+            return vB;
+        }
+
+        DVMTypes::Operand Instruction22s::get_number_type()
+        {
+            return DVMTypes::Operand::LITERAL;
+        }
+
+        std::int16_t Instruction22s::get_number()
+        {
+            return nCCCC;
+        }
         /**
          * Instruction22c
          */
@@ -1061,7 +1142,6 @@ namespace KUNAI
                 return this->get_dalvik_opcodes()->get_dalvik_field_by_id(iCCCC);
             return nullptr;
         }
-
         /**
          * Instruction22cs
          */
@@ -1164,7 +1244,295 @@ namespace KUNAI
                 return this->get_dalvik_opcodes()->get_dalvik_field_by_id(iCCCC);
             return nullptr;
         }
+        /**
+         * Instruction30t
+         */
+        Instruction30t::Instruction30t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t instruction[6];
+            this->set_length(6);
 
+            if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction30t");
+
+            if (instruction[1] != 0)
+                throw exceptions::InvalidInstruction("Error reading Instruction30t padding must be 0");
+
+            this->set_OP(instruction[0]);
+            this->nAAAAAAAA = *(reinterpret_cast<std::int32_t *>(&instruction[2]));
+
+            if (this->nAAAAAAAA == 0)
+                throw exceptions::InvalidInstruction("Error reading Instruction30t offset cannot be 0");
+        }
+
+        Instruction30t::~Instruction30t() {}
+
+        std::string Instruction30t::get_output()
+        {
+            return std::to_string(nAAAAAAAA);
+        }
+
+        std::uint64_t Instruction30t::get_raw()
+        {
+            return get_OP() | nAAAAAAAA << 16;
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction30t::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
+                {DVMTypes::Operand::OFFSET, nAAAAAAAA}};
+
+            return operands;
+        }
+
+        DVMTypes::Operand Instruction30t::get_offset_type()
+        {
+            return DVMTypes::Operand::OFFSET;
+        }
+
+        std::int32_t Instruction30t::get_offset()
+        {
+            return nAAAAAAAA;
+        }
+        /**
+         * Instruction32x
+         */
+        Instruction32x::Instruction32x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t instruction[6];
+
+            this->set_length(6);
+
+            if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction32x");
+
+            if (instruction[1] != 0)
+                throw exceptions::InvalidInstruction("Instruction32x OP code high byte should be 0");
+
+            this->set_OP(instruction[0]);
+            this->vAAAA = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
+            this->vBBBB = *(reinterpret_cast<std::uint16_t *>(&instruction[4]));
+        }
+
+        Instruction32x::~Instruction32x() {}
+
+        std::string Instruction32x::get_output()
+        {
+            return "v" + std::to_string(vAAAA) + ", v" + std::to_string(vBBBB);
+        }
+
+        std::uint64_t Instruction32x::get_raw()
+        {
+            return (get_OP() | vAAAA << 16 | vBBBB << 24);
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction32x::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
+                {DVMTypes::Operand::REGISTER, vAAAA},
+                {DVMTypes::Operand::REGISTER, vBBBB}};
+
+            return operands;
+        }
+
+        DVMTypes::Operand Instruction32x::get_source_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint16_t Instruction32x::get_source()
+        {
+            return vBBBB;
+        }
+
+        DVMTypes::Operand Instruction32x::get_destination_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint16_t Instruction32x::get_destination()
+        {
+            return vAAAA;
+        }
+
+        /**
+         * Instruction31i
+         */
+        Instruction31i::Instruction31i(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
+        {
+            this->set_length(6);
+            std::uint8_t instruction[6];
+
+            if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction31i");
+
+            this->set_OP(instruction[0]);
+            this->vAA = instruction[1];
+            this->nBBBBBBBB = *(reinterpret_cast<std::uint32_t *>(&instruction[2]));
+        }
+
+        Instruction31i::~Instruction31i() {}
+
+        std::string Instruction31i::get_output()
+        {
+            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBBBBBB);
+        }
+
+        std::uint64_t Instruction31i::get_raw()
+        {
+            return (get_OP() | vAA << 8 | nBBBBBBBB << 16);
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction31i::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
+                {DVMTypes::Operand::REGISTER, vAA},
+                {DVMTypes::Operand::LITERAL, nBBBBBBBB}};
+
+            return operands;
+        }
+
+        DVMTypes::Operand Instruction31i::get_source_type()
+        {
+            return DVMTypes::Operand::LITERAL;
+        }
+
+        std::int32_t Instruction31i::get_source()
+        {
+            return nBBBBBBBB;
+        }
+
+        DVMTypes::Operand Instruction31i::get_destination_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction31i::get_destination()
+        {
+            return vAA;
+        }
+        /**
+         * Instruction31t
+         */
+        Instruction31t::Instruction31t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t instruction[6];
+            this->set_length(6);
+
+            if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction31t");
+
+            this->set_OP(instruction[0]);
+            this->vAA = instruction[1];
+            this->nBBBBBBBB = *(reinterpret_cast<std::int32_t *>(&instruction[2]));
+        }
+
+        Instruction31t::~Instruction31t() {}
+
+        std::string Instruction31t::get_output()
+        {
+            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBBBBBB);
+        }
+
+        std::uint64_t Instruction31t::get_raw()
+        {
+            return get_OP() | vAA << 8 | nBBBBBBBB << 16;
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction31t::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
+                {DVMTypes::Operand::REGISTER, vAA},
+                {DVMTypes::Operand::OFFSET, nBBBBBBBB}};
+
+            return operands;
+        }
+
+        DVMTypes::Operand Instruction31t::get_array_ref_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction31t::get_array_ref()
+        {
+            return vAA;
+        }
+
+        DVMTypes::Operand Instruction31t::get_offset_type()
+        {
+            return DVMTypes::Operand::OFFSET;
+        }
+
+        std::int32_t Instruction31t::get_offset()
+        {
+            return nBBBBBBBB;
+        }
+        /**
+         * Instruction31c
+         */
+        Instruction31c::Instruction31c(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t instruction[6];
+            this->set_length(6);
+
+            if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction31c");
+
+            this->set_OP(instruction[0]);
+            this->vAA = instruction[1];
+            this->iBBBBBBBB = *(reinterpret_cast<std::uint32_t *>(&instruction[2]));
+        }
+
+        Instruction31c::~Instruction31c() {}
+
+        std::string Instruction31c::get_output()
+        {
+            return "v" + std::to_string(vAA) + ", " + this->get_dalvik_opcodes()->get_dalvik_string_by_id_str(iBBBBBBBB);
+        }
+
+        std::uint64_t Instruction31c::get_raw()
+        {
+            return (get_OP() | vAA << 8 | iBBBBBBBB << 16);
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction31c::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
+                {DVMTypes::Operand::REGISTER, vAA},
+                {DVMTypes::Operand::KIND, iBBBBBBBB}};
+
+            return operands;
+        }
+
+        DVMTypes::Operand Instruction31c::get_source_type()
+        {
+            return DVMTypes::Operand::KIND;
+        }
+
+        std::uint16_t Instruction31c::get_source()
+        {
+            return iBBBBBBBB;
+        }
+
+        DVMTypes::Kind Instruction31c::get_source_kind()
+        {
+            return this->get_kind();
+        }
+
+        std::string *Instruction31c::get_source_str()
+        {
+            return this->get_dalvik_opcodes()->get_dalvik_string_by_id(iBBBBBBBB);
+        }
+
+        DVMTypes::Operand Instruction31c::get_destination_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction31c::get_destination()
+        {
+            return vAA;
+        }
         /**
          * Instruction35c
          */
@@ -1292,7 +1660,6 @@ namespace KUNAI
                 return 0;
             return registers[index];
         }
-
         /**
          * Instruction3rc
          */
@@ -1376,455 +1743,6 @@ namespace KUNAI
                 return 0;
             return registers[index];
         }
-
-        /**
-         * Instruction31t
-         */
-        Instruction31t::Instruction31t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
-        {
-            std::uint8_t instruction[6];
-            this->set_length(6);
-
-            if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
-                throw exceptions::DisassemblerException("Error disassembling Instruction31t");
-
-            this->set_OP(instruction[0]);
-            this->vAA = instruction[1];
-            this->nBBBBBBBB = *(reinterpret_cast<std::int32_t *>(&instruction[2]));
-        }
-
-        Instruction31t::~Instruction31t() {}
-
-        std::string Instruction31t::get_output()
-        {
-            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBBBBBB);
-        }
-
-        std::uint64_t Instruction31t::get_raw()
-        {
-            return get_OP() | vAA << 8 | nBBBBBBBB << 16;
-        }
-
-        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction31t::get_operands()
-        {
-            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
-                {DVMTypes::Operand::REGISTER, vAA},
-                {DVMTypes::Operand::OFFSET, nBBBBBBBB}};
-
-            return operands;
-        }
-
-        DVMTypes::Operand Instruction31t::get_array_ref_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction31t::get_array_ref()
-        {
-            return vAA;
-        }
-
-        DVMTypes::Operand Instruction31t::get_offset_type()
-        {
-            return DVMTypes::Operand::OFFSET;
-        }
-
-        std::int32_t Instruction31t::get_offset()
-        {
-            return nBBBBBBBB;
-        }
-
-        /**
-         * Instruction30t
-         */
-        Instruction30t::Instruction30t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
-        {
-            std::uint8_t instruction[6];
-            this->set_length(6);
-
-            if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
-                throw exceptions::DisassemblerException("Error disassembling Instruction30t");
-
-            if (instruction[1] != 0)
-                throw exceptions::InvalidInstruction("Error reading Instruction30t padding must be 0");
-
-            this->set_OP(instruction[0]);
-            this->nAAAAAAAA = *(reinterpret_cast<std::int32_t *>(&instruction[2]));
-
-            if (this->nAAAAAAAA == 0)
-                throw exceptions::InvalidInstruction("Error reading Instruction30t offset cannot be 0");
-        }
-
-        Instruction30t::~Instruction30t() {}
-
-        std::string Instruction30t::get_output()
-        {
-            return std::to_string(nAAAAAAAA);
-        }
-
-        std::uint64_t Instruction30t::get_raw()
-        {
-            return get_OP() | nAAAAAAAA << 16;
-        }
-
-        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction30t::get_operands()
-        {
-            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
-                {DVMTypes::Operand::OFFSET, nAAAAAAAA}};
-
-            return operands;
-        }
-
-        DVMTypes::Operand Instruction30t::get_offset_type()
-        {
-            return DVMTypes::Operand::OFFSET;
-        }
-
-        std::int32_t Instruction30t::get_offset()
-        {
-            return nAAAAAAAA;
-        }
-
-        /**
-         * Instruction23x
-         */
-        Instruction23x::Instruction23x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
-        {
-            std::uint8_t instruction[4];
-            this->set_length(4);
-
-            if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
-                throw exceptions::DisassemblerException("Error disassembling Instruction23x");
-
-            this->set_OP(instruction[0]);
-            this->vAA = instruction[1];
-            this->vBB = instruction[2];
-            this->vCC = instruction[3];
-        }
-
-        Instruction23x::~Instruction23x() {}
-
-        std::string Instruction23x::get_output()
-        {
-            return "v" + std::to_string(vAA) + ", v" + std::to_string(vBB) + ", v" + std::to_string(vCC);
-        }
-
-        std::uint64_t Instruction23x::get_raw()
-        {
-            return get_OP() | vAA << 8 | vBB << 16 | vCC << 24;
-        }
-
-        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction23x::get_operands()
-        {
-            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
-                {DVMTypes::Operand::REGISTER, vAA},
-                {DVMTypes::Operand::REGISTER, vBB},
-                {DVMTypes::Operand::REGISTER, vCC},
-            };
-
-            return operands;
-        }
-
-        DVMTypes::Operand Instruction23x::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction23x::get_destination()
-        {
-            return vAA;
-        }
-
-        DVMTypes::Operand Instruction23x::get_first_source_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction23x::get_first_source()
-        {
-            return vBB;
-        }
-
-        DVMTypes::Operand Instruction23x::get_second_source_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction23x::get_second_source()
-        {
-            return vCC;
-        }
-
-        /**
-         * Instruction22t
-         */
-        Instruction22t::Instruction22t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
-        {
-            std::uint8_t instruction[4];
-            this->set_length(4);
-
-            if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
-                throw exceptions::DisassemblerException("Error disassembling Instruction22t");
-
-            this->set_OP(instruction[0]);
-            this->vA = instruction[1] & 0x0F;
-            this->vB = (instruction[1] & 0xF0) >> 4;
-            this->nCCCC = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
-
-            if (this->nCCCC == 0)
-                throw exceptions::InvalidInstruction("Error reading Instruction22t offset cannot be 0");
-        }
-
-        Instruction22t::~Instruction22t() {}
-
-        std::string Instruction22t::get_output()
-        {
-            return "v" + std::to_string(vA) + ", v" + std::to_string(vB) + ", " + std::to_string(nCCCC);
-        }
-
-        std::uint64_t Instruction22t::get_raw()
-        {
-            return get_OP() | vA << 8 | vB << 12 | nCCCC << 16;
-        }
-
-        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22t::get_operands()
-        {
-            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
-                {DVMTypes::Operand::REGISTER, vA},
-                {DVMTypes::Operand::REGISTER, vB},
-                {DVMTypes::Operand::OFFSET, nCCCC}};
-
-            return operands;
-        }
-
-        DVMTypes::Operand Instruction22t::get_first_check_reg_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22t::get_first_check_reg()
-        {
-            return vA;
-        }
-
-        DVMTypes::Operand Instruction22t::get_second_check_reg_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22t::get_second_check_reg()
-        {
-            return vB;
-        }
-
-        DVMTypes::Operand Instruction22t::get_ref_type()
-        {
-            return DVMTypes::Operand::OFFSET;
-        }
-
-        std::int16_t Instruction22t::get_ref()
-        {
-            return nCCCC;
-        }
-
-        /**
-         * Instruction21t
-         */
-        Instruction21t::Instruction21t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
-        {
-            std::uint8_t instruction[4];
-            this->set_length(4);
-
-            if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
-                throw exceptions::DisassemblerException("Error disassembling Instruction21t");
-
-            this->set_OP(instruction[0]);
-            this->vAA = instruction[1];
-            this->nBBBB = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
-
-            if (this->nBBBB == 0)
-                throw exceptions::InvalidInstruction("Error reading Instruction21t offset cannot be 0");
-        }
-
-        Instruction21t::~Instruction21t() {}
-
-        std::string Instruction21t::get_output()
-        {
-            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBB);
-        }
-
-        std::uint64_t Instruction21t::get_raw()
-        {
-            return get_OP() | vAA << 8 | nBBBB << 16;
-        }
-
-        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction21t::get_operands()
-        {
-            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
-                {DVMTypes::Operand::REGISTER, vAA},
-                {DVMTypes::Operand::OFFSET, nBBBB}};
-
-            return operands;
-        }
-
-        DVMTypes::Operand Instruction21t::get_check_reg_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction21t::get_check_reg()
-        {
-            return vAA;
-        }
-
-        DVMTypes::Operand Instruction21t::get_ref_type()
-        {
-            return DVMTypes::Operand::OFFSET;
-        }
-
-        std::int16_t Instruction21t::get_ref()
-        {
-            return nBBBB;
-        }
-
-        /**
-         * Instruction22s
-         */
-        Instruction22s::Instruction22s(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
-        {
-            std::uint8_t instruction[4];
-            this->set_length(4);
-
-            if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
-                throw exceptions::DisassemblerException("Error disassembling Instruction22s");
-
-            this->set_OP(instruction[0]);
-            this->vA = instruction[1] & 0x0F;
-            this->vB = (instruction[1] & 0xF0) >> 4;
-            this->nCCCC = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
-        }
-
-        Instruction22s::~Instruction22s() {}
-
-        std::string Instruction22s::get_output()
-        {
-            return "v" + std::to_string(vA) + ", v" + std::to_string(vB) + ", " + std::to_string(nCCCC);
-        }
-
-        std::uint64_t Instruction22s::get_raw()
-        {
-            return get_OP() | vA << 8 | vB << 12 | nCCCC << 16;
-        }
-
-        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22s::get_operands()
-        {
-            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
-                {DVMTypes::Operand::REGISTER, vA},
-                {DVMTypes::Operand::REGISTER, vB},
-                {DVMTypes::Operand::LITERAL, nCCCC}};
-
-            return operands;
-        }
-
-        DVMTypes::Operand Instruction22s::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22s::get_destination()
-        {
-            return vA;
-        }
-
-        DVMTypes::Operand Instruction22s::get_source_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22s::get_source()
-        {
-            return vB;
-        }
-
-        DVMTypes::Operand Instruction22s::get_number_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::int16_t Instruction22s::get_number()
-        {
-            return nCCCC;
-        }
-
-        /**
-         * Instruction22b
-         */
-        Instruction22b::Instruction22b(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
-        {
-            std::uint8_t instruction[4];
-            this->set_length(4);
-
-            if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
-                throw exceptions::DisassemblerException("Error disassembling Instruction22b");
-
-            this->set_OP(instruction[0]);
-            this->vAA = instruction[1];
-            this->vBB = instruction[2];
-            this->nCC = instruction[3];
-        }
-
-        Instruction22b::~Instruction22b() {}
-
-        std::string Instruction22b::get_output()
-        {
-            return "v" + std::to_string(vAA) + ", v" + std::to_string(vBB) + ", " + std::to_string(nCC);
-        }
-
-        std::uint64_t Instruction22b::get_raw()
-        {
-            return get_OP() | vAA << 8 | vBB << 16 | nCC << 24;
-        }
-
-        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22b::get_operands()
-        {
-            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operators = {
-                {DVMTypes::Operand::REGISTER, vAA},
-                {DVMTypes::Operand::REGISTER, vBB},
-                {DVMTypes::Operand::LITERAL, nCC}};
-
-            return operators;
-        }
-
-        DVMTypes::Operand Instruction22b::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22b::get_destination()
-        {
-            return vAA;
-        }
-
-        DVMTypes::Operand Instruction22b::get_source_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22b::get_source()
-        {
-            return vBB;
-        }
-
-        DVMTypes::Operand Instruction22b::get_number_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::int8_t Instruction22b::get_number()
-        {
-            return nCC;
-        }
-
         /**
          * Instruction45cc
          */
@@ -1961,7 +1879,6 @@ namespace KUNAI
         {
             return get_dalvik_opcodes()->get_dalvik_proto_by_id_str(proto_reference);
         }
-
         /**
          * Instruction4rcc
          */
@@ -2069,6 +1986,81 @@ namespace KUNAI
         {
             return get_dalvik_opcodes()->get_dalvik_proto_by_id_str(proto_reference);
         }
+        /**
+         * Instruction51l
+         */
+        Instruction51l::Instruction51l(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file) : Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t instruction[10];
+            this->set_length(10);
 
+            if (!KUNAI::read_data_file<std::uint8_t[10]>(instruction, this->get_length(), input_file))
+                throw exceptions::DisassemblerException("Error disassembling Instruction51l");
+
+            this->set_OP(instruction[0]);
+            this->vAA = instruction[1];
+            this->nBBBBBBBBBBBBBBBB = *(reinterpret_cast<std::uint64_t *>(&instruction[2]));
+        }
+
+        Instruction51l::~Instruction51l() {}
+
+        std::string Instruction51l::get_output()
+        {
+            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBBBBBBBBBBBBBB);
+        }
+
+        std::uint64_t Instruction51l::get_raw()
+        {
+            return (get_OP() | vAA << 8 | nBBBBBBBBBBBBBBBB << 16);
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction51l::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
+                {DVMTypes::Operand::REGISTER, vAA},
+                {DVMTypes::Operand::LITERAL, nBBBBBBBBBBBBBBBB}};
+
+            return operands;
+        }
+
+        DVMTypes::Operand Instruction51l::get_source_type()
+        {
+            return DVMTypes::Operand::LITERAL;
+        }
+
+        std::uint64_t Instruction51l::get_source()
+        {
+            return nBBBBBBBBBBBBBBBB;
+        }
+
+        DVMTypes::Operand Instruction51l::get_destination_type()
+        {
+            return DVMTypes::Operand::REGISTER;
+        }
+
+        std::uint8_t Instruction51l::get_destination()
+        {
+            return vAA;
+        }
+
+        std::shared_ptr<Instruction> get_instruction_object(std::uint32_t opcode, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file)
+        {
+            std::shared_ptr<Instruction> instruction;
+
+            switch (opcode)
+            {
+            case 0x00: // "nop"
+                instruction = std::make_shared<Instruction10x>(dalvik_opcodes, input_file);
+                break;
+            case 0x01: // "move"
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file);
+                break;
+            case 0x02: // "move/from16"
+                instruction = std::make_shared<Instruction22x>(dalvik_opcodes, input_file);
+                break;
+            }
+
+            return instruction;
+        }
     }
 }

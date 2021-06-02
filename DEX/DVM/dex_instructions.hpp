@@ -233,8 +233,8 @@ namespace KUNAI
             DVMTypes::Operand get_type_of_error_data_type();
             std::uint8_t get_type_of_error();
 
-            DVMTypes::Operand get_index_data_type();
-            std::uint16_t get_index();
+            DVMTypes::Operand get_index_table_data_type();
+            std::uint16_t get_index_table();
 
         private:
             std::uint8_t nAA;
@@ -271,34 +271,35 @@ namespace KUNAI
             std::uint16_t vBBBB;
         };
 
-        class Instruction32x : public Instruction
+        class Instruction21t : public Instruction
         /***
-         * Move the contents of one non-object register to another.
+         * Branch to the given destination if the given register's value 
+         * compares with 0 as specified.
          * 
-         * Example of instruction:
+         * Example Instruction:
+         *  if-testz vAA, +BBBB
          * 
-         * move/16 vAAAA, vBBBB
-         * 
-         * vAAAA: destination register (16 bits)
-         * vBBBB: source register (16 bits)
+         * vAA: register to test (8 bits).
+         * +BBBB: signed branch offset (16 bits).
          */
         {
         public:
-            Instruction32x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
-            ~Instruction32x();
+            Instruction21t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
+            ~Instruction21t();
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
-            DVMTypes::Operand get_source_type();
-            std::uint16_t get_source();
-            DVMTypes::Operand get_destination_type();
-            std::uint16_t get_destination();
+            DVMTypes::Operand get_check_reg_type();
+            std::uint8_t get_check_reg();
+
+            DVMTypes::Operand get_ref_type();
+            std::int16_t get_ref();
 
         private:
-            std::uint16_t vAAAA;
-            std::uint16_t vBBBB;
+            std::uint8_t vAA;
+            std::int16_t nBBBB;
         };
 
         class Instruction21s : public Instruction
@@ -331,36 +332,6 @@ namespace KUNAI
             std::int16_t nBBBB;
         };
 
-        class Instruction31i : public Instruction
-        /***
-         * Move given literal value into specified register
-         * 
-         * Example Instruction:
-         * 
-         * const vAA, #+BBBBBBBB
-         * 
-         * vAA: destination register (8 bits)
-         * #+BBBBBBBB: arbitrary 32-bit constant
-         */
-        {
-        public:
-            Instruction31i(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
-            ~Instruction31i();
-
-            virtual std::string get_output();
-            virtual std::uint64_t get_raw();
-            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-
-            DVMTypes::Operand get_source_type();
-            std::int32_t get_source();
-            DVMTypes::Operand get_destination_type();
-            std::uint8_t get_destination();
-
-        private:
-            std::uint8_t vAA;
-            std::uint32_t nBBBBBBBB;
-        };
-
         class Instruction21h : public Instruction
         /***
          * Move given literal value into specified register.
@@ -390,36 +361,6 @@ namespace KUNAI
             std::uint8_t vAA;
             std::int64_t nBBBB;
             std::int16_t nBBBB_aux;
-        };
-
-        class Instruction51l : public Instruction
-        /***
-         * Move given literal value into specified register pair
-         * 
-         * Example Instruction:
-         * 
-         * const-wide vAA, #+BBBBBBBBBBBBBBBB
-         * 
-         * vAA: destination register (8 bits)
-         * #+BBBBBBBBBBBBBBBB: arbitrary double-width constant (64 bits)
-         */
-        {
-        public:
-            Instruction51l(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
-            ~Instruction51l();
-
-            virtual std::string get_output();
-            virtual std::uint64_t get_raw();
-            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-
-            DVMTypes::Operand get_source_type();
-            std::uint64_t get_source();
-            DVMTypes::Operand get_destination_type();
-            std::uint8_t get_destination();
-
-        private:
-            std::uint8_t vAA;
-            std::uint64_t nBBBBBBBBBBBBBBBB;
         };
 
         class Instruction21c : public Instruction
@@ -460,38 +401,147 @@ namespace KUNAI
             std::uint16_t iBBBB;
         };
 
-        class Instruction31c : public Instruction
+        class Instruction23x : public Instruction
         /***
-         * Move a reference to the string specified by the given index into the specified register.
+         * Perform indicated floating point or long comparison.
          * 
          * Example Instruction:
-         * 
-         * const-string/jumbo vAA, string@BBBBBBBB
+         *  cmpkind vAA, vBB, vCC
          * 
          * vAA: destination register (8 bits).
-         * string@BBBBBBBB: string index (32 bits)
+         * vBB: first source register or pair (8 bits).
+         * vCC: second source register or pair (8 bits).
          */
         {
         public:
-            Instruction31c(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
-            ~Instruction31c();
+            Instruction23x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
+            ~Instruction23x();
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
-            DVMTypes::Operand get_source_type();
-            std::uint16_t get_source();
+            DVMTypes::Operand get_destination_type();
+            std::uint8_t get_destination();
 
-            DVMTypes::Kind get_source_kind();
-            std::string *get_source_str();
+            DVMTypes::Operand get_first_source_type();
+            std::uint8_t get_first_source();
+
+            DVMTypes::Operand get_second_source_type();
+            std::uint8_t get_second_source();
+
+        private:
+            std::uint8_t vAA;
+            std::uint8_t vBB;
+            std::uint8_t vCC;
+        };
+
+        class Instruction22b : public Instruction
+        /***
+         * Perform the indicated binary op on the indicated register (first argument)
+         * and literal value (second argument), storing the result in the destination register. 
+         * 
+         * Example Instruction:
+         *  add-int/lit8 vAA, vBB, #+CC
+         * 
+         * vAA: destination register (8 bits).
+         * vBB: source register (8 bits).
+         * +CC: signed int constant (8 bits).
+         */
+        {
+        public:
+            Instruction22b(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
+            ~Instruction22b();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_destination_type();
             std::uint8_t get_destination();
 
+            DVMTypes::Operand get_source_type();
+            std::uint8_t get_source();
+
+            DVMTypes::Operand get_number_type();
+            std::int8_t get_number();
+
         private:
             std::uint8_t vAA;
-            std::uint32_t iBBBBBBBB;
+            std::uint8_t vBB;
+            std::int8_t nCC;
+        };
+
+        class Instruction22t : public Instruction
+        /***
+         * Branch to given destination if given two registers' values compare
+         * as specified.
+         * 
+         * Example Instruction:
+         *  if-test vA, vB, +CCCC
+         * 
+         * vA: first register to test (4 bits)
+         * vB: second register to test (4 bits)
+         * +CCCC: signed branch offset (16 bits)
+         */
+        {
+        public:
+            Instruction22t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
+            ~Instruction22t();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
+            DVMTypes::Operand get_first_check_reg_type();
+            std::uint8_t get_first_check_reg();
+
+            DVMTypes::Operand get_second_check_reg_type();
+            std::uint8_t get_second_check_reg();
+
+            DVMTypes::Operand get_ref_type();
+            std::int16_t get_ref();
+
+        private:
+            std::uint8_t vA;
+            std::uint8_t vB;
+            std::int16_t nCCCC;
+        };
+
+        class Instruction22s : public Instruction
+        /***
+         * Perform the indicated binary op on the indicated register (first argument) 
+         * and literal value (second argument), storing the result in the destination register. 
+         * 
+         * Example Instruction:
+         *  add-int/lit16 vA, vB, #+CCCC
+         * 
+         * vA: destination register (4 bits)
+         * vB: source register (4 bits)
+         * +CCCC: signed int constant (16 bits)
+         */
+        {
+        public:
+            Instruction22s(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
+            ~Instruction22s();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
+            DVMTypes::Operand get_destination_type();
+            std::uint8_t get_destination();
+
+            DVMTypes::Operand get_source_type();
+            std::uint8_t get_source();
+
+            DVMTypes::Operand get_number_type();
+            std::int16_t get_number();
+
+        private:
+            std::uint8_t vA;
+            std::uint8_t vB;
+            std::uint16_t nCCCC;
         };
 
         class Instruction22c : public Instruction
@@ -572,6 +622,156 @@ namespace KUNAI
             std::uint16_t iCCCC;
         };
 
+        class Instruction30t : public Instruction
+        /***
+         * Unconditionally jump to the indicated instruction.
+         * 
+         * Example Instruction:
+         *  goto/32 +AAAAAAAA
+         * 
+         * +AAAAAAAA: signed branch offset (32 bits).
+         */
+        {
+        public:
+            Instruction30t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
+            ~Instruction30t();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
+            DVMTypes::Operand get_offset_type();
+            std::int32_t get_offset();
+
+        private:
+            std::int32_t nAAAAAAAA;
+        };
+
+        class Instruction32x : public Instruction
+        /***
+         * Move the contents of one non-object register to another.
+         * 
+         * Example of instruction:
+         * 
+         * move/16 vAAAA, vBBBB
+         * 
+         * vAAAA: destination register (16 bits)
+         * vBBBB: source register (16 bits)
+         */
+        {
+        public:
+            Instruction32x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
+            ~Instruction32x();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
+            DVMTypes::Operand get_source_type();
+            std::uint16_t get_source();
+            DVMTypes::Operand get_destination_type();
+            std::uint16_t get_destination();
+
+        private:
+            std::uint16_t vAAAA;
+            std::uint16_t vBBBB;
+        };
+
+        class Instruction31i : public Instruction
+        /***
+         * Move given literal value into specified register
+         * 
+         * Example Instruction:
+         * 
+         * const vAA, #+BBBBBBBB
+         * 
+         * vAA: destination register (8 bits)
+         * #+BBBBBBBB: arbitrary 32-bit constant
+         */
+        {
+        public:
+            Instruction31i(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
+            ~Instruction31i();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
+            DVMTypes::Operand get_source_type();
+            std::int32_t get_source();
+            DVMTypes::Operand get_destination_type();
+            std::uint8_t get_destination();
+
+        private:
+            std::uint8_t vAA;
+            std::uint32_t nBBBBBBBB;
+        };
+
+        class Instruction31t : public Instruction
+        /***
+         * Fill given array with indicated data. Reference must
+         * be an array of primitives.
+         * 
+         * Example Instruction:
+         *  fill-array-data vAA, +BBBBBBBB
+         * 
+         * vAA: array reference (8 bits)
+         * +BBBBBBBB: signed "branch" offset to table data pseudo instruction (32 bits).
+         */
+        {
+        public:
+            Instruction31t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
+            ~Instruction31t();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
+            DVMTypes::Operand get_array_ref_type();
+            std::uint8_t get_array_ref();
+
+            DVMTypes::Operand get_offset_type();
+            std::int32_t get_offset();
+
+        private:
+            std::uint8_t vAA;
+            std::int32_t nBBBBBBBB;
+        };
+
+        class Instruction31c : public Instruction
+        /***
+         * Move a reference to the string specified by the given index into the specified register.
+         * 
+         * Example Instruction:
+         * 
+         * const-string/jumbo vAA, string@BBBBBBBB
+         * 
+         * vAA: destination register (8 bits).
+         * string@BBBBBBBB: string index (32 bits)
+         */
+        {
+        public:
+            Instruction31c(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
+            ~Instruction31c();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
+            DVMTypes::Operand get_source_type();
+            std::uint16_t get_source();
+
+            DVMTypes::Kind get_source_kind();
+            std::string *get_source_str();
+
+            DVMTypes::Operand get_destination_type();
+            std::uint8_t get_destination();
+
+        private:
+            std::uint8_t vAA;
+            std::uint32_t iBBBBBBBB;
+        };
+
         class Instruction35c : public Instruction
         /***
          * Construct array of given type and size, filling it with supplied
@@ -647,236 +847,6 @@ namespace KUNAI
             std::uint8_t array_size;
             std::uint16_t type_index;
             std::vector<std::uint8_t> registers;
-        };
-
-        class Instruction31t : public Instruction
-        /***
-         * Fill given array with indicated data. Reference must
-         * be an array of primitives.
-         * 
-         * Example Instruction:
-         *  fill-array-data vAA, +BBBBBBBB
-         * 
-         * vAA: array reference (8 bits)
-         * +BBBBBBBB: signed "branch" offset to table data pseudo instruction (32 bits).
-         */
-        {
-        public:
-            Instruction31t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
-            ~Instruction31t();
-
-            virtual std::string get_output();
-            virtual std::uint64_t get_raw();
-            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-
-            DVMTypes::Operand get_array_ref_type();
-            std::uint8_t get_array_ref();
-
-            DVMTypes::Operand get_offset_type();
-            std::int32_t get_offset();
-
-        private:
-            std::uint8_t vAA;
-            std::int32_t nBBBBBBBB;
-        };
-
-        class Instruction30t : public Instruction
-        /***
-         * Unconditionally jump to the indicated instruction.
-         * 
-         * Example Instruction:
-         *  goto/32 +AAAAAAAA
-         * 
-         * +AAAAAAAA: signed branch offset (32 bits).
-         */
-        {
-        public:
-            Instruction30t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
-            ~Instruction30t();
-
-            virtual std::string get_output();
-            virtual std::uint64_t get_raw();
-            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-
-            DVMTypes::Operand get_offset_type();
-            std::int32_t get_offset();
-
-        private:
-            std::int32_t nAAAAAAAA;
-        };
-
-        class Instruction23x : public Instruction
-        /***
-         * Perform indicated floating point or long comparison.
-         * 
-         * Example Instruction:
-         *  cmpkind vAA, vBB, vCC
-         * 
-         * vAA: destination register (8 bits).
-         * vBB: first source register or pair (8 bits).
-         * vCC: second source register or pair (8 bits).
-         */
-        {
-        public:
-            Instruction23x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
-            ~Instruction23x();
-
-            virtual std::string get_output();
-            virtual std::uint64_t get_raw();
-            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-
-            DVMTypes::Operand get_destination_type();
-            std::uint8_t get_destination();
-
-            DVMTypes::Operand get_first_source_type();
-            std::uint8_t get_first_source();
-
-            DVMTypes::Operand get_second_source_type();
-            std::uint8_t get_second_source();
-
-        private:
-            std::uint8_t vAA;
-            std::uint8_t vBB;
-            std::uint8_t vCC;
-        };
-
-        class Instruction22t : public Instruction
-        /***
-         * Branch to given destination if given two registers' values compare
-         * as specified.
-         * 
-         * Example Instruction:
-         *  if-test vA, vB, +CCCC
-         * 
-         * vA: first register to test (4 bits)
-         * vB: second register to test (4 bits)
-         * +CCCC: signed branch offset (16 bits)
-         */
-        {
-        public:
-            Instruction22t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
-            ~Instruction22t();
-
-            virtual std::string get_output();
-            virtual std::uint64_t get_raw();
-            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-
-            DVMTypes::Operand get_first_check_reg_type();
-            std::uint8_t get_first_check_reg();
-
-            DVMTypes::Operand get_second_check_reg_type();
-            std::uint8_t get_second_check_reg();
-
-            DVMTypes::Operand get_ref_type();
-            std::int16_t get_ref();
-
-        private:
-            std::uint8_t vA;
-            std::uint8_t vB;
-            std::int16_t nCCCC;
-        };
-
-        class Instruction21t : public Instruction
-        /***
-         * Branch to the given destination if the given register's value 
-         * compares with 0 as specified.
-         * 
-         * Example Instruction:
-         *  if-testz vAA, +BBBB
-         * 
-         * vAA: register to test (8 bits).
-         * +BBBB: signed branch offset (16 bits).
-         */
-        {
-        public:
-            Instruction21t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
-            ~Instruction21t();
-
-            virtual std::string get_output();
-            virtual std::uint64_t get_raw();
-            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-
-            DVMTypes::Operand get_check_reg_type();
-            std::uint8_t get_check_reg();
-
-            DVMTypes::Operand get_ref_type();
-            std::int16_t get_ref();
-
-        private:
-            std::uint8_t vAA;
-            std::int16_t nBBBB;
-        };
-
-        class Instruction22s : public Instruction
-        /***
-         * Perform the indicated binary op on the indicated register (first argument) 
-         * and literal value (second argument), storing the result in the destination register. 
-         * 
-         * Example Instruction:
-         *  add-int/lit16 vA, vB, #+CCCC
-         * 
-         * vA: destination register (4 bits)
-         * vB: source register (4 bits)
-         * +CCCC: signed int constant (16 bits)
-         */
-        {
-        public:
-            Instruction22s(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
-            ~Instruction22s();
-
-            virtual std::string get_output();
-            virtual std::uint64_t get_raw();
-            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-
-            DVMTypes::Operand get_destination_type();
-            std::uint8_t get_destination();
-
-            DVMTypes::Operand get_source_type();
-            std::uint8_t get_source();
-
-            DVMTypes::Operand get_number_type();
-            std::int16_t get_number();
-
-        private:
-            std::uint8_t vA;
-            std::uint8_t vB;
-            std::uint16_t nCCCC;
-        };
-
-        class Instruction22b : public Instruction
-        /***
-         * Perform the indicated binary op on the indicated register (first argument)
-         * and literal value (second argument), storing the result in the destination register. 
-         * 
-         * Example Instruction:
-         *  add-int/lit8 vAA, vBB, #+CC
-         * 
-         * vAA: destination register (8 bits).
-         * vBB: source register (8 bits).
-         * +CC: signed int constant (8 bits).
-         */
-        {
-        public:
-            Instruction22b(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
-            ~Instruction22b();
-
-            virtual std::string get_output();
-            virtual std::uint64_t get_raw();
-            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-
-            DVMTypes::Operand get_destination_type();
-            std::uint8_t get_destination();
-
-            DVMTypes::Operand get_source_type();
-            std::uint8_t get_source();
-
-            DVMTypes::Operand get_number_type();
-            std::int8_t get_number();
-
-        private:
-            std::uint8_t vAA;
-            std::uint8_t vBB;
-            std::int8_t nCC;
         };
 
         class Instruction45cc : public Instruction
@@ -963,20 +933,37 @@ namespace KUNAI
             std::uint16_t proto_reference;
         };
 
-        std::shared_ptr<Instruction> get_instruction_object(std::uint32_t opcode, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file)
+        class Instruction51l : public Instruction
+        /***
+         * Move given literal value into specified register pair
+         * 
+         * Example Instruction:
+         * 
+         * const-wide vAA, #+BBBBBBBBBBBBBBBB
+         * 
+         * vAA: destination register (8 bits)
+         * #+BBBBBBBBBBBBBBBB: arbitrary double-width constant (64 bits)
+         */
         {
-            std::shared_ptr<Instruction> instruction;
+        public:
+            Instruction51l(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
+            ~Instruction51l();
 
-            switch (opcode)
-            {
-            case 0x00:
-                instruction = std::make_shared<Instruction10x>(dalvik_opcodes, input_file);
-                break;
-            }
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
-            return instruction;
-        }
+            DVMTypes::Operand get_source_type();
+            std::uint64_t get_source();
+            DVMTypes::Operand get_destination_type();
+            std::uint8_t get_destination();
 
+        private:
+            std::uint8_t vAA;
+            std::uint64_t nBBBBBBBBBBBBBBBB;
+        };
+
+        std::shared_ptr<Instruction> get_instruction_object(std::uint32_t opcode, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::ifstream &input_file);
     }
 }
 
