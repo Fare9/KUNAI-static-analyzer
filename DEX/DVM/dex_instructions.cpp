@@ -550,6 +550,8 @@ namespace KUNAI
             this->nBBBB = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
         }
 
+        Instruction21s::~Instruction21s() {}
+
         std::string Instruction21s::get_output()
         {
             return "v" + std::to_string(vA) + ", " + std::to_string(nBBBB);
@@ -619,6 +621,8 @@ namespace KUNAI
                 break;
             }
         }
+
+        Instruction21h::~Instruction21h() {}
 
         std::string Instruction21h::get_output()
         {
@@ -2049,14 +2053,773 @@ namespace KUNAI
 
             switch (opcode)
             {
-            case 0x00: // "nop"
-                instruction = std::make_shared<Instruction10x>(dalvik_opcodes, input_file);
+            case 0x00:
+                instruction = std::make_shared<Instruction10x>(dalvik_opcodes, input_file); // "nop"
                 break;
-            case 0x01: // "move"
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file);
+            case 0x01:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "move"
                 break;
-            case 0x02: // "move/from16"
-                instruction = std::make_shared<Instruction22x>(dalvik_opcodes, input_file);
+            case 0x02:
+                instruction = std::make_shared<Instruction22x>(dalvik_opcodes, input_file); // "move/from16"
+                break;
+            case 0x03:
+                instruction = std::make_shared<Instruction32x>(dalvik_opcodes, input_file); // move/16
+                break;
+            case 0x04:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // move-wide
+                break;
+            case 0x05:
+                instruction = std::make_shared<Instruction22x>(dalvik_opcodes, input_file); // move-wide/from16
+                break;
+            case 0x06:
+                instruction = std::make_shared<Instruction32x>(dalvik_opcodes, input_file); // move-wide/16
+                break;
+            case 0x07:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // move-object
+                break;
+            case 0x08:
+                instruction = std::make_shared<Instruction22x>(dalvik_opcodes, input_file); // "move-object/from16"
+                break;
+            case 0x09:
+                instruction = std::make_shared<Instruction32x>(dalvik_opcodes, input_file); // "move-object/16"
+                break;
+            case 0x0a:
+                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "move-result"
+                break;
+            case 0x0b:
+                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "move-result-wide"
+                break;
+            case 0x0c:
+                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "move-result-object"
+                break;
+            case 0x0d:
+                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "move-exception"
+                break;
+            case 0x0e:
+                instruction = std::make_shared<Instruction10x>(dalvik_opcodes, input_file); // "return-void"
+                break;
+            case 0x0f:
+                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "return"
+                break;
+            case 0x10:
+                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "return-wide"
+                break;
+            case 0x11:
+                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "return-object"
+                break;
+            case 0x12:
+                instruction = std::make_shared<Instruction11n>(dalvik_opcodes, input_file); // "const/4"
+                break;
+            case 0x13:
+                instruction = std::make_shared<Instruction21s>(dalvik_opcodes, input_file); // "const/16"
+                break;
+            case 0x14:
+                instruction = std::make_shared<Instruction31i>(dalvik_opcodes, input_file); // "const"
+                break;
+            case 0x15:
+                instruction = std::make_shared<Instruction21h>(dalvik_opcodes, input_file); // "const/high16"
+                break;
+            case 0x16:
+                instruction = std::make_shared<Instruction21s>(dalvik_opcodes, input_file); // "const-wide/16"
+                break;
+            case 0x17:
+                instruction = std::make_shared<Instruction31i>(dalvik_opcodes, input_file); // "const-wide/32"
+                break;
+            case 0x18:
+                instruction = std::make_shared<Instruction51l>(dalvik_opcodes, input_file); // "const-wide"
+                break;
+            case 0x19:
+                instruction = std::make_shared<Instruction21h>(dalvik_opcodes, input_file); // "const-wide/high16"
+                break;
+            case 0x1a:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "const-string", Kind.STRING
+                break;
+            case 0x1b:
+                instruction = std::make_shared<Instruction31c>(dalvik_opcodes, input_file); // "const-string/jumbo", Kind.STRING
+                break;
+            case 0x1c:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "const-class", Kind.TYPE
+                break;
+            case 0x1d:
+                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "monitor-enter"
+                break;
+            case 0x1e:
+                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "monitor-exit"
+                break;
+            case 0x1f:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "check-cast", Kind.TYPE
+                break;
+            case 0x20:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "instance-of", Kind.TYPE
+                break;
+            case 0x21:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "array-length"
+                break;
+            case 0x22:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "new-instance", Kind.TYPE
+                break;
+            case 0x23:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "new-array", Kind.TYPE
+                break;
+            case 0x24:
+                instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "filled-new-array", Kind.TYPE
+                break;
+            case 0x25:
+                instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "filled-new-array/range", Kind.TYPE
+                break;
+            case 0x26:
+                instruction = std::make_shared<Instruction31t>(dalvik_opcodes, input_file); // "fill-array-data"
+                break;
+            case 0x27:
+                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "throw"
+                break;
+            case 0x28:
+                instruction = std::make_shared<Instruction10t>(dalvik_opcodes, input_file); // "goto"
+                break;
+            case 0x29:
+                instruction = std::make_shared<Instruction20t>(dalvik_opcodes, input_file); // "goto/16"
+                break;
+            case 0x2a:
+                instruction = std::make_shared<Instruction30t>(dalvik_opcodes, input_file); // "goto/32"
+                break;
+            case 0x2b:
+                instruction = std::make_shared<Instruction31t>(dalvik_opcodes, input_file); // "packed-switch"
+                break;
+            case 0x2c:
+                instruction = std::make_shared<Instruction31t>(dalvik_opcodes, input_file); // "sparse-switch"
+                break;
+            case 0x2d:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "cmpl-float"
+                break;
+            case 0x2e:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "cmpg-float"
+                break;
+            case 0x2f:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "cmpl-double"
+                break;
+            case 0x30:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "cmpg-double"
+                break;
+            case 0x31:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "cmp-long"
+                break;
+            case 0x32:
+                instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-eq"
+                break;
+            case 0x33:
+                instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-ne"
+                break;
+            case 0x34:
+                instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-lt"
+                break;
+            case 0x35:
+                instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-ge"
+                break;
+            case 0x36:
+                instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-gt"
+                break;
+            case 0x37:
+                instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-le"
+                break;
+            case 0x38:
+                instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-eqz"
+                break;
+            case 0x39:
+                instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-nez"
+                break;
+            case 0x3a:
+                instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-ltz"
+                break;
+            case 0x3b:
+                instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-gez"
+                break;
+            case 0x3c:
+                instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-gtz"
+                break;
+            case 0x3d:
+                instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-lez"
+                break;
+            case 0x3e:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0x3f:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0x40:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0x41:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0x42:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0x43:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0x44:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget"
+                break;
+            case 0x45:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-wide"
+                break;
+            case 0x46:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-object"
+                break;
+            case 0x47:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-boolean"
+                break;
+            case 0x48:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-byte"
+                break;
+            case 0x49:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-char"
+                break;
+            case 0x4a:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-short"
+                break;
+            case 0x4b:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput"
+                break;
+            case 0x4c:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-wide"
+                break;
+            case 0x4d:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-object"
+                break;
+            case 0x4e:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-boolean"
+                break;
+            case 0x4f:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-byte"
+                break;
+            case 0x50:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-char"
+                break;
+            case 0x51:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-short"
+                break;
+            case 0x52:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget"
+                break;
+            case 0x53:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-wide"
+                break;
+            case 0x54:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-object"
+                break;
+            case 0x55:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-boolean"
+                break;
+            case 0x56:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-byte"
+                break;
+            case 0x57:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-char"
+                break;
+            case 0x58:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-short"
+                break;
+            case 0x59:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput"
+                break;
+            case 0x5a:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-wide"
+                break;
+            case 0x5b:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-object"
+                break;
+            case 0x5c:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-boolean"
+                break;
+            case 0x5d:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-byte"
+                break;
+            case 0x5e:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-char"
+                break;
+            case 0x5f:
+                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-short"
+                break;
+            case 0x60:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget"
+                break;
+            case 0x61:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-wide"
+                break;
+            case 0x62:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-object"
+                break;
+            case 0x63:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-boolean"
+                break;
+            case 0x64:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-byte"
+                break;
+            case 0x65:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-char"
+                break;
+            case 0x66:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-short"
+                break;
+            case 0x67:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput"
+                break;
+            case 0x68:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-wide"
+                break;
+            case 0x69:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-object"
+                break;
+            case 0x6a:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-boolean"
+                break;
+            case 0x6b:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-byte"
+                break;
+            case 0x6c:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-char"
+                break;
+            case 0x6d:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-short"
+                break;
+            case 0x6e:
+                instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "invoke-virtual"
+                break;
+            case 0x6f:
+                instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "invoke-super"
+                break;
+            case 0x70:
+                instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "invoke-direct"
+                break;
+            case 0x71:
+                instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "invoke-static"
+                break;
+            case 0x72:
+                instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "invoke-interface"
+                break;
+            case 0x73:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0x74:
+                instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "invoke-virtual/range"
+                break;
+            case 0x75:
+                instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "invoke-super/range"
+                break;
+            case 0x76:
+                instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "invoke-direct/range"
+                break;
+            case 0x77:
+                instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "invoke-static/range"
+                break;
+            case 0x78:
+                instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "invoke-interface/range"
+                break;
+            case 0x79:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0x7a:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0x7b:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "neg-int"
+                break;
+            case 0x7c:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "not-int"
+                break;
+            case 0x7d:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "neg-long"
+                break;
+            case 0x7e:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "not-long"
+                break;
+            case 0x7f:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "neg-float"
+                break;
+            case 0x80:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "neg-double"
+                break;
+            case 0x81:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-long"
+                break;
+            case 0x82:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-float"
+                break;
+            case 0x83:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-double"
+                break;
+            case 0x84:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "long-to-int"
+                break;
+            case 0x85:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "long-to-float"
+                break;
+            case 0x86:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "long-to-double"
+                break;
+            case 0x87:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "float-to-int"
+                break;
+            case 0x88:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "float-to-long"
+                break;
+            case 0x89:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "float-to-double"
+                break;
+            case 0x8a:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "double-to-int"
+                break;
+            case 0x8b:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "double-to-long"
+                break;
+            case 0x8c:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "double-to-float"
+                break;
+            case 0x8d:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-byte"
+                break;
+            case 0x8e:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-char"
+                break;
+            case 0x8f:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-short"
+                break;
+            case 0x90:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "add-int"
+                break;
+            case 0x91:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "sub-int"
+                break;
+            case 0x92:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "mul-int"
+                break;
+            case 0x93:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "div-int"
+                break;
+            case 0x94:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "rem-int"
+                break;
+            case 0x95:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "and-int"
+                break;
+            case 0x96:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "or-int"
+                break;
+            case 0x97:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "xor-int"
+                break;
+            case 0x98:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "shl-int"
+                break;
+            case 0x99:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "shr-int"
+                break;
+            case 0x9a:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "ushr-int"
+                break;
+            case 0x9b:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "add-long"
+                break;
+            case 0x9c:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "sub-long"
+                break;
+            case 0x9d:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "mul-long"
+                break;
+            case 0x9e:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "div-long"
+                break;
+            case 0x9f:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "rem-long"
+                break;
+            case 0xa0:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "and-long"
+                break;
+            case 0xa1:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "or-long"
+                break;
+            case 0xa2:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "xor-long"
+                break;
+            case 0xa3:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "shl-long"
+                break;
+            case 0xa4:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "shr-long"
+                break;
+            case 0xa5:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "ushr-long"
+                break;
+            case 0xa6:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "add-float"
+                break;
+            case 0xa7:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "sub-float"
+                break;
+            case 0xa8:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "mul-float"
+                break;
+            case 0xa9:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "div-float"
+                break;
+            case 0xaa:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "rem-float"
+                break;
+            case 0xab:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "add-double"
+                break;
+            case 0xac:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "sub-double"
+                break;
+            case 0xad:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "mul-double"
+                break;
+            case 0xae:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "div-double"
+                break;
+            case 0xaf:
+                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "rem-double"
+                break;
+            case 0xb0:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "add-int/2addr"
+                break;
+            case 0xb1:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "sub-int/2addr"
+                break;
+            case 0xb2:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "mul-int/2addr"
+                break;
+            case 0xb3:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "div-int/2addr"
+                break;
+            case 0xb4:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "rem-int/2addr"
+                break;
+            case 0xb5:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "and-int/2addr"
+                break;
+            case 0xb6:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "or-int/2addr"
+                break;
+            case 0xb7:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "xor-int/2addr"
+                break;
+            case 0xb8:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "shl-int/2addr"
+                break;
+            case 0xb9:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "shr-int/2addr"
+                break;
+            case 0xba:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "ushr-int/2addr"
+                break;
+            case 0xbb:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "add-long/2addr"
+                break;
+            case 0xbc:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "sub-long/2addr"
+                break;
+            case 0xbd:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "mul-long/2addr"
+                break;
+            case 0xbe:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "div-long/2addr"
+                break;
+            case 0xbf:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "rem-long/2addr"
+                break;
+            case 0xc0:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "and-long/2addr"
+                break;
+            case 0xc1:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "or-long/2addr"
+                break;
+            case 0xc2:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "xor-long/2addr"
+                break;
+            case 0xc3:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "shl-long/2addr"
+                break;
+            case 0xc4:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "shr-long/2addr"
+                break;
+            case 0xc5:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "ushr-long/2addr"
+                break;
+            case 0xc6:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "add-float/2addr"
+                break;
+            case 0xc7:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "sub-float/2addr"
+                break;
+            case 0xc8:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "mul-float/2addr"
+                break;
+            case 0xc9:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "div-float/2addr"
+                break;
+            case 0xca:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "rem-float/2addr"
+                break;
+            case 0xcb:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "add-double/2addr"
+                break;
+            case 0xcc:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "sub-double/2addr"
+                break;
+            case 0xcd:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "mul-double/2addr"
+                break;
+            case 0xce:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "div-double/2addr"
+                break;
+            case 0xcf:
+                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "rem-double/2addr"
+                break;
+            case 0xd0:
+                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "add-int/lit16"
+                break;
+            case 0xd1:
+                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "rsub-int"
+                break;
+            case 0xd2:
+                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "mul-int/lit16"
+                break;
+            case 0xd3:
+                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "div-int/lit16"
+                break;
+            case 0xd4:
+                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "rem-int/lit16"
+                break;
+            case 0xd5:
+                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "and-int/lit16"
+                break;
+            case 0xd6:
+                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "or-int/lit16"
+                break;
+            case 0xd7:
+                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "xor-int/lit16"
+                break;
+            case 0xd8:
+                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "add-int/lit8"
+                break;
+            case 0xd9:
+                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "rsub-int/lit8"
+                break;
+            case 0xda:
+                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "mul-int/lit8"
+                break;
+            case 0xdb:
+                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "div-int/lit8"
+                break;
+            case 0xdc:
+                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "rem-int/lit8"
+                break;
+            case 0xdd:
+                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "and-int/lit8"
+                break;
+            case 0xde:
+                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "or-int/lit8"
+                break;
+            case 0xdf:
+                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "xor-int/lit8"
+                break;
+            case 0xe0:
+                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "shl-int/lit8"
+                break;
+            case 0xe1:
+                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "shr-int/lit8"
+                break;
+            case 0xe2:
+                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "ushr-int/lit8"
+                break;
+            case 0xe3:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xe4:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xe5:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xe6:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xe7:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xe8:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xe9:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xea:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xeb:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xec:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xed:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xee:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xef:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xf0:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xf1:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xf2:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xf3:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xf4:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xf5:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xf6:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xf7:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xf8:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xf9:
+                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
+                break;
+            case 0xfa:
+                instruction = std::make_shared<Instruction45cc>(dalvik_opcodes, input_file); // "invoke-polymorphic" # Dalvik 038
+                break;
+            case 0xfb:
+                instruction = std::make_shared<Instruction4rcc>(dalvik_opcodes, input_file); // "invoke-polymorphic/range" # Dalvik 038
+                break;
+            case 0xfc:
+                instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "invoke-custom" # Dalvik 038
+                break;
+            case 0xfd:
+                instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "invoke-custom/range" # Dalvik 038
+                break;
+            case 0xfe:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "const-method-handle" # Dalvik 039
+                break;
+            case 0xff:
+                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // 'const-method-type' # Dalvik 039
                 break;
             }
 
