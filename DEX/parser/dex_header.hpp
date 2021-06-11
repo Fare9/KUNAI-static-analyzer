@@ -1,9 +1,8 @@
-/***
+/**
  *  @file dex_header.hpp
  *  @author @Farenain
  * 
- *  @brief Class that represents and contains
- *         the DEX file header structure.
+ *  @brief Class that represents and contains the DEX file header structure.
  * 
  *  Header of DEX file:
  *      DexfileHeader{
@@ -81,11 +80,9 @@ namespace KUNAI {
             };
 #pragma pack()
 
-            
-
             DexHeader(std::ifstream& input_file, std::uint64_t file_size);
             ~DexHeader();
-
+            
             dexheader_t& get_dex_header();
             std::uint64_t get_dex_header_size();
 

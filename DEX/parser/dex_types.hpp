@@ -1,4 +1,4 @@
-/***
+/**
  * @file dex_types.hpp
  * @author @Farenain
  * 
@@ -106,14 +106,8 @@ namespace KUNAI {
 
             std::string get_name();
 
-            bool is_external_class();
         private:
             std::string name;
-
-            std::vector<std::string> external_classes {
-                "Landroid/", "Lcom/android/internal/util", "Ldalvik/", "Ljava/", "Ljavax/", "Lorg/apache/",
-                          "Lorg/json/", "Lorg/w3c/dom/", "Lorg/xml/sax", "Lorg/xmlpull/v1/", "Ljunit/"
-            };
         };
 
         class Array : public Type

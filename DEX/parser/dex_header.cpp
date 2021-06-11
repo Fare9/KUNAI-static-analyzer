@@ -4,7 +4,13 @@ namespace KUNAI
 {
     namespace DEX
     {
-
+        /**
+         * Generate new dex header and apply different checks.
+         * 
+         * @brief DexHeader constructor.
+         * @param input_file: std::ifstream object reference with the input file.
+         * @param file_size: std::uint64_t value with file size.
+         */
         DexHeader::DexHeader(std::ifstream &input_file, std::uint64_t file_size)
         {
             if (!KUNAI::read_data_file<DexHeader::dexheader_t>(this->dex_struct, sizeof(DexHeader::dex_struct), input_file))
@@ -38,18 +44,33 @@ namespace KUNAI
                 throw exceptions::OutOfBoundException("Error 'data_off' out of file bound");
         }
 
+        /**
+         * @brief Dex header destructor
+         */
         DexHeader::~DexHeader() {}
 
+        /**
+         * @brief Get structure variable from dex header
+         * @return dexheader_t structure
+         */
         DexHeader::dexheader_t &DexHeader::get_dex_header()
         {
             return this->dex_struct;
         }
 
+        /**
+         * @brief Get size of DEX header structure
+         * @return size of header structure
+         */
         std::uint64_t DexHeader::get_dex_header_size()
         {
             return sizeof(DexHeader::dexheader_t);
         }
 
+        /**
+         * @brief Pretty print the header
+         * @return std::ostream object with output.
+         */
         std::ostream &operator<<(std::ostream &os, const DexHeader &entry)
         {
             size_t i;
@@ -95,6 +116,10 @@ namespace KUNAI
             return os;
         }
 
+        /**
+         * @brief Dump to a fstream the header in XML format.
+         * @return std::fstream with XML format of header.
+         */
         std::fstream &operator<<(std::fstream &fos, const DexHeader &entry)
         {
             size_t i;
