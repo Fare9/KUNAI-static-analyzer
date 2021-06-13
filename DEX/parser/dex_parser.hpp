@@ -38,6 +38,8 @@ namespace KUNAI {
 
             void parse_dex_file(std::ifstream& input_file, std::uint64_t file_size);
 
+            // getter methods for the parser, for getting
+            // all the parsed fields.
             std::shared_ptr<DexHeader>  get_header();
             std::shared_ptr<DexStrings> get_strings();
             std::shared_ptr<DexTypes>   get_types();
@@ -46,9 +48,29 @@ namespace KUNAI {
             std::shared_ptr<DexMethods> get_methods();
             std::shared_ptr<DexClasses> get_classes();
             
+            // utilities for analysts to get more specific
+            // information.
+            
+            // header version
+            std::uint32_t get_header_version();
+            std::string get_header_version_str();
+
+            // dex api version (if analyzed the AndroidManifest.xml)
+            void set_api_version(std::uint32_t api_version);
+            std::uint32_t get_api_version();
+
+            // get all the ClassesDef from DexClasses
+            std::vector<std::shared_ptr<ClassDef>> get_classes_def_item();
+            std::vector<MethodID*> get_methods_id_item();
+            std::vector<FieldID*> get_fields_id_item();
+            std::vector<std::shared_ptr<CodeItemStruct>> get_codes_item();
+            std::vector<std::string> get_string_values();
+
 
             friend std::ostream& operator<<(std::ostream& os, const DexParser& entry);
         private:
+            std::uint32_t api_version;
+        
             std::shared_ptr<DexHeader> dex_header       = nullptr;
             std::shared_ptr<DexStrings> dex_strings     = nullptr;
             std::shared_ptr<DexTypes> dex_types         = nullptr;

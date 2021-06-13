@@ -4,7 +4,8 @@ namespace KUNAI
 {
     namespace DEX
     {
-        DexParser::DexParser() {}
+        DexParser::DexParser() : api_version(0)
+        {}
 
         DexParser::~DexParser() {}
 
@@ -70,6 +71,119 @@ namespace KUNAI
         std::shared_ptr<DexClasses> DexParser::get_classes()
         {
             return dex_classes;
+        }
+
+        std::uint32_t DexParser::get_header_version()
+        {
+            std::uint8_t version = 0;
+
+            if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_035, 8))
+                version = 35;
+            else if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_037, 8))
+                version = 37;
+            else if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_038, 8))
+                version = 38;
+            else if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_039, 8))
+                version = 39;
+            
+            return version;
+        }
+
+        std::string DexParser::get_header_version_str()
+        {
+            std::string version = "";
+
+            if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_035, 8))
+                version = "DEX_VERSION_35";
+            else if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_037, 8))
+                version = "DEX_VERSION_37";
+            else if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_038, 8))
+                version = "DEX_VERSION_38";
+            else if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_039, 8))
+                version = "DEX_VERSION_39";
+            
+            return version;
+        }
+
+        void DexParser::set_api_version(std::uint32_t api_version)
+        {
+            this->api_version = api_version;
+        }
+
+        std::uint32_t DexParser::get_api_version()
+        {
+            return api_version;
+        }
+
+        std::vector<std::shared_ptr<ClassDef>> DexParser::get_classes_def_item()
+        {
+            std::vector<std::shared_ptr<ClassDef>> classes;
+
+            for (size_t i = 0; i < dex_classes->get_number_of_classes(); i++)
+            {
+                classes.push_back(dex_classes->get_class_by_pos(i));
+            }
+
+            return classes;
+        }
+
+        std::vector<MethodID*> DexParser::get_methods_id_item()
+        {
+            std::vector<MethodID*> methods;
+
+            for (size_t i = 0; i < dex_methods->get_number_of_methods(); i++)
+            {
+                methods.push_back(dex_methods->get_method_by_order(i));
+            }
+
+            return methods;
+        }
+
+        std::vector<FieldID*> DexParser::get_fields_id_item()
+        {
+            std::vector<FieldID*> fields;
+
+            for (size_t i = 0; i < dex_fields->get_number_of_fields(); i++)
+            {
+                fields.push_back(dex_fields->get_field_id_by_order(i));
+            }
+
+            return fields;
+        }
+
+        std::vector<std::shared_ptr<CodeItemStruct>> DexParser::get_codes_item()
+        {
+            std::vector<std::shared_ptr<CodeItemStruct>> codes;
+
+            for (size_t i = 0; i < dex_classes->get_number_of_classes(); i++)
+            {
+                auto class_def = dex_classes->get_class_by_pos(i);
+
+                auto class_data_item = class_def->get_class_data();
+
+                for (size_t j = 0; j < class_data_item->get_number_of_direct_methods(); j++)
+                {
+                    auto direct_method = class_data_item->get_direct_method_by_pos(j);
+
+                    auto code_item_struct = direct_method->get_code_item();
+
+                    codes.push_back(code_item_struct);
+                }
+            }
+
+            return codes;
+        }
+
+        std::vector<std::string> DexParser::get_string_values()
+        {
+            std::vector<std::string> strings;
+
+            for (size_t i = 0; i < dex_strings->get_number_of_strings(); i++)
+            {
+                strings.push_back(*dex_strings->get_string_from_order(i));
+            }
+
+            return strings;
         }
 
         std::ostream& operator<<(std::ostream& os, const DexParser& entry)
