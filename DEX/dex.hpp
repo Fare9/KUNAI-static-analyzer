@@ -19,22 +19,32 @@
 #include <memory>
 
 #include "dex_parser.hpp"
+#include "dex_dalvik_opcodes.hpp"
+#include "dex_linear_sweep_disassembly.hpp"
 
-namespace KUNAI {
-    namespace DEX {
-        class DEX {
+namespace KUNAI
+{
+    namespace DEX
+    {
+        class DEX
+        {
         public:
-            DEX(std::ifstream& input_file, std::uint64_t file_size);
+            DEX(std::ifstream &input_file, std::uint64_t file_size);
             ~DEX();
 
             std::shared_ptr<DexParser> get_parser();
-            
+            std::shared_ptr<DalvikOpcodes> get_dalvik_opcode_object();
         private:
+
+            void disassembly_methods();
+
             std::shared_ptr<DexParser> dex_parser;
+            std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
+            std::shared_ptr<LinearSweepDisassembler> dalvik_disassembler;
+            
             bool dex_parsing_correct;
         };
     }
 }
-
 
 #endif
