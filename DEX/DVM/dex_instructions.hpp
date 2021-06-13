@@ -15,8 +15,8 @@
 #include <tuple>
 #include <vector>
 
-#include "dex_dalvik_opcodes.hpp"
 #include "dex_dvm_types.hpp"
+#include "dex_dalvik_opcodes.hpp"
 #include "utils.hpp"
 #include "exceptions.hpp"
 
