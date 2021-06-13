@@ -158,8 +158,12 @@ namespace KUNAI
             std::uint16_t get_number_of_outgoing_arguments();
             std::uint16_t get_number_of_try_items();
             std::shared_ptr<TryItem> get_try_item_by_pos(std::uint64_t pos);
-            std::uint16_t get_number_of_instructions();
-            std::uint16_t get_instruction_by_pos(std::uint16_t pos);
+
+            // raw byte instructions
+            std::uint16_t get_number_of_raw_instructions();
+            std::uint16_t get_raw_instruction_by_pos(std::uint16_t pos);
+            std::vector<std::uint8_t> get_all_raw_instructions();
+
             std::uint64_t get_encoded_catch_handler_list_size();
             std::shared_ptr<EncodedCatchHandler> get_encoded_catch_handler_by_pos(std::uint64_t pos);
 
@@ -167,7 +171,7 @@ namespace KUNAI
             bool parse_code_item_struct(std::ifstream &input_file, std::uint64_t file_size, std::shared_ptr<DexTypes> dex_types);
 
             code_item_struct_t code_item;
-            std::vector<std::uint16_t> instructions;
+            std::vector<std::uint8_t> instructions_raw;
             std::vector<std::shared_ptr<TryItem>> try_items;
             std::vector<std::shared_ptr<EncodedCatchHandler>> encoded_catch_handler_list;
         };

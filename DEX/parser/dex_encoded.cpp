@@ -264,8 +264,8 @@ namespace KUNAI
 
         CodeItemStruct::~CodeItemStruct()
         {
-            if (!instructions.empty())
-                instructions.clear();
+            if (!instructions_raw.empty())
+                instructions_raw.clear();
             if (!try_items.empty())
                 try_items.clear();
             if (!encoded_catch_handler_list.empty())
@@ -299,17 +299,23 @@ namespace KUNAI
             return try_items[pos];
         }
 
-        std::uint16_t CodeItemStruct::get_number_of_instructions()
+        std::uint16_t CodeItemStruct::get_number_of_raw_instructions()
         {
             return code_item.insns_size;
         }
 
-        std::uint16_t CodeItemStruct::get_instruction_by_pos(std::uint16_t pos)
+        std::uint16_t CodeItemStruct::get_raw_instruction_by_pos(std::uint16_t pos)
         {
-            if (pos >= instructions.size())
+            if (pos >= instructions_raw.size())
                 return 0;
-            return instructions[pos];
+            return instructions_raw[pos] | (instructions_raw[pos+1] << 8);
         }
+
+        std::vector<std::uint8_t> CodeItemStruct::get_all_raw_instructions()
+        {
+            return instructions_raw;
+        }
+
 
         std::uint64_t CodeItemStruct::get_encoded_catch_handler_list_size()
         {
@@ -340,7 +346,8 @@ namespace KUNAI
             {
                 if (!KUNAI::read_data_file<std::uint16_t>(instruction, sizeof(std::uint16_t), input_file))
                     return false;
-                instructions.push_back(instruction);
+                instructions_raw.push_back(instruction & 0xff);
+                instructions_raw.push_back((instruction >> 8) & 0xff);
             }
 
             if ((code_item.tries_size > 0) && (code_item.insns_size % 2 != 0))
