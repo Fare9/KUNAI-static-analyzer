@@ -310,6 +310,9 @@ namespace KUNAI
                 {0xFD, "invoke-custom/range"},
                 {0xFE, "const-method-handle"},
                 {0xFF, "const-method-type"},
+                // special cases...
+                {0x0100, "packed-switch-payload"},
+                {0x0300, "fill-array-data-payload"},
                 {0xf2ff, "invoke-object-init/jumbo"},
                 {0xf3ff, "iget-volatile/jumbo"},
                 {0xf4ff, "iget-wide-volatile/jumbo"},
@@ -379,6 +382,9 @@ namespace KUNAI
                 {0xfd, DVMTypes::Kind::CALL_SITE},
                 {0xfe, DVMTypes::Kind::METH},
                 {0xff, DVMTypes::Kind::PROTO},
+                // special cases
+                {0x0100, DVMTypes::Kind::NONE},
+                {0x0300, DVMTypes::Kind::NONE},
                 {0xf2ff, DVMTypes::Kind::METH},
                 {0xf3ff, DVMTypes::Kind::FIELD},
                 {0xf4ff, DVMTypes::Kind::FIELD},
