@@ -24,12 +24,21 @@ namespace KUNAI {
                 opcode = byte_buffer[instruction_index];
                 std::copy(byte_buffer.begin() + instruction_index, byte_buffer.end(), std::ostream_iterator<std::uint8_t>(input_buffer));
 
-                instruction = get_instruction_object(opcode, this->dalvik_opcodes, input_buffer);
-
-                if (instruction)
+                try
                 {
-                    instructions[instruction_index] = instruction;
-                    instruction_index += instruction->get_length();
+                    instruction = get_instruction_object(opcode, this->dalvik_opcodes, input_buffer);
+
+                    if (instruction)
+                    {
+                        instructions[instruction_index] = instruction;
+                        instruction_index += instruction->get_length();
+                    }
+                }
+                catch(const std::exception& e)
+                {
+                    std::cerr << "Error reading index " << instruction_index << "opcode " << opcode << " ";
+                    std::cerr << e.what() << '\n';
+                    instruction_index += 1;
                 }
             }
 
