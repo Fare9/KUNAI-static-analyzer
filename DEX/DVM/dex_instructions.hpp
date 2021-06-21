@@ -963,6 +963,53 @@ namespace KUNAI
             std::uint64_t nBBBBBBBBBBBBBBBB;
         };
 
+        class PackedSwitch : public Instruction
+        /***
+         * Packed switch, present in methods which
+         * make use of this kind of data.
+         */
+        {
+        public:
+            PackedSwitch(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file);
+            ~PackedSwitch();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
+            std::int32_t get_first_key();
+            std::vector<std::int32_t> get_targets();
+        private:
+            std::uint16_t ident;
+            std::uint16_t size;
+            std::int32_t first_key;
+            std::vector<std::int32_t> targets;
+        };
+
+        class FillArrayData : public Instruction
+        /***
+         * Class present in methods which make use of
+         * this kind of data.
+         */
+        {
+        public:
+            FillArrayData(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file);
+            ~FillArrayData();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
+            std::vector<std::uint8_t> get_data();
+        private:
+            std::uint16_t ident;
+            std::uint16_t element_width;
+            std::uint32_t size;
+            std::vector<std::uint8_t> data;
+        };
+
+
+
         std::shared_ptr<Instruction> get_instruction_object(std::uint32_t opcode, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file);
     }
 }

@@ -2047,6 +2047,162 @@ namespace KUNAI
             return vAA;
         }
 
+        /**
+         * PackedSwitch
+         */
+        PackedSwitch::PackedSwitch(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) :
+            Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t instruction_part1[8];
+            std::int32_t aux;
+            size_t buff_size;
+
+            if (!KUNAI::read_data_file<std::uint8_t[8]>(instruction_part1, 8, input_file))
+                throw exceptions::DisassemblerException("Error disassembling PackedSwitch");
+            
+            this->ident = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[0]));
+            this->size = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[2]));
+            this->first_key = *(reinterpret_cast<std::int32_t*>(&instruction_part1[4]));
+
+            buff_size = size;
+            
+            for (size_t i = 0; i < buff_size; i++)
+            {
+                if (!KUNAI::read_data_file<std::int32_t>(aux, 1, input_file))
+                    throw exceptions::DisassemblerException("Error disassembling PackedSwitch");
+                this->targets.push_back(aux);
+            }
+
+            this->set_length(8 + this->targets.size()*4);
+        }
+
+        PackedSwitch::~PackedSwitch()
+        {
+            if (!targets.empty())
+                targets.clear();
+        }
+
+        std::string PackedSwitch::get_output()
+        {
+            std::stringstream str;
+
+            str << "(size)" << size << " (first/last key)" << std::hex << first_key << " [";
+
+            for (size_t i = 0; i < targets.size(); i++)
+            {
+                str << "0x" << std::hex << targets[i];
+                if (i != (targets.size() - 1))
+                    str << ",";
+            }
+
+            str << "]";
+
+            return str.str();
+        }
+
+        std::uint64_t PackedSwitch::get_raw()
+        {
+            return ident | size << 16 | static_cast<std::uint64_t>(first_key) << 32;
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> PackedSwitch::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
+
+            for (size_t i = 0; i < targets.size(); i++)
+                operands.push_back({DVMTypes::Operand::RAW, targets[i]});
+            
+            return operands;
+        }
+
+        std::int32_t PackedSwitch::get_first_key()
+        {
+            return first_key;
+        }
+
+        std::vector<std::int32_t> PackedSwitch::get_targets()
+        {
+            return targets;
+        }
+
+        /**
+         * FillArrayData
+         */
+        FillArrayData::FillArrayData(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) :
+            Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t instruction_part1[8];
+            std::uint8_t aux;
+            size_t buff_size;
+
+            if (!KUNAI::read_data_file<std::uint8_t[8]>(instruction_part1, 8, input_file))
+                throw exceptions::DisassemblerException("Error disassembling FillArrayData");
+            
+            this->ident = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[0]));
+            this->element_width = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[2]));
+            this->size = *(reinterpret_cast<std::uint32_t*>(&instruction_part1[4]));
+
+            this->set_OP(this->ident);
+
+            buff_size = this->element_width*this->size;
+            if (buff_size % 2 != 0)
+                buff_size += 1;
+
+            for (size_t i = 0; i < buff_size; i++)
+            {
+                if (!KUNAI::read_data_file<std::uint8_t>(aux, 1, input_file))
+                    throw exceptions::DisassemblerException("Error disassembling FillArrayData");
+                data.push_back(aux);
+            }
+
+            this->set_length(8 + buff_size);
+        }
+
+        FillArrayData::~FillArrayData()
+        {
+            if (!data.empty())
+                data.clear();
+        }
+
+        std::string FillArrayData::get_output()
+        {
+            std::stringstream str;
+
+            str << "(width)" << element_width << " (size)" << size << " [";
+            
+            for (size_t i = 0; i < data.size(); i++)
+            {
+                str << "0x" << std::hex << static_cast<std::uint32_t>(data[i]);
+                if (i != (data.size() - 1))
+                    str << ",";       
+            }
+
+            str << "]";
+            
+            return str.str();
+        }
+
+        std::uint64_t FillArrayData::get_raw()
+        {
+            return ident | element_width << 16 | static_cast<std::uint64_t>(size) << 32;
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> FillArrayData::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
+
+            for (size_t i = 0; i < data.size(); i++)
+                operands.push_back({DVMTypes::Operand::RAW, data[i]});
+            
+            return operands;
+        }
+
+        std::vector<std::uint8_t> FillArrayData::get_data()
+        {
+            return data;
+        }
+
+
         std::shared_ptr<Instruction> get_instruction_object(std::uint32_t opcode, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file)
         {
             std::shared_ptr<Instruction> instruction;
@@ -2054,8 +2210,22 @@ namespace KUNAI
             switch (opcode)
             {
             case DVMTypes::Opcode::OP_NOP:
-                instruction = std::make_shared<Instruction10x>(dalvik_opcodes, input_file); // "nop"
+            {
+                auto current_offset = input_file.tellg();
+                char byte[2];
+                
+                input_file.read(byte, 2);
+                
+                input_file.seekg(current_offset);
+
+                if (byte[1] == 0x03)
+                    instruction = std::make_shared<FillArrayData>(dalvik_opcodes, input_file); // filled-array-data 
+                else if (byte[1] == 0x01)
+                    instruction = std::make_shared<PackedSwitch>(dalvik_opcodes, input_file); // packed-switch-data
+                else
+                    instruction = std::make_shared<Instruction10x>(dalvik_opcodes, input_file); // "nop"
                 break;
+            }
             case DVMTypes::Opcode::OP_MOVE:
                 instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "move"
                 break;
