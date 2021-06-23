@@ -14,6 +14,7 @@
 #include <fstream>
 #include <tuple>
 #include <vector>
+#include <iomanip>
 
 #include "dex_dvm_types.hpp"
 #include "dex_dalvik_opcodes.hpp"
@@ -818,7 +819,9 @@ namespace KUNAI
          * filling it with supplied contents.
          * 
          * Example instruction:
-         *  filled-new-array/range {vCCCC .. vNNNN}, type@BBBB
+         *   	op {vCCCC .. vNNNN}, meth@BBBB
+         *      op {vCCCC .. vNNNN}, site@BBBB
+         *      op {vCCCC .. vNNNN}, type@BBBB
          * 
          * A: array size and argument word count (8 bits).
          * B: type index (16 bits).
@@ -836,16 +839,21 @@ namespace KUNAI
 
             std::uint8_t get_array_size();
 
-            std::uint16_t get_type_index();
-
+            std::uint16_t get_index();
+            
             DVMTypes::Operand get_operands_types();
-            Type *get_operands_kind();
-            std::string get_operands_kind_str();
+
+            Type *get_operands_type();
+            std::string get_operands_type_str();
+
+            MethodID* get_operands_method();
+            std::string get_operands_method_str(); 
+
             std::uint8_t get_operand_register(std::uint8_t index);
 
         private:
             std::uint8_t array_size;
-            std::uint16_t type_index;
+            std::uint16_t index;
             std::vector<std::uint8_t> registers;
         };
 

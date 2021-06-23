@@ -54,7 +54,7 @@ namespace KUNAI
 
         void Instruction::show_instruction()
         {
-            std::cout << get_name() << "\t" << get_output();
+            std::cout << std::left << std::setfill(' ') << std::setw(25) << get_name() << get_output();
         }
 
         std::string Instruction::get_output()
@@ -1678,7 +1678,7 @@ namespace KUNAI
 
             this->set_OP(instruction[0]);
             this->array_size = instruction[1];
-            this->type_index = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
+            this->index = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
             vCCCC = *(reinterpret_cast<std::uint16_t *>(&instruction[4]));
 
             for (std::uint16_t i = vCCCC; i < vCCCC + this->array_size; i++)
@@ -1694,14 +1694,30 @@ namespace KUNAI
             for (std::uint16_t i = 0; i < array_size; i++)
                 output += "v" + std::to_string(registers[i]) + ", ";
 
-            output += this->get_dalvik_opcodes()->get_dalvik_type_by_id_str(type_index);
+            /**
+             * This instruction is a little bit pain in the ass
+             * there are different kind so we must decide here
+             * which one we will use.
+             *  	op {vCCCC .. vNNNN}, meth@BBBB
+             *      op {vCCCC .. vNNNN}, site@BBBB
+             *      op {vCCCC .. vNNNN}, type@BBBB
+             * 
+             * Check for meth, and type, any other case, return
+             * index as string.
+             */
+            if (this->get_kind() == DVMTypes::Kind::TYPE)
+                output += this->get_dalvik_opcodes()->get_dalvik_type_by_id_str(index);
+            else if (this->get_kind() == DVMTypes::Kind::METH)
+                output += this->get_dalvik_opcodes()->get_dalvik_method_by_id_str(index);
+            else
+                output += std::to_string(index);
 
             return output;
         }
 
         std::uint64_t Instruction3rc::get_raw()
         {
-            return get_OP() | array_size << 8 | static_cast<std::uint64_t>(type_index) << 16 | static_cast<std::uint64_t>(registers[0]) << 32;
+            return get_OP() | array_size << 8 | static_cast<std::uint64_t>(index) << 16 | static_cast<std::uint64_t>(registers[0]) << 32;
         }
 
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction3rc::get_operands()
@@ -1711,7 +1727,7 @@ namespace KUNAI
             for (std::uint16_t i = 0; i < array_size; i++)
                 operands.push_back({DVMTypes::Operand::REGISTER, i});
 
-            operands.push_back({DVMTypes::Operand::KIND, type_index});
+            operands.push_back({DVMTypes::Operand::KIND, index});
 
             return operands;
         }
@@ -1721,9 +1737,9 @@ namespace KUNAI
             return array_size;
         }
 
-        std::uint16_t Instruction3rc::get_type_index()
+        std::uint16_t Instruction3rc::get_index()
         {
-            return type_index;
+            return index;
         }
 
         DVMTypes::Operand Instruction3rc::get_operands_types()
@@ -1731,14 +1747,36 @@ namespace KUNAI
             return DVMTypes::Operand::REGISTER;
         }
 
-        Type *Instruction3rc::get_operands_kind()
+        Type *Instruction3rc::get_operands_type()
         {
-            return this->get_dalvik_opcodes()->get_dalvik_Type_by_id(type_index);
+            if (get_kind() == DVMTypes::Kind::TYPE)
+                return this->get_dalvik_opcodes()->get_dalvik_Type_by_id(index);
+            else
+                return nullptr;
         }
 
-        std::string Instruction3rc::get_operands_kind_str()
+        std::string Instruction3rc::get_operands_type_str()
         {
-            return this->get_dalvik_opcodes()->get_dalvik_type_by_id_str(type_index);
+            if (get_kind() == DVMTypes::Kind::TYPE)
+                return this->get_dalvik_opcodes()->get_dalvik_type_by_id_str(index);
+            else
+                return "";
+        }
+
+        MethodID* Instruction3rc::get_operands_method()
+        {
+            if (get_kind() == DVMTypes::Kind::METH)
+                return this->get_dalvik_opcodes()->get_dalvik_method_by_id(index);
+            else
+                return nullptr;
+        }
+
+        std::string Instruction3rc::get_operands_method_str()
+        {
+            if (get_kind() == DVMTypes::Kind::METH)
+                return this->get_dalvik_opcodes()->get_dalvik_method_by_id_str(index);
+            else
+                return "";
         }
 
         std::uint8_t Instruction3rc::get_operand_register(std::uint8_t index)
