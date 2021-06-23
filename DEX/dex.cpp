@@ -49,7 +49,13 @@ namespace KUNAI
                 // get ClassDataItem
                 auto class_data_item = class_def->get_class_data();
 
-                // now get direct methods and virtual methods
+                // in case of interfaces, or classes with
+                // only virtual methods, no "classess_off"
+                // in the analysis.
+                if (class_data_item == nullptr)
+                    continue;
+
+                // now get direct method
                 // for each one we will start the disassembly.
                 for (size_t j = 0; j < class_data_item->get_number_of_direct_methods(); j++)
                 {
@@ -65,7 +71,7 @@ namespace KUNAI
 
                     for (auto it = instructions.begin(); it != instructions.end(); it++)
                     {
-                        std::cout << it->first << ": ";
+                        std::cout << std::right << std::setfill('0') << std::setw(8) << std::hex << it->first << "  ";
                         it->second->show_instruction();
                         std::cout << std::endl;
                     }
