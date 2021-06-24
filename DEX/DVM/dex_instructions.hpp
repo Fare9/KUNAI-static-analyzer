@@ -9,6 +9,7 @@
 #ifndef DEX_INSTRUCTIONS_HPP
 #define DEX_INSTRUCTIONS_HPP
 
+#include <any>
 #include <iostream>
 #include <memory>
 #include <fstream>
@@ -843,6 +844,11 @@ namespace KUNAI
             
             DVMTypes::Operand get_operands_types();
 
+            DVMTypes::Kind get_index_kind();
+
+            std::any get_last_operand();
+            std::string get_last_operand_str();
+
             Type *get_operands_type();
             std::string get_operands_type_str();
 
@@ -992,6 +998,31 @@ namespace KUNAI
             std::uint16_t size;
             std::int32_t first_key;
             std::vector<std::int32_t> targets;
+        };
+
+        class SparseSwitch : public Instruction
+        /***
+         * Sparse switch, present in methods which
+         * make use of this kind of data.
+         */
+        {
+        public:
+            SparseSwitch(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file);
+            ~SparseSwitch();
+
+            virtual std::string get_output();
+            virtual std::uint64_t get_raw();
+            virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
+            std::int32_t get_target_by_key(std::int32_t key);
+            std::int32_t get_key_by_pos(size_t pos);
+            std::int32_t get_target_by_pos(size_t pos);
+
+            std::vector<std::tuple<std::int32_t, std::int32_t>> get_keys_targets();
+        private:
+            std::uint16_t ident;
+            std::uint16_t size;
+            std::vector<std::tuple<std::int32_t, std::int32_t>> keys_targets;
         };
 
         class FillArrayData : public Instruction

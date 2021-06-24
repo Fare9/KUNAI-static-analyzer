@@ -1747,6 +1747,31 @@ namespace KUNAI
             return DVMTypes::Operand::REGISTER;
         }
 
+        DVMTypes::Kind Instruction3rc::get_index_kind()
+        {
+            return get_kind();
+        }
+
+        std::any Instruction3rc::get_last_operand()
+        {
+            if (get_kind() == DVMTypes::Kind::TYPE)
+                return this->get_dalvik_opcodes()->get_dalvik_Type_by_id(index);
+            else if (get_kind() == DVMTypes::Kind::METH)
+                return this->get_dalvik_opcodes()->get_dalvik_method_by_id(index);
+            else
+                return index;
+        }
+
+        std::string Instruction3rc::get_last_operand_str()
+        {
+            if (get_kind() == DVMTypes::Kind::TYPE)
+                return this->get_dalvik_opcodes()->get_dalvik_type_by_id_str(index);
+            else if (get_kind() == DVMTypes::Kind::METH)
+                return this->get_dalvik_opcodes()->get_dalvik_method_by_id_str(index);
+            else
+                return std::to_string(index);
+        }
+
         Type *Instruction3rc::get_operands_type()
         {
             if (get_kind() == DVMTypes::Kind::TYPE)
@@ -2102,6 +2127,8 @@ namespace KUNAI
             this->size = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[2]));
             this->first_key = *(reinterpret_cast<std::int32_t*>(&instruction_part1[4]));
 
+            this->set_OP(this->ident);
+
             buff_size = size;
             
             for (size_t i = 0; i < buff_size; i++)
@@ -2161,6 +2188,129 @@ namespace KUNAI
         std::vector<std::int32_t> PackedSwitch::get_targets()
         {
             return targets;
+        }
+
+        /**
+         * SparseSwitch
+         */
+        SparseSwitch::SparseSwitch(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) :
+            Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t instruction_part1[4];
+            std::int32_t aux;
+            std::vector<std::int32_t> keys;
+            std::vector<std::int32_t> targets;
+
+            if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction_part1, 4, input_file))
+                throw exceptions::DisassemblerException("Error disassembling SparseSwitch");
+            
+            this->ident = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[0]));
+            this->size = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[2]));
+            
+            this->set_OP(this->ident);
+
+            for(size_t i = 0; i < this->size; i++)
+            {
+                if (!KUNAI::read_data_file<std::int32_t>(aux, sizeof(std::int32_t), input_file))
+                    throw exceptions::DisassemblerException("Error disassembling SparseSwitch");
+                
+                keys.push_back(aux);
+            }
+
+            for(size_t i = 0; i < this->size; i++)
+            {
+                if (!KUNAI::read_data_file<std::int32_t>(aux, sizeof(std::int32_t), input_file))
+                    throw exceptions::DisassemblerException("Error disassembling SparseSwitch");
+                
+                targets.push_back(aux);
+            }
+
+            for (size_t i = 0; i < this->size; i++)
+                this->keys_targets.push_back({keys[i], targets[i]});
+
+            this->set_length(4 + (sizeof(std::int32_t)*this->size)*2);
+        }
+
+        SparseSwitch::~SparseSwitch()
+        {
+            if (!keys_targets.empty())
+                keys_targets.clear();
+        }
+
+        std::string SparseSwitch::get_output()
+        {
+            std::stringstream str;
+
+            str << "(size)" << size << " [";
+
+            for(size_t i = 0; i < keys_targets.size(); i++)
+            {
+                if (std::get<0>(keys_targets[i])  < 0)
+                    str << "-0x" << std::hex << std::get<0>(keys_targets[i]) << ":";
+                else
+                    str << "0x" << std::hex << std::get<0>(keys_targets[i]) << ":";
+                if (std::get<1>(keys_targets[i])  < 0)
+                    str << "-0x" << std::hex << std::get<1>(keys_targets[i]);
+                else
+                    str << "0x" << std::hex << std::get<1>(keys_targets[i]);
+
+                if (i != (keys_targets.size() - 1))
+                    str << ",";       
+            }
+
+            str << "]";
+            
+            return str.str();
+        }
+
+        // probably need to change get_raw for returning
+        // an array of bytes
+        std::uint64_t SparseSwitch::get_raw()
+        {
+            return ident | size << 16;
+        }
+
+        std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> SparseSwitch::get_operands()
+        {
+            std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
+
+            for (size_t i = 0; i < keys_targets.size(); i++)
+            {
+                operands.push_back({DVMTypes::Operand::LITERAL, std::get<0>(keys_targets[i])});
+                operands.push_back({DVMTypes::Operand::OFFSET, std::get<1>(keys_targets[i])});
+            }
+
+            return operands;
+        }
+
+        std::int32_t SparseSwitch::get_target_by_key(std::int32_t key)
+        {
+            for (size_t i = 0; i < keys_targets.size(); i++)
+            {
+                if (std::get<0>(keys_targets[i]) == key)
+                    return std::get<1>(keys_targets[i]);
+            }
+
+            return 0;
+        }
+        
+        std::int32_t SparseSwitch::get_key_by_pos(size_t pos)
+        {
+            if (pos >= keys_targets.size())
+                return 0;
+            return std::get<0>(keys_targets[pos]);
+        }
+
+        std::int32_t SparseSwitch::get_target_by_pos(size_t pos)
+        {
+            if (pos >= keys_targets.size())
+                return 0;
+            return std::get<1>(keys_targets[pos]);
+        }
+
+        std::vector<std::tuple<std::int32_t, std::int32_t>> SparseSwitch::get_keys_targets()
+        {
+            return keys_targets;
         }
 
         /**
@@ -2260,6 +2410,8 @@ namespace KUNAI
                     instruction = std::make_shared<FillArrayData>(dalvik_opcodes, input_file); // filled-array-data 
                 else if (byte[1] == 0x01)
                     instruction = std::make_shared<PackedSwitch>(dalvik_opcodes, input_file); // packed-switch-data
+                else if (byte[1] == 0x02)
+                    instruction = std::make_shared<SparseSwitch>(dalvik_opcodes, input_file); // sparse-switch-data
                 else
                     instruction = std::make_shared<Instruction10x>(dalvik_opcodes, input_file); // "nop"
                 break;
