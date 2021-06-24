@@ -1,5 +1,5 @@
 CPP=g++
-CFLAGS=-c -g -Wall
+CFLAGS=-std=c++17 -c -g -Wall
 BIN_FOLDER=bin/
 OBJ=objs/
 BIN_NAME=Kunai
