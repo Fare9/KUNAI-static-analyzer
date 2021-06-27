@@ -46,7 +46,21 @@ namespace KUNAI
                 VTABLE_OFFSET = 6, // static linked
                 FIELD_OFFSET = 7,
                 RAW_STRING = 8,
-                NONE = 99
+                NONE_KIND = 99
+            };
+
+            enum Operation
+            /***
+             * Identify different type of operatiosn
+             * from instructions like branching, break,
+             * write or read.
+             */
+            {
+                BRANCH_DVM_OPCODE = 0,      // branch instructions ["throw", "throw.", "if.", "goto", "goto.", "return", "return.", "packed-switch$", "sparse-switch$"]
+                BREAK_DVM_OPCODE = 1,       // break instructions ["invoke.", "move."]
+                FIELD_READ_DVM_OPCODE = 2,  // read a field instruction [".get"]
+                FIELD_WRITE_DVM_OPCODE = 3, // write a field instruction [".put"]
+                NONE_OPCODE = 99
             };
 
             enum Operand
@@ -124,6 +138,26 @@ namespace KUNAI
                 METHOD_HANDLE_TYPE_INVOKE_CONSTRUCTOR,
                 METHOD_HANDLE_TYPE_INVOKE_DIRECT,
                 METHOD_HANDLE_TYPE_INVOKE_INTERFACE
+            };
+
+            enum REF_TYPE
+            /***
+             * Reference used in the cross ref of the classes, to store
+             * the type of reference to the class.
+             */
+            {
+                REF_NEW_INSTANCE = 0x22,
+                REF_CLASS_USAGE = 0x1c,
+                INVOKE_VIRTUAL = 0x6e,
+                INVOKE_SUPER = 0x6f,
+                INVOKE_DIRECT = 0x70,
+                INVOKE_STATIC = 0x71,
+                INVOKE_INTERFACE = 0x72,
+                INVOKE_VIRTUAL_RANGE = 0x74,
+                INVOKE_SUPER_RANGE = 0x75,
+                INVOKE_DIRECT_RANGE = 0x76,
+                INVOKE_STATIC_RANGE = 0x77,
+                INVOKE_INTERFACE_RANGE = 0x78
             };
 
             enum Opcode
@@ -390,38 +424,38 @@ namespace KUNAI
         };
 
         static std::map<DVMTypes::Kind, std::string> KindString = {
-            {DVMTypes::METH, "METH"},
-            {DVMTypes::STRING, "STRING"},
-            {DVMTypes::FIELD, "FIELD"},
-            {DVMTypes::TYPE, "TYPE"},
-            {DVMTypes::PROTO, "PROTO"},
-            {DVMTypes::METH_PROTO, "METH_PROTO"},
-            {DVMTypes::CALL_SITE, "CALL_SITE"},
-            {DVMTypes::VARIES, "VARIES"},
-            {DVMTypes::INLINE_METHOD, "INLINE_METHOD"},
-            {DVMTypes::VTABLE_OFFSET, "VTABLE_OFFSET"},
-            {DVMTypes::FIELD_OFFSET, "FIELD_OFFSET"},
-            {DVMTypes::RAW_STRING, "RAW_STRING"},
-            {DVMTypes::NONE, "NONE"}};
+            {DVMTypes::Kind::METH, "METH"},
+            {DVMTypes::Kind::STRING, "STRING"},
+            {DVMTypes::Kind::FIELD, "FIELD"},
+            {DVMTypes::Kind::TYPE, "TYPE"},
+            {DVMTypes::Kind::PROTO, "PROTO"},
+            {DVMTypes::Kind::METH_PROTO, "METH_PROTO"},
+            {DVMTypes::Kind::CALL_SITE, "CALL_SITE"},
+            {DVMTypes::Kind::VARIES, "VARIES"},
+            {DVMTypes::Kind::INLINE_METHOD, "INLINE_METHOD"},
+            {DVMTypes::Kind::VTABLE_OFFSET, "VTABLE_OFFSET"},
+            {DVMTypes::Kind::FIELD_OFFSET, "FIELD_OFFSET"},
+            {DVMTypes::Kind::RAW_STRING, "RAW_STRING"},
+            {DVMTypes::Kind::NONE_KIND, "NONE"}};
 
         static std::map<DVMTypes::ACCESS_FLAGS, std::string> ACCESS_FLAGS_STR = {
-            {DVMTypes::ACC_PUBLIC, "public"},
-            {DVMTypes::ACC_PRIVATE, "private"},
-            {DVMTypes::ACC_PROTECTED, "protected"},
-            {DVMTypes::ACC_STATIC, "static"},
-            {DVMTypes::ACC_FINAL, "final"},
-            {DVMTypes::ACC_SYNCHRONIZED, "synchronized"},
-            {DVMTypes::ACC_BRIDGE, "bridge"},
-            {DVMTypes::ACC_VARARGS, "varargs"},
-            {DVMTypes::ACC_NATIVE, "native"},
-            {DVMTypes::ACC_INTERFACE, "interface"},
-            {DVMTypes::ACC_ABSTRACT, "abstract"},
-            {DVMTypes::ACC_STRICT, "strictfp"},
-            {DVMTypes::ACC_SYNTHETIC, "synthetic"},
-            {DVMTypes::ACC_ENUM, "enum"},
-            {DVMTypes::UNUSED, "unused"},
-            {DVMTypes::ACC_CONSTRUCTOR, "constructor"},
-            {DVMTypes::ACC_DECLARED_SYNCHRONIZED, "synchronized"}};
+            {DVMTypes::ACCESS_FLAGS::ACC_PUBLIC, "public"},
+            {DVMTypes::ACCESS_FLAGS::ACC_PRIVATE, "private"},
+            {DVMTypes::ACCESS_FLAGS::ACC_PROTECTED, "protected"},
+            {DVMTypes::ACCESS_FLAGS::ACC_STATIC, "static"},
+            {DVMTypes::ACCESS_FLAGS::ACC_FINAL, "final"},
+            {DVMTypes::ACCESS_FLAGS::ACC_SYNCHRONIZED, "synchronized"},
+            {DVMTypes::ACCESS_FLAGS::ACC_BRIDGE, "bridge"},
+            {DVMTypes::ACCESS_FLAGS::ACC_VARARGS, "varargs"},
+            {DVMTypes::ACCESS_FLAGS::ACC_NATIVE, "native"},
+            {DVMTypes::ACCESS_FLAGS::ACC_INTERFACE, "interface"},
+            {DVMTypes::ACCESS_FLAGS::ACC_ABSTRACT, "abstract"},
+            {DVMTypes::ACCESS_FLAGS::ACC_STRICT, "strictfp"},
+            {DVMTypes::ACCESS_FLAGS::ACC_SYNTHETIC, "synthetic"},
+            {DVMTypes::ACCESS_FLAGS::ACC_ENUM, "enum"},
+            {DVMTypes::ACCESS_FLAGS::UNUSED, "unused"},
+            {DVMTypes::ACCESS_FLAGS::ACC_CONSTRUCTOR, "constructor"},
+            {DVMTypes::ACCESS_FLAGS::ACC_DECLARED_SYNCHRONIZED, "synchronized"}};
 
         // already managed by dex_types
         static std::map<char, std::string> TYPE_DESCRIPTOR = {
