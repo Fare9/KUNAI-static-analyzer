@@ -14,7 +14,7 @@ namespace KUNAI
                 this->dalvik_opcodes = std::make_shared<DalvikOpcodes>(dex_parser);
                 this->dalvik_disassembler = std::make_shared<LinearSweepDisassembler>(dalvik_opcodes);
 
-                this->disassembly_methods();
+                this->disassembly_analysis();
             }
             catch (const std::exception &e)
             {
@@ -35,6 +35,25 @@ namespace KUNAI
             if (dalvik_opcodes)
                 return dalvik_opcodes;
             return nullptr;
+        }
+
+
+        void DEX::disassembly_analysis()
+        {
+            if (!dex_parsing_correct)
+                std::cerr << "[-] DEX was not correctly parsed, cannot disassembly it" << std::endl;
+            
+            try
+            {
+                this->disassembly_methods();
+                this->dex_disassembly_correct = true;
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << "[-] Disassembly error: " << e.what() << '\n';
+                this->dex_disassembly_correct = false;
+            }
+            
         }
 
         void DEX::disassembly_methods()
@@ -61,7 +80,7 @@ namespace KUNAI
                 {
                     auto direct_method = class_data_item->get_direct_method_by_pos(j);
 
-                    std::cout << "Disassembly of method: " << direct_method->get_method()->get_method_class()->get_raw() << "->" << *direct_method->get_method()->get_method_name() << std::endl;
+                    //std::cout << "Disassembly of method: " << direct_method->get_method()->get_method_class()->get_raw() << "->" << *direct_method->get_method()->get_method_name() << std::endl;
 
                     // get code item struct, here is the instruction buffer
                     // here we will apply the disassembly.
@@ -69,6 +88,9 @@ namespace KUNAI
                     
                     auto instructions = this->dalvik_disassembler->disassembly(code_item_struct->get_all_raw_instructions());
 
+                    this->method_instructions[{class_def, direct_method}] = instructions;
+
+                    /*
                     for (auto it = instructions.begin(); it != instructions.end(); it++)
                     {
                         std::cout << std::right << std::setfill('0') << std::setw(8) << std::hex << it->first << "  ";
@@ -77,6 +99,7 @@ namespace KUNAI
                     }
 
                     std::cout << "\n\n";
+                    */
                 }
             }
         }

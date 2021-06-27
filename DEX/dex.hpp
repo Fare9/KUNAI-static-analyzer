@@ -34,15 +34,21 @@ namespace KUNAI
 
             std::shared_ptr<DexParser> get_parser();
             std::shared_ptr<DalvikOpcodes> get_dalvik_opcode_object();
+            std::shared_ptr<LinearSweepDisassembler> get_linear_swee_disassembler();
+
+            void disassembly_analysis();
+
         private:
-
             void disassembly_methods();
-
+            
             std::shared_ptr<DexParser> dex_parser;
             std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
             std::shared_ptr<LinearSweepDisassembler> dalvik_disassembler;
-            
+
+            std::map<std::tuple<std::shared_ptr<ClassDef>,std::shared_ptr<EncodedMethod>>, std::map<std::uint64_t, std::shared_ptr<Instruction>>> method_instructions;
+
             bool dex_parsing_correct;
+            bool dex_disassembly_correct;
         };
     }
 }
