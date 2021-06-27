@@ -14,6 +14,8 @@
 #include <iostream>
 #include <vector>
 
+#include "dex_dvm_types.hpp"
+
 namespace KUNAI {
     namespace DEX {
 
@@ -28,13 +30,16 @@ namespace KUNAI {
             std::string get_descriptor();
             std::string full_name();
             std::string permission_api_name();
+            
+            DVMTypes::ACCESS_FLAGS get_access_flags();
 
             friend std::ostream& operator<<(std::ostream& os, const ExternalMethod& entry);
         private:
             std::string class_idx;
             std::string name_idx;
-            std::vector<std::string> proto_idx
-        }
+            DVMTypes::ACCESS_FLAGS access_flags;
+            std::vector<std::string> proto_idx;
+        };
 
     }
 }
