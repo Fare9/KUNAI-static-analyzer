@@ -34,6 +34,8 @@ namespace KUNAI
 
             DVMTypes::Kind get_instruction_type(std::uint32_t instruction);
 
+            DVMTypes::Operation get_instruction_operation(std::uint32_t instruction);
+
             std::string get_instruction_type_str(std::uint32_t instruction);
         
             std::string*    get_dalvik_string_by_id(std::uint32_t id);
@@ -384,9 +386,9 @@ namespace KUNAI
                 {0xfe, DVMTypes::Kind::METH},
                 {0xff, DVMTypes::Kind::PROTO},
                 // special cases
-                {0x0100, DVMTypes::Kind::NONE},
-                {0x0200, DVMTypes::Kind::NONE},
-                {0x0300, DVMTypes::Kind::NONE},
+                {0x0100, DVMTypes::Kind::NONE_KIND},
+                {0x0200, DVMTypes::Kind::NONE_KIND},
+                {0x0300, DVMTypes::Kind::NONE_KIND},
                 {0xf2ff, DVMTypes::Kind::METH},
                 {0xf3ff, DVMTypes::Kind::FIELD},
                 {0xf4ff, DVMTypes::Kind::FIELD},
@@ -401,6 +403,115 @@ namespace KUNAI
                 {0xfdff, DVMTypes::Kind::FIELD},
                 {0xfeff, DVMTypes::Kind::FIELD},
                 {0xffff, DVMTypes::Kind::VARIES}};
+
+            // instructions that makes some specific operation
+            // branch, break, read, write...
+            std::map<std::uint32_t, DVMTypes::Operation> opcode_instruction_operation = {
+                // branch instructions
+                {0x27, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x32, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x33, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x34, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x35, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x36, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x37, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x38, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x39, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x3A, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x3B, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x3C, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x3D, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x28, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x29, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x2A, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x0E, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x0F, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x10, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x11, DVMTypes::Operation::BRANCH_DVM_OPCODE},
+                {0x2B, DVMTypes::Operation::BRANCH_DVM_OPCODE}, // packed-switch
+                {0x2C, DVMTypes::Operation::BRANCH_DVM_OPCODE}, // sparse-switch
+                // break instruction
+                {0x6E, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x6F, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x70, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x71, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x72, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x74, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x75, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x76, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x77, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x78, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x01, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x02, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x03, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x04, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x05, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x06, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x07, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x08, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x09, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x0A, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x0B, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x0C, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                {0x0D, DVMTypes::Operation::BREAK_DVM_OPCODE},
+                // read field instruction
+                {0x44, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x45, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x46, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x47, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x48, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x49, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x4A, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x52, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x53, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x54, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x55, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x56, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x57, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x58, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x60, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x61, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x62, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x63, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x64, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x65, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0x66, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0xf3ff, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0xf4ff, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0xf5ff, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0xf9ff, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0xfaff, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                {0xfbff, DVMTypes::Operation::FIELD_READ_DVM_OPCODE},
+                // write field instruction
+                {0x4B, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x4C, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x4D, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x4E, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x4F, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x50, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x51, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x59, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x5A, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x5B, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x5C, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x5D, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x5E, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x5F, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x67, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x68, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x69, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x6A, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x6B, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x6C, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0x6D, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0xf6ff, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0xf7ff, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0xf8ff, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0xfcff, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0xfdff, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+                {0xfeff, DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE},
+            };
+        
         };
     }
 }
