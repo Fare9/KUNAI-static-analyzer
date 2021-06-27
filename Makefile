@@ -1,5 +1,8 @@
 CPP=g++
+# CFLAGS debugging
 CFLAGS=-std=c++17 -c -g -Wall
+# CFLAGS execution
+#CFLAGS=-std=c++17 -c -O3
 BIN_FOLDER=bin/
 OBJ=objs/
 BIN_NAME=Kunai
