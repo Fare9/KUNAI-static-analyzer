@@ -44,10 +44,10 @@ namespace KUNAI
             void set_OP(std::uint32_t OP);
 
             virtual void show_instruction();
+            virtual void give_me_instruction(std::ostream& os);
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-
         private:
             std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
             std::uint32_t length;

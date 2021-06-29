@@ -57,6 +57,11 @@ namespace KUNAI
             std::cout << std::left << std::setfill(' ') << std::setw(25) << get_name() << get_output();
         }
 
+        void Instruction::give_me_instruction(std::ostream& os)
+        {
+            os << std::left << std::setfill(' ') << std::setw(25) << get_name() << get_output();
+        }
+
         std::string Instruction::get_output()
         {
             return "";
