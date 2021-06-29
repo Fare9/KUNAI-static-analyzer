@@ -12,9 +12,7 @@ namespace KUNAI
                 this->dex_parser->parse_dex_file(input_file, file_size);
                 this->dex_parsing_correct = true;
                 this->dalvik_opcodes = std::make_shared<DalvikOpcodes>(dex_parser);
-                this->dalvik_disassembler = std::make_shared<LinearSweepDisassembler>(dalvik_opcodes);
-
-                this->disassembly_analysis();
+                this->dex_disassembler = std::make_shared<DexDisassembler>(dex_parsing_correct, dex_parser, dalvik_opcodes);
             }
             catch (const std::exception &e)
             {
@@ -22,6 +20,8 @@ namespace KUNAI
                 this->dex_parsing_correct = false;
             }
         }
+
+        DEX::~DEX() {}
 
         std::shared_ptr<DexParser> DEX::get_parser()
         {
@@ -37,74 +37,17 @@ namespace KUNAI
             return nullptr;
         }
 
-
-        void DEX::disassembly_analysis()
+        std::shared_ptr<DexDisassembler> DEX::get_dex_disassembler()
         {
-            if (!dex_parsing_correct)
-                std::cerr << "[-] DEX was not correctly parsed, cannot disassembly it" << std::endl;
-            
-            try
-            {
-                this->disassembly_methods();
-                this->dex_disassembly_correct = true;
-            }
-            catch(const std::exception& e)
-            {
-                std::cerr << "[-] Disassembly error: " << e.what() << '\n';
-                this->dex_disassembly_correct = false;
-            }
-            
+            if (dex_disassembler)
+                return dex_disassembler;
+            return nullptr;
         }
 
-        void DEX::disassembly_methods()
+        bool DEX::get_parsing_correct()
         {
-            auto dex_classes = dex_parser->get_classes();
-
-            for (size_t i = 0; i < dex_classes->get_number_of_classes(); i++)
-            {
-                // get class def
-                auto class_def = dex_classes->get_class_by_pos(i);
-
-                // get ClassDataItem
-                auto class_data_item = class_def->get_class_data();
-
-                // in case of interfaces, or classes with
-                // only virtual methods, no "classess_off"
-                // in the analysis.
-                if (class_data_item == nullptr)
-                    continue;
-
-                // now get direct method
-                // for each one we will start the disassembly.
-                for (size_t j = 0; j < class_data_item->get_number_of_direct_methods(); j++)
-                {
-                    auto direct_method = class_data_item->get_direct_method_by_pos(j);
-
-                    //std::cout << "Disassembly of method: " << direct_method->get_method()->get_method_class()->get_raw() << "->" << *direct_method->get_method()->get_method_name() << std::endl;
-
-                    // get code item struct, here is the instruction buffer
-                    // here we will apply the disassembly.
-                    auto code_item_struct = direct_method->get_code_item();
-                    
-                    auto instructions = this->dalvik_disassembler->disassembly(code_item_struct->get_all_raw_instructions());
-
-                    this->method_instructions[{class_def, direct_method}] = instructions;
-
-                    /*
-                    for (auto it = instructions.begin(); it != instructions.end(); it++)
-                    {
-                        std::cout << std::right << std::setfill('0') << std::setw(8) << std::hex << it->first << "  ";
-                        it->second->show_instruction();
-                        std::cout << std::endl;
-                    }
-
-                    std::cout << "\n\n";
-                    */
-                }
-            }
+            return dex_parsing_correct;
         }
-
-        DEX::~DEX() {}
 
     }
 }
