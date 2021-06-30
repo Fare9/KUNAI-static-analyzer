@@ -14,7 +14,7 @@ OBJ_FILES= ${OBJ}utils.o ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_methods.o ${OBJ}dex_classes.o ${OBJ}dex_encoded.o\
 			${OBJ}dex_annotations.o ${OBJ}dex_parser.o\
 			${OBJ}dex_dalvik_opcodes.o ${OBJ}dex_instructions.o\
-			${OBJ}dex_linear_sweep_disassembly.o\
+			${OBJ}dex_linear_sweep_disassembly.o ${OBJ}dex_disassembler.o\
 			${OBJ}dex.o ${OBJ}main.o
 
 .PHONY: clean
