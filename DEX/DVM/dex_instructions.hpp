@@ -44,10 +44,11 @@ namespace KUNAI
             void set_OP(std::uint32_t OP);
 
             virtual void show_instruction();
-            virtual void give_me_instruction(std::ostream& os);
+            virtual void give_me_instruction(std::ostream &os);
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
+
         private:
             std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
             std::uint32_t length;
@@ -841,7 +842,7 @@ namespace KUNAI
             std::uint8_t get_array_size();
 
             std::uint16_t get_index();
-            
+
             DVMTypes::Operand get_operands_types();
 
             DVMTypes::Kind get_index_kind();
@@ -852,8 +853,8 @@ namespace KUNAI
             Type *get_operands_type();
             std::string get_operands_type_str();
 
-            MethodID* get_operands_method();
-            std::string get_operands_method_str(); 
+            MethodID *get_operands_method();
+            std::string get_operands_method_str();
 
             std::uint8_t get_operand_register(std::uint8_t index);
 
@@ -993,6 +994,7 @@ namespace KUNAI
 
             std::int32_t get_first_key();
             std::vector<std::int32_t> get_targets();
+
         private:
             std::uint16_t ident;
             std::uint16_t size;
@@ -1019,6 +1021,7 @@ namespace KUNAI
             std::int32_t get_target_by_pos(size_t pos);
 
             std::vector<std::tuple<std::int32_t, std::int32_t>> get_keys_targets();
+
         private:
             std::uint16_t ident;
             std::uint16_t size;
@@ -1040,6 +1043,7 @@ namespace KUNAI
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             std::vector<std::uint8_t> get_data();
+
         private:
             std::uint16_t ident;
             std::uint16_t element_width;
@@ -1047,9 +1051,24 @@ namespace KUNAI
             std::vector<std::uint8_t> data;
         };
 
+        typedef struct handler_data_
+        {
+            std::string handler_type;
+            std::uint64_t handler_start_addr;
+        } handler_data;
 
+        typedef struct exceptions_data_
+        {
+            std::uint64_t try_value_start_addr;
+            std::uint64_t try_value_end_addr;
+            std::vector<handler_data> handler;
+        } exceptions_data;
 
         std::shared_ptr<Instruction> get_instruction_object(std::uint32_t opcode, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file);
+        std::vector<std::int64_t> determine_next(std::shared_ptr<Instruction> instr,
+                                                                  std::uint64_t curr_idx,
+                                                                  std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions);
+        std::vector<exceptions_data> determine_exception(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::shared_ptr<EncodedMethod> method);
     }
 }
 

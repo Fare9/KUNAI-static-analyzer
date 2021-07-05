@@ -57,7 +57,7 @@ namespace KUNAI
             std::cout << std::left << std::setfill(' ') << std::setw(25) << get_name() << get_output();
         }
 
-        void Instruction::give_me_instruction(std::ostream& os)
+        void Instruction::give_me_instruction(std::ostream &os)
         {
             os << std::left << std::setfill(' ') << std::setw(25) << get_name() << get_output();
         }
@@ -1793,7 +1793,7 @@ namespace KUNAI
                 return "";
         }
 
-        MethodID* Instruction3rc::get_operands_method()
+        MethodID *Instruction3rc::get_operands_method()
         {
             if (get_kind() == DVMTypes::Kind::METH)
                 return this->get_dalvik_opcodes()->get_dalvik_method_by_id(index);
@@ -2118,8 +2118,7 @@ namespace KUNAI
         /**
          * PackedSwitch
          */
-        PackedSwitch::PackedSwitch(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) :
-            Instruction(dalvik_opcodes, input_file)
+        PackedSwitch::PackedSwitch(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction_part1[8];
             std::int32_t aux;
@@ -2127,15 +2126,15 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[8]>(instruction_part1, 8, input_file))
                 throw exceptions::DisassemblerException("Error disassembling PackedSwitch");
-            
-            this->ident = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[0]));
-            this->size = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[2]));
-            this->first_key = *(reinterpret_cast<std::int32_t*>(&instruction_part1[4]));
+
+            this->ident = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[0]));
+            this->size = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[2]));
+            this->first_key = *(reinterpret_cast<std::int32_t *>(&instruction_part1[4]));
 
             this->set_OP(this->ident);
 
             buff_size = size;
-            
+
             for (size_t i = 0; i < buff_size; i++)
             {
                 if (!KUNAI::read_data_file<std::int32_t>(aux, 1, input_file))
@@ -2143,7 +2142,7 @@ namespace KUNAI
                 this->targets.push_back(aux);
             }
 
-            this->set_length(8 + this->targets.size()*4);
+            this->set_length(8 + this->targets.size() * 4);
         }
 
         PackedSwitch::~PackedSwitch()
@@ -2181,7 +2180,7 @@ namespace KUNAI
 
             for (size_t i = 0; i < targets.size(); i++)
                 operands.push_back({DVMTypes::Operand::RAW, targets[i]});
-            
+
             return operands;
         }
 
@@ -2198,8 +2197,7 @@ namespace KUNAI
         /**
          * SparseSwitch
          */
-        SparseSwitch::SparseSwitch(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) :
-            Instruction(dalvik_opcodes, input_file)
+        SparseSwitch::SparseSwitch(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction_part1[4];
             std::int32_t aux;
@@ -2208,32 +2206,32 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction_part1, 4, input_file))
                 throw exceptions::DisassemblerException("Error disassembling SparseSwitch");
-            
-            this->ident = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[0]));
-            this->size = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[2]));
-            
+
+            this->ident = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[0]));
+            this->size = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[2]));
+
             this->set_OP(this->ident);
 
-            for(size_t i = 0; i < this->size; i++)
+            for (size_t i = 0; i < this->size; i++)
             {
                 if (!KUNAI::read_data_file<std::int32_t>(aux, sizeof(std::int32_t), input_file))
                     throw exceptions::DisassemblerException("Error disassembling SparseSwitch");
-                
+
                 keys.push_back(aux);
             }
 
-            for(size_t i = 0; i < this->size; i++)
+            for (size_t i = 0; i < this->size; i++)
             {
                 if (!KUNAI::read_data_file<std::int32_t>(aux, sizeof(std::int32_t), input_file))
                     throw exceptions::DisassemblerException("Error disassembling SparseSwitch");
-                
+
                 targets.push_back(aux);
             }
 
             for (size_t i = 0; i < this->size; i++)
                 this->keys_targets.push_back({keys[i], targets[i]});
 
-            this->set_length(4 + (sizeof(std::int32_t)*this->size)*2);
+            this->set_length(4 + (sizeof(std::int32_t) * this->size) * 2);
         }
 
         SparseSwitch::~SparseSwitch()
@@ -2248,23 +2246,23 @@ namespace KUNAI
 
             str << "(size)" << size << " [";
 
-            for(size_t i = 0; i < keys_targets.size(); i++)
+            for (size_t i = 0; i < keys_targets.size(); i++)
             {
-                if (std::get<0>(keys_targets[i])  < 0)
+                if (std::get<0>(keys_targets[i]) < 0)
                     str << "-0x" << std::hex << std::get<0>(keys_targets[i]) << ":";
                 else
                     str << "0x" << std::hex << std::get<0>(keys_targets[i]) << ":";
-                if (std::get<1>(keys_targets[i])  < 0)
+                if (std::get<1>(keys_targets[i]) < 0)
                     str << "-0x" << std::hex << std::get<1>(keys_targets[i]);
                 else
                     str << "0x" << std::hex << std::get<1>(keys_targets[i]);
 
                 if (i != (keys_targets.size() - 1))
-                    str << ",";       
+                    str << ",";
             }
 
             str << "]";
-            
+
             return str.str();
         }
 
@@ -2298,7 +2296,7 @@ namespace KUNAI
 
             return 0;
         }
-        
+
         std::int32_t SparseSwitch::get_key_by_pos(size_t pos)
         {
             if (pos >= keys_targets.size())
@@ -2321,8 +2319,7 @@ namespace KUNAI
         /**
          * FillArrayData
          */
-        FillArrayData::FillArrayData(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) :
-            Instruction(dalvik_opcodes, input_file)
+        FillArrayData::FillArrayData(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction_part1[8];
             std::uint8_t aux;
@@ -2330,14 +2327,14 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[8]>(instruction_part1, 8, input_file))
                 throw exceptions::DisassemblerException("Error disassembling FillArrayData");
-            
-            this->ident = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[0]));
-            this->element_width = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[2]));
-            this->size = *(reinterpret_cast<std::uint32_t*>(&instruction_part1[4]));
+
+            this->ident = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[0]));
+            this->element_width = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[2]));
+            this->size = *(reinterpret_cast<std::uint32_t *>(&instruction_part1[4]));
 
             this->set_OP(this->ident);
 
-            buff_size = this->element_width*this->size;
+            buff_size = this->element_width * this->size;
             if (buff_size % 2 != 0)
                 buff_size += 1;
 
@@ -2362,16 +2359,16 @@ namespace KUNAI
             std::stringstream str;
 
             str << "(width)" << element_width << " (size)" << size << " [";
-            
+
             for (size_t i = 0; i < data.size(); i++)
             {
                 str << "0x" << std::hex << static_cast<std::uint32_t>(data[i]);
                 if (i != (data.size() - 1))
-                    str << ",";       
+                    str << ",";
             }
 
             str << "]";
-            
+
             return str.str();
         }
 
@@ -2386,7 +2383,7 @@ namespace KUNAI
 
             for (size_t i = 0; i < data.size(); i++)
                 operands.push_back({DVMTypes::Operand::RAW, data[i]});
-            
+
             return operands;
         }
 
@@ -2394,7 +2391,6 @@ namespace KUNAI
         {
             return data;
         }
-
 
         std::shared_ptr<Instruction> get_instruction_object(std::uint32_t opcode, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file)
         {
@@ -2406,13 +2402,13 @@ namespace KUNAI
             {
                 auto current_offset = input_file.tellg();
                 char byte[2];
-                
+
                 input_file.read(byte, 2);
-                
+
                 input_file.seekg(current_offset);
 
                 if (byte[1] == 0x03)
-                    instruction = std::make_shared<FillArrayData>(dalvik_opcodes, input_file); // filled-array-data 
+                    instruction = std::make_shared<FillArrayData>(dalvik_opcodes, input_file); // filled-array-data
                 else if (byte[1] == 0x01)
                     instruction = std::make_shared<PackedSwitch>(dalvik_opcodes, input_file); // packed-switch-data
                 else if (byte[1] == 0x02)
@@ -2448,29 +2444,17 @@ namespace KUNAI
             case DVMTypes::Opcode::OP_MOVE_OBJECT_16:
                 instruction = std::make_shared<Instruction32x>(dalvik_opcodes, input_file); // "move-object/16"
                 break;
-            case DVMTypes::Opcode::OP_MOVE_RESULT:
-                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "move-result"
-                break;
-            case DVMTypes::Opcode::OP_MOVE_RESULT_WIDE:
-                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "move-result-wide"
-                break;
-            case DVMTypes::Opcode::OP_MOVE_RESULT_OBJECT:
-                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "move-result-object"
-                break;
-            case DVMTypes::Opcode::OP_MOVE_EXCEPTION:
-                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "move-exception"
+            case DVMTypes::Opcode::OP_MOVE_RESULT:        // "move-result"
+            case DVMTypes::Opcode::OP_MOVE_RESULT_WIDE:   // "move-result-wide"
+            case DVMTypes::Opcode::OP_MOVE_RESULT_OBJECT: // "move-result-object"
+            case DVMTypes::Opcode::OP_MOVE_EXCEPTION:     // "move-exception"
+            case DVMTypes::Opcode::OP_RETURN:             // "return"
+            case DVMTypes::Opcode::OP_RETURN_WIDE:        // "return-wide"
+            case DVMTypes::Opcode::OP_RETURN_OBJECT:
+                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "return-object"
                 break;
             case DVMTypes::Opcode::OP_RETURN_VOID:
                 instruction = std::make_shared<Instruction10x>(dalvik_opcodes, input_file); // "return-void"
-                break;
-            case DVMTypes::Opcode::OP_RETURN:
-                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "return"
-                break;
-            case DVMTypes::Opcode::OP_RETURN_WIDE:
-                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "return-wide"
-                break;
-            case DVMTypes::Opcode::OP_RETURN_OBJECT:
-                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "return-object"
                 break;
             case DVMTypes::Opcode::OP_CONST_4:
                 instruction = std::make_shared<Instruction11n>(dalvik_opcodes, input_file); // "const/4"
@@ -2505,9 +2489,7 @@ namespace KUNAI
             case DVMTypes::Opcode::OP_CONST_CLASS:
                 instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "const-class", Kind.TYPE
                 break;
-            case DVMTypes::Opcode::OP_MONITOR_ENTER:
-                instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "monitor-enter"
-                break;
+            case DVMTypes::Opcode::OP_MONITOR_ENTER: // "monitor-enter"
             case DVMTypes::Opcode::OP_MONITOR_EXIT:
                 instruction = std::make_shared<Instruction11x>(dalvik_opcodes, input_file); // "monitor-exit"
                 break;
@@ -2547,624 +2529,246 @@ namespace KUNAI
             case DVMTypes::Opcode::OP_GOTO_32:
                 instruction = std::make_shared<Instruction30t>(dalvik_opcodes, input_file); // "goto/32"
                 break;
-            case DVMTypes::Opcode::OP_PACKED_SWITCH:
-                instruction = std::make_shared<Instruction31t>(dalvik_opcodes, input_file); // "packed-switch"
-                break;
+            case DVMTypes::Opcode::OP_PACKED_SWITCH: // "packed-switch"
             case DVMTypes::Opcode::OP_SPARSE_SWITCH:
                 instruction = std::make_shared<Instruction31t>(dalvik_opcodes, input_file); // "sparse-switch"
                 break;
-            case DVMTypes::Opcode::OP_CMPL_FLOAT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "cmpl-float"
-                break;
-            case DVMTypes::Opcode::OP_CMPG_FLOAT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "cmpg-float"
-                break;
-            case DVMTypes::Opcode::OP_CMPL_DOUBLE:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "cmpl-double"
-                break;
-            case DVMTypes::Opcode::OP_CMPG_DOUBLE:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "cmpg-double"
-                break;
+            case DVMTypes::Opcode::OP_CMPL_FLOAT:  // "cmpl-float"
+            case DVMTypes::Opcode::OP_CMPG_FLOAT:  // "cmpg-float"
+            case DVMTypes::Opcode::OP_CMPL_DOUBLE: // "cmpl-double"
+            case DVMTypes::Opcode::OP_CMPG_DOUBLE: // "cmpg-double"
             case DVMTypes::Opcode::OP_CMP_LONG:
                 instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "cmp-long"
                 break;
-            case DVMTypes::Opcode::OP_IF_EQ:
-                instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-eq"
-                break;
-            case DVMTypes::Opcode::OP_IF_NE:
-                instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-ne"
-                break;
-            case DVMTypes::Opcode::OP_IF_LT:
-                instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-lt"
-                break;
-            case DVMTypes::Opcode::OP_IF_GE:
-                instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-ge"
-                break;
-            case DVMTypes::Opcode::OP_IF_GT:
-                instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-gt"
-                break;
+            case DVMTypes::Opcode::OP_IF_EQ: // "if-eq"
+            case DVMTypes::Opcode::OP_IF_NE: // "if-ne"
+            case DVMTypes::Opcode::OP_IF_LT: // "if-lt"
+            case DVMTypes::Opcode::OP_IF_GE: // "if-ge"
+            case DVMTypes::Opcode::OP_IF_GT: // "if-gt"
             case DVMTypes::Opcode::OP_IF_LE:
                 instruction = std::make_shared<Instruction22t>(dalvik_opcodes, input_file); // "if-le"
                 break;
-            case DVMTypes::Opcode::OP_IF_EQZ:
-                instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-eqz"
-                break;
-            case DVMTypes::Opcode::OP_IF_NEZ:
-                instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-nez"
-                break;
-            case DVMTypes::Opcode::OP_IF_LTZ:
-                instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-ltz"
-                break;
-            case DVMTypes::Opcode::OP_IF_GEZ:
-                instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-gez"
-                break;
-            case DVMTypes::Opcode::OP_IF_GTZ:
-                instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-gtz"
-                break;
+            case DVMTypes::Opcode::OP_IF_EQZ: // "if-eqz"
+            case DVMTypes::Opcode::OP_IF_NEZ: // "if-nez"
+            case DVMTypes::Opcode::OP_IF_LTZ: // "if-ltz"
+            case DVMTypes::Opcode::OP_IF_GEZ: // "if-gez"
+            case DVMTypes::Opcode::OP_IF_GTZ: // "if-gtz"
             case DVMTypes::Opcode::OP_IF_LEZ:
                 instruction = std::make_shared<Instruction21t>(dalvik_opcodes, input_file); // "if-lez"
                 break;
-            case DVMTypes::Opcode::OP_UNUSED_3E:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_UNUSED_3F:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_UNUSED_40:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_UNUSED_41:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_UNUSED_42:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
+            case DVMTypes::Opcode::OP_UNUSED_3E: // "unused"
+            case DVMTypes::Opcode::OP_UNUSED_3F: // "unused"
+            case DVMTypes::Opcode::OP_UNUSED_40: // "unused"
+            case DVMTypes::Opcode::OP_UNUSED_41: // "unused"
+            case DVMTypes::Opcode::OP_UNUSED_42: // "unused"
             case DVMTypes::Opcode::OP_UNUSED_43:
                 instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
                 break;
-            case DVMTypes::Opcode::OP_AGET:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget"
-                break;
-            case DVMTypes::Opcode::OP_AGET_WIDE:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-wide"
-                break;
-            case DVMTypes::Opcode::OP_AGET_OBJECT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-object"
-                break;
-            case DVMTypes::Opcode::OP_AGET_BOOLEAN:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-boolean"
-                break;
-            case DVMTypes::Opcode::OP_AGET_BYTE:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-byte"
-                break;
-            case DVMTypes::Opcode::OP_AGET_CHAR:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-char"
-                break;
-            case DVMTypes::Opcode::OP_AGET_SHORT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aget-short"
-                break;
-            case DVMTypes::Opcode::OP_APUT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput"
-                break;
-            case DVMTypes::Opcode::OP_APUT_WIDE:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-wide"
-                break;
-            case DVMTypes::Opcode::OP_APUT_OBJECT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-object"
-                break;
-            case DVMTypes::Opcode::OP_APUT_BOOLEAN:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-boolean"
-                break;
-            case DVMTypes::Opcode::OP_APUT_BYTE:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-byte"
-                break;
-            case DVMTypes::Opcode::OP_APUT_CHAR:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-char"
-                break;
+            case DVMTypes::Opcode::OP_AGET:         // "aget"
+            case DVMTypes::Opcode::OP_AGET_WIDE:    // "aget-wide"
+            case DVMTypes::Opcode::OP_AGET_OBJECT:  // "aget-object"
+            case DVMTypes::Opcode::OP_AGET_BOOLEAN: // "aget-boolean"
+            case DVMTypes::Opcode::OP_AGET_BYTE:    // "aget-byte"
+            case DVMTypes::Opcode::OP_AGET_CHAR:    // "aget-char"
+            case DVMTypes::Opcode::OP_AGET_SHORT:   // "aget-short"
+            case DVMTypes::Opcode::OP_APUT:         // "aput"
+            case DVMTypes::Opcode::OP_APUT_WIDE:    // "aput-wide"
+            case DVMTypes::Opcode::OP_APUT_OBJECT:  // "aput-object"
+            case DVMTypes::Opcode::OP_APUT_BOOLEAN: // "aput-boolean"
+            case DVMTypes::Opcode::OP_APUT_BYTE:    // "aput-byte"
+            case DVMTypes::Opcode::OP_APUT_CHAR:    // "aput-char"
             case DVMTypes::Opcode::OP_APUT_SHORT:
                 instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "aput-short"
                 break;
-            case DVMTypes::Opcode::OP_IGET:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget"
-                break;
-            case DVMTypes::Opcode::OP_IGET_WIDE:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-wide"
-                break;
-            case DVMTypes::Opcode::OP_IGET_OBJECT:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-object"
-                break;
-            case DVMTypes::Opcode::OP_IGET_BOOLEAN:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-boolean"
-                break;
-            case DVMTypes::Opcode::OP_IGET_BYTE:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-byte"
-                break;
-            case DVMTypes::Opcode::OP_IGET_CHAR:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-char"
-                break;
-            case DVMTypes::Opcode::OP_IGET_SHORT:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iget-short"
-                break;
-            case DVMTypes::Opcode::OP_IPUT:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput"
-                break;
-            case DVMTypes::Opcode::OP_IPUT_WIDE:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-wide"
-                break;
-            case DVMTypes::Opcode::OP_IPUT_OBJECT:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-object"
-                break;
-            case DVMTypes::Opcode::OP_IPUT_BOOLEAN:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-boolean"
-                break;
-            case DVMTypes::Opcode::OP_IPUT_BYTE:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-byte"
-                break;
-            case DVMTypes::Opcode::OP_IPUT_CHAR:
-                instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-char"
-                break;
+            case DVMTypes::Opcode::OP_IGET:         // "iget"
+            case DVMTypes::Opcode::OP_IGET_WIDE:    // "iget-wide"
+            case DVMTypes::Opcode::OP_IGET_OBJECT:  // "iget-object"
+            case DVMTypes::Opcode::OP_IGET_BOOLEAN: // "iget-boolean"
+            case DVMTypes::Opcode::OP_IGET_BYTE:    // "iget-byte"
+            case DVMTypes::Opcode::OP_IGET_CHAR:    // "iget-char"
+            case DVMTypes::Opcode::OP_IGET_SHORT:   // "iget-short"
+            case DVMTypes::Opcode::OP_IPUT:         // "iput"
+            case DVMTypes::Opcode::OP_IPUT_WIDE:    // "iput-wide"
+            case DVMTypes::Opcode::OP_IPUT_OBJECT:  // "iput-object"
+            case DVMTypes::Opcode::OP_IPUT_BOOLEAN: // "iput-boolean"
+            case DVMTypes::Opcode::OP_IPUT_BYTE:    // "iput-byte"
+            case DVMTypes::Opcode::OP_IPUT_CHAR:    // "iput-char"
             case DVMTypes::Opcode::OP_IPUT_SHORT:
                 instruction = std::make_shared<Instruction22c>(dalvik_opcodes, input_file); // "iput-short"
                 break;
-            case DVMTypes::Opcode::OP_SGET:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget"
-                break;
-            case DVMTypes::Opcode::OP_SGET_WIDE:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-wide"
-                break;
-            case DVMTypes::Opcode::OP_SGET_OBJECT:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-object"
-                break;
-            case DVMTypes::Opcode::OP_SGET_BOOLEAN:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-boolean"
-                break;
-            case DVMTypes::Opcode::OP_SGET_BYTE:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-byte"
-                break;
-            case DVMTypes::Opcode::OP_SGET_CHAR:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-char"
-                break;
-            case DVMTypes::Opcode::OP_SGET_SHORT:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sget-short"
-                break;
-            case DVMTypes::Opcode::OP_SPUT:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput"
-                break;
-            case DVMTypes::Opcode::OP_SPUT_WIDE:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-wide"
-                break;
-            case DVMTypes::Opcode::OP_SPUT_OBJECT:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-object"
-                break;
-            case DVMTypes::Opcode::OP_SPUT_BOOLEAN:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-boolean"
-                break;
-            case DVMTypes::Opcode::OP_SPUT_BYTE:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-byte"
-                break;
-            case DVMTypes::Opcode::OP_SPUT_CHAR:
-                instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-char"
-                break;
+            case DVMTypes::Opcode::OP_SGET:         // "sget"
+            case DVMTypes::Opcode::OP_SGET_WIDE:    // "sget-wide"
+            case DVMTypes::Opcode::OP_SGET_OBJECT:  // "sget-object"
+            case DVMTypes::Opcode::OP_SGET_BOOLEAN: // "sget-boolean"
+            case DVMTypes::Opcode::OP_SGET_BYTE:    // "sget-byte"
+            case DVMTypes::Opcode::OP_SGET_CHAR:    // "sget-char"
+            case DVMTypes::Opcode::OP_SGET_SHORT:   // "sget-short"
+            case DVMTypes::Opcode::OP_SPUT:         // "sput"
+            case DVMTypes::Opcode::OP_SPUT_WIDE:    // "sput-wide"
+            case DVMTypes::Opcode::OP_SPUT_OBJECT:  // "sput-object"
+            case DVMTypes::Opcode::OP_SPUT_BOOLEAN: // "sput-boolean"
+            case DVMTypes::Opcode::OP_SPUT_BYTE:    // "sput-byte"
+            case DVMTypes::Opcode::OP_SPUT_CHAR:    // "sput-char"
             case DVMTypes::Opcode::OP_SPUT_SHORT:
                 instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "sput-short"
                 break;
-            case DVMTypes::Opcode::OP_INVOKE_VIRTUAL:
-                instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "invoke-virtual"
-                break;
-            case DVMTypes::Opcode::OP_INVOKE_SUPER:
-                instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "invoke-super"
-                break;
-            case DVMTypes::Opcode::OP_INVOKE_DIRECT:
-                instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "invoke-direct"
-                break;
-            case DVMTypes::Opcode::OP_INVOKE_STATIC:
-                instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "invoke-static"
-                break;
+            case DVMTypes::Opcode::OP_INVOKE_VIRTUAL: // "invoke-virtual"
+            case DVMTypes::Opcode::OP_INVOKE_SUPER:   // "invoke-super"
+            case DVMTypes::Opcode::OP_INVOKE_DIRECT:  // "invoke-direct"
+            case DVMTypes::Opcode::OP_INVOKE_STATIC:  // "invoke-static"
             case DVMTypes::Opcode::OP_INVOKE_INTERFACE:
                 instruction = std::make_shared<Instruction35c>(dalvik_opcodes, input_file); // "invoke-interface"
                 break;
             case DVMTypes::Opcode::OP_UNUSED_73:
                 instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
                 break;
-            case DVMTypes::Opcode::OP_INVOKE_VIRTUAL_RANGE:
-                instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "invoke-virtual/range"
-                break;
-            case DVMTypes::Opcode::OP_INVOKE_SUPER_RANGE:
-                instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "invoke-super/range"
-                break;
-            case DVMTypes::Opcode::OP_INVOKE_DIRECT_RANGE:
-                instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "invoke-direct/range"
-                break;
-            case DVMTypes::Opcode::OP_INVOKE_STATIC_RANGE:
-                instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "invoke-static/range"
-                break;
+            case DVMTypes::Opcode::OP_INVOKE_VIRTUAL_RANGE: // "invoke-virtual/range"
+            case DVMTypes::Opcode::OP_INVOKE_SUPER_RANGE:   // "invoke-super/range"
+            case DVMTypes::Opcode::OP_INVOKE_DIRECT_RANGE:  // "invoke-direct/range"
+            case DVMTypes::Opcode::OP_INVOKE_STATIC_RANGE:  // "invoke-static/range"
             case DVMTypes::Opcode::OP_INVOKE_INTERFACE_RANGE:
                 instruction = std::make_shared<Instruction3rc>(dalvik_opcodes, input_file); // "invoke-interface/range"
                 break;
-            case DVMTypes::Opcode::OP_UNUSED_79:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
+            case DVMTypes::Opcode::OP_UNUSED_79: // "unused"
             case DVMTypes::Opcode::OP_UNUSED_7A:
                 instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
                 break;
-            case DVMTypes::Opcode::OP_NEG_INT:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "neg-int"
-                break;
-            case DVMTypes::Opcode::OP_NOT_INT:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "not-int"
-                break;
-            case DVMTypes::Opcode::OP_NEG_LONG:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "neg-long"
-                break;
-            case DVMTypes::Opcode::OP_NOT_LONG:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "not-long"
-                break;
-            case DVMTypes::Opcode::OP_NEG_FLOAT:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "neg-float"
-                break;
-            case DVMTypes::Opcode::OP_NEG_DOUBLE:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "neg-double"
-                break;
-            case DVMTypes::Opcode::OP_INT_TO_LONG:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-long"
-                break;
-            case DVMTypes::Opcode::OP_INT_TO_FLOAT:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-float"
-                break;
-            case DVMTypes::Opcode::OP_INT_TO_DOUBLE:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-double"
-                break;
-            case DVMTypes::Opcode::OP_LONG_TO_INT:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "long-to-int"
-                break;
-            case DVMTypes::Opcode::OP_LONG_TO_FLOAT:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "long-to-float"
-                break;
-            case DVMTypes::Opcode::OP_LONG_TO_DOUBLE:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "long-to-double"
-                break;
-            case DVMTypes::Opcode::OP_FLOAT_TO_INT:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "float-to-int"
-                break;
-            case DVMTypes::Opcode::OP_FLOAT_TO_LONG:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "float-to-long"
-                break;
-            case DVMTypes::Opcode::OP_FLOAT_TO_DOUBLE:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "float-to-double"
-                break;
-            case DVMTypes::Opcode::OP_DOUBLE_TO_INT:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "double-to-int"
-                break;
-            case DVMTypes::Opcode::OP_DOUBLE_TO_LONG:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "double-to-long"
-                break;
-            case DVMTypes::Opcode::OP_DOUBLE_TO_FLOAT:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "double-to-float"
-                break;
-            case DVMTypes::Opcode::OP_INT_TO_BYTE:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-byte"
-                break;
-            case DVMTypes::Opcode::OP_INT_TO_CHAR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-char"
-                break;
+            case DVMTypes::Opcode::OP_NEG_INT:         // "neg-int"
+            case DVMTypes::Opcode::OP_NOT_INT:         // "not-int"
+            case DVMTypes::Opcode::OP_NEG_LONG:        // "neg-long"
+            case DVMTypes::Opcode::OP_NOT_LONG:        // "not-long"
+            case DVMTypes::Opcode::OP_NEG_FLOAT:       // "neg-float"
+            case DVMTypes::Opcode::OP_NEG_DOUBLE:      // "neg-double"
+            case DVMTypes::Opcode::OP_INT_TO_LONG:     // "int-to-long"
+            case DVMTypes::Opcode::OP_INT_TO_FLOAT:    // "int-to-float"
+            case DVMTypes::Opcode::OP_INT_TO_DOUBLE:   // "int-to-double"
+            case DVMTypes::Opcode::OP_LONG_TO_INT:     // "long-to-int"
+            case DVMTypes::Opcode::OP_LONG_TO_FLOAT:   // "long-to-float"
+            case DVMTypes::Opcode::OP_LONG_TO_DOUBLE:  // "long-to-double"
+            case DVMTypes::Opcode::OP_FLOAT_TO_INT:    // "float-to-int"
+            case DVMTypes::Opcode::OP_FLOAT_TO_LONG:   // "float-to-long"
+            case DVMTypes::Opcode::OP_FLOAT_TO_DOUBLE: // "float-to-double"
+            case DVMTypes::Opcode::OP_DOUBLE_TO_INT:   // "double-to-int"
+            case DVMTypes::Opcode::OP_DOUBLE_TO_LONG:  // "double-to-long"
+            case DVMTypes::Opcode::OP_DOUBLE_TO_FLOAT: // "double-to-float"
+            case DVMTypes::Opcode::OP_INT_TO_BYTE:     // "int-to-byte"
+            case DVMTypes::Opcode::OP_INT_TO_CHAR:     // "int-to-char"
             case DVMTypes::Opcode::OP_INT_TO_SHORT:
                 instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "int-to-short"
                 break;
-            case DVMTypes::Opcode::OP_ADD_INT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "add-int"
-                break;
-            case DVMTypes::Opcode::OP_SUB_INT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "sub-int"
-                break;
-            case DVMTypes::Opcode::OP_MUL_INT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "mul-int"
-                break;
-            case DVMTypes::Opcode::OP_DIV_INT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "div-int"
-                break;
-            case DVMTypes::Opcode::OP_REM_INT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "rem-int"
-                break;
-            case DVMTypes::Opcode::OP_AND_INT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "and-int"
-                break;
-            case DVMTypes::Opcode::OP_OR_INT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "or-int"
-                break;
-            case DVMTypes::Opcode::OP_XOR_INT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "xor-int"
-                break;
-            case DVMTypes::Opcode::OP_SHL_INT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "shl-int"
-                break;
-            case DVMTypes::Opcode::OP_SHR_INT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "shr-int"
-                break;
-            case DVMTypes::Opcode::OP_USHR_INT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "ushr-int"
-                break;
-            case DVMTypes::Opcode::OP_ADD_LONG:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "add-long"
-                break;
-            case DVMTypes::Opcode::OP_SUB_LONG:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "sub-long"
-                break;
-            case DVMTypes::Opcode::OP_MUL_LONG:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "mul-long"
-                break;
-            case DVMTypes::Opcode::OP_DIV_LONG:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "div-long"
-                break;
-            case DVMTypes::Opcode::OP_REM_LONG:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "rem-long"
-                break;
-            case DVMTypes::Opcode::OP_AND_LONG:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "and-long"
-                break;
-            case DVMTypes::Opcode::OP_OR_LONG:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "or-long"
-                break;
-            case DVMTypes::Opcode::OP_XOR_LONG:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "xor-long"
-                break;
-            case DVMTypes::Opcode::OP_SHL_LONG:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "shl-long"
-                break;
-            case DVMTypes::Opcode::OP_SHR_LONG:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "shr-long"
-                break;
-            case DVMTypes::Opcode::OP_USHR_LONG:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "ushr-long"
-                break;
-            case DVMTypes::Opcode::OP_ADD_FLOAT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "add-float"
-                break;
-            case DVMTypes::Opcode::OP_SUB_FLOAT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "sub-float"
-                break;
-            case DVMTypes::Opcode::OP_MUL_FLOAT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "mul-float"
-                break;
-            case DVMTypes::Opcode::OP_DIV_FLOAT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "div-float"
-                break;
-            case DVMTypes::Opcode::OP_REM_FLOAT:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "rem-float"
-                break;
-            case DVMTypes::Opcode::OP_ADD_DOUBLE:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "add-double"
-                break;
-            case DVMTypes::Opcode::OP_SUB_DOUBLE:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "sub-double"
-                break;
-            case DVMTypes::Opcode::OP_MUL_DOUBLE:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "mul-double"
-                break;
-            case DVMTypes::Opcode::OP_DIV_DOUBLE:
-                instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "div-double"
-                break;
+            case DVMTypes::Opcode::OP_ADD_INT:    // "add-int"
+            case DVMTypes::Opcode::OP_SUB_INT:    // "sub-int"
+            case DVMTypes::Opcode::OP_MUL_INT:    // "mul-int"
+            case DVMTypes::Opcode::OP_DIV_INT:    // "div-int"
+            case DVMTypes::Opcode::OP_REM_INT:    // "rem-int"
+            case DVMTypes::Opcode::OP_AND_INT:    // "and-int"
+            case DVMTypes::Opcode::OP_OR_INT:     // "or-int"
+            case DVMTypes::Opcode::OP_XOR_INT:    // "xor-int"
+            case DVMTypes::Opcode::OP_SHL_INT:    // "shl-int"
+            case DVMTypes::Opcode::OP_SHR_INT:    // "shr-int"
+            case DVMTypes::Opcode::OP_USHR_INT:   // "ushr-int"
+            case DVMTypes::Opcode::OP_ADD_LONG:   // "add-long"
+            case DVMTypes::Opcode::OP_SUB_LONG:   // "sub-long"
+            case DVMTypes::Opcode::OP_MUL_LONG:   // "mul-long"
+            case DVMTypes::Opcode::OP_DIV_LONG:   // "div-long"
+            case DVMTypes::Opcode::OP_REM_LONG:   // "rem-long"
+            case DVMTypes::Opcode::OP_AND_LONG:   // "and-long"
+            case DVMTypes::Opcode::OP_OR_LONG:    // "or-long"
+            case DVMTypes::Opcode::OP_XOR_LONG:   // "xor-long"
+            case DVMTypes::Opcode::OP_SHL_LONG:   // "shl-long"
+            case DVMTypes::Opcode::OP_SHR_LONG:   // "shr-long"
+            case DVMTypes::Opcode::OP_USHR_LONG:  // "ushr-long"
+            case DVMTypes::Opcode::OP_ADD_FLOAT:  // "add-float"
+            case DVMTypes::Opcode::OP_SUB_FLOAT:  // "sub-float"
+            case DVMTypes::Opcode::OP_MUL_FLOAT:  // "mul-float"
+            case DVMTypes::Opcode::OP_DIV_FLOAT:  // "div-float"
+            case DVMTypes::Opcode::OP_REM_FLOAT:  // "rem-float"
+            case DVMTypes::Opcode::OP_ADD_DOUBLE: // "add-double"
+            case DVMTypes::Opcode::OP_SUB_DOUBLE: // "sub-double"
+            case DVMTypes::Opcode::OP_MUL_DOUBLE: // "mul-double"
+            case DVMTypes::Opcode::OP_DIV_DOUBLE: // "div-double"
             case DVMTypes::Opcode::OP_REM_DOUBLE:
                 instruction = std::make_shared<Instruction23x>(dalvik_opcodes, input_file); // "rem-double"
                 break;
-            case DVMTypes::Opcode::OP_ADD_INT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "add-int/2addr"
-                break;
-            case DVMTypes::Opcode::OP_SUB_INT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "sub-int/2addr"
-                break;
-            case DVMTypes::Opcode::OP_MUL_INT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "mul-int/2addr"
-                break;
-            case DVMTypes::Opcode::OP_DIV_INT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "div-int/2addr"
-                break;
-            case DVMTypes::Opcode::OP_REM_INT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "rem-int/2addr"
-                break;
-            case DVMTypes::Opcode::OP_AND_INT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "and-int/2addr"
-                break;
-            case DVMTypes::Opcode::OP_OR_INT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "or-int/2addr"
-                break;
-            case DVMTypes::Opcode::OP_XOR_INT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "xor-int/2addr"
-                break;
-            case DVMTypes::Opcode::OP_SHL_INT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "shl-int/2addr"
-                break;
-            case DVMTypes::Opcode::OP_SHR_INT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "shr-int/2addr"
-                break;
-            case DVMTypes::Opcode::OP_USHR_INT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "ushr-int/2addr"
-                break;
-            case DVMTypes::Opcode::OP_ADD_LONG_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "add-long/2addr"
-                break;
-            case DVMTypes::Opcode::OP_SUB_LONG_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "sub-long/2addr"
-                break;
-            case DVMTypes::Opcode::OP_MUL_LONG_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "mul-long/2addr"
-                break;
-            case DVMTypes::Opcode::OP_DIV_LONG_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "div-long/2addr"
-                break;
-            case DVMTypes::Opcode::OP_REM_LONG_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "rem-long/2addr"
-                break;
-            case DVMTypes::Opcode::OP_AND_LONG_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "and-long/2addr"
-                break;
-            case DVMTypes::Opcode::OP_OR_LONG_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "or-long/2addr"
-                break;
-            case DVMTypes::Opcode::OP_XOR_LONG_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "xor-long/2addr"
-                break;
-            case DVMTypes::Opcode::OP_SHL_LONG_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "shl-long/2addr"
-                break;
-            case DVMTypes::Opcode::OP_SHR_LONG_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "shr-long/2addr"
-                break;
-            case DVMTypes::Opcode::OP_USHR_LONG_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "ushr-long/2addr"
-                break;
-            case DVMTypes::Opcode::OP_ADD_FLOAT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "add-float/2addr"
-                break;
-            case DVMTypes::Opcode::OP_SUB_FLOAT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "sub-float/2addr"
-                break;
-            case DVMTypes::Opcode::OP_MUL_FLOAT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "mul-float/2addr"
-                break;
-            case DVMTypes::Opcode::OP_DIV_FLOAT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "div-float/2addr"
-                break;
-            case DVMTypes::Opcode::OP_REM_FLOAT_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "rem-float/2addr"
-                break;
-            case DVMTypes::Opcode::OP_ADD_DOUBLE_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "add-double/2addr"
-                break;
-            case DVMTypes::Opcode::OP_SUB_DOUBLE_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "sub-double/2addr"
-                break;
-            case DVMTypes::Opcode::OP_MUL_DOUBLE_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "mul-double/2addr"
-                break;
-            case DVMTypes::Opcode::OP_DIV_DOUBLE_2ADDR:
-                instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "div-double/2addr"
-                break;
+            case DVMTypes::Opcode::OP_ADD_INT_2ADDR:    // "add-int/2addr"
+            case DVMTypes::Opcode::OP_SUB_INT_2ADDR:    // "sub-int/2addr"
+            case DVMTypes::Opcode::OP_MUL_INT_2ADDR:    // "mul-int/2addr"
+            case DVMTypes::Opcode::OP_DIV_INT_2ADDR:    // "div-int/2addr"
+            case DVMTypes::Opcode::OP_REM_INT_2ADDR:    // "rem-int/2addr"
+            case DVMTypes::Opcode::OP_AND_INT_2ADDR:    // "and-int/2addr"
+            case DVMTypes::Opcode::OP_OR_INT_2ADDR:     // "or-int/2addr"
+            case DVMTypes::Opcode::OP_XOR_INT_2ADDR:    // "xor-int/2addr"
+            case DVMTypes::Opcode::OP_SHL_INT_2ADDR:    // "shl-int/2addr"
+            case DVMTypes::Opcode::OP_SHR_INT_2ADDR:    // "shr-int/2addr"
+            case DVMTypes::Opcode::OP_USHR_INT_2ADDR:   // "ushr-int/2addr"
+            case DVMTypes::Opcode::OP_ADD_LONG_2ADDR:   // "add-long/2addr"
+            case DVMTypes::Opcode::OP_SUB_LONG_2ADDR:   // "sub-long/2addr"
+            case DVMTypes::Opcode::OP_MUL_LONG_2ADDR:   // "mul-long/2addr"
+            case DVMTypes::Opcode::OP_DIV_LONG_2ADDR:   // "div-long/2addr"
+            case DVMTypes::Opcode::OP_REM_LONG_2ADDR:   // "rem-long/2addr"
+            case DVMTypes::Opcode::OP_AND_LONG_2ADDR:   // "and-long/2addr"
+            case DVMTypes::Opcode::OP_OR_LONG_2ADDR:    // "or-long/2addr"
+            case DVMTypes::Opcode::OP_XOR_LONG_2ADDR:   // "xor-long/2addr"
+            case DVMTypes::Opcode::OP_SHL_LONG_2ADDR:   // "shl-long/2addr"
+            case DVMTypes::Opcode::OP_SHR_LONG_2ADDR:   // "shr-long/2addr"
+            case DVMTypes::Opcode::OP_USHR_LONG_2ADDR:  // "ushr-long/2addr"
+            case DVMTypes::Opcode::OP_ADD_FLOAT_2ADDR:  // "add-float/2addr"
+            case DVMTypes::Opcode::OP_SUB_FLOAT_2ADDR:  // "sub-float/2addr"
+            case DVMTypes::Opcode::OP_MUL_FLOAT_2ADDR:  // "mul-float/2addr"
+            case DVMTypes::Opcode::OP_DIV_FLOAT_2ADDR:  // "div-float/2addr"
+            case DVMTypes::Opcode::OP_REM_FLOAT_2ADDR:  // "rem-float/2addr"
+            case DVMTypes::Opcode::OP_ADD_DOUBLE_2ADDR: // "add-double/2addr"
+            case DVMTypes::Opcode::OP_SUB_DOUBLE_2ADDR: // "sub-double/2addr"
+            case DVMTypes::Opcode::OP_MUL_DOUBLE_2ADDR: // "mul-double/2addr"
+            case DVMTypes::Opcode::OP_DIV_DOUBLE_2ADDR: // "div-double/2addr"
             case DVMTypes::Opcode::OP_REM_DOUBLE_2ADDR:
                 instruction = std::make_shared<Instruction12x>(dalvik_opcodes, input_file); // "rem-double/2addr"
                 break;
-            case DVMTypes::Opcode::OP_ADD_INT_LIT16:
-                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "add-int/lit16"
-                break;
-            case DVMTypes::Opcode::OP_RSUB_INT:
-                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "rsub-int"
-                break;
-            case DVMTypes::Opcode::OP_MUL_INT_LIT16:
-                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "mul-int/lit16"
-                break;
-            case DVMTypes::Opcode::OP_DIV_INT_LIT16:
-                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "div-int/lit16"
-                break;
-            case DVMTypes::Opcode::OP_REM_INT_LIT16:
-                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "rem-int/lit16"
-                break;
-            case DVMTypes::Opcode::OP_AND_INT_LIT16:
-                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "and-int/lit16"
-                break;
-            case DVMTypes::Opcode::OP_OR_INT_LIT16:
-                instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "or-int/lit16"
-                break;
+            case DVMTypes::Opcode::OP_ADD_INT_LIT16: // "add-int/lit16"
+            case DVMTypes::Opcode::OP_RSUB_INT:      // "rsub-int"
+            case DVMTypes::Opcode::OP_MUL_INT_LIT16: // "mul-int/lit16"
+            case DVMTypes::Opcode::OP_DIV_INT_LIT16: // "div-int/lit16"
+            case DVMTypes::Opcode::OP_REM_INT_LIT16: // "rem-int/lit16"
+            case DVMTypes::Opcode::OP_AND_INT_LIT16: // "and-int/lit16"
+            case DVMTypes::Opcode::OP_OR_INT_LIT16:  // "or-int/lit16"
             case DVMTypes::Opcode::OP_XOR_INT_LIT16:
                 instruction = std::make_shared<Instruction22s>(dalvik_opcodes, input_file); // "xor-int/lit16"
                 break;
-            case DVMTypes::Opcode::OP_ADD_INT_LIT8:
-                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "add-int/lit8"
-                break;
-            case DVMTypes::Opcode::OP_RSUB_INT_LIT8:
-                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "rsub-int/lit8"
-                break;
-            case DVMTypes::Opcode::OP_MUL_INT_LIT8:
-                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "mul-int/lit8"
-                break;
-            case DVMTypes::Opcode::OP_DIV_INT_LIT8:
-                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "div-int/lit8"
-                break;
-            case DVMTypes::Opcode::OP_REM_INT_LIT8:
-                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "rem-int/lit8"
-                break;
-            case DVMTypes::Opcode::OP_AND_INT_LIT8:
-                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "and-int/lit8"
-                break;
-            case DVMTypes::Opcode::OP_OR_INT_LIT8:
-                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "or-int/lit8"
-                break;
-            case DVMTypes::Opcode::OP_XOR_INT_LIT8:
-                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "xor-int/lit8"
-                break;
-            case DVMTypes::Opcode::OP_SHL_INT_LIT8:
-                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "shl-int/lit8"
-                break;
-            case DVMTypes::Opcode::OP_SHR_INT_LIT8:
-                instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "shr-int/lit8"
-                break;
+            case DVMTypes::Opcode::OP_ADD_INT_LIT8:  // "add-int/lit8"
+            case DVMTypes::Opcode::OP_RSUB_INT_LIT8: // "rsub-int/lit8"
+            case DVMTypes::Opcode::OP_MUL_INT_LIT8:  // "mul-int/lit8"
+            case DVMTypes::Opcode::OP_DIV_INT_LIT8:  // "div-int/lit8"
+            case DVMTypes::Opcode::OP_REM_INT_LIT8:  // "rem-int/lit8"
+            case DVMTypes::Opcode::OP_AND_INT_LIT8:  // "and-int/lit8"
+            case DVMTypes::Opcode::OP_OR_INT_LIT8:   // "or-int/lit8"
+            case DVMTypes::Opcode::OP_XOR_INT_LIT8:  // "xor-int/lit8"
+            case DVMTypes::Opcode::OP_SHL_INT_LIT8:  // "shl-int/lit8"
+            case DVMTypes::Opcode::OP_SHR_INT_LIT8:  // "shr-int/lit8"
             case DVMTypes::Opcode::OP_USHR_INT_LIT8:
                 instruction = std::make_shared<Instruction22b>(dalvik_opcodes, input_file); // "ushr-int/lit8"
                 break;
-            case DVMTypes::Opcode::OP_IGET_VOLATILE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_IPUT_VOLATILE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_SGET_VOLATILE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_SPUT_VOLATILE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_IGET_OBJECT_VOLATILE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_IGET_WIDE_VOLATILE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_IPUT_WIDE_VOLATILE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_SGET_WIDE_VOLATILE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_SPUT_WIDE_VOLATILE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_BREAKPOINT:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_THROW_VERIFICATION_ERROR:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_EXECUTE_INLINE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_EXECUTE_INLINE_RANGE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_INVOKE_OBJECT_INIT_RANGE:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_RETURN_VOID_BARRIER:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_IGET_QUICK:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_IGET_WIDE_QUICK:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_IGET_OBJECT_QUICK:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_IPUT_QUICK:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_IPUT_WIDE_QUICK:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_IPUT_OBJECT_QUICK:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
-            case DVMTypes::Opcode::OP_INVOKE_VIRTUAL_QUICK:
-                instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
-                break;
+            case DVMTypes::Opcode::OP_IGET_VOLATILE:            // "unused"
+            case DVMTypes::Opcode::OP_IPUT_VOLATILE:            // "unused"
+            case DVMTypes::Opcode::OP_SGET_VOLATILE:            // "unused"
+            case DVMTypes::Opcode::OP_SPUT_VOLATILE:            // "unused"
+            case DVMTypes::Opcode::OP_IGET_OBJECT_VOLATILE:     // "unused"
+            case DVMTypes::Opcode::OP_IGET_WIDE_VOLATILE:       // "unused"
+            case DVMTypes::Opcode::OP_IPUT_WIDE_VOLATILE:       // "unused"
+            case DVMTypes::Opcode::OP_SGET_WIDE_VOLATILE:       // "unused"
+            case DVMTypes::Opcode::OP_SPUT_WIDE_VOLATILE:       // "unused"
+            case DVMTypes::Opcode::OP_BREAKPOINT:               // "unused"
+            case DVMTypes::Opcode::OP_THROW_VERIFICATION_ERROR: // "unused"
+            case DVMTypes::Opcode::OP_EXECUTE_INLINE:           // "unused"
+            case DVMTypes::Opcode::OP_EXECUTE_INLINE_RANGE:     // "unused"
+            case DVMTypes::Opcode::OP_INVOKE_OBJECT_INIT_RANGE: // "unused"
+            case DVMTypes::Opcode::OP_RETURN_VOID_BARRIER:      // "unused"
+            case DVMTypes::Opcode::OP_IGET_QUICK:               // "unused"
+            case DVMTypes::Opcode::OP_IGET_WIDE_QUICK:          // "unused"
+            case DVMTypes::Opcode::OP_IGET_OBJECT_QUICK:        // "unused"
+            case DVMTypes::Opcode::OP_IPUT_QUICK:               // "unused"
+            case DVMTypes::Opcode::OP_IPUT_WIDE_QUICK:          // "unused"
+            case DVMTypes::Opcode::OP_IPUT_OBJECT_QUICK:        // "unused"
+            case DVMTypes::Opcode::OP_INVOKE_VIRTUAL_QUICK:     // "unused"
             case DVMTypes::Opcode::OP_INVOKE_VIRTUAL_QUICK_RANGE:
                 instruction = std::make_shared<Instruction00x>(dalvik_opcodes, input_file); // "unused"
                 break;
@@ -3187,11 +2791,216 @@ namespace KUNAI
                 instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // 'const-method-type' # Dalvik 039
                 break;
             default:
-                std::string msg = "Invalud Instruction '"+std::to_string(opcode)+"'";
+                std::string msg = "Invalud Instruction '" + std::to_string(opcode) + "'";
                 throw exceptions::InvalidInstruction(msg);
             }
 
             return instruction;
         }
+
+        template <typename Base, typename T>
+        inline bool instanceof (const T *)
+        {
+            return std::is_base_of<Base, T>::value;
+        }
+
+        /**
+         * @brief Determine the next offsets inside the bytecode of an :class:`EncodedMethod`.
+         *        The offsets are calculated in number of bytes from the start of the method.
+         *        Note, that offsets inside the bytecode are denoted in 16bit units but this method returns actual bytes!
+         * 
+         *        Offsets inside the opcode are counted from the beginning of the opcode.
+         * 
+         *        The returned type is a list, as branching opcodes will have multiple paths.
+         *        `if` and `switch` opcodes will return more than one item in the list, while
+         *        `throw`, `return` and `goto` opcodes will always return a list with length one.
+         * 
+         *        An offset of -1 indicates that the method is exited, for example by `throw` or `return`.
+         * 
+         *        If the entered opcode is not branching or jumping, an empty list is returned.
+         * 
+         * @param instr: instruction to calculate the next one in case this is a Goto, if, switch.
+         * @param curr_idx: current idx to calculate new idx.
+         * @param instructions: all the instructions from the method.
+         * 
+        */
+        std::vector<std::int64_t> determine_next(std::shared_ptr<Instruction> instr,
+                                                 std::uint64_t curr_idx,
+                                                 std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions)
+        {
+            auto op_value = instr->get_OP();
+
+            if ((op_value == DVMTypes::Opcode::OP_THROW) ||
+                ((op_value >= DVMTypes::Opcode::OP_RETURN_VOID) &&
+                 (op_value <= DVMTypes::Opcode::OP_RETURN_OBJECT)))
+            {
+                return {-1};
+            }
+            else if ((op_value >= DVMTypes::Opcode::OP_GOTO) &&
+                     (op_value <= DVMTypes::Opcode::OP_GOTO_32))
+            {
+                std::int32_t offset;
+                switch (op_value)
+                {
+                case DVMTypes::Opcode::OP_GOTO:
+                {
+                    auto goto_instr = std::dynamic_pointer_cast<Instruction10t>(instr);
+                    offset = goto_instr->get_offset();
+                    break;
+                }
+                case DVMTypes::Opcode::OP_GOTO_16:
+                {
+                    auto goto_instr = std::dynamic_pointer_cast<Instruction20t>(instr);
+                    offset = goto_instr->get_offset();
+                    break;
+                }
+                case DVMTypes::Opcode::OP_GOTO_32:
+                {
+                    auto goto_instr = std::dynamic_pointer_cast<Instruction30t>(instr);
+                    offset = goto_instr->get_offset();
+                    break;
+                }
+
+                    return {offset + static_cast<std::int64_t>(curr_idx)};
+                }
+            }
+            else if ((op_value >= DVMTypes::Opcode::OP_IF_EQ) &&
+                     (op_value <= DVMTypes::Opcode::OP_IF_LEZ))
+            {
+                std::int32_t offset;
+
+                if ((op_value >= DVMTypes::Opcode::OP_IF_EQ) &&
+                    (op_value <= DVMTypes::Opcode::OP_IF_LE))
+                {
+                    auto if_instr = std::dynamic_pointer_cast<Instruction22t>(instr);
+                    offset = if_instr->get_ref();
+                }
+                else if ((op_value >= DVMTypes::Opcode::OP_IF_EQZ) &&
+                         (op_value <= DVMTypes::Opcode::OP_IF_LEZ))
+                {
+                    auto if_instr = std::dynamic_pointer_cast<Instruction21t>(instr);
+                    offset = if_instr->get_ref();
+                }
+
+                return {static_cast<std::int64_t>(curr_idx) + instr->get_length(), offset + static_cast<std::int64_t>(curr_idx)};
+            }
+            else if ((op_value == DVMTypes::Opcode::OP_PACKED_SWITCH) ||
+                     (op_value == DVMTypes::Opcode::OP_SPARSE_SWITCH))
+            {
+                std::vector<std::int64_t> x = {static_cast<std::int64_t>(curr_idx) + instr->get_length()};
+
+                std::int64_t offset;
+
+                auto switch_instr = std::dynamic_pointer_cast<Instruction31t>(instr);
+                offset = switch_instr->get_offset() * 2;
+
+                std::int64_t padding = (offset + static_cast<std::int64_t>(curr_idx)) % 4;
+                if (padding != 0)
+                    std::cerr << "Padding should be 0, switch payload not aligned, adding " << padding << " bytes..." << std::endl;
+                auto data = instructions[offset + static_cast<std::int64_t>(curr_idx) + padding];
+
+                if (data)
+                {
+                    if (instanceof <PackedSwitch>(data.get()))
+                    {
+                        auto packed_switch = std::dynamic_pointer_cast<PackedSwitch>(data);
+
+                        for (auto it = packed_switch->get_targets().begin(); it != packed_switch->get_targets().end(); it++)
+                        {
+                            x.push_back(*it);
+                        }
+                    }
+                    else if (instanceof <SparseSwitch>(data.get()))
+                    {
+                        auto sparse_switch = std::dynamic_pointer_cast<SparseSwitch>(data);
+
+                        for (auto it = sparse_switch->get_keys_targets().begin(); it != sparse_switch->get_keys_targets().end(); it++)
+                        {
+                            x.push_back(std::get<1>(*it));
+                        }
+                    }
+                    else
+                    {
+                        std::cerr << "Could not determine payload of switch command at offset" << curr_idx << " instruction " << data->get_OP() << " possible broken bytecode." << std::endl;
+                    }
+                }
+
+                return x;
+            }
+
+            return {};
+        }
+
+        std::vector<exceptions_data> determine_exception(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::shared_ptr<EncodedMethod> method)
+        {
+            if (method->get_code_item()->get_number_of_try_items() <= 0)
+                return {};
+
+            std::map<std::uint64_t, std::vector<std::vector<std::any>>> h_off;
+
+            for (size_t i = 0; i < method->get_code_item()->get_number_of_try_items(); i++)
+            {
+                auto try_item = method->get_code_item()->get_try_item_by_pos(i);
+
+                auto offset_handler = try_item->get_handler_off() +
+                                      method->get_code_item()->get_encoded_catch_handler_offset();
+
+                h_off[offset_handler].push_back({try_item});
+            }
+
+            for (size_t i = 0; i < method->get_code_item()->get_encoded_catch_handler_list_size(); i++)
+            {
+                auto encoded_catch_handler = method->get_code_item()->get_encoded_catch_handler_by_pos(i);
+
+                if (h_off.find(encoded_catch_handler->get_offset()) == h_off.end())
+                    continue;
+
+                for (size_t i = 0; i < h_off[encoded_catch_handler->get_offset()].size(); i++)
+                {
+                    h_off[encoded_catch_handler->get_offset()][i].push_back(encoded_catch_handler);
+                }
+            }
+
+            std::vector<exceptions_data> exceptions;
+
+            for (auto it_map = h_off.begin(); it_map != h_off.end(); it_map++)
+            {
+                for (size_t i = 0; i < it_map->second.size(); i++)
+                {
+                    auto value = it_map->second[i];
+
+                    auto try_value = std::any_cast<std::shared_ptr<KUNAI::DEX::TryItem>>(value[0]);
+                    auto handler_catch = std::any_cast<std::shared_ptr<KUNAI::DEX::EncodedCatchHandler>>(value[1]);
+
+                    exceptions_data z;
+
+                    z.try_value_start_addr = try_value->get_start_addr() * 2;
+                    z.try_value_end_addr = (try_value->get_start_addr() * 2) + (try_value->get_insn_count() * 2) - 1;
+
+                    for (size_t j = 0; j < handler_catch->get_size_of_handlers(); j++)
+                    {
+                        auto catch_type_pair = handler_catch->get_handler_by_pos(j);
+                        std::string cm_type;
+
+                        if (catch_type_pair->get_exception_type()->get_type() == Type::FUNDAMENTAL)
+                            cm_type = reinterpret_cast<Fundamental *>(catch_type_pair->get_exception_type())->print_fundamental_type();
+                        else if (catch_type_pair->get_exception_type()->get_type() == Type::CLASS)
+                            cm_type = reinterpret_cast<Class *>(catch_type_pair->get_exception_type())->get_name();
+                        else
+                            cm_type = catch_type_pair->get_exception_type()->get_raw();
+
+                        z.handler.push_back({cm_type, catch_type_pair->get_exception_handler_addr() * 2});
+                    }
+
+                    if (handler_catch->get_size_of_handlers() <= 0)
+                        z.handler.push_back({"Ljava/lang/Throwable;", handler_catch->get_catch_all_addr() * 2});
+
+                    exceptions.push_back(z);
+                }
+            }
+
+            return exceptions;
+        }
+
     }
 }
