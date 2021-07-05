@@ -199,11 +199,17 @@ namespace KUNAI
             return catch_all_addr;
         }
 
+        std::uint64_t EncodedCatchHandler::get_offset()
+        {
+            return offset;
+        }
+
         bool EncodedCatchHandler::parse_encoded_type_pairs(std::ifstream &input_file,
                                                            std::uint64_t file_size,
                                                            std::shared_ptr<DexTypes> dex_types)
         {
             auto current_offset = input_file.tellg();
+            this->offset = current_offset;
             std::uint64_t type_idx, addr;
             std::shared_ptr<EncodedTypePair> encoded_type_pair;
 
@@ -247,6 +253,21 @@ namespace KUNAI
         }
 
         TryItem::~TryItem() {}
+
+        std::uint16_t TryItem::get_start_addr()
+        {
+            return try_item_struct.start_addr;
+        }
+
+        std::uint16_t TryItem::get_insn_count()
+        {
+            return try_item_struct.insn_count;
+        }
+
+        std::uint16_t TryItem::get_handler_off()
+        {
+            return try_item_struct.handler_off;
+        }
 
         /***
          * CodeItemStruct
@@ -316,6 +337,10 @@ namespace KUNAI
             return instructions_raw;
         }
 
+        std::uint64_t CodeItemStruct::get_encoded_catch_handler_offset()
+        {
+            return encoded_catch_handler_list_offset;
+        }
 
         std::uint64_t CodeItemStruct::get_encoded_catch_handler_list_size()
         {
@@ -371,6 +396,9 @@ namespace KUNAI
                     try_item = std::make_shared<TryItem>(try_item_struct);
                     try_items.push_back(try_item);
                 }
+
+                // necessary for exception calculation
+                encoded_catch_handler_list_offset = input_file.tellg();
 
                 encoded_catch_handler_list_size = KUNAI::read_uleb128(input_file);
 

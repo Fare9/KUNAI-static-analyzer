@@ -104,12 +104,14 @@ namespace KUNAI
             std::uint64_t get_size_of_handlers();
             std::shared_ptr<EncodedTypePair> get_handler_by_pos(std::uint64_t pos);
             std::uint64_t get_catch_all_addr();
+            std::uint64_t get_offset();
 
         private:
             bool parse_encoded_type_pairs(std::ifstream &input_file,
                                           std::uint64_t file_size,
                                           std::shared_ptr<DexTypes> dex_types);
 
+            std::uint64_t offset;
             std::int64_t encoded_type_pair_size;
             std::vector<std::shared_ptr<EncodedTypePair>> handlers;
             std::uint64_t catch_all_addr;
@@ -130,6 +132,9 @@ namespace KUNAI
             TryItem(try_item_struct_t try_item_struct);
             ~TryItem();
 
+            std::uint16_t get_start_addr();
+            std::uint16_t get_insn_count();
+            std::uint16_t get_handler_off();
         private:
             try_item_struct_t try_item_struct;
         };
@@ -164,6 +169,7 @@ namespace KUNAI
             std::uint16_t get_raw_instruction_by_pos(std::uint16_t pos);
             std::vector<std::uint8_t> get_all_raw_instructions();
 
+            std::uint64_t get_encoded_catch_handler_offset();
             std::uint64_t get_encoded_catch_handler_list_size();
             std::shared_ptr<EncodedCatchHandler> get_encoded_catch_handler_by_pos(std::uint64_t pos);
 
@@ -173,6 +179,7 @@ namespace KUNAI
             code_item_struct_t code_item;
             std::vector<std::uint8_t> instructions_raw;
             std::vector<std::shared_ptr<TryItem>> try_items;
+            std::uint64_t encoded_catch_handler_list_offset;
             std::vector<std::shared_ptr<EncodedCatchHandler>> encoded_catch_handler_list;
         };
 
