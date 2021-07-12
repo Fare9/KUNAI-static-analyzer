@@ -70,10 +70,11 @@ namespace KUNAI {
             bool parse_parameters(std::ifstream& input_file, 
                                     std::shared_ptr<DexStrings> dex_strings,
                                     std::shared_ptr<DexTypes> dex_types);
-            std::map<std::uint32_t, std::string*> shorty_idx;
-            std::map<std::uint32_t, Type*> return_type_idx;
+            
+            std::string* shorty_idx;
+            Type* return_type_idx;
             std::uint32_t parameters_off;
-            std::map<std::uint16_t, Type*> parameters;
+            std::vector<Type*> parameters;
         };
 
         class DexProtos

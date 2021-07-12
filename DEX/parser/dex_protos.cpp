@@ -13,8 +13,8 @@ namespace KUNAI {
                     std::shared_ptr<DexStrings> dex_strings,
                     std::shared_ptr<DexTypes> dex_types)
         {
-            this->shorty_idx[shorty_idx] = dex_strings->get_string_from_order(shorty_idx);
-            this->return_type_idx[return_type_idx] = dex_types->get_type_from_order(return_type_idx);
+            this->shorty_idx = dex_strings->get_string_from_order(shorty_idx);
+            this->return_type_idx = dex_types->get_type_from_order(return_type_idx);
             this->parameters_off = parameters_off;
             if (!parse_parameters(input_file, dex_strings, dex_types))
                 throw exceptions::ParserReadingException("Error reading ProtoID");
@@ -51,7 +51,7 @@ namespace KUNAI {
                 
                 type = dex_types->get_type_from_order(type_id);
 
-                parameters[type_id] = type;
+                parameters.push_back(type);
             }
 
             input_file.seekg(current_offset);
@@ -64,30 +64,21 @@ namespace KUNAI {
         }
 
         Type* ProtoID::get_parameter_type_by_order(size_t pos)
-        {
-            size_t i = 0;
+        {            
+            if (pos >= parameters.size())
+                return nullptr;
             
-            for(auto it = parameters.begin(); it != parameters.end(); it++)
-            {
-                if (i++ == pos)
-                    return it->second;
-            }
-
-            return nullptr;
+            return parameters[pos];
         }
 
         Type* ProtoID::get_return_idx()
         {
-            if (return_type_idx.empty())
-                return nullptr;
-            return return_type_idx.begin()->second;
+            return return_type_idx;
         }
 
         std::string* ProtoID::get_shorty_idx()
         {
-            if (shorty_idx.empty())
-                return nullptr;
-            return shorty_idx.begin()->second;
+            return shorty_idx;
         }
 
         /***
