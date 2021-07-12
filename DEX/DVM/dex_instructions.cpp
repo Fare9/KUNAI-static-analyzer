@@ -13,9 +13,6 @@ namespace KUNAI
             this->dalvik_opcodes = dalvik_opcodes;
             this->length = 0;
             this->OP = 0;
-
-            this->number_of_registers = dalvik_opcodes->get_number_of_registers();
-            this->number_of_parameters = dalvik_opcodes->get_number_of_parameters();
         }
 
         Instruction::~Instruction() {}
@@ -85,6 +82,16 @@ namespace KUNAI
         std::shared_ptr<DalvikOpcodes> Instruction::get_dalvik_opcodes()
         {
             return dalvik_opcodes;
+        }
+
+        void Instruction::set_number_of_registers(std::uint32_t number_of_registers)
+        {
+            this->number_of_registers = number_of_registers;
+        }
+
+        void Instruction::set_number_of_parameters(std::uint32_t number_of_parameters)
+        {
+            this->number_of_parameters = number_of_parameters;
         }
 
         std::uint32_t Instruction::get_number_of_registers()

@@ -48,7 +48,9 @@ namespace KUNAI
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-        protected:
+        
+            void set_number_of_registers(std::uint32_t number_of_registers);
+            void set_number_of_parameters(std::uint32_t number_of_parameters);
             std::uint32_t get_number_of_registers();
             std::uint32_t get_number_of_parameters();
             std::string get_register_correct_representation(std::uint32_t reg);

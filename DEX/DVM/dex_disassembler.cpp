@@ -24,7 +24,6 @@ namespace KUNAI
             return disassembly_correct;
         }
 
-
         /**
          * @brief Public method for disassembly with error checking.
          * @return void.
@@ -33,13 +32,13 @@ namespace KUNAI
         {
             if (!parsing_correct)
                 std::cerr << "[-] DEX was not correctly parsed, cannot disassembly it" << std::endl;
-            
+
             try
             {
                 this->disassembly_methods();
                 this->disassembly_correct = true;
             }
-            catch(const std::exception& e)
+            catch (const std::exception &e)
             {
                 std::cerr << "[-] Disassembly error: " << e.what() << '\n';
                 this->disassembly_correct = false;
@@ -90,16 +89,17 @@ namespace KUNAI
                     if (!code_item_struct)
                         continue;
 
-                    dalvik_opcodes->set_number_of_registers(code_item_struct->get_number_of_registers_in_code());
-
-                    if (direct_method->get_access_flags() & DVMTypes::ACCESS_FLAGS::ACC_STATIC)
-                        dalvik_opcodes->set_number_of_parameters(direct_method->get_method()->get_method_prototype()->get_number_of_parameters());
-                    else
-                        dalvik_opcodes->set_number_of_parameters(direct_method->get_method()->get_method_prototype()->get_number_of_parameters() + 1);
-                    
-                    
-                    
                     auto instructions = this->dalvik_disassembler->disassembly(code_item_struct->get_all_raw_instructions());
+
+                    for (auto it = instructions.begin(); it != instructions.end(); it++)
+                    {
+                        it->second->set_number_of_registers(code_item_struct->get_number_of_registers_in_code());
+
+                        if (direct_method->get_access_flags() & DVMTypes::ACCESS_FLAGS::ACC_STATIC)
+                            it->second->set_number_of_parameters(direct_method->get_method()->get_method_prototype()->get_number_of_parameters());
+                        else
+                            it->second->set_number_of_parameters(direct_method->get_method()->get_method_prototype()->get_number_of_parameters() + 1);
+                    }
 
                     this->method_instructions[{class_def, direct_method}] = instructions;
                 }
@@ -113,22 +113,24 @@ namespace KUNAI
                     if (!code_item_struct)
                         continue;
 
-                    dalvik_opcodes->set_number_of_registers(code_item_struct->get_number_of_registers_in_code());
-                    
-                    if (virtual_method->get_access_flags() & DVMTypes::ACCESS_FLAGS::ACC_STATIC)
-                        dalvik_opcodes->set_number_of_parameters(virtual_method->get_method()->get_method_prototype()->get_number_of_parameters());
-                    else
-                        dalvik_opcodes->set_number_of_parameters(virtual_method->get_method()->get_method_prototype()->get_number_of_parameters() + 1);
-
                     auto instructions = this->dalvik_disassembler->disassembly(code_item_struct->get_all_raw_instructions());
+
+                    for (auto it = instructions.begin(); it != instructions.end(); it++)
+                    {
+                        it->second->set_number_of_registers(code_item_struct->get_number_of_registers_in_code());
+
+                        if (virtual_method->get_access_flags() & DVMTypes::ACCESS_FLAGS::ACC_STATIC)
+                            it->second->set_number_of_parameters(virtual_method->get_method()->get_method_prototype()->get_number_of_parameters());
+                        else
+                            it->second->set_number_of_parameters(virtual_method->get_method()->get_method_prototype()->get_number_of_parameters() + 1);
+                    }
 
                     this->method_instructions[{class_def, virtual_method}] = instructions;
                 }
             }
         }
 
-
-        std::ostream& operator<<(std::ostream& os, const DexDisassembler& entry)
+        std::ostream &operator<<(std::ostream &os, const DexDisassembler &entry)
         {
             for (auto it = entry.method_instructions.begin(); it != entry.method_instructions.end(); it++)
             {

@@ -213,46 +213,5 @@ namespace KUNAI
 
             return proto;
         }
-
-
-        /**
-         * @brief Set the number of registers of the current analyzed method
-         *        used by the instructions to properly show the data.
-         * @param number_of_registers: std::uint32_t number of registers of current analyzed method.
-         * @return void.
-         */
-        void DalvikOpcodes::set_number_of_registers(std::uint32_t number_of_registers)
-        {
-            this->number_of_registers = number_of_registers;
-        }
-
-        /**
-         * @brief Set the number of parameters of the current analyzed method
-         *        used by the intsructions to properly show the data.
-         * @param number_of_parameters: std::uint32_t number of parameters of current analyzed method.
-         * @return void
-         */
-        void DalvikOpcodes::set_number_of_parameters(std::uint32_t number_of_parameters)
-        {
-            this->number_of_parameters = number_of_parameters;
-        }
-
-        /**
-         * @brief get number of registers of current analyzed method.
-         * @return std::uint32_t
-         */
-        std::uint32_t DalvikOpcodes::get_number_of_registers()
-        {
-            return number_of_registers;
-        }
-
-        /**
-         * @brief get number of parameters of current analyzed method.
-         * @return std::uint32_t
-         */
-        std::uint32_t DalvikOpcodes::get_number_of_parameters()
-        {
-            return number_of_parameters;
-        }
     }
 }
