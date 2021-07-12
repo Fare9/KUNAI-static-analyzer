@@ -51,8 +51,14 @@ namespace KUNAI
             std::string get_dalvik_method_by_id_str(std::uint32_t id);
             std::string get_dalvik_proto_by_id_str(std::uint32_t id);
 
-            
+            void set_number_of_registers(std::uint32_t number_of_registers);
+            void set_number_of_parameters(std::uint32_t number_of_parameters);
+            std::uint32_t get_number_of_registers();
+            std::uint32_t get_number_of_parameters();            
         private:
+            std::uint32_t number_of_registers;
+            std::uint32_t number_of_parameters;
+
             std::shared_ptr<DexParser> dex_parser;
 
             std::map<std::uint32_t, std::string> opcodes_instruction_name = {
