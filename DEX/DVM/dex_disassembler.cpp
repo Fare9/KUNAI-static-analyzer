@@ -9,6 +9,7 @@ namespace KUNAI
             this->parsing_correct = parsing_correct;
             this->dex_parser = dex_parser;
             this->disassembly_correct = false;
+            this->dalvik_opcodes = dalvik_opcodes;
             this->dalvik_disassembler = std::make_shared<LinearSweepDisassembler>(dalvik_opcodes);
         }
 
@@ -85,10 +86,43 @@ namespace KUNAI
                     // get code item struct, here is the instruction buffer
                     // here we will apply the disassembly.
                     auto code_item_struct = direct_method->get_code_item();
+
+                    if (!code_item_struct)
+                        continue;
+
+                    dalvik_opcodes->set_number_of_registers(code_item_struct->get_number_of_registers_in_code());
+
+                    if (direct_method->get_access_flags() & DVMTypes::ACCESS_FLAGS::ACC_STATIC)
+                        dalvik_opcodes->set_number_of_parameters(direct_method->get_method()->get_method_prototype()->get_number_of_parameters());
+                    else
+                        dalvik_opcodes->set_number_of_parameters(direct_method->get_method()->get_method_prototype()->get_number_of_parameters() + 1);
+                    
+                    
                     
                     auto instructions = this->dalvik_disassembler->disassembly(code_item_struct->get_all_raw_instructions());
 
                     this->method_instructions[{class_def, direct_method}] = instructions;
+                }
+
+                for (size_t j = 0; j < class_data_item->get_number_of_virtual_methods(); j++)
+                {
+                    auto virtual_method = class_data_item->get_virtual_method_by_pos(j);
+
+                    auto code_item_struct = virtual_method->get_code_item();
+
+                    if (!code_item_struct)
+                        continue;
+
+                    dalvik_opcodes->set_number_of_registers(code_item_struct->get_number_of_registers_in_code());
+                    
+                    if (virtual_method->get_access_flags() & DVMTypes::ACCESS_FLAGS::ACC_STATIC)
+                        dalvik_opcodes->set_number_of_parameters(virtual_method->get_method()->get_method_prototype()->get_number_of_parameters());
+                    else
+                        dalvik_opcodes->set_number_of_parameters(virtual_method->get_method()->get_method_prototype()->get_number_of_parameters() + 1);
+
+                    auto instructions = this->dalvik_disassembler->disassembly(code_item_struct->get_all_raw_instructions());
+
+                    this->method_instructions[{class_def, virtual_method}] = instructions;
                 }
             }
         }

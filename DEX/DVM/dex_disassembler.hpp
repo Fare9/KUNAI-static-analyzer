@@ -37,7 +37,9 @@ namespace KUNAI
             void disassembly_methods();
 
             std::shared_ptr<DexParser> dex_parser;
+            std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
             std::shared_ptr<LinearSweepDisassembler> dalvik_disassembler;
+
             std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>,
                      std::map<std::uint64_t, std::shared_ptr<Instruction>>>
                 method_instructions;
