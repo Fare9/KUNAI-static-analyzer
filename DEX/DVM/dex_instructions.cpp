@@ -13,6 +13,9 @@ namespace KUNAI
             this->dalvik_opcodes = dalvik_opcodes;
             this->length = 0;
             this->OP = 0;
+
+            this->number_of_registers = dalvik_opcodes->get_number_of_registers();
+            this->number_of_parameters = dalvik_opcodes->get_number_of_parameters();
         }
 
         Instruction::~Instruction() {}
@@ -83,6 +86,29 @@ namespace KUNAI
         {
             return dalvik_opcodes;
         }
+
+        std::uint32_t Instruction::get_number_of_registers()
+        {
+            return number_of_registers;
+        }
+
+        std::uint32_t Instruction::get_number_of_parameters()
+        {
+            return number_of_parameters;
+        }
+
+        std::string Instruction::get_register_correct_representation(std::uint32_t reg)
+        {
+            std::string reg_representation;
+
+            if (reg < (number_of_registers - number_of_parameters))
+                reg_representation = "v" + std::to_string(reg);
+            else
+                reg_representation = "p" + std::to_string(reg - (number_of_registers - number_of_parameters));
+
+            return reg_representation;
+        }
+
         /**
          * Instruction00x
          */
@@ -135,7 +161,7 @@ namespace KUNAI
 
         std::string Instruction12x::get_output()
         {
-            return "v" + std::to_string(vA) + ", v" + std::to_string(vB);
+            return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB);
         }
 
         std::uint64_t Instruction12x::get_raw()
@@ -191,7 +217,7 @@ namespace KUNAI
 
         std::string Instruction11n::get_output()
         {
-            return "v" + std::to_string(vA) + ", " + std::to_string(nB);
+            return this->get_register_correct_representation(vA) + ", " + std::to_string(nB);
         }
 
         std::uint64_t Instruction11n::get_raw()
@@ -246,7 +272,7 @@ namespace KUNAI
 
         std::string Instruction11x::get_output()
         {
-            return "v" + std::to_string(vAA);
+            return this->get_register_correct_representation(vAA);
         }
 
         std::uint64_t Instruction11x::get_raw()
@@ -444,7 +470,7 @@ namespace KUNAI
 
         std::string Instruction22x::get_output()
         {
-            return "v" + std::to_string(vAA) + ", v" + std::to_string(vBBBB);
+            return this->get_register_correct_representation(vAA) + ", " + this->get_register_correct_representation(vBBBB);
         }
 
         std::uint64_t Instruction22x::get_raw()
@@ -503,7 +529,7 @@ namespace KUNAI
 
         std::string Instruction21t::get_output()
         {
-            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBB);
+            return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBB);
         }
 
         std::uint64_t Instruction21t::get_raw()
@@ -559,7 +585,7 @@ namespace KUNAI
 
         std::string Instruction21s::get_output()
         {
-            return "v" + std::to_string(vA) + ", " + std::to_string(nBBBB);
+            return this->get_register_correct_representation(vA) + ", " + std::to_string(nBBBB);
         }
 
         std::uint64_t Instruction21s::get_raw()
@@ -631,7 +657,7 @@ namespace KUNAI
 
         std::string Instruction21h::get_output()
         {
-            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBB);
+            return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBB);
         }
 
         std::uint64_t Instruction21h::get_raw()
@@ -711,7 +737,7 @@ namespace KUNAI
                 break;
             }
 
-            return "v" + std::to_string(vAA) + ", " + str;
+            return this->get_register_correct_representation(vAA) + ", " + str;
         }
 
         std::uint64_t Instruction21c::get_raw()
@@ -794,7 +820,7 @@ namespace KUNAI
 
         std::string Instruction23x::get_output()
         {
-            return "v" + std::to_string(vAA) + ", v" + std::to_string(vBB) + ", v" + std::to_string(vCC);
+            return this->get_register_correct_representation(vAA) + ", " + this->get_register_correct_representation(vBB) + ", " + this->get_register_correct_representation(vCC);
         }
 
         std::uint64_t Instruction23x::get_raw()
@@ -863,7 +889,7 @@ namespace KUNAI
 
         std::string Instruction22b::get_output()
         {
-            return "v" + std::to_string(vAA) + ", v" + std::to_string(vBB) + ", " + std::to_string(nCC);
+            return this->get_register_correct_representation(vAA) + ", " + this->get_register_correct_representation(vBB) + ", " + std::to_string(nCC);
         }
 
         std::uint64_t Instruction22b::get_raw()
@@ -934,7 +960,7 @@ namespace KUNAI
 
         std::string Instruction22t::get_output()
         {
-            return "v" + std::to_string(vA) + ", v" + std::to_string(vB) + ", " + std::to_string(nCCCC);
+            return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB) + ", " + std::to_string(nCCCC);
         }
 
         std::uint64_t Instruction22t::get_raw()
@@ -1002,7 +1028,7 @@ namespace KUNAI
 
         std::string Instruction22s::get_output()
         {
-            return "v" + std::to_string(vA) + ", v" + std::to_string(vB) + ", " + std::to_string(nCCCC);
+            return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB) + ", " + std::to_string(nCCCC);
         }
 
         std::uint64_t Instruction22s::get_raw()
@@ -1085,7 +1111,7 @@ namespace KUNAI
                 break;
             }
 
-            return "v" + std::to_string(vA) + ", v" + std::to_string(vB) + ", " + str;
+            return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB) + ", " + str;
         }
 
         std::uint64_t Instruction22c::get_raw()
@@ -1187,7 +1213,7 @@ namespace KUNAI
                 break;
             }
 
-            return "v" + std::to_string(vA) + ", v" + std::to_string(vB) + ", " + str;
+            return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB) + ", " + str;
         }
 
         std::uint64_t Instruction22cs::get_raw()
@@ -1327,7 +1353,7 @@ namespace KUNAI
 
         std::string Instruction32x::get_output()
         {
-            return "v" + std::to_string(vAAAA) + ", v" + std::to_string(vBBBB);
+            return this->get_register_correct_representation(vAAAA) + ", " + this->get_register_correct_representation(vBBBB);
         }
 
         std::uint64_t Instruction32x::get_raw()
@@ -1384,7 +1410,7 @@ namespace KUNAI
 
         std::string Instruction31i::get_output()
         {
-            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBBBBBB);
+            return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBBBBBB);
         }
 
         std::uint64_t Instruction31i::get_raw()
@@ -1440,7 +1466,7 @@ namespace KUNAI
 
         std::string Instruction31t::get_output()
         {
-            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBBBBBB);
+            return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBBBBBB);
         }
 
         std::uint64_t Instruction31t::get_raw()
@@ -1496,7 +1522,7 @@ namespace KUNAI
 
         std::string Instruction31c::get_output()
         {
-            return "v" + std::to_string(vAA) + ", " + this->get_dalvik_opcodes()->get_dalvik_string_by_id_str(iBBBBBBBB);
+            return this->get_register_correct_representation(vAA) + ", " + this->get_dalvik_opcodes()->get_dalvik_string_by_id_str(iBBBBBBBB);
         }
 
         std::uint64_t Instruction31c::get_raw()
@@ -1592,7 +1618,7 @@ namespace KUNAI
             }
 
             for (size_t i = 0; i < array_size; i++)
-                output += "v" + std::to_string(registers[i]) + ", ";
+                output += this->get_register_correct_representation(registers[i]) + ", ";
 
             output += ref;
 
@@ -1697,7 +1723,7 @@ namespace KUNAI
             std::string output = "";
 
             for (std::uint16_t i = 0; i < array_size; i++)
-                output += "v" + std::to_string(registers[i]) + ", ";
+                output += this->get_register_correct_representation(registers[i]) + ", ";
 
             /**
              * This instruction is a little bit pain in the ass
@@ -1861,7 +1887,7 @@ namespace KUNAI
             std::string prototype = get_dalvik_opcodes()->get_dalvik_proto_by_id_str(proto_reference);
 
             for (size_t i = 0; i < reg_count; i++)
-                output += "v" + std::to_string(registers[i]) + ", ";
+                output += this->get_register_correct_representation(registers[i]) + ", ";
             output += method + ", " + prototype;
             return output;
         }
@@ -1982,7 +2008,7 @@ namespace KUNAI
             std::string prototype = get_dalvik_opcodes()->get_dalvik_proto_by_id_str(proto_reference);
 
             for (size_t i = 0; i < reg_count; i++)
-                output = "v" + std::to_string(registers[i]) + ", ";
+                output = this->get_register_correct_representation(registers[i]) + ", ";
             output += method + ", " + prototype;
             return output;
         }
@@ -2078,7 +2104,7 @@ namespace KUNAI
 
         std::string Instruction51l::get_output()
         {
-            return "v" + std::to_string(vAA) + ", " + std::to_string(nBBBBBBBBBBBBBBBB);
+            return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBBBBBBBBBBBBBB);
         }
 
         std::uint64_t Instruction51l::get_raw()

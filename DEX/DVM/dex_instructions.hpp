@@ -48,11 +48,17 @@ namespace KUNAI
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
-
+        protected:
+            std::uint32_t get_number_of_registers();
+            std::uint32_t get_number_of_parameters();
+            std::string get_register_correct_representation(std::uint32_t reg);
         private:
             std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
             std::uint32_t length;
             std::uint32_t OP;
+
+            std::uint32_t number_of_registers;
+            std::uint32_t number_of_parameters;
         };
 
         class Instruction00x : public Instruction
@@ -1055,6 +1061,7 @@ namespace KUNAI
         {
             std::string handler_type;
             std::uint64_t handler_start_addr;
+            std::vector<std::any> basic_blocks;
         } handler_data;
 
         typedef struct exceptions_data_
