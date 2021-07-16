@@ -48,6 +48,9 @@ namespace KUNAI
 
             bool dex_parsing_correct;
         };
+
+        std::unique_ptr<DEX> get_unique_dex_object(std::ifstream &input_file, std::uint64_t file_size);
+        std::shared_ptr<DEX> get_shared_dex_object(std::ifstream &input_file, std::uint64_t file_size);
     }
 }
 
