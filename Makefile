@@ -1,8 +1,8 @@
 CPP=g++
 # CFLAGS debugging
-CFLAGS=-std=c++17 -c -g -Wall
+#CFLAGS=-std=c++17 -c -g -Wall
 # CFLAGS execution
-#CFLAGS=-std=c++17 -c -O3
+CFLAGS=-std=c++17 -c -O3
 BIN_FOLDER=bin/
 OBJ=objs/
 BIN_NAME=Kunai
@@ -15,22 +15,31 @@ OBJ_FILES= ${OBJ}utils.o ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_annotations.o ${OBJ}dex_parser.o\
 			${OBJ}dex_dalvik_opcodes.o ${OBJ}dex_instructions.o\
 			${OBJ}dex_linear_sweep_disassembly.o ${OBJ}dex_disassembler.o\
-			${OBJ}dex.o ${OBJ}main.o
+			${OBJ}dex.o
 
 .PHONY: clean
 
-all: dirs ${BIN_FOLDER}${BIN_NAME}
+all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}test_dex_parser
 
 dirs:
 	mkdir -p ${OBJ}
 	mkdir -p ${BIN_FOLDER}
 
-${BIN_FOLDER}${BIN_NAME}: ${OBJ_FILES}
+${BIN_FOLDER}${BIN_NAME}: ${OBJ}main.o ${OBJ_FILES}
 	@echo "Linking $^ -> $@"
 	${CPP} -o $@ $^
 
+${BIN_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
+	@echo "Linking $^ -> $@"
+	${CPP} -o $@ $^
+	
 # main
 ${OBJ}main.o: main.cpp
+	@echo "Compiling $< -> $@"
+	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+
+# test_dex_parser
+${OBJ}test_dex_parser.o: test_dex_parser.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
