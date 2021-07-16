@@ -5,7 +5,8 @@ namespace KUNAI
     namespace DEX
     {
         DexParser::DexParser() : api_version(0)
-        {}
+        {
+        }
 
         DexParser::~DexParser() {}
 
@@ -28,7 +29,7 @@ namespace KUNAI
                 throw exceptions::IncorrectDexFile("Error dex magic not recognized");
 
             input_file.seekg(0);
-            
+
             dex_header = std::make_shared<DexHeader>(input_file, file_size);
             dex_strings = std::make_shared<DexStrings>(input_file, file_size, dex_header->get_dex_header().string_ids_size, dex_header->get_dex_header().string_ids_off);
             dex_types = std::make_shared<DexTypes>(input_file, dex_header->get_dex_header().type_ids_size, dex_header->get_dex_header().type_ids_off, dex_strings);
@@ -38,7 +39,7 @@ namespace KUNAI
             dex_classes = std::make_shared<DexClasses>(input_file, file_size, dex_header->get_dex_header().class_defs_size, dex_header->get_dex_header().class_defs_off, dex_strings, dex_types, dex_fields, dex_methods);
         }
 
-        std::shared_ptr<DexHeader>  DexParser::get_header()
+        std::shared_ptr<DexHeader> DexParser::get_header()
         {
             return dex_header;
         }
@@ -48,17 +49,17 @@ namespace KUNAI
             return dex_strings;
         }
 
-        std::shared_ptr<DexTypes>   DexParser::get_types()
+        std::shared_ptr<DexTypes> DexParser::get_types()
         {
             return dex_types;
         }
 
-        std::shared_ptr<DexProtos>  DexParser::get_protos()
+        std::shared_ptr<DexProtos> DexParser::get_protos()
         {
             return dex_protos;
         }
 
-        std::shared_ptr<DexFields>  DexParser::get_fields()
+        std::shared_ptr<DexFields> DexParser::get_fields()
         {
             return dex_fields;
         }
@@ -85,7 +86,7 @@ namespace KUNAI
                 version = 38;
             else if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_039, 8))
                 version = 39;
-            
+
             return version;
         }
 
@@ -101,7 +102,7 @@ namespace KUNAI
                 version = "DEX_VERSION_38";
             else if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_039, 8))
                 version = "DEX_VERSION_39";
-            
+
             return version;
         }
 
@@ -113,6 +114,11 @@ namespace KUNAI
         std::uint32_t DexParser::get_api_version()
         {
             return api_version;
+        }
+
+        std::string DexParser::get_format_type()
+        {
+            return "DEX";
         }
 
         std::vector<std::shared_ptr<ClassDef>> DexParser::get_classes_def_item()
@@ -127,9 +133,9 @@ namespace KUNAI
             return classes;
         }
 
-        std::vector<MethodID*> DexParser::get_methods_id_item()
+        std::vector<MethodID *> DexParser::get_methods_id_item()
         {
-            std::vector<MethodID*> methods;
+            std::vector<MethodID *> methods;
 
             for (size_t i = 0; i < dex_methods->get_number_of_methods(); i++)
             {
@@ -139,9 +145,9 @@ namespace KUNAI
             return methods;
         }
 
-        std::vector<FieldID*> DexParser::get_fields_id_item()
+        std::vector<FieldID *> DexParser::get_fields_id_item()
         {
-            std::vector<FieldID*> fields;
+            std::vector<FieldID *> fields;
 
             for (size_t i = 0; i < dex_fields->get_number_of_fields(); i++)
             {
@@ -186,7 +192,7 @@ namespace KUNAI
             return strings;
         }
 
-        std::ostream& operator<<(std::ostream& os, const DexParser& entry)
+        std::ostream &operator<<(std::ostream &os, const DexParser &entry)
         {
             if (entry.dex_header)
                 os << *entry.dex_header;
@@ -202,9 +208,9 @@ namespace KUNAI
                 os << *entry.dex_methods;
             if (entry.dex_classes)
                 os << *entry.dex_classes;
-            
+
             return os;
         }
-    
+
     }
 }
