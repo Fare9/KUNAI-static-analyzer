@@ -142,6 +142,23 @@ namespace KUNAI
             return it->second;
         }
 
+        std::vector<std::shared_ptr<EncodedField>> ClassDataItem::get_fields()
+        {
+            std::vector<std::shared_ptr<EncodedField>> fields;
+
+            for (auto it = static_fields.begin(); it != static_fields.end(); it++)
+            {
+                fields.push_back(it->second);
+            }
+
+            for (auto it = instance_fields.begin(); it != instance_fields.end(); it++)
+            {
+                fields.push_back(it->second);
+            }
+
+            return fields;
+        }
+
         std::uint64_t ClassDataItem::get_number_of_direct_methods()
         {
             return direct_methods.size();
@@ -192,6 +209,23 @@ namespace KUNAI
             while (pos-- != 0)
                 it++;
             return it->second;
+        }
+
+        std::vector<std::shared_ptr<EncodedMethod>> ClassDataItem::get_methods()
+        {
+            std::vector<std::shared_ptr<EncodedMethod>> methods;
+
+            for (auto it = direct_methods.begin(); it != direct_methods.end(); it++)
+            {
+                methods.push_back(it->second);
+            }
+
+            for (auto it = virtual_methods.begin(); it != virtual_methods.end(); it++)
+            {
+                methods.push_back(it->second);
+            }
+
+            return methods;
         }
 
         /***

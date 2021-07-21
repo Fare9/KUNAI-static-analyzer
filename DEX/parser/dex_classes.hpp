@@ -68,6 +68,8 @@ namespace KUNAI {
             std::shared_ptr<EncodedField> get_instance_field_by_id(std::uint64_t id);
             std::shared_ptr<EncodedField> get_instance_field_by_pos(std::uint64_t pos);
 
+            std::vector<std::shared_ptr<EncodedField>> get_fields();
+
             std::uint64_t get_number_of_direct_methods();
             std::shared_ptr<EncodedMethod> get_direct_method_by_id(std::uint64_t id);
             std::shared_ptr<EncodedMethod> get_direct_method_by_pos(std::uint64_t pos);
@@ -75,6 +77,8 @@ namespace KUNAI {
             std::uint64_t get_number_of_virtual_methods();
             std::shared_ptr<EncodedMethod> get_virtual_method_by_id(std::uint64_t id);
             std::shared_ptr<EncodedMethod> get_virtual_method_by_pos(std::uint64_t pos);
+
+            std::vector<std::shared_ptr<EncodedMethod>> get_methods();
         private:
             std::map<std::uint64_t, std::shared_ptr<EncodedField>> static_fields;
             std::map<std::uint64_t, std::shared_ptr<EncodedField>> instance_fields;
