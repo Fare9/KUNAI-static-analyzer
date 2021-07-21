@@ -125,6 +125,34 @@ namespace KUNAI
         {
             return *dex_parser->get_strings()->get_string_from_order(id);
         }
+        
+        /**
+         * @brief Get a dalvil EncodedField by a given FieldID*
+         * @param field: FieldID* field to obtain its std::shared_ptr<EncodedField>
+         * @return std::shared_ptr<EncodedField>
+         */
+        std::shared_ptr<EncodedField> DalvikOpcodes::get_dalvik_encoded_field_by_fieldid(FieldID* field)
+        {
+            auto classes_def = dex_parser->get_classes_def_item();
+
+            for (auto c = classes_def.begin(); c != classes_def.end(); c++)
+            {
+                if ((*c)->get_class_idx()->get_name() == reinterpret_cast<Class*>(field->get_class_idx())->get_name())
+                {
+                    auto fields = (*c)->get_class_data()->get_fields();
+
+                    for (auto f = fields.begin(); f != fields.end(); f++)
+                    {
+                        if ((*f)->get_field() == field)
+                        {
+                            return *f;
+                        }
+                    }
+                }
+            }
+
+            return nullptr;
+        }
 
         /**
          * @brief get raw string from Type by id.
@@ -212,6 +240,59 @@ namespace KUNAI
             proto += dex_parser->get_protos()->get_proto_by_order(id)->get_return_idx()->get_raw();
 
             return proto;
+        }
+
+        /**
+         * @brief Method to get a string from the access flags.
+         * @param acc_flag: value from enum DVMTypes::ACCESS_FLAGS.
+         * @return std::string
+         */
+        std::string DalvikOpcodes::get_access_flags_string(DVMTypes::ACCESS_FLAGS acc_flag)
+        {
+            std::string flag = "";
+
+            if (acc_flag & DVMTypes::ACC_PUBLIC)
+                flag += "PUBLIC|";
+            if (acc_flag & DVMTypes::ACC_PRIVATE)
+                flag += "PRIVATE|";
+            if (acc_flag & DVMTypes::ACC_PROTECTED)
+                flag += "PROTECTED|";
+            if (acc_flag & DVMTypes::ACC_STATIC)
+                flag += "STATIC|";
+            if (acc_flag & DVMTypes::ACC_FINAL)
+                flag += "FINAL|";
+            if (acc_flag & DVMTypes::ACC_SYNCHRONIZED)
+                flag += "SYNCHRONIZED|";
+            if (acc_flag & DVMTypes::ACC_VOLATILE)
+                flag += "VOLATILE|";
+            if (acc_flag & DVMTypes::ACC_BRIDGE)
+                flag += "BRIDGE|";
+            if (acc_flag & DVMTypes::ACC_TRANSIENT)
+                flag += "TRANSIENT|";
+            if (acc_flag & DVMTypes::ACC_VARARGS)
+                flag += "VARARGS|";
+            if (acc_flag & DVMTypes::ACC_NATIVE)
+                flag += "NATIVE|";
+            if (acc_flag & DVMTypes::ACC_INTERFACE)
+                flag += "INTERFACE|";
+            if (acc_flag & DVMTypes::ACC_ABSTRACT)
+                flag += "ABSTRACT|";
+            if (acc_flag & DVMTypes::ACC_STRICT)
+                flag += "STRICT|";
+            if (acc_flag & DVMTypes::ACC_SYNTHETIC)
+                flag += "SYNTHETIC|";
+            if (acc_flag & DVMTypes::ACC_ANNOTATION)
+                flag += "ANNOTATION|";
+            if (acc_flag & DVMTypes::ACC_ENUM)
+                flag += "ENUM|";
+            if (acc_flag & DVMTypes::ACC_CONSTRUCTOR)
+                flag += "CONSTRUCTOR|";
+            if (acc_flag & DVMTypes::ACC_DECLARED_SYNCHRONIZED)
+                flag += "DECLARED_SYNCHRONIZED|";
+
+            flag.pop_back();
+
+            return flag;
         }
     }
 }

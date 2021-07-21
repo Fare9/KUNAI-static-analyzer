@@ -43,6 +43,7 @@ namespace KUNAI
             FieldID*        get_dalvik_field_by_id(std::uint32_t id);
             MethodID*       get_dalvik_method_by_id(std::uint32_t id);
             ProtoID*        get_dalvik_proto_by_id(std::uint32_t id);
+            std::shared_ptr<EncodedField> get_dalvik_encoded_field_by_fieldid(FieldID* field);
 
 
             std::string get_dalvik_string_by_id_str(std::uint32_t id);
@@ -50,7 +51,8 @@ namespace KUNAI
             std::string get_dalvik_static_field_by_id_str(std::uint32_t id);
             std::string get_dalvik_method_by_id_str(std::uint32_t id);
             std::string get_dalvik_proto_by_id_str(std::uint32_t id);
-        
+
+            std::string get_access_flags_string(DVMTypes::ACCESS_FLAGS acc_flag);
         private:
 
             std::shared_ptr<DexParser> dex_parser;
