@@ -66,6 +66,8 @@ namespace KUNAI {
             Type* get_return_idx();
             std::string* get_shorty_idx();
 
+            std::string get_proto_str();
+
         private:
             bool parse_parameters(std::ifstream& input_file, 
                                     std::shared_ptr<DexStrings> dex_strings,

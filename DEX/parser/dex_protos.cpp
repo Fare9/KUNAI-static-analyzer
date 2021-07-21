@@ -81,6 +81,22 @@ namespace KUNAI {
             return shorty_idx;
         }
 
+        std::string ProtoID::get_proto_str()
+        {
+            std::string proto = "";
+
+            proto += "(";
+
+            for (size_t i = 0; i < parameters.size(); i++)
+            {
+                proto += parameters[i]->get_raw();
+            }
+            
+            proto += ")" + return_type_idx->get_raw();
+
+            return proto;
+        }
+
         /***
          * DexProtos class
          */
