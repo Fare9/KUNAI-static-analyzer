@@ -186,6 +186,20 @@ int main(int argc, char **argv)
         std::cout << "Type raw: " << type->get_raw() << std::endl;
     }
 
+    auto methods = dex_parser->get_methods_id_item();
+
+    std::cout << "Methods: " << std::endl;
+    for (size_t i = 0; i < methods.size(); i++)
+    {
+        auto method = methods[i];
+
+        std::cout << "Class: " << reinterpret_cast<KUNAI::DEX::Class*>(method->get_method_class())->get_name() << std::endl;
+        std::cout << "Method: " << *method->get_method_name() << std::endl;
+        std::cout << "Description: " << method->get_method_prototype()->get_proto_str() << std::endl;
+        std::cout << std::endl;
+
+    }
+
     /**
      * Do you just want to show a pretty print of the whole header?
      * In that case this C++ overloaded operator is for you, you can
