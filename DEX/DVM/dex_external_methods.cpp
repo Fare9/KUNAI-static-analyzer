@@ -2,11 +2,11 @@
 
 namespace KUNAI {
     namespace DEX {
-        ExternalMethod::ExternalMethod(std::string class_idx, std::vector<std::string> proto_idx, std::string name_idx)
+        ExternalMethod::ExternalMethod(std::string class_idx, std::string name_idx, std::string proto_idx)
         {
-            this->class_idx = class_idx;
-            this->proto_idx = proto_idx;
+            this->class_idx = class_idx;            
             this->name_idx = name_idx;
+            this->proto_idx = proto_idx;
         }
 
         ExternalMethod::~ExternalMethod() {}
@@ -23,25 +23,7 @@ namespace KUNAI {
 
         std::string ExternalMethod::get_descriptor()
         {
-            std::string method_proto = "";
-
-            if (proto_idx.size() == 1)
-            {
-                return "()" + proto_idx[0];
-            }
-
-            method_proto = "(";
-
-            for (size_t i = 0; i < proto_idx.size()-1; i++)
-            {
-                method_proto += proto_idx[i];
-                if (i != proto_idx.size()-2)
-                    method_proto += ", ";
-            }
-
-            method_proto += ")" + proto_idx[proto_idx.size()-1];
-
-            return method_proto;
+            return proto_idx;
         }
 
         /**
@@ -72,16 +54,7 @@ namespace KUNAI {
                 return os;
             }
 
-            method_proto = "(";
-
-            for (size_t i = 0; i < entry.proto_idx.size()-1; i++)
-            {
-                method_proto += entry.proto_idx[i];
-                if (i != entry.proto_idx.size()-2)
-                    method_proto += ", ";
-            }
-
-            method_proto += ")" + entry.proto_idx[entry.proto_idx.size()-1];
+            method_proto = entry.proto_idx;
 
             os << entry.class_idx << "->" << entry.name_idx << method_proto;
 

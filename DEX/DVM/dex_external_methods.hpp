@@ -22,7 +22,7 @@ namespace KUNAI {
         class ExternalMethod
         {
         public:
-            ExternalMethod(std::string class_idx, std::vector<std::string> proto_idx, std::string name_idx);
+            ExternalMethod(std::string class_idx, std::string name_idx, std::string proto_idx);
             ~ExternalMethod();
 
             std::string get_name();
@@ -38,7 +38,7 @@ namespace KUNAI {
             std::string class_idx;
             std::string name_idx;
             DVMTypes::ACCESS_FLAGS access_flags;
-            std::vector<std::string> proto_idx;
+            std::string proto_idx;
         };
 
     }
