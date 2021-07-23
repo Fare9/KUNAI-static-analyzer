@@ -36,8 +36,8 @@ namespace KUNAI {
                 }
                 catch(const std::exception& e)
                 {
-                    std::cerr << "Error reading index " << instruction_index << "opcode " << opcode << " ";
-                    std::cerr << e.what() << '\n';
+                    std::cerr << "Error reading index " << instruction_index << " opcode " << opcode << " message: '";
+                    std::cerr << e.what() << "'\n";
                     instruction_index += 1;
                 }
             }
