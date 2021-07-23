@@ -44,6 +44,11 @@ namespace KUNAI {
             return class_idx + "-" + name_idx + "-" + get_descriptor();
         }
 
+        DVMTypes::ACCESS_FLAGS ExternalMethod::get_access_flags()
+        {
+            return DVMTypes::ACCESS_FLAGS::NONE;
+        }
+
         std::ostream& operator<<(std::ostream& os, const ExternalMethod& entry)
         {
             std::string method_proto = "";
