@@ -21,6 +21,7 @@
 #include "dex_parser.hpp"
 #include "dex_dalvik_opcodes.hpp"
 #include "dex_disassembler.hpp"
+#include "dex_analysis.hpp"
 
 namespace KUNAI
 {
@@ -35,6 +36,7 @@ namespace KUNAI
             std::shared_ptr<DexParser> get_parser();
             std::shared_ptr<DalvikOpcodes> get_dalvik_opcode_object();
             std::shared_ptr<DexDisassembler> get_dex_disassembler();
+            std::shared_ptr<Analysis> get_dex_analysis();
 
             bool get_parsing_correct();
             
@@ -43,6 +45,8 @@ namespace KUNAI
             std::shared_ptr<DexParser> dex_parser;
             std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
             std::shared_ptr<DexDisassembler> dex_disassembler;
+            std::shared_ptr<Analysis> dex_analysis;
+            
 
             std::map<std::tuple<std::shared_ptr<ClassDef>,std::shared_ptr<EncodedMethod>>, std::map<std::uint64_t, std::shared_ptr<Instruction>>> method_instructions;
 

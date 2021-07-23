@@ -44,6 +44,21 @@ namespace KUNAI
             return nullptr;
         }
 
+        std::shared_ptr<Analysis> DEX::get_dex_analysis()
+        {
+            if (!dex_parsing_correct)
+                return nullptr;
+            
+            dex_disassembler->disassembly_analysis();
+
+            if (!dex_disassembler->get_disassembly_correct())
+                return nullptr;
+
+            dex_analysis = std::make_shared<Analysis>(dex_parser, dalvik_opcodes, dex_disassembler->get_instructions());
+
+            return dex_analysis;
+        }
+
         bool DEX::get_parsing_correct()
         {
             return dex_parsing_correct;
