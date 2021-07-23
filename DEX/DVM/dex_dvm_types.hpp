@@ -83,6 +83,7 @@ namespace KUNAI
              * https://source.android.com/devices/tech/dalvik/dex-format#access-flags
              */
             {
+                NONE = 0x0,
                 ACC_PUBLIC = 0x1,
                 ACC_PRIVATE = 0x2,
                 ACC_PROTECTED = 0x4,
