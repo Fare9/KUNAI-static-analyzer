@@ -453,6 +453,11 @@ namespace KUNAI
             return code_item;
         }
 
+        std::string EncodedMethod::full_name()
+        {
+            return reinterpret_cast<Class*>(method_id->get_method_class())->get_name() + " " + *method_id->get_method_name() + " " + method_id->get_method_prototype()->get_proto_str();
+        }
+
         bool EncodedMethod::parse_code_item(std::ifstream &input_file, std::uint64_t file_size, std::shared_ptr<DexTypes> dex_types)
         {
             auto current_offset = input_file.tellg();

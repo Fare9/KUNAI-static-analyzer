@@ -198,6 +198,7 @@ namespace KUNAI
             DVMTypes::ACCESS_FLAGS get_access_flags();
             std::uint64_t get_code_offset();
             std::shared_ptr<CodeItemStruct> get_code_item();
+            std::string full_name();
 
         private:
             bool parse_code_item(std::ifstream &input_file, std::uint64_t file_size, std::shared_ptr<DexTypes> dex_types);
