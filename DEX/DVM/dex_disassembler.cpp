@@ -130,6 +130,17 @@ namespace KUNAI
             }
         }
 
+        /**
+         * @brief Return all the instructions from the disassembled DEX.
+         * @return std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>, std::map<std::uint64_t, std::shared_ptr<Instruction>>>
+         */
+        std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>,
+                     std::map<std::uint64_t, std::shared_ptr<Instruction>>> DexDisassembler::get_instructions()
+        {
+            return method_instructions;
+        }
+
+
         std::ostream &operator<<(std::ostream &os, const DexDisassembler &entry)
         {
             for (auto it = entry.method_instructions.begin(); it != entry.method_instructions.end(); it++)
