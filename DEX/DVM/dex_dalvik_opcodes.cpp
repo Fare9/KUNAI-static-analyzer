@@ -251,6 +251,8 @@ namespace KUNAI
         {
             std::string flag = "";
 
+            if (acc_flag & DVMTypes::NONE)
+                flag += "NONE|";
             if (acc_flag & DVMTypes::ACC_PUBLIC)
                 flag += "PUBLIC|";
             if (acc_flag & DVMTypes::ACC_PRIVATE)
