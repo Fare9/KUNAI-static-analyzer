@@ -6,7 +6,7 @@ CFLAGS=-std=c++17 -c -O3
 BIN_FOLDER=bin/
 OBJ=objs/
 BIN_NAME=Kunai
-FILE_MODULES = -I DEX/ -I DEX/parser/ -I DEX/DVM/
+FILE_MODULES = -I DEX/ -I DEX/parser/ -I DEX/DVM/ -I DEX/Analysis/
 UTILITIES = -I Exceptions/ -I Utils/
 ALL_INCLUDE = ${FILE_MODULES} ${UTILITIES}
 OBJ_FILES= ${OBJ}utils.o ${OBJ}dex_header.o ${OBJ}dex_strings.o \
@@ -15,6 +15,11 @@ OBJ_FILES= ${OBJ}utils.o ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_annotations.o ${OBJ}dex_parser.o\
 			${OBJ}dex_dalvik_opcodes.o ${OBJ}dex_instructions.o\
 			${OBJ}dex_linear_sweep_disassembly.o ${OBJ}dex_disassembler.o\
+			${OBJ}dex_external_methods.o ${OBJ}dex_external_classes.o\
+			${OBJ}dex_string_analysis.o ${OBJ}dex_dvm_basic_block.o\
+			${OBJ}dex_exception_analysis.o\
+			${OBJ}dex_method_analysis.o ${OBJ}dex_field_analysis.o\
+			${OBJ}dex_class_analysis.o ${OBJ}dex_analysis.o\
 			${OBJ}dex.o
 
 .PHONY: clean
@@ -53,9 +58,10 @@ ${OBJ}%.o: ${UTILS_MODULE}%.cpp
 DEX_MODULE=DEX/
 DEX_PARSER=DEX/parser/
 DEX_DVM=DEX/DVM/
+DEX_ANALYSIS=DEX/Analysis/
 ${OBJ}dex.o: ${DEX_MODULE}dex.cpp
 	@echo "Compiling $^ -> $@"
-	${CPP} -I${DEX_MODULE} -I${DEX_PARSER} -I${DEX_DVM} ${UTILITIES} -o $@ $^ ${CFLAGS}
+	${CPP} -I${DEX_MODULE} -I${DEX_PARSER} -I${DEX_DVM} -I${DEX_ANALYSIS} ${UTILITIES} -o $@ $^ ${CFLAGS}
 
 ${OBJ}%.o: ${DEX_PARSER}%.cpp
 	@echo "Compiling $< -> $@"
@@ -64,6 +70,10 @@ ${OBJ}%.o: ${DEX_PARSER}%.cpp
 ${OBJ}%.o: ${DEX_DVM}%.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} -I${DEX_PARSER} -I${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}
+
+${OBJ}%.o: ${DEX_ANALYSIS}%.cpp
+	@echo "Compiling $< -> $@"
+	${CPP} -I${DEX_PARSER} -I${DEX_DVM} -I${DEX_ANALYSIS} ${UTILITIES} -o $@ $< ${CFLAGS}
 
 
 
