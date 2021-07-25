@@ -7,6 +7,17 @@ namespace KUNAI
         /***
          * ClassDataItem
          */
+
+        /**
+         * @brief Constructor of ClassDataItem here the tool will parse
+         *        fields and methods.
+         * @param input_file: file to parse with DEX information.
+         * @param file_size: size of file used for checking.
+         * @param dex_fields: used for getting fields information during parsing.
+         * @param dex_methods: used for getting information from methods during parsing.
+         * @param dex_types: used for getting types information during parsing.
+         * @return void
+         */
         ClassDataItem::ClassDataItem(std::ifstream &input_file,
                                      std::uint64_t file_size,
                                      std::shared_ptr<DexFields> dex_fields,
@@ -88,13 +99,26 @@ namespace KUNAI
             input_file.seekg(current_offset);
         }
 
+        /**
+         * @brief ClassDataItem destructor
+         * @return void
+         */
         ClassDataItem::~ClassDataItem() {}
 
+        /**
+         * @brief Get the number of static fields in the class.
+         * @return std::uint64_t
+         */
         std::uint64_t ClassDataItem::get_number_of_static_fields()
         {
             return static_fields.size();
         }
 
+        /**
+         * @brief Get a class static field, by the field id, this is not a sorted number.
+         * @param id: id of the field to retrieve.
+         * @return std::shared_ptr<EncodedField>
+         */
         std::shared_ptr<EncodedField> ClassDataItem::get_static_field_by_id(std::uint64_t id)
         {
             auto it = static_fields.find(id);
@@ -105,6 +129,11 @@ namespace KUNAI
             return nullptr;
         }
 
+        /**
+         * @brief Get a class static field by its position from parsing.
+         * @param pos: position of static field.
+         * @return std::shared_ptr<EncodedField>
+         */
         std::shared_ptr<EncodedField> ClassDataItem::get_static_field_by_pos(std::uint64_t pos)
         {
             if (pos >= static_fields.size())
@@ -116,11 +145,20 @@ namespace KUNAI
             return it->second;
         }
 
+        /**
+         * @brief return the number of instance fields from the class.
+         * @return std::uint64_t
+         */
         std::uint64_t ClassDataItem::get_number_of_instance_fields()
         {
             return instance_fields.size();
         }
 
+        /**
+         * @brief return a instance field from a class by the field id.
+         * @param id: id of the EncodedField.
+         * @return std::shared_ptr<EncodedField>
+         */
         std::shared_ptr<EncodedField> ClassDataItem::get_instance_field_by_id(std::uint64_t id)
         {
             auto it = instance_fields.find(id);
@@ -130,7 +168,12 @@ namespace KUNAI
 
             return nullptr;
         }
-
+        
+        /**
+         * @brief return a instance field from a class by its position while parsing.
+         * @param pos: position to retrieve.
+         * @return std::shared_ptr<EncodedField>
+         */
         std::shared_ptr<EncodedField> ClassDataItem::get_instance_field_by_pos(std::uint64_t pos)
         {
             if (pos >= instance_fields.size())
@@ -142,6 +185,10 @@ namespace KUNAI
             return it->second;
         }
 
+        /**
+         * @brief Get all the fields both static and instance fields.
+         * @return std::vector<std::shared_ptr<EncodedField>>
+         */
         std::vector<std::shared_ptr<EncodedField>> ClassDataItem::get_fields()
         {
             std::vector<std::shared_ptr<EncodedField>> fields;
@@ -159,11 +206,20 @@ namespace KUNAI
             return fields;
         }
 
+        /**
+         * @brief Get the number of direct methods from the class.
+         * @return std::uint64_t
+         */
         std::uint64_t ClassDataItem::get_number_of_direct_methods()
         {
             return direct_methods.size();
         }
 
+        /**
+         * @brief Get a direct method by the id of the method.
+         * @param id: id of the method to retrieve.
+         * @return std::shared_ptr<EncodedMethod>
+         */
         std::shared_ptr<EncodedMethod> ClassDataItem::get_direct_method_by_id(std::uint64_t id)
         {
             auto it = direct_methods.find(id);
@@ -174,6 +230,11 @@ namespace KUNAI
             return nullptr;
         }
 
+        /**
+         * @brief Get a direct method by its position while parsing it.
+         * @param pos: position of the method to retrieve.
+         * @return std::shared_ptr<EncodedMethod>
+         */
         std::shared_ptr<EncodedMethod> ClassDataItem::get_direct_method_by_pos(std::uint64_t pos)
         {
             if (pos >= direct_methods.size())
@@ -185,11 +246,20 @@ namespace KUNAI
             return it->second;
         }
 
+        /**
+         * @brief Get the number of virtual methods from the class.
+         * @return std::uint64_t
+         */
         std::uint64_t ClassDataItem::get_number_of_virtual_methods()
         {
             return virtual_methods.size();
         }
 
+        /**
+         * @brief Get a method from the class by its method id.
+         * @param id: id of the method to retrieve.
+         * @return std::shared_ptr<EncodedMethod>
+         */
         std::shared_ptr<EncodedMethod> ClassDataItem::get_virtual_method_by_id(std::uint64_t id)
         {
             auto it = virtual_methods.find(id);
@@ -200,6 +270,11 @@ namespace KUNAI
             return nullptr;
         }
 
+        /**
+         * @brief Get a method from the class by its position while parsing.
+         * @param pos: position of method while parsing.
+         * @return std::shared_ptr<EncodedMethod>
+         */
         std::shared_ptr<EncodedMethod> ClassDataItem::get_virtual_method_by_pos(std::uint64_t pos)
         {
             if (pos >= virtual_methods.size())
@@ -231,6 +306,18 @@ namespace KUNAI
         /***
          * ClassDef
          */
+
+        /**
+         * @brief ClassDef constructor, parse class def by the structure classdef_t.
+         * @param class_def: structure used to parse the class definition.
+         * @param dex_str: strings object used while parsing.
+         * @param dex_types: types object used while parsing.
+         * @param dex_fields: fields object used while parsing.
+         * @param dex_methods: methods object used while parsing.
+         * @param input_file: DEX file where to read data.
+         * @param file_size: size of the file for checks.
+         * @return void
+         */
         ClassDef::ClassDef(classdef_t class_def,
                            std::shared_ptr<DexStrings> dex_str,
                            std::shared_ptr<DexTypes> dex_types,
@@ -258,8 +345,24 @@ namespace KUNAI
                 throw exceptions::ParserReadingException("Error reading DEX ClassDef");
         }
 
+        /**
+         * @brief Destructor of ClassDef.
+         * @return void
+         */
         ClassDef::~ClassDef() {}
 
+        /**
+         * @brief Private method for pasing the ClassDef object,
+         *        get the interfaces, the annotations, the class_data_items
+         *        and the static values.
+         * @param input_file: DEX file where to read data.
+         * @param file_size: size of the file for checks.
+         * @param dex_str: strings object used while parsing.
+         * @param dex_types: types object used while parsing.
+         * @param dex_fields: fields object used while parsing.
+         * @param dex_methods: methods object used while parsing.
+         * @return bool
+         */
         bool ClassDef::parse_class_defs(std::ifstream &input_file,
                                         std::uint64_t file_size,
                                         std::shared_ptr<DexStrings> dex_str,
@@ -319,31 +422,56 @@ namespace KUNAI
             return true;
         }
 
+        /**
+         * @brief Get the ClassDef Class* object with class data.
+         * @return Class*
+         */
         Class *ClassDef::get_class_idx()
         {
             return class_idx.begin()->second;
         }
 
+        /**
+         * @brief return the access flags from the class.
+         * @return DVMTypes::ACCESS_FLAGS
+         */
         DVMTypes::ACCESS_FLAGS ClassDef::get_access_flags()
         {
             return access_flag;
         }
 
+        /**
+         * @brief Get the Class* object from the super class of current class.
+         * @return Class*
+         */
         Class *ClassDef::get_superclass_idx()
         {
             return superclass_idx.begin()->second;
         }
 
+        /**
+         * @brief Get the name of the file where the class is.
+         * @return std::string*
+         */
         std::string *ClassDef::get_source_file_idx()
         {
             return source_file_idx.begin()->second;
         }
 
+        /**
+         * @brief Get the number of interfaces this class implements
+         * @return std::uint64_t
+         */
         std::uint64_t ClassDef::get_number_of_interfaces()
         {
             return interfaces.size();
         }
 
+        /**
+         * @brief Get the Class* object from an interface by the class id.
+         * @param id: id of the class.
+         * @return Class*
+         */
         Class *ClassDef::get_interface_by_class_id(std::uint16_t id)
         {
             auto it = interfaces.find(id);
@@ -354,6 +482,11 @@ namespace KUNAI
             return nullptr;
         }
 
+        /**
+         * @brief Get the Class* object from an interface by its position from parsing.
+         * @param pos: position of interface from parsing.
+         * @return Class*
+         */
         Class *ClassDef::get_interface_by_pos(std::uint64_t pos)
         {
             if (pos >= interfaces.size())
@@ -364,6 +497,10 @@ namespace KUNAI
             return it->second;
         }
 
+        /**
+         * @brief Get the ClassDataItem object from the ClassDef.
+         * @return std::shared_ptr<ClassDataItem>
+         */
         std::shared_ptr<ClassDataItem> ClassDef::get_class_data()
         {
             return class_data_items;
@@ -371,6 +508,19 @@ namespace KUNAI
 
         /***
          * DexClasses
+         */
+
+        /**
+         * @brief Constructor of DexClasses this object manages all the classes from the DEX.
+         * @param input_file: DEX file being parsed.
+         * @param file_size: size of DEX file for checking.
+         * @param number_of_classes: number of classes to parse from DEX.
+         * @param offset: offset where the classes are.
+         * @param dex_str: dex strings used while parsing.
+         * @param dex_types: dex types used while parsing.
+         * @param dex_fields: dex fields used while parsing.
+         * @param dex_methods: dex methods used while parsing.
+         * @return void
          */
         DexClasses::DexClasses(std::ifstream &input_file,
                                std::uint64_t file_size,
@@ -392,6 +542,10 @@ namespace KUNAI
                 throw exceptions::ParserReadingException("Error reading DEX classes");
         }
 
+        /**
+         * @brief DexClasses destructor.
+         * @return void
+         */
         DexClasses::~DexClasses()
         {
             if (!class_defs.empty())
@@ -400,11 +554,19 @@ namespace KUNAI
             }
         }
 
+        /**
+         * @brief Get the number of classes parsed.
+         * @return std::uint32_t
+         */
         std::uint32_t DexClasses::get_number_of_classes()
         {
             return number_of_classes;
         }
 
+        /**
+         * @brief Get the ClassDef object by its position from parsing.
+         * @return std::shared_ptr<ClassDef>
+         */
         std::shared_ptr<ClassDef> DexClasses::get_class_by_pos(std::uint64_t pos)
         {
             if (pos >= class_defs.size())
@@ -412,6 +574,12 @@ namespace KUNAI
             return class_defs[pos];
         }
 
+        /**
+         * @brief private method for pasing the ClassDef information using the classdef_t structure.
+         * @param input_file: dex file for parsing.
+         * @param file_size: size of file for checks.
+         * @return bool
+         */
         bool DexClasses::parse_classes(std::ifstream &input_file, std::uint64_t file_size)
         {
             auto current_offset = input_file.tellg();
