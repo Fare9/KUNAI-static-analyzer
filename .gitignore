@@ -40,3 +40,7 @@ bin/
 
 # visual studio code
 .vscode/
+
+# doc shit
+doc/html/
+doc/latex/
