@@ -2820,7 +2820,7 @@ namespace KUNAI
             case DVMTypes::Opcode::OP_SPUT_OBJECT_VOLATILE:
                 instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // "const-method-handle" # Dalvik 039
                 break;
-            case DVMTypes::Opcode::OP_UNUSED_FF:
+            case DVMTypes::Opcode::OP_CONST_METHOD_TYPE:
                 instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // 'const-method-type' # Dalvik 039
                 break;
             default:

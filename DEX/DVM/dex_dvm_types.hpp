@@ -29,9 +29,8 @@ namespace KUNAI
             static const std::uint32_t NO_INDEX = 0xFFFFFFFF;
 
             enum Kind
-            /***
-             * Identify kind of argument inside of
-             * argument inside a Dalvik Instruction.
+            /**
+             * @brief Identify kind of argument inside of argument inside a Dalvik Instruction.
              */
             {
                 METH = 0,        // method reference
@@ -50,10 +49,8 @@ namespace KUNAI
             };
 
             enum Operation
-            /***
-             * Identify different type of operatiosn
-             * from instructions like branching, break,
-             * write or read.
+            /**
+             * @brief Identify different type of operations from instructions like branching, break, write or read.
              */
             {
                 BRANCH_DVM_OPCODE = 0,      // branch instructions ["throw", "throw.", "if.", "goto", "goto.", "return", "return.", "packed-switch$", "sparse-switch$"]
@@ -64,8 +61,8 @@ namespace KUNAI
             };
 
             enum Operand
-            /***
-             * Enumeration used for operand type of opcodes
+            /**
+             * @brief Enumeration used for operand type of opcodes
              */
             {
                 REGISTER = 0,
@@ -78,9 +75,7 @@ namespace KUNAI
 
             enum ACCESS_FLAGS
             /***
-             * Access flags used in class_def_item, encoded_field, 
-             * encoded_method and InnerClass
-             * https://source.android.com/devices/tech/dalvik/dex-format#access-flags
+             * @brief Access flags used in class_def_item, encoded_field, encoded_method and InnerClass https://source.android.com/devices/tech/dalvik/dex-format#access-flags
              */
             {
                 NONE = 0x0,
@@ -107,6 +102,9 @@ namespace KUNAI
             };
 
             enum VALUE_FORMATS
+            /**
+             * @brief Enumeration used for the types.
+             */
             {
                 VALUE_BYTE = 0x0,           // ubyte[1]
                 VALUE_SHORT = 0x2,          // ubyte[size]
@@ -129,6 +127,9 @@ namespace KUNAI
             };
 
             enum METHOD_HANDLE_TYPE_CODES
+            /**
+             * @brief types for method handle.
+             */
             {
                 METHOD_HANDLE_TYPE_STATIC_PUT = 0x0,
                 METHOD_HANDLE_TYPE_STATIC_GET,
@@ -142,9 +143,8 @@ namespace KUNAI
             };
 
             enum REF_TYPE
-            /***
-             * Reference used in the cross ref of the classes, to store
-             * the type of reference to the class.
+            /**
+             * @brief Reference used in the cross ref of the classes, to store the type of reference to the class.
              */
             {
                 REF_NEW_INSTANCE = 0x22,
@@ -162,6 +162,9 @@ namespace KUNAI
             };
 
             enum Opcode
+            /**
+             * @brief values for all the different opcodes.
+             */
             {
                 // BEGIN(libdex-opcode-enum); GENERATED AUTOMATICALLY BY opcode-gen
                 OP_NOP = 0x00,
@@ -419,12 +422,15 @@ namespace KUNAI
                 OP_IPUT_OBJECT_VOLATILE = 0xfc,
                 OP_SGET_OBJECT_VOLATILE = 0xfd,
                 OP_SPUT_OBJECT_VOLATILE = 0xfe,
-                OP_UNUSED_FF = 0xff,
+                OP_CONST_METHOD_TYPE = 0xff,
                 // END(libdex-opcode-enum)
             };
         };
 
         static std::map<DVMTypes::Kind, std::string> KindString = {
+            /**
+             * @brief string representation for all the Kind enum values.
+             */
             {DVMTypes::Kind::METH, "METH"},
             {DVMTypes::Kind::STRING, "STRING"},
             {DVMTypes::Kind::FIELD, "FIELD"},
@@ -440,6 +446,9 @@ namespace KUNAI
             {DVMTypes::Kind::NONE_KIND, "NONE"}};
 
         static std::map<DVMTypes::ACCESS_FLAGS, std::string> ACCESS_FLAGS_STR = {
+            /**
+             * @brief string representation for the access flags.
+             */
             {DVMTypes::ACCESS_FLAGS::ACC_PUBLIC, "public"},
             {DVMTypes::ACCESS_FLAGS::ACC_PRIVATE, "private"},
             {DVMTypes::ACCESS_FLAGS::ACC_PROTECTED, "protected"},
