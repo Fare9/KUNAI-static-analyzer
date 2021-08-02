@@ -1,13 +1,18 @@
 CPP=g++
+AR=ar
 # CFLAGS debugging
-CFLAGS=-std=c++17 -c -g -Wall
+CFLAGS=-std=c++17 -c -g -Wall -fpic
 # CFLAGS execution
-#CFLAGS=-std=c++17 -c -O3
+#CFLAGS=-std=c++17 -c -O3 -fpic
 CODE_FOLDER=src/
 INCLUDE_FOLDER=src/includes/KUNAI/
 BIN_FOLDER=bin/
 OBJ=objs/
 BIN_NAME=Kunai
+STATIC_LIB_NAME=kunai_lib.a
+SHARED_LIB_NAME=kunai_lib.so
+
+
 FILE_MODULES = -I ${INCLUDE_FOLDER}DEX/ -I ${INCLUDE_FOLDER}DEX/parser/ -I ${INCLUDE_FOLDER}DEX/DVM/ -I ${INCLUDE_FOLDER}DEX/Analysis/
 UTILITIES = -I ${INCLUDE_FOLDER}Exceptions/ -I ${INCLUDE_FOLDER}Utils/
 ALL_INCLUDE = ${FILE_MODULES} ${UTILITIES}
@@ -26,7 +31,8 @@ OBJ_FILES= ${OBJ}utils.o ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 
 .PHONY: clean
 
-all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}test_dex_parser
+all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
+		${BIN_FOLDER}test_dex_parser
 
 dirs:
 	mkdir -p ${OBJ}
@@ -35,6 +41,14 @@ dirs:
 ${BIN_FOLDER}${BIN_NAME}: ${OBJ}main.o ${OBJ_FILES}
 	@echo "Linking $^ -> $@"
 	${CPP} -o $@ $^
+
+${BIN_FOLDER}${STATIC_LIB_NAME}: ${OBJ_FILES}
+	@echo "Compiling static library $^ -> $@"
+	$(AR) -crv $@ $^
+
+${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
+	@echo "Compiling dynamic library $^ -> $@"
+	$(CPP) -fpic -shared -Wformat=0 -o $@ $^
 
 ${BIN_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
 	@echo "Linking $^ -> $@"
