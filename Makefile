@@ -1,13 +1,15 @@
 CPP=g++
 # CFLAGS debugging
-#CFLAGS=-std=c++17 -c -g -Wall
+CFLAGS=-std=c++17 -c -g -Wall
 # CFLAGS execution
-CFLAGS=-std=c++17 -c -O3
+#CFLAGS=-std=c++17 -c -O3
+CODE_FOLDER=src/
+INCLUDE_FOLDER=src/includes/KUNAI/
 BIN_FOLDER=bin/
 OBJ=objs/
 BIN_NAME=Kunai
-FILE_MODULES = -I DEX/ -I DEX/parser/ -I DEX/DVM/ -I DEX/Analysis/
-UTILITIES = -I Exceptions/ -I Utils/
+FILE_MODULES = -I ${INCLUDE_FOLDER}DEX/ -I ${INCLUDE_FOLDER}DEX/parser/ -I ${INCLUDE_FOLDER}DEX/DVM/ -I ${INCLUDE_FOLDER}DEX/Analysis/
+UTILITIES = -I ${INCLUDE_FOLDER}Exceptions/ -I ${INCLUDE_FOLDER}Utils/
 ALL_INCLUDE = ${FILE_MODULES} ${UTILITIES}
 OBJ_FILES= ${OBJ}utils.o ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_types.o ${OBJ}dex_protos.o ${OBJ}dex_fields.o \
@@ -39,18 +41,18 @@ ${BIN_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
 	${CPP} -o $@ $^
 	
 # main
-${OBJ}main.o: main.cpp
+${OBJ}main.o: ${CODE_FOLDER}main.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
 # test_dex_parser
-${OBJ}test_dex_parser.o: test_dex_parser.cpp
+${OBJ}test_dex_parser.o: ${CODE_FOLDER}test_dex_parser.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
 # Utils
 UTILS_MODULE=Utils/
-${OBJ}%.o: ${UTILS_MODULE}%.cpp
+${OBJ}%.o: ${CODE_FOLDER}${UTILS_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${UTILITIES} -o $@ $< ${CFLAGS}
 
@@ -59,21 +61,21 @@ DEX_MODULE=DEX/
 DEX_PARSER=DEX/parser/
 DEX_DVM=DEX/DVM/
 DEX_ANALYSIS=DEX/Analysis/
-${OBJ}dex.o: ${DEX_MODULE}dex.cpp
+${OBJ}dex.o: ${CODE_FOLDER}${DEX_MODULE}dex.cpp
 	@echo "Compiling $^ -> $@"
-	${CPP} -I${DEX_MODULE} -I${DEX_PARSER} -I${DEX_DVM} -I${DEX_ANALYSIS} ${UTILITIES} -o $@ $^ ${CFLAGS}
+	${CPP} -I${INCLUDE_FOLDER}${DEX_MODULE} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES} -o $@ $^ ${CFLAGS}
 
-${OBJ}%.o: ${DEX_PARSER}%.cpp
+${OBJ}%.o: ${CODE_FOLDER}${DEX_PARSER}%.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} -I${DEX_PARSER} -I${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CPP} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}
 
-${OBJ}%.o: ${DEX_DVM}%.cpp
+${OBJ}%.o: ${CODE_FOLDER}${DEX_DVM}%.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} -I${DEX_PARSER} -I${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CPP} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}
 
-${OBJ}%.o: ${DEX_ANALYSIS}%.cpp
+${OBJ}%.o: ${CODE_FOLDER}${DEX_ANALYSIS}%.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} -I${DEX_PARSER} -I${DEX_DVM} -I${DEX_ANALYSIS} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CPP} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES} -o $@ $< ${CFLAGS}
 
 
 
