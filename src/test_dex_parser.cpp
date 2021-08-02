@@ -92,7 +92,11 @@ int main(int argc, char **argv)
     for (auto it = class_defs.begin(); it != class_defs.end(); it++)
     {
         std::cout << "\tClass name: " << (*it)->get_class_idx()->get_name() << std::endl;
-        std::cout << "\tSource file name: " << *(*it)->get_source_file_idx() << std::endl;
+        std::cout << "\tSource file name: ";
+        if ((*it)->get_source_file_idx())
+            std::cout << *(*it)->get_source_file_idx() << std::endl;
+        else
+            std::cout << "None" << std::endl;
         std::cout << std::endl;
     }
 
@@ -114,7 +118,7 @@ int main(int argc, char **argv)
         * this time as it's returned by a method, and its is
         * class we can cast it to KUNAI::DEX::Class*
         */
-        std::cout << "\tMethod class: " << reinterpret_cast<KUNAI::DEX::Class*>((*it)->get_method_class())->get_name() << std::endl;
+        std::cout << "\tMethod class: " << (*it)->get_method_class()->get_raw() << std::endl;
         std::cout << std::endl;
     }
 
@@ -193,7 +197,7 @@ int main(int argc, char **argv)
     {
         auto method = methods[i];
 
-        std::cout << "Class: " << reinterpret_cast<KUNAI::DEX::Class*>(method->get_method_class())->get_name() << std::endl;
+        std::cout << "Class: " << method->get_method_class()->get_raw() << std::endl;
         std::cout << "Method: " << *method->get_method_name() << std::endl;
         std::cout << "Description: " << method->get_method_prototype()->get_proto_str() << std::endl;
         std::cout << std::endl;
@@ -205,9 +209,10 @@ int main(int argc, char **argv)
      * In that case this C++ overloaded operator is for you, you can
      * use the dex_parser directly to be printed.
      */
-
+    /*
     std::cout << "Print of all the header: " << std::endl;
     std::cout << *dex_parser;
     std::cout << std::endl;
+    */
 }
 
