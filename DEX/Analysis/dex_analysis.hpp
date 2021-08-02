@@ -99,25 +99,25 @@ namespace KUNAI
             std::vector<std::shared_ptr<DexParser>> dex_parsers;
 
             /**
-             * map with std::string of class name
+             * @brief map with std::string of class name
              * as key and std::shared_ptr<ClassAnalysis> as value.
              */
             std::map<std::string, std::shared_ptr<ClassAnalysis>> classes;
 
             /**
-             * map with std::string as key and std::shared_ptr<StringAnalysis>
+             * @brief map with std::string as key and std::shared_ptr<StringAnalysis>
              * as value
              */
             std::map<std::string, std::shared_ptr<StringAnalysis>> strings;
 
             /**
-             * map with std::shared_ptr<EncodedMethod> or std::shared_ptr<ExternalMethod>
+             * @brief map with std::shared_ptr<EncodedMethod> or std::shared_ptr<ExternalMethod>
              * as keys and std::shared_ptr<MethodAnalysis> as value.
              */
             std::map<std::string, std::shared_ptr<MethodAnalysis>> methods;
 
             /**
-             * map hash for quickly getting the Method
+             * @brief map hash for quickly getting the Method
              */
             std::map<std::tuple<std::string, std::string, std::string>, std::shared_ptr<MethodAnalysis>> method_hashes;
 
