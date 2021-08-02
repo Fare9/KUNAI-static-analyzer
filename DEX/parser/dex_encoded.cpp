@@ -244,8 +244,6 @@ namespace KUNAI
 
         /***
          * TryItem
-         * 
-         * ToDo
          */
         TryItem::TryItem(try_item_struct_t try_item_struct)
         {
