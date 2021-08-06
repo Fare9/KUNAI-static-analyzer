@@ -15,8 +15,10 @@ SHARED_LIB_NAME=kunai_lib.so
 
 FILE_MODULES = -I ${INCLUDE_FOLDER}DEX/ -I ${INCLUDE_FOLDER}DEX/parser/ -I ${INCLUDE_FOLDER}DEX/DVM/ -I ${INCLUDE_FOLDER}DEX/Analysis/
 UTILITIES = -I ${INCLUDE_FOLDER}Exceptions/ -I ${INCLUDE_FOLDER}Utils/
-ALL_INCLUDE = ${FILE_MODULES} ${UTILITIES}
-OBJ_FILES= ${OBJ}utils.o ${OBJ}dex_header.o ${OBJ}dex_strings.o \
+IR_MODULES = -I ${INCLUDE_FOLDER}mjolnIR/
+ALL_INCLUDE = ${FILE_MODULES} ${UTILITIES} ${IR_MODULES}
+
+DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_types.o ${OBJ}dex_protos.o ${OBJ}dex_fields.o \
 			${OBJ}dex_methods.o ${OBJ}dex_classes.o ${OBJ}dex_encoded.o\
 			${OBJ}dex_annotations.o ${OBJ}dex_parser.o\
@@ -28,6 +30,12 @@ OBJ_FILES= ${OBJ}utils.o ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_method_analysis.o ${OBJ}dex_field_analysis.o\
 			${OBJ}dex_class_analysis.o ${OBJ}dex_analysis.o\
 			${OBJ}dex.o
+
+IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o
+
+OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${IR_OBJ_FILES}
+
+
 
 .PHONY: clean
 
@@ -92,6 +100,11 @@ ${OBJ}%.o: ${CODE_FOLDER}${DEX_ANALYSIS}%.cpp
 	${CPP} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES} -o $@ $< ${CFLAGS}
 
 
+# IR modules here
+IR_MODULE=mjolnIR/
+${OBJ}%.o: ${CODE_FOLDER}${IR_MODULE}%.cpp
+	@echo "Compiling $< -> $@"
+	${CPP} ${IR_MODULES} -o $@ $< ${CFLAGS}
 
 ########################################################
 clean:
