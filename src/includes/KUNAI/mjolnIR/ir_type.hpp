@@ -27,6 +27,7 @@ namespace KUNAI
                 CONST_FLOAT_TYPE,
                 FIELD_TYPE,
                 MEM_TYPE,
+                STRING_TYPE,
                 NONE_TYPE = 99
             };
 
@@ -140,6 +141,22 @@ namespace KUNAI
             std::int32_t offset;
             //! byte order of the memory.
             mem_access_t byte_order;
+        };
+
+        class IRString : IRType
+        {
+        public:
+            IRString(std::string str_value, std::string type_name, size_t type_size);
+            ~IRString();
+
+            std::string get_str_value();
+
+            type_t get_type();
+            std::string get_type_str();
+            mem_access_t get_access();
+        private:
+            //! string value, probably nothing more will be here
+            std::string str_value;
         };
     }
 }

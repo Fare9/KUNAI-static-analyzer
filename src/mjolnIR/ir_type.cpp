@@ -334,5 +334,62 @@ namespace KUNAI
             return byte_order;
         }
 
+        /**
+         * IRString class
+         */
+        /**
+         * @brief Constructor of IRString class, this represent strings used in code.
+         * @param str_value: value of that string.
+         * @param type_name: some meaninful string name.
+         * @param type_size: size of the type (probably here string length)
+         * @return void
+         */
+        IRString::IRString(std::string str_value, std::string type_name, size_t type_size)
+            : IRType(type_name, type_size)
+        {
+            this->str_value = str_value;
+        }
+
+        /**
+         * @brief Destructor of IRString, nothing to be done.
+         * @return void
+         */
+        IRString::~IRString() {}
+
+        /**
+         * @brief Return the value of the string.
+         * @return std::string
+         */
+        std::string IRString::get_str_value()
+        {
+            return str_value;
+        }
+
+        /**
+         * @brief Get the STRING type.
+         * @return type_t
+         */
+        IRString::type_t IRString::get_type()
+        {
+            return STRING_TYPE;
+        }
+
+        /**
+         * @brief Get the type as a string.
+         * @return std::string
+         */
+        std::string IRString::get_type_str()
+        {
+            return "String";
+        }
+
+        /**
+         * @brief Get the type of access of string, in this one NONE.
+         * @return mem_access_t
+         */
+        IRString::mem_access_t IRString::get_access()
+        {
+            return NONE_ACCESS;
+        }
     }
 }
