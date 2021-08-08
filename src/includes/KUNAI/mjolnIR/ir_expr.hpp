@@ -22,6 +22,7 @@ namespace KUNAI
             {
                 BINOP_EXPR_T,
                 UNARYOP_EXPR_T,
+                ASSIGN_EXPR_T,
                 TYPE_EXPR_T,
                 NONE_EXPR_T = 99 // used to finish the expressions
             };
@@ -54,13 +55,20 @@ namespace KUNAI
         public:
             enum bin_op_t
             {
+                // common arithmetic instructions
                 ADD_OP_T,
                 SUB_OP_T,
                 S_MUL_OP_T,
                 U_MUL_OP_T,
                 S_DIV_OP_T,
                 U_DIV_OP_T,
-                MOD_OP_T
+                MOD_OP_T,
+                // common logic instructions
+                AND_OP_T,
+                XOR_OP_T,
+                OR_OP_T,
+                SHL_OP_T,
+                SHR_OP_T
             };
 
             IRBinOp(bin_op_t bin_op_type,
@@ -98,7 +106,7 @@ namespace KUNAI
                 NEG_OP_T,
                 CAST_OP_T, // maybe not used in binary
                 Z_EXT_OP_T, // zero extend
-                S_EXT_OP_T
+                S_EXT_OP_T // sign extend
             };
 
             IRUnaryOp(unary_op_t unary_op_type,
@@ -120,6 +128,21 @@ namespace KUNAI
             std::shared_ptr<IRExpr> result;
             // operator
             std::shared_ptr<IRExpr> op;
+        };
+    
+        class IRAssign : public IRExpr
+        {
+        public:
+            IRAssign(std::shared_ptr<IRExpr> destination,
+                    std::shared_ptr<IRExpr> source,
+                    std::shared_ptr<IRExpr> left, 
+                    std::shared_ptr<IRExpr> right);
+            ~IRAssign();
+        private:
+            //! destination where the value will be stored.
+            std::shared_ptr<IRExpr> destination;
+            //! source expression from where the value is taken
+            std::shared_ptr<IRExpr> source;
         };
     }
 }

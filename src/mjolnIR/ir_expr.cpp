@@ -193,5 +193,34 @@ namespace KUNAI
         {
             return op;
         }
+
+        /**
+         * IRAssign class
+         */
+
+        /**
+         * @brief Constructor of IRAssign, this one will have just those from the basic types,
+         *        no more information is needed, the left part and the right part.
+         * @param destination: type where the value will be assigned.
+         * @param source: type from where the value is taken.
+         * @param left: left part of the assignment (also used for AST).
+         * @param right: right part of the assignment (also used for AST).
+         * @return void
+         */
+        IRAssign::IRAssign(std::shared_ptr<IRExpr> destination,
+                    std::shared_ptr<IRExpr> source,
+                    std::shared_ptr<IRExpr> left, 
+                    std::shared_ptr<IRExpr> right)
+            : IRExpr(ASSIGN_EXPR_T, left, right)
+        {
+            this->destination = destination;
+            this->source = source;
+        }
+
+        /**
+         * @brief Destructor of IRAssign, nothing to be done here.
+         * @return void
+         */
+        IRAssign::~IRAssign() {}
     }
 }
