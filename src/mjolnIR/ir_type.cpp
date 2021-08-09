@@ -391,5 +391,114 @@ namespace KUNAI
         {
             return NONE_ACCESS;
         }
+
+        /**
+         * IRCallee class
+         */
+
+        /**
+         * @brief Constructor of IRCallee this represent any function/method called by a caller!
+         * @param addr: address of the function/method called (if available).
+         * @param name: name of the function/method called (if available).
+         * @param class_name: name of the class from the method called (if available).
+         * @param n_of_params: number of the parameters for the function/method (if available).
+         * @param description: description of the parameters from the function/method (if available).
+         * @param type_name: some meaninful string name.
+         * @param type_size: size of the type (probably here 0)
+         * @return void
+         */
+        IRCallee::IRCallee(std::uint64_t addr,
+                     std::string name,
+                     std::string class_name,
+                     int n_of_params,
+                     std::string description,
+                     std::string type_name, 
+                     size_t type_size)
+            : IRType(type_name, type_size)
+        {
+            this->addr = addr;
+            this->name = name;
+            this->class_name = class_name;
+            this->n_of_params = n_of_params;
+            this->description = description;
+        }
+
+        /**
+         * @brief Destructor of IRCallee, nothing to be done.
+         * @return void
+         */
+        IRCallee::~IRCallee() {}
+
+        /**
+         * @brief Get address of function/method
+         * @return std::uint64_t
+         */
+        std::uint64_t IRCallee::get_addr()
+        {
+            return addr;
+        }
+
+        /**
+         * @brief Get name of the called function/method.
+         * @return std::string
+         */
+        std::string IRCallee::get_name()
+        {
+            return name;
+        }
+
+        /**
+         * @brief Get the class name of the called method.
+         * @return std::string
+         */
+        std::string IRCallee::get_class_name()
+        {
+            return class_name;
+        }
+
+        /**
+         * @brief Get the number of parameters from the called function/method.
+         * @return int
+         */
+        int IRCallee::get_number_of_params()
+        {
+            return n_of_params;
+        }
+
+        /**
+         * @brief Get the description of the method if exists.
+         * @return std::string
+         */
+        std::string IRCallee::get_description()
+        {
+            return description;
+        }
+
+        /**
+         * @brief Get type of IRCallee
+         * @return type_t
+         */
+        IRCallee::type_t IRCallee::get_type()
+        {
+            return CALLEE_TYPE;
+        }
+
+        /**
+         * @brief Get the type of IRCallee as string
+         * @return std::string
+         */
+        std::string IRCallee::get_type_str()
+        {
+            return "Callee";
+        }
+
+        /**
+         * @brief Get memory access NONE in this case.
+         * @return mem_access_t
+         */
+        IRCallee::mem_access_t IRCallee::get_access()
+        {
+            return NONE_ACCESS;
+        }
     }
 }

@@ -28,6 +28,7 @@ namespace KUNAI
                 FIELD_TYPE,
                 MEM_TYPE,
                 STRING_TYPE,
+                CALLEE_TYPE,
                 NONE_TYPE = 99
             };
 
@@ -157,6 +158,44 @@ namespace KUNAI
         private:
             //! string value, probably nothing more will be here
             std::string str_value;
+        };
+
+        class IRCallee : IRType
+        {
+        public:
+            IRCallee(std::uint64_t addr,
+                     std::string name,
+                     std::string class_name,
+                     int n_of_params,
+                     std::string description,
+                     std::string type_name, 
+                     size_t type_size);
+            ~IRCallee();
+
+            std::uint64_t get_addr();
+            std::string get_name();
+            std::string get_class_name();
+            int get_number_of_params();
+            std::string get_description();
+
+            type_t get_type();
+            std::string get_type_str();
+            mem_access_t get_access();
+        private:
+            //! for those functions of binary formats we will mostly have the address
+            //! only, these can be from a library, from the same binary, etc.
+            std::uint64_t addr;
+            //! name of the callee function or method, this can be resolved from the
+            //! binary symbols if those exist or is given in case of other formats.
+            std::string name;
+            //! in case it is a method, probably we will need to know class name
+            //! for possible analysis which requires to know about a calls.
+            std::string class_name;
+            //! there are cases where functions/methods can have the same name but
+            //! different parameters, you can give the number of parameters (if recognized)
+            //! or the string with the description of the method
+            int n_of_params;
+            std::string description;
         };
     }
 }
