@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <memory>
+#include <vector>
 
 namespace KUNAI
 {
@@ -23,6 +24,7 @@ namespace KUNAI
                 BINOP_EXPR_T,
                 UNARYOP_EXPR_T,
                 ASSIGN_EXPR_T,
+                CALL_EXPR_T,
                 TYPE_EXPR_T,
                 NONE_EXPR_T = 99 // used to finish the expressions
             };
@@ -138,11 +140,33 @@ namespace KUNAI
                     std::shared_ptr<IRExpr> left, 
                     std::shared_ptr<IRExpr> right);
             ~IRAssign();
+
+            std::shared_ptr<IRExpr> get_destination();
+            std::shared_ptr<IRExpr> get_source();
         private:
             //! destination where the value will be stored.
             std::shared_ptr<IRExpr> destination;
             //! source expression from where the value is taken
             std::shared_ptr<IRExpr> source;
+        };
+
+        class IRCall : public IRExpr
+        {
+        public:
+            IRCall(std::shared_ptr<IRExpr> callee,
+                std::vector<std::shared_ptr<IRExpr>> args,
+                std::shared_ptr<IRExpr> left,
+                std::shared_ptr<IRExpr> right);
+            
+            ~IRCall();
+
+            std::shared_ptr<IRExpr> get_callee();
+            std::vector<std::shared_ptr<IRExpr>> get_args();
+        private:
+            //! Type representing the function/method called
+            std::shared_ptr<IRExpr> callee;
+            //! Vector with possible arguments
+            std::vector<std::shared_ptr<IRExpr>> args;
         };
     }
 }

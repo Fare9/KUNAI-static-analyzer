@@ -222,5 +222,70 @@ namespace KUNAI
          * @return void
          */
         IRAssign::~IRAssign() {}
+
+        /**
+         * @brief Get destination type where value is assigned.
+         * @return std::shared_ptr<IRExpr>
+         */
+        std::shared_ptr<IRExpr> IRAssign::get_destination()
+        {
+            return destination;
+        }
+
+        /**
+         * @brief Get the source operand from the assignment.
+         * @return std::shared_ptr<IRExpr>
+         */
+        std::shared_ptr<IRExpr> IRAssign::get_source()
+        {
+            return source;
+        }
+
+        /**
+         * IRCall class
+         */
+
+        /**
+         * @brief Constructor of IRCall, this expression represents a Call to a function or method.
+         * @param callee: function/method called represented as IRExpr (super-super-class of IRCallee).
+         * @param args: vector of arguments to the function/method.
+         * @param left: left part of the call (used for AST).
+         * @param right: right part of the call (used for AST).
+         * @return void
+         */
+        IRCall::IRCall(std::shared_ptr<IRExpr> callee,
+                std::vector<std::shared_ptr<IRExpr>> args,
+                std::shared_ptr<IRExpr> left,
+                std::shared_ptr<IRExpr> right)
+                : IRExpr(CALL_EXPR_T, left, right)
+        {
+            this->callee = callee;
+            this->args = args;
+        }
+
+        /**
+         * @brief Destructor of IRCall, nothing to be done.
+         * @return void
+         */
+        IRCall::~IRCall() {}
+
+        /**
+         * @brief Get the callee object from the function/method called.
+         * @return std::shared_ptr<IRExpr>
+         */
+        std::shared_ptr<IRExpr> IRCall::get_callee()
+        {
+            return callee;
+        }
+
+        /**
+         * @brief Get the arguments from the call.
+         * @return std::vector<std::shared_ptr<IRExpr>>
+         */
+        std::vector<std::shared_ptr<IRExpr>> IRCall::get_args()
+        {
+            return args;
+        }
+
     }
 }
