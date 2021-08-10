@@ -14,10 +14,13 @@ The IR involves to support various instructions from the code, these are what we
 IRExpr    -->   IRBinOp   |
                 IRUnaryOp | 
                 IRAssign  |
-                IRType
+                IRCall    |
+                IRType    
+                
 IRBinOp   -->   IRExpr <- IRExpr bin_op_t IRExpr
 IRUnaryOp -->   IRExpr <- unary_op_t IRExpr
 IRAssign  -->   IRExpr <- IRExpr
+IRCall    -->   IRExpr(IRExpr1, IRExpr2, ..., IRExprN)
 
 # kind of operations
 bin_op_t  -->   ADD_OP_T   |
@@ -34,7 +37,6 @@ unary_op_t   -->   INC_OP_T    |
                    CAST_OP_T   |
                    Z_EXT_OP_T  |
                    S_EXT_OP_T
-
 ```
 
 ### IRType
