@@ -31,7 +31,7 @@ DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_class_analysis.o ${OBJ}dex_analysis.o\
 			${OBJ}dex.o
 
-IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o
+IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o
 
 OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${IR_OBJ_FILES}
 
