@@ -13,7 +13,7 @@ namespace KUNAI
          * @return void
          */
         IRExpr::IRExpr(expr_type_t type, std::shared_ptr<IRExpr> left, std::shared_ptr<IRExpr> right)
-            : IRStmnt()
+            : IRStmnt(EXPR_STMNT_T)
         {
             this->type = type;
             this->left = left;
