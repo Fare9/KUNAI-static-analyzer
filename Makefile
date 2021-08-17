@@ -40,7 +40,7 @@ OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${IR_OBJ_FILES}
 .PHONY: clean
 
 all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
-		${BIN_FOLDER}test_dex_parser
+		${BIN_FOLDER}test_dex_parser ${BIN_FOLDER}test_dex_disassembler
 
 dirs:
 	mkdir -p ${OBJ}
@@ -61,6 +61,10 @@ ${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
 ${BIN_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
 	@echo "Linking $^ -> $@"
 	${CPP} -o $@ $^
+
+${BIN_FOLDER}test_dex_disassembler: ${OBJ}test_dex_disassembler.o ${OBJ_FILES}
+	@echo "Linking $^ -> $@"
+	${CPP} -o $@ $^
 	
 # main
 ${OBJ}main.o: ${CODE_FOLDER}main.cpp
@@ -69,6 +73,11 @@ ${OBJ}main.o: ${CODE_FOLDER}main.cpp
 
 # test_dex_parser
 ${OBJ}test_dex_parser.o: ${CODE_FOLDER}test_dex_parser.cpp
+	@echo "Compiling $< -> $@"
+	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+
+# test_dex_disassembler
+${OBJ}test_dex_disassembler.o: ${CODE_FOLDER}test_dex_disassembler.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
