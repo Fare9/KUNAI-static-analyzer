@@ -45,6 +45,8 @@ namespace KUNAI
 
             expr_type_t get_expression_type();
 
+            friend bool operator==(IRExpr&, IRExpr&);
+
         private:
             //! pointers used for the abstract syntax tree
             //! these pointers are common in the IRExpr.
@@ -93,6 +95,7 @@ namespace KUNAI
             std::shared_ptr<IRExpr> get_op1();
             std::shared_ptr<IRExpr> get_op2();
 
+            friend bool operator==(IRBinOp&, IRBinOp&);
         private:
             //! type of binary operation
             bin_op_t bin_op_type;
@@ -129,7 +132,7 @@ namespace KUNAI
             unary_op_t get_unary_op_type();
             std::shared_ptr<IRExpr> get_result();
             std::shared_ptr<IRExpr> get_op();
-
+            friend bool operator==(IRUnaryOp&, IRUnaryOp&);
         private:
             //! type of unary operation =D
             unary_op_t unary_op_type;
@@ -151,7 +154,7 @@ namespace KUNAI
 
             std::shared_ptr<IRExpr> get_destination();
             std::shared_ptr<IRExpr> get_source();
-
+            friend bool operator==(IRAssign&, IRAssign&);
         private:
             //! destination where the value will be stored.
             std::shared_ptr<IRExpr> destination;
@@ -171,7 +174,7 @@ namespace KUNAI
 
             std::shared_ptr<IRExpr> get_callee();
             std::vector<std::shared_ptr<IRExpr>> get_args();
-
+            friend bool operator==(IRCall&, IRCall&);
         private:
             //! Type representing the function/method called
             std::shared_ptr<IRExpr> callee;
@@ -192,7 +195,7 @@ namespace KUNAI
             std::shared_ptr<IRExpr> get_destination();
             std::shared_ptr<IRExpr> get_source();
             std::uint32_t get_size();
-
+            friend bool operator==(IRLoad&, IRLoad&);
         private:
             //! Register where the memory pointed by a register will be loaded.
             std::shared_ptr<IRExpr> destination;
@@ -215,7 +218,7 @@ namespace KUNAI
             std::shared_ptr<IRExpr> get_destination();
             std::shared_ptr<IRExpr> get_source();
             std::uint32_t get_size();
-
+            friend bool operator==(IRStore&, IRStore&);
         private:
             //! Memory pointed by register where value will be stored.
             std::shared_ptr<IRExpr> destination;
@@ -242,7 +245,7 @@ namespace KUNAI
 
             std::shared_ptr<IRExpr> get_reg();
             zero_comp_t get_comparison();
-
+            friend bool operator==(IRZComp&, IRZComp&);
         private:
             //! Register for comparison with zero.
             std::shared_ptr<IRExpr> reg;
@@ -275,7 +278,7 @@ namespace KUNAI
             std::shared_ptr<IRExpr> get_reg1();
             std::shared_ptr<IRExpr> get_reg2();
             comp_t get_comparison();
-            
+            friend bool operator==(IRBComp&, IRBComp&);
         private:
             //! registers used in the comparisons.
             std::shared_ptr<IRExpr> reg1;

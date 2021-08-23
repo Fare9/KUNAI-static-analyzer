@@ -72,6 +72,81 @@ namespace KUNAI
         }
 
         /**
+         * @brief Operator == for IRExpr.
+         * @param ope1: first operation to compare.
+         * @param ope2: second operation to compare.
+         * @return bool
+         */
+        bool operator==(IRExpr& ope1, IRExpr& ope2)
+        {
+            if (ope1.type != ope2.type)
+                return false;
+            
+            if (ope1.type == IRExpr::BINOP_EXPR_T)
+            {
+                IRBinOp& binop1 = static_cast<IRBinOp&>(ope1);
+                IRBinOp& binop2 = static_cast<IRBinOp&>(ope2);
+
+                return binop1 == binop2;
+            }
+            else if (ope1.type == IRExpr::UNARYOP_EXPR_T)
+            {
+                IRUnaryOp& unop1 = static_cast<IRUnaryOp&>(ope1);
+                IRUnaryOp& unop2 = static_cast<IRUnaryOp&>(ope2);
+
+                return unop1 == unop2;
+            }
+            else if (ope1.type == IRExpr::ASSIGN_EXPR_T)
+            {
+                IRAssign& assign1 = static_cast<IRAssign&>(ope1);
+                IRAssign& assign2 = static_cast<IRAssign&>(ope2);
+
+                return assign1 == assign2;
+            }
+            else if (ope1.type == IRExpr::CALL_EXPR_T)
+            {
+                IRCall& call1 = static_cast<IRCall&>(ope1);
+                IRCall& call2 = static_cast<IRCall&>(ope2);
+
+                return call1 == call2;
+            }
+            else if (ope1.type == IRExpr::LOAD_EXPR_T)
+            {
+                IRLoad& load1 = static_cast<IRLoad&>(ope1);
+                IRLoad& load2 = static_cast<IRLoad&>(ope2);
+
+                return load1 == load2;
+            }
+            else if (ope1.type == IRExpr::STORE_EXPR_T)
+            {
+                IRStore& store1 = static_cast<IRStore&>(ope1);
+                IRStore& store2 = static_cast<IRStore&>(ope2);
+
+                return store1 == store2;
+            }
+            else if (ope1.type == IRExpr::ZCOMP_EXPR_T)
+            {
+                IRZComp& zcomp1 = static_cast<IRZComp&>(ope1);
+                IRZComp& zcomp2 = static_cast<IRZComp&>(ope2);
+
+                return zcomp1 == zcomp2;
+            }
+            else if (ope1.type == IRExpr::BCOMP_EXPR_T)
+            {
+                IRBComp& bcomp1 = static_cast<IRBComp&>(ope1);
+                IRBComp& bcomp2 = static_cast<IRBComp&>(ope2);
+
+                return bcomp1 == bcomp2;
+            }
+
+            return false;
+        }
+
+        /**
+         * IRBinOp class
+         */
+
+        /**
          * @brief Constructor of IRBinOp, this class represent different instructions with two operators and a result.
          * @param bin_op_type: type of binary operation.
          * @param result: where result of operation is stored.
@@ -138,6 +213,20 @@ namespace KUNAI
         }
 
         /**
+         * @brief Operator == for IRBinOp.
+         * @param ope1: first operation to compare.
+         * @param ope2: second operation to compare.
+         * @return bool
+         */
+        bool operator==(IRBinOp& ope1, IRBinOp& ope2)
+        {
+            return (ope1.bin_op_type == ope2.bin_op_type) &&
+                    (ope1.op1 == ope2.op1) &&
+                    (ope1.op2 == ope2.op2) &&
+                    (ope1.result == ope2.result);
+        }
+
+        /**
          * IRUnaryOp class
          */
 
@@ -196,6 +285,19 @@ namespace KUNAI
         }
 
         /**
+         * @brief Operator == for IRUnaryOp.
+         * @param ope1: first operation to compare.
+         * @param ope2: second operation to compare.
+         * @return bool
+         */
+        bool operator==(IRUnaryOp& ope1, IRUnaryOp& ope2)
+        {
+            return (ope1.unary_op_type == ope2.unary_op_type) &&
+                    (ope1.op == ope2.op) &&
+                    (ope1.result == ope2.result);
+        }
+
+        /**
          * IRAssign class
          */
 
@@ -240,6 +342,18 @@ namespace KUNAI
         std::shared_ptr<IRExpr> IRAssign::get_source()
         {
             return source;
+        }
+
+        /**
+         * @brief Operator == for IRAssign.
+         * @param ope1: first operation to compare.
+         * @param ope2: second operation to compare.
+         * @return bool
+         */
+        bool operator==(IRAssign& ope1, IRAssign& ope2)
+        {
+            return (ope1.destination == ope2.destination) &&
+                    (ope1.source == ope2.source);
         }
 
         /**
@@ -288,6 +402,17 @@ namespace KUNAI
             return args;
         }
 
+        /**
+         * @brief Operator == for IRCall.
+         * @param ope1: first operation to compare.
+         * @param ope2: second operation to compare.
+         * @return bool
+         */
+        bool operator==(IRCall& ope1, IRCall& ope2)
+        {
+            return (ope1.callee == ope2.callee) &&
+                    (std::equal(ope1.args.begin(), ope1.args.end(), ope2.args.begin()));
+        }
 
         /**
          * IRLoad class
@@ -345,6 +470,19 @@ namespace KUNAI
         std::uint32_t IRLoad::get_size()
         {
             return size;
+        }
+
+        /**
+         * @brief Operator == for IRLoad.
+         * @param ope1: first operation to compare.
+         * @param ope2: second operation to compare.
+         * @return bool
+         */
+        bool operator==(IRLoad& ope1, IRLoad& ope2)
+        {
+            return (ope1.destination == ope2.destination) &&
+                    (ope1.source == ope2.source) &&
+                    (ope1.size == ope2.size);
         }
 
         /**
@@ -406,6 +544,19 @@ namespace KUNAI
         }
 
         /**
+         * @brief Operator == for IRStore.
+         * @param ope1: first operation to compare.
+         * @param ope2: second operation to compare.
+         * @return bool
+         */
+        bool operator==(IRStore& ope1, IRStore& ope2)
+        {
+            return (ope1.destination == ope2.destination) &&
+                    (ope1.source == ope2.source) &&
+                    (ope1.size == ope2.size);
+        }
+
+        /**
          * IRZComp class
          */
 
@@ -450,6 +601,18 @@ namespace KUNAI
         IRZComp::zero_comp_t IRZComp::get_comparison()
         {
             return comp;
+        }
+
+        /**
+         * @brief Operator == for IRZComp.
+         * @param ope1: first operation to compare.
+         * @param ope2: second operation to compare.
+         * @return bool
+         */
+        bool operator==(IRZComp& ope1, IRZComp& ope2)
+        {
+            return (ope1.comp == ope2.comp) &&
+                    (ope1.reg == ope2.reg);
         }
 
         /**
@@ -508,6 +671,19 @@ namespace KUNAI
         IRBComp::comp_t IRBComp::get_comparison()
         {
             return comp;
+        }
+
+        /**
+         * @brief Operator == for IRBComp.
+         * @param ope1: first operation to compare.
+         * @param ope2: second operation to compare.
+         * @return bool
+         */
+        bool operator==(IRBComp& ope1, IRBComp& ope2)
+        {
+            return (ope1.comp == ope2.comp) &&
+                    (ope1.reg1 == ope2.reg1) &&
+                    (ope1.reg2 == ope2.reg2);
         }
     }
 }
