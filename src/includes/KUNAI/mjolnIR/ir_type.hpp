@@ -40,20 +40,24 @@ namespace KUNAI
                 NONE_ACCESS = 99
             };
 
-            IRType(std::string type_name, size_t type_size);
+            IRType(type_t type, std::string type_name, size_t type_size);
             ~IRType();
 
             std::string get_type_name();
             size_t get_type_size();
 
-            virtual type_t get_type() = 0;
+            type_t get_type();
             virtual std::string get_type_str() = 0;
             virtual mem_access_t get_access() = 0;
 
             void write_annotations(std::string annotations);
             std::string read_annotations();
 
+            friend bool operator==(IRType&, IRType&);
         private:
+            //! type value as a type_t
+            type_t type;
+
             //! name used to represent the type in IR representation.
             std::string type_name;
 
@@ -73,9 +77,10 @@ namespace KUNAI
 
             std::uint32_t get_id();
 
-            type_t get_type();
             std::string get_type_str();
             mem_access_t get_access();
+
+            friend bool operator==(IRReg&, IRReg&);
         private:
             //! id of the register, this will be an enum
             //! in case the arquitecture contains a known set
@@ -95,9 +100,10 @@ namespace KUNAI
 
             std::uint32_t get_id();
 
-            type_t get_type();
             std::string get_type_str();
             mem_access_t get_access();
+
+            friend bool operator==(IRTempReg&, IRTempReg&);
         private:
             //! This id will be just an incremental number
             //! as these are temporal registers.
@@ -107,15 +113,18 @@ namespace KUNAI
         class IRConstInt : public IRType
         {
         public:
-            IRConstInt(bool is_signed, mem_access_t byte_order, std::string type_name, size_t type_size);
+            IRConstInt(std::uint64_t value, bool is_signed, mem_access_t byte_order, std::string type_name, size_t type_size);
             ~IRConstInt();
 
             bool get_is_signed();
             
-            type_t get_type();
             std::string get_type_str();
             mem_access_t get_access();
+
+            friend bool operator==(IRConstInt&, IRConstInt&);
         private:
+            //! Value of the integer
+            std::uint64_t value;
             //! Check to know if the constant is a unsigned
             //! or signed value.
             bool is_signed;
@@ -132,9 +141,10 @@ namespace KUNAI
             std::uint64_t get_mem_address();
             std::int32_t get_offset();
 
-            type_t get_type();
             std::string get_type_str();
             mem_access_t get_access();
+
+            friend bool operator==(IRMemory&, IRMemory&);
         private:
             //! accessed address
             std::uint64_t mem_address;
@@ -152,9 +162,10 @@ namespace KUNAI
 
             std::string get_str_value();
 
-            type_t get_type();
             std::string get_type_str();
             mem_access_t get_access();
+
+            friend bool operator==(IRString&, IRString&);
         private:
             //! string value, probably nothing more will be here
             std::string str_value;
@@ -178,9 +189,10 @@ namespace KUNAI
             int get_number_of_params();
             std::string get_description();
 
-            type_t get_type();
             std::string get_type_str();
             mem_access_t get_access();
+
+            friend bool operator==(IRCallee&, IRCallee&);
         private:
             //! for those functions of binary formats we will mostly have the address
             //! only, these can be from a library, from the same binary, etc.

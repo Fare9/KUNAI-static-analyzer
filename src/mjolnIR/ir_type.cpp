@@ -11,13 +11,15 @@ namespace KUNAI
 
         /**
          * @brief Constructor of the IRType, this will be the generic type used for the others.
+         * @param type: type of the class.
          * @param type_name: name used for representing the type while printing.
          * @param type_size: size of the type in bytes.
          * @return void
          */
-        IRType::IRType(std::string type_name, size_t type_size) :
+        IRType::IRType(type_t type, std::string type_name, size_t type_size) :
             IRExpr(IRExpr::NONE_EXPR_T, nullptr, nullptr)
         {
+            this->type = type;
             this->type_name = type_name;
             this->type_size = type_size;
             this->annotations = "";
@@ -48,12 +50,12 @@ namespace KUNAI
         }
 
         /**
-         * @brief virtual method from IRType this must be implemented by other types too. Returns one of the type_t enum values.
+         * @brief method from IRType this return one of the types given by class.
          * @return type_t
          */
         IRType::type_t IRType::get_type()
         {
-            return NONE_TYPE;
+            return type;
         }
 
         /**
@@ -84,6 +86,64 @@ namespace KUNAI
         }
 
         /**
+         * @brief == operator for IRType, we have specific check to do.
+         * @param type1: first type for comparison.
+         * @param type2: second type for comparison
+         * @return bool
+         */
+        bool operator==(IRType& type1, IRType& type2)
+        {
+            if (type1.type != type2.type)
+                return false;
+            
+            if (type1.type == IRType::REGISTER_TYPE)
+            {
+                IRReg& reg1 = dynamic_cast<IRReg&>(type1);
+                IRReg& reg2 = dynamic_cast<IRReg&>(type2);
+
+                return reg1 == reg2;
+            }
+            else if (type1.type == IRType::TEMP_REGISTER_TYPE)
+            {
+                IRTempReg& treg1 = dynamic_cast<IRTempReg&>(type1);
+                IRTempReg& treg2 = dynamic_cast<IRTempReg&>(type2);
+
+                return treg1 == treg2;
+            }
+            else if (type1.type == IRType::CONST_INT_TYPE)
+            {
+                IRConstInt& int1 = dynamic_cast<IRConstInt&>(type1);
+                IRConstInt& int2 = dynamic_cast<IRConstInt&>(type2);
+
+                return int1 == int2;
+            }
+            else if (type1.type == IRType::MEM_TYPE)
+            {
+                IRMemory& mem1 = dynamic_cast<IRMemory&>(type1);
+                IRMemory& mem2 = dynamic_cast<IRMemory&>(type2);
+
+                return mem1 == mem2;
+            }
+            else if (type1.type == IRType::STRING_TYPE)
+            {
+                IRString& str1 = dynamic_cast<IRString&>(type1);
+                IRString& str2 = dynamic_cast<IRString&>(type2);
+
+                return str1 == str2;
+            }
+            else if (type1.type == IRType::CALLEE_TYPE)
+            {
+                IRCallee& callee1 = dynamic_cast<IRCallee&>(type1);
+                IRCallee& callee2 = dynamic_cast<IRCallee&>(type2);
+
+                return callee1 == callee2;
+            }
+
+
+            return false;
+        }
+
+        /**
          * IRReg class
          */
 
@@ -95,7 +155,7 @@ namespace KUNAI
          * @return void
          */
         IRReg::IRReg(std::uint32_t reg_id, std::string type_name, size_t type_size)
-            : IRType(type_name, type_size)
+            : IRType(REGISTER_TYPE, type_name, type_size)
         {
             this->id = reg_id;
         }
@@ -113,15 +173,6 @@ namespace KUNAI
         std::uint32_t IRReg::get_id()
         {
             return id;
-        }
-
-        /**
-         * @brief Return the register type for this class.
-         * @return type_t
-         */
-        IRReg::type_t IRReg::get_type()
-        {
-            return REGISTER_TYPE;
         }
 
         /**
@@ -143,6 +194,19 @@ namespace KUNAI
         }
 
         /**
+         * @brief == operator for IRRegs, we have specific check to do.
+         * @param type1: first type for comparison.
+         * @param type2: second type for comparison
+         * @return bool
+         */
+        bool operator==(IRReg& type1, IRReg& type2)
+        {
+            if (type1.id == type2.id)
+                return true;
+            return false;
+        }
+
+        /**
          * IRTempReg class
          */
 
@@ -154,7 +218,7 @@ namespace KUNAI
          * @return void
          */
         IRTempReg::IRTempReg(std::uint32_t reg_id, std::string type_name, size_t type_size)
-            : IRType(type_name, type_size)
+            : IRType(TEMP_REGISTER_TYPE, type_name, type_size)
         {
             this->id = reg_id;
         }
@@ -172,15 +236,6 @@ namespace KUNAI
         std::uint32_t IRTempReg::get_id()
         {
             return id;
-        }
-
-        /**
-         * @brief Return the temporal register type for this class.
-         * @return type_t
-         */
-        IRTempReg::type_t IRTempReg::get_type()
-        {
-            return TEMP_REGISTER_TYPE;
         }
 
         /**
@@ -202,20 +257,35 @@ namespace KUNAI
         }
 
         /**
+         * @brief == operator for IRTempReg, we have specific check to do.
+         * @param type1: first type for comparison.
+         * @param type2: second type for comparison
+         * @return bool
+         */
+        bool operator==(IRTempReg& type1, IRTempReg& type2)
+        {
+            if (type1.id == type2.id)
+                return true;
+            return false;
+        }
+
+        /**
          * IRConstInt class.
          */
 
         /**
          * @brief Constructor of IRConstInt this represent any integer used in the code.
+         * @param value: value of the constant integer
          * @param is_signed: is signed value (true) or unsigned (false).
          * @param byte_order: byte order of the value.
          * @param type_name: name used for representing the value.
          * @param type_size: size of the integer.
          * @return void
          */
-        IRConstInt::IRConstInt(bool is_signed, mem_access_t byte_order, std::string type_name, size_t type_size)
-            : IRType(type_name, type_size)
+        IRConstInt::IRConstInt(std::uint64_t value, bool is_signed, mem_access_t byte_order, std::string type_name, size_t type_size)
+            : IRType(CONST_INT_TYPE, type_name, type_size)
         {
+            this->value = value;
             this->is_signed = is_signed;
             this->byte_order = byte_order;
         }
@@ -233,15 +303,6 @@ namespace KUNAI
         bool IRConstInt::get_is_signed()
         {
             return is_signed;
-        }
-
-        /**
-         * @brief return in this case CONST_INT.
-         * @return type_t
-         */
-        IRConstInt::type_t IRConstInt::get_type()
-        {
-            return CONST_INT_TYPE;
         }
 
         /**
@@ -263,6 +324,19 @@ namespace KUNAI
         }
 
         /**
+         * @brief == operator for IRConstInt, we have specific check to do.
+         * @param type1: first type for comparison.
+         * @param type2: second type for comparison
+         * @return bool
+         */
+        bool operator==(IRConstInt& type1, IRConstInt& type2)
+        {
+            if (type1.value == type2.value)
+                return true;
+            return false;
+        }
+
+        /**
          * IRMemory class
          */
         
@@ -276,7 +350,7 @@ namespace KUNAI
          * @return void
          */
         IRMemory::IRMemory(std::uint64_t mem_address, std::int32_t offset, mem_access_t byte_order, std::string type_name, size_t type_size)
-            : IRType(type_name, type_size)
+            : IRType(MEM_TYPE, type_name, type_size)
         {
             this->mem_address = mem_address;
             this->offset = offset;
@@ -308,15 +382,6 @@ namespace KUNAI
         }
 
         /**
-         * @brief Get the MEM_TYPE.
-         * @return type_t
-         */
-        IRMemory::type_t IRMemory::get_type()
-        {
-            return MEM_TYPE;
-        }
-
-        /**
          * @brief Get the MEM_TYPE as string.
          * @return std::string
          */
@@ -335,6 +400,19 @@ namespace KUNAI
         }
 
         /**
+         * @brief == operator for IRMemory, we have specific check to do.
+         * @param type1: first type for comparison.
+         * @param type2: second type for comparison
+         * @return bool
+         */
+        bool operator==(IRMemory& type1, IRMemory& type2)
+        {
+            if ((type1.mem_address == type2.mem_address) && (type1.offset == type2.offset))
+                return true;
+            return false;
+        }
+
+        /**
          * IRString class
          */
         /**
@@ -345,7 +423,7 @@ namespace KUNAI
          * @return void
          */
         IRString::IRString(std::string str_value, std::string type_name, size_t type_size)
-            : IRType(type_name, type_size)
+            : IRType(STRING_TYPE, type_name, type_size)
         {
             this->str_value = str_value;
         }
@@ -366,15 +444,6 @@ namespace KUNAI
         }
 
         /**
-         * @brief Get the STRING type.
-         * @return type_t
-         */
-        IRString::type_t IRString::get_type()
-        {
-            return STRING_TYPE;
-        }
-
-        /**
          * @brief Get the type as a string.
          * @return std::string
          */
@@ -390,6 +459,19 @@ namespace KUNAI
         IRString::mem_access_t IRString::get_access()
         {
             return NONE_ACCESS;
+        }
+
+        /**
+         * @brief == operator for IRString, we have specific check to do.
+         * @param type1: first type for comparison.
+         * @param type2: second type for comparison
+         * @return bool
+         */
+        bool operator==(IRString& type1, IRString& type2)
+        {
+            if (type1.str_value == type2.str_value)
+                return true;
+            return false;
         }
 
         /**
@@ -414,7 +496,7 @@ namespace KUNAI
                      std::string description,
                      std::string type_name, 
                      size_t type_size)
-            : IRType(type_name, type_size)
+            : IRType(CALLEE_TYPE, type_name, type_size)
         {
             this->addr = addr;
             this->name = name;
@@ -475,15 +557,6 @@ namespace KUNAI
         }
 
         /**
-         * @brief Get type of IRCallee
-         * @return type_t
-         */
-        IRCallee::type_t IRCallee::get_type()
-        {
-            return CALLEE_TYPE;
-        }
-
-        /**
          * @brief Get the type of IRCallee as string
          * @return std::string
          */
@@ -499,6 +572,25 @@ namespace KUNAI
         IRCallee::mem_access_t IRCallee::get_access()
         {
             return NONE_ACCESS;
+        }
+
+        /**
+         * @brief == operator for IRCallee, we have specific check to do.
+         * @param type1: first type for comparison.
+         * @param type2: second type for comparison
+         * @return bool
+         */
+        bool operator==(IRCallee& type1, IRCallee& type2)
+        {
+            // check first for address
+            if (type1.addr != 0 && (type1.addr == type2.addr))
+                return true;
+            // check for whole method
+            std::string callee1 = type1.class_name + type1.name + type1.description;
+            std::string callee2 = type2.class_name + type2.name + type2.description;
+            if (callee1 != "" && (callee1 == callee2))
+                return true;
+            return false;
         }
     }
 }
