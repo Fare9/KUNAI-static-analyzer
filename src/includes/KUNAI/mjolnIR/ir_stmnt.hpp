@@ -32,19 +32,12 @@ namespace KUNAI
             };
 
             IRStmnt(stmnt_type_t stmnt_type);
-            IRStmnt(stmnt_type_t stmnt_type, std::shared_ptr<IRStmnt> next);
             ~IRStmnt();
             
             stmnt_type_t get_statement_type();
-
-            void set_next_stmnt(std::shared_ptr<IRStmnt> next);
-            std::shared_ptr<IRStmnt> get_next_stmnt();
-
         private:
             //! Type of the statement.
             stmnt_type_t stmnt_type;
-            //! next statement in the code.
-            std::shared_ptr<IRStmnt> next;
         };
 
         class IRUJmp : IRStmnt

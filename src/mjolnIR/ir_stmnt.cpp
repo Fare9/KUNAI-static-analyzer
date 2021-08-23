@@ -20,18 +20,6 @@ namespace KUNAI
         }
 
         /**
-         * @brief Constructor of IRStmnt, assign the next pointer.
-         * @param stmnt_type: type of the statement.
-         * @param next: pointer to a next statement.
-         * @return void
-         */
-        IRStmnt::IRStmnt(stmnt_type_t stmnt_type, std::shared_ptr<IRStmnt> next)
-        {
-            this->stmnt_type = stmnt_type;
-            this->next = next;
-        }
-
-        /**
          * @brief Destructor of IRStmnt, nothing to be done.
          * @return void
          */
@@ -47,25 +35,6 @@ namespace KUNAI
         }
 
         /**
-         * @brief Set the next statement in the queue to analyze.
-         * @param next: next statement for the analysis.
-         * @return void
-         */
-        void IRStmnt::set_next_stmnt(std::shared_ptr<IRStmnt> next)
-        {
-            this->next = next;
-        }
-
-        /**
-         * @brief Get the next statement in the queue to analyze.
-         * @return std::shared_ptr<IRStmnt>
-         */
-        std::shared_ptr<IRStmnt> IRStmnt::get_next_stmnt()
-        {
-            return next;
-        }
-
-        /**
          * IRUJmp class
          */
         
@@ -75,7 +44,7 @@ namespace KUNAI
          * @return void
          */
         IRUJmp::IRUJmp(std::shared_ptr<IRStmnt> target)
-            : IRStmnt(UJMP_STMNT_T, std::make_shared<IRStmnt>(NONE_STMNT_T))
+            : IRStmnt(UJMP_STMNT_T)
         {
             this->target = target;
         }
@@ -107,7 +76,7 @@ namespace KUNAI
          * @return void
          */
         IRCJmp::IRCJmp(std::shared_ptr<IRStmnt> condition, std::shared_ptr<IRStmnt> target, std::shared_ptr<IRStmnt> fallthrough)
-            : IRStmnt(CJMP_STMNT_T, std::make_shared<IRStmnt>(NONE_STMNT_T))
+            : IRStmnt(CJMP_STMNT_T)
         {
             this->condition = condition;
             this->target = target;
@@ -157,7 +126,7 @@ namespace KUNAI
          * @return void
          */
         IRRet::IRRet(std::shared_ptr<IRStmnt> ret_value)
-            : IRStmnt(RET_STMNT_T, std::make_shared<IRStmnt>(NONE_STMNT_T))
+            : IRStmnt(RET_STMNT_T)
         {
             this->ret_value = ret_value;
         }
