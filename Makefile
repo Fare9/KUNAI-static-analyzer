@@ -31,7 +31,7 @@ DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_class_analysis.o ${OBJ}dex_analysis.o\
 			${OBJ}dex.o
 
-IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o
+IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o ${OBJ}ir_blocks.o ${OBJ}ir_graph.o
 
 OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${IR_OBJ_FILES}
 
@@ -113,7 +113,7 @@ ${OBJ}%.o: ${CODE_FOLDER}${DEX_ANALYSIS}%.cpp
 IR_MODULE=mjolnIR/
 ${OBJ}%.o: ${CODE_FOLDER}${IR_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} ${IR_MODULES} -o $@ $< ${CFLAGS}
+	${CPP} ${IR_MODULES} ${UTILITIES} -o $@ $< ${CFLAGS}
 
 ########################################################
 clean:
