@@ -18,16 +18,26 @@ namespace KUNAI
         typedef std::set<std::shared_ptr<IRBlock>> Nodes;
         typedef std::vector<std::pair<std::shared_ptr<IRBlock>, std::shared_ptr<IRBlock>>> Edges;
         typedef std::vector<std::vector<std::shared_ptr<IRBlock>>> Paths;
+        
 
         class IRGraph
         {
         public:
+            enum node_type_t
+            {
+                JOIN_NODE = 0,  // type of node with len(predecessors) > 1
+                BRANCH_NODE,     // type of node with len(successors) > 1
+                REGULAR_NODE,   // other cases
+            };
+
             IRGraph();
             ~IRGraph();
 
             bool add_node(std::shared_ptr<IRBlock> node);
             void add_edge(std::shared_ptr<IRBlock> src, std::shared_ptr<IRBlock> dst);
             void add_uniq_edge(std::shared_ptr<IRBlock> src, std::shared_ptr<IRBlock> dst);
+            void add_block_to_sucessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> successor);
+            void add_block_to_predecessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> predecessor);
 
             Nodes get_nodes();
             Edges get_edges();
@@ -36,6 +46,8 @@ namespace KUNAI
 
             void del_edge(std::shared_ptr<IRBlock> src, std::shared_ptr<IRBlock> dst);
             void del_node(std::shared_ptr<IRBlock> node);
+            void delete_block_from_sucessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> block);
+            void delete_block_from_precessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> block);
 
             std::vector<std::shared_ptr<IRBlock>> get_leaves();
             std::vector<std::shared_ptr<IRBlock>> get_heads();
@@ -56,17 +68,28 @@ namespace KUNAI
             std::shared_ptr<IRGraph> copy();
 
 
-            // static methods that can be used in general with IRGraph class
-            static Nodes reachable_nodes(std::shared_ptr<IRBlock> head, bool go_successors);
-            static Nodes build_ebb(std::shared_ptr<IRBlock> r);
-            
+            // node information
+            size_t get_number_of_successors(std::shared_ptr<IRBlock> node);
+            Nodes get_successors(std::shared_ptr<IRBlock> node);
+
+            size_t get_number_of_predecessors(std::shared_ptr<IRBlock> node);
+            Nodes get_predecessors(std::shared_ptr<IRBlock> node);
+
+            node_type_t get_type_of_node(std::shared_ptr<IRBlock> node);
+
+            // algorithms from Advanced Compiler Design and Implementation
+            Nodes reachable_nodes(std::shared_ptr<IRBlock> head, bool go_successors);
+            Nodes build_ebb(std::shared_ptr<IRBlock> r);
+            Nodes Deep_First_Search(std::shared_ptr<IRBlock> head);
+            Nodes Breadth_First_Search(std::shared_ptr<IRBlock> head);
         private:
             Nodes nodes;
             Edges edges;
 
-            // static methods that can be used in general with IRGraph class
+            std::map<std::shared_ptr<IRBlock>, Nodes> successors;
+            std::map<std::shared_ptr<IRBlock>, Nodes> predecessors;
             
-            static void add_bbs(std::shared_ptr<IRBlock> r, Nodes ebb);
+            void add_bbs(std::shared_ptr<IRBlock> r, Nodes ebb);
             
         };
     } // namespace MJOLNIR

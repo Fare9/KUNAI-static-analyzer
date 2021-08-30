@@ -46,8 +46,8 @@ namespace KUNAI
             if (nodes.find(dst) == nodes.end())
                 add_node(dst);
             edges.push_back(std::make_pair(src, dst));
-            src->add_block_to_sucessors(dst);
-            dst->add_block_to_predecessors(src);
+            add_block_to_sucessors(src, dst);
+            add_block_to_predecessors(dst, src);
         }
 
         /**
@@ -61,8 +61,30 @@ namespace KUNAI
             // if src is not in nodes, or if
             // dst is not in the successors from source
             if ((std::find(nodes.begin(), nodes.end(), src) == nodes.end()) ||
-                (std::find(src->get_successors().begin(), src->get_successors().end(), dst) == src->get_successors().end()))
+                successors[src].find(dst) == successors[src].end())
                 add_edge(src, dst);
+        }
+
+        /**
+         * @brief Add a block as one of the successors of the given block.
+         * @param node: node to add its successor.
+         * @param successor: successor block to add.
+         * @return void
+         */
+        void IRGraph::add_block_to_sucessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> successor)
+        {
+            successors[node].insert(successor);
+        }
+
+        /**
+         * @brief Add a block as on of the precessors of the given block.
+         * @param node: node to add its predecessor.
+         * @param predecessor: predecessor block to add.
+         * @return void
+         */
+        void IRGraph::add_block_to_predecessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> predecessor)
+        {
+            predecessors[node].insert(predecessor);
         }
 
         /**
@@ -93,10 +115,10 @@ namespace KUNAI
             auto nodes = graph->get_nodes();
             auto edges = graph->get_edges();
 
-            for (auto node = nodes.begin(); node != nodes.end(); node++)
-                add_node(*node);
-            for (auto edge = edges.begin(); edge != edges.end(); edge++)
-                add_edge(edge->first, edge->second);
+            for (auto node : nodes)
+                add_node(node);
+            for (auto edge : edges)
+                add_edge(edge.first, edge.second);
         }
 
         /**
@@ -113,8 +135,8 @@ namespace KUNAI
             edges.erase(edge);
             // once the edge has been deleted
             // remove successors and predecessors
-            src->delete_block_from_sucessors(dst);
-            dst->delete_block_from_precessors(src);
+            delete_block_from_sucessors(src, dst);
+            delete_block_from_precessors(dst, src);
         }
 
         /**
@@ -127,17 +149,49 @@ namespace KUNAI
         void IRGraph::del_node(std::shared_ptr<IRBlock> node)
         {
             auto node_set = nodes.find(node);
-            auto predecessors = node->get_predecessors();
-            auto successors = node->get_successors();
+            auto predecessors = get_predecessors(node);
+            auto successors = get_successors(node);
 
             if (node_set == nodes.end())
                 return; // if node does not exist, return.
 
             nodes.erase(node_set);
-            for (auto pred = predecessors.begin(); pred != predecessors.end(); pred++)
-                del_edge(*pred, node);
-            for (auto succ = successors.begin(); succ != successors.end(); succ++)
-                del_edge(node, *succ);
+            for (auto pred : predecessors)
+                del_edge(pred, node);
+            for (auto succ : successors)
+                del_edge(node, succ);
+        }
+
+        /**
+         * @brief Remove one of the sucessors given an IRBlock, if it's inside of the vector.
+         * @param node: node where to remove its successors.
+         * @param block: Block to remove from the successors.
+         * @return void
+         */
+        void IRGraph::delete_block_from_sucessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> block)
+        {
+            auto node_it = successors.find(node);
+            if (node_it != successors.end())
+            {
+                auto succ_it = node_it->second.find(block);
+                node_it->second.erase(succ_it);
+            }
+        }
+
+        /**
+         * @brief Remove on of the predecessors given an IRBlock, if it's inside of the vector.
+         * @param node: node where to remove its predecessor.
+         * @param block: Block to remove from the predecessors.
+         * @return void
+         */
+        void IRGraph::delete_block_from_precessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> block)
+        {
+            auto node_it = predecessors.find(node);
+            if (node_it != predecessors.end())
+            {
+                auto pred_it = node_it->second.find(block);
+                node_it->second.erase(pred_it);
+            }
         }
 
         /**
@@ -150,7 +204,7 @@ namespace KUNAI
 
             for (auto node : nodes)
             {
-                if (node->get_number_of_successors() == 0)
+                if (get_number_of_successors(node) == 0)
                     leaves.push_back(node);
             }
 
@@ -167,7 +221,7 @@ namespace KUNAI
 
             for (auto node : nodes)
             {
-                if (node->get_number_of_predecessors() == 0)
+                if (get_number_of_predecessors(node) == 0)
                     heads.push_back(node);
             }
 
@@ -195,7 +249,7 @@ namespace KUNAI
                 
             Paths out;
 
-            for (auto node : dst->get_predecessors())
+            for (auto node : get_predecessors(dst))
             {
                 if (done.find(dst) == done.end())
                     done[dst] = 0;
@@ -228,7 +282,7 @@ namespace KUNAI
 
             Paths out;
 
-            for (auto node : src->get_successors())
+            for (auto node : get_successors(src))
             {
                 if (done.find(src) == done.end())
                     done[src] = 0;
@@ -280,12 +334,76 @@ namespace KUNAI
             auto nodes = get_nodes();
             auto edges = get_edges();
 
-            for (auto node = nodes.begin(); node != nodes.end(); node++)
-                new_graph->add_node(*node);
-            for (auto edge = edges.begin(); edge != edges.end(); edge++)
-                new_graph->add_edge(edge->first, edge->second);
+            for (auto node : nodes)
+                new_graph->add_node(node);
+            for (auto edge : edges)
+                new_graph->add_edge(edge.first, edge.second);
 
             return new_graph;
+        }
+
+        // node information
+        /**
+         * @brief Get the number of successor blocks from the given block.
+         * @param node: block to get its number of successors.
+         * @return size_t
+         */
+        size_t IRGraph::get_number_of_successors(std::shared_ptr<IRBlock> node)
+        {
+            if (successors.find(node) == successors.end())
+                return 0;
+            return successors[node].size();
+        }
+
+        /**
+         * @brief Get the list of successor blocks.
+         * @param node: block to get its successors.
+         * @return std::vector<std::shared_ptr<IRBlock>>
+         */        
+        Nodes IRGraph::get_successors(std::shared_ptr<IRBlock> node)
+        {
+            if (successors.find(node) == successors.end())
+                return {};
+            return successors[node];
+        }
+
+        /**
+         * @brief Get the number of predecessor blocks from the given block.
+         * @param node: block to get its number of predecessors.
+         * @return size_t
+         */
+        size_t IRGraph::get_number_of_predecessors(std::shared_ptr<IRBlock> node)
+        {
+            if (predecessors.find(node) == predecessors.end())
+                return 0;
+            return predecessors[node].size();
+        }
+
+        /**
+         * @brief Get the list of predecessor blocks.
+         * @param node: block to get its predecessors.
+         * @return std::vector<std::shared_ptr<IRBlock>>
+         */
+        Nodes IRGraph::get_predecessors(std::shared_ptr<IRBlock> node)
+        {
+            if (predecessors.find(node) == predecessors.end())
+                return {};
+            return predecessors[node];
+        }
+
+        /**
+         * @brief Get type of node depending on number of successors and predecessors.
+         * @param node: node to check its type.
+         * @return node_type_t
+         */
+        IRGraph::node_type_t IRGraph::get_type_of_node(std::shared_ptr<IRBlock> node)
+        {
+            if (get_number_of_successors(node) > 1)
+                return BRANCH_NODE;
+            else if (get_number_of_predecessors(node) > 1)
+                return JOIN_NODE;
+            else
+                return REGULAR_NODE;
         }
 
         // static methods
@@ -315,11 +433,11 @@ namespace KUNAI
 
                 if (go_successors)
                 {
-                    for (auto next_node : (*node)->get_successors())
+                    for (auto next_node : get_successors(*node))
                         todo.insert(next_node);
                 }else
                 {
-                    for (auto next_node : (*node)->get_predecessors())
+                    for (auto next_node : get_predecessors(*node))
                         todo.insert(next_node);
                 }
                 
@@ -344,6 +462,67 @@ namespace KUNAI
 
             return ebb;
         }
+        
+        /**
+         * @brief Given a head node, give the tree of nodes using a Depth First Search algorithm.
+         * @param head: node where to start the search.
+         * @return Nodes
+         */
+        Nodes IRGraph::Deep_First_Search(std::shared_ptr<IRBlock> head)
+        {
+            Nodes todo;
+            Nodes done;
+
+            todo.insert(head);
+
+            while (!todo.empty())
+            {
+                // pop last element
+                auto node = todo.end();
+                node--;
+                todo.erase(node);
+
+                if (done.find(*node) != done.end())
+                    continue;
+                
+                done.insert(*node);
+
+                for (auto succ : get_successors(*node))
+                    todo.insert(succ);
+            }
+
+            return done;
+        }
+
+        /**
+         * @brief Given a head node, give the tree of nodes using a Breadth First Search algorithm.
+         * @param head: node where to start the search.
+         * @return Nodes
+         */
+        Nodes IRGraph::Breadth_First_Search(std::shared_ptr<IRBlock> head)
+        {
+            Nodes todo;
+            Nodes done;
+
+            todo.insert(head);
+
+            while (!todo.empty())
+            {
+                // pop first element
+                auto node = todo.begin();
+                todo.erase(node);
+
+                if (done.find(*node) != done.end())
+                    continue;
+                
+                done.insert(*node);
+
+                for (auto succ : get_successors(*node))
+                    todo.insert(succ);
+            }
+
+            return done;
+        }
 
 
         void IRGraph::add_bbs(std::shared_ptr<IRBlock> r, Nodes ebb)
@@ -351,9 +530,9 @@ namespace KUNAI
             // insert given block
             ebb.insert(r);
 
-            for (auto x : r->get_successors())
+            for (auto x : get_successors(r))
             {
-                if (x->get_number_of_predecessors() == 1 && ebb.find(x) == ebb.end())
+                if (get_number_of_predecessors(x) == 1 && ebb.find(x) == ebb.end())
                     add_bbs(x, ebb);
             }
 
