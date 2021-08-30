@@ -23,6 +23,13 @@ namespace KUNAI {
         class IRBlock
         {
         public:
+            enum node_type_t
+            {
+                JOIN_NODE = 0,  // type of node with len(predecessors) > 1
+                BRANC_NODE,     // type of node with len(successors) > 1
+                REGULAR_NODE,   // other cases
+            };
+
             IRBlock();
             ~IRBlock();
 
@@ -43,6 +50,8 @@ namespace KUNAI {
 
             size_t get_number_of_predecessors();
             std::vector<std::shared_ptr<IRBlock>> get_predecessors();
+
+            node_type_t get_type_of_node();
         private:
             //! statements from the basic block.
             std::list<std::shared_ptr<IRStmnt>> block_statements;

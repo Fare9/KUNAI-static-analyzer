@@ -163,5 +163,19 @@ namespace KUNAI {
         {
             return predecessors;
         }
+
+        /**
+         * @brief Get type of node depending on number of successors and predecessors.
+         * @return node_type_t
+         */
+        IRBlock::node_type_t IRBlock::get_type_of_node()
+        {
+            if (successors.size() > 1)
+                return BRANC_NODE;
+            else if (predecessors.size() > 1)
+                return JOIN_NODE;
+            else
+                return REGULAR_NODE;
+        }
     }
 }
