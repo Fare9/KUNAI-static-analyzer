@@ -28,6 +28,7 @@ namespace KUNAI
                 FIELD_TYPE,
                 MEM_TYPE,
                 STRING_TYPE,
+                CLASS_TYPE,
                 CALLEE_TYPE,
                 NONE_TYPE = 99
             };
@@ -169,6 +170,24 @@ namespace KUNAI
         private:
             //! string value, probably nothing more will be here
             std::string str_value;
+        };
+
+        class IRClass : IRType
+        {
+        public:
+            IRClass(std::string class_name, std::string type_name, size_t type_size);
+            ~IRClass();
+
+            std::string get_class();
+
+            std::string get_type_str();
+            mem_access_t get_access();
+
+            friend bool operator==(IRClass&, IRClass&);
+        private:
+            //! class name including path, used for instructions
+            //! of type const-class
+            std::string class_name;
         };
 
         class IRCallee : IRType

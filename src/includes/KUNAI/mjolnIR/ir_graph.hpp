@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <set>
+#include <algorithm>
 #include "ir_blocks.hpp"
 
 namespace KUNAI
@@ -64,6 +65,8 @@ namespace KUNAI
 
             Nodes reachable_sons(std::shared_ptr<IRBlock> head);
             Nodes reachable_parents(std::shared_ptr<IRBlock> leaf);
+            std::map<std::shared_ptr<IRBlock>, Nodes> compute_dominators(std::shared_ptr<IRBlock> head);
+            std::map<std::shared_ptr<IRBlock>, Nodes> compute_postdominators(std::shared_ptr<IRBlock> leaf);
 
             std::shared_ptr<IRGraph> copy();
 
@@ -78,7 +81,8 @@ namespace KUNAI
             node_type_t get_type_of_node(std::shared_ptr<IRBlock> node);
 
             // algorithms from Advanced Compiler Design and Implementation
-            Nodes reachable_nodes(std::shared_ptr<IRBlock> head, bool go_successors);
+            Nodes reachable_nodes_forward(std::shared_ptr<IRBlock> head);
+            Nodes reachable_nodes_backward(std::shared_ptr<IRBlock> leaf);
             Nodes build_ebb(std::shared_ptr<IRBlock> r);
             Nodes Deep_First_Search(std::shared_ptr<IRBlock> head);
             Nodes Breadth_First_Search(std::shared_ptr<IRBlock> head);

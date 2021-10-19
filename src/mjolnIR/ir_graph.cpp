@@ -246,7 +246,7 @@ namespace KUNAI
                 return {{}};
             if (src == dst)
                 return {{src}};
-                
+
             Paths out;
 
             for (auto node : get_predecessors(dst))
@@ -269,6 +269,15 @@ namespace KUNAI
             return out;
         }
 
+        /**
+         * @brief Find a different paths between a source block and destination block from the source to forward
+         *        in the graph. 
+         * @param src: source block from the graph.
+         * @param dst: destination block from the graph.
+         * @param cycles_count: maximum number of times a basic block can be processed.
+         * @param done: dictionary of already processed loc_keys, it's value is number of times it was processed.
+         * @return Paths (std::vector<std::vector<std::shared_ptr<IRBlock>>> Paths)
+         */
         Paths IRGraph::find_path_from_src(std::shared_ptr<IRBlock> src,
                                           std::shared_ptr<IRBlock> dst,
                                           size_t cycles_count,
@@ -288,10 +297,10 @@ namespace KUNAI
                     done[src] = 0;
                 else
                     done[src] += 1;
-                
+
                 for (auto path : find_path(src, node, cycles_count, done))
                 {
-                    if (!path.empty() && path[path.size()-1] == dst)
+                    if (!path.empty() && path[path.size() - 1] == dst)
                     {
                         path.insert(path.begin(), src);
                         out.push_back(path);
@@ -309,9 +318,8 @@ namespace KUNAI
          */
         Nodes IRGraph::reachable_sons(std::shared_ptr<IRBlock> head)
         {
-            return IRGraph::reachable_nodes(head, true);
+            return IRGraph::reachable_nodes_forward(head);
         }
-
 
         /**
          * @brief Get the reachable parent nodes of a given block.
@@ -320,7 +328,119 @@ namespace KUNAI
          */
         Nodes IRGraph::reachable_parents(std::shared_ptr<IRBlock> leaf)
         {
-            return IRGraph::reachable_nodes(leaf, false);
+            return IRGraph::reachable_nodes_backward(leaf);
+        }
+
+        /**
+         * @brief Compute the dominators of the graph.
+         * @param head: head used as starting point to calculate the dominators in the graph.
+         * @return std::map<std::shared_ptr<IRBlock>, Nodes>
+         */
+        std::map<std::shared_ptr<IRBlock>, Nodes> IRGraph::compute_dominators(std::shared_ptr<IRBlock> head)
+        {
+            std::map<std::shared_ptr<IRBlock>, Nodes> dominators;
+
+            auto nodes = reachable_sons(head);
+
+            for (auto node : nodes)
+                dominators[node] = nodes;
+
+            dominators[head] = {head};
+
+            Nodes todo = nodes;
+
+            while (!todo.empty())
+            {
+                auto node = todo.begin();
+                todo.erase(node);
+
+                if ((*node) == head)
+                    // do not use head for computing dominators
+                    continue;
+
+                // computer intersection of all predecessors'dominators
+                Nodes new_dom = {};
+                for (auto pred : get_predecessors(*node))
+                {
+                    if (nodes.find(pred) == nodes.end()) // pred is not in nodes
+                        continue;
+                    if (new_dom.empty())
+                        new_dom = dominators[pred];
+
+                    Nodes intersect_aux;
+                    std::set_intersection(new_dom.begin(), new_dom.end(),
+                                          dominators[pred].begin(), dominators[pred].end(),
+                                          std::inserter(intersect_aux, intersect_aux.begin()));
+                    new_dom = intersect_aux;
+                }
+
+                new_dom.insert(*node);
+
+                if (new_dom == dominators[*node])
+                    continue;
+
+                dominators[*node] = new_dom;
+                for (auto succ : get_successors(*node))
+                    todo.insert(succ);
+            }
+
+            return dominators;
+        }
+
+        /**
+         * @brief Compute the postdominators of the graph.
+         * @param leaf: node to get its postdominators.
+         * @return std::map<std::shared_ptr<IRBlock>, Nodes>
+         */
+        std::map<std::shared_ptr<IRBlock>, Nodes> IRGraph::compute_postdominators(std::shared_ptr<IRBlock> leaf)
+        {
+            std::map<std::shared_ptr<IRBlock>, Nodes> postdominators;
+
+            auto nodes = reachable_parents(leaf);
+
+            for (auto node : nodes)
+                postdominators[node] = nodes;
+
+            postdominators[leaf] = {leaf};
+
+            Nodes todo = nodes;
+
+            while (!todo.empty())
+            {
+                auto node = todo.begin();
+                todo.erase(node);
+
+                if ((*node) == leaf)
+                    // do not use head for computing dominators
+                    continue;
+
+                // computer intersection of all predecessors'dominators
+                Nodes new_dom = {};
+                for (auto succ : get_successors(*node))
+                {
+                    if (nodes.find(succ) == nodes.end()) // pred is not in nodes
+                        continue;
+                    if (new_dom.empty())
+                        new_dom = postdominators[succ];
+
+                    Nodes intersect_aux;
+                    std::set_intersection(new_dom.begin(), new_dom.end(),
+                                          postdominators[succ].begin(), postdominators[succ].end(),
+                                          std::inserter(intersect_aux, intersect_aux.begin()));
+                    new_dom = intersect_aux;
+                }
+
+                new_dom.insert(*node);
+
+                if (new_dom == postdominators[*node])
+                    continue;
+
+                postdominators[*node] = new_dom;
+                for (auto pred : get_predecessors(*node))
+                    todo.insert(pred);
+            }
+
+            return postdominators;
         }
 
         /**
@@ -359,7 +479,7 @@ namespace KUNAI
          * @brief Get the list of successor blocks.
          * @param node: block to get its successors.
          * @return std::vector<std::shared_ptr<IRBlock>>
-         */        
+         */
         Nodes IRGraph::get_successors(std::shared_ptr<IRBlock> node)
         {
             if (successors.find(node) == successors.end())
@@ -411,38 +531,62 @@ namespace KUNAI
         /**
          * @brief Get all the reachable nodes from a given head node.
          * @param head: head of the set we want to get all its reachable nodes.
-         * @param go_successors: use successors to calculate the reachable nodes, in case of false, use the predecessors.
          * @return Nodes
          */
-        Nodes IRGraph::reachable_nodes(std::shared_ptr<IRBlock> head, bool go_successors)
+        Nodes IRGraph::reachable_nodes_forward(std::shared_ptr<IRBlock> head)
         {
             Nodes todo;
             Nodes reachable;
+
+            todo.insert(head);
 
             while (!todo.empty())
             {
                 // similar to python pop.
                 auto node = todo.begin();
-                todo.erase(node);                
+                todo.erase(node);
 
                 // node already in reachable
                 if (reachable.find((*node)) != reachable.end())
                     continue;
-                
+
                 reachable.insert(*node);
 
-                if (go_successors)
-                {
-                    for (auto next_node : get_successors(*node))
-                        todo.insert(next_node);
-                }else
-                {
-                    for (auto next_node : get_predecessors(*node))
-                        todo.insert(next_node);
-                }
-                
+                for (auto next_node : get_successors(*node))
+                    todo.insert(next_node);
             }
-            
+
+            return reachable;
+        }
+
+        /**
+         * @brief Get all the reachable up nodes from a given leaf node.
+         * @param leaf: leaf of the set we of nodes we want to get all its reachable nodes.
+         * @return Nodes
+         */
+        Nodes IRGraph::reachable_nodes_backward(std::shared_ptr<IRBlock> leaf)
+        {
+            Nodes todo;
+            Nodes reachable;
+
+            todo.insert(leaf);
+
+            while (!todo.empty())
+            {
+                // similar to python pop.
+                auto node = todo.begin();
+                todo.erase(node);
+
+                // node already in reachable
+                if (reachable.find((*node)) != reachable.end())
+                    continue;
+
+                reachable.insert(*node);
+
+                for (auto next_node : get_predecessors(*node))
+                    todo.insert(next_node);
+            }
+
             return reachable;
         }
 
@@ -462,7 +606,7 @@ namespace KUNAI
 
             return ebb;
         }
-        
+
         /**
          * @brief Given a head node, give the tree of nodes using a Depth First Search algorithm.
          * @param head: node where to start the search.
@@ -484,7 +628,7 @@ namespace KUNAI
 
                 if (done.find(*node) != done.end())
                     continue;
-                
+
                 done.insert(*node);
 
                 for (auto succ : get_successors(*node))
@@ -514,7 +658,7 @@ namespace KUNAI
 
                 if (done.find(*node) != done.end())
                     continue;
-                
+
                 done.insert(*node);
 
                 for (auto succ : get_successors(*node))
@@ -523,7 +667,6 @@ namespace KUNAI
 
             return done;
         }
-
 
         void IRGraph::add_bbs(std::shared_ptr<IRBlock> r, Nodes ebb)
         {

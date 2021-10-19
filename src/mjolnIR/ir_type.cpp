@@ -131,6 +131,13 @@ namespace KUNAI
 
                 return str1 == str2;
             }
+            else if (type1.type == IRType::CLASS_TYPE)
+            {
+                IRClass& class1 = dynamic_cast<IRClass&>(type1);
+                IRClass& class2 = dynamic_cast<IRClass&>(type2);
+
+                return class1 == class2;
+            }
             else if (type1.type == IRType::CALLEE_TYPE)
             {
                 IRCallee& callee1 = dynamic_cast<IRCallee&>(type1);
@@ -470,6 +477,69 @@ namespace KUNAI
         bool operator==(IRString& type1, IRString& type2)
         {
             if (type1.str_value == type2.str_value)
+                return true;
+            return false;
+        }
+
+        /**
+         * IRClass
+         */
+        /**
+         * @brief Constructor of IRClass, this represent the name of a class
+         *        that is assigned as a type.
+         * @param class_name: name of the class.
+         * @param type_name: should be the same value than previous one.
+         * @param type_size: should be 0.
+         * @return void
+         */
+        IRClass::IRClass(std::string class_name, std::string type_name, size_t type_size)
+            : IRType(CLASS_TYPE, type_name, type_size)
+        {
+            this->class_name = class_name;
+        }
+
+        /**
+         * @brief Destructor of IRClass, nothing to be done here.
+         * @return void
+         */
+        IRClass::~IRClass() {}
+
+        /**
+         * @brief get the name of the class.
+         * @return std::string
+         */
+        std::string IRClass::get_class()
+        {
+            return class_name;
+        }
+
+        /**
+         * @brief Get the name of the type as a string
+         * @return std::string
+         */
+        std::string IRClass::get_type_str()
+        {
+            return "Class";
+        }
+
+        /**
+         * @brief Get type of access in this case NONE.
+         * @return mem_access_t
+         */
+        IRClass::mem_access_t IRClass::get_access()
+        {
+            return NONE_ACCESS;
+        }
+
+        /**
+         * @brief Operator == of IRClass we will compare name of classes.
+         * @param type1: first class to compare.
+         * @param type2: second class to compare.
+         * @return bool
+         */
+        bool operator==(IRClass& type1, IRClass& type2)
+        {
+            if (type1.class_name == type2.class_name)
                 return true;
             return false;
         }
