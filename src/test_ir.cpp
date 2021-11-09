@@ -2,7 +2,7 @@
 #include <memory>
 #include <string>
 
-#include "ir_type.hpp"
+#include "ir_grammar.hpp"
 
 
 int

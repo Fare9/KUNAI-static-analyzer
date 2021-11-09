@@ -271,17 +271,14 @@ namespace KUNAI
                 assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_reg, nullptr, nullptr);
             }
             // Instruction11x types
-            else if (androidinstructions.assignment_instruction11x.find(op_code) != androidinstructions.assignment_instruction11x.end())
-            {
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction11x>(instruction);
-
-                auto dest = instr->get_destination();
-
-                auto dest_reg = make_android_register(dest);
-                auto none = make_none_type();
-
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, none, nullptr, nullptr);
-            }
+            //else if (androidinstructions.assignment_instruction11x.find(op_code) != androidinstructions.assignment_instruction11x.end())
+            //{
+            //    auto instr = std::dynamic_pointer_cast<DEX::Instruction11x>(instruction);
+            //    auto dest = instr->get_destination();
+            //    auto dest_reg = make_android_register(dest);
+            //    auto none = make_none_type();
+            //    assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, none, nullptr, nullptr);
+            //}
             // Instruction11n types
             else if (androidinstructions.assigment_instruction11n.find(op_code) != androidinstructions.assigment_instruction11n.end())
             {

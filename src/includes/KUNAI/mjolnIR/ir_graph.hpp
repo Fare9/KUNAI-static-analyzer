@@ -11,7 +11,7 @@
 #include <set>
 #include <algorithm>
 #include <map>
-#include "ir_stmnt.hpp"
+#include "ir_grammar.hpp"
 
 namespace KUNAI
 {

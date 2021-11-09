@@ -29,13 +29,13 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_MOVE_16,
                 DEX::DVMTypes::Opcode::OP_MOVE_WIDE_16,
                 DEX::DVMTypes::Opcode::OP_MOVE_OBJECT_16,
-                DEX::DVMTypes::Opcode::OP_MOVE_RESULT,
-                DEX::DVMTypes::Opcode::OP_MOVE_RESULT_WIDE,
-                DEX::DVMTypes::Opcode::OP_MOVE_RESULT_OBJECT,
-                DEX::DVMTypes::Opcode::OP_MOVE_EXCEPTION,
-                DEX::DVMTypes::Opcode::OP_RETURN,
-                DEX::DVMTypes::Opcode::OP_RETURN_WIDE,
-                DEX::DVMTypes::Opcode::OP_RETURN_OBJECT,
+                //DEX::DVMTypes::Opcode::OP_MOVE_RESULT,
+                //DEX::DVMTypes::Opcode::OP_MOVE_RESULT_WIDE,
+                //DEX::DVMTypes::Opcode::OP_MOVE_RESULT_OBJECT,
+                //DEX::DVMTypes::Opcode::OP_MOVE_EXCEPTION,
+                //DEX::DVMTypes::Opcode::OP_RETURN,
+                //DEX::DVMTypes::Opcode::OP_RETURN_WIDE,
+                //DEX::DVMTypes::Opcode::OP_RETURN_OBJECT,
                 DEX::DVMTypes::Opcode::OP_CONST_4,
                 DEX::DVMTypes::Opcode::OP_CONST_16,
                 DEX::DVMTypes::Opcode::OP_CONST_WIDE_16,
@@ -71,14 +71,14 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_MOVE_WIDE_16,
                 DEX::DVMTypes::Opcode::OP_MOVE_OBJECT_16};
             // Assignment instructions of type Instruction11x
-            std::set<DEX::DVMTypes::Opcode> assignment_instruction11x = {
-                DEX::DVMTypes::Opcode::OP_MOVE_RESULT,
-                DEX::DVMTypes::Opcode::OP_MOVE_RESULT_WIDE,
-                DEX::DVMTypes::Opcode::OP_MOVE_RESULT_OBJECT,
-                DEX::DVMTypes::Opcode::OP_MOVE_EXCEPTION,
-                DEX::DVMTypes::Opcode::OP_RETURN,
-                DEX::DVMTypes::Opcode::OP_RETURN_WIDE,
-                DEX::DVMTypes::Opcode::OP_RETURN_OBJECT};
+            //std::set<DEX::DVMTypes::Opcode> assignment_instruction11x = {
+            //    DEX::DVMTypes::Opcode::OP_MOVE_RESULT,
+            //    DEX::DVMTypes::Opcode::OP_MOVE_RESULT_WIDE,
+            //    DEX::DVMTypes::Opcode::OP_MOVE_RESULT_OBJECT,
+            //    DEX::DVMTypes::Opcode::OP_MOVE_EXCEPTION,
+            //    DEX::DVMTypes::Opcode::OP_RETURN,
+            //    DEX::DVMTypes::Opcode::OP_RETURN_WIDE,
+            //    DEX::DVMTypes::Opcode::OP_RETURN_OBJECT};
             // Assignment instructions of type Instruction11n
             std::set<DEX::DVMTypes::Opcode> assigment_instruction11n = {
                 DEX::DVMTypes::Opcode::OP_CONST_4};
