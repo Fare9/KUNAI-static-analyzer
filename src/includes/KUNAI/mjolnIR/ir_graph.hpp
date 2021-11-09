@@ -10,7 +10,8 @@
 #include <iostream>
 #include <set>
 #include <algorithm>
-#include "ir_blocks.hpp"
+#include <map>
+#include "ir_stmnt.hpp"
 
 namespace KUNAI
 {

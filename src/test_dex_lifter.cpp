@@ -1,11 +1,7 @@
-/***
- * Disassembler file for DEX, here we will present a simple
- * way to do a disassembly of a DEX file, show both class and
- * method.
- */
-
 #include <iostream>
 #include <memory>
+
+#include "lifter_android.hpp"
 #include "dex.hpp"
 
 int 
@@ -51,7 +47,33 @@ main(int argc, char**argv)
         std::cerr << "[-] Disassembly was incorrect, cannot show instructions." << std::endl;
         return 1;
     }
-    
-    // print the disassembly
+
     std::cout << *dex_disassembler;
+
+    auto lifter_android = std::make_shared<KUNAI::LIFTER::LifterAndroid>();
+    std::shared_ptr<KUNAI::MJOLNIR::IRBlock> bb = std::make_shared<KUNAI::MJOLNIR::IRBlock>();
+
+    auto method_instructions = dex_disassembler->get_instructions();
+
+    for (auto it = method_instructions.begin(); it != method_instructions.end(); it++)
+    {
+        auto class_def = std::get<0>(it->first);
+        auto direct_method = std::get<1>(it->first);
+
+        for (auto instr = it->second.begin(); instr != it->second.end(); instr++)
+        {
+            lifter_android->lift_android_instruction(instr->second, bb);
+        }
+    }
+
+    auto statements = bb->get_statements();
+
+    std::cout << "[+] DEX Lifting in MjolnIR (KUNAI IR)" << std::endl;
+
+    for (auto statement : statements)
+    {
+        std::cout << statement->to_string() << std::endl;
+    }
+
+    return 0;
 }

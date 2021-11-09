@@ -6,12 +6,17 @@
  *        this will be enums for the registers, sizes and strings.
  */
 
+#ifndef IR_X86_HPP
+#define IR_X86_HPP
+
 #include <map>
 
 namespace KUNAI
 {
     namespace MJOLNIR
     {
+        const int x86_arch = 1;
+
         enum x86_regs_t
         /**
          * @brief X86 registers, enums for IR, sizes and strings.
@@ -90,3 +95,5 @@ namespace KUNAI
         };
     }
 }
+
+#endif

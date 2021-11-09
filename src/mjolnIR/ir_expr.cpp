@@ -1,4 +1,4 @@
-#include "ir_expr.hpp"
+#include "ir_grammar.hpp"
 
 namespace KUNAI
 {
@@ -72,6 +72,78 @@ namespace KUNAI
         }
 
         /**
+         * @brief Return the correct string representation for the IRExpr.
+         * 
+         * @return std::string 
+         */
+        std::string IRExpr::to_string()
+        {
+            if (type == BINOP_EXPR_T)
+            {
+                auto binop = reinterpret_cast<IRBinOp*>(this);
+
+                return binop->to_string();
+            }
+            else if (type == UNARYOP_EXPR_T)
+            {
+                auto unaryop = reinterpret_cast<IRUnaryOp*>(this);
+
+                return unaryop->to_string();
+            }
+            else if (type == ASSIGN_EXPR_T)
+            {
+                auto assign = reinterpret_cast<IRAssign*>(this);
+
+                return assign->to_string();
+            }
+            else if (type == TYPE_EXPR_T)
+            {
+                auto type_ = reinterpret_cast<IRType*>(this);
+                
+                return type_->to_string();
+            }
+            else if (type == LOAD_EXPR_T)
+            {
+                auto load = reinterpret_cast<IRLoad*>(this);
+
+                return load->to_string();
+            }
+            else if (type == STORE_EXPR_T)
+            {
+                auto store = reinterpret_cast<IRStore*>(this);
+
+                return store->to_string();
+            }
+            else if (type == ZCOMP_EXPR_T)
+            {
+                auto zcomp = reinterpret_cast<IRZComp*>(this);
+
+                return zcomp->to_string();
+            }
+            else if (type == BCOMP_EXPR_T)
+            {
+                auto bcomp = reinterpret_cast<IRBComp*>(this);
+
+                return bcomp->to_string();
+            }
+            else if (type == NONE_EXPR_T)
+            {
+                return "IRExpr [NONE]";
+            }
+
+            return "";
+        }
+
+        /**
+         * @brief Comparison of IRExpr instructions.
+         * @return bool
+         */
+        bool IRExpr::equals(std::shared_ptr<IRExpr> irexpr)
+        {
+            return *(this) == *(irexpr.get());
+        }
+
+        /**
          * @brief Operator == for IRExpr.
          * @param ope1: first operation to compare.
          * @param ope2: second operation to compare.
@@ -84,57 +156,57 @@ namespace KUNAI
             
             if (ope1.type == IRExpr::BINOP_EXPR_T)
             {
-                IRBinOp& binop1 = static_cast<IRBinOp&>(ope1);
-                IRBinOp& binop2 = static_cast<IRBinOp&>(ope2);
+                IRBinOp& binop1 = reinterpret_cast<IRBinOp&>(ope1);
+                IRBinOp& binop2 = reinterpret_cast<IRBinOp&>(ope2);
 
                 return binop1 == binop2;
             }
             else if (ope1.type == IRExpr::UNARYOP_EXPR_T)
             {
-                IRUnaryOp& unop1 = static_cast<IRUnaryOp&>(ope1);
-                IRUnaryOp& unop2 = static_cast<IRUnaryOp&>(ope2);
+                IRUnaryOp& unop1 = reinterpret_cast<IRUnaryOp&>(ope1);
+                IRUnaryOp& unop2 = reinterpret_cast<IRUnaryOp&>(ope2);
 
                 return unop1 == unop2;
             }
             else if (ope1.type == IRExpr::ASSIGN_EXPR_T)
             {
-                IRAssign& assign1 = static_cast<IRAssign&>(ope1);
-                IRAssign& assign2 = static_cast<IRAssign&>(ope2);
+                IRAssign& assign1 = reinterpret_cast<IRAssign&>(ope1);
+                IRAssign& assign2 = reinterpret_cast<IRAssign&>(ope2);
 
                 return assign1 == assign2;
             }
             else if (ope1.type == IRExpr::CALL_EXPR_T)
             {
-                IRCall& call1 = static_cast<IRCall&>(ope1);
-                IRCall& call2 = static_cast<IRCall&>(ope2);
+                IRCall& call1 = reinterpret_cast<IRCall&>(ope1);
+                IRCall& call2 = reinterpret_cast<IRCall&>(ope2);
 
                 return call1 == call2;
             }
             else if (ope1.type == IRExpr::LOAD_EXPR_T)
             {
-                IRLoad& load1 = static_cast<IRLoad&>(ope1);
-                IRLoad& load2 = static_cast<IRLoad&>(ope2);
+                IRLoad& load1 = reinterpret_cast<IRLoad&>(ope1);
+                IRLoad& load2 = reinterpret_cast<IRLoad&>(ope2);
 
                 return load1 == load2;
             }
             else if (ope1.type == IRExpr::STORE_EXPR_T)
             {
-                IRStore& store1 = static_cast<IRStore&>(ope1);
-                IRStore& store2 = static_cast<IRStore&>(ope2);
+                IRStore& store1 = reinterpret_cast<IRStore&>(ope1);
+                IRStore& store2 = reinterpret_cast<IRStore&>(ope2);
 
                 return store1 == store2;
             }
             else if (ope1.type == IRExpr::ZCOMP_EXPR_T)
             {
-                IRZComp& zcomp1 = static_cast<IRZComp&>(ope1);
-                IRZComp& zcomp2 = static_cast<IRZComp&>(ope2);
+                IRZComp& zcomp1 = reinterpret_cast<IRZComp&>(ope1);
+                IRZComp& zcomp2 = reinterpret_cast<IRZComp&>(ope2);
 
                 return zcomp1 == zcomp2;
             }
             else if (ope1.type == IRExpr::BCOMP_EXPR_T)
             {
-                IRBComp& bcomp1 = static_cast<IRBComp&>(ope1);
-                IRBComp& bcomp2 = static_cast<IRBComp&>(ope2);
+                IRBComp& bcomp1 = reinterpret_cast<IRBComp&>(ope1);
+                IRBComp& bcomp2 = reinterpret_cast<IRBComp&>(ope2);
 
                 return bcomp1 == bcomp2;
             }
@@ -213,6 +285,76 @@ namespace KUNAI
         }
 
         /**
+         * @brief Return a string representation of IRBinOp.
+         * 
+         * @return std::string 
+         */
+        std::string IRBinOp::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRBinOp ";
+
+            switch (bin_op_type)
+            {
+            case ADD_OP_T:
+                str_stream << "[Op: ADD_OP]"; 
+                break;
+            case SUB_OP_T:
+                str_stream << "[Op: SUB_OP]";
+                break;
+            case S_MUL_OP_T:
+                str_stream << "[Op: SIGNED_MUL_OP]";
+                break;
+            case U_MUL_OP_T:
+                str_stream << "[Op: UNSIGNED_MUL_OP]";
+                break;
+            case S_DIV_OP_T:
+                str_stream << "[Op: SIGNED_DIV_OP]";
+                break;
+            case U_DIV_OP_T:
+                str_stream << "[Op: UNSIGNED_DIV_OP]";
+                break;
+            case MOD_OP_T:
+                str_stream << "[Op: MOD_OP]";
+                break;
+            case AND_OP_T:
+                str_stream << "[Op: AND_OP]";
+                break;
+            case XOR_OP_T:
+                str_stream << "[Op: XOR_OP]";
+                break;
+            case OR_OP_T:
+                str_stream << "[Op: OR_OP]";
+                break;
+            case SHL_OP_T:
+                str_stream << "[Op: SHL_OP]";
+                break;
+            case SHR_OP_T:
+                str_stream << "[Op: SHR_OP]";
+                break;
+            case USHR_OP_T:
+                str_stream << "[Op: UNSIGNED_SHR_OP]";
+                break;
+            }
+
+            str_stream << "[Result: " << result->to_string() << "]";
+            str_stream << "[Operand1: " << op1->to_string() << "]";
+            str_stream << "[Operand2: " << op2->to_string() << "]";
+
+            return str_stream.str();
+        }
+
+        /**
+         * @brief Comparison of IRBinOp instructions.
+         * @return bool
+         */
+        bool IRBinOp::equals(std::shared_ptr<IRBinOp> irbinop)
+        {
+            return *this == *(irbinop.get());
+        }
+
+        /**
          * @brief Operator == for IRBinOp.
          * @param ope1: first operation to compare.
          * @param ope2: second operation to compare.
@@ -221,9 +363,9 @@ namespace KUNAI
         bool operator==(IRBinOp& ope1, IRBinOp& ope2)
         {
             return (ope1.bin_op_type == ope2.bin_op_type) &&
-                    (ope1.op1 == ope2.op1) &&
-                    (ope1.op2 == ope2.op2) &&
-                    (ope1.result == ope2.result);
+                    (ope1.op1->equals(ope2.op1)) &&
+                    (ope1.op2->equals(ope2.op2)) &&
+                    (ope1.result->equals(ope2.result));
         }
 
         /**
@@ -249,6 +391,30 @@ namespace KUNAI
             this->unary_op_type = unary_op_type;
             this->result = result;
             this->op = op;
+            this->cast_type = NONE_CAST;
+        }
+
+        /**
+         * @brief Constructor of IRUnaryOp class, this will get different values for the instruction.
+         * @param unary_op_type: type of unary operation.
+         * @param result: where the operation stores the result.
+         * @param op: operand from the instruction.
+         * @param left: left expression for the AST.
+         * @param right: right expression for the AST.
+         * @return void
+         */
+        IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type,
+                      cast_type_t cast_type,
+                      std::shared_ptr<IRExpr> result,
+                      std::shared_ptr<IRExpr> op,
+                      std::shared_ptr<IRExpr> left,
+                      std::shared_ptr<IRExpr> right)
+            : IRExpr(UNARYOP_EXPR_T, left, right)
+        {
+            this->unary_op_type = unary_op_type;
+            this->result = result;
+            this->op = op;
+            this->cast_type = cast_type;
         }
 
         /**
@@ -285,6 +451,103 @@ namespace KUNAI
         }
 
         /**
+         * @brief Set the cast type of the Cast operation.
+         * @param cast_type: type of cast to assign.
+         * @return void
+         */
+        void IRUnaryOp::set_cast_type(cast_type_t cast_type)
+        {
+            this->cast_type = cast_type;
+        }
+
+        /**
+         * @brief Get the type of cast of the instruction.
+         * @return cast_type_t
+         */
+        IRUnaryOp::cast_type_t IRUnaryOp::get_cast_type()
+        {
+            return this->cast_type;
+        }
+
+        /**
+         * @brief Return a string representation of IRUnaryOp.
+         * 
+         * @return std::string 
+         */
+        std::string IRUnaryOp::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRUnaryOp ";
+            
+
+            switch (unary_op_type)
+            {
+            case INC_OP_T:
+                str_stream << "[Type: INC_OP]";
+                break;
+            case DEC_OP_T:
+                str_stream << "[Type: DEC_OP]";
+                break;
+            case NOT_OP_T:
+                str_stream << "[Type: NOT_OP]";
+                break;
+            case NEG_OP_T:
+                str_stream << "[Type: NEG_OP]";
+                break;
+            case CAST_OP_T:
+                str_stream << "[Type: CAST_OP]";
+                break;
+            case Z_EXT_OP_T:
+                str_stream << "[Type: ZERO_EXT_OP]";
+                break;
+            case S_EXT_OP_T:
+                str_stream << "[Type: SIGN_EXT_OP]";
+                break;
+            }
+
+            if (unary_op_type == CAST_OP_T)
+            {
+                switch (cast_type)
+                {
+                case TO_BYTE:
+                    str_stream << "[Cast: TO_BYTE]";
+                    break;
+                case TO_INT:
+                    str_stream << "[Cast: TO_INT]";
+                    break;
+                case TO_LONG:
+                    str_stream << "[Cast: TO_LONG]";
+                    break;
+                case TO_FLOAT:
+                    str_stream << "[Cast: TO_FLOAT]";
+                    break;
+                case TO_DOUBLE:
+                    str_stream << "[Cast: TO_DOUBLE]";
+                    break;
+                case TO_ADDR:
+                    str_stream << "[Cast: TO_ADDR]";
+                    break;
+                }
+
+            }
+
+            str_stream << "[Dest: " << result->to_string() << "]";
+            str_stream << "[Src: " << op->to_string() << "]";
+
+            return str_stream.str();
+        }
+
+        /**
+         * @brief Comparison of IRUnaryOp instructions.
+         * @return bool
+         */
+        bool IRUnaryOp::equals(std::shared_ptr<IRUnaryOp> irunaryop)
+        {
+            return *this == *(irunaryop.get());
+        }
+
+        /**
          * @brief Operator == for IRUnaryOp.
          * @param ope1: first operation to compare.
          * @param ope2: second operation to compare.
@@ -293,8 +556,8 @@ namespace KUNAI
         bool operator==(IRUnaryOp& ope1, IRUnaryOp& ope2)
         {
             return (ope1.unary_op_type == ope2.unary_op_type) &&
-                    (ope1.op == ope2.op) &&
-                    (ope1.result == ope2.result);
+                    (ope1.op->equals(ope2.op)) &&
+                    (ope1.result->equals(ope2.result));
         }
 
         /**
@@ -345,6 +608,31 @@ namespace KUNAI
         }
 
         /**
+         * @brief Return the string representation of IRAssign.
+         * 
+         * @return std::string 
+         */
+        std::string IRAssign::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRAssign ";
+            str_stream << "[Dest: " << destination->to_string() << "]";
+            str_stream << "[Src: " << source->to_string() << "]";
+
+            return str_stream.str();
+        }
+
+        /**
+         * @brief Comparison of IRAssign instructions.
+         * @return bool
+         */
+        bool IRAssign::equals(std::shared_ptr<IRAssign> irassign)
+        {
+            return *this == *(irassign.get());
+        }
+
+        /**
          * @brief Operator == for IRAssign.
          * @param ope1: first operation to compare.
          * @param ope2: second operation to compare.
@@ -352,8 +640,8 @@ namespace KUNAI
          */
         bool operator==(IRAssign& ope1, IRAssign& ope2)
         {
-            return (ope1.destination == ope2.destination) &&
-                    (ope1.source == ope2.source);
+            return (ope1.destination->equals(ope2.destination)) &&
+                    (ope1.source->equals(ope2.source));
         }
 
         /**
@@ -403,6 +691,31 @@ namespace KUNAI
         }
 
         /**
+         * @brief Get a string representation of IRCall.
+         * 
+         * @return std::string 
+         */
+        std::string IRCall::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRCall ";
+
+            str_stream << "[Callee: " << callee->to_string() << "]";
+
+            return str_stream.str();
+        }
+
+        /**
+         * @brief Comparison of IRCall instructions.
+         * @return bool
+         */
+        bool IRCall::equals(std::shared_ptr<IRCall> ircall)
+        {
+            return *(this) == *(ircall.get());
+        }
+
+        /**
          * @brief Operator == for IRCall.
          * @param ope1: first operation to compare.
          * @param ope2: second operation to compare.
@@ -410,7 +723,7 @@ namespace KUNAI
          */
         bool operator==(IRCall& ope1, IRCall& ope2)
         {
-            return (ope1.callee == ope2.callee) &&
+            return (ope1.callee->equals(ope2.callee)) &&
                     (std::equal(ope1.args.begin(), ope1.args.end(), ope2.args.begin()));
         }
 
@@ -473,6 +786,32 @@ namespace KUNAI
         }
 
         /**
+         * @brief Return string representation of IRLoad.
+         * 
+         * @return std::string 
+         */
+        std::string IRLoad::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRLoad ";
+
+            str_stream << "[Dest: " << destination->to_string() << "]";
+            str_stream << "[Src: Mem(" << source->to_string() << ")]";
+
+            return str_stream.str();
+        }
+
+        /**
+         * @brief Comparison of IRLoad instruction.
+         * @return bool
+         */
+        bool IRLoad::equals(std::shared_ptr<IRLoad> irload)
+        {
+            return *this == *(irload.get());
+        }
+
+        /**
          * @brief Operator == for IRLoad.
          * @param ope1: first operation to compare.
          * @param ope2: second operation to compare.
@@ -480,8 +819,8 @@ namespace KUNAI
          */
         bool operator==(IRLoad& ope1, IRLoad& ope2)
         {
-            return (ope1.destination == ope2.destination) &&
-                    (ope1.source == ope2.source) &&
+            return (ope1.destination->equals(ope2.destination)) &&
+                    (ope1.source->equals(ope2.source)) &&
                     (ope1.size == ope2.size);
         }
 
@@ -544,6 +883,31 @@ namespace KUNAI
         }
 
         /**
+         * @brief Return a string representation of IRStore.
+         * 
+         * @return std::string 
+         */
+        std::string IRStore::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRStore ";
+
+            str_stream << "[Dest: Mem(" << destination->to_string() << ")]";
+            str_stream << "[Src: " << source->to_string() << "]";
+
+            return str_stream.str();
+        }
+        /**
+         * @brief Comparison of IRStore instructions.
+         * @return bool
+         */
+        bool IRStore::equals(std::shared_ptr<IRStore> irstore)
+        {
+            return *(this) == *(irstore.get());
+        }
+
+        /**
          * @brief Operator == for IRStore.
          * @param ope1: first operation to compare.
          * @param ope2: second operation to compare.
@@ -551,8 +915,8 @@ namespace KUNAI
          */
         bool operator==(IRStore& ope1, IRStore& ope2)
         {
-            return (ope1.destination == ope2.destination) &&
-                    (ope1.source == ope2.source) &&
+            return (ope1.destination->equals(ope2.destination)) &&
+                    (ope1.source->equals(ope2.source)) &&
                     (ope1.size == ope2.size);
         }
 
@@ -604,6 +968,41 @@ namespace KUNAI
         }
 
         /**
+         * @brief Return the string expression of IRZComp.
+         * 
+         * @return std::string 
+         */
+        std::string IRZComp::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRZComp ";
+
+            switch (comp)
+            {
+            case EQUAL_ZERO_T:
+                str_stream << "[Comp: EQUAL_ZERO_T]";
+                break;
+            case NOT_EQUAL_ZERO_T:
+                str_stream << "[Comp: NOT_EQUAL_ZERO_T]";
+                break;
+            }
+
+            str_stream << "[" << reg->to_string() << "]";
+
+            return str_stream.str();
+        }
+
+        /**
+         * @brief Comparison of IRZComp instruction with shared_ptr.
+         * @return bool
+         */
+        bool IRZComp::equals(std::shared_ptr<IRZComp> irzcomp)
+        {
+            return *this == *(irzcomp.get());
+        }
+
+        /**
          * @brief Operator == for IRZComp.
          * @param ope1: first operation to compare.
          * @param ope2: second operation to compare.
@@ -612,7 +1011,7 @@ namespace KUNAI
         bool operator==(IRZComp& ope1, IRZComp& ope2)
         {
             return (ope1.comp == ope2.comp) &&
-                    (ope1.reg == ope2.reg);
+                    (ope1.reg->equals(ope2.reg));
         }
 
         /**
@@ -674,6 +1073,60 @@ namespace KUNAI
         }
 
         /**
+         * @brief Return the string representation of IRBComp.
+         * 
+         * @return std::string 
+         */
+        std::string IRBComp::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRBComp ";
+
+            switch (comp)
+            {
+            case EQUAL_T:
+                str_stream << "[Comp: EQUAL_T]";
+                break;
+            case NOT_EQUAL_T:
+                str_stream << "[Comp: NOT_EQUAL_T]";
+                break;
+            case GREATER_T:
+                str_stream << "[Comp: GREATER_T]";
+                break;
+            case GREATER_EQUAL_T:
+                str_stream << "[Comp: GREATER_EQUAL_T]";
+                break;
+            case LOWER_T:
+                str_stream << "[Comp: LOWER_T]";
+                break;
+            case ABOVE_T:
+                str_stream << "[Comp: ABOVE_T]";
+                break;
+            case ABOVE_EQUAL_T:
+                str_stream << "[Comp: ABOVE_EQUAL_T]";
+                break;
+            case BELOW_T:
+                str_stream << "[Comp: BELOW_T]";
+                break;
+            }
+
+            str_stream << "[" << reg1->to_string() << "]";
+            str_stream << "[" << reg2->to_string() << "]";
+
+            return str_stream.str();
+        }
+
+        /**
+         * @brief Comparison of IRBComp instruction with shared_ptr.
+         * @return bool
+         */
+        bool IRBComp::equals(std::shared_ptr<IRBComp> bcomp)
+        {
+            return *this == *(bcomp.get());
+        }
+
+        /**
          * @brief Operator == for IRBComp.
          * @param ope1: first operation to compare.
          * @param ope2: second operation to compare.
@@ -682,8 +1135,8 @@ namespace KUNAI
         bool operator==(IRBComp& ope1, IRBComp& ope2)
         {
             return (ope1.comp == ope2.comp) &&
-                    (ope1.reg1 == ope2.reg1) &&
-                    (ope1.reg2 == ope2.reg2);
+                    (ope1.reg1->equals(ope2.reg1)) &&
+                    (ope1.reg2->equals(ope2.reg2));
         }
     }
 }

@@ -1,4 +1,4 @@
-#include "ir_stmnt.hpp"
+#include "ir_grammar.hpp"
 
 
 namespace KUNAI
@@ -35,6 +35,45 @@ namespace KUNAI
         }
 
         /**
+         * @brief Return correct string representation for IRStmnt.
+         * 
+         * @return std::string 
+         */
+        std::string IRStmnt::to_string()
+        {
+            if (stmnt_type == UJMP_STMNT_T)
+            {
+                auto ujmp = reinterpret_cast<IRUJmp*>(this);
+
+                return ujmp->to_string();
+            }
+            else if (stmnt_type == CJMP_STMNT_T)
+            {
+                auto cjmp = reinterpret_cast<IRCJmp*>(this);
+
+                return cjmp->to_string();
+            }
+            else if (stmnt_type == RET_STMNT_T)
+            {
+                auto ret = reinterpret_cast<IRRet*>(this);
+
+                return ret->to_string();
+            }
+            else if (stmnt_type == EXPR_STMNT_T)
+            {
+                auto expr = reinterpret_cast<IRExpr*>(this);
+
+                return expr->to_string();
+            }
+            else if (stmnt_type == NONE_STMNT_T)
+            {
+                return "IRStmnt [NONE]";
+            }
+
+            return "";
+        }
+
+        /**
          * IRUJmp class
          */
         
@@ -62,6 +101,22 @@ namespace KUNAI
         std::shared_ptr<IRStmnt> IRUJmp::get_jump_target()
         {
             return target;
+        }
+
+        /**
+         * @brief Return a string representation of IRUJmp.
+         * 
+         * @return std::string 
+         */
+        std::string IRUJmp::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRUJmp ";
+
+            str_stream << "[Target: " << target->to_string() << "]";
+
+            return str_stream.str();
         }
 
         /**
@@ -117,6 +172,24 @@ namespace KUNAI
         }
 
         /**
+         * @brief Return string representation of IRCJmp.
+         * 
+         * @return std::string 
+         */
+        std::string IRCJmp::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRCJmp ";
+
+            str_stream << "[Condition: " << condition->to_string() << "]";
+            str_stream << "[Target: " << target->to_string() << "]";
+            str_stream << "[Fallthroguh: " << target->to_string() << "]";
+
+            return str_stream.str();
+        }
+
+        /**
          * IRRet class
          */
 
@@ -145,7 +218,20 @@ namespace KUNAI
         {
             return ret_value;
         }
-
         
+        /**
+         * @brief Return the string representation of IRRet.
+         * 
+         * @return std::string
+         */
+        std::string IRRet::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRRet ";
+            str_stream << "[Ret: " << ret_value->to_string() << "]";
+
+            return str_stream.str();
+        }
     }
 }

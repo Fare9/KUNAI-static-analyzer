@@ -1,4 +1,4 @@
-#include "ir_blocks.hpp"
+#include "ir_grammar.hpp"
 
 namespace KUNAI {
     namespace MJOLNIR {
