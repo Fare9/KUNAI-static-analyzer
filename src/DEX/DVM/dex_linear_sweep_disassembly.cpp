@@ -17,12 +17,13 @@ namespace KUNAI {
             size_t buffer_size = byte_buffer.size();
             std::uint32_t opcode;
 
-            std::stringstream input_buffer;
-
             while (instruction_index < buffer_size)
             {
+                std::stringstream input_buffer;
+
                 opcode = byte_buffer[instruction_index];
-                std::copy(byte_buffer.begin() + instruction_index, byte_buffer.end(), std::ostream_iterator<std::uint8_t>(input_buffer));
+                
+                input_buffer.write(reinterpret_cast<const char*>(byte_buffer.data() + instruction_index), buffer_size - instruction_index);
 
                 try
                 {
