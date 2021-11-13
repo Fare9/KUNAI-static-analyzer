@@ -513,6 +513,12 @@ namespace KUNAI
                 case TO_BYTE:
                     str_stream << "[Cast: TO_BYTE]";
                     break;
+                case TO_CHAR:
+                    str_stream << "[Cast: TO_CHAR]";
+                    break;
+                case TO_SHORT:
+                    str_stream << "[Cast: TO_SHORT]";
+                    break;
                 case TO_INT:
                     str_stream << "[Cast: TO_INT]";
                     break;
@@ -527,6 +533,9 @@ namespace KUNAI
                     break;
                 case TO_ADDR:
                     str_stream << "[Cast: TO_ADDR]";
+                    break;
+                case TO_BOOLEAN:
+                    str_stream << "[Cast: TO_BOOLEAN]";
                     break;
                 }
 
@@ -749,6 +758,31 @@ namespace KUNAI
         {
             this->destination = destination;
             this->source = source;
+            this->index = nullptr;
+            this->size = size;
+        }
+
+        /**
+         * @brief Constructor of IRLoad class, this class represent a load from memory (using memory or using register).
+         * @param destination: register where the value will be stored.
+         * @param source: expression from where the memory will be retrieved.
+         * @param index: index from the load if this is referenced with an index.
+         * @param size: loaded size.
+         * @param left: left part of the load (used for AST).
+         * @param right: right part of the load (used for AST).
+         * @return void
+         */
+        IRLoad::IRLoad(std::shared_ptr<IRExpr> destination,
+                   std::shared_ptr<IRExpr> source,
+                   std::shared_ptr<IRExpr> index,
+                   std::uint32_t size,
+                   std::shared_ptr<IRExpr> left,
+                   std::shared_ptr<IRExpr> right)
+                   : IRExpr(LOAD_EXPR_T, left, right)
+        {
+            this->destination = destination;
+            this->source = source;
+            this->index = index;
             this->size = size;
         }
 
@@ -798,6 +832,9 @@ namespace KUNAI
 
             str_stream << "[Dest: " << destination->to_string() << "]";
             str_stream << "[Src: Mem(" << source->to_string() << ")]";
+
+            if (index != nullptr)
+                str_stream << "[Index: " << index->to_string() << "]";
 
             return str_stream.str();
         }
