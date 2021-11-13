@@ -62,7 +62,8 @@ main(int argc, char**argv)
 
         for (auto instr = it->second.begin(); instr != it->second.end(); instr++)
         {
-            lifter_android->lift_android_instruction(instr->second, bb);
+            if (instr->second)
+                lifter_android->lift_android_instruction(instr->second, bb);
         }
     }
 
