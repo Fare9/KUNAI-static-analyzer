@@ -252,11 +252,14 @@ namespace KUNAI
             {
                 NONE_CAST,
                 TO_BYTE,
+                TO_CHAR,
+                TO_SHORT,
                 TO_INT,
                 TO_LONG,
                 TO_FLOAT,
                 TO_DOUBLE,
                 TO_ADDR,
+                TO_BOOLEAN,
             };
 
             IRUnaryOp(unary_op_t unary_op_type,
@@ -347,10 +350,19 @@ namespace KUNAI
                    std::uint32_t size,
                    std::shared_ptr<IRExpr> left,
                    std::shared_ptr<IRExpr> right);
+
+            IRLoad(std::shared_ptr<IRExpr> destination,
+                   std::shared_ptr<IRExpr> source,
+                   std::shared_ptr<IRExpr> index,
+                   std::uint32_t size,
+                   std::shared_ptr<IRExpr> left,
+                   std::shared_ptr<IRExpr> right);
+
             ~IRLoad();
 
             std::shared_ptr<IRExpr> get_destination();
             std::shared_ptr<IRExpr> get_source();
+            std::shared_ptr<IRExpr> get_index();
             std::uint32_t get_size();
 
             std::string to_string();
@@ -362,6 +374,8 @@ namespace KUNAI
             std::shared_ptr<IRExpr> destination;
             //! Expression from where memory is read.
             std::shared_ptr<IRExpr> source;
+            //! Index if this is referenced by for example a register.
+            std::shared_ptr<IRExpr> index;
             //! Size of loaded value
             std::uint32_t size;
         };
