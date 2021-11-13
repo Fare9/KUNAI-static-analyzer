@@ -29,13 +29,6 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_MOVE_16,
                 DEX::DVMTypes::Opcode::OP_MOVE_WIDE_16,
                 DEX::DVMTypes::Opcode::OP_MOVE_OBJECT_16,
-                //DEX::DVMTypes::Opcode::OP_MOVE_RESULT,
-                //DEX::DVMTypes::Opcode::OP_MOVE_RESULT_WIDE,
-                //DEX::DVMTypes::Opcode::OP_MOVE_RESULT_OBJECT,
-                //DEX::DVMTypes::Opcode::OP_MOVE_EXCEPTION,
-                //DEX::DVMTypes::Opcode::OP_RETURN,
-                //DEX::DVMTypes::Opcode::OP_RETURN_WIDE,
-                //DEX::DVMTypes::Opcode::OP_RETURN_OBJECT,
                 DEX::DVMTypes::Opcode::OP_CONST_4,
                 DEX::DVMTypes::Opcode::OP_CONST_16,
                 DEX::DVMTypes::Opcode::OP_CONST_WIDE_16,
@@ -53,7 +46,15 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_SGET_BOOLEAN,
                 DEX::DVMTypes::Opcode::OP_SGET_BYTE,
                 DEX::DVMTypes::Opcode::OP_SGET_CHAR,
-                DEX::DVMTypes::Opcode::OP_SGET_SHORT};
+                DEX::DVMTypes::Opcode::OP_SGET_SHORT,
+                DEX::DVMTypes::Opcode::OP_SPUT,
+                DEX::DVMTypes::Opcode::OP_SPUT_WIDE,
+                DEX::DVMTypes::Opcode::OP_SPUT_OBJECT,
+                DEX::DVMTypes::Opcode::OP_SPUT_BOOLEAN,
+                DEX::DVMTypes::Opcode::OP_SPUT_BYTE,
+                DEX::DVMTypes::Opcode::OP_SPUT_CHAR,
+                DEX::DVMTypes::Opcode::OP_SPUT_SHORT,
+            };
 
             // Assignment instructions of type Instruction12x
             std::set<DEX::DVMTypes::Opcode> assignment_instruction12x = {
@@ -70,16 +71,6 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_MOVE_16,
                 DEX::DVMTypes::Opcode::OP_MOVE_WIDE_16,
                 DEX::DVMTypes::Opcode::OP_MOVE_OBJECT_16};
-            // Assignment instructions of type Instruction11x
-            //std::set<DEX::DVMTypes::Opcode> assignment_instruction11x = {
-            //    DEX::DVMTypes::Opcode::OP_MOVE_RESULT,
-            //    DEX::DVMTypes::Opcode::OP_MOVE_RESULT_WIDE,
-            //    DEX::DVMTypes::Opcode::OP_MOVE_RESULT_OBJECT,
-            //    DEX::DVMTypes::Opcode::OP_MOVE_EXCEPTION,
-            //    DEX::DVMTypes::Opcode::OP_RETURN,
-            //    DEX::DVMTypes::Opcode::OP_RETURN_WIDE,
-            //    DEX::DVMTypes::Opcode::OP_RETURN_OBJECT};
-            // Assignment instructions of type Instruction11n
             std::set<DEX::DVMTypes::Opcode> assigment_instruction11n = {
                 DEX::DVMTypes::Opcode::OP_CONST_4};
             // Assignment instructions of type Instruction21s
@@ -108,6 +99,15 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_SGET_BYTE,
                 DEX::DVMTypes::Opcode::OP_SGET_CHAR,
                 DEX::DVMTypes::Opcode::OP_SGET_SHORT};
+            std::set<DEX::DVMTypes::Opcode> assigment_instruction21_put = {
+                DEX::DVMTypes::Opcode::OP_SPUT,
+                DEX::DVMTypes::Opcode::OP_SPUT_WIDE,
+                DEX::DVMTypes::Opcode::OP_SPUT_OBJECT,
+                DEX::DVMTypes::Opcode::OP_SPUT_BOOLEAN,
+                DEX::DVMTypes::Opcode::OP_SPUT_BYTE,
+                DEX::DVMTypes::Opcode::OP_SPUT_CHAR,
+                DEX::DVMTypes::Opcode::OP_SPUT_SHORT,
+            };
             // Assignment instructions of type Instruction31c
             std::set<DEX::DVMTypes::Opcode> assigment_instruction31c = {
                 DEX::DVMTypes::Opcode::OP_CONST_STRING_JUMBO};
@@ -183,6 +183,40 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_NEG_DOUBLE,
                 DEX::DVMTypes::Opcode::OP_NOT_INT,
                 DEX::DVMTypes::Opcode::OP_NOT_LONG,
+                DEX::DVMTypes::Opcode::OP_ADD_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_RSUB_INT,
+                DEX::DVMTypes::Opcode::OP_MUL_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_DIV_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_REM_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_AND_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_OR_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_XOR_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_ADD_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_RSUB_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_MUL_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_DIV_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_REM_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_AND_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_OR_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_XOR_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_SHL_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_SHR_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_USHR_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_INT_TO_LONG,
+                DEX::DVMTypes::Opcode::OP_INT_TO_FLOAT,
+                DEX::DVMTypes::Opcode::OP_INT_TO_DOUBLE,
+                DEX::DVMTypes::Opcode::OP_LONG_TO_INT,
+                DEX::DVMTypes::Opcode::OP_LONG_TO_FLOAT,
+                DEX::DVMTypes::Opcode::OP_LONG_TO_DOUBLE,
+                DEX::DVMTypes::Opcode::OP_FLOAT_TO_INT,
+                DEX::DVMTypes::Opcode::OP_FLOAT_TO_LONG,
+                DEX::DVMTypes::Opcode::OP_FLOAT_TO_DOUBLE,
+                DEX::DVMTypes::Opcode::OP_DOUBLE_TO_INT,
+                DEX::DVMTypes::Opcode::OP_DOUBLE_TO_LONG,
+                DEX::DVMTypes::Opcode::OP_DOUBLE_TO_FLOAT,
+                DEX::DVMTypes::Opcode::OP_INT_TO_BYTE,
+                DEX::DVMTypes::Opcode::OP_INT_TO_CHAR,
+                DEX::DVMTypes::Opcode::OP_INT_TO_SHORT,
             };
 
             // ADD Operations
@@ -195,6 +229,8 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_ADD_LONG_2ADDR,
                 DEX::DVMTypes::Opcode::OP_ADD_FLOAT_2ADDR,
                 DEX::DVMTypes::Opcode::OP_ADD_DOUBLE_2ADDR,
+                DEX::DVMTypes::Opcode::OP_ADD_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_ADD_INT_LIT8,
             };
 
             // SUB operations
@@ -207,6 +243,8 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_SUB_LONG_2ADDR,
                 DEX::DVMTypes::Opcode::OP_SUB_FLOAT_2ADDR,
                 DEX::DVMTypes::Opcode::OP_SUB_DOUBLE_2ADDR,
+                DEX::DVMTypes::Opcode::OP_RSUB_INT,
+                DEX::DVMTypes::Opcode::OP_RSUB_INT_LIT8,
             };
 
             // MUL operations
@@ -219,6 +257,8 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_MUL_LONG_2ADDR,
                 DEX::DVMTypes::Opcode::OP_MUL_FLOAT_2ADDR,
                 DEX::DVMTypes::Opcode::OP_MUL_DOUBLE_2ADDR,
+                DEX::DVMTypes::Opcode::OP_MUL_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_MUL_INT_LIT8,
             };
 
             // DIV operations
@@ -231,6 +271,8 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_DIV_LONG_2ADDR,
                 DEX::DVMTypes::Opcode::OP_DIV_FLOAT_2ADDR,
                 DEX::DVMTypes::Opcode::OP_DIV_DOUBLE_2ADDR,
+                DEX::DVMTypes::Opcode::OP_DIV_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_DIV_INT_LIT8,
             };
 
             // Module operations
@@ -243,6 +285,8 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_REM_LONG_2ADDR,
                 DEX::DVMTypes::Opcode::OP_REM_FLOAT_2ADDR,
                 DEX::DVMTypes::Opcode::OP_REM_DOUBLE_2ADDR,
+                DEX::DVMTypes::Opcode::OP_REM_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_REM_INT_LIT8,
             };
 
             // AND operations
@@ -251,6 +295,8 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_AND_LONG,
                 DEX::DVMTypes::Opcode::OP_AND_INT_2ADDR,
                 DEX::DVMTypes::Opcode::OP_AND_LONG_2ADDR,
+                DEX::DVMTypes::Opcode::OP_AND_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_AND_INT_LIT8,
             };
 
             // OR operations
@@ -259,6 +305,8 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_OR_LONG,
                 DEX::DVMTypes::Opcode::OP_OR_INT_2ADDR,
                 DEX::DVMTypes::Opcode::OP_OR_LONG_2ADDR,
+                DEX::DVMTypes::Opcode::OP_OR_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_OR_INT_LIT8,
             };
 
             // XOR operations
@@ -267,6 +315,8 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_XOR_LONG,
                 DEX::DVMTypes::Opcode::OP_XOR_INT_2ADDR,
                 DEX::DVMTypes::Opcode::OP_XOR_LONG_2ADDR,
+                DEX::DVMTypes::Opcode::OP_XOR_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_XOR_INT_LIT8,
             };
 
             // SHL operations
@@ -275,6 +325,7 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_SHL_LONG,
                 DEX::DVMTypes::Opcode::OP_SHL_INT_2ADDR,
                 DEX::DVMTypes::Opcode::OP_SHL_LONG_2ADDR,
+                DEX::DVMTypes::Opcode::OP_SHL_INT_LIT8,
             };
 
             // SHR operations
@@ -283,6 +334,7 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_SHR_LONG,
                 DEX::DVMTypes::Opcode::OP_SHR_INT_2ADDR,
                 DEX::DVMTypes::Opcode::OP_SHR_LONG_2ADDR,
+                DEX::DVMTypes::Opcode::OP_SHR_INT_LIT8,
             };
 
             // USHR operations
@@ -291,6 +343,7 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_USHR_LONG,
                 DEX::DVMTypes::Opcode::OP_USHR_INT_2ADDR,
                 DEX::DVMTypes::Opcode::OP_USHR_LONG_2ADDR,
+                DEX::DVMTypes::Opcode::OP_USHR_INT_LIT8,
             };
 
             std::set<DEX::DVMTypes::Opcode> instruction23x_binary_instruction = {
@@ -366,6 +419,31 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_REM_DOUBLE_2ADDR,
             };
 
+            std::set<DEX::DVMTypes::Opcode> instruction22s_binary_instruction = {
+                DEX::DVMTypes::Opcode::OP_ADD_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_RSUB_INT,
+                DEX::DVMTypes::Opcode::OP_MUL_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_DIV_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_REM_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_AND_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_OR_INT_LIT16,
+                DEX::DVMTypes::Opcode::OP_XOR_INT_LIT16,
+            };
+
+            std::set<DEX::DVMTypes::Opcode> instruction22b_binary_instruction = {
+                DEX::DVMTypes::Opcode::OP_ADD_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_RSUB_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_MUL_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_DIV_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_REM_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_AND_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_OR_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_XOR_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_SHL_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_SHR_INT_LIT8,
+                DEX::DVMTypes::Opcode::OP_USHR_INT_LIT8,
+            };
+
             // NEG operations
             std::set<DEX::DVMTypes::Opcode> neg_instruction = {
                 DEX::DVMTypes::Opcode::OP_NEG_INT,
@@ -387,6 +465,25 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_NEG_DOUBLE,
                 DEX::DVMTypes::Opcode::OP_NOT_INT,
                 DEX::DVMTypes::Opcode::OP_NOT_LONG,
+            };
+
+            // Cast operations
+            std::set<DEX::DVMTypes::Opcode> cast_instruction = {
+                DEX::DVMTypes::Opcode::OP_INT_TO_LONG,
+                DEX::DVMTypes::Opcode::OP_INT_TO_FLOAT,
+                DEX::DVMTypes::Opcode::OP_INT_TO_DOUBLE,
+                DEX::DVMTypes::Opcode::OP_LONG_TO_INT,
+                DEX::DVMTypes::Opcode::OP_LONG_TO_FLOAT,
+                DEX::DVMTypes::Opcode::OP_LONG_TO_DOUBLE,
+                DEX::DVMTypes::Opcode::OP_FLOAT_TO_INT,
+                DEX::DVMTypes::Opcode::OP_FLOAT_TO_LONG,
+                DEX::DVMTypes::Opcode::OP_FLOAT_TO_DOUBLE,
+                DEX::DVMTypes::Opcode::OP_DOUBLE_TO_INT,
+                DEX::DVMTypes::Opcode::OP_DOUBLE_TO_LONG,
+                DEX::DVMTypes::Opcode::OP_DOUBLE_TO_FLOAT,
+                DEX::DVMTypes::Opcode::OP_INT_TO_BYTE,
+                DEX::DVMTypes::Opcode::OP_INT_TO_CHAR,
+                DEX::DVMTypes::Opcode::OP_INT_TO_SHORT,
             };
         };
     }
