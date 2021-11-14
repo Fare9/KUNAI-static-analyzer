@@ -485,6 +485,14 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_INT_TO_CHAR,
                 DEX::DVMTypes::Opcode::OP_INT_TO_SHORT,
             };
+
+            // Return operations
+            std::set<DEX::DVMTypes::Opcode> ret_instruction = {
+                DEX::DVMTypes::Opcode::OP_RETURN,
+                DEX::DVMTypes::Opcode::OP_RETURN_WIDE,
+                DEX::DVMTypes::Opcode::OP_RETURN_OBJECT,
+                DEX::DVMTypes::Opcode::OP_RETURN_VOID,
+            };
         };
     }
 }

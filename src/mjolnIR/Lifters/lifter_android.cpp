@@ -54,6 +54,8 @@ namespace KUNAI
                 this->lift_assignment_instruction(instruction, bb);
             else if (androidinstructions.arithmetic_logic_instruction.find(op_code) != androidinstructions.arithmetic_logic_instruction.end())
                 this->lift_arithmetic_logic_instruction(instruction, bb);
+            else if (androidinstructions.ret_instruction.find(op_code) != androidinstructions.ret_instruction.end())
+                this->lift_ret_instruction(instruction, bb);
 
             return true;
         }
@@ -734,6 +736,39 @@ namespace KUNAI
 
             if (cast_instr != nullptr)
                 bb->append_statement_to_block(cast_instr);
+        }
+
+        
+        /**
+         * @brief Generate a IRRet instruction which represent a ret instruction.
+         * 
+         * @param instruction: instruction to lift.
+         * @param bb: basic block where to insert the instructions.
+         * @return void
+         */
+        void LifterAndroid::lift_ret_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        {
+            std::shared_ptr<MJOLNIR::IRRet> ret_instr;
+            auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
+
+            if (op_code == DEX::DVMTypes::Opcode::OP_RETURN_VOID)
+            {
+                auto none = make_none_type();
+
+                ret_instr = std::make_shared<MJOLNIR::IRRet>(none);
+            }
+            else
+            {
+                auto instr = std::dynamic_pointer_cast<DEX::Instruction11x>(instruction);
+
+                auto reg = instr->get_destination();
+
+                auto ir_reg = make_android_register(reg);
+
+                ret_instr = std::make_shared<MJOLNIR::IRRet>(ir_reg);
+            }
+
+            bb->append_statement_to_block(ret_instr);
         }
     }
 }

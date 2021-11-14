@@ -229,7 +229,9 @@ namespace KUNAI
             std::stringstream str_stream;
 
             str_stream << "IRRet ";
-            str_stream << "[Ret: " << ret_value->to_string() << "]";
+
+            if (ret_value != nullptr)
+                str_stream << "[Ret: " << ret_value->to_string() << "]";
 
             return str_stream.str();
         }
