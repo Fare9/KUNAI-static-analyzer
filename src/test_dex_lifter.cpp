@@ -76,5 +76,23 @@ main(int argc, char**argv)
         std::cout << statement->to_string() << std::endl;
     }
 
+    auto s_ptr = statements.begin();
+    std::shared_ptr<KUNAI::MJOLNIR::IRStmnt> s = (*s_ptr);
+    auto s1 = std::dynamic_pointer_cast<KUNAI::MJOLNIR::IRAssign>(s);
+    std::advance(s_ptr,1);
+    s = *s_ptr;
+    auto s2 = std::dynamic_pointer_cast<KUNAI::MJOLNIR::IRAssign>(s);
+
+    std::cout << "\n\n\n";
+    std::cout << "Example comparison of sentence1[Dest] and sentence2[Src]" << std::endl;
+
+    if (s1->get_destination()->equals(s2->get_source()))
+    {
+        std::cout << s1->to_string() << std::endl;
+        std::cout << "And" << std::endl;
+        std::cout << s2->to_string() << std::endl;
+        std::cout << "Are connected by destination and source" << std::endl;
+    }
+
     return 0;
 }
