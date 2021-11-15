@@ -79,7 +79,7 @@ namespace KUNAI
             };
 
             IRStmnt(stmnt_type_t stmnt_type);
-            ~IRStmnt();
+            virtual ~IRStmnt() = default;
             
 
             stmnt_type_t get_statement_type();
