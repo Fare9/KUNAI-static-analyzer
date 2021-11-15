@@ -18,13 +18,7 @@ namespace KUNAI
         {
             this->stmnt_type = stmnt_type;
         }
-
-        /**
-         * @brief Destructor of IRStmnt, nothing to be done.
-         * @return void
-         */
-        IRStmnt::~IRStmnt() {}
-
+        
         /**
          * @brief Get the type of the statement.
          * @return stmnt_type_t
