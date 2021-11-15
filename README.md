@@ -87,3 +87,7 @@ IRType   -->   IRReg |
                IRCallee |
                NONE
 ```
+
+### Dalvik
+
+Dalvik has been the first "assembly" language to be supported with **MjolnIR** inside of **KUNAI**, you can check all the opcodes and its translation in [Dalvik Opcodes](./doc/MJOLNIR/opcodes.md)
