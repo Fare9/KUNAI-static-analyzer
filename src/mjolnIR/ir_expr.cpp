@@ -210,6 +210,13 @@ namespace KUNAI
 
                 return bcomp1 == bcomp2;
             }
+            else if (ope1.type == IRExpr::TYPE_EXPR_T)
+            {
+                IRType& type1 = reinterpret_cast<IRType&>(ope1);
+                IRType& type2 = reinterpret_cast<IRType&>(ope2);
+                
+                return type1 == type2;
+            }
 
             return false;
         }
