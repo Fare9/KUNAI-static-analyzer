@@ -44,7 +44,10 @@ namespace KUNAI
             bool lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock> basic_block, std::shared_ptr<MJOLNIR::IRBlock> bb);
             bool lift_android_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
         private:
+            uint64_t temp_reg_id;
+
             std::shared_ptr<MJOLNIR::IRReg> make_android_register(std::uint32_t reg_id);
+            std::shared_ptr<MJOLNIR::IRTempReg> make_temporal_register();
             std::shared_ptr<MJOLNIR::IRType> make_none_type();
             std::shared_ptr<MJOLNIR::IRConstInt> make_int(std::uint64_t value, bool is_signed, size_t type_size);
             std::shared_ptr<MJOLNIR::IRString> make_str(std::string value);
@@ -57,7 +60,7 @@ namespace KUNAI
             void lift_arithmetic_logic_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_ret_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_comparison_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
-
+            void lift_conditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             AndroidInstructions androidinstructions;
             //! It is nice that while we are lifting to annotate
             //! possible values that a register holds, in that case

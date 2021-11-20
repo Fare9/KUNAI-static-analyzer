@@ -514,10 +514,43 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_CMPG_FLOAT,
                 DEX::DVMTypes::Opcode::OP_CMPL_DOUBLE,
                 DEX::DVMTypes::Opcode::OP_CMPG_DOUBLE,
-                DEX::DVMTypes::Opcode::OP_CMP_LONG
+                DEX::DVMTypes::Opcode::OP_CMP_LONG};
+
+            /**
+             * Conditional jump instrucitons
+             */
+            std::set<DEX::DVMTypes::Opcode> jcc_instruction = {
+                DEX::DVMTypes::Opcode::OP_IF_EQ,
+                DEX::DVMTypes::Opcode::OP_IF_NE,
+                DEX::DVMTypes::Opcode::OP_IF_LT,
+                DEX::DVMTypes::Opcode::OP_IF_GE,
+                DEX::DVMTypes::Opcode::OP_IF_GT,
+                DEX::DVMTypes::Opcode::OP_IF_LE,
+                DEX::DVMTypes::Opcode::OP_IF_EQZ,
+                DEX::DVMTypes::Opcode::OP_IF_NEZ,
+                DEX::DVMTypes::Opcode::OP_IF_LTZ,
+                DEX::DVMTypes::Opcode::OP_IF_GEZ,
+                DEX::DVMTypes::Opcode::OP_IF_GTZ,
+                DEX::DVMTypes::Opcode::OP_IF_LEZ,
             };
 
-            
+            std::set<DEX::DVMTypes::Opcode> jcc_instruction22t = {
+                DEX::DVMTypes::Opcode::OP_IF_EQ,
+                DEX::DVMTypes::Opcode::OP_IF_NE,
+                DEX::DVMTypes::Opcode::OP_IF_LT,
+                DEX::DVMTypes::Opcode::OP_IF_GE,
+                DEX::DVMTypes::Opcode::OP_IF_GT,
+                DEX::DVMTypes::Opcode::OP_IF_LE,
+            };
+
+            std::set<DEX::DVMTypes::Opcode> jcc_instruction21t = {
+                DEX::DVMTypes::Opcode::OP_IF_EQZ,
+                DEX::DVMTypes::Opcode::OP_IF_NEZ,
+                DEX::DVMTypes::Opcode::OP_IF_LTZ,
+                DEX::DVMTypes::Opcode::OP_IF_GEZ,
+                DEX::DVMTypes::Opcode::OP_IF_GTZ,
+                DEX::DVMTypes::Opcode::OP_IF_LEZ,
+            };
         };
     }
 }

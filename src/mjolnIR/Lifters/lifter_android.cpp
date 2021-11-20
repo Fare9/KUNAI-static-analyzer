@@ -4,11 +4,13 @@ namespace KUNAI
 {
     namespace LIFTER
     {
+
         /**
          * @brief Constructor of lifter.
          */
         LifterAndroid::LifterAndroid()
         {
+            temp_reg_id = 0;
         }
 
         /**
@@ -58,6 +60,8 @@ namespace KUNAI
                 this->lift_ret_instruction(instruction, bb);
             else if (androidinstructions.cmp_instruction.find(op_code) != androidinstructions.cmp_instruction.end())
                 this->lift_comparison_instruction(instruction, bb);
+            else if (androidinstructions.jcc_instruction.find(op_code) != androidinstructions.jcc_instruction.end())
+                this->lift_conditional_jump_instruction(instruction, bb);
 
             return true;
         }
@@ -76,6 +80,20 @@ namespace KUNAI
         std::shared_ptr<MJOLNIR::IRReg> LifterAndroid::make_android_register(std::uint32_t reg_id)
         {
             return std::make_shared<MJOLNIR::IRReg>(reg_id, MJOLNIR::dalvik_arch, "v" + std::to_string(reg_id), DWORD_S);
+        }
+
+        /**
+         * @brief Return a temporal register, used for operations like
+         *        conditional jumps to have some place where to store result
+         *        of comparison.
+         * 
+         * @return std::shared_ptr<MJOLNIR::IRTempReg> 
+         */
+        std::shared_ptr<MJOLNIR::IRTempReg> LifterAndroid::make_temporal_register()
+        {
+            auto temp_reg = std::make_shared<MJOLNIR::IRTempReg>(temp_reg_id, "t" + std::to_string(temp_reg_id), DWORD_S);
+            temp_reg_id++;
+            return temp_reg;
         }
 
         /**
@@ -740,7 +758,6 @@ namespace KUNAI
                 bb->append_statement_to_block(cast_instr);
         }
 
-        
         /**
          * @brief Generate a IRRet instruction which represent a ret instruction.
          * 
@@ -773,7 +790,6 @@ namespace KUNAI
             bb->append_statement_to_block(ret_instr);
         }
 
-
         /**
          * @brief Generate a IRBComp instruction which represent a comparison between two values.
          * 
@@ -786,7 +802,6 @@ namespace KUNAI
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
             auto instr = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
             std::shared_ptr<MJOLNIR::IRBComp> ir_comp;
-            MJOLNIR::IRBComp::comp_t comparison;
 
             auto reg1 = make_android_register(instr->get_first_source());
             auto reg2 = make_android_register(instr->get_second_source());
@@ -802,7 +817,7 @@ namespace KUNAI
                     ir_comp = std::make_shared<MJOLNIR::IRBComp>(MJOLNIR::IRBComp::LOWER_T, result, reg1, reg2, nullptr, nullptr);
                 else
                     ir_comp = std::make_shared<MJOLNIR::IRBComp>(MJOLNIR::IRBComp::GREATER_T, result, reg1, reg2, nullptr, nullptr);
-                
+
                 bb->append_statement_to_block(cast1);
                 bb->append_statement_to_block(cast2);
                 bb->append_statement_to_block(ir_comp);
@@ -817,7 +832,7 @@ namespace KUNAI
                     ir_comp = std::make_shared<MJOLNIR::IRBComp>(MJOLNIR::IRBComp::LOWER_T, result, reg1, reg2, nullptr, nullptr);
                 else
                     ir_comp = std::make_shared<MJOLNIR::IRBComp>(MJOLNIR::IRBComp::GREATER_T, result, reg1, reg2, nullptr, nullptr);
-                
+
                 bb->append_statement_to_block(cast1);
                 bb->append_statement_to_block(cast2);
                 bb->append_statement_to_block(ir_comp);
@@ -831,7 +846,90 @@ namespace KUNAI
                 bb->append_statement_to_block(cast1);
                 bb->append_statement_to_block(cast2);
                 bb->append_statement_to_block(ir_comp);
-            }            
+            }
+        }
+
+        /**
+         * @brief Generate a IRCJmp instruction which represent a conditional jump.
+         * 
+         * @param instruction: instruction to lift.
+         * @param bb: basic block where to insert the instructions.
+         * @return void
+         */
+        void LifterAndroid::lift_conditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        {
+            auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
+
+            if (androidinstructions.jcc_instruction22t.find(op_code) != androidinstructions.jcc_instruction22t.end())
+            {
+                auto instr = std::dynamic_pointer_cast<DEX::Instruction22t>(instruction);
+                auto temp_reg = make_temporal_register();
+                auto reg1 = make_android_register(instr->get_first_check_reg());
+                auto reg2 = make_android_register(instr->get_second_check_reg());
+                MJOLNIR::IRBComp::comp_t comparison;
+
+                switch (op_code)
+                {
+                case DEX::DVMTypes::Opcode::OP_IF_EQ:
+                    comparison = MJOLNIR::IRBComp::EQUAL_T;
+                    break;
+                case DEX::DVMTypes::Opcode::OP_IF_NE:
+                    comparison = MJOLNIR::IRBComp::NOT_EQUAL_T;
+                    break;
+                case DEX::DVMTypes::Opcode::OP_IF_LT:
+                    comparison = MJOLNIR::IRBComp::LOWER_T;
+                    break;
+                case DEX::DVMTypes::Opcode::OP_IF_GE:
+                    comparison = MJOLNIR::IRBComp::GREATER_EQUAL_T;
+                    break;
+                case DEX::DVMTypes::Opcode::OP_IF_GT:
+                    comparison = MJOLNIR::IRBComp::GREATER_T;
+                    break;
+                case DEX::DVMTypes::Opcode::OP_IF_LE:
+                    comparison = MJOLNIR::IRBComp::LOWER_EQUAL_T;
+                    break;
+                }
+
+                auto bcomp = std::make_shared<MJOLNIR::IRBComp>(comparison, temp_reg, reg1, reg2, nullptr, nullptr);
+                auto ir_ucond = std::make_shared<MJOLNIR::IRCJmp>(instr->get_ref(), temp_reg, nullptr, nullptr);
+
+                bb->append_statement_to_block(bcomp);
+                bb->append_statement_to_block(ir_ucond);
+            }
+            else if (androidinstructions.jcc_instruction21t.find(op_code) != androidinstructions.jcc_instruction21t.end())
+            {
+                auto instr = std::dynamic_pointer_cast<DEX::Instruction21t>(instruction);
+                auto temp_reg = make_temporal_register();
+                auto reg = make_android_register(instr->get_check_reg());
+                MJOLNIR::IRZComp::zero_comp_t comparison;
+
+                switch (op_code)
+                {
+                case DEX::DVMTypes::Opcode::OP_IF_EQZ:
+                    comparison = MJOLNIR::IRZComp::EQUAL_ZERO_T;
+                    break;
+                case DEX::DVMTypes::Opcode::OP_IF_NEZ:
+                    comparison = MJOLNIR::IRZComp::NOT_EQUAL_ZERO_T;
+                    break;
+                case DEX::DVMTypes::Opcode::OP_IF_LTZ:
+                    comparison = MJOLNIR::IRZComp::LOWER_ZERO_T;
+                    break;
+                case DEX::DVMTypes::Opcode::OP_IF_GEZ:
+                    comparison = MJOLNIR::IRZComp::GREATER_EQUAL_ZERO;
+                    break;
+                case DEX::DVMTypes::Opcode::OP_IF_GTZ:
+                    comparison = MJOLNIR::IRZComp::GREATER_ZERO_T;
+                    break;
+                case DEX::DVMTypes::Opcode::OP_IF_LEZ:
+                    comparison = MJOLNIR::IRZComp::LOWER_EQUAL_ZERO;
+                    break;
+                }
+
+                auto zcomp = std::make_shared<MJOLNIR::IRZComp>(comparison, temp_reg, reg, nullptr, nullptr);
+                auto ir_ucond = std::make_shared<MJOLNIR::IRCJmp>(instr->get_ref(), temp_reg, nullptr, nullptr);
+                bb->append_statement_to_block(zcomp);
+                bb->append_statement_to_block(ir_ucond);
+            }
         }
     }
 }

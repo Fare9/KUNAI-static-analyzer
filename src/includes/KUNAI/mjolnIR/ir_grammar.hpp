@@ -422,16 +422,22 @@ namespace KUNAI
         public:
             enum zero_comp_t
             {
-                EQUAL_ZERO_T,    // ==
-                NOT_EQUAL_ZERO_T // !=
+                EQUAL_ZERO_T,       // ==
+                NOT_EQUAL_ZERO_T,   // !=
+                LOWER_ZERO_T,       // <
+                GREATER_EQUAL_ZERO, // >=
+                GREATER_ZERO_T,     // >
+                LOWER_EQUAL_ZERO    // <=
             };
 
             IRZComp(zero_comp_t comp,
+                    std::shared_ptr<IRExpr> result,
                     std::shared_ptr<IRExpr> reg,
                     std::shared_ptr<IRExpr> left,
                     std::shared_ptr<IRExpr> right);
             ~IRZComp();
 
+            std::shared_ptr<IRExpr> get_result();
             std::shared_ptr<IRExpr> get_reg();
             zero_comp_t get_comparison();
 
@@ -440,6 +446,8 @@ namespace KUNAI
             
             friend bool operator==(IRZComp&, IRZComp&);
         private:
+            //! Register where result is stored
+            std::shared_ptr<IRExpr> result;
             //! Register for comparison with zero.
             std::shared_ptr<IRExpr> reg;
             //! Type of comparison
@@ -456,6 +464,7 @@ namespace KUNAI
                 GREATER_T, // >
                 GREATER_EQUAL_T, // >=
                 LOWER_T, // <
+                LOWER_EQUAL_T, // <=
                 ABOVE_T, // (unsigned) >
                 ABOVE_EQUAL_T, // (unsigned) >=
                 BELOW_T, // (unsigned) <

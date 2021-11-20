@@ -50,18 +50,18 @@
 | 0x2F | cmpl-double vx,vy,vz | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
 | 0x30 | cmpg-double vx, vy, vz | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
 | 0x31 | cmp-long vx, vy, vz | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
-| 0x32 | if-eq vx,vy,target |   |
-| 0x33 | if-ne vx,vy,target |   |
-| 0x34 | if-lt vx,vy,target |   |
-| 0x35 | if-ge vx, vy,target |   |
-| 0x36 | if-gt vx,vy,target |   |
-| 0x37 | if-le vx,vy,target |   |
-| 0x38 | if-eqz vx,target |   |
-| 0x39 | if-nez vx,target |   |
-| 0x3A | if-ltz vx,target |   |
-| 0x3B | if-gez vx,target |   |
-| 0x3C | if-gtz vx,target |   |
-| 0x3D | if-lez vx,target |   |
+| 0x32 | if-eq vx,vy,target | IRBComp + IRCJmp |
+| 0x33 | if-ne vx,vy,target | IRBComp + IRCJmp |
+| 0x34 | if-lt vx,vy,target | IRBComp + IRCJmp |
+| 0x35 | if-ge vx, vy,target | IRBComp + IRCJmp |
+| 0x36 | if-gt vx,vy,target | IRBComp + IRCJmp |
+| 0x37 | if-le vx,vy,target | IRBComp + IRCJmp |
+| 0x38 | if-eqz vx,target | IRZComp + IRCJmp |
+| 0x39 | if-nez vx,target | IRZComp + IRCJmp |
+| 0x3A | if-ltz vx,target | IRZComp + IRCJmp |
+| 0x3B | if-gez vx,target | IRZComp + IRCJmp |
+| 0x3C | if-gtz vx,target | IRZComp + IRCJmp |
+| 0x3D | if-lez vx,target | IRZComp + IRCJmp |
 | 0x3E | unused 3E |   |
 | 0x3F | unused 3F |   |
 | 0x40 | unused 40 |   |

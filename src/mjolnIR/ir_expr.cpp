@@ -971,6 +971,7 @@ namespace KUNAI
         /**
          * @brief Constructor of IRZComp, this is a comparison with zero.
          * @param comp: type of comparison (== or !=).
+         * @param result: register or temporal register where result is stored.
          * @param reg: register used in the comparison.
          * @param left: left part of the zero comparison (used for AST).
          * @param right: right part of the zero comparison (used for AST).
@@ -978,12 +979,14 @@ namespace KUNAI
          */
 
         IRZComp::IRZComp(zero_comp_t comp,
+                    std::shared_ptr<IRExpr> result,
                     std::shared_ptr<IRExpr> reg,
                     std::shared_ptr<IRExpr> left, 
                     std::shared_ptr<IRExpr> right)
                 : IRExpr(ZCOMP_EXPR_T, left, right)
         {
             this->comp = comp;
+            this->result = result;
             this->reg = reg;
         }
 
@@ -992,6 +995,16 @@ namespace KUNAI
          * @return void
          */
         IRZComp::~IRZComp() {}
+
+        /**
+         * @brief Return the result register or temporal register.
+         * 
+         * @return std::shared_ptr<IRExpr> 
+         */
+        std::shared_ptr<IRExpr> IRZComp::get_result()
+        {
+            return result;
+        }
 
         /**
          * @brief Get register used in the comparison.
@@ -1030,9 +1043,21 @@ namespace KUNAI
             case NOT_EQUAL_ZERO_T:
                 str_stream << "[Comp: NOT_EQUAL_ZERO_T]";
                 break;
+            case LOWER_ZERO_T:
+                str_stream << "[Comp: LOWER_ZERO_T]";
+                break;
+            case GREATER_EQUAL_ZERO:
+                str_stream << "[Comp: GREATER_EQUAL_ZERO]";
+                break;
+            case GREATER_ZERO_T:
+                str_stream << "[Comp: GREATER_ZERO_T]";
+                break;
+            case LOWER_EQUAL_ZERO:
+                str_stream << "[Comp: LOWER_EQUAL_ZERO]";
             }
 
-            str_stream << "[" << reg->to_string() << "]";
+            str_stream << "[Result: " << result->to_string() << "]";
+            str_stream << "[Operand: " << reg->to_string() << "]";
 
             return str_stream.str();
         }
@@ -1156,6 +1181,9 @@ namespace KUNAI
                 break;
             case LOWER_T:
                 str_stream << "[Comp: LOWER_T]";
+                break;
+            case LOWER_EQUAL_T:
+                str_stream << "[Comp: LOWER_EQUAL_T]";
                 break;
             case ABOVE_T:
                 str_stream << "[Comp: ABOVE_T]";
