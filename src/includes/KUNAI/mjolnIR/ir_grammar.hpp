@@ -93,35 +93,45 @@ namespace KUNAI
         class IRUJmp : public IRStmnt
         {
         public:
-            IRUJmp(std::shared_ptr<IRStmnt> target);
+            IRUJmp(uint64_t addr, std::shared_ptr<IRBlock> target);
             ~IRUJmp();
 
-            std::shared_ptr<IRStmnt> get_jump_target();
+            void set_jump_target(std::shared_ptr<IRBlock> target);
+            std::shared_ptr<IRBlock> get_jump_target();
+
+            uint64_t get_jump_addr();
 
             std::string to_string();
         private:
+            //! offset or address of target
+            uint64_t addr;
             //! target where the jump will fall
-            std::shared_ptr<IRStmnt> target;
+            std::shared_ptr<IRBlock> target;
         };
 
         class IRCJmp : public IRStmnt
         {
         public:
-            IRCJmp(std::shared_ptr<IRStmnt> condition, std::shared_ptr<IRStmnt> target, std::shared_ptr<IRStmnt> fallthrough);
+            IRCJmp(uint64_t addr, std::shared_ptr<IRStmnt> condition, std::shared_ptr<IRBlock> target, std::shared_ptr<IRBlock> fallthrough);
             ~IRCJmp();
 
+            uint64_t get_addr();
             std::shared_ptr<IRStmnt> get_condition();
-            std::shared_ptr<IRStmnt> get_jump_target();
-            std::shared_ptr<IRStmnt> get_fallthrough_target();
+            void set_jump_target(std::shared_ptr<IRBlock> target);
+            std::shared_ptr<IRBlock> get_jump_target();
+            void set_fallthrough_Target(std::shared_ptr<IRBlock> fallthrough);
+            std::shared_ptr<IRBlock> get_fallthrough_target();
 
             std::string to_string();
         private:
+            //! offset or address of target
+            uint64_t addr;
             //! Condition for taking the target jump
             std::shared_ptr<IRStmnt> condition;
             //! target where the jump will fall
-            std::shared_ptr<IRStmnt> target;
+            std::shared_ptr<IRBlock> target;
             //! fallthrough target.
-            std::shared_ptr<IRStmnt> fallthrough;
+            std::shared_ptr<IRBlock> fallthrough;
         };
 
         class IRRet : public IRStmnt

@@ -18,7 +18,7 @@ namespace KUNAI
         {
             this->stmnt_type = stmnt_type;
         }
-        
+
         /**
          * @brief Get the type of the statement.
          * @return stmnt_type_t
@@ -76,9 +76,10 @@ namespace KUNAI
          * @param target: target of the jump.
          * @return void
          */
-        IRUJmp::IRUJmp(std::shared_ptr<IRStmnt> target)
+        IRUJmp::IRUJmp(uint64_t addr, std::shared_ptr<IRBlock> target)
             : IRStmnt(UJMP_STMNT_T)
         {
+            this->addr = addr;
             this->target = target;
         }
 
@@ -88,14 +89,36 @@ namespace KUNAI
          */
         IRUJmp::~IRUJmp() {}
         
+
+        /**
+         * @brief Set the jump target block.
+         * 
+         * @param target: block target where will jump.
+         */
+        void IRUJmp::set_jump_target(std::shared_ptr<IRBlock> target)
+        {
+            this->target = target;
+        }
+
         /**
          * @brief Get the target of the unconditional jump.
-         * @return std::shared_ptr<IRStmnt>
+         * @return std::shared_ptr<IRBlock>
          */
-        std::shared_ptr<IRStmnt> IRUJmp::get_jump_target()
+        std::shared_ptr<IRBlock> IRUJmp::get_jump_target()
         {
             return target;
         }
+
+        /**
+         * @brief Return the address or offset from the jump.
+         * 
+         * @return uint64_t 
+         */
+        uint64_t IRUJmp::get_jump_addr()
+        {
+            return addr;
+        }
+
 
         /**
          * @brief Return a string representation of IRUJmp.
@@ -107,8 +130,7 @@ namespace KUNAI
             std::stringstream str_stream;
 
             str_stream << "IRUJmp ";
-
-            str_stream << "[Target: " << target->to_string() << "]";
+            str_stream << "[Target: 0x" << std::hex << addr << "]";
 
             return str_stream.str();
         }
@@ -119,14 +141,16 @@ namespace KUNAI
         
         /**
          * @brief Constructor of IRCJmp, this represent a conditional jump.
+         * @param addr: address where jump goes if not taken.
          * @param condition: condition (commonly a register from a CMP) that if true takes target.
-         * @param target: target of the conditional jump.
-         * @param fallthrough: address of the statement if the condition is not true.
+         * @param target: block target of the conditional jump.
+         * @param fallthrough: block of the statement if the condition is not true.
          * @return void
          */
-        IRCJmp::IRCJmp(std::shared_ptr<IRStmnt> condition, std::shared_ptr<IRStmnt> target, std::shared_ptr<IRStmnt> fallthrough)
+        IRCJmp::IRCJmp(uint64_t addr, std::shared_ptr<IRStmnt> condition, std::shared_ptr<IRBlock> target, std::shared_ptr<IRBlock> fallthrough)
             : IRStmnt(CJMP_STMNT_T)
         {
+            this->addr = addr;
             this->condition = condition;
             this->target = target;
             this->fallthrough = fallthrough;
@@ -148,19 +172,39 @@ namespace KUNAI
         }
 
         /**
+         * @brief Set the target block.
+         * 
+         * @param target: target where jump would go if taken.
+         */
+        void IRCJmp::set_jump_target(std::shared_ptr<IRBlock> target)
+        {
+            this->target = target;
+        }
+
+        /**
          * @brief Get the jump target if the condition is true.
          * @return std::shared_ptr<IRStmnt>
          */
-        std::shared_ptr<IRStmnt> IRCJmp::get_jump_target()
+        std::shared_ptr<IRBlock> IRCJmp::get_jump_target()
         {
             return target;
+        }
+
+        /**
+         * @brief Set fallthrough block
+         * 
+         * @param fallthrough: block where jump would go if not taken.
+         */
+        void IRCJmp::set_fallthrough_Target(std::shared_ptr<IRBlock> fallthrough)
+        {
+            this->fallthrough = fallthrough;
         }
         
         /**
          * @brief Get the fallthrough target in case condition is false.
          * @return std::shared_ptr<IRStmnt>
          */
-        std::shared_ptr<IRStmnt> IRCJmp::get_fallthrough_target()
+        std::shared_ptr<IRBlock> IRCJmp::get_fallthrough_target()
         {
             return fallthrough;
         }
@@ -177,8 +221,7 @@ namespace KUNAI
             str_stream << "IRCJmp ";
 
             str_stream << "[Condition: " << condition->to_string() << "]";
-            str_stream << "[Target: " << target->to_string() << "]";
-            str_stream << "[Fallthroguh: " << target->to_string() << "]";
+            str_stream << "[Target: 0x" << std::hex << addr << "]";
 
             return str_stream.str();
         }
