@@ -452,12 +452,14 @@ namespace KUNAI
             };
 
             IRBComp(comp_t comp,
+                    std::shared_ptr<IRExpr> result,
                     std::shared_ptr<IRExpr> reg1,
                     std::shared_ptr<IRExpr> reg2,
                     std::shared_ptr<IRExpr> left,
                     std::shared_ptr<IRExpr> right);
             ~IRBComp();
 
+            std::shared_ptr<IRExpr> get_result();
             std::shared_ptr<IRExpr> get_reg1();
             std::shared_ptr<IRExpr> get_reg2();
             comp_t get_comparison();
@@ -468,6 +470,8 @@ namespace KUNAI
             friend bool operator==(IRBComp&, IRBComp&);
 
         private:
+            //! register or temporal register where result is stored
+            std::shared_ptr<IRExpr> result;
             //! registers used in the comparisons.
             std::shared_ptr<IRExpr> reg1;
             std::shared_ptr<IRExpr> reg2;

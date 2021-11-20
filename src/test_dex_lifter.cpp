@@ -4,10 +4,9 @@
 #include "lifter_android.hpp"
 #include "dex.hpp"
 
-int 
-main(int argc, char**argv)
+int main(int argc, char **argv)
 {
-     if (argc != 2)
+    if (argc != 2)
     {
         std::cout << "USAGE: " << argv[0] << " <dex_file>" << std::endl;
         return 1;
@@ -48,10 +47,7 @@ main(int argc, char**argv)
         return 1;
     }
 
-    std::cout << *dex_disassembler;
-
     auto lifter_android = std::make_shared<KUNAI::LIFTER::LifterAndroid>();
-    std::shared_ptr<KUNAI::MJOLNIR::IRBlock> bb = std::make_shared<KUNAI::MJOLNIR::IRBlock>();
 
     auto method_instructions = dex_disassembler->get_instructions();
 
@@ -60,26 +56,39 @@ main(int argc, char**argv)
         auto class_def = std::get<0>(it->first);
         auto direct_method = std::get<1>(it->first);
 
+        std::shared_ptr<KUNAI::MJOLNIR::IRBlock> bb = std::make_shared<KUNAI::MJOLNIR::IRBlock>();
+
+        std::cout << "[+] Lifting method " << direct_method->full_name() << " to KUNAI's IR (MjolnIR)" << std::endl;
+
+        std::cout << "[!] Disassembly: " << std::endl;
+
         for (auto instr = it->second.begin(); instr != it->second.end(); instr++)
         {
-            if (instr->second)
-                lifter_android->lift_android_instruction(instr->second, bb);
+            std::cout << std::right << std::setfill('0') << std::setw(8) << std::hex << instr->first << "  ";
+            instr->second->show_instruction();
+            std::cout << std::endl;
+
+            lifter_android->lift_android_instruction(instr->second, bb);
         }
+
+        std::cout << std::endl;
+        std::cout << "[!] Lifted: " << std::endl;
+
+        auto statements = bb->get_statements();
+
+        for (auto statement : statements)
+        {
+            std::cout << statement->to_string() << std::endl;
+        }
+        
+        std::cout << std::endl;
     }
 
-    auto statements = bb->get_statements();
-
-    std::cout << "[+] DEX Lifting in MjolnIR (KUNAI IR)" << std::endl;
-
-    for (auto statement : statements)
-    {
-        std::cout << statement->to_string() << std::endl;
-    }
-
+    /*
     auto s_ptr = statements.begin();
     std::shared_ptr<KUNAI::MJOLNIR::IRStmnt> s = (*s_ptr);
     auto s1 = std::dynamic_pointer_cast<KUNAI::MJOLNIR::IRAssign>(s);
-    std::advance(s_ptr,1);
+    std::advance(s_ptr, 1);
     s = *s_ptr;
     auto s2 = std::dynamic_pointer_cast<KUNAI::MJOLNIR::IRAssign>(s);
 
@@ -93,6 +102,6 @@ main(int argc, char**argv)
         std::cout << s2->to_string() << std::endl;
         std::cout << "Are connected by destination and source" << std::endl;
     }
-
+    */
     return 0;
 }

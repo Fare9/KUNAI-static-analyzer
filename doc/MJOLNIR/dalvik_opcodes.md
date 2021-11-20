@@ -45,11 +45,11 @@
 | 0x2A | goto/32 target |   |
 | 0x2B | packed-switch vx,table |   |
 | 0x2C | sparse-switch vx,table |   |
-| 0x2D | cmpl-float |   |
-| 0x2E | cmpg-float vx, vy, vz |   |
-| 0x2F | cmpl-double vx,vy,vz |   |
-| 0x30 | cmpg-double vx, vy, vz |   |
-| 0x31 | cmp-long vx, vy, vz |   |
+| 0x2D | cmpl-float | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
+| 0x2E | cmpg-float vx, vy, vz | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
+| 0x2F | cmpl-double vx,vy,vz | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
+| 0x30 | cmpg-double vx, vy, vz | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
+| 0x31 | cmp-long vx, vy, vz | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
 | 0x32 | if-eq vx,vy,target |   |
 | 0x33 | if-ne vx,vy,target |   |
 | 0x34 | if-lt vx,vy,target |   |

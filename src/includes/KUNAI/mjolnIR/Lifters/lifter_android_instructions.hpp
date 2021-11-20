@@ -19,6 +19,10 @@ namespace KUNAI
         class AndroidInstructions
         {
         public:
+            /**
+             * Assignment instructions
+             */
+
             std::set<DEX::DVMTypes::Opcode> assignment_instruction = {
                 DEX::DVMTypes::Opcode::OP_MOVE,
                 DEX::DVMTypes::Opcode::OP_MOVE_WIDE,
@@ -218,6 +222,10 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_INT_TO_CHAR,
                 DEX::DVMTypes::Opcode::OP_INT_TO_SHORT,
             };
+
+            /**
+             * Arithmetic Logic Instructions
+             */
 
             // ADD Operations
             std::set<DEX::DVMTypes::Opcode> add_instruction = {
@@ -486,6 +494,10 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_INT_TO_SHORT,
             };
 
+            /**
+             * Return instructions
+             */
+
             // Return operations
             std::set<DEX::DVMTypes::Opcode> ret_instruction = {
                 DEX::DVMTypes::Opcode::OP_RETURN,
@@ -493,6 +505,19 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_RETURN_OBJECT,
                 DEX::DVMTypes::Opcode::OP_RETURN_VOID,
             };
+
+            /**
+             * Comparison instructions
+             */
+            std::set<DEX::DVMTypes::Opcode> cmp_instruction = {
+                DEX::DVMTypes::Opcode::OP_CMPL_FLOAT,
+                DEX::DVMTypes::Opcode::OP_CMPG_FLOAT,
+                DEX::DVMTypes::Opcode::OP_CMPL_DOUBLE,
+                DEX::DVMTypes::Opcode::OP_CMPG_DOUBLE,
+                DEX::DVMTypes::Opcode::OP_CMP_LONG
+            };
+
+            
         };
     }
 }

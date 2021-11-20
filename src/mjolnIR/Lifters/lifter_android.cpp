@@ -56,6 +56,8 @@ namespace KUNAI
                 this->lift_arithmetic_logic_instruction(instruction, bb);
             else if (androidinstructions.ret_instruction.find(op_code) != androidinstructions.ret_instruction.end())
                 this->lift_ret_instruction(instruction, bb);
+            else if (androidinstructions.cmp_instruction.find(op_code) != androidinstructions.cmp_instruction.end())
+                this->lift_comparison_instruction(instruction, bb);
 
             return true;
         }
@@ -769,6 +771,67 @@ namespace KUNAI
             }
 
             bb->append_statement_to_block(ret_instr);
+        }
+
+
+        /**
+         * @brief Generate a IRBComp instruction which represent a comparison between two values.
+         * 
+         * @param instruction: instruction to lift.
+         * @param bb: basic block where to insert the instructions.
+         * @return void
+         */
+        void LifterAndroid::lift_comparison_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        {
+            auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
+            auto instr = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
+            std::shared_ptr<MJOLNIR::IRBComp> ir_comp;
+            MJOLNIR::IRBComp::comp_t comparison;
+
+            auto reg1 = make_android_register(instr->get_first_source());
+            auto reg2 = make_android_register(instr->get_second_source());
+            auto result = make_android_register(instr->get_destination());
+
+            if (op_code == DEX::DVMTypes::Opcode::OP_CMPL_FLOAT ||
+                op_code == DEX::DVMTypes::Opcode::OP_CMPG_FLOAT)
+            {
+                auto cast1 = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_FLOAT, reg1, reg1, nullptr, nullptr);
+                auto cast2 = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_FLOAT, reg2, reg2, nullptr, nullptr);
+
+                if (op_code == DEX::DVMTypes::Opcode::OP_CMPL_FLOAT)
+                    ir_comp = std::make_shared<MJOLNIR::IRBComp>(MJOLNIR::IRBComp::LOWER_T, result, reg1, reg2, nullptr, nullptr);
+                else
+                    ir_comp = std::make_shared<MJOLNIR::IRBComp>(MJOLNIR::IRBComp::GREATER_T, result, reg1, reg2, nullptr, nullptr);
+                
+                bb->append_statement_to_block(cast1);
+                bb->append_statement_to_block(cast2);
+                bb->append_statement_to_block(ir_comp);
+            }
+            else if (op_code == DEX::DVMTypes::Opcode::OP_CMPL_DOUBLE ||
+                     op_code == DEX::DVMTypes::Opcode::OP_CMPG_DOUBLE)
+            {
+                auto cast1 = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, reg1, reg1, nullptr, nullptr);
+                auto cast2 = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, reg2, reg2, nullptr, nullptr);
+
+                if (op_code == DEX::DVMTypes::Opcode::OP_CMPL_DOUBLE)
+                    ir_comp = std::make_shared<MJOLNIR::IRBComp>(MJOLNIR::IRBComp::LOWER_T, result, reg1, reg2, nullptr, nullptr);
+                else
+                    ir_comp = std::make_shared<MJOLNIR::IRBComp>(MJOLNIR::IRBComp::GREATER_T, result, reg1, reg2, nullptr, nullptr);
+                
+                bb->append_statement_to_block(cast1);
+                bb->append_statement_to_block(cast2);
+                bb->append_statement_to_block(ir_comp);
+            }
+            else
+            {
+                auto cast1 = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_LONG, reg1, reg1, nullptr, nullptr);
+                auto cast2 = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_LONG, reg2, reg2, nullptr, nullptr);
+                ir_comp = std::make_shared<MJOLNIR::IRBComp>(MJOLNIR::IRBComp::EQUAL_T, result, reg1, reg2, nullptr, nullptr);
+
+                bb->append_statement_to_block(cast1);
+                bb->append_statement_to_block(cast2);
+                bb->append_statement_to_block(ir_comp);
+            }            
         }
     }
 }

@@ -1065,6 +1065,7 @@ namespace KUNAI
         /**
          * @brief Constructor of IRBComp, this class represent a comparison between two types.
          * @param comp: type of comparison from an enum.
+         * @param result: register or temporal register where result is stored.
          * @param reg1: first type where the comparison is applied.
          * @param reg2: second type where the comparison is applied.
          * @param left: left part of the comparison (used for AST).
@@ -1072,6 +1073,7 @@ namespace KUNAI
          * @return void
          */
         IRBComp::IRBComp(comp_t comp,
+                    std::shared_ptr<IRExpr> result,
                     std::shared_ptr<IRExpr> reg1,
                     std::shared_ptr<IRExpr> reg2,
                     std::shared_ptr<IRExpr> left,
@@ -1079,6 +1081,7 @@ namespace KUNAI
                 : IRExpr(BCOMP_EXPR_T, left, right)
         {
             this->comp = comp;
+            this->result = result;
             this->reg1 = reg1;
             this->reg2 = reg2;
         }
@@ -1088,6 +1091,16 @@ namespace KUNAI
          * @return void
          */
         IRBComp::~IRBComp() {}
+        
+        /**
+         * @brief Get the result register or temporal register.
+         * 
+         * @return std::shared_ptr<IRExpr> 
+         */
+        std::shared_ptr<IRExpr> IRBComp::get_result()
+        {
+            return result;
+        }
 
         /**
          * @brief Return the first part of the comparison.
@@ -1155,8 +1168,9 @@ namespace KUNAI
                 break;
             }
 
-            str_stream << "[" << reg1->to_string() << "]";
-            str_stream << "[" << reg2->to_string() << "]";
+            str_stream << "[Result: " << result->to_string() << "]";
+            str_stream << "[Op1: " << reg1->to_string() << "]";
+            str_stream << "[Op2: " << reg2->to_string() << "]";
 
             return str_stream.str();
         }
