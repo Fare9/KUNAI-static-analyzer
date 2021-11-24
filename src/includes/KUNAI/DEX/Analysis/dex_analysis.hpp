@@ -239,9 +239,9 @@ namespace KUNAI
             std::vector<std::shared_ptr<Instruction>> get_instructions();
             std::shared_ptr<Instruction> get_last();
             std::vector<std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>>> get_next();
-            std::vector<std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>>> get_prev();
+            std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>> get_prev();
 
-            void set_parent(std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>> bb);
+            void set_parent(std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock *>);
             void set_child();
             void set_child(std::vector<int64_t> values);
             std::uint64_t get_last_length();
@@ -265,7 +265,7 @@ namespace KUNAI
             std::string name;
             std::shared_ptr<ExceptionAnalysis> exception_analysis;
 
-            std::vector<std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>>> parents;
+            std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock* >> parents;
             std::vector<std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>>> childs;
         };
 

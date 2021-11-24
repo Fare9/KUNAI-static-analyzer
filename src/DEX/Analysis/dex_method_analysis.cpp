@@ -26,6 +26,9 @@ namespace KUNAI
             this->dalvik_opcodes = dalvik_opcodes;
             this->instructions = instructions;
             this->exceptions = std::make_shared<Exception>();
+
+            if (this->instructions.size() > 0)
+                this->create_basic_block();
         }
 
         /**
@@ -388,6 +391,7 @@ namespace KUNAI
          */
         void MethodAnalysis::create_basic_block()
         {
+            basic_blocks = std::make_shared<BasicBlocks>();
             std::shared_ptr<DVMBasicBlock> current_basic = std::make_shared<DVMBasicBlock>(0, dalvik_opcodes, basic_blocks, std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded), instructions);
 
             // push the first basic block
@@ -396,7 +400,7 @@ namespace KUNAI
             std::vector<std::int64_t> l;
             std::map<std::uint64_t, std::vector<std::int64_t>> h;
 
-            std::cout << "Parsing the instructions for method " << std::hex << std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded)->get_code_offset() << std::endl;
+            std::cout << "Parsing the instructions for method " << std::hex << std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded)->full_name() << std::endl;
             for (auto it = instructions.begin(); it != instructions.end(); it++)
             {
                 auto idx = std::get<0>(*it);
@@ -422,7 +426,7 @@ namespace KUNAI
                 }
             }
 
-            std::cout << "Parsing exceptions" << std::endl;
+            std::cout << "Creating basic blocks" << std::endl;
             for (auto it = instructions.begin(); it != instructions.end(); it++)
             {
                 auto idx = std::get<0>(*it);
@@ -452,7 +456,8 @@ namespace KUNAI
             }
 
             std::cout << "Settings basic blocks childs" << std::endl;
-            for (auto it = basic_blocks->get_basic_blocks().begin(); it != basic_blocks->get_basic_blocks().end(); it++)
+            auto bbs = basic_blocks->get_basic_blocks();
+            for (auto it = bbs.begin(); it != bbs.end(); it++)
             {
                 auto bb = *it;
                 bb->set_child(h[bb->get_end() - bb->get_last_length()]);
@@ -461,7 +466,7 @@ namespace KUNAI
             std::cout << "Creating exceptions" << std::endl;
             this->exceptions->add(excepts, this->basic_blocks);
 
-            for (auto it = this->basic_blocks->get_basic_blocks().begin(); it != this->basic_blocks->get_basic_blocks().end(); it++)
+            for (auto it = bbs.begin(); it != bbs.end(); it++)
             {
                 (*it)->set_exception_analysis(this->exceptions->get_exception((*it)->get_start(), (*it)->get_end()));
             }

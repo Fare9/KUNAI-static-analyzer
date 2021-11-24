@@ -15,7 +15,7 @@ namespace KUNAI
                                      std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions)
         {
             this->start = start;
-            this->end = end;
+            this->end = start;
             this->dalvik_opcodes = dalvik_opcodes;
             this->context = context;
             this->method = method;
@@ -88,19 +88,19 @@ namespace KUNAI
 
         /**
          * @brief return all the parent basic blocks.
-         * @return std::vector<std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>>>
+         * @return std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>>
          */
-        std::vector<std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>>> DVMBasicBlock::get_prev()
+        std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>> DVMBasicBlock::get_prev()
         {
             return parents;
         }
 
         /**
          * @brief push a basic block into the vector of parent basic blocks.
-         * @param bb: std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>> to push in vector.
+         * @param bb: std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>> to push in vector.
          * @return void
          */
-        void DVMBasicBlock::set_parent(std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>> bb)
+        void DVMBasicBlock::set_parent(std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock *> bb)
         {
             parents.push_back(bb);
         }
@@ -119,8 +119,13 @@ namespace KUNAI
 
             for (auto it = childs.begin(); it != childs.end(); it++)
             {
-                if (std::get<2>(*it) != nullptr)
-                    std::get<2>(*it)->set_parent({std::get<1>(*it), std::get<0>(*it), shared_from_this()});
+                auto child_block = std::get<2>(*it);
+                if (child_block != nullptr)
+                {
+                    auto last_idx = std::get<1>(*it);
+                    auto end_idx = std::get<0>(*it);
+                    child_block->set_parent({last_idx, end_idx, this});
+                }
             }
         }
 
@@ -145,8 +150,17 @@ namespace KUNAI
 
             for (auto it = childs.begin(); it != childs.end(); it++)
             {
-                if (std::get<2>(*it) != nullptr)
-                    std::get<2>(*it)->set_parent({std::get<1>(*it), std::get<0>(*it), shared_from_this()});
+                /**
+                 * @BUG HERE FIX PLEASE
+                 * 
+                 */
+                auto child_block = std::get<2>(*it);
+                if (child_block != nullptr)
+                {
+                    auto last_idx = std::get<1>(*it);
+                    auto end_idx = std::get<0>(*it);
+                    child_block->set_parent({last_idx, end_idx, this});
+                }
             }
         }
 

@@ -2878,24 +2878,24 @@ namespace KUNAI
                 case DVMTypes::Opcode::OP_GOTO:
                 {
                     auto goto_instr = std::dynamic_pointer_cast<Instruction10t>(instr);
-                    offset = goto_instr->get_offset();
+                    offset = goto_instr->get_offset() * 2;
                     break;
                 }
                 case DVMTypes::Opcode::OP_GOTO_16:
                 {
                     auto goto_instr = std::dynamic_pointer_cast<Instruction20t>(instr);
-                    offset = goto_instr->get_offset();
+                    offset = goto_instr->get_offset() * 2;
                     break;
                 }
                 case DVMTypes::Opcode::OP_GOTO_32:
                 {
                     auto goto_instr = std::dynamic_pointer_cast<Instruction30t>(instr);
-                    offset = goto_instr->get_offset();
+                    offset = goto_instr->get_offset() * 2;
                     break;
                 }
-
-                    return {offset + static_cast<std::int64_t>(curr_idx)};
                 }
+
+                return {offset + static_cast<std::int64_t>(curr_idx)};
             }
             else if ((op_value >= DVMTypes::Opcode::OP_IF_EQ) &&
                      (op_value <= DVMTypes::Opcode::OP_IF_LEZ))
@@ -2906,13 +2906,13 @@ namespace KUNAI
                     (op_value <= DVMTypes::Opcode::OP_IF_LE))
                 {
                     auto if_instr = std::dynamic_pointer_cast<Instruction22t>(instr);
-                    offset = if_instr->get_ref();
+                    offset = if_instr->get_ref() * 2;
                 }
                 else if ((op_value >= DVMTypes::Opcode::OP_IF_EQZ) &&
                          (op_value <= DVMTypes::Opcode::OP_IF_LEZ))
                 {
                     auto if_instr = std::dynamic_pointer_cast<Instruction21t>(instr);
-                    offset = if_instr->get_ref();
+                    offset = if_instr->get_ref() * 2;
                 }
 
                 return {static_cast<std::int64_t>(curr_idx) + instr->get_length(), offset + static_cast<std::int64_t>(curr_idx)};
