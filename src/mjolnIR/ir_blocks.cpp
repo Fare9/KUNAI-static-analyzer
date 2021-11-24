@@ -83,5 +83,45 @@ namespace KUNAI {
         {
             return block_statements;
         }
+
+        /**
+         * @brief Set the start_idx value from the block.
+         * 
+         * @param start_idx 
+         */
+        void IRBlock::set_start_idx(uint64_t start_idx)
+        {
+            this->start_idx = start_idx;
+        }
+
+        /**
+         * @brief Set the end_idx value from the block.
+         * 
+         * @param end_idx 
+         */
+        void IRBlock::set_end_idx(uint64_t end_idx)
+        {
+            this->end_idx = end_idx;
+        }
+
+        /**
+         * @brief Return the start_idx of the current block.
+         * 
+         * @return uint64_t 
+         */
+        uint64_t IRBlock::get_start_idx()
+        {
+            return this->start_idx;
+        }
+
+        /**
+         * @brief Return the end_idx of the current block.
+         * 
+         * @return uint64_t
+         */
+        uint64_t IRBlock::get_end_idx()
+        {
+            return this->end_idx;
+        }
     }
 }
