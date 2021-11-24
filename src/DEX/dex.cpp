@@ -4,6 +4,15 @@ namespace KUNAI
 {
     namespace DEX
     {
+
+        /**
+         * @brief Construct a new DEX::DEX object, this will just apply the parsing,
+         *        it will also create the objects for the DalvikOpcodes and the DexDisassembler.
+         *        the disassembly will not be applied in the first moment.
+         * 
+         * @param input_file 
+         * @param file_size 
+         */
         DEX::DEX(std::ifstream &input_file, std::uint64_t file_size)
         {
             try
@@ -21,8 +30,18 @@ namespace KUNAI
             }
         }
 
+        /**
+         * @brief Destroy the DEX::DEX object
+         * 
+         */
         DEX::~DEX() {}
 
+        /**
+         * @brief Get the DexParser of the DEX file, this will contain all the headers.
+         *        Parsing was already applied.
+         * 
+         * @return std::shared_ptr<DexParser> 
+         */
         std::shared_ptr<DexParser> DEX::get_parser()
         {
             if (dex_parsing_correct)
@@ -30,6 +49,12 @@ namespace KUNAI
             return nullptr;
         }
 
+        /**
+         * @brief Get a DalvikOpcodes object, this is commonly used internally by
+         *        disassembler and other classes for Dalvik information.
+         * 
+         * @return std::shared_ptr<DalvikOpcodes> 
+         */
         std::shared_ptr<DalvikOpcodes> DEX::get_dalvik_opcode_object()
         {
             if (dalvik_opcodes)
@@ -37,6 +62,12 @@ namespace KUNAI
             return nullptr;
         }
 
+        /**
+         * @brief Get the DexDisassembler if you want to apply manually the
+         *        disassembly of the instructions.
+         * 
+         * @return std::shared_ptr<DexDisassembler> 
+         */
         std::shared_ptr<DexDisassembler> DEX::get_dex_disassembler()
         {
             if (dex_disassembler)
@@ -44,6 +75,15 @@ namespace KUNAI
             return nullptr;
         }
 
+        /**
+         * @brief This method returns the analysis object from the DEX
+         *        this contains all the analyzed data, together with
+         *        ClassAnalysis and MethodAnalysis objects. The instructions
+         *        are already disassembled, and the methods are created with
+         *        the CFG.
+         * 
+         * @return std::shared_ptr<Analysis> 
+         */
         std::shared_ptr<Analysis> DEX::get_dex_analysis()
         {
             if (!dex_parsing_correct)
@@ -59,16 +99,36 @@ namespace KUNAI
             return dex_analysis;
         }
 
+        /**
+         * @brief Get if parsing was correct or not.
+         * 
+         * @return true 
+         * @return false 
+         */
         bool DEX::get_parsing_correct()
         {
             return dex_parsing_correct;
         }
 
+        /**
+         * @brief Get the unique dex object object
+         * 
+         * @param input_file 
+         * @param file_size 
+         * @return std::unique_ptr<DEX> 
+         */
         std::unique_ptr<DEX> get_unique_dex_object(std::ifstream &input_file, std::uint64_t file_size)
         {
             return std::make_unique<DEX>(input_file, file_size);
         }
 
+        /**
+         * @brief Get the shared dex object object
+         * 
+         * @param input_file 
+         * @param file_size 
+         * @return std::shared_ptr<DEX> 
+         */
         std::shared_ptr<DEX> get_shared_dex_object(std::ifstream &input_file, std::uint64_t file_size)
         {
             return std::make_shared<DEX>(input_file, file_size);
