@@ -17,14 +17,44 @@ namespace KUNAI
          * @brief Lift a given method from a method_analysis object.
          * 
          * @param method_analysis: method from Android to lift.
-         * @return true 
-         * @return false
+         * @return std::shared_ptr<MJOLNIR::IRGraph>
          */
-        bool LifterAndroid::lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis)
+        std::shared_ptr<MJOLNIR::IRGraph> LifterAndroid::lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis)
         {
-            auto bbs = method_analysis->get_basic_blocks();
+            auto bbs = method_analysis->get_basic_blocks()->get_basic_blocks();
+            size_t n_bbs = bbs.size();
+            // graph returnedd by 
+            std::shared_ptr<MJOLNIR::IRGraph> method_graph = std::make_shared<MJOLNIR::IRGraph>();
 
-            return true;
+            // first of all lift all the blocks
+            for (auto bb : bbs)
+            {
+                std::shared_ptr<MJOLNIR::IRBlock> lifted_bb = std::make_shared<MJOLNIR::IRBlock>();
+
+                this->lift_android_basic_block(bb, lifted_bb);
+
+                lifted_blocks[bb] = lifted_bb;
+
+                method_graph->add_node(lifted_bb);
+            }
+
+            // Create Control Flow Graph using the children nodes
+            // from the method blocks.
+            for (auto bb : bbs)
+            {
+                auto next_bbs = bb->get_next();
+
+                auto current_bb = lifted_blocks[bb];
+
+                for (auto next_bb : next_bbs)
+                {
+                    auto block = std::get<2>(next_bb);
+                    method_graph->add_edge(current_bb, lifted_blocks[block]);
+                }
+            }
+
+
+            return method_graph;
         }
 
         /**
@@ -37,6 +67,17 @@ namespace KUNAI
          */
         bool LifterAndroid::lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock> basic_block, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
+            auto instructions = basic_block->get_instructions();
+            auto next = basic_block->get_next();
+            
+            for (auto instruction : instructions)
+            {
+                this->lift_android_instruction(instruction, bb);
+            }
+
+            bb->set_start_idx(basic_block->get_start());
+            bb->set_end_idx(basic_block->get_end());
+
             return true;
         }
 

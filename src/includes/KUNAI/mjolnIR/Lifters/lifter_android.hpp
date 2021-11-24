@@ -17,7 +17,7 @@
 #include "Analysis/dex_analysis.hpp"
 
 // mjolnIR
-#include "ir_grammar.hpp"
+#include "ir_graph.hpp"
 
 // lifter
 #include "lifter_android_instructions.hpp"
@@ -40,7 +40,7 @@ namespace KUNAI
         public:
             LifterAndroid();
 
-            bool lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis);
+            std::shared_ptr<MJOLNIR::IRGraph> lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis);
             bool lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock> basic_block, std::shared_ptr<MJOLNIR::IRBlock> bb);
             bool lift_android_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
         private:
@@ -56,7 +56,6 @@ namespace KUNAI
 
             void lift_assignment_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_load_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
-            
             void lift_arithmetic_logic_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_ret_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_comparison_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
@@ -74,6 +73,8 @@ namespace KUNAI
             std::map<std::uint32_t, std::shared_ptr<MJOLNIR::IRReg>> regs;
             std::map<std::uint32_t, std::shared_ptr<MJOLNIR::IRString>> strings;
 
+            //! lifted blocks
+            std::map<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>, std::shared_ptr<MJOLNIR::IRBlock>> lifted_blocks;
         };
     }
 }
