@@ -5,8 +5,10 @@ CFLAGS=-std=c++17 -c -g -fpic
 # CFLAGS execution
 #CFLAGS=-std=c++17 -c -O3 -fpic
 CODE_FOLDER=src/
+CODE_TEST_FOLDER=src/tests-src/
 INCLUDE_FOLDER=src/includes/KUNAI/
 BIN_FOLDER=bin/
+BIN_TEST_FOLDER=bin/tests/
 OBJ=objs/
 BIN_NAME=Kunai
 STATIC_LIB_NAME=kunai_lib.a
@@ -31,7 +33,7 @@ DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_class_analysis.o ${OBJ}dex_analysis.o\
 			${OBJ}dex.o
 
-IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o ${OBJ}ir_blocks.o ${OBJ}ir_graph.o
+IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o ${OBJ}ir_blocks.o ${OBJ}ir_graph.o ${OBJ}ir_utils.o
 IR_LIFTERS_OBJ_FILES = ${OBJ}lifter_android.o
 
 OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${IR_OBJ_FILES} ${IR_LIFTERS_OBJ_FILES}
@@ -39,11 +41,13 @@ OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${IR_OBJ_FILES} ${IR_LIFTERS_OBJ_FILES
 .PHONY: clean
 
 all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
-		${BIN_FOLDER}test_dex_parser ${BIN_FOLDER}test_dex_disassembler ${BIN_FOLDER}test_ir ${BIN_FOLDER}test_dex_lifter
+		${BIN_TEST_FOLDER}test_dex_parser ${BIN_TEST_FOLDER}test_dex_disassembler ${BIN_TEST_FOLDER}test_ir ${BIN_TEST_FOLDER}test_dex_lifter \
+		${BIN_TEST_FOLDER}test_ir_graph
 
 dirs:
 	mkdir -p ${OBJ}
 	mkdir -p ${BIN_FOLDER}
+	mkdir -p ${BIN_TEST_FOLDER}
 
 ${BIN_FOLDER}${BIN_NAME}: ${OBJ}main.o ${OBJ_FILES}
 	@echo "Linking $^ -> $@"
@@ -57,46 +61,67 @@ ${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
 	@echo "Linking dynamic library $^ -> $@"
 	$(CPP) -fpic -shared -Wformat=0 -o $@ $^
 	
-${BIN_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
+####################################################################
+#  				Test Files
+####################################################################
+
+${BIN_TEST_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
 	@echo "Linking $^ -> $@"
 	${CPP} -o $@ $^
 	
-${BIN_FOLDER}test_dex_disassembler: ${OBJ}test_dex_disassembler.o ${OBJ_FILES}
+${BIN_TEST_FOLDER}test_dex_disassembler: ${OBJ}test_dex_disassembler.o ${OBJ_FILES}
 	@echo "Linking $^ -> $@"
 	${CPP} -o $@ $^
 	
-${BIN_FOLDER}test_ir: ${OBJ}test_ir.o ${OBJ_FILES}
+${BIN_TEST_FOLDER}test_ir: ${OBJ}test_ir.o ${OBJ_FILES}
 	@echo "Linking $^ -> $@"
 	${CPP} -o $@ $^
 	
-${BIN_FOLDER}test_dex_lifter: ${OBJ}test_dex_lifter.o ${OBJ_FILES}
+${BIN_TEST_FOLDER}test_dex_lifter: ${OBJ}test_dex_lifter.o ${OBJ_FILES}
 	@echo "Linking $^ -> $@"
 	${CPP} -o $@ $^
+
+${BIN_TEST_FOLDER}test_ir_graph: ${OBJ}test_ir_graph.o ${OBJ_FILES}
+	@echo "Linking $^ -> $@"
+	${CPP} -o $@ $^
+
+####################################################################
+
 
 # main
 ${OBJ}main.o: ${CODE_FOLDER}main.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 	
+####################################################################
+#  				Test Files
+####################################################################
+
 # test_dex_parser
-${OBJ}test_dex_parser.o: ${CODE_FOLDER}test_dex_parser.cpp
+${OBJ}test_dex_parser.o: ${CODE_TEST_FOLDER}test_dex_parser.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 	
 # test_dex_disassembler
-${OBJ}test_dex_disassembler.o: ${CODE_FOLDER}test_dex_disassembler.cpp
+${OBJ}test_dex_disassembler.o: ${CODE_TEST_FOLDER}test_dex_disassembler.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 	
 # test IR
-${OBJ}test_ir.o: ${CODE_FOLDER}test_ir.cpp
+${OBJ}test_ir.o: ${CODE_TEST_FOLDER}test_ir.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
 # test dex lifter
-${OBJ}test_dex_lifter.o: ${CODE_FOLDER}test_dex_lifter.cpp
+${OBJ}test_dex_lifter.o: ${CODE_TEST_FOLDER}test_dex_lifter.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+
+${OBJ}test_ir_graph.o: ${CODE_TEST_FOLDER}test_ir_graph.cpp
+	@echo "Compiling $< -> $@"
+	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+
+####################################################################
 	
 # Utils
 UTILS_MODULE=Utils/
