@@ -48,6 +48,25 @@ namespace KUNAI
         class IRClass;
         class IRCallee;
 
+        /**
+         * Useful methods you can use
+         * for getting information about
+         * the instructions.
+         */
+        bool is_ir_field(std::shared_ptr<IRStmnt> instr);
+        bool is_ir_callee(std::shared_ptr<IRStmnt> instr);
+        bool is_ir_class(std::shared_ptr<IRStmnt> instr);
+        bool is_ir_string(std::shared_ptr<IRStmnt> instr);
+        bool is_ir_memory(std::shared_ptr<IRStmnt> instr);
+        bool is_ir_const_int(std::shared_ptr<IRStmnt> instr);
+        bool is_ir_temp_reg(std::shared_ptr<IRStmnt> instr);
+        bool is_ir_register(std::shared_ptr<IRStmnt> instr);
+
+        
+
+        bool is_unconditional_jump(std::shared_ptr<IRStmnt> instr);
+        bool is_conditional_jump(std::shared_ptr<IRStmnt> instr);
+
 
         class IRBlock
         {
@@ -61,7 +80,14 @@ namespace KUNAI
 
             size_t get_number_of_statements();
             std::list<std::shared_ptr<IRStmnt>> get_statements();
+
+            void set_start_idx(uint64_t start_idx);
+            void set_end_idx(uint64_t end_idx);
+            uint64_t get_start_idx();
+            uint64_t get_end_idx();
         private:
+            //! starting idx and last idx (used for jump calculation)
+            uint64_t start_idx, end_idx;
             //! statements from the basic block.
             std::list<std::shared_ptr<IRStmnt>> block_statements;
         };
