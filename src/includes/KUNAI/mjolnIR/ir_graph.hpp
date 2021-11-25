@@ -18,7 +18,8 @@ namespace KUNAI
     namespace MJOLNIR
     {
         typedef std::vector<std::shared_ptr<IRBlock>> Nodes;
-        typedef std::vector<std::pair<std::shared_ptr<IRBlock>, std::shared_ptr<IRBlock>>> Edges;
+        typedef std::pair<std::shared_ptr<IRBlock>, std::shared_ptr<IRBlock>> Edge;
+        typedef std::vector<Edge> Edges;
         typedef std::vector<std::vector<std::shared_ptr<IRBlock>>> Paths;
         
 

@@ -162,6 +162,17 @@ namespace KUNAI
          */
         IRCJmp::~IRCJmp() {}
 
+
+        /**
+         * @brief Get address target from the jump.
+         * 
+         * @return uint64_t 
+         */
+        uint64_t IRCJmp::get_addr()
+        {
+            return addr;
+        }
+
         /**
          * @brief Get the condition of the conditional jump.
          * @return std::shared_ptr<IRStmnt>

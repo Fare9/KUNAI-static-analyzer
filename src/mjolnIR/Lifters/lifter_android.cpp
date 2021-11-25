@@ -54,6 +54,8 @@ namespace KUNAI
                 }
             }
 
+            this->jump_target_analysis(bbs);
+
 
             return method_graph;
         }
@@ -977,6 +979,60 @@ namespace KUNAI
                 auto ir_ucond = std::make_shared<MJOLNIR::IRCJmp>(target, temp_reg, nullptr, nullptr);
                 bb->append_statement_to_block(zcomp);
                 bb->append_statement_to_block(ir_ucond);
+            }
+        }
+
+        /**
+         * @brief Fix for every jump instruction at the end of a basic block,
+         *        its target and in case of conditional jump its fallthrough,
+         *        this will give for each one, the basic block where it points
+         *        to.
+         * 
+         * @param bbs: basic blocks from the method.
+         */
+        void LifterAndroid::jump_target_analysis(std::vector<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>> bbs)
+        {
+            for (auto bb : bbs)
+            {
+                auto next_bbs = bb->get_next();
+
+                auto current_bb = lifted_blocks[bb];
+
+                // now set some interesting stuff for instructions.
+                // now set some interesting stuff for instructions.
+                auto last_instr = current_bb->get_statements().back();
+
+                if (MJOLNIR::is_unconditional_jump(last_instr))
+                {
+                    auto jmp = std::dynamic_pointer_cast<MJOLNIR::IRUJmp>(last_instr);
+
+                    if (next_bbs.size() == 1)
+                    {
+                        auto block = std::get<2>(next_bbs[0]);
+                        jmp->set_jump_target(lifted_blocks[block]);
+                    }
+                }
+                else if (MJOLNIR::is_conditional_jump(last_instr))
+                {
+                    auto jcc = std::dynamic_pointer_cast<MJOLNIR::IRCJmp>(last_instr);
+
+                    if (next_bbs.size() == 2)
+                    {
+                        auto bb1 = std::get<2>(next_bbs[0]);
+                        auto bb2 = std::get<2>(next_bbs[1]);
+
+                        if (bb1->get_start() == jcc->get_addr()) // if bb1 is target of jump
+                        {
+                            jcc->set_jump_target(lifted_blocks[bb1]);
+                            jcc->set_fallthrough_Target(lifted_blocks[bb2]);
+                        }
+                        else
+                        {
+                            jcc->set_jump_target(lifted_blocks[bb2]);
+                            jcc->set_fallthrough_Target(lifted_blocks[bb1]);
+                        }
+                    }
+                }
             }
         }
     }
