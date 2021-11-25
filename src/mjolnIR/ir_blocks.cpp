@@ -123,5 +123,22 @@ namespace KUNAI {
         {
             return this->end_idx;
         }
+
+        /**
+         * @brief Return a string representation of the basic block.
+         * 
+         * @return std::string 
+         */
+        std::string IRBlock::to_string()
+        {
+            std::stringstream stream;
+
+            stream << "[BB." << std::hex << start_idx << "->" << end_idx << "]\n";
+
+            for (auto instr : block_statements)
+                stream << instr->to_string() << "\n";
+            
+            return stream.str();
+        }
     }
 }

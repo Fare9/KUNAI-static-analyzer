@@ -85,6 +85,8 @@ namespace KUNAI
             void set_end_idx(uint64_t end_idx);
             uint64_t get_start_idx();
             uint64_t get_end_idx();
+
+            std::string to_string();
         private:
             //! starting idx and last idx (used for jump calculation)
             uint64_t start_idx, end_idx;
