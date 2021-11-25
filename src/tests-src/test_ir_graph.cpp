@@ -52,5 +52,15 @@ int main(int argc, char **argv)
 
     auto graph = lifter_android->lift_android_method(main_method);
 
+    auto nodes = graph->get_nodes();
+
+    std::cout << "\n\nPrinting nodes from 'LMain;->main([Ljava/lang/String;)V' in MjolnIR\n";
+
+    for (auto node : nodes)
+    {
+        std::cout << node->to_string();
+        std::cout << "\n";
+    }
+
     return 0;
 }
