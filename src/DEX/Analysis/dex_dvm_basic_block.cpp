@@ -60,8 +60,6 @@ namespace KUNAI
             {
                 if ((start <= it->first) && (it->first < end))
                     bb_instructions.push_back(it->second);
-                else
-                    break;
             }
 
             return bb_instructions;
@@ -150,10 +148,6 @@ namespace KUNAI
 
             for (auto it = childs.begin(); it != childs.end(); it++)
             {
-                /**
-                 * @BUG HERE FIX PLEASE
-                 * 
-                 */
                 auto child_block = std::get<2>(*it);
                 if (child_block != nullptr)
                 {
