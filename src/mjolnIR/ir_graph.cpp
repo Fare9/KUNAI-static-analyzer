@@ -27,9 +27,9 @@ namespace KUNAI
          */
         bool IRGraph::add_node(std::shared_ptr<IRBlock> node)
         {
-            if (nodes.find(node) != nodes.end())
+            if (std::find(nodes.begin(), nodes.end(), node) != nodes.end())
                 return false; // node already exists, return false.
-            nodes.insert(node);
+            nodes.push_back(node);
             return true;
         }
 
@@ -41,9 +41,9 @@ namespace KUNAI
          */
         void IRGraph::add_edge(std::shared_ptr<IRBlock> src, std::shared_ptr<IRBlock> dst)
         {
-            if (nodes.find(src) == nodes.end())
+            if (std::find(nodes.begin(), nodes.end(), src) != nodes.end())
                 add_node(src);
-            if (nodes.find(dst) == nodes.end())
+            if (std::find(nodes.begin(), nodes.end(), dst) != nodes.end())
                 add_node(dst);
             edges.push_back(std::make_pair(src, dst));
             add_block_to_sucessors(src, dst);
@@ -61,7 +61,7 @@ namespace KUNAI
             // if src is not in nodes, or if
             // dst is not in the successors from source
             if ((std::find(nodes.begin(), nodes.end(), src) == nodes.end()) ||
-                successors[src].find(dst) == successors[src].end())
+                (std::find(successors[src].begin(), successors[src].end(), dst) != successors[src].end()))
                 add_edge(src, dst);
         }
 
@@ -73,7 +73,7 @@ namespace KUNAI
          */
         void IRGraph::add_block_to_sucessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> successor)
         {
-            successors[node].insert(successor);
+            successors[node].push_back(successor);
         }
 
         /**
@@ -84,7 +84,7 @@ namespace KUNAI
          */
         void IRGraph::add_block_to_predecessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> predecessor)
         {
-            predecessors[node].insert(predecessor);
+            predecessors[node].push_back(predecessor);
         }
 
         /**
@@ -148,7 +148,7 @@ namespace KUNAI
          */
         void IRGraph::del_node(std::shared_ptr<IRBlock> node)
         {
-            auto node_set = nodes.find(node);
+            auto node_set = std::find(nodes.begin(), nodes.end(), node);
             auto predecessors = get_predecessors(node);
             auto successors = get_successors(node);
 
@@ -173,7 +173,7 @@ namespace KUNAI
             auto node_it = successors.find(node);
             if (node_it != successors.end())
             {
-                auto succ_it = node_it->second.find(block);
+                auto succ_it = std::find(node_it->second.begin(), node_it->second.end(), block);
                 node_it->second.erase(succ_it);
             }
         }
@@ -189,7 +189,7 @@ namespace KUNAI
             auto node_it = predecessors.find(node);
             if (node_it != predecessors.end())
             {
-                auto pred_it = node_it->second.find(block);
+                auto pred_it = std::find(node_it->second.begin(), node_it->second.end(), block);
                 node_it->second.erase(pred_it);
             }
         }
@@ -362,7 +362,7 @@ namespace KUNAI
                 Nodes new_dom = {};
                 for (auto pred : get_predecessors(*node))
                 {
-                    if (nodes.find(pred) == nodes.end()) // pred is not in nodes
+                    if (std::find(nodes.begin(), nodes.end(), pred) == nodes.end()) // pred is not in nodes
                         continue;
                     if (new_dom.empty())
                         new_dom = dominators[pred];
@@ -374,14 +374,14 @@ namespace KUNAI
                     new_dom = intersect_aux;
                 }
 
-                new_dom.insert(*node);
+                new_dom.push_back(*node);
 
                 if (new_dom == dominators[*node])
                     continue;
 
                 dominators[*node] = new_dom;
                 for (auto succ : get_successors(*node))
-                    todo.insert(succ);
+                    todo.push_back(succ);
             }
 
             return dominators;
@@ -418,7 +418,7 @@ namespace KUNAI
                 Nodes new_dom = {};
                 for (auto succ : get_successors(*node))
                 {
-                    if (nodes.find(succ) == nodes.end()) // pred is not in nodes
+                    if (std::find(nodes.begin(), nodes.end(), succ) == nodes.end()) // pred is not in nodes
                         continue;
                     if (new_dom.empty())
                         new_dom = postdominators[succ];
@@ -430,14 +430,14 @@ namespace KUNAI
                     new_dom = intersect_aux;
                 }
 
-                new_dom.insert(*node);
+                new_dom.push_back(*node);
 
                 if (new_dom == postdominators[*node])
                     continue;
 
                 postdominators[*node] = new_dom;
                 for (auto pred : get_predecessors(*node))
-                    todo.insert(pred);
+                    todo.push_back(pred);
             }
 
             return postdominators;
@@ -538,7 +538,7 @@ namespace KUNAI
             Nodes todo;
             Nodes reachable;
 
-            todo.insert(head);
+            todo.push_back(head);
 
             while (!todo.empty())
             {
@@ -547,13 +547,13 @@ namespace KUNAI
                 todo.erase(node);
 
                 // node already in reachable
-                if (reachable.find((*node)) != reachable.end())
+                if (std::find(reachable.begin(), reachable.end(), *node) != reachable.end())
                     continue;
 
-                reachable.insert(*node);
+                reachable.push_back(*node);
 
                 for (auto next_node : get_successors(*node))
-                    todo.insert(next_node);
+                    todo.push_back(next_node);
             }
 
             return reachable;
@@ -569,7 +569,7 @@ namespace KUNAI
             Nodes todo;
             Nodes reachable;
 
-            todo.insert(leaf);
+            todo.push_back(leaf);
 
             while (!todo.empty())
             {
@@ -578,13 +578,13 @@ namespace KUNAI
                 todo.erase(node);
 
                 // node already in reachable
-                if (reachable.find((*node)) != reachable.end())
+                if (std::find(reachable.begin(), reachable.end(), *node) != reachable.end())
                     continue;
 
-                reachable.insert(*node);
+                reachable.push_back(*node);
 
                 for (auto next_node : get_predecessors(*node))
-                    todo.insert(next_node);
+                    todo.push_back(next_node);
             }
 
             return reachable;
@@ -617,7 +617,7 @@ namespace KUNAI
             Nodes todo;
             Nodes done;
 
-            todo.insert(head);
+            todo.push_back(head);
 
             while (!todo.empty())
             {
@@ -626,13 +626,13 @@ namespace KUNAI
                 node--;
                 todo.erase(node);
 
-                if (done.find(*node) != done.end())
+                if (std::find(done.begin(), done.end(), *node) != done.end())            
                     continue;
 
-                done.insert(*node);
+                done.push_back(*node);
 
                 for (auto succ : get_successors(*node))
-                    todo.insert(succ);
+                    todo.push_back(succ);
             }
 
             return done;
@@ -648,7 +648,7 @@ namespace KUNAI
             Nodes todo;
             Nodes done;
 
-            todo.insert(head);
+            todo.push_back(head);
 
             while (!todo.empty())
             {
@@ -656,13 +656,13 @@ namespace KUNAI
                 auto node = todo.begin();
                 todo.erase(node);
 
-                if (done.find(*node) != done.end())
+                if (std::find(done.begin(), done.end(), *node) != done.end())
                     continue;
 
-                done.insert(*node);
+                done.push_back(*node);
 
                 for (auto succ : get_successors(*node))
-                    todo.insert(succ);
+                    todo.push_back(succ);
             }
 
             return done;
@@ -671,11 +671,12 @@ namespace KUNAI
         void IRGraph::add_bbs(std::shared_ptr<IRBlock> r, Nodes ebb)
         {
             // insert given block
-            ebb.insert(r);
+            ebb.push_back(r);
 
             for (auto x : get_successors(r))
             {
-                if (get_number_of_predecessors(x) == 1 && ebb.find(x) == ebb.end())
+                if (get_number_of_predecessors(x) == 1 && 
+                    std::find(ebb.begin(), ebb.end(), x) == ebb.end())
                     add_bbs(x, ebb);
             }
 
