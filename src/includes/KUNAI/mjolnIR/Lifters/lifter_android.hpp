@@ -45,6 +45,7 @@ namespace KUNAI
             bool lift_android_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
         private:
             uint64_t temp_reg_id;
+            uint64_t current_idx;
 
             std::shared_ptr<MJOLNIR::IRReg> make_android_register(std::uint32_t reg_id);
             std::shared_ptr<MJOLNIR::IRTempReg> make_temporal_register();

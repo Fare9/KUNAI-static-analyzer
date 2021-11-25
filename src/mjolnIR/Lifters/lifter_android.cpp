@@ -11,6 +11,7 @@ namespace KUNAI
         LifterAndroid::LifterAndroid()
         {
             temp_reg_id = 0;
+            current_idx = 0;
         }
 
         /**
@@ -103,6 +104,8 @@ namespace KUNAI
                 this->lift_comparison_instruction(instruction, bb);
             else if (androidinstructions.jcc_instruction.find(op_code) != androidinstructions.jcc_instruction.end())
                 this->lift_conditional_jump_instruction(instruction, bb);
+
+            current_idx += instruction->get_length();
 
             return true;
         }
@@ -909,6 +912,8 @@ namespace KUNAI
                 auto reg2 = make_android_register(instr->get_second_check_reg());
                 MJOLNIR::IRBComp::comp_t comparison;
 
+                uint64_t target = current_idx + (instr->get_ref() * 2);
+
                 switch (op_code)
                 {
                 case DEX::DVMTypes::Opcode::OP_IF_EQ:
@@ -932,7 +937,7 @@ namespace KUNAI
                 }
 
                 auto bcomp = std::make_shared<MJOLNIR::IRBComp>(comparison, temp_reg, reg1, reg2, nullptr, nullptr);
-                auto ir_ucond = std::make_shared<MJOLNIR::IRCJmp>(instr->get_ref(), temp_reg, nullptr, nullptr);
+                auto ir_ucond = std::make_shared<MJOLNIR::IRCJmp>(target, temp_reg, nullptr, nullptr);
 
                 bb->append_statement_to_block(bcomp);
                 bb->append_statement_to_block(ir_ucond);
@@ -943,6 +948,8 @@ namespace KUNAI
                 auto temp_reg = make_temporal_register();
                 auto reg = make_android_register(instr->get_check_reg());
                 MJOLNIR::IRZComp::zero_comp_t comparison;
+
+                uint64_t target = current_idx + (instr->get_ref() * 2);
 
                 switch (op_code)
                 {
@@ -967,7 +974,7 @@ namespace KUNAI
                 }
 
                 auto zcomp = std::make_shared<MJOLNIR::IRZComp>(comparison, temp_reg, reg, nullptr, nullptr);
-                auto ir_ucond = std::make_shared<MJOLNIR::IRCJmp>(instr->get_ref(), temp_reg, nullptr, nullptr);
+                auto ir_ucond = std::make_shared<MJOLNIR::IRCJmp>(target, temp_reg, nullptr, nullptr);
                 bb->append_statement_to_block(zcomp);
                 bb->append_statement_to_block(ir_ucond);
             }
