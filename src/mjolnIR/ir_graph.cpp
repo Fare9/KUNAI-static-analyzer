@@ -668,6 +668,7 @@ namespace KUNAI
             return done;
         }
 
+        
         void IRGraph::add_bbs(std::shared_ptr<IRBlock> r, Nodes ebb)
         {
             // insert given block
@@ -681,6 +682,52 @@ namespace KUNAI
             }
 
             return;
+        }
+
+        /**
+         * @brief Generate a dot file with the CFG, this will include the IR
+         *        code, and each block as graph nodes.
+         */
+        void IRGraph::generate_dot_file(std::string name)
+        {
+            std::ofstream stream;
+
+            stream.open(name + std::string(".dot")); // open dot file and write on it
+            //std::stringstream stream;
+
+            stream << "digraph " << name << "{\n";
+            stream << "style=\"dashed\";\n";
+            stream << "color=\"black\";\n";
+            stream << "label=\"" << name << "\";\n";
+
+            // fisrt of all print the nodes
+            for (auto node : nodes)
+            {
+                stream << "\"" << node->get_name() << "\""
+                        << " [shape=box, style=filled, fillcolor=lightgrey, label=\"";
+                
+                auto content = node->to_string();
+
+                while (content.find("\n") != content.npos)
+                    content.replace(content.find("\n"), 1, "\\l", 2);
+
+                stream << content;
+
+                stream << "\"];\n\n";
+            }
+
+            for (auto edge : edges)
+            {
+                auto bb1 = std::get<0>(edge);
+                auto bb2 = std::get<1>(edge);
+
+                stream << "\"" <<  bb1->get_name() << "\" -> "
+                       << "\"" << bb2->get_name() << "\" [style=\"solid,bold\",color=black,weight=10,constraint=true];\n";
+            }
+
+            stream << "}";
+
+            stream.close();
         }
 
     } // namespace MJOLNIR

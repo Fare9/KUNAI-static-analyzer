@@ -62,5 +62,9 @@ int main(int argc, char **argv)
         std::cout << "\n";
     }
 
+    std::cout << "\nDumping .dot file into directory\n";
+
+    graph->generate_dot_file("main");
+
     return 0;
 }

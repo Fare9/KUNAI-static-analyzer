@@ -87,6 +87,8 @@ namespace KUNAI
             Nodes build_ebb(std::shared_ptr<IRBlock> r);
             Nodes Deep_First_Search(std::shared_ptr<IRBlock> head);
             Nodes Breadth_First_Search(std::shared_ptr<IRBlock> head);
+
+            void generate_dot_file(std::string name);
         private:
             Nodes nodes;
             Edges edges;
