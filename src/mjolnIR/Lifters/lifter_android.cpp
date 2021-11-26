@@ -55,7 +55,7 @@ namespace KUNAI
             }
 
             this->jump_target_analysis(bbs);
-
+            this->fallthrough_target_analysis(method_graph);
 
             return method_graph;
         }
@@ -1078,5 +1078,76 @@ namespace KUNAI
                 }
             }
         }
+    
+        /**
+         * @brief Analyze the basic blocks of the graph in order to create the
+         *        fallthrough edges between blocks which are from conditional
+         *        jumps, these has no edges so for the moment one block looks
+         *        like goes nowehere:
+         * 
+         *                          +----------------+
+         *                          |                |
+         *                          |  jcc           |
+         *                          +----------------+
+         *           fallthrough   /                  \  target
+         *                        /                    \
+         *               +----------------+        +----------------+
+         *               | points         |        |                |
+         *               | nowhere        |        |  jmp           |
+         *               +----------------+        +----------------+
+         *                                               |
+         *                                               |
+         *                                         +----------------+
+         *                                         |                |
+         *                                         |                |
+         *                                         +----------------+
+         * 
+         *         The one on the left points nowhere but this is the real previous
+         *         block before the last block, but last block is divided because
+         *         there's a jump to it, so we will create an edge between, the one
+         *         on the left, and the last one, as it's a continuation.
+         * 
+         *                          +----------------+
+         *                          |                |
+         *                          |  jcc           |
+         *                          +----------------+
+         *           fallthrough   /                  \  target
+         *                        /                    \
+         *               +----------------+        +----------------+
+         *               | points         |        |                |
+         *               | nowhere        |        |  jmp           |
+         *               +----------------+        +----------------+
+         *                      \                         /
+         *                       \                       /
+         *                        \                     /
+         *                         \                   /
+         *                          \                 /
+         *                           +----------------+
+         *                           |                |
+         *                           |                |
+         *                           +----------------+
+         * @param ir_graph 
+         */
+        void LifterAndroid::fallthrough_target_analysis(std::shared_ptr<MJOLNIR::IRGraph> ir_graph)
+        {
+            auto nodes = ir_graph->get_nodes();
+
+            for (auto node : nodes)
+            {
+                auto last_inst = node->get_statements().back();
+
+                if (MJOLNIR::is_conditional_jump(last_inst) || MJOLNIR::is_unconditional_jump(last_inst) || MJOLNIR::is_ret(last_inst))
+                    continue;
+
+                for (auto aux : nodes)
+                {
+                    if (node->get_end_idx() == aux->get_start_idx())
+                    {
+                        ir_graph->add_uniq_edge(node, aux);
+                    }
+                }
+            }
+        }
+
     }
 }

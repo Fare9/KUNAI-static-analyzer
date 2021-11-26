@@ -64,7 +64,8 @@ namespace KUNAI
             void lift_unconditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             // some utilities
             void jump_target_analysis(std::vector<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>> bbs);
-
+            void fallthrough_target_analysis(std::shared_ptr<MJOLNIR::IRGraph> ir_graph);
+            
             AndroidInstructions androidinstructions;
             //! It is nice that while we are lifting to annotate
             //! possible values that a register holds, in that case
