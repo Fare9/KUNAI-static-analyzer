@@ -61,7 +61,7 @@ namespace KUNAI
             // if src is not in nodes, or if
             // dst is not in the successors from source
             if ((std::find(nodes.begin(), nodes.end(), src) == nodes.end()) ||
-                (std::find(successors[src].begin(), successors[src].end(), dst) != successors[src].end()))
+                (std::find(successors[src].begin(), successors[src].end(), dst) == successors[src].end()))
                 add_edge(src, dst);
         }
 
