@@ -106,6 +106,8 @@ namespace KUNAI
                 this->lift_comparison_instruction(instruction, bb);
             else if (androidinstructions.jcc_instruction.find(op_code) != androidinstructions.jcc_instruction.end())
                 this->lift_conditional_jump_instruction(instruction, bb);
+            else if (androidinstructions.jmp_instruction.find(op_code) != androidinstructions.jmp_instruction.end())
+                this->lift_unconditional_jump_instruction(instruction, bb);
 
             current_idx += instruction->get_length();
 
@@ -980,6 +982,47 @@ namespace KUNAI
                 bb->append_statement_to_block(zcomp);
                 bb->append_statement_to_block(ir_ucond);
             }
+        }
+
+        /**
+         * @brief Generate a IRUJmp instruction which represent an unconditional jump.
+         * 
+         * @param instruction 
+         * @param bb 
+         * @return void
+         */
+        void LifterAndroid::lift_unconditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        {
+            auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
+            std::shared_ptr<MJOLNIR::IRUJmp> ujmp = nullptr;
+
+            if (DEX::DVMTypes::Opcode::OP_GOTO == op_code)
+            {
+                auto jmp = std::dynamic_pointer_cast<DEX::Instruction10t>(instruction);
+
+                auto addr = current_idx + (jmp->get_offset() * 2);
+
+                ujmp = std::make_shared<MJOLNIR::IRUJmp>(addr, nullptr);
+            }
+            else if (DEX::DVMTypes::Opcode::OP_GOTO_16 == op_code)
+            {
+                auto jmp = std::dynamic_pointer_cast<DEX::Instruction20t>(instruction);
+
+                auto addr = current_idx + (jmp->get_offset() * 2);
+
+                ujmp = std::make_shared<MJOLNIR::IRUJmp>(addr, nullptr);
+            }
+            else if (DEX::DVMTypes::Opcode::OP_GOTO_32 == op_code)
+            {
+                auto jmp = std::dynamic_pointer_cast<DEX::Instruction30t>(instruction);
+
+                auto addr = current_idx + (jmp->get_offset() * 2);
+
+                ujmp = std::make_shared<MJOLNIR::IRUJmp>(addr, nullptr);
+            }
+
+            if (ujmp != nullptr)
+                bb->append_statement_to_block(ujmp);            
         }
 
         /**

@@ -551,6 +551,15 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_IF_GTZ,
                 DEX::DVMTypes::Opcode::OP_IF_LEZ,
             };
+
+            /**
+             * Unconditional jump instructions
+             */
+            std::set<DEX::DVMTypes::Opcode> jmp_instruction = {
+                DEX::DVMTypes::Opcode::OP_GOTO,
+                DEX::DVMTypes::Opcode::OP_GOTO_16,
+                DEX::DVMTypes::Opcode::OP_GOTO_32,
+            };
         };
     }
 }
