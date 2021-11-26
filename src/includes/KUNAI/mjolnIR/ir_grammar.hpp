@@ -66,6 +66,7 @@ namespace KUNAI
 
         bool is_unconditional_jump(std::shared_ptr<IRStmnt> instr);
         bool is_conditional_jump(std::shared_ptr<IRStmnt> instr);
+        bool is_ret(std::shared_ptr<IRStmnt> instr);
 
 
         class IRBlock

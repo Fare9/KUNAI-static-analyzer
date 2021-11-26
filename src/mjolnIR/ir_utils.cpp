@@ -178,5 +178,22 @@ namespace KUNAI
             
             return true;
         }
+        
+        /**
+         * @brief Check if given statement is a ret instruction.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_ret(std::shared_ptr<IRStmnt> instr)
+        {
+            auto ret = std::dynamic_pointer_cast<IRRet>(instr);
+
+            if (ret == nullptr)
+                return false;
+            
+            return true;
+        }
     }
 }
