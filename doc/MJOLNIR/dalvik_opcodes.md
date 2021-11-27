@@ -40,9 +40,9 @@
 | 0x25 | filled-new-array-range {vx..vy},type id |   |
 | 0x26 | fill-array-data vx,array\_data\_offset |   |
 | 0x27 | throw vx |   |
-| 0x28 | goto target |   |
-| 0x29 | goto/16 target |   |
-| 0x2A | goto/32 target |   |
+| 0x28 | goto target | IRUJmp |
+| 0x29 | goto/16 target | IRUJmp |
+| 0x2A | goto/32 target | IRUJmp |
 | 0x2B | packed-switch vx,table |   |
 | 0x2C | sparse-switch vx,table |   |
 | 0x2D | cmpl-float | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
