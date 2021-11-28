@@ -77,6 +77,10 @@ namespace KUNAI
             {
                 if (androidinstructions.move_result_instruction.find(static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP())) != androidinstructions.move_result_instruction.end())
                 {
+
+                    if (bb->get_number_of_statements() == 0) // security check if there are or not statements
+                        continue;
+
                     auto last_instr = bb->get_statements().back();
 
                     if (MJOLNIR::is_call(last_instr))
@@ -87,6 +91,8 @@ namespace KUNAI
                 }
                 else
                     this->lift_android_instruction(instruction, bb);
+                
+                current_idx += instruction->get_length();
             }
 
             bb->set_start_idx(basic_block->get_start());
@@ -121,8 +127,6 @@ namespace KUNAI
                 this->lift_unconditional_jump_instruction(instruction, bb);
             else if (androidinstructions.call_instructions.find(op_code) != androidinstructions.call_instructions.end())
                 this->lift_call_instruction(instruction, bb);
-
-            current_idx += instruction->get_length();
 
             return true;
         }
