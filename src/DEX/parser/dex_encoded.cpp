@@ -167,7 +167,7 @@ namespace KUNAI
         {
             if (!parse_encoded_type_pairs(input_file, file_size, dex_types))
                 throw exceptions::ParserReadingException("Error reading EncodedTypePair from EncodedCatchHandler");
-        }
+        } 
 
         EncodedCatchHandler::~EncodedCatchHandler()
         {
@@ -215,7 +215,7 @@ namespace KUNAI
 
             encoded_type_pair_size = KUNAI::read_sleb128(input_file);
 
-            if (encoded_type_pair_size < 0)
+            if (encoded_type_pair_size <= 0)
             {
                 catch_all_addr = KUNAI::read_uleb128(input_file);
             }
@@ -252,7 +252,7 @@ namespace KUNAI
 
         TryItem::~TryItem() {}
 
-        std::uint16_t TryItem::get_start_addr()
+        std::uint32_t TryItem::get_start_addr()
         {
             return try_item_struct.start_addr;
         }

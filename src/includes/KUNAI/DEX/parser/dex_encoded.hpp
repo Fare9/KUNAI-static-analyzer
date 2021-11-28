@@ -122,7 +122,7 @@ namespace KUNAI
         public:
             struct try_item_struct_t
             {
-                std::uint16_t start_addr;  // start address of block of code covered by this entry.
+                std::uint32_t start_addr;  // start address of block of code covered by this entry.
                                            // Count of 16-bit code units to start of first.
                 std::uint16_t insn_count;  // number of 16-bit code units covered by this entry.
                 std::uint16_t handler_off; // offset in bytes from starts of associated encoded_catch_handler_list to
@@ -132,7 +132,7 @@ namespace KUNAI
             TryItem(try_item_struct_t try_item_struct);
             ~TryItem();
 
-            std::uint16_t get_start_addr();
+            std::uint32_t get_start_addr();
             std::uint16_t get_insn_count();
             std::uint16_t get_handler_off();
         private:
