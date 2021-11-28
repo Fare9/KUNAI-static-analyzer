@@ -560,6 +560,32 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_GOTO_16,
                 DEX::DVMTypes::Opcode::OP_GOTO_32,
             };
+
+            /**
+             * Call instructions (call to methods)
+             */
+            std::set<DEX::DVMTypes::Opcode> call_instructions = {
+                DEX::DVMTypes::Opcode::OP_INVOKE_VIRTUAL,
+                DEX::DVMTypes::Opcode::OP_INVOKE_SUPER,
+                DEX::DVMTypes::Opcode::OP_INVOKE_DIRECT,
+                DEX::DVMTypes::Opcode::OP_INVOKE_STATIC,
+                DEX::DVMTypes::Opcode::OP_INVOKE_INTERFACE,
+            };
+
+            std::set<DEX::DVMTypes::Opcode> call_instruction35c = {
+                DEX::DVMTypes::Opcode::OP_INVOKE_VIRTUAL,
+                DEX::DVMTypes::Opcode::OP_INVOKE_SUPER,
+                DEX::DVMTypes::Opcode::OP_INVOKE_DIRECT,
+                DEX::DVMTypes::Opcode::OP_INVOKE_STATIC,
+                DEX::DVMTypes::Opcode::OP_INVOKE_INTERFACE,
+            };
+
+            // return instructions
+            std::set<DEX::DVMTypes::Opcode> move_result_instruction = {
+                DEX::DVMTypes::Opcode::OP_MOVE_RESULT,
+                DEX::DVMTypes::Opcode::OP_MOVE_RESULT_WIDE,
+                DEX::DVMTypes::Opcode::OP_MOVE_RESULT_OBJECT
+            };
         };
     }
 }
