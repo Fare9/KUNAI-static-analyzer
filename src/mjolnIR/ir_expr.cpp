@@ -126,6 +126,12 @@ namespace KUNAI
 
                 return bcomp->to_string();
             }
+            else if (type == CALL_EXPR_T)
+            {
+                auto call = reinterpret_cast<IRCall*>(this);
+
+                return call->to_string();
+            }
             else if (type == NONE_EXPR_T)
             {
                 return "IRExpr [NONE]";
@@ -680,6 +686,7 @@ namespace KUNAI
         {
             this->callee = callee;
             this->args = args;
+            this->ret_val = nullptr;
         }
 
         /**
@@ -719,7 +726,33 @@ namespace KUNAI
 
             str_stream << "[Callee: " << callee->to_string() << "]";
 
+            for (auto arg : args)
+                str_stream << "[Param: " << arg->to_string() << "]";
+            
+            if (ret_val)
+                str_stream << "[Return: " << ret_val->to_string() << "]";
+
             return str_stream.str();
+        }
+
+        /**
+         * @brief Set the ret_val object
+         * 
+         * @param ret_val 
+         */
+        void IRCall::set_ret_val(std::shared_ptr<IRExpr> ret_val)
+        {
+            this->ret_val = ret_val;
+        }
+
+        /**
+         * @brief Get the ret_val object
+         * 
+         * @return std::shared_ptr<IRExpr> 
+         */
+        std::shared_ptr<IRExpr> IRCall::get_ret_val()
+        {
+            return ret_val;
         }
 
         /**

@@ -195,5 +195,22 @@ namespace KUNAI
             
             return true;
         }
+
+        /**
+         * @brief Check if given statement is a call instruction.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_call(std::shared_ptr<IRStmnt> instr)
+        {
+            auto call = std::dynamic_pointer_cast<IRCall>(instr);
+
+            if (call == nullptr)
+                return false;
+
+            return true;
+        }
     }
 }

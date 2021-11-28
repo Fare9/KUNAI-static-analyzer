@@ -67,7 +67,7 @@ namespace KUNAI
         bool is_unconditional_jump(std::shared_ptr<IRStmnt> instr);
         bool is_conditional_jump(std::shared_ptr<IRStmnt> instr);
         bool is_ret(std::shared_ptr<IRStmnt> instr);
-
+        bool is_call(std::shared_ptr<IRStmnt> instr);
 
         class IRBlock
         {
@@ -373,6 +373,10 @@ namespace KUNAI
             std::shared_ptr<IRExpr> get_callee();
             std::vector<std::shared_ptr<IRExpr>> get_args();
             std::string to_string();
+
+            void set_ret_val(std::shared_ptr<IRExpr> ret_val);
+            std::shared_ptr<IRExpr> get_ret_val();
+
             bool equals(std::shared_ptr<IRCall> ircall);
             friend bool operator==(IRCall&, IRCall&);
         private:
@@ -380,6 +384,8 @@ namespace KUNAI
             std::shared_ptr<IRExpr> callee;
             //! Vector with possible arguments
             std::vector<std::shared_ptr<IRExpr>> args;
+            //! Return value (if it's for example a register)
+            std::shared_ptr<IRExpr> ret_val;
         };
 
         class IRLoad : public IRExpr
