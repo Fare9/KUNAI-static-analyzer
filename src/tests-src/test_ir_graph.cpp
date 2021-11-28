@@ -6,11 +6,15 @@
 
 int main(int argc, char **argv)
 {
-    if (argc != 2)
+    if (argc != 5)
     {
-        std::cout << "USAGE: " << argv[0] << " <dex_file>" << std::endl;
+        std::cout << "USAGE: " << argv[0] << " <dex_file> <class_name> <method_name> <prototype>" << std::endl;
         return 1;
     }
+
+    std::string class_name = argv[2];
+    std::string method_name = argv[3];
+    std::string prototype = argv[4];
 
     std::ifstream dex_file;
 
@@ -34,7 +38,7 @@ int main(int argc, char **argv)
 
     auto dex_analysis = dex->get_dex_analysis();
 
-    auto main_method = dex_analysis->get_method_analysis_by_name("LMain;", "main", "([Ljava/lang/String;)V");
+    auto main_method = dex_analysis->get_method_analysis_by_name(class_name, method_name, prototype);
 
     if (main_method == nullptr)
     {
@@ -54,7 +58,7 @@ int main(int argc, char **argv)
 
     auto nodes = graph->get_nodes();
 
-    std::cout << "\n\nPrinting nodes from 'LMain;->main([Ljava/lang/String;)V' in MjolnIR\n";
+    std::cout << "\n\nPrinting nodes from " << class_name + "->" + method_name + prototype << "in MjolnIR\n";
 
     for (auto node : nodes)
     {
@@ -64,7 +68,7 @@ int main(int argc, char **argv)
 
     std::cout << "\nDumping .dot file into directory\n";
 
-    graph->generate_dot_file("main");
+    graph->generate_dot_file(class_name + "_" + method_name);
 
     return 0;
 }
