@@ -24,7 +24,7 @@ namespace KUNAI
         {
             auto bbs = method_analysis->get_basic_blocks()->get_basic_blocks();
             size_t n_bbs = bbs.size();
-            // graph returnedd by 
+            // graph returnedd by
             std::shared_ptr<MJOLNIR::IRGraph> method_graph = std::make_shared<MJOLNIR::IRGraph>();
 
             // first of all lift all the blocks
@@ -72,10 +72,21 @@ namespace KUNAI
         {
             auto instructions = basic_block->get_instructions();
             auto next = basic_block->get_next();
-            
+
             for (auto instruction : instructions)
             {
-                this->lift_android_instruction(instruction, bb);
+                if (androidinstructions.move_result_instruction.find(static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP())) != androidinstructions.move_result_instruction.end())
+                {
+                    auto last_instr = bb->get_statements().back();
+
+                    if (MJOLNIR::is_call(last_instr))
+                    {
+                        auto ir_call = std::dynamic_pointer_cast<MJOLNIR::IRCall>(last_instr);
+                        this->lift_move_result_instruction(instruction, ir_call);
+                    }
+                }
+                else
+                    this->lift_android_instruction(instruction, bb);
             }
 
             bb->set_start_idx(basic_block->get_start());
@@ -108,6 +119,8 @@ namespace KUNAI
                 this->lift_conditional_jump_instruction(instruction, bb);
             else if (androidinstructions.jmp_instruction.find(op_code) != androidinstructions.jmp_instruction.end())
                 this->lift_unconditional_jump_instruction(instruction, bb);
+            else if (androidinstructions.call_instructions.find(op_code) != androidinstructions.call_instructions.end())
+                this->lift_call_instruction(instruction, bb);
 
             current_idx += instruction->get_length();
 
@@ -916,7 +929,7 @@ namespace KUNAI
                 auto reg2 = make_android_register(instr->get_second_check_reg());
                 MJOLNIR::IRBComp::comp_t comparison;
 
-                uint64_t target = current_idx + (instr->get_ref() * 2);
+                uint64_t target = current_idx + (instr->get_ref() * 2) + instruction->get_length();
 
                 switch (op_code)
                 {
@@ -953,7 +966,7 @@ namespace KUNAI
                 auto reg = make_android_register(instr->get_check_reg());
                 MJOLNIR::IRZComp::zero_comp_t comparison;
 
-                uint64_t target = current_idx + (instr->get_ref() * 2);
+                uint64_t target = current_idx + (instr->get_ref() * 2)  + instruction->get_length();
 
                 switch (op_code)
                 {
@@ -1000,7 +1013,7 @@ namespace KUNAI
             {
                 auto jmp = std::dynamic_pointer_cast<DEX::Instruction10t>(instruction);
 
-                auto addr = current_idx + (jmp->get_offset() * 2);
+                auto addr = current_idx + (jmp->get_offset() * 2) + instruction->get_length();
 
                 ujmp = std::make_shared<MJOLNIR::IRUJmp>(addr, nullptr);
             }
@@ -1008,7 +1021,7 @@ namespace KUNAI
             {
                 auto jmp = std::dynamic_pointer_cast<DEX::Instruction20t>(instruction);
 
-                auto addr = current_idx + (jmp->get_offset() * 2);
+                auto addr = current_idx + (jmp->get_offset() * 2) + instruction->get_length();
 
                 ujmp = std::make_shared<MJOLNIR::IRUJmp>(addr, nullptr);
             }
@@ -1016,13 +1029,50 @@ namespace KUNAI
             {
                 auto jmp = std::dynamic_pointer_cast<DEX::Instruction30t>(instruction);
 
-                auto addr = current_idx + (jmp->get_offset() * 2);
+                auto addr = current_idx + (jmp->get_offset() * 2) + instruction->get_length();
 
                 ujmp = std::make_shared<MJOLNIR::IRUJmp>(addr, nullptr);
             }
 
             if (ujmp != nullptr)
-                bb->append_statement_to_block(ujmp);            
+                bb->append_statement_to_block(ujmp);
+        }
+
+        /**
+         * @brief Generate the IRCall instruction which represent any kind of call function/method instruction.
+         * 
+         * @param instruction 
+         * @param bb 
+         */
+        void LifterAndroid::lift_call_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        {
+            auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
+            std::shared_ptr<MJOLNIR::IRCall> call = nullptr;
+            std::shared_ptr<MJOLNIR::IRExpr> callee = nullptr;
+
+            if (androidinstructions.call_instruction35c.find(op_code) != androidinstructions.call_instruction35c.end())
+            {
+                auto call_inst = std::dynamic_pointer_cast<DEX::Instruction35c>(instruction);
+                std::vector<std::shared_ptr<MJOLNIR::IRExpr>> parameters;
+
+                size_t p_size = call_inst->get_array_size();
+
+                for (size_t i = 0; i < p_size; i++)
+                    parameters.push_back(make_android_register(call_inst->get_operand_register(i)));
+
+                // as it is a call to a method, we can safely retrieve the operand as method
+                auto method_called = call_inst->get_operands_kind_method();
+
+                std::string method_name = *method_called->get_method_name();
+                std::string class_name = reinterpret_cast<DEX::Class *>(method_called->get_method_class())->get_name();
+                std::string proto = method_called->get_method_prototype()->get_proto_str();
+
+                callee = std::make_shared<MJOLNIR::IRCallee>(0, method_name, class_name, p_size, proto, class_name + "->" + method_name + proto, ADDR_S);
+                call = std::make_shared<MJOLNIR::IRCall>(callee, parameters, nullptr, nullptr);
+            }
+
+            if (call)
+                bb->append_statement_to_block(call);
         }
 
         /**
@@ -1078,7 +1128,25 @@ namespace KUNAI
                 }
             }
         }
-    
+
+        /**
+         * @brief Set for a call instruction its return register.
+         *        this will be just for those cases where the current
+         *        instruction is some kind of move_result and then
+         *        the previos instruction is a call.
+         * 
+         * @param instruction 
+         * @param call 
+         */
+        void LifterAndroid::lift_move_result_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRCall> call)
+        {
+            auto move_result = std::dynamic_pointer_cast<DEX::Instruction11x>(instruction);
+
+            call->set_ret_val(make_android_register(move_result->get_destination()));
+
+            return;
+        }
+
         /**
          * @brief Analyze the basic blocks of the graph in order to create the
          *        fallthrough edges between blocks which are from conditional
