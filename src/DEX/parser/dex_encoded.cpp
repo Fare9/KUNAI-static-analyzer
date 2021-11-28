@@ -238,7 +238,6 @@ namespace KUNAI
                 }
             }
 
-            input_file.seekg(current_offset);
             return true;
         }
 
