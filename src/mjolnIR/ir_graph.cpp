@@ -695,7 +695,7 @@ namespace KUNAI
             stream.open(name + std::string(".dot")); // open dot file and write on it
             //std::stringstream stream;
 
-            stream << "digraph " << name << "{\n";
+            stream << "digraph \"" << name << "\"{\n";
             stream << "style=\"dashed\";\n";
             stream << "color=\"black\";\n";
             stream << "label=\"" << name << "\";\n";
