@@ -30,9 +30,11 @@
 *.exe
 *.out
 *.app
+*.dex
+*.class
 
 # files from test
-tests/
+apks/
 
 # objects and bins
 objs/
@@ -44,3 +46,8 @@ bin/
 # doc shit
 doc/html/
 doc/latex/
+
+# analysis stuff
+*.rep
+*.jobf
+*.gpr
