@@ -10,9 +10,9 @@
 | 0x07 | move-object vx,vy | IRAssign |
 | 0x08 | move-object/from16 vx,vy | IRAssign |
 | 0x09 | move-object/16 | IRAssign |
-| 0x0A | move-result vx |   |
-| 0x0B | move-result-wide vx |   |
-| 0x0C | move-result-object vx |   |
+| 0x0A | move-result vx | Assigned as result to IRCall |
+| 0x0B | move-result-wide vx | Assigned as result to IRCall |
+| 0x0C | move-result-object vx | Assigned as result to IRCall |
 | 0x0D | move-exception vx |   |
 | 0x0E | return-void | IRRet |
 | 0x0F | return vx | IRRet |
@@ -110,11 +110,11 @@
 | 0x6B | sput-byte vx,field\_id  | IRAssign |
 | 0x6C | sput-char vx,field\_id  | IRAssign |
 | 0x6D | sput-short vx,field\_id  | IRAssign |
-| 0x6E | invoke-virtual {parameters },methodtocall |   |
-| 0x6F | invoke-super {parameter},methodtocall |   |
-| 0x70 | invoke-direct {parameters },methodtocall |   |
-| 0x71 | invoke-static {parameters},methodtocall |   |
-| 0x72 | invoke-interface {parameters},methodtocall |   |
+| 0x6E | invoke-virtual {parameters },methodtocall | IRCall + IRCallee |
+| 0x6F | invoke-super {parameter},methodtocall | IRCall + IRCallee |
+| 0x70 | invoke-direct {parameters },methodtocall | IRCall + IRCallee |
+| 0x71 | invoke-static {parameters},methodtocall | IRCall + IRCallee |
+| 0x72 | invoke-interface {parameters},methodtocall | IRCall + IRCallee |
 | 0x73 | unused 73 |   |
 | 0x74 | invoke-virtual/range {vx..vy},methodtocall |   |
 | 0x75 | invoke-super/range invoke-special |   |
