@@ -41,6 +41,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <iomanip>
 #include "exceptions.hpp"
 #include "utils.hpp"
