@@ -1,5 +1,8 @@
 CPP=g++
 AR=ar
+# set your paths
+JAVAC=javac
+DX=dx
 # CFLAGS debugging
 CFLAGS=-std=c++17 -c -g -fpic
 # CFLAGS execution
@@ -39,6 +42,7 @@ IR_LIFTERS_OBJ_FILES = ${OBJ}lifter_android.o
 OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${IR_OBJ_FILES} ${IR_LIFTERS_OBJ_FILES}
 
 .PHONY: clean
+.PHONY: tests
 
 all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
 		${BIN_TEST_FOLDER}test_dex_parser ${BIN_TEST_FOLDER}test_dex_disassembler ${BIN_TEST_FOLDER}test_ir ${BIN_TEST_FOLDER}test_dex_lifter \
@@ -161,7 +165,22 @@ ${OBJ}%.o: ${CODE_FOLDER}${IR_MODULE}%.cpp
 ${OBJ}%.o: ${CODE_FOLDER}${IR_LIFTERS}%.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${IR_MODULES} ${FILE_MODULES} ${UTILITIES} -o $@ $< ${CFLAGS}
-	
+
+# Compile tests
+tests:
+	current_dir=$(shell pwd)
+
+	@echo "Compiling test-assignment-arith-logic"
+	cd ./tests/test-assignment-arith-logic/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
+
+	@echo "Compiling test-const_class"
+	cd ./tests/test-const_class/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
+
+	@echo "Compiling test-try-catch"
+	cd ./tests/test-try-catch/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
+
+
+
 
 ########################################################
 clean:
