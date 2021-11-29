@@ -28,6 +28,7 @@
 #define DEX_STRINGS_HPP
 
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <iomanip>
 #include <map>
