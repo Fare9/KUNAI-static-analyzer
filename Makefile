@@ -54,15 +54,15 @@ dirs:
 	mkdir -p ${BIN_TEST_FOLDER}
 
 ${BIN_FOLDER}${BIN_NAME}: ${OBJ}main.o ${OBJ_FILES}
-	@echo "Linking $^ -> $@"
+	@echo "Linking $< -> $@"
 	${CPP} -o $@ $^
 	
 ${BIN_FOLDER}${STATIC_LIB_NAME}: ${OBJ_FILES}
-	@echo "Linking static library $^ -> $@"
+	@echo "Linking static library $@"
 	$(AR) -crv $@ $^
 	
 ${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
-	@echo "Linking dynamic library $^ -> $@"
+	@echo "Linking dynamic library $@"
 	$(CPP) -fpic -shared -Wformat=0 -o $@ $^
 	
 ####################################################################
@@ -70,23 +70,23 @@ ${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
 ####################################################################
 
 ${BIN_TEST_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
-	@echo "Linking $^ -> $@"
+	@echo "Linking $< -> $@"
 	${CPP} -o $@ $^
 	
 ${BIN_TEST_FOLDER}test_dex_disassembler: ${OBJ}test_dex_disassembler.o ${OBJ_FILES}
-	@echo "Linking $^ -> $@"
+	@echo "Linking $< -> $@"
 	${CPP} -o $@ $^
 	
 ${BIN_TEST_FOLDER}test_ir: ${OBJ}test_ir.o ${OBJ_FILES}
-	@echo "Linking $^ -> $@"
+	@echo "Linking $< -> $@"
 	${CPP} -o $@ $^
 	
 ${BIN_TEST_FOLDER}test_dex_lifter: ${OBJ}test_dex_lifter.o ${OBJ_FILES}
-	@echo "Linking $^ -> $@"
+	@echo "Linking $< -> $@"
 	${CPP} -o $@ $^
 
 ${BIN_TEST_FOLDER}test_ir_graph: ${OBJ}test_ir_graph.o ${OBJ_FILES}
-	@echo "Linking $^ -> $@"
+	@echo "Linking $< -> $@"
 	${CPP} -o $@ $^
 
 ####################################################################
@@ -179,7 +179,8 @@ tests:
 	@echo "Compiling test-try-catch"
 	cd ./tests/test-try-catch/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
 
-
+	@echo "Compiling test-graph"
+	cd ./tests/test-graph/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
 
 
 ########################################################
