@@ -1095,6 +1095,9 @@ namespace KUNAI
 
                 auto current_bb = lifted_blocks[bb];
 
+                if (current_bb->get_number_of_statements() == 0) // security check
+                    continue;
+
                 // now set some interesting stuff for instructions.
                 // now set some interesting stuff for instructions.
                 auto last_instr = current_bb->get_statements().back();
@@ -1206,6 +1209,10 @@ namespace KUNAI
 
             for (auto node : nodes)
             {
+
+                if (node->get_number_of_statements() == 0) // security check
+                    continue;
+
                 auto last_inst = node->get_statements().back();
 
                 if (MJOLNIR::is_conditional_jump(last_inst) || MJOLNIR::is_unconditional_jump(last_inst) || MJOLNIR::is_ret(last_inst))
