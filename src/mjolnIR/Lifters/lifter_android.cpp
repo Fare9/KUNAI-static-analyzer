@@ -127,6 +127,8 @@ namespace KUNAI
                 this->lift_unconditional_jump_instruction(instruction, bb);
             else if (androidinstructions.call_instructions.find(op_code) != androidinstructions.call_instructions.end())
                 this->lift_call_instruction(instruction, bb);
+            else if (androidinstructions.load_instruction.find(op_code) != androidinstructions.load_instruction.end())
+                this->lift_load_instruction(instruction, bb);
 
             return true;
         }
@@ -543,13 +545,6 @@ namespace KUNAI
                 bb->append_statement_to_block(cast_instr);
         }
 
-        void LifterAndroid::lift_load_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
-        {
-            std::shared_ptr<MJOLNIR::IRExpr> load_instr;
-            std::shared_ptr<MJOLNIR::IRUnaryOp> cast_instr;
-            auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
-        }
-
         /**
          * @brief Generate a IRBinOp instruction or IRUnaryOp instruction
          *        which represent any arithmetic logic instruction.
@@ -933,7 +928,7 @@ namespace KUNAI
                 auto reg2 = make_android_register(instr->get_second_check_reg());
                 MJOLNIR::IRBComp::comp_t comparison;
 
-                uint64_t target = current_idx + (instr->get_ref() * 2) + instruction->get_length();
+                uint64_t target = current_idx + (instr->get_ref() * 2);
 
                 switch (op_code)
                 {
@@ -970,7 +965,7 @@ namespace KUNAI
                 auto reg = make_android_register(instr->get_check_reg());
                 MJOLNIR::IRZComp::zero_comp_t comparison;
 
-                uint64_t target = current_idx + (instr->get_ref() * 2)  + instruction->get_length();
+                uint64_t target = current_idx + (instr->get_ref() * 2);
 
                 switch (op_code)
                 {
@@ -1017,7 +1012,7 @@ namespace KUNAI
             {
                 auto jmp = std::dynamic_pointer_cast<DEX::Instruction10t>(instruction);
 
-                auto addr = current_idx + (jmp->get_offset() * 2) + instruction->get_length();
+                auto addr = current_idx + (jmp->get_offset() * 2);
 
                 ujmp = std::make_shared<MJOLNIR::IRUJmp>(addr, nullptr);
             }
@@ -1025,7 +1020,7 @@ namespace KUNAI
             {
                 auto jmp = std::dynamic_pointer_cast<DEX::Instruction20t>(instruction);
 
-                auto addr = current_idx + (jmp->get_offset() * 2) + instruction->get_length();
+                auto addr = current_idx + (jmp->get_offset() * 2);
 
                 ujmp = std::make_shared<MJOLNIR::IRUJmp>(addr, nullptr);
             }
@@ -1033,7 +1028,7 @@ namespace KUNAI
             {
                 auto jmp = std::dynamic_pointer_cast<DEX::Instruction30t>(instruction);
 
-                auto addr = current_idx + (jmp->get_offset() * 2) + instruction->get_length();
+                auto addr = current_idx + (jmp->get_offset() * 2);
 
                 ujmp = std::make_shared<MJOLNIR::IRUJmp>(addr, nullptr);
             }
@@ -1077,6 +1072,63 @@ namespace KUNAI
 
             if (call)
                 bb->append_statement_to_block(call);
+        }
+
+        /**
+         * @brief Generate a IRLoad instruction, this will commonly go with an IRCast.
+         * 
+         * @param instruction 
+         * @param bb 
+         */
+        void LifterAndroid::lift_load_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        {
+            std::shared_ptr<MJOLNIR::IRExpr> load_instr;
+            std::shared_ptr<MJOLNIR::IRUnaryOp> cast_instr;
+            auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
+            MJOLNIR::IRUnaryOp::cast_type_t cast_type = MJOLNIR::IRUnaryOp::NONE_CAST;
+            size_t size = DWORD_S;
+
+            switch (op_code)
+            {
+            case DEX::DVMTypes::Opcode::OP_AGET_WIDE:
+                size = QWORD_S;
+                break;
+            case DEX::DVMTypes::Opcode::OP_AGET_OBJECT:
+                cast_type = MJOLNIR::IRUnaryOp::TO_ADDR;
+                size = ADDR_S;
+                break;
+            case DEX::DVMTypes::Opcode::OP_AGET_BOOLEAN:
+                cast_type = MJOLNIR::IRUnaryOp::TO_BOOLEAN;
+                size = DWORD_S;
+                break;
+            case DEX::DVMTypes::Opcode::OP_AGET_BYTE:
+                cast_type = MJOLNIR::IRUnaryOp::TO_BYTE;
+                size = BYTE_S;
+                break;
+            case DEX::DVMTypes::Opcode::OP_AGET_CHAR:
+                cast_type = MJOLNIR::IRUnaryOp::TO_CHAR;
+                size = WORD_S;
+                break;
+            case DEX::DVMTypes::Opcode::OP_AGET_SHORT:
+                cast_type = MJOLNIR::IRUnaryOp::TO_SHORT;
+                size = WORD_S;
+                break;
+            }
+            
+            auto inst = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
+
+            auto dst = make_android_register(inst->get_destination());
+            auto source = make_android_register(inst->get_first_source());
+            auto index = make_android_register(inst->get_second_source());
+
+            load_instr = std::make_shared<MJOLNIR::IRLoad>(dst, source, index, size, nullptr, nullptr);
+            bb->append_statement_to_block(load_instr);
+
+            if (cast_type != MJOLNIR::IRUnaryOp::NONE_CAST)
+            {
+                cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dst, dst, nullptr, nullptr);
+                bb->append_statement_to_block(cast_instr);
+            }
         }
 
         /**

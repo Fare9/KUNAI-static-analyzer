@@ -56,7 +56,6 @@ namespace KUNAI
             std::shared_ptr<MJOLNIR::IRField> make_field(DEX::FieldID* field);
 
             void lift_assignment_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
-            void lift_load_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_arithmetic_logic_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_ret_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_comparison_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
@@ -64,6 +63,7 @@ namespace KUNAI
             void lift_unconditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_call_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_move_result_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRCall> call);
+            void lift_load_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             // some utilities
             void jump_target_analysis(std::vector<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>> bbs);
             void fallthrough_target_analysis(std::shared_ptr<MJOLNIR::IRGraph> ir_graph);
