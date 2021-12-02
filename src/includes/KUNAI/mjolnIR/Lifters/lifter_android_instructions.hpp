@@ -75,6 +75,7 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_MOVE_16,
                 DEX::DVMTypes::Opcode::OP_MOVE_WIDE_16,
                 DEX::DVMTypes::Opcode::OP_MOVE_OBJECT_16};
+            // Assignment instructions of type Instruction11n
             std::set<DEX::DVMTypes::Opcode> assigment_instruction11n = {
                 DEX::DVMTypes::Opcode::OP_CONST_4};
             // Assignment instructions of type Instruction21s
@@ -103,6 +104,7 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_SGET_BYTE,
                 DEX::DVMTypes::Opcode::OP_SGET_CHAR,
                 DEX::DVMTypes::Opcode::OP_SGET_SHORT};
+            // Assignment PUT instruction
             std::set<DEX::DVMTypes::Opcode> assigment_instruction21_put = {
                 DEX::DVMTypes::Opcode::OP_SPUT,
                 DEX::DVMTypes::Opcode::OP_SPUT_WIDE,
@@ -116,6 +118,9 @@ namespace KUNAI
             std::set<DEX::DVMTypes::Opcode> assigment_instruction31c = {
                 DEX::DVMTypes::Opcode::OP_CONST_STRING_JUMBO};
 
+            /**
+             * Arithmetic Logic instructions
+             */
             std::set<DEX::DVMTypes::Opcode> arithmetic_logic_instruction = {
                 DEX::DVMTypes::Opcode::OP_ADD_INT,
                 DEX::DVMTypes::Opcode::OP_ADD_LONG,
@@ -222,10 +227,6 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_INT_TO_CHAR,
                 DEX::DVMTypes::Opcode::OP_INT_TO_SHORT,
             };
-
-            /**
-             * Arithmetic Logic Instructions
-             */
 
             // ADD Operations
             std::set<DEX::DVMTypes::Opcode> add_instruction = {
@@ -580,11 +581,24 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_INVOKE_INTERFACE,
             };
 
-            // return instructions
+            // move-result instructions
             std::set<DEX::DVMTypes::Opcode> move_result_instruction = {
                 DEX::DVMTypes::Opcode::OP_MOVE_RESULT,
                 DEX::DVMTypes::Opcode::OP_MOVE_RESULT_WIDE,
                 DEX::DVMTypes::Opcode::OP_MOVE_RESULT_OBJECT
+            };
+        
+            /**
+             * Load Instructions
+             */
+            std::set<DEX::DVMTypes::Opcode> load_instruction = {
+                DEX::DVMTypes::Opcode::OP_AGET,
+                DEX::DVMTypes::Opcode::OP_AGET_WIDE,
+                DEX::DVMTypes::Opcode::OP_AGET_OBJECT,
+                DEX::DVMTypes::Opcode::OP_AGET_BOOLEAN,
+                DEX::DVMTypes::Opcode::OP_AGET_BYTE,
+                DEX::DVMTypes::Opcode::OP_AGET_CHAR,
+                DEX::DVMTypes::Opcode::OP_AGET_SHORT,
             };
         };
     }
