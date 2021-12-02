@@ -600,6 +600,19 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_AGET_CHAR,
                 DEX::DVMTypes::Opcode::OP_AGET_SHORT,
             };
+
+            /**
+             * Store Instructions
+             */
+            std::set<DEX::DVMTypes::Opcode> store_instructions = {
+                DEX::DVMTypes::Opcode::OP_APUT,
+                DEX::DVMTypes::Opcode::OP_APUT_WIDE,
+                DEX::DVMTypes::Opcode::OP_APUT_OBJECT,
+                DEX::DVMTypes::Opcode::OP_APUT_BOOLEAN,
+                DEX::DVMTypes::Opcode::OP_APUT_BYTE,
+                DEX::DVMTypes::Opcode::OP_APUT_CHAR,
+                DEX::DVMTypes::Opcode::OP_APUT_SHORT,
+            };
         };
     }
 }

@@ -129,6 +129,8 @@ namespace KUNAI
                 this->lift_call_instruction(instruction, bb);
             else if (androidinstructions.load_instruction.find(op_code) != androidinstructions.load_instruction.end())
                 this->lift_load_instruction(instruction, bb);
+            else if (androidinstructions.store_instructions.find(op_code) != androidinstructions.store_instructions.end())
+                this->lift_store_instruction(instruction, bb);
 
             return true;
         }
@@ -1129,6 +1131,49 @@ namespace KUNAI
                 cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dst, dst, nullptr, nullptr);
                 bb->append_statement_to_block(cast_instr);
             }
+        }
+
+        /**
+         * @brief Generate a IRStore instruction from different aput* instructions.
+         * 
+         * @param instruction 
+         * @param bb 
+         */
+        void LifterAndroid::lift_store_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        {
+            std::shared_ptr<MJOLNIR::IRExpr> store_instr;
+            auto inst = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
+            auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
+            size_t size = DWORD_S;
+
+            switch (op_code)
+            {
+            case DEX::DVMTypes::Opcode::OP_APUT_WIDE:
+                size = QWORD_S;
+                break;
+            case DEX::DVMTypes::Opcode::OP_APUT_OBJECT:
+                size = ADDR_S;
+                break;
+            case DEX::DVMTypes::Opcode::OP_APUT_BOOLEAN:
+                size = DWORD_S;
+                break;
+            case DEX::DVMTypes::Opcode::OP_APUT_BYTE:
+                size = BYTE_S;
+                break;
+            case DEX::DVMTypes::Opcode::OP_APUT_CHAR:
+                size = WORD_S;
+                break;
+            case DEX::DVMTypes::Opcode::OP_APUT_SHORT:
+                size = WORD_S;
+                break;
+            }
+
+            auto dst = make_android_register(inst->get_destination());
+            auto source = make_android_register(inst->get_first_source());
+            auto index = make_android_register(inst->get_second_source());
+
+            store_instr = std::make_shared<MJOLNIR::IRStore>(dst, source, index, size, nullptr, nullptr);
+            bb->append_statement_to_block(store_instr);
         }
 
         /**
