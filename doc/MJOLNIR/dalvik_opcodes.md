@@ -1,6 +1,6 @@
 | Opcode | Opcode name | MjolnIR |
 |:------:|:------------|:--------|
-| 0x00 | nop |   |
+| 0x00 | nop | IRNop |
 | 0x01 | move vx,vy | IRAssign |
 | 0x02 | move/from16 | IRAssign |
 | 0x03 | move/16 | IRAssign |

@@ -131,6 +131,11 @@ namespace KUNAI
                 this->lift_load_instruction(instruction, bb);
             else if (androidinstructions.store_instructions.find(op_code) != androidinstructions.store_instructions.end())
                 this->lift_store_instruction(instruction, bb);
+            else if (op_code == DEX::DVMTypes::OP_NOP)
+                this->lift_nop_instructions(bb);
+            else
+                // for the moment create a nop instruction
+                this->lift_nop_instructions(bb);
 
             return true;
         }
@@ -1174,6 +1179,18 @@ namespace KUNAI
 
             store_instr = std::make_shared<MJOLNIR::IRStore>(dst, source, index, size, nullptr, nullptr);
             bb->append_statement_to_block(store_instr);
+        }
+
+        /**
+         * @brief Lift a NOP instruction.
+         * 
+         * @param bb 
+         */
+        void LifterAndroid::lift_nop_instructions(std::shared_ptr<MJOLNIR::IRBlock> bb)
+        {
+            std::shared_ptr<MJOLNIR::IRStmnt> nop = std::make_shared<MJOLNIR::IRNop>();
+
+            bb->append_statement_to_block(nop);
         }
 
         /**
