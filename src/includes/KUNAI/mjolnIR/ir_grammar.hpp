@@ -434,6 +434,12 @@ namespace KUNAI
                     std::uint32_t size,
                     std::shared_ptr<IRExpr> left,
                     std::shared_ptr<IRExpr> right);
+            IRStore(std::shared_ptr<IRExpr> destination,
+                    std::shared_ptr<IRExpr> source,
+                    std::shared_ptr<IRExpr> index,
+                    std::uint32_t size,
+                    std::shared_ptr<IRExpr> left,
+                    std::shared_ptr<IRExpr> right);
             ~IRStore();
 
             std::shared_ptr<IRExpr> get_destination();
@@ -449,6 +455,8 @@ namespace KUNAI
             std::shared_ptr<IRExpr> destination;
             //! Expression with source of value to be stored.
             std::shared_ptr<IRExpr> source;
+            //! Index if this is referenced by for example a register.
+            std::shared_ptr<IRExpr> index;
             //! Size of stored value
             std::uint32_t size;
         };

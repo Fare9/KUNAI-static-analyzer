@@ -924,8 +924,34 @@ namespace KUNAI
         {
             this->destination = destination;
             this->source = source;
+            this->index = nullptr;
             this->size = size;
         }
+
+        /**
+         * @brief Constructor of IRStore class, this represent an store to memory instruction.
+         * @param destination: Expression where value is written to.
+         * @param source: register with the value to be stored.
+         * @param index: index where value is stored.
+         * @param size: size of the stored value.
+         * @param left: left part of the store (used for AST).
+         * @param right: right part of the store (used for AST).
+         * @return void
+         */
+        IRStore::IRStore(std::shared_ptr<IRExpr> destination,
+                    std::shared_ptr<IRExpr> source,
+                    std::shared_ptr<IRExpr> index,
+                    std::uint32_t size,
+                    std::shared_ptr<IRExpr> left,
+                    std::shared_ptr<IRExpr> right)
+                : IRExpr(STORE_EXPR_T, left, right)
+        {
+            this->destination = destination;
+            this->source = source;
+            this->index = index;
+            this->size = size;
+        }
+
 
         /**
          * @brief Destructor of IRStore class, nothing to be done.
@@ -971,7 +997,12 @@ namespace KUNAI
 
             str_stream << "IRStore ";
 
+            str_stream << "[Size: " << size/8 << "]";
             str_stream << "[Dest: Mem(" << destination->to_string() << ")]";
+            
+            if (index != nullptr)
+                str_stream << "[Index: " << index->to_string() << "]";
+
             str_stream << "[Src: " << source->to_string() << "]";
 
             return str_stream.str();
