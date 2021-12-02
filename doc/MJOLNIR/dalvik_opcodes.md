@@ -68,13 +68,13 @@
 | 0x41 | unused 41 |   |
 | 0x42 | unused 42 |   |
 | 0x43 | unused 43 |   |
-| 0x44 | aget vx,vy,vz |   |
-| 0x45 | aget-wide vx,vy,vz |   |
-| 0x46 | aget-object vx,vy,vz |   |
-| 0x47 | aget-boolean vx,vy,vz |   |
-| 0x48 | aget-byte vx,vy,vz |   |
-| 0x49 | aget-char vx, vy,vz |   |
-| 0x4A | aget-short vx,vy,vz |   |
+| 0x44 | aget vx,vy,vz | IRLoad  |
+| 0x45 | aget-wide vx,vy,vz | IRLoad  |
+| 0x46 | aget-object vx,vy,vz | IRLoad + IRUnaryOp (CAST\_OP) |
+| 0x47 | aget-boolean vx,vy,vz | IRLoad + IRUnaryOp (CAST\_OP) |
+| 0x48 | aget-byte vx,vy,vz | IRLoad + IRUnaryOp (CAST\_OP)  |
+| 0x49 | aget-char vx, vy,vz | IRLoad + IRUnaryOp (CAST\_OP) |
+| 0x4A | aget-short vx,vy,vz | IRLoad + IRUnaryOp (CAST\_OP) |
 | 0x4B | aput vx,vy,vz |   |
 | 0x4C | aput-wide vx,vy,vz |   |
 | 0x4D | aput-object vx,vy,vz |   |
