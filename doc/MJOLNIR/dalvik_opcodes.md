@@ -75,13 +75,13 @@
 | 0x48 | aget-byte vx,vy,vz | IRLoad + IRUnaryOp (CAST\_OP)  |
 | 0x49 | aget-char vx, vy,vz | IRLoad + IRUnaryOp (CAST\_OP) |
 | 0x4A | aget-short vx,vy,vz | IRLoad + IRUnaryOp (CAST\_OP) |
-| 0x4B | aput vx,vy,vz |   |
-| 0x4C | aput-wide vx,vy,vz |   |
-| 0x4D | aput-object vx,vy,vz |   |
-| 0x4E | aput-boolean vx,vy,vz |   |
-| 0x4F | aput-byte vx,vy,vz |   |
-| 0x50 | aput-char vx,vy,vz |   |
-| 0x51 | aput-short vx,vy,vz |   |
+| 0x4B | aput vx,vy,vz | IRStore |
+| 0x4C | aput-wide vx,vy,vz | IRStore |
+| 0x4D | aput-object vx,vy,vz | IRStore |
+| 0x4E | aput-boolean vx,vy,vz | IRStore |
+| 0x4F | aput-byte vx,vy,vz | IRStore |
+| 0x50 | aput-char vx,vy,vz | IRStore |
+| 0x51 | aput-short vx,vy,vz | IRStore |
 | 0x52 | iget vx, vy, field\_id |   |
 | 0x53 | iget-wide vx,vy,field\_id |   |
 | 0x54 | iget-object vx,vy,field\_id |   |
