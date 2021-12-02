@@ -53,6 +53,12 @@ namespace KUNAI
 
                 return ret->to_string();
             }
+            else if (stmnt_type == NOP_STMNT_T)
+            {
+                auto nop = reinterpret_cast<IRNop*>(this);
+
+                return nop->to_string();
+            }
             else if (stmnt_type == EXPR_STMNT_T)
             {
                 auto expr = reinterpret_cast<IRExpr*>(this);
@@ -282,6 +288,30 @@ namespace KUNAI
                 str_stream << "[Ret: " << ret_value->to_string() << "]";
 
             return str_stream.str();
+        }
+
+        /**
+         * IRNop Class
+         */
+        
+        /**
+         * @brief Construct a new IRNop::IRNop object
+         */
+        IRNop::IRNop() 
+        : IRStmnt(NOP_STMNT_T)
+        {
+        }
+
+        /**
+         * @brief Destroy the IRNop::IRNop object
+         */
+        IRNop::~IRNop()
+        {
+        }
+
+        std::string IRNop::to_string()
+        {
+            return "IRNop[]";
         }
     }
 }

@@ -30,6 +30,7 @@ namespace KUNAI
         class IRUJmp;
         class IRCJmp;
         class IRRet;
+        class IRNop;
         class IRExpr;
         class IRBinOp;
         class IRUnaryOp;
@@ -104,6 +105,7 @@ namespace KUNAI
                 UJMP_STMNT_T,
                 CJMP_STMNT_T,
                 RET_STMNT_T,
+                NOP_STMNT_T,
                 EXPR_STMNT_T,
                 NONE_STMNT_T = 99 // used to finish the chain of statements
             };
@@ -177,7 +179,16 @@ namespace KUNAI
             //! Returned value, commonly a NONE IRType, or an IRReg.
             std::shared_ptr<IRStmnt> ret_value;
         };
-    
+
+        class IRNop : public IRStmnt
+        {
+        public:
+            IRNop();
+            ~IRNop();
+
+            std::string to_string();
+        };
+
         class IRExpr : public IRStmnt
         {
         public:

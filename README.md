@@ -15,6 +15,7 @@ IRStmnt     -->     IRUJmp  |
                     IRCJmp  |
                     IRRet   |
                     IRBlock |
+                    IRNop   |
                     IRExpr 
 
 IRUJmp      -->     jmp addr
