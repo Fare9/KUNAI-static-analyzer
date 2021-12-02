@@ -870,6 +870,7 @@ namespace KUNAI
 
             str_stream << "IRLoad ";
 
+            str_stream << "[Size: " << size/8 << "]";
             str_stream << "[Dest: " << destination->to_string() << "]";
             str_stream << "[Src: Mem(" << source->to_string() << ")]";
 
