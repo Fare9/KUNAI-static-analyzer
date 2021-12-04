@@ -351,16 +351,17 @@ namespace KUNAI
 
             while (!todo.empty())
             {
-                auto node = todo.begin();
-                todo.erase(node);
+                auto node_it = todo.begin();
+                auto node = *node_it;
+                todo.erase(node_it);
 
-                if ((*node) == head)
+                if (node == head)
                     // do not use head for computing dominators
                     continue;
 
                 // computer intersection of all predecessors'dominators
                 Nodes new_dom = {};
-                for (auto pred : get_predecessors(*node))
+                for (auto pred : get_predecessors(node))
                 {
                     if (std::find(nodes.begin(), nodes.end(), pred) == nodes.end()) // pred is not in nodes
                         continue;
@@ -374,13 +375,13 @@ namespace KUNAI
                     new_dom = intersect_aux;
                 }
 
-                new_dom.push_back(*node);
+                new_dom.push_back(node);
 
-                if (new_dom == dominators[*node])
+                if (new_dom == dominators[node])
                     continue;
 
-                dominators[*node] = new_dom;
-                for (auto succ : get_successors(*node))
+                dominators[node] = new_dom;
+                for (auto succ : get_successors(node))
                     todo.push_back(succ);
             }
 
@@ -407,16 +408,17 @@ namespace KUNAI
 
             while (!todo.empty())
             {
-                auto node = todo.begin();
-                todo.erase(node);
+                auto node_it = todo.begin();
+                auto node = *node_it;
+                todo.erase(node_it);
 
-                if ((*node) == leaf)
+                if (node == leaf)
                     // do not use head for computing dominators
                     continue;
 
                 // computer intersection of all predecessors'dominators
                 Nodes new_dom = {};
-                for (auto succ : get_successors(*node))
+                for (auto succ : get_successors(node))
                 {
                     if (std::find(nodes.begin(), nodes.end(), succ) == nodes.end()) // pred is not in nodes
                         continue;
@@ -430,13 +432,13 @@ namespace KUNAI
                     new_dom = intersect_aux;
                 }
 
-                new_dom.push_back(*node);
+                new_dom.push_back(node);
 
-                if (new_dom == postdominators[*node])
+                if (new_dom == postdominators[node])
                     continue;
 
-                postdominators[*node] = new_dom;
-                for (auto pred : get_predecessors(*node))
+                postdominators[node] = new_dom;
+                for (auto pred : get_predecessors(node))
                     todo.push_back(pred);
             }
 
@@ -543,16 +545,17 @@ namespace KUNAI
             while (!todo.empty())
             {
                 // similar to python pop.
-                auto node = todo.begin();
-                todo.erase(node);
+                auto node_it = todo.begin();
+                auto node = *node_it;
+                todo.erase(node_it);
 
                 // node already in reachable
-                if (std::find(reachable.begin(), reachable.end(), *node) != reachable.end())
+                if (std::find(reachable.begin(), reachable.end(), node) != reachable.end())
                     continue;
 
-                reachable.push_back(*node);
+                reachable.push_back(node);
 
-                for (auto next_node : get_successors(*node))
+                for (auto next_node : get_successors(node))
                     todo.push_back(next_node);
             }
 
@@ -574,16 +577,17 @@ namespace KUNAI
             while (!todo.empty())
             {
                 // similar to python pop.
-                auto node = todo.begin();
-                todo.erase(node);
+                auto node_it = todo.begin();
+                auto node = *node_it;
+                todo.erase(node_it);
 
                 // node already in reachable
-                if (std::find(reachable.begin(), reachable.end(), *node) != reachable.end())
+                if (std::find(reachable.begin(), reachable.end(), node) != reachable.end())
                     continue;
 
-                reachable.push_back(*node);
+                reachable.push_back(node);
 
-                for (auto next_node : get_predecessors(*node))
+                for (auto next_node : get_predecessors(node))
                     todo.push_back(next_node);
             }
 
@@ -622,16 +626,17 @@ namespace KUNAI
             while (!todo.empty())
             {
                 // pop last element
-                auto node = todo.end();
-                node--;
-                todo.erase(node);
+                auto node_it = todo.end();
+                node_it--;
+                auto node = *node_it;
+                todo.erase(node_it);
 
-                if (std::find(done.begin(), done.end(), *node) != done.end())            
+                if (std::find(done.begin(), done.end(), node) != done.end())
                     continue;
 
-                done.push_back(*node);
+                done.push_back(node);
 
-                for (auto succ : get_successors(*node))
+                for (auto succ : get_successors(node))
                     todo.push_back(succ);
             }
 
@@ -653,22 +658,22 @@ namespace KUNAI
             while (!todo.empty())
             {
                 // pop first element
-                auto node = todo.begin();
-                todo.erase(node);
+                auto node_it = todo.begin();
+                auto node = *node_it;
+                todo.erase(node_it);
 
-                if (std::find(done.begin(), done.end(), *node) != done.end())
+                if (std::find(done.begin(), done.end(), node) != done.end())
                     continue;
 
-                done.push_back(*node);
+                done.push_back(node);
 
-                for (auto succ : get_successors(*node))
+                for (auto succ : get_successors(node))
                     todo.push_back(succ);
             }
 
             return done;
         }
 
-        
         void IRGraph::add_bbs(std::shared_ptr<IRBlock> r, Nodes ebb)
         {
             // insert given block
@@ -676,7 +681,7 @@ namespace KUNAI
 
             for (auto x : get_successors(r))
             {
-                if (get_number_of_predecessors(x) == 1 && 
+                if (get_number_of_predecessors(x) == 1 &&
                     std::find(ebb.begin(), ebb.end(), x) == ebb.end())
                     add_bbs(x, ebb);
             }
@@ -704,8 +709,8 @@ namespace KUNAI
             for (auto node : nodes)
             {
                 stream << "\"" << node->get_name() << "\""
-                        << " [shape=box, style=filled, fillcolor=lightgrey, label=\"";
-                
+                       << " [shape=box, style=filled, fillcolor=lightgrey, label=\"";
+
                 auto content = node->to_string();
 
                 while (content.find("\n") != content.npos)
@@ -721,7 +726,7 @@ namespace KUNAI
                 auto bb1 = std::get<0>(edge);
                 auto bb2 = std::get<1>(edge);
 
-                stream << "\"" <<  bb1->get_name() << "\" -> "
+                stream << "\"" << bb1->get_name() << "\" -> "
                        << "\"" << bb2->get_name() << "\" [style=\"solid,bold\",color=black,weight=10,constraint=true];\n";
             }
 
