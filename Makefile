@@ -46,7 +46,7 @@ OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${IR_OBJ_FILES} ${IR_LIFTERS_OBJ_FILES
 
 all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
 		${BIN_TEST_FOLDER}test_dex_parser ${BIN_TEST_FOLDER}test_dex_disassembler ${BIN_TEST_FOLDER}test_ir ${BIN_TEST_FOLDER}test_dex_lifter \
-		${BIN_TEST_FOLDER}test_ir_graph
+		${BIN_TEST_FOLDER}test_ir_graph ${BIN_TEST_FOLDER}test_dominators
 
 dirs:
 	mkdir -p ${OBJ}
@@ -89,6 +89,10 @@ ${BIN_TEST_FOLDER}test_ir_graph: ${OBJ}test_ir_graph.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CPP} -o $@ $^
 
+${BIN_TEST_FOLDER}test_dominators: ${OBJ}test_dominators.o ${OBJ_FILES}
+	@echo "Linking $< -> $@"
+	${CPP} -o $@ $^
+
 ####################################################################
 
 
@@ -122,6 +126,10 @@ ${OBJ}test_dex_lifter.o: ${CODE_TEST_FOLDER}test_dex_lifter.cpp
 	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
 ${OBJ}test_ir_graph.o: ${CODE_TEST_FOLDER}test_ir_graph.cpp
+	@echo "Compiling $< -> $@"
+	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+
+${OBJ}test_dominators.o: ${CODE_TEST_FOLDER}test_dominators.cpp
 	@echo "Compiling $< -> $@"
 	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
