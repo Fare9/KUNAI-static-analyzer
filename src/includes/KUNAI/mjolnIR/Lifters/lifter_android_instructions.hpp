@@ -58,6 +58,20 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_SPUT_BYTE,
                 DEX::DVMTypes::Opcode::OP_SPUT_CHAR,
                 DEX::DVMTypes::Opcode::OP_SPUT_SHORT,
+                DEX::DVMTypes::Opcode::OP_IGET,
+                DEX::DVMTypes::Opcode::OP_IGET_WIDE,
+                DEX::DVMTypes::Opcode::OP_IGET_OBJECT,
+                DEX::DVMTypes::Opcode::OP_IGET_BOOLEAN,
+                DEX::DVMTypes::Opcode::OP_IGET_BYTE,
+                DEX::DVMTypes::Opcode::OP_IGET_CHAR,
+                DEX::DVMTypes::Opcode::OP_IGET_SHORT,
+                DEX::DVMTypes::Opcode::OP_IPUT,
+                DEX::DVMTypes::Opcode::OP_IPUT_WIDE,
+                DEX::DVMTypes::Opcode::OP_IPUT_OBJECT,
+                DEX::DVMTypes::Opcode::OP_IPUT_BOOLEAN,
+                DEX::DVMTypes::Opcode::OP_IPUT_BYTE,
+                DEX::DVMTypes::Opcode::OP_IPUT_CHAR,
+                DEX::DVMTypes::Opcode::OP_IPUT_SHORT,
             };
 
             // Assignment instructions of type Instruction12x
@@ -117,6 +131,26 @@ namespace KUNAI
             // Assignment instructions of type Instruction31c
             std::set<DEX::DVMTypes::Opcode> assigment_instruction31c = {
                 DEX::DVMTypes::Opcode::OP_CONST_STRING_JUMBO};
+
+            std::set<DEX::DVMTypes::Opcode> assignment_instruction22c_get = {
+                DEX::DVMTypes::Opcode::OP_IGET,
+                DEX::DVMTypes::Opcode::OP_IGET_WIDE,
+                DEX::DVMTypes::Opcode::OP_IGET_OBJECT,
+                DEX::DVMTypes::Opcode::OP_IGET_BOOLEAN,
+                DEX::DVMTypes::Opcode::OP_IGET_BYTE,
+                DEX::DVMTypes::Opcode::OP_IGET_CHAR,
+                DEX::DVMTypes::Opcode::OP_IGET_SHORT,
+            };
+
+            std::set<DEX::DVMTypes::Opcode> assignment_instruction22c_put = {
+                DEX::DVMTypes::Opcode::OP_IPUT,
+                DEX::DVMTypes::Opcode::OP_IPUT_WIDE,
+                DEX::DVMTypes::Opcode::OP_IPUT_OBJECT,
+                DEX::DVMTypes::Opcode::OP_IPUT_BOOLEAN,
+                DEX::DVMTypes::Opcode::OP_IPUT_BYTE,
+                DEX::DVMTypes::Opcode::OP_IPUT_CHAR,
+                DEX::DVMTypes::Opcode::OP_IPUT_SHORT,
+            };
 
             /**
              * Arithmetic Logic instructions

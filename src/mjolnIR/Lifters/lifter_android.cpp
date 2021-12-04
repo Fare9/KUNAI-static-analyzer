@@ -504,6 +504,8 @@ namespace KUNAI
                             cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_INT, dest_reg, dest_reg, nullptr, nullptr);
                         else if (src->get_type() == MJOLNIR::IRField::DOUBLE_F)
                             cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, dest_reg, dest_reg, nullptr, nullptr);
+                        else if (src->get_type() == MJOLNIR::IRField::CLASS_F)
+                            cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg, nullptr, nullptr);
                     }
                     break;
                     case DEX::DVMTypes::PROTO:
@@ -543,6 +545,41 @@ namespace KUNAI
 
                 auto src = make_str(*instr->get_source_str());
                 assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src, nullptr, nullptr);
+            }
+            // Instruction22c get
+            else if (androidinstructions.assignment_instruction22c_get.find(op_code) != androidinstructions.assignment_instruction22c_get.end())
+            {
+                auto instr = std::dynamic_pointer_cast<DEX::Instruction22c>(instruction);
+
+                auto dest_reg = make_android_register(instr->get_first_operand());
+                auto src_field = make_field(instr->get_third_operand_FieldId());
+
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_field, nullptr, nullptr);
+
+                if (src_field->get_type() == MJOLNIR::IRField::BOOLEAN_F)
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_BOOLEAN, dest_reg, dest_reg, nullptr, nullptr);
+                else if (src_field->get_type() == MJOLNIR::IRField::BYTE_F)
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_BYTE, dest_reg, dest_reg, nullptr, nullptr);
+                else if (src_field->get_type() == MJOLNIR::IRField::CHAR_F)
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_CHAR, dest_reg, dest_reg, nullptr, nullptr);
+                else if (src_field->get_type() == MJOLNIR::IRField::SHORT_F)
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_SHORT, dest_reg, dest_reg, nullptr, nullptr);
+                else if (src_field->get_type() == MJOLNIR::IRField::INT_F)
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_INT, dest_reg, dest_reg, nullptr, nullptr);
+                else if (src_field->get_type() == MJOLNIR::IRField::DOUBLE_F)
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, dest_reg, dest_reg, nullptr, nullptr);
+                else if (src_field->get_type() == MJOLNIR::IRField::CLASS_F)
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg, nullptr, nullptr);
+            }
+            // Instruction22c put
+            else if (androidinstructions.assignment_instruction22c_put.find(op_code) != androidinstructions.assignment_instruction22c_put.end())
+            {
+                auto instr = std::dynamic_pointer_cast<DEX::Instruction22c>(instruction);
+
+                auto src_reg = make_android_register(instr->get_first_operand());
+                auto dst_field = make_field(instr->get_third_operand_FieldId());
+
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dst_field, src_reg, nullptr, nullptr);
             }
 
             // push instruction in the block
