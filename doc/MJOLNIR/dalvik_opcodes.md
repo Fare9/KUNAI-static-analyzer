@@ -82,20 +82,20 @@
 | 0x4F | aput-byte vx,vy,vz | IRStore |
 | 0x50 | aput-char vx,vy,vz | IRStore |
 | 0x51 | aput-short vx,vy,vz | IRStore |
-| 0x52 | iget vx, vy, field\_id |   |
-| 0x53 | iget-wide vx,vy,field\_id |   |
-| 0x54 | iget-object vx,vy,field\_id |   |
-| 0x55 | iget-boolean vx,vy,field\_id |   |
-| 0x56 | iget-byte vx,vy,field\_id |   |
-| 0x57 | iget-char vx,vy,field\_id |   |
-| 0x58 | iget-short vx,vy,field\_id |   |
-| 0x59 | iput vx,vy, field\_id |   |
-| 0x5A | iput-wide vx,vy, field\_id |   |
-| 0x5B | iput-object vx,vy,field\_id |   |
-| 0x5C | iput-boolean vx,vy, field\_id |   |
-| 0x5D | iput-byte vx,vy,field\_id  |   |
-| 0x5E | iput-char vx,vy,field\_id  |   |
-| 0x5F | iput-short vx,vy,field\_id  |   |
+| 0x52 | iget vx, vy, field\_id | IRAssign |
+| 0x53 | iget-wide vx,vy,field\_id | IRAssign |
+| 0x54 | iget-object vx,vy,field\_id | IRAssign + IRUnaryOp (CAST\_OP) |
+| 0x55 | iget-boolean vx,vy,field\_id | IRAssign + IRUnaryOp (CAST\_OP) |
+| 0x56 | iget-byte vx,vy,field\_id | IRAssign + IRUnaryOp (CAST\_OP) |
+| 0x57 | iget-char vx,vy,field\_id | IRAssign + IRUnaryOp (CAST\_OP) |
+| 0x58 | iget-short vx,vy,field\_id | IRAssign + IRUnaryOp (CAST\_OP) |
+| 0x59 | iput vx,vy, field\_id | IRAssign |
+| 0x5A | iput-wide vx,vy, field\_id | IRAssign |
+| 0x5B | iput-object vx,vy,field\_id | IRAssign |
+| 0x5C | iput-boolean vx,vy, field\_id | IRAssign |
+| 0x5D | iput-byte vx,vy,field\_id  | IRAssign |
+| 0x5E | iput-char vx,vy,field\_id  | IRAssign |
+| 0x5F | iput-short vx,vy,field\_id  | IRAssign |
 | 0x60 | sget vx,field\_id  | IRAssign |
 | 0x61 | sget-wide vx, field\_id  | IRAssign |
 | 0x62 | sget-object vx,field\_id  | IRAssign |
