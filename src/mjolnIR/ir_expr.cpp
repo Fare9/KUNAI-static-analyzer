@@ -80,57 +80,63 @@ namespace KUNAI
         {
             if (type == BINOP_EXPR_T)
             {
-                auto binop = reinterpret_cast<IRBinOp*>(this);
+                auto binop = reinterpret_cast<IRBinOp *>(this);
 
                 return binop->to_string();
             }
             else if (type == UNARYOP_EXPR_T)
             {
-                auto unaryop = reinterpret_cast<IRUnaryOp*>(this);
+                auto unaryop = reinterpret_cast<IRUnaryOp *>(this);
 
                 return unaryop->to_string();
             }
             else if (type == ASSIGN_EXPR_T)
             {
-                auto assign = reinterpret_cast<IRAssign*>(this);
+                auto assign = reinterpret_cast<IRAssign *>(this);
 
                 return assign->to_string();
             }
             else if (type == TYPE_EXPR_T)
             {
-                auto type_ = reinterpret_cast<IRType*>(this);
-                
+                auto type_ = reinterpret_cast<IRType *>(this);
+
                 return type_->to_string();
             }
             else if (type == LOAD_EXPR_T)
             {
-                auto load = reinterpret_cast<IRLoad*>(this);
+                auto load = reinterpret_cast<IRLoad *>(this);
 
                 return load->to_string();
             }
             else if (type == STORE_EXPR_T)
             {
-                auto store = reinterpret_cast<IRStore*>(this);
+                auto store = reinterpret_cast<IRStore *>(this);
 
                 return store->to_string();
             }
             else if (type == ZCOMP_EXPR_T)
             {
-                auto zcomp = reinterpret_cast<IRZComp*>(this);
+                auto zcomp = reinterpret_cast<IRZComp *>(this);
 
                 return zcomp->to_string();
             }
             else if (type == BCOMP_EXPR_T)
             {
-                auto bcomp = reinterpret_cast<IRBComp*>(this);
+                auto bcomp = reinterpret_cast<IRBComp *>(this);
 
                 return bcomp->to_string();
             }
             else if (type == CALL_EXPR_T)
             {
-                auto call = reinterpret_cast<IRCall*>(this);
+                auto call = reinterpret_cast<IRCall *>(this);
 
                 return call->to_string();
+            }
+            else if (type == NEW_EXPR_T)
+            {
+                auto new_i = reinterpret_cast<IRNew *>(this);
+
+                return new_i->to_string();
             }
             else if (type == NONE_EXPR_T)
             {
@@ -155,72 +161,79 @@ namespace KUNAI
          * @param ope2: second operation to compare.
          * @return bool
          */
-        bool operator==(IRExpr& ope1, IRExpr& ope2)
+        bool operator==(IRExpr &ope1, IRExpr &ope2)
         {
             if (ope1.type != ope2.type)
                 return false;
-            
+
             if (ope1.type == IRExpr::BINOP_EXPR_T)
             {
-                IRBinOp& binop1 = reinterpret_cast<IRBinOp&>(ope1);
-                IRBinOp& binop2 = reinterpret_cast<IRBinOp&>(ope2);
+                IRBinOp &binop1 = reinterpret_cast<IRBinOp &>(ope1);
+                IRBinOp &binop2 = reinterpret_cast<IRBinOp &>(ope2);
 
                 return binop1 == binop2;
             }
             else if (ope1.type == IRExpr::UNARYOP_EXPR_T)
             {
-                IRUnaryOp& unop1 = reinterpret_cast<IRUnaryOp&>(ope1);
-                IRUnaryOp& unop2 = reinterpret_cast<IRUnaryOp&>(ope2);
+                IRUnaryOp &unop1 = reinterpret_cast<IRUnaryOp &>(ope1);
+                IRUnaryOp &unop2 = reinterpret_cast<IRUnaryOp &>(ope2);
 
                 return unop1 == unop2;
             }
             else if (ope1.type == IRExpr::ASSIGN_EXPR_T)
             {
-                IRAssign& assign1 = reinterpret_cast<IRAssign&>(ope1);
-                IRAssign& assign2 = reinterpret_cast<IRAssign&>(ope2);
+                IRAssign &assign1 = reinterpret_cast<IRAssign &>(ope1);
+                IRAssign &assign2 = reinterpret_cast<IRAssign &>(ope2);
 
                 return assign1 == assign2;
             }
             else if (ope1.type == IRExpr::CALL_EXPR_T)
             {
-                IRCall& call1 = reinterpret_cast<IRCall&>(ope1);
-                IRCall& call2 = reinterpret_cast<IRCall&>(ope2);
+                IRCall &call1 = reinterpret_cast<IRCall &>(ope1);
+                IRCall &call2 = reinterpret_cast<IRCall &>(ope2);
 
                 return call1 == call2;
             }
             else if (ope1.type == IRExpr::LOAD_EXPR_T)
             {
-                IRLoad& load1 = reinterpret_cast<IRLoad&>(ope1);
-                IRLoad& load2 = reinterpret_cast<IRLoad&>(ope2);
+                IRLoad &load1 = reinterpret_cast<IRLoad &>(ope1);
+                IRLoad &load2 = reinterpret_cast<IRLoad &>(ope2);
 
                 return load1 == load2;
             }
             else if (ope1.type == IRExpr::STORE_EXPR_T)
             {
-                IRStore& store1 = reinterpret_cast<IRStore&>(ope1);
-                IRStore& store2 = reinterpret_cast<IRStore&>(ope2);
+                IRStore &store1 = reinterpret_cast<IRStore &>(ope1);
+                IRStore &store2 = reinterpret_cast<IRStore &>(ope2);
 
                 return store1 == store2;
             }
             else if (ope1.type == IRExpr::ZCOMP_EXPR_T)
             {
-                IRZComp& zcomp1 = reinterpret_cast<IRZComp&>(ope1);
-                IRZComp& zcomp2 = reinterpret_cast<IRZComp&>(ope2);
+                IRZComp &zcomp1 = reinterpret_cast<IRZComp &>(ope1);
+                IRZComp &zcomp2 = reinterpret_cast<IRZComp &>(ope2);
 
                 return zcomp1 == zcomp2;
             }
             else if (ope1.type == IRExpr::BCOMP_EXPR_T)
             {
-                IRBComp& bcomp1 = reinterpret_cast<IRBComp&>(ope1);
-                IRBComp& bcomp2 = reinterpret_cast<IRBComp&>(ope2);
+                IRBComp &bcomp1 = reinterpret_cast<IRBComp &>(ope1);
+                IRBComp &bcomp2 = reinterpret_cast<IRBComp &>(ope2);
 
                 return bcomp1 == bcomp2;
             }
+            else if (ope1.type == IRExpr::NEW_EXPR_T)
+            {
+                IRNew &new1 = reinterpret_cast<IRNew &>(ope1);
+                IRNew &new2 = reinterpret_cast<IRNew &>(ope2);
+
+                return new1 == new2;
+            }
             else if (ope1.type == IRExpr::TYPE_EXPR_T)
             {
-                IRType& type1 = reinterpret_cast<IRType&>(ope1);
-                IRType& type2 = reinterpret_cast<IRType&>(ope2);
-                
+                IRType &type1 = reinterpret_cast<IRType &>(ope1);
+                IRType &type2 = reinterpret_cast<IRType &>(ope2);
+
                 return type1 == type2;
             }
 
@@ -242,11 +255,11 @@ namespace KUNAI
          * @return void
          */
         IRBinOp::IRBinOp(bin_op_t bin_op_type,
-                    std::shared_ptr<IRExpr> result, 
-                    std::shared_ptr<IRExpr> op1,
-                    std::shared_ptr<IRExpr> op2,
-                    std::shared_ptr<IRExpr> left, 
-                    std::shared_ptr<IRExpr> right)
+                         std::shared_ptr<IRExpr> result,
+                         std::shared_ptr<IRExpr> op1,
+                         std::shared_ptr<IRExpr> op2,
+                         std::shared_ptr<IRExpr> left,
+                         std::shared_ptr<IRExpr> right)
             : IRExpr(BINOP_EXPR_T, left, right)
         {
             this->bin_op_type = bin_op_type;
@@ -311,7 +324,7 @@ namespace KUNAI
             switch (bin_op_type)
             {
             case ADD_OP_T:
-                str_stream << "[Op: ADD_OP]"; 
+                str_stream << "[Op: ADD_OP]";
                 break;
             case SUB_OP_T:
                 str_stream << "[Op: SUB_OP]";
@@ -373,12 +386,12 @@ namespace KUNAI
          * @param ope2: second operation to compare.
          * @return bool
          */
-        bool operator==(IRBinOp& ope1, IRBinOp& ope2)
+        bool operator==(IRBinOp &ope1, IRBinOp &ope2)
         {
             return (ope1.bin_op_type == ope2.bin_op_type) &&
-                    (ope1.op1->equals(ope2.op1)) &&
-                    (ope1.op2->equals(ope2.op2)) &&
-                    (ope1.result->equals(ope2.result));
+                   (ope1.op1->equals(ope2.op1)) &&
+                   (ope1.op2->equals(ope2.op2)) &&
+                   (ope1.result->equals(ope2.result));
         }
 
         /**
@@ -395,10 +408,10 @@ namespace KUNAI
          * @return void
          */
         IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type,
-                    std::shared_ptr<IRExpr> result, 
-                    std::shared_ptr<IRExpr> op,
-                    std::shared_ptr<IRExpr> left, 
-                    std::shared_ptr<IRExpr> right)
+                             std::shared_ptr<IRExpr> result,
+                             std::shared_ptr<IRExpr> op,
+                             std::shared_ptr<IRExpr> left,
+                             std::shared_ptr<IRExpr> right)
             : IRExpr(UNARYOP_EXPR_T, left, right)
         {
             this->unary_op_type = unary_op_type;
@@ -417,11 +430,11 @@ namespace KUNAI
          * @return void
          */
         IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type,
-                      cast_type_t cast_type,
-                      std::shared_ptr<IRExpr> result,
-                      std::shared_ptr<IRExpr> op,
-                      std::shared_ptr<IRExpr> left,
-                      std::shared_ptr<IRExpr> right)
+                             cast_type_t cast_type,
+                             std::shared_ptr<IRExpr> result,
+                             std::shared_ptr<IRExpr> op,
+                             std::shared_ptr<IRExpr> left,
+                             std::shared_ptr<IRExpr> right)
             : IRExpr(UNARYOP_EXPR_T, left, right)
         {
             this->unary_op_type = unary_op_type;
@@ -492,7 +505,6 @@ namespace KUNAI
             std::stringstream str_stream;
 
             str_stream << "IRUnaryOp ";
-            
 
             switch (unary_op_type)
             {
@@ -551,7 +563,6 @@ namespace KUNAI
                     str_stream << "[Cast: TO_BOOLEAN]";
                     break;
                 }
-
             }
 
             str_stream << "[Dest: " << result->to_string() << "]";
@@ -575,11 +586,11 @@ namespace KUNAI
          * @param ope2: second operation to compare.
          * @return bool
          */
-        bool operator==(IRUnaryOp& ope1, IRUnaryOp& ope2)
+        bool operator==(IRUnaryOp &ope1, IRUnaryOp &ope2)
         {
             return (ope1.unary_op_type == ope2.unary_op_type) &&
-                    (ope1.op->equals(ope2.op)) &&
-                    (ope1.result->equals(ope2.result));
+                   (ope1.op->equals(ope2.op)) &&
+                   (ope1.result->equals(ope2.result));
         }
 
         /**
@@ -596,9 +607,9 @@ namespace KUNAI
          * @return void
          */
         IRAssign::IRAssign(std::shared_ptr<IRExpr> destination,
-                    std::shared_ptr<IRExpr> source,
-                    std::shared_ptr<IRExpr> left, 
-                    std::shared_ptr<IRExpr> right)
+                           std::shared_ptr<IRExpr> source,
+                           std::shared_ptr<IRExpr> left,
+                           std::shared_ptr<IRExpr> right)
             : IRExpr(ASSIGN_EXPR_T, left, right)
         {
             this->destination = destination;
@@ -660,10 +671,10 @@ namespace KUNAI
          * @param ope2: second operation to compare.
          * @return bool
          */
-        bool operator==(IRAssign& ope1, IRAssign& ope2)
+        bool operator==(IRAssign &ope1, IRAssign &ope2)
         {
             return (ope1.destination->equals(ope2.destination)) &&
-                    (ope1.source->equals(ope2.source));
+                   (ope1.source->equals(ope2.source));
         }
 
         /**
@@ -679,10 +690,10 @@ namespace KUNAI
          * @return void
          */
         IRCall::IRCall(std::shared_ptr<IRExpr> callee,
-                std::vector<std::shared_ptr<IRExpr>> args,
-                std::shared_ptr<IRExpr> left,
-                std::shared_ptr<IRExpr> right)
-                : IRExpr(CALL_EXPR_T, left, right)
+                       std::vector<std::shared_ptr<IRExpr>> args,
+                       std::shared_ptr<IRExpr> left,
+                       std::shared_ptr<IRExpr> right)
+            : IRExpr(CALL_EXPR_T, left, right)
         {
             this->callee = callee;
             this->args = args;
@@ -728,7 +739,7 @@ namespace KUNAI
 
             for (auto arg : args)
                 str_stream << "[Param: " << arg->to_string() << "]";
-            
+
             if (ret_val)
                 str_stream << "[Return: " << ret_val->to_string() << "]";
 
@@ -770,10 +781,10 @@ namespace KUNAI
          * @param ope2: second operation to compare.
          * @return bool
          */
-        bool operator==(IRCall& ope1, IRCall& ope2)
+        bool operator==(IRCall &ope1, IRCall &ope2)
         {
             return (ope1.callee->equals(ope2.callee)) &&
-                    (std::equal(ope1.args.begin(), ope1.args.end(), ope2.args.begin()));
+                   (std::equal(ope1.args.begin(), ope1.args.end(), ope2.args.begin()));
         }
 
         /**
@@ -790,11 +801,11 @@ namespace KUNAI
          * @return void
          */
         IRLoad::IRLoad(std::shared_ptr<IRExpr> destination,
-                    std::shared_ptr<IRExpr> source,
-                    std::uint32_t size,
-                    std::shared_ptr<IRExpr> left, 
-                    std::shared_ptr<IRExpr> right)
-                    : IRExpr(LOAD_EXPR_T, left, right)
+                       std::shared_ptr<IRExpr> source,
+                       std::uint32_t size,
+                       std::shared_ptr<IRExpr> left,
+                       std::shared_ptr<IRExpr> right)
+            : IRExpr(LOAD_EXPR_T, left, right)
         {
             this->destination = destination;
             this->source = source;
@@ -813,12 +824,12 @@ namespace KUNAI
          * @return void
          */
         IRLoad::IRLoad(std::shared_ptr<IRExpr> destination,
-                   std::shared_ptr<IRExpr> source,
-                   std::shared_ptr<IRExpr> index,
-                   std::uint32_t size,
-                   std::shared_ptr<IRExpr> left,
-                   std::shared_ptr<IRExpr> right)
-                   : IRExpr(LOAD_EXPR_T, left, right)
+                       std::shared_ptr<IRExpr> source,
+                       std::shared_ptr<IRExpr> index,
+                       std::uint32_t size,
+                       std::shared_ptr<IRExpr> left,
+                       std::shared_ptr<IRExpr> right)
+            : IRExpr(LOAD_EXPR_T, left, right)
         {
             this->destination = destination;
             this->source = source;
@@ -870,7 +881,7 @@ namespace KUNAI
 
             str_stream << "IRLoad ";
 
-            str_stream << "[Size: " << size/8 << "]";
+            str_stream << "[Size: " << size / 8 << "]";
             str_stream << "[Dest: " << destination->to_string() << "]";
             str_stream << "[Src: Mem(" << source->to_string() << ")]";
 
@@ -895,11 +906,11 @@ namespace KUNAI
          * @param ope2: second operation to compare.
          * @return bool
          */
-        bool operator==(IRLoad& ope1, IRLoad& ope2)
+        bool operator==(IRLoad &ope1, IRLoad &ope2)
         {
             return (ope1.destination->equals(ope2.destination)) &&
-                    (ope1.source->equals(ope2.source)) &&
-                    (ope1.size == ope2.size);
+                   (ope1.source->equals(ope2.source)) &&
+                   (ope1.size == ope2.size);
         }
 
         /**
@@ -916,11 +927,11 @@ namespace KUNAI
          * @return void
          */
         IRStore::IRStore(std::shared_ptr<IRExpr> destination,
-                    std::shared_ptr<IRExpr> source,
-                    std::uint32_t size,
-                    std::shared_ptr<IRExpr> left, 
-                    std::shared_ptr<IRExpr> right)
-                : IRExpr(STORE_EXPR_T, left, right)
+                         std::shared_ptr<IRExpr> source,
+                         std::uint32_t size,
+                         std::shared_ptr<IRExpr> left,
+                         std::shared_ptr<IRExpr> right)
+            : IRExpr(STORE_EXPR_T, left, right)
         {
             this->destination = destination;
             this->source = source;
@@ -939,19 +950,18 @@ namespace KUNAI
          * @return void
          */
         IRStore::IRStore(std::shared_ptr<IRExpr> destination,
-                    std::shared_ptr<IRExpr> source,
-                    std::shared_ptr<IRExpr> index,
-                    std::uint32_t size,
-                    std::shared_ptr<IRExpr> left,
-                    std::shared_ptr<IRExpr> right)
-                : IRExpr(STORE_EXPR_T, left, right)
+                         std::shared_ptr<IRExpr> source,
+                         std::shared_ptr<IRExpr> index,
+                         std::uint32_t size,
+                         std::shared_ptr<IRExpr> left,
+                         std::shared_ptr<IRExpr> right)
+            : IRExpr(STORE_EXPR_T, left, right)
         {
             this->destination = destination;
             this->source = source;
             this->index = index;
             this->size = size;
         }
-
 
         /**
          * @brief Destructor of IRStore class, nothing to be done.
@@ -997,9 +1007,9 @@ namespace KUNAI
 
             str_stream << "IRStore ";
 
-            str_stream << "[Size: " << size/8 << "]";
+            str_stream << "[Size: " << size / 8 << "]";
             str_stream << "[Dest: Mem(" << destination->to_string() << ")]";
-            
+
             if (index != nullptr)
                 str_stream << "[Index: " << index->to_string() << "]";
 
@@ -1022,11 +1032,11 @@ namespace KUNAI
          * @param ope2: second operation to compare.
          * @return bool
          */
-        bool operator==(IRStore& ope1, IRStore& ope2)
+        bool operator==(IRStore &ope1, IRStore &ope2)
         {
             return (ope1.destination->equals(ope2.destination)) &&
-                    (ope1.source->equals(ope2.source)) &&
-                    (ope1.size == ope2.size);
+                   (ope1.source->equals(ope2.source)) &&
+                   (ope1.size == ope2.size);
         }
 
         /**
@@ -1044,11 +1054,11 @@ namespace KUNAI
          */
 
         IRZComp::IRZComp(zero_comp_t comp,
-                    std::shared_ptr<IRExpr> result,
-                    std::shared_ptr<IRExpr> reg,
-                    std::shared_ptr<IRExpr> left, 
-                    std::shared_ptr<IRExpr> right)
-                : IRExpr(ZCOMP_EXPR_T, left, right)
+                         std::shared_ptr<IRExpr> result,
+                         std::shared_ptr<IRExpr> reg,
+                         std::shared_ptr<IRExpr> left,
+                         std::shared_ptr<IRExpr> right)
+            : IRExpr(ZCOMP_EXPR_T, left, right)
         {
             this->comp = comp;
             this->result = result;
@@ -1142,10 +1152,10 @@ namespace KUNAI
          * @param ope2: second operation to compare.
          * @return bool
          */
-        bool operator==(IRZComp& ope1, IRZComp& ope2)
+        bool operator==(IRZComp &ope1, IRZComp &ope2)
         {
             return (ope1.comp == ope2.comp) &&
-                    (ope1.reg->equals(ope2.reg));
+                   (ope1.reg->equals(ope2.reg));
         }
 
         /**
@@ -1163,12 +1173,12 @@ namespace KUNAI
          * @return void
          */
         IRBComp::IRBComp(comp_t comp,
-                    std::shared_ptr<IRExpr> result,
-                    std::shared_ptr<IRExpr> reg1,
-                    std::shared_ptr<IRExpr> reg2,
-                    std::shared_ptr<IRExpr> left,
-                    std::shared_ptr<IRExpr> right)
-                : IRExpr(BCOMP_EXPR_T, left, right)
+                         std::shared_ptr<IRExpr> result,
+                         std::shared_ptr<IRExpr> reg1,
+                         std::shared_ptr<IRExpr> reg2,
+                         std::shared_ptr<IRExpr> left,
+                         std::shared_ptr<IRExpr> right)
+            : IRExpr(BCOMP_EXPR_T, left, right)
         {
             this->comp = comp;
             this->result = result;
@@ -1181,7 +1191,7 @@ namespace KUNAI
          * @return void
          */
         IRBComp::~IRBComp() {}
-        
+
         /**
          * @brief Get the result register or temporal register.
          * 
@@ -1283,11 +1293,104 @@ namespace KUNAI
          * @param ope2: second operation to compare.
          * @return bool
          */
-        bool operator==(IRBComp& ope1, IRBComp& ope2)
+        bool operator==(IRBComp &ope1, IRBComp &ope2)
         {
             return (ope1.comp == ope2.comp) &&
-                    (ope1.reg1->equals(ope2.reg1)) &&
-                    (ope1.reg2->equals(ope2.reg2));
+                   (ope1.reg1->equals(ope2.reg1)) &&
+                   (ope1.reg2->equals(ope2.reg2));
+        }
+
+        /**
+         * IRNew class
+         */
+        
+        /**
+         * @brief Construct a new IRNew::IRNew object which represents
+         *        the creation of an instance of a class.
+         * 
+         * @param result: result register where object is stored.
+         * @param class_instance: IRClass object which represent the instance.
+         * @param left: left part of the comparison (used for AST).
+         * @param right: right part of the comparison (used for AST).
+         * @return void
+         */
+        IRNew::IRNew(std::shared_ptr<IRExpr> result,
+                     std::shared_ptr<IRExpr> class_instance,
+                     std::shared_ptr<IRExpr> left,
+                     std::shared_ptr<IRExpr> right)
+            : IRExpr(NEW_EXPR_T, nullptr, nullptr)
+        {
+            this->result = result;
+            this->class_instance;
+        }
+
+        /**
+         * @brief Destroy the IRNew::IRNew object
+         * 
+         */
+        IRNew::~IRNew() {}
+
+        /**
+         * @brief Get the destination register
+         * 
+         * @return std::shared_ptr<IRExpr> 
+         */
+        std::shared_ptr<IRExpr> IRNew::get_result()
+        {
+            return this->result;
+        }
+
+        /**
+         * @brief Get the source class.
+         * 
+         * @return std::shared_ptr<IRExpr> 
+         */
+        std::shared_ptr<IRExpr> IRNew::get_source_class()
+        {
+            return this->class_instance;
+        }
+
+        /**
+         * @brief Return string representation of IRNew
+         * 
+         * @return std::string 
+         */
+        std::string IRNew::to_string()
+        {
+            std::stringstream stream;
+
+            stream << "IRNew ";
+
+            stream << "[Destination: " << result->to_string() << "]";
+            stream << "[Source: " << result->to_string() << "]";
+
+            return stream.str();
+        }
+
+        /**
+         * @brief Compare two IRNew instructions with shared_ptr
+         * 
+         * @param new_i 
+         * @return true 
+         * @return false 
+         */
+        bool IRNew::equals(std::shared_ptr<IRNew> new_i)
+        {
+            return (*this) == *(new_i.get());
+        }
+
+        /**
+         * @brief Operator == for IRNew instruction.
+         * 
+         * @param new1 
+         * @param new2 
+         * @return true 
+         * @return false 
+         */
+        bool operator==(IRNew& new1, IRNew& new2)
+        {
+            return (new1.result->equals(new2.result)) &&
+                    (new1.class_instance->equals(new2.class_instance));
         }
     }
 }

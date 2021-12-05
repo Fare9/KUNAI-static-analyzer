@@ -203,6 +203,7 @@ namespace KUNAI
                 STORE_EXPR_T,
                 ZCOMP_EXPR_T,
                 BCOMP_EXPR_T,
+                NEW_EXPR_T,
                 NONE_EXPR_T = 99 // used to finish the expressions
             };
 
@@ -553,6 +554,29 @@ namespace KUNAI
             comp_t comp;
         };
     
+        class IRNew : public IRExpr
+        {
+        public:
+            IRNew(std::shared_ptr<IRExpr> result,
+                  std::shared_ptr<IRExpr> class_instance,
+                  std::shared_ptr<IRExpr> left,
+                  std::shared_ptr<IRExpr> right);
+            ~IRNew();
+
+            std::shared_ptr<IRExpr> get_result();
+            std::shared_ptr<IRExpr> get_source_class();
+
+            std::string to_string();
+            bool equals(std::shared_ptr<IRNew> bcomp);
+
+            friend bool operator==(IRNew&, IRNew&);
+        private:
+            //! register where the result will be stored.
+            std::shared_ptr<IRExpr> result;
+            //! class type which will create a new instance.
+            std::shared_ptr<IRExpr> class_instance;
+        };
+
         class IRType : public IRExpr
         {
         public:
