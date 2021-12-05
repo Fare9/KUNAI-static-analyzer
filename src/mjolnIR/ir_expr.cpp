@@ -1321,7 +1321,7 @@ namespace KUNAI
             : IRExpr(NEW_EXPR_T, nullptr, nullptr)
         {
             this->result = result;
-            this->class_instance;
+            this->class_instance = class_instance;
         }
 
         /**
@@ -1362,7 +1362,7 @@ namespace KUNAI
             stream << "IRNew ";
 
             stream << "[Destination: " << result->to_string() << "]";
-            stream << "[Source: " << result->to_string() << "]";
+            stream << "[Source: " << class_instance->to_string() << "]";
 
             return stream.str();
         }
