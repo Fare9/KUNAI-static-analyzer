@@ -647,6 +647,13 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_APUT_CHAR,
                 DEX::DVMTypes::Opcode::OP_APUT_SHORT,
             };
+
+            /**
+             * New Instructions
+             */
+            std::set<DEX::DVMTypes::Opcode> new_instructions = {
+                DEX::DVMTypes::Opcode::OP_NEW_INSTANCE,
+            };
         };
     }
 }

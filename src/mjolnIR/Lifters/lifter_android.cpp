@@ -133,6 +133,8 @@ namespace KUNAI
                 this->lift_store_instruction(instruction, bb);
             else if (op_code == DEX::DVMTypes::OP_NOP)
                 this->lift_nop_instructions(bb);
+            else if (androidinstructions.new_instructions.find(op_code) != androidinstructions.new_instructions.end())
+                this->lift_new_instructions(instruction, bb);
             else
                 // for the moment create a nop instruction
                 this->lift_nop_instructions(bb);
@@ -367,6 +369,7 @@ namespace KUNAI
 
                 assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_reg, nullptr, nullptr);
             }
+            // Instruction11n types
             else if (androidinstructions.assigment_instruction11n.find(op_code) != androidinstructions.assigment_instruction11n.end())
             {
                 auto instr = std::dynamic_pointer_cast<DEX::Instruction11n>(instruction);
@@ -519,6 +522,7 @@ namespace KUNAI
                     }
                 }
             }
+            // Instruction21c put type
             else if (androidinstructions.assigment_instruction21_put.find(op_code) != androidinstructions.assigment_instruction21_put.end())
             {
                 auto instr = std::dynamic_pointer_cast<DEX::Instruction21c>(instruction);
@@ -1229,6 +1233,32 @@ namespace KUNAI
 
             bb->append_statement_to_block(nop);
         }
+
+        /**
+         * @brief Lift a new instruction.
+         * 
+         * @param instruction 
+         * @param bb 
+         */
+        void LifterAndroid::lift_new_instructions(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        {
+            std::shared_ptr<MJOLNIR::IRStmnt> new_instr;
+            auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
+            // Instruction new instance
+            if (op_code == DEX::DVMTypes::Opcode::OP_NEW_INSTANCE)
+            {
+                auto instr = std::dynamic_pointer_cast<DEX::Instruction21c>(instruction);
+
+                auto dst_reg = make_android_register(instr->get_destination());
+
+                auto class_ = make_class(dynamic_cast<DEX::Class*>(instr->get_source_typeid()));
+
+                new_instr = std::make_shared<MJOLNIR::IRNew>(dst_reg, class_, nullptr, nullptr);
+            }
+
+            bb->append_statement_to_block(new_instr);
+        }
+
 
         /**
          * @brief Fix for every jump instruction at the end of a basic block,
