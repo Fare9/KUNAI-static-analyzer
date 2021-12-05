@@ -37,6 +37,7 @@ IRExpr    -->   IRBinOp   |
                 IRStore   |
                 IRZComp   |
                 IRBComp   |
+                IRNew     |
                 IRType    
                 
 IRBinOp   -->   IRExpr <- IRExpr bin_op_t IRExpr
@@ -47,6 +48,7 @@ IRLoad    -->   IRExpr <- *IRExpr
 IRStore   -->   *IRExpr <- IRExpr
 IRZComp   -->   IRExpr zero_comp_t
 IRBComp   -->   IRExpr comp_t IRExpr
+IRNew     -->   IRExpr <- new IRExpr
 
 # kind of operations
 bin_op_t  -->   ADD_OP_T   |
@@ -86,6 +88,7 @@ IRType   -->   IRReg |
                IRMemory |
                IRString |
                IRCallee |
+               IRClass  |
                NONE
 ```
 
