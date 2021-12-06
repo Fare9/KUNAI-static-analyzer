@@ -95,3 +95,20 @@ IRType   -->   IRReg |
 ### Dalvik
 
 Dalvik has been the first "assembly" language to be supported with **MjolnIR** inside of **KUNAI**, you can check all the opcodes and its translation in [Dalvik Opcodes](./doc/MJOLNIR/dalvik_opcodes.md)
+
+### References
+
+Here there are some references used as ideas and base for the design and/or implementation of **KUNAI** and **MjolnIR**:
+
+* Projects:
+    * [Androguard](https://github.com/androguard/androguard)
+    * [Miasm](https://github.com/cea-sec/miasm/tree/master)
+    * [VEX](https://github.com/angr/vex)
+* Papers:
+    * [Wire -- A Formal Intermediate Language for Binary Analysis](https://ieeexplore.ieee.org/document/6296015)
+    * [REIL: A platform-independent intermediate representation of disassembled code for static code analysis](https://static.googleusercontent.com/media/www.zynamics.com/en//downloads/csw09.pdf)
+    * [Dexpler: Converting Android Dalvik Bytecode to Jimple for Static Analysis with Soot](https://arxiv.org/pdf/1205.3576.pdf)
+* Books:
+    * [Advanced Compiler Design and Implementation](https://www.amazon.com/-/es/Steven-Muchnick/dp/1558603204)
+    * [An Introduction to the Theory of Optimizing Compilers](https://www.amazon.com/-/es/Jonas-Skeppstedt/dp/172593048X)
+    * [Introduction to Compilers and Language Design: Second Edition](https://www3.nd.edu/~dthain/compilerbook/compilerbook.pdf)
