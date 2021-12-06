@@ -446,6 +446,66 @@ namespace KUNAI
         }
 
         /**
+         * @brief Compute the immediate dominators algorithm from:
+         *        "Advanced Compiler Design and Implementation"
+         * 
+         * @return std::map<std::shared_ptr<IRBlock>, std::shared_ptr<IRBlock>> 
+         */
+        std::map<std::shared_ptr<IRBlock>, std::shared_ptr<IRBlock>> IRGraph::compute_immediate_dominators()
+        {
+            std::map<std::shared_ptr<IRBlock>, Nodes> tmp;
+            std::map<std::shared_ptr<IRBlock>, std::shared_ptr<IRBlock>> idom;
+
+            if (nodes.size() == 0)
+                return idom;
+
+            auto first_node = nodes[0];
+
+            // compute the dominators
+            tmp = compute_dominators(first_node);
+            
+            // remove itself from dominators
+            for (auto item = tmp.begin(); item != tmp.end(); item++)
+            {
+                auto rem = std::find(item->second.begin(), item->second.end(), item->first);
+
+                if (rem != item->second.end())
+                    item->second.erase(rem);
+            }
+
+            for (auto n : nodes)
+            {
+                for (auto s : tmp[n])
+                {
+                    for (auto t : tmp[n])
+                    {
+                        if (t == s)
+                            continue;
+                        
+                        if (std::find(tmp[s].begin(), tmp[s].end(), t) != tmp[s].end())
+                        {
+                            auto rem = std::find(tmp[n].begin(), tmp[n].end(), t);
+
+                            if (rem != tmp[n].end())
+                                tmp[n].erase(rem);
+                        }
+                    }
+                }
+            }
+
+            for (auto n : nodes)
+            {
+                if (tmp[n].size() == 1)
+                    idom[n] = tmp[n][0];
+                else
+                    idom[n] = nullptr; 
+            }
+
+            return idom;
+        }
+
+
+        /**
          * @brief Create a copy of the IRGraph as a smart pointer.
          * @return std::shared_ptr<IRGraph>
          */
@@ -692,6 +752,8 @@ namespace KUNAI
         /**
          * @brief Generate a dot file with the CFG, this will include the IR
          *        code, and each block as graph nodes.
+         * 
+         * @param name: name for the generated dot file.
          */
         void IRGraph::generate_dot_file(std::string name)
         {
@@ -733,6 +795,33 @@ namespace KUNAI
             stream << "}";
 
             stream.close();
+        }
+
+        /**
+         * @brief Generate a dot file with the dominator tree.
+         * 
+         * @param name 
+         */
+        void IRGraph::generate_dominator_tree(std::string name)
+        {
+            IRGraph graph;
+
+            auto idoms = this->compute_immediate_dominators();
+
+            // add the nodes and the edges.
+            for (auto idom : idoms)
+            {
+                graph.add_node(idom.first);
+
+                if (idom.second)
+                {
+                    graph.add_node(idom.second);
+
+                    graph.add_edge(idom.second, idom.first);
+                }
+            }
+
+            graph.generate_dot_file(name);
         }
 
     } // namespace MJOLNIR

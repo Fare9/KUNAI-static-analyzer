@@ -100,6 +100,24 @@ int main(int argc, char **argv)
 
             std::cout << "\n";
         }
+
+        std::cout << "Computing immediate dominators...\n";
+
+        auto i_domminators = graph->compute_immediate_dominators();
+
+        for (auto idom : i_domminators)
+        {
+            std::cout << idom.first->get_name() << ": ";
+
+            if (idom.second)
+                std::cout << idom.second->get_name();
+            
+            std::cout << "\n";
+        }
+
+        std::cout << "Generating idom.dot with dominator tree...\n";
+        
+        graph->generate_dominator_tree("idom");
     }
 
     return 0;

@@ -70,6 +70,8 @@ namespace KUNAI
             std::map<std::shared_ptr<IRBlock>, Nodes> compute_dominators(std::shared_ptr<IRBlock> head);
             std::map<std::shared_ptr<IRBlock>, Nodes> compute_postdominators(std::shared_ptr<IRBlock> leaf);
 
+            std::map<std::shared_ptr<IRBlock>, std::shared_ptr<IRBlock>> compute_immediate_dominators();
+
             std::shared_ptr<IRGraph> copy();
 
 
@@ -90,6 +92,7 @@ namespace KUNAI
             Nodes Breadth_First_Search(std::shared_ptr<IRBlock> head);
 
             void generate_dot_file(std::string name);
+            void generate_dominator_tree(std::string name);
         private:
             Nodes nodes;
             Edges edges;
