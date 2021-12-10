@@ -1467,6 +1467,13 @@ namespace KUNAI
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
             this->nBBBBBBBB = *(reinterpret_cast<std::int32_t *>(&instruction[2]));
+
+            if (get_OP() == DVMTypes::OP_PACKED_SWITCH)
+                this->type_of_switch = PACKED_SWITCH;
+            else if (get_OP() == DVMTypes::OP_SPARSE_SWITCH)
+                this->type_of_switch = SPARSE_SWITCH;
+            else
+                this->type_of_switch = NONE_SWITCH;
         }
 
         Instruction31t::~Instruction31t() {}
@@ -1509,6 +1516,33 @@ namespace KUNAI
         {
             return nBBBBBBBB;
         }
+
+        Instruction31t::type_of_switch_t Instruction31t::get_type_of_switch()
+        {
+            return this->type_of_switch;
+        }
+        
+        std::shared_ptr<PackedSwitch> Instruction31t::get_packed_switch()
+        {
+            return packed_switch;
+        }
+        
+        std::shared_ptr<SparseSwitch> Instruction31t::get_sparse_switch()
+        {
+            return sparse_switch;
+        }
+
+        void Instruction31t::set_packed_switch(std::shared_ptr<PackedSwitch> packed_switch)
+        {
+            this->packed_switch = packed_switch;
+        }
+
+
+        void Instruction31t::set_sparse_switch(std::shared_ptr<SparseSwitch> sparse_switch)
+        {
+            this->sparse_switch = sparse_switch;
+        }
+
         /**
          * Instruction31c
          */

@@ -16,6 +16,7 @@ namespace KUNAI {
             std::shared_ptr<Instruction> instruction;
             size_t buffer_size = byte_buffer.size();
             std::uint32_t opcode;
+            bool exist_switch = false;
 
             while (instruction_index < buffer_size)
             {
@@ -27,6 +28,8 @@ namespace KUNAI {
 
                 try
                 {
+                    if (opcode == DVMTypes::OP_PACKED_SWITCH || opcode == DVMTypes::OP_SPARSE_SWITCH)
+                        exist_switch = true;
                     instruction = get_instruction_object(opcode, this->dalvik_opcodes, input_buffer);
 
                     if (instruction)
@@ -43,7 +46,31 @@ namespace KUNAI {
                 }
             }
 
+            if (exist_switch)
+                assign_switch_if_any(instructions);
+
             return instructions;
+        }
+
+        void LinearSweepDisassembler::assign_switch_if_any(std::map<std::uint64_t, std::shared_ptr<Instruction>> instrs)
+        {
+            for (auto instr : instrs)
+            {
+                if (instr.second->get_OP() == DVMTypes::OP_PACKED_SWITCH || instr.second->get_OP() == DVMTypes::OP_SPARSE_SWITCH)
+                {
+                    auto instr31t = std::dynamic_pointer_cast<Instruction31t>(instr.second);
+
+                    auto switch_idx = instr.first + (instr31t->get_offset()*2);
+
+                    if (instrs.find(switch_idx) != instrs.end())
+                    {
+                        if (instr.second->get_OP() == DVMTypes::OP_PACKED_SWITCH)
+                            instr31t->set_packed_switch(std::dynamic_pointer_cast<PackedSwitch>(instrs[switch_idx]));
+                        else if (instr.second->get_OP() == DVMTypes::OP_SPARSE_SWITCH)
+                            instr31t->set_sparse_switch(std::dynamic_pointer_cast<SparseSwitch>(instrs[switch_idx]));
+                    }
+                }
+            }
         }
     }
 }

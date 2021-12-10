@@ -718,6 +718,9 @@ namespace KUNAI
             std::uint32_t nBBBBBBBB;
         };
 
+        class PackedSwitch;
+        class SparseSwitch;
+
         class Instruction31t : public Instruction
         /***
          * Fill given array with indicated data. Reference must
@@ -731,6 +734,13 @@ namespace KUNAI
          */
         {
         public:
+            enum type_of_switch_t
+            {
+                PACKED_SWITCH = 0,
+                SPARSE_SWITCH,
+                NONE_SWITCH,
+            };
+
             Instruction31t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file);
             ~Instruction31t();
 
@@ -744,9 +754,20 @@ namespace KUNAI
             DVMTypes::Operand get_offset_type();
             std::int32_t get_offset();
 
+            type_of_switch_t get_type_of_switch();
+            std::shared_ptr<PackedSwitch> get_packed_switch();
+            std::shared_ptr<SparseSwitch> get_sparse_switch();
+
+            void set_packed_switch(std::shared_ptr<PackedSwitch> packed_switch);
+            void set_sparse_switch(std::shared_ptr<SparseSwitch> sparse_switch);
+            
         private:
             std::uint8_t vAA;
             std::int32_t nBBBBBBBB;
+
+            type_of_switch_t type_of_switch;
+            std::shared_ptr<PackedSwitch> packed_switch;
+            std::shared_ptr<SparseSwitch> sparse_switch;
         };
 
         class Instruction31c : public Instruction
