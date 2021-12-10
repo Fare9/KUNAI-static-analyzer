@@ -573,7 +573,7 @@ namespace KUNAI
                 else if (src_field->get_type() == MJOLNIR::IRField::DOUBLE_F)
                     cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, dest_reg, dest_reg, nullptr, nullptr);
                 else if (src_field->get_type() == MJOLNIR::IRField::CLASS_F)
-                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg, nullptr, nullptr);
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_CLASS, src_field->get_class_name(), dest_reg, dest_reg, nullptr, nullptr);
             }
             // Instruction22c put
             else if (androidinstructions.assignment_instruction22c_put.find(op_code) != androidinstructions.assignment_instruction22c_put.end())
@@ -1117,6 +1117,25 @@ namespace KUNAI
                 callee = std::make_shared<MJOLNIR::IRCallee>(0, method_name, class_name, p_size, proto, class_name + "->" + method_name + proto, ADDR_S);
                 call = std::make_shared<MJOLNIR::IRCall>(callee, parameters, nullptr, nullptr);
             }
+            else if (androidinstructions.call_instruction3rc.find(op_code) != androidinstructions.call_instruction3rc.end())
+            {
+                auto call_inst = std::dynamic_pointer_cast<DEX::Instruction3rc>(instruction);
+                std::vector<std::shared_ptr<MJOLNIR::IRExpr>> parameters;
+
+                size_t p_size = call_inst->get_array_size();
+
+                for (size_t i = 0; i < p_size; i++)
+                    parameters.push_back(make_android_register(call_inst->get_operand_register(i)));
+
+                auto method_called = call_inst->get_operands_method();
+
+                std::string method_name = *method_called->get_method_name();
+                std::string class_name = reinterpret_cast<DEX::Class *>(method_called->get_method_class())->get_name();
+                std::string proto = method_called->get_method_prototype()->get_proto_str();
+
+                callee = std::make_shared<MJOLNIR::IRCallee>(0, method_name, class_name, p_size, proto, class_name + "->" + method_name + proto, ADDR_S);
+                call = std::make_shared<MJOLNIR::IRCall>(callee, parameters, nullptr, nullptr);
+            }
 
             if (call)
                 bb->append_statement_to_block(call);
@@ -1142,7 +1161,7 @@ namespace KUNAI
                 size = QWORD_S;
                 break;
             case DEX::DVMTypes::Opcode::OP_AGET_OBJECT:
-                cast_type = MJOLNIR::IRUnaryOp::TO_ADDR;
+                cast_type = MJOLNIR::IRUnaryOp::TO_CLASS;
                 size = ADDR_S;
                 break;
             case DEX::DVMTypes::Opcode::OP_AGET_BOOLEAN:
