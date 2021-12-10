@@ -605,6 +605,11 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_INVOKE_DIRECT,
                 DEX::DVMTypes::Opcode::OP_INVOKE_STATIC,
                 DEX::DVMTypes::Opcode::OP_INVOKE_INTERFACE,
+                DEX::DVMTypes::Opcode::OP_INVOKE_VIRTUAL_RANGE,
+                DEX::DVMTypes::Opcode::OP_INVOKE_SUPER_RANGE,
+                DEX::DVMTypes::Opcode::OP_INVOKE_DIRECT_RANGE,
+                DEX::DVMTypes::Opcode::OP_INVOKE_STATIC_RANGE,
+                DEX::DVMTypes::Opcode::OP_INVOKE_INTERFACE_RANGE,
             };
 
             std::set<DEX::DVMTypes::Opcode> call_instruction35c = {
@@ -613,6 +618,14 @@ namespace KUNAI
                 DEX::DVMTypes::Opcode::OP_INVOKE_DIRECT,
                 DEX::DVMTypes::Opcode::OP_INVOKE_STATIC,
                 DEX::DVMTypes::Opcode::OP_INVOKE_INTERFACE,
+            };
+
+            std::set<DEX::DVMTypes::Opcode> call_instruction3rc = {
+                DEX::DVMTypes::Opcode::OP_INVOKE_VIRTUAL_RANGE,
+                DEX::DVMTypes::Opcode::OP_INVOKE_SUPER_RANGE,
+                DEX::DVMTypes::Opcode::OP_INVOKE_DIRECT_RANGE,
+                DEX::DVMTypes::Opcode::OP_INVOKE_STATIC_RANGE,
+                DEX::DVMTypes::Opcode::OP_INVOKE_INTERFACE_RANGE,
             };
 
             // move-result instructions
