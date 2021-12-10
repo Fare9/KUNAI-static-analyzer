@@ -312,6 +312,7 @@ namespace KUNAI
                 TO_DOUBLE,
                 TO_ADDR,
                 TO_BOOLEAN,
+                TO_CLASS,
             };
 
             IRUnaryOp(unary_op_t unary_op_type,
@@ -327,6 +328,14 @@ namespace KUNAI
                       std::shared_ptr<IRExpr> left,
                       std::shared_ptr<IRExpr> right);
 
+            IRUnaryOp(unary_op_t unary_op_type,
+                      cast_type_t cast_type,
+                      std::string class_name,
+                      std::shared_ptr<IRExpr> result,
+                      std::shared_ptr<IRExpr> op,
+                      std::shared_ptr<IRExpr> left,
+                      std::shared_ptr<IRExpr> right);
+
             ~IRUnaryOp();
 
             unary_op_t get_unary_op_type();
@@ -335,6 +344,7 @@ namespace KUNAI
 
             void set_cast_type(cast_type_t cast_type);
             cast_type_t get_cast_type();
+            std::string get_class_cast();
 
             std::string to_string();
             bool equals(std::shared_ptr<IRUnaryOp> irunaryop);
@@ -344,6 +354,8 @@ namespace KUNAI
             unary_op_t unary_op_type;
             //! used for casting operations
             cast_type_t cast_type;
+            //! Class casted to
+            std::string class_name;
             //! IRUnaryOp => IRExpr(result) = <unaryop> IRExpr(op)
             //! an IRExpr for where the result is stored.
             std::shared_ptr<IRExpr> result;

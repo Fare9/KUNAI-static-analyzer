@@ -423,6 +423,7 @@ namespace KUNAI
         /**
          * @brief Constructor of IRUnaryOp class, this will get different values for the instruction.
          * @param unary_op_type: type of unary operation.
+         * @param cast_type: instruction is cast, specify type of cast.
          * @param result: where the operation stores the result.
          * @param op: operand from the instruction.
          * @param left: left expression for the AST.
@@ -442,6 +443,35 @@ namespace KUNAI
             this->op = op;
             this->cast_type = cast_type;
         }
+
+        /**
+         * @brief  Constructor of IRUnaryOp class, this will get different values for the instruction.
+         * 
+         * @param unary_op_type: type of unary operation.
+         * @param cast_type: instruction is cast, specify type of cast.
+         * @param class_name: if cast is TO_CLASS, specify the name of the class.
+         * @param result: where the operation stores the result.
+         * @param op: operand from the instruction.
+         * @param left: left expression for the AST.
+         * @param right: right expression for the AST.
+         * @return void
+         */
+        IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type,
+                      cast_type_t cast_type,
+                      std::string class_name,
+                      std::shared_ptr<IRExpr> result,
+                      std::shared_ptr<IRExpr> op,
+                      std::shared_ptr<IRExpr> left,
+                      std::shared_ptr<IRExpr> right)
+            : IRExpr(UNARYOP_EXPR_T, left, right)
+        {
+            this->unary_op_type = unary_op_type;
+            this->result = result;
+            this->op = op;
+            this->cast_type = cast_type;
+            this->class_name = class_name;
+        }
+
 
         /**
          * @brief Destructor of IRUnaryOp class, nothing to be done.
@@ -493,6 +523,16 @@ namespace KUNAI
         IRUnaryOp::cast_type_t IRUnaryOp::get_cast_type()
         {
             return this->cast_type;
+        }
+
+        /**
+         * @brief Get the class name where register is casted to.
+         * 
+         * @return std::string 
+         */
+        std::string IRUnaryOp::get_class_cast()
+        {
+            return this->class_name;
         }
 
         /**
