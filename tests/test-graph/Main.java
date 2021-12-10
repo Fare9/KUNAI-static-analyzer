@@ -6,6 +6,21 @@ public class Main {
 
         int a = reader.nextInt();
 
+        switch (a) {
+            case 1:
+                System.out.println("a = 1");
+                break;
+            case 2:
+                System.out.println("a = 2");
+                break;
+            case 3:
+                System.out.println("a = 3");
+                break;
+            default:
+                System.out.println("a not 1,2,3");
+                break;
+        }
+
         if ((a % 2) == 0)
         {
             System.out.println("Even");
