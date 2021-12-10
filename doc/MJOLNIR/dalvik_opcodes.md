@@ -116,11 +116,11 @@
 | 0x71 | invoke-static {parameters},methodtocall | IRCall + IRCallee |
 | 0x72 | invoke-interface {parameters},methodtocall | IRCall + IRCallee |
 | 0x73 | unused 73 |   |
-| 0x74 | invoke-virtual/range {vx..vy},methodtocall |   |
-| 0x75 | invoke-super/range invoke-special |   |
-| 0x76 | invoke-direct/range {vx..vy},methodtocall |   |
-| 0x77 | invoke-static/range {vx..vy},methodtocall |   |
-| 0x78 | invoke-interface-range invoke-interface |   |
+| 0x74 | invoke-virtual/range {vx..vy},methodtocall | IRCall + IRCallee |
+| 0x75 | invoke-super/range invoke-special | IRCall + IRCallee |
+| 0x76 | invoke-direct/range {vx..vy},methodtocall | IRCall + IRCallee |
+| 0x77 | invoke-static/range {vx..vy},methodtocall | IRCall + IRCallee |
+| 0x78 | invoke-interface-range invoke-interface | IRCall + IRCallee |
 | 0x79 | unused 79 |   |
 | 0x7A | unused 7A |   |
 | 0x7B | neg-int vx,vy  | IRUnaryOp + IRUnaryOp (CAST\_OP)  |
