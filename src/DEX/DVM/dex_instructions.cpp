@@ -2980,41 +2980,6 @@ namespace KUNAI
                 break;
                 }
 
-                /*
-                offset = switch_instr->get_offset() * 2;
-
-                std::int64_t padding = (offset + static_cast<std::int64_t>(curr_idx)) % 4;
-                if (padding != 0)
-                    std::cerr << "Padding should be 0, switch payload not aligned, adding " << padding << " bytes..." << std::endl;
-                auto data = instructions[offset + static_cast<std::int64_t>(curr_idx) + padding];
-
-                if (data)
-                {
-                    if (instanceof <PackedSwitch>(data.get()))
-                    {
-                        auto packed_switch = std::dynamic_pointer_cast<PackedSwitch>(data);
-
-                        for (auto it = packed_switch->get_targets().begin(); it != packed_switch->get_targets().end(); it++)
-                        {
-                            x.push_back(*it);
-                        }
-                    }
-                    else if (instanceof <SparseSwitch>(data.get()))
-                    {
-                        auto sparse_switch = std::dynamic_pointer_cast<SparseSwitch>(data);
-
-                        for (auto it = sparse_switch->get_keys_targets().begin(); it != sparse_switch->get_keys_targets().end(); it++)
-                        {
-                            x.push_back(std::get<1>(*it));
-                        }
-                    }
-                    else
-                    {
-                        std::cerr << "Could not determine payload of switch command at offset" << curr_idx << " instruction " << data->get_OP() << " possible broken bytecode." << std::endl;
-                    }
-                }
-                */
-
                 return x;
             }
 
