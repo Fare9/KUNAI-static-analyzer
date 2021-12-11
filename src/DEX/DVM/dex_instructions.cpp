@@ -2194,9 +2194,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[8]>(instruction_part1, 8, input_file))
                 throw exceptions::DisassemblerException("Error disassembling PackedSwitch");
 
-            this->ident = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[0]));
-            this->size = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[2]));
-            this->first_key = *(reinterpret_cast<std::int32_t *>(&instruction_part1[4]));
+            this->ident = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[0]));
+            this->size = *(reinterpret_cast<std::uint16_t*>(&instruction_part1[2]));
+            this->first_key = *(reinterpret_cast<std::int32_t*>(&instruction_part1[4]));
 
             this->set_OP(this->ident);
 
@@ -2204,7 +2204,7 @@ namespace KUNAI
 
             for (size_t i = 0; i < buff_size; i++)
             {
-                if (!KUNAI::read_data_file<std::int32_t>(aux, 1, input_file))
+                if (!KUNAI::read_data_file<std::int32_t>(aux, sizeof(std::int32_t), input_file))
                     throw exceptions::DisassemblerException("Error disassembling PackedSwitch");
                 this->targets.push_back(aux);
             }
@@ -2472,7 +2472,7 @@ namespace KUNAI
 
                 input_file.read(byte, 2);
 
-                input_file.seekg(current_offset);
+                input_file.seekg(current_offset); // in this case is necessary to set back the pointer
 
                 if (byte[1] == 0x03)
                     instruction = std::make_shared<FillArrayData>(dalvik_opcodes, input_file); // filled-array-data
@@ -2956,9 +2956,31 @@ namespace KUNAI
             {
                 std::vector<std::int64_t> x = {static_cast<std::int64_t>(curr_idx) + instr->get_length()};
 
-                std::int64_t offset;
-
                 auto switch_instr = std::dynamic_pointer_cast<Instruction31t>(instr);
+                
+                switch (switch_instr->get_type_of_switch())
+                {
+                case Instruction31t::PACKED_SWITCH:
+                {
+                    auto packed_switch = switch_instr->get_packed_switch();
+                    auto targets = packed_switch->get_targets();
+
+                    for(auto target : targets)
+                        x.push_back(curr_idx + target*2);
+                }
+                break;
+                case Instruction31t::SPARSE_SWITCH:
+                {
+                    auto sparse_switch = switch_instr->get_sparse_switch();
+                    auto targets = sparse_switch->get_keys_targets();
+
+                    for (auto target : targets)
+                        x.push_back(curr_idx + std::get<1>(target)*2);
+                }
+                break;
+                }
+
+                /*
                 offset = switch_instr->get_offset() * 2;
 
                 std::int64_t padding = (offset + static_cast<std::int64_t>(curr_idx)) % 4;
@@ -2991,6 +3013,7 @@ namespace KUNAI
                         std::cerr << "Could not determine payload of switch command at offset" << curr_idx << " instruction " << data->get_OP() << " possible broken bytecode." << std::endl;
                     }
                 }
+                */
 
                 return x;
             }
