@@ -11,11 +11,12 @@ IR written for generic analysis of different file formats and binary architectur
 At the top of the IR we have the statements, these will be every instruction from the IR that could be executed by the program, between these IRStmnt are the expressions (explained later), but more specific statements are those that change the Control-Flow Graph from the function/method, these are conditional and unconditional jumps, return statements, etc.
 
 ```
-IRStmnt     -->     IRUJmp  |
-                    IRCJmp  |
-                    IRRet   |
-                    IRBlock |
-                    IRNop   |
+IRStmnt     -->     IRUJmp   |
+                    IRCJmp   |
+                    IRRet    |
+                    IRBlock  |
+                    IRNop    |
+                    IRSwitch |
                     IRExpr 
 
 IRUJmp      -->     jmp addr
