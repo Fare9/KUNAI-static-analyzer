@@ -31,6 +31,7 @@ namespace KUNAI
         class IRCJmp;
         class IRRet;
         class IRNop;
+        class IRSwitch;
         class IRExpr;
         class IRBinOp;
         class IRUnaryOp;
@@ -69,6 +70,7 @@ namespace KUNAI
         bool is_conditional_jump(std::shared_ptr<IRStmnt> instr);
         bool is_ret(std::shared_ptr<IRStmnt> instr);
         bool is_call(std::shared_ptr<IRStmnt> instr);
+        bool is_switch(std::shared_ptr<IRStmnt> instr);
 
         class IRBlock
         {
@@ -106,6 +108,7 @@ namespace KUNAI
                 CJMP_STMNT_T,
                 RET_STMNT_T,
                 NOP_STMNT_T,
+                SWITCH_STMNT_T,
                 EXPR_STMNT_T,
                 NONE_STMNT_T = 99 // used to finish the chain of statements
             };
@@ -187,6 +190,29 @@ namespace KUNAI
             ~IRNop();
 
             std::string to_string();
+        };
+
+        class IRSwitch : public IRStmnt
+        {
+        public:
+            IRSwitch(std::vector<int32_t> offsets,
+                     std::shared_ptr<IRExpr> condition,
+                     std::vector<int32_t> constants_checks);
+            
+            ~IRSwitch();
+
+            std::vector<int32_t> get_offsets();
+            std::shared_ptr<IRExpr> get_condition();
+            std::vector<int32_t> get_constants_checks();
+
+            std::string to_string();
+        private:
+            //! switch offsets where instruction will jump.
+            std::vector<int32_t> offsets;
+            //! condition taken to decide where to jump
+            std::shared_ptr<IRExpr> condition;
+            //! conditions checked during switch.
+            std::vector<int32_t> constants_checks;
         };
 
         class IRExpr : public IRStmnt

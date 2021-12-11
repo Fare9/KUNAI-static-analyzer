@@ -19,6 +19,7 @@ namespace KUNAI
         class AndroidInstructions
         {
         public:
+            
             /**
              * Assignment instructions
              */
@@ -666,6 +667,14 @@ namespace KUNAI
              */
             std::set<DEX::DVMTypes::Opcode> new_instructions = {
                 DEX::DVMTypes::Opcode::OP_NEW_INSTANCE,
+            };
+
+            /**
+             * Switch instructions
+             */
+            std::set<DEX::DVMTypes::Opcode> switch_instructions = {
+                DEX::DVMTypes::Opcode::OP_PACKED_SWITCH,
+                DEX::DVMTypes::Opcode::OP_SPARSE_SWITCH
             };
         };
     }

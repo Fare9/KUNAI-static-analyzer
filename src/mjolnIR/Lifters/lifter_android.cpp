@@ -16,7 +16,7 @@ namespace KUNAI
 
         /**
          * @brief Lift a given method from a method_analysis object.
-         * 
+         *
          * @param method_analysis: method from Android to lift.
          * @return std::shared_ptr<MJOLNIR::IRGraph>
          */
@@ -33,6 +33,9 @@ namespace KUNAI
                 std::shared_ptr<MJOLNIR::IRBlock> lifted_bb = std::make_shared<MJOLNIR::IRBlock>();
 
                 this->lift_android_basic_block(bb, lifted_bb);
+
+                if (lifted_bb->get_number_of_statements() == 0)
+                    continue;
 
                 lifted_blocks[bb] = lifted_bb;
 
@@ -62,11 +65,11 @@ namespace KUNAI
 
         /**
          * @brief Lift an android basic block instructions to IR instructions.
-         * 
-         * @param basic_block: basic block with Android instructions. 
+         *
+         * @param basic_block: basic block with Android instructions.
          * @param bb: IR Basic Block.
-         * @return true 
-         * @return false 
+         * @return true
+         * @return false
          */
         bool LifterAndroid::lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock> basic_block, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
@@ -91,7 +94,7 @@ namespace KUNAI
                 }
                 else
                     this->lift_android_instruction(instruction, bb);
-                
+
                 current_idx += instruction->get_length();
             }
 
@@ -102,16 +105,19 @@ namespace KUNAI
         }
 
         /**
-         * @brief 
-         * 
+         * @brief
+         *
          * @param instruction: instruction from android to lift.
          * @param bb: IR Basic Block.
-         * @return true 
-         * @return false 
+         * @return true
+         * @return false
          */
         bool LifterAndroid::lift_android_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
+
+            if (op_code == 0x0100 || op_code == 0x0200)
+                return true;
 
             if (androidinstructions.assignment_instruction.find(op_code) != androidinstructions.assignment_instruction.end())
                 this->lift_assignment_instruction(instruction, bb);
@@ -135,6 +141,8 @@ namespace KUNAI
                 this->lift_nop_instructions(bb);
             else if (androidinstructions.new_instructions.find(op_code) != androidinstructions.new_instructions.end())
                 this->lift_new_instructions(instruction, bb);
+            else if (androidinstructions.switch_instructions.find(op_code) != androidinstructions.switch_instructions.end())
+                this->lift_switch_instructions(instruction, bb);
             else
                 // for the moment create a nop instruction
                 this->lift_nop_instructions(bb);
@@ -162,8 +170,8 @@ namespace KUNAI
          * @brief Return a temporal register, used for operations like
          *        conditional jumps to have some place where to store result
          *        of comparison.
-         * 
-         * @return std::shared_ptr<MJOLNIR::IRTempReg> 
+         *
+         * @return std::shared_ptr<MJOLNIR::IRTempReg>
          */
         std::shared_ptr<MJOLNIR::IRTempReg> LifterAndroid::make_temporal_register()
         {
@@ -226,8 +234,8 @@ namespace KUNAI
         /**
          * @brief Generate a IRField type for Android, this has the values from the
          *        FieldID.
-         * @param field: FieldID to generate the object. 
-         * @return std::shared_ptr<MJOLNIR::IRField> 
+         * @param field: FieldID to generate the object.
+         * @return std::shared_ptr<MJOLNIR::IRField>
          */
         std::shared_ptr<MJOLNIR::IRField> LifterAndroid::make_field(DEX::FieldID *field)
         {
@@ -868,7 +876,7 @@ namespace KUNAI
 
         /**
          * @brief Generate a IRRet instruction which represent a ret instruction.
-         * 
+         *
          * @param instruction: instruction to lift.
          * @param bb: basic block where to insert the instructions.
          * @return void
@@ -900,7 +908,7 @@ namespace KUNAI
 
         /**
          * @brief Generate a IRBComp instruction which represent a comparison between two values.
-         * 
+         *
          * @param instruction: instruction to lift.
          * @param bb: basic block where to insert the instructions.
          * @return void
@@ -959,7 +967,7 @@ namespace KUNAI
 
         /**
          * @brief Generate a IRCJmp instruction which represent a conditional jump.
-         * 
+         *
          * @param instruction: instruction to lift.
          * @param bb: basic block where to insert the instructions.
          * @return void
@@ -1046,9 +1054,9 @@ namespace KUNAI
 
         /**
          * @brief Generate a IRUJmp instruction which represent an unconditional jump.
-         * 
-         * @param instruction 
-         * @param bb 
+         *
+         * @param instruction
+         * @param bb
          * @return void
          */
         void LifterAndroid::lift_unconditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
@@ -1087,9 +1095,9 @@ namespace KUNAI
 
         /**
          * @brief Generate the IRCall instruction which represent any kind of call function/method instruction.
-         * 
-         * @param instruction 
-         * @param bb 
+         *
+         * @param instruction
+         * @param bb
          */
         void LifterAndroid::lift_call_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
@@ -1143,9 +1151,9 @@ namespace KUNAI
 
         /**
          * @brief Generate a IRLoad instruction, this will commonly go with an IRCast.
-         * 
-         * @param instruction 
-         * @param bb 
+         *
+         * @param instruction
+         * @param bb
          */
         void LifterAndroid::lift_load_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
@@ -1181,7 +1189,7 @@ namespace KUNAI
                 size = WORD_S;
                 break;
             }
-            
+
             auto inst = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
 
             auto dst = make_android_register(inst->get_destination());
@@ -1200,9 +1208,9 @@ namespace KUNAI
 
         /**
          * @brief Generate a IRStore instruction from different aput* instructions.
-         * 
-         * @param instruction 
-         * @param bb 
+         *
+         * @param instruction
+         * @param bb
          */
         void LifterAndroid::lift_store_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
@@ -1243,8 +1251,8 @@ namespace KUNAI
 
         /**
          * @brief Lift a NOP instruction.
-         * 
-         * @param bb 
+         *
+         * @param bb
          */
         void LifterAndroid::lift_nop_instructions(std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
@@ -1255,9 +1263,9 @@ namespace KUNAI
 
         /**
          * @brief Lift a new instruction.
-         * 
-         * @param instruction 
-         * @param bb 
+         *
+         * @param instruction
+         * @param bb
          */
         void LifterAndroid::lift_new_instructions(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
@@ -1270,7 +1278,7 @@ namespace KUNAI
 
                 auto dst_reg = make_android_register(instr->get_destination());
 
-                auto class_ = make_class(dynamic_cast<DEX::Class*>(instr->get_source_typeid()));
+                auto class_ = make_class(dynamic_cast<DEX::Class *>(instr->get_source_typeid()));
 
                 new_instr = std::make_shared<MJOLNIR::IRNew>(dst_reg, class_, nullptr, nullptr);
             }
@@ -1278,13 +1286,54 @@ namespace KUNAI
             bb->append_statement_to_block(new_instr);
         }
 
+        /**
+         * @brief Lift those Android switch instructions.
+         *
+         * @param instruction
+         * @param bb
+         */
+        void LifterAndroid::lift_switch_instructions(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        {
+            std::shared_ptr<MJOLNIR::IRStmnt> switch_instr;
+            auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
+            auto instr = std::dynamic_pointer_cast<DEX::Instruction31t>(instruction);
+            auto condition = make_android_register(instr->get_array_ref());
+            std::vector<std::int32_t> targets;
+            std::vector<std::int32_t> checks;
 
+            if (op_code == DEX::DVMTypes::OP_PACKED_SWITCH)
+            {
+                auto packed_switch = instr->get_packed_switch();
+
+                auto switch_targets = packed_switch->get_targets();
+
+                for (auto target : switch_targets)
+                {
+                    targets.push_back(current_idx + (target * 2));
+                }
+            }
+            else if (op_code == DEX::DVMTypes::OP_SPARSE_SWITCH)
+            {
+                auto sparse_switcht = instr->get_sparse_switch();
+
+                auto key_targets = sparse_switcht->get_keys_targets();
+
+                for (auto key_target : key_targets)
+                {
+                    checks.push_back(std::get<0>(key_target));
+                    targets.push_back(current_idx + (std::get<1>(key_target) * 2));
+                }
+            }
+
+            switch_instr = std::make_shared<MJOLNIR::IRSwitch>(targets, condition, checks);
+            bb->append_statement_to_block(switch_instr);
+        }
         /**
          * @brief Fix for every jump instruction at the end of a basic block,
          *        its target and in case of conditional jump its fallthrough,
          *        this will give for each one, the basic block where it points
          *        to.
-         * 
+         *
          * @param bbs: basic blocks from the method.
          */
         void LifterAndroid::jump_target_analysis(std::vector<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>> bbs)
@@ -1295,7 +1344,7 @@ namespace KUNAI
 
                 auto current_bb = lifted_blocks[bb];
 
-                if (current_bb->get_number_of_statements() == 0) // security check
+                if (current_bb == nullptr || current_bb->get_number_of_statements() == 0) // security check
                     continue;
 
                 // now set some interesting stuff for instructions.
@@ -1333,6 +1382,12 @@ namespace KUNAI
                         }
                     }
                 }
+                else if (MJOLNIR::is_switch(last_instr))
+                {
+                    auto switch_instr = std::dynamic_pointer_cast<MJOLNIR::IRSwitch>(last_instr);
+
+                    
+                }
             }
         }
 
@@ -1341,9 +1396,9 @@ namespace KUNAI
          *        this will be just for those cases where the current
          *        instruction is some kind of move_result and then
          *        the previos instruction is a call.
-         * 
-         * @param instruction 
-         * @param call 
+         *
+         * @param instruction
+         * @param call
          */
         void LifterAndroid::lift_move_result_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRCall> call)
         {
@@ -1359,7 +1414,7 @@ namespace KUNAI
          *        fallthrough edges between blocks which are from conditional
          *        jumps, these has no edges so for the moment one block looks
          *        like goes nowehere:
-         * 
+         *
          *                          +----------------+
          *                          |                |
          *                          |  jcc           |
@@ -1376,12 +1431,12 @@ namespace KUNAI
          *                                         |                |
          *                                         |                |
          *                                         +----------------+
-         * 
+         *
          *         The one on the left points nowhere but this is the real previous
          *         block before the last block, but last block is divided because
          *         there's a jump to it, so we will create an edge between, the one
          *         on the left, and the last one, as it's a continuation.
-         * 
+         *
          *                          +----------------+
          *                          |                |
          *                          |  jcc           |
@@ -1401,7 +1456,7 @@ namespace KUNAI
          *                           |                |
          *                           |                |
          *                           +----------------+
-         * @param ir_graph 
+         * @param ir_graph
          */
         void LifterAndroid::fallthrough_target_analysis(std::shared_ptr<MJOLNIR::IRGraph> ir_graph)
         {

@@ -212,5 +212,22 @@ namespace KUNAI
 
             return true;
         }
+
+        /**
+         * @brief Check if given statement is a switch instruction.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_switch(std::shared_ptr<IRStmnt> instr)
+        {
+            auto switch_instr = std::dynamic_pointer_cast<IRSwitch>(instr);
+
+            if (switch_instr == nullptr)
+                return false;
+
+            return true;
+        }
     }
 }

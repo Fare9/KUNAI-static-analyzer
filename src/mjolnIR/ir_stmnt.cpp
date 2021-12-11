@@ -65,6 +65,12 @@ namespace KUNAI
 
                 return expr->to_string();
             }
+            else if (stmnt_type == SWITCH_STMNT_T)
+            {
+                auto switch_ = reinterpret_cast<IRSwitch*>(this);
+
+                return switch_->to_string();
+            }
             else if (stmnt_type == NONE_STMNT_T)
             {
                 return "IRStmnt [NONE]";
@@ -312,6 +318,86 @@ namespace KUNAI
         std::string IRNop::to_string()
         {
             return "IRNop[]";
+        }
+
+        /**
+         * IRSwitch class
+         */
+
+        /**
+         * @brief Construct a new IRSwitch::IRSwitch object
+         * 
+         * @param offsets: offsets where switch branch goes.
+         * @param condition: possible condition checked on switch.
+         * @param constants_checks: values checked on switch (if any)
+         */
+        IRSwitch::IRSwitch(std::vector<int32_t> offsets,
+                     std::shared_ptr<IRExpr> condition,
+                     std::vector<int32_t> constants_checks)
+            : IRStmnt(SWITCH_STMNT_T)
+        {
+            this->offsets = offsets;
+            this->condition = condition;
+            this->constants_checks = constants_checks;
+        }
+        
+        /**
+         * @brief Destroy the IRSwitch::IRSwitch object
+         * 
+         */
+        IRSwitch::~IRSwitch() {}
+
+        /**
+         * @brief Return the offsets where switch can jump to.
+         * 
+         * @return std::vector<int32_t> 
+         */
+        std::vector<int32_t> IRSwitch::get_offsets()
+        {
+            return offsets;
+        }
+
+        /**
+         * @brief Return the possible condition checked on switch.
+         * 
+         * @return std::shared_ptr<IRExpr> 
+         */
+        std::shared_ptr<IRExpr> IRSwitch::get_condition()
+        {
+            return condition;
+        }
+
+        /**
+         * @brief Return possible constant checks used in switch.
+         * 
+         * @return std::vector<int32_t> 
+         */
+        std::vector<int32_t> IRSwitch::get_constants_checks()
+        {
+            return constants_checks;
+        }
+
+        /**
+         * @brief To string method print IR instruction.
+         * 
+         * @return std::string
+         */
+        std::string IRSwitch::to_string()
+        {
+            std::stringstream stream;
+
+            stream << "IRSwitch ";
+
+            if (condition)
+                stream << "[Condition: " << condition->to_string() << "]";
+            
+            for (auto check : constants_checks)
+                stream << "[Check: " << check << "]";
+            
+            for (auto offset : offsets)
+                stream << "[Target: 0x" << std::hex << offset << "]";
+
+            return stream.str();
         }
     }
 }

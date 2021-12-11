@@ -67,6 +67,7 @@ namespace KUNAI
             void lift_store_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_nop_instructions(std::shared_ptr<MJOLNIR::IRBlock> bb);
             void lift_new_instructions(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_switch_instructions(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
             // some utilities
             void jump_target_analysis(std::vector<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>> bbs);
             void fallthrough_target_analysis(std::shared_ptr<MJOLNIR::IRGraph> ir_graph);
