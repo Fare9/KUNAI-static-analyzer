@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 
     auto lifter_android = std::make_shared<KUNAI::LIFTER::LifterAndroid>();
 
-    auto graph = lifter_android->lift_android_method(main_method);
+    auto graph = lifter_android->lift_android_method(main_method, dex_analysis);
 
 
     if (graph->get_nodes().size() > 0)
