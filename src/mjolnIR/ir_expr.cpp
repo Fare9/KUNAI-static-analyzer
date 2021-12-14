@@ -738,6 +738,28 @@ namespace KUNAI
             this->callee = callee;
             this->args = args;
             this->ret_val = nullptr;
+            this->call_type = NONE_CALL_T;
+        }
+
+        /**
+         * @brief Constructor of IRCall, this expression represents a Call to a function or method.
+         * @param callee: function/method called represented as IRExpr (super-super-class of IRCallee).
+         * @param call_type: type of call instruction.
+         * @param args: vector of arguments to the function/method.
+         * @param left: left part of the call (used for AST).
+         * @param right: right part of the call (used for AST).
+         */
+        IRCall::IRCall(std::shared_ptr<IRExpr> callee,
+                   call_type_t call_type,
+                   std::vector<std::shared_ptr<IRExpr>> args,
+                   std::shared_ptr<IRExpr> left,
+                   std::shared_ptr<IRExpr> right)
+            : IRExpr(CALL_EXPR_T, left, right)
+        {
+            this->callee = callee;
+            this->call_type = call_type;
+            this->args = args;
+            this->ret_val = nullptr;
         }
 
         /**
@@ -776,6 +798,19 @@ namespace KUNAI
             str_stream << "IRCall ";
 
             str_stream << "[Callee: " << callee->to_string() << "]";
+
+            switch (call_type)
+            {
+            case INTERNAL_CALL_T:
+                str_stream << "[Type: INTERNAL_CALL]";
+                break;
+            case EXTERNAL_CALL_T:
+                str_stream << "[Type: EXTERNAL_CALL]";
+                break;
+            case SYSCALL_T:
+                str_stream << "[Type: SYSCALL]";
+                break;
+            }
 
             for (auto arg : args)
                 str_stream << "[Param: " << arg->to_string() << "]";

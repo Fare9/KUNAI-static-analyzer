@@ -18,12 +18,15 @@ namespace KUNAI
          * @brief Lift a given method from a method_analysis object.
          *
          * @param method_analysis: method from Android to lift.
+         * @param android_analysis: analysis from Android.
          * @return std::shared_ptr<MJOLNIR::IRGraph>
          */
-        std::shared_ptr<MJOLNIR::IRGraph> LifterAndroid::lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis)
+        std::shared_ptr<MJOLNIR::IRGraph> LifterAndroid::lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis, std::shared_ptr<DEX::Analysis> android_analysis)
         {
             auto bbs = method_analysis->get_basic_blocks()->get_basic_blocks();
             size_t n_bbs = bbs.size();
+            // set android_analysis
+            this->android_analysis = android_analysis;
             // graph returnedd by
             std::shared_ptr<MJOLNIR::IRGraph> method_graph = std::make_shared<MJOLNIR::IRGraph>();
 
@@ -59,6 +62,9 @@ namespace KUNAI
 
             this->jump_target_analysis(bbs);
             this->fallthrough_target_analysis(method_graph);
+
+            // clean android_analysis
+            this->android_analysis = nullptr;
 
             return method_graph;
         }
@@ -1104,6 +1110,7 @@ namespace KUNAI
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
             std::shared_ptr<MJOLNIR::IRCall> call = nullptr;
             std::shared_ptr<MJOLNIR::IRExpr> callee = nullptr;
+            MJOLNIR::IRCall::call_type_t call_type = MJOLNIR::IRCall::INTERNAL_CALL_T;
 
             if (androidinstructions.call_instruction35c.find(op_code) != androidinstructions.call_instruction35c.end())
             {
@@ -1117,13 +1124,23 @@ namespace KUNAI
 
                 // as it is a call to a method, we can safely retrieve the operand as method
                 auto method_called = call_inst->get_operands_kind_method();
-
+                
                 std::string method_name = *method_called->get_method_name();
                 std::string class_name = reinterpret_cast<DEX::Class *>(method_called->get_method_class())->get_name();
                 std::string proto = method_called->get_method_prototype()->get_proto_str();
 
+                if (this->android_analysis)
+                {
+                    auto method_analysis = this->android_analysis->get_method_analysis_by_name(class_name, method_name, proto);
+
+                    if (method_analysis == nullptr || method_analysis->external() || method_analysis->is_android_api())
+                    {
+                        call_type = MJOLNIR::IRCall::EXTERNAL_CALL_T;
+                    }
+                }
+
                 callee = std::make_shared<MJOLNIR::IRCallee>(0, method_name, class_name, p_size, proto, class_name + "->" + method_name + proto, ADDR_S);
-                call = std::make_shared<MJOLNIR::IRCall>(callee, parameters, nullptr, nullptr);
+                call = std::make_shared<MJOLNIR::IRCall>(callee, call_type, parameters, nullptr, nullptr);
             }
             else if (androidinstructions.call_instruction3rc.find(op_code) != androidinstructions.call_instruction3rc.end())
             {
@@ -1141,8 +1158,18 @@ namespace KUNAI
                 std::string class_name = reinterpret_cast<DEX::Class *>(method_called->get_method_class())->get_name();
                 std::string proto = method_called->get_method_prototype()->get_proto_str();
 
+                if (this->android_analysis)
+                {
+                    auto method_analysis = this->android_analysis->get_method_analysis_by_name(class_name, method_name, proto);
+
+                    if (method_analysis == nullptr || method_analysis->external() || method_analysis->is_android_api())
+                    {
+                        call_type = MJOLNIR::IRCall::EXTERNAL_CALL_T;
+                    }
+                }
+
                 callee = std::make_shared<MJOLNIR::IRCallee>(0, method_name, class_name, p_size, proto, class_name + "->" + method_name + proto, ADDR_S);
-                call = std::make_shared<MJOLNIR::IRCall>(callee, parameters, nullptr, nullptr);
+                call = std::make_shared<MJOLNIR::IRCall>(callee, call_type, parameters, nullptr, nullptr);
             }
 
             if (call)

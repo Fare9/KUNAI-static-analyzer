@@ -413,7 +413,21 @@ namespace KUNAI
         class IRCall : public IRExpr
         {
         public:
+            enum call_type_t
+            {
+                INTERNAL_CALL_T, // call to internal component
+                EXTERNAL_CALL_T, // call to external library (example DLL, .so file, external component, etc)
+                SYSCALL_T,       // a syscall type
+                NONE_CALL_T = 99,     // Not specified
+            };
+
             IRCall(std::shared_ptr<IRExpr> callee,
+                   std::vector<std::shared_ptr<IRExpr>> args,
+                   std::shared_ptr<IRExpr> left,
+                   std::shared_ptr<IRExpr> right);
+
+            IRCall(std::shared_ptr<IRExpr> callee,
+                   call_type_t call_type,
                    std::vector<std::shared_ptr<IRExpr>> args,
                    std::shared_ptr<IRExpr> left,
                    std::shared_ptr<IRExpr> right);
@@ -430,6 +444,8 @@ namespace KUNAI
             bool equals(std::shared_ptr<IRCall> ircall);
             friend bool operator==(IRCall&, IRCall&);
         private:
+            //! Type of call
+            call_type_t call_type;
             //! Type representing the function/method called
             std::shared_ptr<IRExpr> callee;
             //! Vector with possible arguments

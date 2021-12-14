@@ -40,7 +40,7 @@ namespace KUNAI
         public:
             LifterAndroid();
 
-            std::shared_ptr<MJOLNIR::IRGraph> lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis);
+            std::shared_ptr<MJOLNIR::IRGraph> lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis, std::shared_ptr<DEX::Analysis> android_analysis);
             bool lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock> basic_block, std::shared_ptr<MJOLNIR::IRBlock> bb);
             bool lift_android_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
         private:
@@ -87,6 +87,9 @@ namespace KUNAI
 
             //! lifted blocks
             std::map<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>, std::shared_ptr<MJOLNIR::IRBlock>> lifted_blocks;
+
+            //! Android analysis objecto to check internally
+            std::shared_ptr<DEX::Analysis> android_analysis;
         };
     }
 }
