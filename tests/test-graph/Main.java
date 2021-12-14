@@ -6,6 +6,10 @@ public class Main {
 
         int a = reader.nextInt();
 
+        int b = another_method(a);
+
+        System.out.println(b);
+
         switch (a) {
             case 1:
                 System.out.println("a = 1");
@@ -38,5 +42,10 @@ public class Main {
         System.out.println("Finished");
             
         return;
+    }
+
+    public static int another_method(int a)
+    {
+        return a+2-3/3;
     }
 }
