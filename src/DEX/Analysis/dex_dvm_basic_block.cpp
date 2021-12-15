@@ -31,24 +31,6 @@ namespace KUNAI
         }
 
         /**
-         * @brief get start idx from the current basic block.
-         * @return std::uint64_t
-         */
-        std::uint64_t DVMBasicBlock::get_start()
-        {
-            return start;
-        }
-
-        /**
-         * @brief get end idx from the current basic block.
-         * @return std::uint64_t
-         */
-        std::uint64_t DVMBasicBlock::get_end()
-        {
-            return end;
-        }
-
-        /**
          * @brief return all the instructions from current basic block.
          * @return std::vector<std::shared_ptr<Instruction>>
          */
@@ -132,27 +114,23 @@ namespace KUNAI
          * @param values: ids from context of basic blocks to push into vector.
          * @return void
          */
-        void DVMBasicBlock::set_child(std::vector<int64_t> values)
+        void DVMBasicBlock::set_child(const std::vector<int64_t>& values)
         {
-            for (auto it = values.begin(); it != values.end(); it++)
+            for (auto value : values)
             {
-                if (*it != -1)
-                {
-                    auto next_block = context->get_basic_block_by_idx(*it);
-                    if (next_block != nullptr)
-                    {
-                        childs.push_back({end - last_length, *it, next_block});
-                    }
-                }
+                if (value == -1)
+                    continue;
+                
+                if (const auto next_block = context->get_basic_block_by_idx(value))
+                    childs.push_back({end - last_length, value, next_block});
             }
 
-            for (auto it = childs.begin(); it != childs.end(); it++)
+            for (auto child : childs)
             {
-                auto child_block = std::get<2>(*it);
-                if (child_block != nullptr)
+                if (auto child_block = std::get<2>(child))
                 {
-                    auto last_idx = std::get<1>(*it);
-                    auto end_idx = std::get<0>(*it);
+                    auto last_idx = std::get<1>(child);
+                    auto end_idx = std::get<0>(child);
                     child_block->set_parent({last_idx, end_idx, this});
                 }
             }

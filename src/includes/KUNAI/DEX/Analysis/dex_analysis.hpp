@@ -233,8 +233,17 @@ namespace KUNAI
                           std::shared_ptr<EncodedMethod> method,
                           std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions);
 
-            std::uint64_t get_start();
-            std::uint64_t get_end();
+            /**
+             * @brief get start idx from the current basic block.
+             * @return std::uint64_t
+             */
+            std::uint64_t get_start() const { return start; }
+
+            /**
+             * @brief get end idx from the current basic block.
+             * @return std::uint64_t
+             */
+            std::uint64_t get_end() const { return end; }
 
             std::vector<std::shared_ptr<Instruction>> get_instructions();
             std::shared_ptr<Instruction> get_last();
@@ -243,7 +252,7 @@ namespace KUNAI
 
             void set_parent(std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock *>);
             void set_child();
-            void set_child(std::vector<int64_t> values);
+            void set_child(const std::vector<int64_t>& values);
             std::uint64_t get_last_length();
             std::uint64_t get_nb_instructions();
             void push(std::shared_ptr<Instruction> instr);
