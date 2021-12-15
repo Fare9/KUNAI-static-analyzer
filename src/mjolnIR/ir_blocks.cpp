@@ -13,7 +13,7 @@ namespace KUNAI {
         IRBlock::IRBlock() {}
 
         /**
-         * @brief Destructor of IRBlock, nothing to be done.
+         * @brief Destructor of IRBlock, nothing to be done here.
          * @return void
          */
         IRBlock::~IRBlock() {}
