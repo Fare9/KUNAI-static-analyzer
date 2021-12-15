@@ -43,8 +43,8 @@
 | 0x28 | goto target | IRUJmp |
 | 0x29 | goto/16 target | IRUJmp |
 | 0x2A | goto/32 target | IRUJmp |
-| 0x2B | packed-switch vx,table |   |
-| 0x2C | sparse-switch vx,table |   |
+| 0x2B | packed-switch vx,table | IRSwitch |
+| 0x2C | sparse-switch vx,table | IRSwitch |
 | 0x2D | cmpl-float | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
 | 0x2E | cmpg-float vx, vy, vz | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
 | 0x2F | cmpl-double vx,vy,vz | IRUnaryOp (CAST\_OP) + IRUnaryOp (CAST\_OP) + IRBComp  |
