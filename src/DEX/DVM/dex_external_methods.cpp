@@ -2,7 +2,10 @@
 
 namespace KUNAI {
     namespace DEX {
-        ExternalMethod::ExternalMethod(std::string class_idx, std::string name_idx, std::string proto_idx)
+        ExternalMethod::ExternalMethod(std::string class_idx, 
+                                       std::string name_idx, 
+                                       std::string proto_idx) :
+            ParentMethod(ParentMethod::EXTERNAL_METHOD_T)
         {
             this->class_idx = class_idx;            
             this->name_idx = name_idx;

@@ -11,17 +11,15 @@ namespace KUNAI
         /**
          * @brief Constructor of MethodAnalysis it will initialize
          * various variables.
-         * @param method_encoded: std::any (`std::shared_ptr<EncodedMethod>' or `std::shared_ptr<ExternalMethod>')
+         * @param method_encoded: std::shared_ptr<ParentMethod>
          * @param dalvik_opcodes: std::shared_ptr<DalvikOpcodes> object.
          * @param instructions: std::map<std::uint64_t, std::shared_ptr<Instruction>> all the DEX instructions.
          * @return void.
          */
-        MethodAnalysis::MethodAnalysis(std::any method_encoded, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions)
+        MethodAnalysis::MethodAnalysis(std::shared_ptr<ParentMethod> method_encoded, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions)
         {
-            if (method_encoded.type() == typeid(std::shared_ptr<EncodedMethod>))
-                this->is_external = false;
-            else
-                this->is_external = true;
+            this->is_external = method_encoded->is_external();
+
             this->method_encoded = method_encoded;
             this->dalvik_opcodes = dalvik_opcodes;
             this->instructions = instructions;
@@ -70,9 +68,9 @@ namespace KUNAI
          * @brief Return method_encoded object, this can
          * be of different types EncodedMethod or ExternalMethod
          * must check which one it is.
-         * @return std::any (`std::shared_ptr<EncodedMethod>' or `std::shared_ptr<ExternalMethod>')
+         * @return std::shared_ptr<ParentMethod>
          */
-        std::any MethodAnalysis::get_method()
+        std::shared_ptr<ParentMethod> MethodAnalysis::get_method()
         {
             return method_encoded;
         }
@@ -87,12 +85,12 @@ namespace KUNAI
 
             if (is_external)
             {
-                std::shared_ptr<ExternalMethod> method = std::any_cast<std::shared_ptr<ExternalMethod>>(method_encoded);
+                std::shared_ptr<ExternalMethod> method = std::dynamic_pointer_cast<ExternalMethod>(method_encoded);
                 name = method->get_name();
             }
             else
             {
-                std::shared_ptr<EncodedMethod> method = std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded);
+                std::shared_ptr<EncodedMethod> method = std::dynamic_pointer_cast<EncodedMethod>(method_encoded);
                 name = *method->get_method()->get_method_name();
             }
 
@@ -109,12 +107,12 @@ namespace KUNAI
             
             if (is_external)
             {
-                std::shared_ptr<ExternalMethod> method = std::any_cast<std::shared_ptr<ExternalMethod>>(method_encoded);
+                std::shared_ptr<ExternalMethod> method = std::dynamic_pointer_cast<ExternalMethod>(method_encoded);
                 descriptor = method->get_descriptor();
             }
             else
             {
-                std::shared_ptr<EncodedMethod> method = std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded);
+                std::shared_ptr<EncodedMethod> method = std::dynamic_pointer_cast<EncodedMethod>(method_encoded);
                 descriptor = method->get_method()->get_method_prototype()->get_proto_str();
             }
 
@@ -131,12 +129,12 @@ namespace KUNAI
 
             if (is_external)
             {
-                std::shared_ptr<ExternalMethod> method = std::any_cast<std::shared_ptr<ExternalMethod>>(method_encoded);
+                std::shared_ptr<ExternalMethod> method = std::dynamic_pointer_cast<ExternalMethod>(method_encoded);
                 access_flag = this->dalvik_opcodes->get_access_flags_string(method->get_access_flags());
             }
             else
             {
-                std::shared_ptr<EncodedMethod> method = std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded);
+                std::shared_ptr<EncodedMethod> method = std::dynamic_pointer_cast<EncodedMethod>(method_encoded);
                 access_flag = this->dalvik_opcodes->get_access_flags_string(method->get_access_flags());
             }
 
@@ -153,12 +151,12 @@ namespace KUNAI
 
             if (is_external)
             {
-                std::shared_ptr<ExternalMethod> method = std::any_cast<std::shared_ptr<ExternalMethod>>(method_encoded);
+                std::shared_ptr<ExternalMethod> method = std::dynamic_pointer_cast<ExternalMethod>(method_encoded);
                 class_name = method->get_class_name();
             }
             else
             {
-                std::shared_ptr<EncodedMethod> method = std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded);
+                std::shared_ptr<EncodedMethod> method = std::dynamic_pointer_cast<EncodedMethod>(method_encoded);
                 class_name = method->get_method()->get_method_class()->get_raw();
             }
 
@@ -204,25 +202,12 @@ namespace KUNAI
 
         /**
          * @brief Return all the xref where method is read, with or without offset.
-         * @param withoffset: return tuple with or without offset.
-         * @return if withoffset == true `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<FieldAnalysis>, std::uint64_t>>'
-         *         if withoffset == false `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<FieldAnalysis>>>'
+         * 
+         * @return std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::FieldAnalysis>, uint64_t>> 
          */
-        std::any MethodAnalysis::get_xref_read(bool withoffset)
+        const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::FieldAnalysis>, uint64_t>>& MethodAnalysis::get_xref_read()
         {
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<FieldAnalysis>>> xrefread_no_offset;
-
-            if (withoffset)
-                return xrefread;
-            else
-            {
-                for (auto it = xrefread.begin(); it != xrefread.end(); it++)
-                {
-                    xrefread_no_offset.push_back({std::get<0>(*it), std::get<1>(*it)});
-                }
-
-                return xrefread_no_offset;
-            }
+            return xrefread;
         }
 
         /**
@@ -231,21 +216,9 @@ namespace KUNAI
          * @return if withoffset == true `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<FieldAnalysis>, std::uint64_t>>'
          *         if withoffset == false `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<FieldAnalysis>>>'
          */
-        std::any MethodAnalysis::get_xref_write(bool withoffset)
+        const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::FieldAnalysis>, uint64_t>>& MethodAnalysis::get_xref_write()
         {
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<FieldAnalysis>>> xrefwrite_no_offset;
-
-            if (withoffset)
-                return xrefwrite;
-            else
-            {
-                for (auto it = xrefwrite.begin(); it != xrefwrite.end(); it++)
-                {
-                    xrefwrite_no_offset.push_back({std::get<0>(*it), std::get<1>(*it)});
-                }
-
-                return xrefwrite_no_offset;
-            }
+            return xrefwrite;
         }
 
         /**
@@ -278,21 +251,15 @@ namespace KUNAI
          * @return if withoffset == true `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>'
          *         if withoffset == false `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>>>'
          */
-        std::any MethodAnalysis::get_xref_to(bool withoffset)
+
+        /**
+         * @brief get the methods where current method is called, with or without offset.
+         * 
+         * @return const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::MethodAnalysis>, uint64_t>>& 
+         */
+        const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::MethodAnalysis>, uint64_t>>& MethodAnalysis::get_xref_to()
         {
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>>> xrefto_no_offset;
-
-            if (withoffset)
-                return xrefto;
-            else
-            {
-                for (auto it = xrefto.begin(); it != xrefto.end(); it++)
-                {
-                    xrefto_no_offset.push_back({std::get<0>(*it), std::get<1>(*it)});
-                }
-
-                return xrefto_no_offset;
-            }
+            return xrefto;
         }
 
         /**
@@ -301,21 +268,16 @@ namespace KUNAI
          * @return if withoffset == true `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>'
          *         if withoffset == false `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>>>'
          */
-        std::any MethodAnalysis::get_xref_from(bool withoffset)
+
+
+        /**
+         * @brief get the methods called by current method, with or without offset.
+         * 
+         * @return const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::MethodAnalysis>, uint64_t>>& 
+         */
+        const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::MethodAnalysis>, uint64_t>>& MethodAnalysis::get_xref_from()
         {
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>>> xreffrom_no_offset;
-
-            if (withoffset)
-                return xreffrom;
-            else
-            {
-                for (auto it = xreffrom.begin(); it != xreffrom.end(); it++)
-                {
-                    xreffrom_no_offset.push_back({std::get<0>(*it), std::get<1>(*it)});
-                }
-
-                return xreffrom_no_offset;
-            }
+            return xreffrom;
         }
 
         /**
@@ -392,7 +354,7 @@ namespace KUNAI
         void MethodAnalysis::create_basic_block()
         {
             basic_blocks = std::make_shared<BasicBlocks>();
-            std::shared_ptr<DVMBasicBlock> current_basic = std::make_shared<DVMBasicBlock>(0, dalvik_opcodes, basic_blocks, std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded), instructions);
+            std::shared_ptr<DVMBasicBlock> current_basic = std::make_shared<DVMBasicBlock>(0, dalvik_opcodes, basic_blocks, std::dynamic_pointer_cast<EncodedMethod>(method_encoded), instructions);
 
             // push the first basic block
             basic_blocks->push_basic_block(current_basic);
@@ -400,7 +362,7 @@ namespace KUNAI
             std::vector<std::int64_t> l;
             std::map<std::uint64_t, std::vector<std::int64_t>> h;
 
-            std::cout << "Parsing the instructions for method " << std::hex << std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded)->full_name() << std::endl;
+            std::cout << "Parsing the instructions for method " << std::hex << std::dynamic_pointer_cast<EncodedMethod>(method_encoded)->full_name() << std::endl;
             for (auto it = instructions.begin(); it != instructions.end(); it++)
             {
                 auto idx = std::get<0>(*it);
@@ -416,7 +378,7 @@ namespace KUNAI
             }
 
             std::cout << "Parsing the exceptions" << std::endl;
-            auto excepts = determine_exception(dalvik_opcodes, std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded));
+            auto excepts = determine_exception(dalvik_opcodes, std::dynamic_pointer_cast<EncodedMethod>(method_encoded));
             for (auto it = excepts.begin(); it != excepts.end(); it++)
             {
                 l.push_back(it->try_value_start_addr);
@@ -436,7 +398,7 @@ namespace KUNAI
                 {
                     if (current_basic->get_nb_instructions() != 0)
                     {
-                        current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded), instructions);
+                        current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::dynamic_pointer_cast<EncodedMethod>(method_encoded), instructions);
                         basic_blocks->push_basic_block(current_basic);
                     }
                 }
@@ -445,7 +407,7 @@ namespace KUNAI
 
                 if (h.find(idx) != h.end())
                 {
-                    current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::any_cast<std::shared_ptr<EncodedMethod>>(method_encoded), instructions);
+                    current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::dynamic_pointer_cast<EncodedMethod>(method_encoded), instructions);
                     basic_blocks->push_basic_block(current_basic);
                 }
             }

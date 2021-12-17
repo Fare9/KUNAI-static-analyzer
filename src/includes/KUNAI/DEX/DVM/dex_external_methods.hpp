@@ -14,12 +14,13 @@
 #include <iostream>
 #include <vector>
 
+#include "dex_parents.hpp"
 #include "dex_dvm_types.hpp"
 
 namespace KUNAI {
     namespace DEX {
 
-        class ExternalMethod
+        class ExternalMethod : public ParentMethod
         {
         public:
             ExternalMethod(std::string class_idx, std::string name_idx, std::string proto_idx);

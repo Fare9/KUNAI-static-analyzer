@@ -418,7 +418,8 @@ namespace KUNAI
                                      std::uint64_t code_off,
                                      std::ifstream &input_file,
                                      std::uint64_t file_size,
-                                     std::shared_ptr<DexTypes> dex_types)
+                                     std::shared_ptr<DexTypes> dex_types) :
+                                     ParentMethod(ParentMethod::INTERNAL_METHOD_T)
         {
             this->method_id = method_id;
             this->access_flags = static_cast<DVMTypes::ACCESS_FLAGS>(access_flags);

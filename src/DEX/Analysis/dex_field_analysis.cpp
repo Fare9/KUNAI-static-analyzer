@@ -58,47 +58,23 @@ namespace KUNAI
         }
 
         /**
-         * @brief Get the xref where field is read, output will include offset depending on parameter given.
-         * @param withoffset return offset or not.
-         * @return `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>' if withoffset = true, `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>>>' if withoffset = false.
+         * @brief Get all the read cross references from the field.
+         * 
+         * @return const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>& 
          */
-        std::any FieldAnalysis::get_xref_read(bool withoffset)
+        const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>& FieldAnalysis::get_xref_read()
         {
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>>> xrefread_no_offset;
-
-            if (withoffset)
-                return xrefread;
-            else
-            {
-                for (auto it = xrefread.begin(); it != xrefread.end(); it++)
-                {
-                    xrefread_no_offset.push_back({std::get<0>(*it), std::get<1>(*it)});
-                }
-
-                return xrefread_no_offset;
-            }
+            return xrefread;
         }
 
         /**
-         * @brief Get the xref where field is written, output will include offset depending on parameter given.
-         * @param withoffset return offset or not.
-         * @return `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>' if withoffset = true, `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>>>' if withoffset = false.
+         * @brief Get all the write cross references from the field.
+         * 
+         * @return const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>& 
          */
-        std::any FieldAnalysis::get_xref_write(bool withoffset)
+        const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>& FieldAnalysis::get_xref_write()
         {
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>>> xrefwrite_no_offset;
-
-            if (withoffset)
-                return xrefwrite;
-            else
-            {
-                for (auto it = xrefwrite.begin(); it != xrefwrite.end(); it++)
-                {
-                    xrefwrite_no_offset.push_back({std::get<0>(*it), std::get<1>(*it)});
-                }
-
-                return xrefwrite_no_offset;
-            }
+            return xrefwrite;
         }
 
         /**

@@ -39,26 +39,13 @@ namespace KUNAI
         }
 
         /**
-         * @brief get the methods where the string is read, with or without offset.
-         * @param withoffset: bool return offsets or not.
-         * @return if withoffset == true `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>'
-         *         if withoffset == false `std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>>>'
+         * @brief Get the read xref from the string
+         * 
+         * @return const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>&
          */
-        std::any StringAnalysis::get_xref_from(bool withoffset)
+        const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>& StringAnalysis::get_xref_from()
         {
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>>> xreffrom_no_offset;
-
-            if (withoffset)
-                return xreffrom;
-            else
-            {
-                for (auto it = xreffrom.begin(); it != xreffrom.end(); it++)
-                {
-                    xreffrom_no_offset.push_back({std::get<0>(*it), std::get<1>(*it)});
-                }
-
-                return xreffrom_no_offset;
-            }
+            return xreffrom;
         }
 
         /**

@@ -21,6 +21,8 @@
 #include <algorithm>
 #include <regex>
 
+#include "dex_parents.hpp"
+
 #include "dex_classes.hpp"
 #include "dex_external_classes.hpp"
 #include "dex_encoded.hpp"
@@ -73,7 +75,7 @@ namespace KUNAI
             std::vector<std::shared_ptr<ClassAnalysis>> get_internal_classes();
 
             // MethodAnalysis methods
-            std::shared_ptr<MethodAnalysis> get_method(std::any method);
+            std::shared_ptr<MethodAnalysis> get_method(std::shared_ptr<ParentMethod> method);
             MethodID *get_method_by_name(std::string class_name, std::string method_name, std::string method_descriptor);
             std::shared_ptr<MethodAnalysis> get_method_analysis_by_name(std::string class_name, std::string method_name, std::string method_descriptor);
             std::vector<std::shared_ptr<MethodAnalysis>> get_methods();
@@ -137,11 +139,11 @@ namespace KUNAI
         public:
             // any must be restricted to
             // ClassDef or ExternalClass
-            ClassAnalysis(std::any class_def);
+            ClassAnalysis(std::shared_ptr<ParentClass> class_def);
 
             ~ClassAnalysis();
 
-            std::any get_class_definition();
+            std::shared_ptr<ParentClass> get_class_definition();
             bool is_class_external();
 
             void add_method(std::shared_ptr<MethodAnalysis> method_analysis);
@@ -154,7 +156,7 @@ namespace KUNAI
             std::vector<std::shared_ptr<MethodAnalysis>> get_methods();
             std::vector<std::shared_ptr<FieldAnalysis>> get_fields();
             size_t get_nb_methods();
-            std::shared_ptr<MethodAnalysis> get_method_analysis(std::any method);
+            std::shared_ptr<MethodAnalysis> get_method_analysis(std::shared_ptr<ParentMethod> method);
             std::shared_ptr<FieldAnalysis> get_field_analysis(std::shared_ptr<EncodedField> field);
 
             void add_field_xref_read(std::shared_ptr<MethodAnalysis> method,
@@ -202,7 +204,7 @@ namespace KUNAI
 
         private:
             // ClassDef or ExternalClass object
-            std::any class_def;
+            std::shared_ptr<ParentClass> class_def;
 
             bool is_external;
 
@@ -303,13 +305,13 @@ namespace KUNAI
         class MethodAnalysis
         {
         public:
-            MethodAnalysis(std::any method_encoded, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions);
+            MethodAnalysis(std::shared_ptr<ParentMethod> method_encoded, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions);
             ~MethodAnalysis();
 
             bool external();
             bool is_android_api();
 
-            std::any get_method();
+            std::shared_ptr<ParentMethod> get_method();
             std::string name();
             std::string descriptor();
             std::string access();
@@ -318,13 +320,13 @@ namespace KUNAI
 
             void add_xref_read(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<FieldAnalysis> field_object, std::uint64_t offset);
             void add_xref_write(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<FieldAnalysis> field_object, std::uint64_t offset);
-            std::any get_xref_read(bool withoffset);
-            std::any get_xref_write(bool withoffset);
+            const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::FieldAnalysis>, uint64_t>>& get_xref_read();
+            const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::FieldAnalysis>, uint64_t>>& get_xref_write();
 
             void add_xref_to(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset);
             void add_xref_from(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset);
-            std::any get_xref_to(bool withoffset);
-            std::any get_xref_from(bool withoffset);
+            const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::MethodAnalysis>, uint64_t>>& get_xref_to();
+            const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::MethodAnalysis>, uint64_t>>& get_xref_from();
 
             void add_xref_new_instance(std::shared_ptr<ClassAnalysis> class_object, std::uint64_t offset);
             void add_xref_const_class(std::shared_ptr<ClassAnalysis> class_object, std::uint64_t offset);
@@ -337,7 +339,7 @@ namespace KUNAI
 
         private:
             bool is_external;
-            std::any method_encoded;
+            std::shared_ptr<ParentMethod> method_encoded;
             std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
             std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions;
             std::shared_ptr<BasicBlocks> basic_blocks;
@@ -371,8 +373,8 @@ namespace KUNAI
             std::string name();
             void add_xref_read(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset);
             void add_xref_write(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset);
-            std::any get_xref_read(bool withoffset);
-            std::any get_xref_write(bool withoffset);
+            const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>& get_xref_read();
+            const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>& get_xref_write();
             std::shared_ptr<EncodedField> get_field();
 
             friend std::ostream &operator<<(std::ostream &os, const FieldAnalysis &entry);
@@ -393,7 +395,7 @@ namespace KUNAI
             ~StringAnalysis();
 
             void add_xref_from(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset);
-            std::any get_xref_from(bool withoffset);
+            const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>& get_xref_from();
 
             void set_value(std::string *value);
             std::string *get_value();

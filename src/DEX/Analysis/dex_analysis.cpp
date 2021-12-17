@@ -200,17 +200,17 @@ namespace KUNAI
         /**
          * @brief Get MethodAnalysis object by giving an EncodedMethod or
          *        ExternalMethod object.
-         * @param method: std::any (`std::shared_ptr<EncodedMethod>' or `std::shared_ptr<ExternalMethod>')
+         * @param method: std::shared_ptr<ParentMethod>
          * @return std::shared_ptr<MethodAnalysis>
          */
-        std::shared_ptr<MethodAnalysis> Analysis::get_method(std::any method)
+        std::shared_ptr<MethodAnalysis> Analysis::get_method(std::shared_ptr<ParentMethod> method)
         {
             std::string method_key;
 
-            if (method.type() == typeid(std::shared_ptr<EncodedMethod>))
-                method_key = std::any_cast<std::shared_ptr<EncodedMethod>>(method)->full_name();
+            if (method->is_internal())
+                method_key = std::dynamic_pointer_cast<EncodedMethod>(method)->full_name();
             else
-                method_key = std::any_cast<std::shared_ptr<ExternalMethod>>(method)->full_name();
+                method_key = std::dynamic_pointer_cast<ExternalMethod>(method)->full_name();
 
             if (methods.find(method_key) != methods.end())
                 return methods[method_key];
@@ -230,7 +230,7 @@ namespace KUNAI
             auto m_a = get_method_analysis_by_name(class_name, method_name, method_descriptor);
 
             if (m_a && (!m_a->external()))
-                return std::any_cast<MethodID *>(m_a->get_method());
+                return std::dynamic_pointer_cast<MethodID>(m_a->get_method()).get();
 
             return nullptr;
         }
@@ -691,7 +691,7 @@ namespace KUNAI
                     classes[class_name] = std::make_shared<ClassAnalysis>(std::make_shared<ExternalClass>(class_name));
 
                 auto meth = std::make_shared<ExternalMethod>(class_name, method_name, method_descriptor);
-                auto meth_analysis = std::make_shared<MethodAnalysis>(meth, dalvik_opcodes, empty_instructions);
+                auto meth_analysis = std::make_shared<MethodAnalysis>(std::static_pointer_cast<ParentMethod>(meth), dalvik_opcodes, empty_instructions);
 
                 // add to all the collections we have
                 method_hashes[m_hash] = meth_analysis;

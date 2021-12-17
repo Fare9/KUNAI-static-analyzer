@@ -3,7 +3,8 @@
 namespace KUNAI {
     namespace DEX {
 
-            ExternalClass::ExternalClass(std::string name)
+            ExternalClass::ExternalClass(std::string name) :
+                ParentClass(ParentClass::EXTERNAL_CLASS_T)
             {
                 this->name = name;
             }
