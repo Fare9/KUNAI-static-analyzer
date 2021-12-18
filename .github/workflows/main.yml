@@ -28,7 +28,7 @@ jobs:
         # Path to Doxyfile
         doxyfile-path: "./doc/KUNAI.cfg" # default is ./Doxyfile
         # Working directory
-        working-directory: "." # default is .
+        working-directory: "./doc/" # default is .
     
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
