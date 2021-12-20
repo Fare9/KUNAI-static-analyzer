@@ -76,10 +76,17 @@ namespace KUNAI {
         {
         public:
             ParameterAnnotation(std::uint32_t method_idx, std::uint32_t annotations_off);
-            ~ParameterAnnotation();
+            ~ParameterAnnotation() = default;
 
-            std::uint32_t get_method_idx();
-            std::uint32_t get_annotations_off();
+            std::uint32_t get_method_idx()
+            {
+                return method_idx;
+            }
+
+            std::uint32_t get_annotations_off()
+            {
+                return annotations_off;
+            }
 
         private:
             std::uint32_t method_idx;
@@ -90,10 +97,17 @@ namespace KUNAI {
         {
         public:
             MethodAnnotations(std::uint32_t method_idx, std::uint32_t annotations_off);
-            ~MethodAnnotations();
+            ~MethodAnnotations() = default;
 
-            std::uint32_t get_method_idx();
-            std::uint32_t get_annotations_off();
+            std::uint32_t get_method_idx()
+            {
+                return method_idx;
+            }
+
+            std::uint32_t get_annotations_off()
+            {
+                return annotations_off;
+            }
 
         private:
             std::uint32_t method_idx;
@@ -104,10 +118,17 @@ namespace KUNAI {
         {
         public:
             FieldAnnotation(std::uint32_t field_idx, std::uint32_t annotations_off);
-            ~FieldAnnotation();
+            ~FieldAnnotation() = default;
 
-            std::uint32_t get_field_idx();
-            std::uint32_t get_annotations_off();
+            std::uint32_t get_field_idx()
+            {
+                return field_idx;
+            }
+
+            std::uint32_t get_annotations_off()
+            {
+                return annotations_off;
+            }
 
         private:
             std::uint32_t field_idx;
@@ -118,14 +139,32 @@ namespace KUNAI {
         {
         public:
             AnnotationsDirectoryItem(std::ifstream& input_file);
-            ~AnnotationsDirectoryItem();
+            ~AnnotationsDirectoryItem() = default;
 
-            std::uint32_t get_class_annotations_off();
-            std::uint64_t get_fields_size();
+            std::uint32_t get_class_annotations_off()
+            {
+                return class_annotations_off;
+            }
+
+            std::uint64_t get_fields_size()
+            {
+                return field_annotations.size();
+            }
+
             std::shared_ptr<FieldAnnotation> get_field_annotation_by_pos(std::uint64_t pos);
-            std::uint64_t get_annotated_methods_size();
+            
+            std::uint64_t get_annotated_methods_size()
+            {
+                return method_annotations.size();
+            }
+
             std::shared_ptr<MethodAnnotations> get_method_annotation_by_pos(std::uint64_t pos);
-            std::uint64_t get_annotated_parameters_size();
+            
+            std::uint64_t get_annotated_parameters_size()
+            {
+                return parameter_annotations.size();
+            }
+
             std::shared_ptr<ParameterAnnotation> get_parameter_annotation_by_pos(std::uint64_t pos);
 
         private:

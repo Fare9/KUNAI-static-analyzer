@@ -4,73 +4,39 @@ namespace KUNAI
 {
     namespace DEX
     {
-        /**
-         * Generate new dex header and apply different checks.
-         * 
-         * @brief DexHeader constructor.
-         * @param input_file: std::ifstream object reference with the input file.
-         * @param file_size: std::uint64_t value with file size.
-         */
         DexHeader::DexHeader(std::ifstream &input_file, std::uint64_t file_size)
         {
             if (!KUNAI::read_data_file<DexHeader::dexheader_t>(this->dex_struct, sizeof(DexHeader::dex_struct), input_file))
                 throw exceptions::ParserReadingException("Error reading DEX Header");
 
-            if (this->dex_struct.link_off > file_size)
+            if (dex_struct.link_off > file_size)
                 throw exceptions::OutOfBoundException("Error 'link_off' out of file bound");
 
-            if (this->dex_struct.map_off > file_size)
+            if (dex_struct.map_off > file_size)
                 throw exceptions::OutOfBoundException("Error 'map_off' out of file bound");
 
-            if (this->dex_struct.string_ids_off > file_size)
+            if (dex_struct.string_ids_off > file_size)
                 throw exceptions::OutOfBoundException("Error 'string_ids_off' out of file bound");
 
-            if (this->dex_struct.type_ids_off > file_size)
+            if (dex_struct.type_ids_off > file_size)
                 throw exceptions::OutOfBoundException("Error 'type_ids_off' out of file bound");
 
-            if (this->dex_struct.proto_ids_off > file_size)
+            if (dex_struct.proto_ids_off > file_size)
                 throw exceptions::OutOfBoundException("Error 'proto_ids_off' out of file bound");
 
-            if (this->dex_struct.field_ids_off > file_size)
+            if (dex_struct.field_ids_off > file_size)
                 throw exceptions::OutOfBoundException("Error 'field_ids_off' out of file bound");
 
-            if (this->dex_struct.method_ids_off > file_size)
+            if (dex_struct.method_ids_off > file_size)
                 throw exceptions::OutOfBoundException("Error 'method_ids_off' out of file bound");
 
-            if (this->dex_struct.class_defs_off > file_size)
+            if (dex_struct.class_defs_off > file_size)
                 throw exceptions::OutOfBoundException("Error 'class_defs_off' out of file bound");
 
-            if (this->dex_struct.data_off > file_size)
+            if (dex_struct.data_off > file_size)
                 throw exceptions::OutOfBoundException("Error 'data_off' out of file bound");
         }
 
-        /**
-         * @brief Dex header destructor
-         */
-        DexHeader::~DexHeader() {}
-
-        /**
-         * @brief Get structure variable from dex header
-         * @return dexheader_t structure
-         */
-        DexHeader::dexheader_t &DexHeader::get_dex_header()
-        {
-            return this->dex_struct;
-        }
-
-        /**
-         * @brief Get size of DEX header structure
-         * @return size of header structure
-         */
-        std::uint64_t DexHeader::get_dex_header_size()
-        {
-            return sizeof(DexHeader::dexheader_t);
-        }
-
-        /**
-         * @brief Pretty print the header
-         * @return std::ostream object with output.
-         */
         std::ostream &operator<<(std::ostream &os, const DexHeader &entry)
         {
             size_t i;
@@ -116,10 +82,6 @@ namespace KUNAI
             return os;
         }
 
-        /**
-         * @brief Dump to a fstream the header in XML format.
-         * @return std::fstream with XML format of header.
-         */
         std::fstream &operator<<(std::fstream &fos, const DexHeader &entry)
         {
             size_t i;

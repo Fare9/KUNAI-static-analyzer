@@ -1,20 +1,18 @@
 /***
  * @file dex_fields.hpp
  * @author @Farenain
- * 
+ *
  * @brief Android fields of the Java code, composed by class name,
  *        type and name of the field.
- * 
+ *
  *  FieldID {
  *      ushort class_idx, # type_id for class name
  *      ushort type_idx, # type_id of field type
  *      uint name_idx # Field name
  *  }
- * 
+ *
  *  FieldID[] dex_fields;
  */
-
-#pragma once
 
 #ifndef DEX_FIELDS_HPP
 #define DEX_FIELDS_HPP
@@ -30,8 +28,10 @@
 #include "dex_strings.hpp"
 #include "dex_types.hpp"
 
-namespace KUNAI {
-    namespace DEX {
+namespace KUNAI
+{
+    namespace DEX
+    {
         class FieldID
         {
         public:
@@ -40,44 +40,50 @@ namespace KUNAI {
                     std::uint32_t name_idx,
                     std::shared_ptr<DexStrings> dex_strings,
                     std::shared_ptr<DexTypes> dex_types);
-            ~FieldID();
+            ~FieldID() = default;
 
-            Type* get_class_idx();
-            Type* get_type_idx();
-            std::string* get_name_idx();
-            
-            friend std::ostream& operator<<(std::ostream& os, const FieldID& entry);
+            Type *get_class_idx();
+            Type *get_type_idx();
+            std::string *get_name_idx();
+
+            friend std::ostream &operator<<(std::ostream &os, const FieldID &entry);
+
         private:
-            std::map<std::uint16_t, Type*> class_idx;
-            std::map<std::uint16_t, Type*> type_idx;
-            std::map<std::uint32_t, std::string*> name_idx;
+            std::map<std::uint16_t, Type *> class_idx;
+            std::map<std::uint16_t, Type *> type_idx;
+            std::map<std::uint32_t, std::string *> name_idx;
         };
-        
+
         class DexFields
         {
         public:
-            DexFields(std::ifstream& input_file,
-                        std::uint32_t number_of_fields,
-                        std::uint32_t offset,
-                        std::shared_ptr<DexStrings> dex_strings,
-                        std::shared_ptr<DexTypes> dex_types);
+            DexFields(std::ifstream &input_file,
+                      std::uint32_t number_of_fields,
+                      std::uint32_t offset,
+                      std::shared_ptr<DexStrings> dex_strings,
+                      std::shared_ptr<DexTypes> dex_types);
 
             ~DexFields();
 
-            std::uint64_t get_number_of_fields();
-            FieldID* get_field_id_by_order(size_t pos);
+            std::uint64_t get_number_of_fields()
+            {
+                return number_of_fields;
+            }
 
-            friend std::ostream& operator<<(std::ostream& os, const DexFields& entry);
-            friend std::fstream& operator<<(std::fstream& fos, const DexFields& entry);
+            FieldID *get_field_id_by_order(size_t pos);
+
+            friend std::ostream &operator<<(std::ostream &os, const DexFields &entry);
+            friend std::fstream &operator<<(std::fstream &fos, const DexFields &entry);
+
         private:
-            bool parse_fields(std::ifstream& input_file);
-            
+            bool parse_fields(std::ifstream &input_file);
+
             std::uint32_t number_of_fields;
             std::uint32_t offset;
             std::shared_ptr<DexStrings> dex_strings;
             std::shared_ptr<DexTypes> dex_types;
 
-            std::vector<FieldID*> field_ids;
+            std::vector<FieldID *> field_ids;
         };
 
     }

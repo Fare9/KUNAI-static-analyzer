@@ -1,9 +1,9 @@
 /***
  * @file dex_parser.hpp
  * @author Farenain
- * 
+ *
  * @brief DEX parser with the different parts of Dalvik File.
- * 
+ *
  * DEX parser with the different classes parts of Dalvik File structures
  * here we will have a public method to start parsing.
  */
@@ -36,19 +36,46 @@ namespace KUNAI
         {
         public:
             DexParser();
-            ~DexParser();
+            ~DexParser() = default;
 
             void parse_dex_file(std::ifstream &input_file, std::uint64_t file_size);
 
             // getter methods for the parser, for getting
             // all the parsed fields.
-            std::shared_ptr<DexHeader> get_header();
-            std::shared_ptr<DexStrings> get_strings();
-            std::shared_ptr<DexTypes> get_types();
-            std::shared_ptr<DexProtos> get_protos();
-            std::shared_ptr<DexFields> get_fields();
-            std::shared_ptr<DexMethods> get_methods();
-            std::shared_ptr<DexClasses> get_classes();
+            std::shared_ptr<DexHeader> get_header()
+            {
+                return dex_header;
+            }
+
+            std::shared_ptr<DexStrings> get_strings()
+            {
+                return dex_strings;
+            }
+
+            std::shared_ptr<DexTypes> get_types()
+            {
+                return dex_types;
+            }
+
+            std::shared_ptr<DexProtos> get_protos()
+            {
+                return dex_protos;
+            }
+
+            std::shared_ptr<DexFields> get_fields()
+            {
+                return dex_fields;
+            }
+
+            std::shared_ptr<DexMethods> get_methods()
+            {
+                return dex_methods;
+            }
+
+            std::shared_ptr<DexClasses> get_classes()
+            {
+                return dex_classes;
+            }
 
             // utilities for analysts to get more specific
             // information.
@@ -58,11 +85,21 @@ namespace KUNAI
             std::string get_header_version_str();
 
             // dex api version (if analyzed the AndroidManifest.xml)
-            void set_api_version(std::uint32_t api_version);
-            std::uint32_t get_api_version();
+            void set_api_version(std::uint32_t api_version)
+            {
+                this->api_version = api_version;
+            }
+
+            std::uint32_t get_api_version()
+            {
+                return api_version;
+            }
 
             // get format type
-            std::string get_format_type();
+            std::string get_format_type()
+            {
+                return "DEX";
+            }
 
             // get all the ClassesDef from DexClasses
             std::vector<std::shared_ptr<ClassDef>> get_classes_def_item();

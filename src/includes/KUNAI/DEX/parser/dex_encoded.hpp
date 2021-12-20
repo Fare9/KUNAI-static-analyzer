@@ -1,7 +1,7 @@
 /***
  * @file dex_encoded.hpp
  * @author @Farenain
- * 
+ *
  * @brief All the different Encoded types from
  *        DEX format, I think is a good way
  *        to separate them from other logic of
@@ -32,8 +32,15 @@ namespace KUNAI
             EncodedValue(std::ifstream &input_file);
             ~EncodedValue();
 
-            std::vector<std::uint8_t> get_values();
-            std::vector<std::shared_ptr<EncodedValue>> get_array();
+            const std::vector<std::uint8_t> &get_values() const
+            {
+                return values;
+            }
+
+            const std::vector<std::shared_ptr<EncodedValue>> &get_array() const
+            {
+                return array;
+            }
 
         private:
             std::vector<std::uint8_t> values;
@@ -46,6 +53,16 @@ namespace KUNAI
             EncodedArray(std::ifstream &input_file);
             ~EncodedArray();
 
+            std::uint64_t get_size()
+            {
+                return size;
+            }
+
+            const std::vector<std::shared_ptr<EncodedValue>> &get_values() const
+            {
+                return values;
+            }
+
         private:
             std::uint64_t size;
             std::vector<std::shared_ptr<EncodedValue>> values;
@@ -55,9 +72,12 @@ namespace KUNAI
         {
         public:
             EncodedArrayItem(std::ifstream &input_file);
-            ~EncodedArrayItem();
+            ~EncodedArrayItem() = default;
 
-            std::shared_ptr<EncodedArray> get_encoded_array();
+            std::shared_ptr<EncodedArray> get_encoded_array()
+            {
+                return array;
+            }
 
         private:
             std::shared_ptr<EncodedArray> array;
@@ -67,10 +87,17 @@ namespace KUNAI
         {
         public:
             EncodedField(FieldID *field_idx, std::uint64_t access_flags);
-            ~EncodedField();
+            ~EncodedField() = default;
 
-            FieldID *get_field();
-            DVMTypes::ACCESS_FLAGS get_access_flags();
+            FieldID *get_field() const
+            {
+                return field_idx;
+            }
+
+            DVMTypes::ACCESS_FLAGS get_access_flags()
+            {
+                return access_flags;
+            }
 
         private:
             FieldID *field_idx;
@@ -86,7 +113,11 @@ namespace KUNAI
             ~EncodedTypePair();
 
             Type *get_exception_type();
-            std::uint64_t get_exception_handler_addr();
+
+            std::uint64_t get_exception_handler_addr()
+            {
+                return addr;
+            }
 
         private:
             std::map<std::uint64_t, Type *> type_idx; // type of the exception to catch
@@ -102,10 +133,23 @@ namespace KUNAI
             ~EncodedCatchHandler();
 
             bool has_explicit_typed_catches();
-            std::uint64_t get_size_of_handlers();
+
+            std::uint64_t get_size_of_handlers()
+            {
+                return handlers.size();
+            }
+
             std::shared_ptr<EncodedTypePair> get_handler_by_pos(std::uint64_t pos);
-            std::uint64_t get_catch_all_addr();
-            std::uint64_t get_offset();
+
+            std::uint64_t get_catch_all_addr()
+            {
+                return catch_all_addr;
+            }
+
+            std::uint64_t get_offset()
+            {
+                return offset;
+            }
 
         private:
             bool parse_encoded_type_pairs(std::ifstream &input_file,
@@ -131,11 +175,23 @@ namespace KUNAI
             };
 
             TryItem(try_item_struct_t try_item_struct);
-            ~TryItem();
+            ~TryItem() = default;
 
-            std::uint32_t get_start_addr();
-            std::uint16_t get_insn_count();
-            std::uint16_t get_handler_off();
+            std::uint32_t get_start_addr()
+            {
+                return try_item_struct.start_addr;
+            }
+
+            std::uint16_t get_insn_count()
+            {
+                return try_item_struct.insn_count;
+            }
+
+            std::uint16_t get_handler_off()
+            {
+                return try_item_struct.handler_off;
+            }
+
         private:
             try_item_struct_t try_item_struct;
         };
@@ -159,19 +215,51 @@ namespace KUNAI
                            std::shared_ptr<DexTypes> dex_types);
             ~CodeItemStruct();
 
-            std::uint16_t get_number_of_registers_in_code();
-            std::uint16_t get_number_of_incoming_arguments();
-            std::uint16_t get_number_of_outgoing_arguments();
-            std::uint16_t get_number_of_try_items();
+            std::uint16_t get_number_of_registers_in_code()
+            {
+                return code_item.registers_size;
+            }
+
+            std::uint16_t get_number_of_incoming_arguments()
+            {
+                return code_item.ins_size;
+            }
+
+            std::uint16_t get_number_of_outgoing_arguments()
+            {
+                return code_item.outs_size;
+            }
+
+            std::uint16_t get_number_of_try_items()
+            {
+                return code_item.tries_size;
+            }
+
             std::shared_ptr<TryItem> get_try_item_by_pos(std::uint64_t pos);
 
             // raw byte instructions
-            std::uint16_t get_number_of_raw_instructions();
-            std::uint16_t get_raw_instruction_by_pos(std::uint16_t pos);
-            std::vector<std::uint8_t> get_all_raw_instructions();
+            std::uint16_t get_number_of_raw_instructions()
+            {
+                return code_item.insns_size;
+            }
 
-            std::uint64_t get_encoded_catch_handler_offset();
-            std::uint64_t get_encoded_catch_handler_list_size();
+            std::uint16_t get_raw_instruction_by_pos(std::uint16_t pos);
+
+            const std::vector<std::uint8_t> &get_all_raw_instructions() const
+            {
+                return instructions_raw;
+            }
+
+            std::uint64_t get_encoded_catch_handler_offset()
+            {
+                return encoded_catch_handler_list_offset;
+            }
+
+            std::uint64_t get_encoded_catch_handler_list_size()
+            {
+                return encoded_catch_handler_list.size();
+            }
+
             std::shared_ptr<EncodedCatchHandler> get_encoded_catch_handler_by_pos(std::uint64_t pos);
 
         private:
@@ -193,12 +281,28 @@ namespace KUNAI
                           std::ifstream &input_file,
                           std::uint64_t file_size,
                           std::shared_ptr<DexTypes> dex_types);
-            ~EncodedMethod();
+            ~EncodedMethod() = default;
 
-            MethodID *get_method();
-            DVMTypes::ACCESS_FLAGS get_access_flags();
-            std::uint64_t get_code_offset();
-            std::shared_ptr<CodeItemStruct> get_code_item();
+            MethodID *get_method() const
+            {
+                return method_id;
+            }
+
+            DVMTypes::ACCESS_FLAGS get_access_flags()
+            {
+                return access_flags;
+            }
+
+            std::uint64_t get_code_offset()
+            {
+                return code_off;
+            }
+
+            std::shared_ptr<CodeItemStruct> get_code_item()
+            {
+                return code_item;
+            }
+
             std::string full_name();
 
         private:
