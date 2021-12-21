@@ -206,3 +206,11 @@ Here there are some references used as ideas and base for the design and/or impl
     * [Advanced Compiler Design and Implementation](https://www.amazon.com/-/es/Steven-Muchnick/dp/1558603204)
     * [An Introduction to the Theory of Optimizing Compilers](https://www.amazon.com/-/es/Jonas-Skeppstedt/dp/172593048X)
     * [Introduction to Compilers and Language Design: Second Edition](https://www3.nd.edu/~dthain/compilerbook/compilerbook.pdf)
+
+## Compiled in
+
+KUNAI has been compiled in next systems:
+
+* Arch-Linux x86-64 - g++ 11.1
+* elementary OS 6.1 Jólnir x86_64 - g++ 9.3.0
+
