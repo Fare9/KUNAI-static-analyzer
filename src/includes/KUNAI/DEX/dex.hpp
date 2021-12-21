@@ -10,8 +10,6 @@
  * instructions and so on.
  */
 
-#pragma once
-
 #ifndef DEX_HPP
 #define HEX_HPP
 
