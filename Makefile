@@ -1,4 +1,4 @@
-CPP=g++
+CXX ?= g++
 AR=ar
 # set your paths
 JAVAC=javac
@@ -55,7 +55,7 @@ dirs:
 
 ${BIN_FOLDER}${BIN_NAME}: ${OBJ}main.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CPP} -o $@ $^
+	${CXX} -o $@ $^
 	
 ${BIN_FOLDER}${STATIC_LIB_NAME}: ${OBJ_FILES}
 	@echo "Linking static library $@"
@@ -63,7 +63,7 @@ ${BIN_FOLDER}${STATIC_LIB_NAME}: ${OBJ_FILES}
 	
 ${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
 	@echo "Linking dynamic library $@"
-	$(CPP) -fpic -shared -Wformat=0 -o $@ $^
+	${CXX} -fpic -shared -Wformat=0 -o $@ $^
 	
 ####################################################################
 #  				Test Files
@@ -71,27 +71,27 @@ ${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
 
 ${BIN_TEST_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CPP} -o $@ $^
+	${CXX} -o $@ $^
 	
 ${BIN_TEST_FOLDER}test_dex_disassembler: ${OBJ}test_dex_disassembler.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CPP} -o $@ $^
+	${CXX} -o $@ $^
 	
 ${BIN_TEST_FOLDER}test_ir: ${OBJ}test_ir.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CPP} -o $@ $^
+	${CXX} -o $@ $^
 	
 ${BIN_TEST_FOLDER}test_dex_lifter: ${OBJ}test_dex_lifter.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CPP} -o $@ $^
+	${CXX} -o $@ $^
 
 ${BIN_TEST_FOLDER}test_ir_graph: ${OBJ}test_ir_graph.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CPP} -o $@ $^
+	${CXX} -o $@ $^
 
 ${BIN_TEST_FOLDER}test_dominators: ${OBJ}test_dominators.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CPP} -o $@ $^
+	${CXX} -o $@ $^
 
 ####################################################################
 
@@ -99,7 +99,7 @@ ${BIN_TEST_FOLDER}test_dominators: ${OBJ}test_dominators.o ${OBJ_FILES}
 # main
 ${OBJ}main.o: ${CODE_FOLDER}main.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 	
 ####################################################################
 #  				Test Files
@@ -108,30 +108,30 @@ ${OBJ}main.o: ${CODE_FOLDER}main.cpp
 # test_dex_parser
 ${OBJ}test_dex_parser.o: ${CODE_TEST_FOLDER}test_dex_parser.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 	
 # test_dex_disassembler
 ${OBJ}test_dex_disassembler.o: ${CODE_TEST_FOLDER}test_dex_disassembler.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 	
 # test IR
 ${OBJ}test_ir.o: ${CODE_TEST_FOLDER}test_ir.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
 # test dex lifter
 ${OBJ}test_dex_lifter.o: ${CODE_TEST_FOLDER}test_dex_lifter.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
 ${OBJ}test_ir_graph.o: ${CODE_TEST_FOLDER}test_ir_graph.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
 ${OBJ}test_dominators.o: ${CODE_TEST_FOLDER}test_dominators.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
 ####################################################################
 	
@@ -139,7 +139,7 @@ ${OBJ}test_dominators.o: ${CODE_TEST_FOLDER}test_dominators.cpp
 UTILS_MODULE=Utils/
 ${OBJ}%.o: ${CODE_FOLDER}${UTILS_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CXX} ${UTILITIES} -o $@ $< ${CFLAGS}
 	
 # DEX modules here
 DEX_MODULE=DEX/
@@ -148,19 +148,19 @@ DEX_DVM=DEX/DVM/
 DEX_ANALYSIS=DEX/Analysis/
 ${OBJ}dex.o: ${CODE_FOLDER}${DEX_MODULE}dex.cpp
 	@echo "Compiling $^ -> $@"
-	${CPP} -I${INCLUDE_FOLDER}${DEX_MODULE} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES} -o $@ $^ ${CFLAGS}
+	${CXX} -I${INCLUDE_FOLDER}${DEX_MODULE} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES} -o $@ $^ ${CFLAGS}
 	
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_PARSER}%.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}
 	
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_DVM}%.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}	
+	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}	
 
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_ANALYSIS}%.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CXX} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES} -o $@ $< ${CFLAGS}
 	
 
 # IR modules here
@@ -168,11 +168,11 @@ IR_MODULE=mjolnIR/
 IR_LIFTERS=mjolnIR/Lifters/
 ${OBJ}%.o: ${CODE_FOLDER}${IR_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} ${IR_MODULES} ${FILE_MODULES} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CXX} ${IR_MODULES} ${FILE_MODULES} ${UTILITIES} -o $@ $< ${CFLAGS}
 	
 ${OBJ}%.o: ${CODE_FOLDER}${IR_LIFTERS}%.cpp
 	@echo "Compiling $< -> $@"
-	${CPP} ${IR_MODULES} ${FILE_MODULES} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CXX} ${IR_MODULES} ${FILE_MODULES} ${UTILITIES} -o $@ $< ${CFLAGS}
 
 # Compile tests
 tests:
