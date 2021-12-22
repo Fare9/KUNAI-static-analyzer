@@ -4,30 +4,14 @@ namespace KUNAI
 {
     namespace DEX
     {
-        DexDisassembler::DexDisassembler(bool parsing_correct, std::shared_ptr<DexParser> dex_parser, std::shared_ptr<DalvikOpcodes> dalvik_opcodes)
+        DexDisassembler::DexDisassembler(bool parsing_correct, std::shared_ptr<DexParser> dex_parser, std::shared_ptr<DalvikOpcodes> dalvik_opcodes) : parsing_correct(parsing_correct),
+                                                                                                                                                       dex_parser(dex_parser),
+                                                                                                                                                       disassembly_correct(false),
+                                                                                                                                                       dalvik_opcodes(dalvik_opcodes)
         {
-            this->parsing_correct = parsing_correct;
-            this->dex_parser = dex_parser;
-            this->disassembly_correct = false;
-            this->dalvik_opcodes = dalvik_opcodes;
             this->dalvik_disassembler = std::make_shared<LinearSweepDisassembler>(dalvik_opcodes);
         }
 
-        DexDisassembler::~DexDisassembler() {}
-
-        /**
-         * @brief get if the disassembly was correct or not.
-         * @return bool.
-         */
-        bool DexDisassembler::get_disassembly_correct()
-        {
-            return disassembly_correct;
-        }
-
-        /**
-         * @brief Public method for disassembly with error checking.
-         * @return void.
-         */
         void DexDisassembler::disassembly_analysis()
         {
             if (!parsing_correct)
@@ -45,19 +29,6 @@ namespace KUNAI
             }
         }
 
-        /**
-         * @brief Get the linear sweep disassembler object.
-         * @return std::shared_ptr<LinearSweepDisassembler>
-         */
-        std::shared_ptr<LinearSweepDisassembler> DexDisassembler::get_linear_sweep_disassembler()
-        {
-            return dalvik_disassembler;
-        }
-
-        /**
-         * @brief Disassembly DEX methods using linear sweep disassembly, store instructions with its class and method.
-         * @return void.
-         */
         void DexDisassembler::disassembly_methods()
         {
             auto dex_classes = dex_parser->get_classes();
@@ -129,17 +100,6 @@ namespace KUNAI
                 }
             }
         }
-
-        /**
-         * @brief Return all the instructions from the disassembled DEX.
-         * @return std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>, std::map<std::uint64_t, std::shared_ptr<Instruction>>>
-         */
-        std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>,
-                     std::map<std::uint64_t, std::shared_ptr<Instruction>>> DexDisassembler::get_instructions()
-        {
-            return method_instructions;
-        }
-
 
         std::ostream &operator<<(std::ostream &os, const DexDisassembler &entry)
         {

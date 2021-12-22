@@ -2,12 +2,10 @@
 
 namespace KUNAI {
     namespace DEX {
-        LinearSweepDisassembler::LinearSweepDisassembler(std::shared_ptr<DalvikOpcodes> dalvik_opcodes)
+        LinearSweepDisassembler::LinearSweepDisassembler(std::shared_ptr<DalvikOpcodes> dalvik_opcodes) :
+        dalvik_opcodes (dalvik_opcodes)
         {
-            this->dalvik_opcodes = dalvik_opcodes;
         }
-
-        LinearSweepDisassembler::~LinearSweepDisassembler() {}
 
         std::map<std::uint64_t, std::shared_ptr<Instruction>> LinearSweepDisassembler::disassembly(std::vector<std::uint8_t> byte_buffer)
         {

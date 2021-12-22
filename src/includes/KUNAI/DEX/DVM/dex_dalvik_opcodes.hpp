@@ -1,10 +1,10 @@
 /***
  * File: dex_dalvik_opcodes.hpp
  * Author: @Farenain
- * 
+ *
  * All the dalvik opcodes with information
  * of them, also strings will be used.
- * 
+ *
  * Based on dvm.py from Androguard.
  */
 
@@ -25,36 +25,156 @@ namespace KUNAI
         class DalvikOpcodes
         {
         public:
+            /**
+             * @brief DalvikOpcodes constructor.
+             * @param dex_parser: std::shared_ptr<DexParser> object to use in the object.
+             */
             DalvikOpcodes(std::shared_ptr<DexParser> dex_parser);
 
-            ~DalvikOpcodes();
+            /**
+             * @brief DalvikOpcodes destructor.
+             */
+            ~DalvikOpcodes() = default;
 
+            /**
+             * @brief find the instruction opcode in the map to get instruction name.
+             * @param instruction: std::uint32_t instruction opcode.
+             * @return std::string
+             */
             std::string get_instruction_name(std::uint32_t instruction);
 
+            /**
+             * @brief find the instruction Kind given an instruction opcode.
+             * @param instruction: std::uint32_t instruction opcode.
+             * @return DVMTypes::Kind
+             */
             DVMTypes::Kind get_instruction_type(std::uint32_t instruction);
 
+            /**
+             * @brief find the instruction Operation given an instruction opcode.
+             * @param instruction: std::uint32_t instruction opcode.
+             * @return DVMTypes::Operation
+             */
             DVMTypes::Operation get_instruction_operation(std::uint32_t instruction);
 
+            /**
+             * @brief get instruction type as string.
+             * @param instruction: std::uint32_t instruction opcode.
+             * @return std::string
+             */
             std::string get_instruction_type_str(std::uint32_t instruction);
 
-            std::string *get_dalvik_string_by_id(std::uint32_t id);
-            Type *get_dalvik_Type_by_id(std::uint32_t id);
-            FieldID *get_dalvik_field_by_id(std::uint32_t id);
-            MethodID *get_dalvik_method_by_id(std::uint32_t id);
-            ProtoID *get_dalvik_proto_by_id(std::uint32_t id);
+            /**
+             * @brief get string* by id.
+             * @param id: std::uint32_t id of string.
+             * @return std::string*
+             */
+            std::string *get_dalvik_string_by_id(std::uint32_t id)
+            {
+                return dex_parser->get_strings()->get_string_from_order(id);
+            }
+
+            /**
+             * @brief get Type* by id.
+             * @param id: std::uint32_t id of the Type.
+             * @return Type*
+             */
+            Type *get_dalvik_Type_by_id(std::uint32_t id)
+            {
+                return dex_parser->get_types()->get_type_from_order(id);
+            }
+
+            /**
+             * @brief get FieldID* by id.
+             * @param id: std::uint32_t of the FieldID.
+             * @return FieldID*
+             */
+            FieldID *get_dalvik_field_by_id(std::uint32_t id)
+            {
+                return dex_parser->get_fields()->get_field_id_by_order(id);
+            }
+
+            /**
+             * @brief get MethodID* by id.
+             * @param id: std::uint32_t of the MethodID.
+             * @return MethodID*
+             */
+            MethodID *get_dalvik_method_by_id(std::uint32_t id)
+            {
+                return dex_parser->get_methods()->get_method_by_order(id);
+            }
+
+            /**
+             * @brief get ProtoID* by id.
+             * @param id: std::uint32_t of the ProtoID.
+             * @return ProtoID*
+             */
+            ProtoID *get_dalvik_proto_by_id(std::uint32_t id)
+            {
+                return dex_parser->get_protos()->get_proto_by_order(id);
+            }
+
+            /**
+             * @brief Get a dalvil EncodedField by a given FieldID*
+             * @param field: FieldID* field to obtain its std::shared_ptr<EncodedField>
+             * @return std::shared_ptr<EncodedField>
+             */
             std::shared_ptr<EncodedField> get_dalvik_encoded_field_by_fieldid(FieldID *field);
 
-            std::string get_dalvik_string_by_id_str(std::uint32_t id);
-            std::string get_dalvik_type_by_id_str(std::uint32_t id);
+            /**
+             * @brief get string by id.
+             * @param id: std::uint32_t id of the string.
+             * @return std::string
+             */
+            std::string get_dalvik_string_by_id_str(std::uint32_t id)
+            {
+                return *dex_parser->get_strings()->get_string_from_order(id);
+            }
+
+            /**
+             * @brief get raw string from Type by id.
+             * @param id: std::uint32_t id of the Type.
+             * @return std::string
+             */
+            std::string get_dalvik_type_by_id_str(std::uint32_t id)
+            {
+                return dex_parser->get_types()->get_type_from_order(id)->get_raw();
+            }
+
+            /**
+             * @brief get FieldID as string by id.
+             * @param id: std::uint32_t id of the FieldID.
+             * @return std::string
+             */
             std::string get_dalvik_static_field_by_id_str(std::uint32_t id);
+
+            /**
+             * @brief get MethodID as string by id.
+             * @param id: std::uint32_t id of the MethodID.
+             * @return std::string
+             */
             std::string get_dalvik_method_by_id_str(std::uint32_t id);
+
+            /**
+             * @brief get ProtoID as string by id.
+             * @param id: std::uint32_t id of the ProtoID.
+             * @return std::string
+             */
             std::string get_dalvik_proto_by_id_str(std::uint32_t id);
 
+            /**
+             * @brief Method to get a string from the access flags.
+             * @param acc_flag: value from enum DVMTypes::ACCESS_FLAGS.
+             * @return std::string
+             */
             std::string get_access_flags_string(DVMTypes::ACCESS_FLAGS acc_flag);
 
         private:
             std::shared_ptr<DexParser> dex_parser;
 
+            /**
+             * @brief Translation table from opcode to string
+             */
             std::map<std::uint32_t, std::string> opcodes_instruction_name = {
                 {DVMTypes::Opcode::OP_NOP, "nop"},
                 {DVMTypes::Opcode::OP_MOVE, "move"},
@@ -331,6 +451,9 @@ namespace KUNAI
                 {0xfeff, "sput-object-volatile/jumbo"},
                 {0xffff, "throw-verification-error/jumbo"}};
 
+            /**
+             * @brief Translation table from opcode to instruction type.
+             */
             std::map<std::uint32_t, DVMTypes::Kind> opcodes_instruction_type = {
                 {DVMTypes::Opcode::OP_CONST_STRING, DVMTypes::Kind::STRING},
                 {DVMTypes::Opcode::OP_CONST_STRING_JUMBO, DVMTypes::Kind::STRING},
@@ -404,8 +527,10 @@ namespace KUNAI
                 {0xfeff, DVMTypes::Kind::FIELD},
                 {0xffff, DVMTypes::Kind::VARIES}};
 
-            // instructions that makes some specific operation
-            // branch, break, read, write...
+            /**
+             * @brief instructions that makes some specific operation
+             *        branch, break, read, write...
+             */
             std::map<std::uint32_t, DVMTypes::Operation> opcode_instruction_operation = {
                 // branch instructions
                 {0x27, DVMTypes::Operation::BRANCH_DVM_OPCODE},
