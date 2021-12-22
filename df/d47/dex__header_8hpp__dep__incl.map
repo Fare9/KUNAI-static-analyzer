@@ -1,0 +1,11 @@
+<map id="src/includes/KUNAI/DEX/parser/dex_header.hpp" name="src/includes/KUNAI/DEX/parser/dex_header.hpp">
+<area shape="rect" id="node1" title="Class that represents and contains the DEX file header structure." alt="" coords="301,5,488,47"/>
+<area shape="rect" id="node2" href="$d2/d94/dex__parser_8hpp_source.html" title=" " alt="" coords="303,95,486,136"/>
+<area shape="rect" id="node3" href="$dd/d30/dex__dalvik__opcodes_8hpp_source.html" title=" " alt="" coords="319,184,470,240"/>
+<area shape="rect" id="node6" href="$d8/d45/dex_8hpp_source.html" title=" " alt="" coords="462,585,601,627"/>
+<area shape="rect" id="node8" href="$df/da7/dex__disassembler_8hpp.html" title="Class to manage the disassembly process of the DEX file." alt="" coords="39,489,256,530"/>
+<area shape="rect" id="node4" href="$d2/d2b/dex__instructions_8hpp_source.html" title=" " alt="" coords="182,288,388,329"/>
+<area shape="rect" id="node5" href="$dd/df2/dex__analysis_8hpp_source.html" title=" " alt="" coords="323,385,530,426"/>
+<area shape="rect" id="node7" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="282,481,422,537"/>
+<area shape="rect" id="node9" href="$db/d9f/dex__linear__sweep__disassembly_8hpp.html" title="Linear sweep disassembly for DEX file we will create a disassembly method that users can also use to ..." alt="" coords="26,377,197,433"/>
+</map>
