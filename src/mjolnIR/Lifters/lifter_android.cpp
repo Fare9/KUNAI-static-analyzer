@@ -122,7 +122,7 @@ namespace KUNAI
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
-            if (op_code == 0x0100 || op_code == 0x0200)
+            if (op_code == DEX::DVMTypes::OP_PACKED_SWITCH_TABLE || op_code == DEX::DVMTypes::OP_SPARSE_SWITCH_TABLE)
                 return true;
 
             if (androidinstructions.assignment_instruction.find(op_code) != androidinstructions.assignment_instruction.end())
@@ -532,6 +532,8 @@ namespace KUNAI
                             auto src = make_none_type();
                             assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src, nullptr, nullptr);
                         }
+                        break;
+                    default:
                         break;
                     }
                 }
@@ -1012,6 +1014,8 @@ namespace KUNAI
                 case DEX::DVMTypes::Opcode::OP_IF_LE:
                     comparison = MJOLNIR::IRBComp::LOWER_EQUAL_T;
                     break;
+                default:
+                    break;
                 }
 
                 auto bcomp = std::make_shared<MJOLNIR::IRBComp>(comparison, temp_reg, reg1, reg2, nullptr, nullptr);
@@ -1048,6 +1052,8 @@ namespace KUNAI
                     break;
                 case DEX::DVMTypes::Opcode::OP_IF_LEZ:
                     comparison = MJOLNIR::IRZComp::LOWER_EQUAL_ZERO;
+                    break;
+                default:
                     break;
                 }
 
@@ -1215,6 +1221,8 @@ namespace KUNAI
                 cast_type = MJOLNIR::IRUnaryOp::TO_SHORT;
                 size = WORD_S;
                 break;
+            default:
+                break;
             }
 
             auto inst = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
@@ -1265,6 +1273,8 @@ namespace KUNAI
                 break;
             case DEX::DVMTypes::Opcode::OP_APUT_SHORT:
                 size = WORD_S;
+                break;
+            default:
                 break;
             }
 

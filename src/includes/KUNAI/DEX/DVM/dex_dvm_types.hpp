@@ -424,6 +424,8 @@ namespace KUNAI
                 OP_SPUT_OBJECT_VOLATILE = 0xfe,
                 OP_CONST_METHOD_TYPE = 0xff,
                 // END(libdex-opcode-enum)
+                OP_PACKED_SWITCH_TABLE = 0x0100,
+                OP_SPARSE_SWITCH_TABLE = 0x0200,
             };
         };
 

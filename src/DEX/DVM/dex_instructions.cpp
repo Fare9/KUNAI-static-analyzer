@@ -1951,6 +1951,8 @@ namespace KUNAI
                         x.push_back(curr_idx + std::get<1>(target) * 2);
                 }
                 break;
+                default:
+                break;
                 }
 
                 return x;

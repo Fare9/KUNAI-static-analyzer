@@ -484,6 +484,8 @@ namespace KUNAI
             case IRType::ME_ACCESS:
                 stream << "[Middle-Endian]";
                 break;
+            default:
+                break;
             }
 
             return stream.str();
@@ -601,6 +603,8 @@ namespace KUNAI
                 break;
             case IRType::ME_ACCESS:
                 stream << "[Middle-Endian]";
+                break;
+            default:
                 break;
             }
 
@@ -983,7 +987,7 @@ namespace KUNAI
         {
             this->class_name = class_name;
             this->type = type;
-            this->type_class = type_class;
+            this->type_class = type_name;
             this->field_name = field_name;
         }
 
@@ -1089,6 +1093,8 @@ namespace KUNAI
                 break;
             case VOID_F:
                 str_stream << "[Type: VOID]";
+                break;
+            default:
                 break;
             }
 

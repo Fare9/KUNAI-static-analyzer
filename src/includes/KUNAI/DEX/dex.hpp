@@ -11,7 +11,7 @@
  */
 
 #ifndef DEX_HPP
-#define HEX_HPP
+#define DEX_HPP
 
 #include <iostream>
 #include <memory>

@@ -602,6 +602,8 @@ namespace KUNAI
                 case TO_BOOLEAN:
                     str_stream << "[Cast: TO_BOOLEAN]";
                     break;
+                default:
+                    break;
                 }
             }
 
@@ -809,6 +811,8 @@ namespace KUNAI
                 break;
             case SYSCALL_T:
                 str_stream << "[Type: SYSCALL]";
+                break;
+            default:
                 break;
             }
 
