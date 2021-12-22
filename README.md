@@ -213,4 +213,4 @@ KUNAI has been compiled in next systems:
 
 * Arch-Linux x86-64 - g++ 11.1
 * elementary OS 6.1 Jólnir x86_64 - g++ 9.3.0
-
+* elementary OS 6.1 Jólnir x86_64 - clang version 10.0.0-4ubuntu1
