@@ -8,23 +8,9 @@ namespace KUNAI
          * IRGraph class
          */
 
-        /**
-         * @brief Constructor of IRGraph, this class represent a control-flow graph of IRBlock objects.
-         * @return void
-         */
         IRGraph::IRGraph() {}
 
-        /**
-         * @brief Destructor of IRGraph, nothing to be done.
-         * @return void
-         */
-        IRGraph::~IRGraph() {}
-
-        /**
-         * @brief Add a node to the IRGraph.
-         * @param node: new node to insert in set.
-         * @return bool
-         */
+        
         bool IRGraph::add_node(std::shared_ptr<IRBlock> node)
         {
             if (std::find(nodes.begin(), nodes.end(), node) != nodes.end())
@@ -33,12 +19,7 @@ namespace KUNAI
             return true;
         }
 
-        /**
-         * @brief Add a new edge to the IRGraph.
-         * @param src: source node, will be inserted if it does not exists.
-         * @param dst: destination node, will be inserted if it does not exists.
-         * @return void
-         */
+        
         void IRGraph::add_edge(std::shared_ptr<IRBlock> src, std::shared_ptr<IRBlock> dst)
         {
             if (std::find(nodes.begin(), nodes.end(), src) != nodes.end())
@@ -50,12 +31,7 @@ namespace KUNAI
             add_block_to_predecessors(dst, src);
         }
 
-        /**
-         * @brief Add a new edge if it doesn't exists already.
-         * @param src: source node, will be inserted if it does not exists.
-         * @param dst: destination node, will be inserted if it does not exists.
-         * @return void
-         */
+        
         void IRGraph::add_uniq_edge(std::shared_ptr<IRBlock> src, std::shared_ptr<IRBlock> dst)
         {
             // if src is not in nodes, or if
@@ -65,51 +41,19 @@ namespace KUNAI
                 add_edge(src, dst);
         }
 
-        /**
-         * @brief Add a block as one of the successors of the given block.
-         * @param node: node to add its successor.
-         * @param successor: successor block to add.
-         * @return void
-         */
+        
         void IRGraph::add_block_to_sucessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> successor)
         {
             successors[node].push_back(successor);
         }
 
-        /**
-         * @brief Add a block as on of the precessors of the given block.
-         * @param node: node to add its predecessor.
-         * @param predecessor: predecessor block to add.
-         * @return void
-         */
+        
         void IRGraph::add_block_to_predecessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> predecessor)
         {
             predecessors[node].push_back(predecessor);
         }
 
-        /**
-         * @brief Get the set of nodes from the current graph.
-         * @return Nodes
-         */
-        Nodes IRGraph::get_nodes()
-        {
-            return nodes;
-        }
 
-        /**
-         * @brief Get the vector with pair of edges.
-         * @return Edges
-         */
-        Edges IRGraph::get_edges()
-        {
-            return edges;
-        }
-
-        /**
-         * @brief Merge one given graph with current one.
-         * @param graph: graph to merge with current one.
-         * @return void
-         */
         void IRGraph::merge_graph(std::shared_ptr<IRGraph> graph)
         {
             auto nodes = graph->get_nodes();
@@ -121,12 +65,7 @@ namespace KUNAI
                 add_edge(edge.first, edge.second);
         }
 
-        /**
-         * @brief Delete an edge given two blocks.
-         * @param src: source node from the edge.
-         * @param dst: destination node from the edge.
-         * @return void
-         */
+    
         void IRGraph::del_edge(std::shared_ptr<IRBlock> src, std::shared_ptr<IRBlock> dst)
         {
             auto edge = std::find(edges.begin(), edges.end(), std::make_pair(src, dst));
@@ -139,13 +78,7 @@ namespace KUNAI
             delete_block_from_precessors(dst, src);
         }
 
-        /**
-         * @brief Delete a node from the graph, 
-         *        remove all the edges that are connected
-         *        to the node.
-         * @param node: node to remove from the graph.
-         * @return void
-         */
+        
         void IRGraph::del_node(std::shared_ptr<IRBlock> node)
         {
             auto node_set = std::find(nodes.begin(), nodes.end(), node);
@@ -162,12 +95,7 @@ namespace KUNAI
                 del_edge(node, succ);
         }
 
-        /**
-         * @brief Remove one of the sucessors given an IRBlock, if it's inside of the vector.
-         * @param node: node where to remove its successors.
-         * @param block: Block to remove from the successors.
-         * @return void
-         */
+        
         void IRGraph::delete_block_from_sucessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> block)
         {
             auto node_it = successors.find(node);
@@ -178,12 +106,7 @@ namespace KUNAI
             }
         }
 
-        /**
-         * @brief Remove on of the predecessors given an IRBlock, if it's inside of the vector.
-         * @param node: node where to remove its predecessor.
-         * @param block: Block to remove from the predecessors.
-         * @return void
-         */
+        
         void IRGraph::delete_block_from_precessors(std::shared_ptr<IRBlock> node, std::shared_ptr<IRBlock> block)
         {
             auto node_it = predecessors.find(node);
@@ -194,10 +117,7 @@ namespace KUNAI
             }
         }
 
-        /**
-         * @brief Get all those nodes which do not have successors.
-         * @return std::vector<std::shared_ptr<IRBlock>>
-         */
+        
         std::vector<std::shared_ptr<IRBlock>> IRGraph::get_leaves()
         {
             std::vector<std::shared_ptr<IRBlock>> leaves;
@@ -211,10 +131,7 @@ namespace KUNAI
             return leaves;
         }
 
-        /**
-         * @brief Get all those nodes which are head of graph, which do not have predecessors.
-         * @return std::vector<std::shared_ptr<IRBlock>>
-         */
+        
         std::vector<std::shared_ptr<IRBlock>> IRGraph::get_heads()
         {
             std::vector<std::shared_ptr<IRBlock>> heads;
@@ -228,15 +145,7 @@ namespace KUNAI
             return heads;
         }
 
-        /**
-         * @brief Find a different paths between a source block and destination block from the destination to backward
-         *        in the graph. 
-         * @param src: source block from the graph.
-         * @param dst: destination block from the graph.
-         * @param cycles_count: maximum number of times a basic block can be processed.
-         * @param done: dictionary of already processed loc_keys, it's value is number of times it was processed.
-         * @return Paths (std::vector<std::vector<std::shared_ptr<IRBlock>>> Paths)
-         */
+        
         Paths IRGraph::find_path(std::shared_ptr<IRBlock> src,
                                  std::shared_ptr<IRBlock> dst,
                                  size_t cycles_count,
@@ -269,15 +178,7 @@ namespace KUNAI
             return out;
         }
 
-        /**
-         * @brief Find a different paths between a source block and destination block from the source to forward
-         *        in the graph. 
-         * @param src: source block from the graph.
-         * @param dst: destination block from the graph.
-         * @param cycles_count: maximum number of times a basic block can be processed.
-         * @param done: dictionary of already processed loc_keys, it's value is number of times it was processed.
-         * @return Paths (std::vector<std::vector<std::shared_ptr<IRBlock>>> Paths)
-         */
+        
         Paths IRGraph::find_path_from_src(std::shared_ptr<IRBlock> src,
                                           std::shared_ptr<IRBlock> dst,
                                           size_t cycles_count,
@@ -311,31 +212,19 @@ namespace KUNAI
             return out;
         }
 
-        /**
-         * @brief Get the reachable sons of a given block.
-         * @param head: head block to calculate reachable sons.
-         * @return Nodes
-         */
+        
         Nodes IRGraph::reachable_sons(std::shared_ptr<IRBlock> head)
         {
             return IRGraph::reachable_nodes_forward(head);
         }
 
-        /**
-         * @brief Get the reachable parent nodes of a given block.
-         * @param leaf: leaf block to calculate reachable parents.
-         * @return Nodes
-         */
+        
         Nodes IRGraph::reachable_parents(std::shared_ptr<IRBlock> leaf)
         {
             return IRGraph::reachable_nodes_backward(leaf);
         }
 
-        /**
-         * @brief Compute the dominators of the graph.
-         * @param head: head used as starting point to calculate the dominators in the graph.
-         * @return std::map<std::shared_ptr<IRBlock>, Nodes>
-         */
+        
         std::map<std::shared_ptr<IRBlock>, Nodes> IRGraph::compute_dominators(std::shared_ptr<IRBlock> head)
         {
             std::map<std::shared_ptr<IRBlock>, Nodes> dominators;
@@ -388,11 +277,7 @@ namespace KUNAI
             return dominators;
         }
 
-        /**
-         * @brief Compute the postdominators of the graph.
-         * @param leaf: node to get its postdominators.
-         * @return std::map<std::shared_ptr<IRBlock>, Nodes>
-         */
+        
         std::map<std::shared_ptr<IRBlock>, Nodes> IRGraph::compute_postdominators(std::shared_ptr<IRBlock> leaf)
         {
             std::map<std::shared_ptr<IRBlock>, Nodes> postdominators;
@@ -445,12 +330,7 @@ namespace KUNAI
             return postdominators;
         }
 
-        /**
-         * @brief Compute the immediate dominators algorithm from:
-         *        "Advanced Compiler Design and Implementation"
-         * 
-         * @return std::map<std::shared_ptr<IRBlock>, std::shared_ptr<IRBlock>> 
-         */
+        
         std::map<std::shared_ptr<IRBlock>, std::shared_ptr<IRBlock>> IRGraph::compute_immediate_dominators()
         {
             std::map<std::shared_ptr<IRBlock>, Nodes> tmp;
@@ -505,10 +385,7 @@ namespace KUNAI
         }
 
 
-        /**
-         * @brief Create a copy of the IRGraph as a smart pointer.
-         * @return std::shared_ptr<IRGraph>
-         */
+        
         std::shared_ptr<IRGraph> IRGraph::copy()
         {
             auto new_graph = std::make_shared<IRGraph>();
@@ -525,11 +402,7 @@ namespace KUNAI
         }
 
         // node information
-        /**
-         * @brief Get the number of successor blocks from the given block.
-         * @param node: block to get its number of successors.
-         * @return size_t
-         */
+        
         size_t IRGraph::get_number_of_successors(std::shared_ptr<IRBlock> node)
         {
             if (successors.find(node) == successors.end())
@@ -537,11 +410,7 @@ namespace KUNAI
             return successors[node].size();
         }
 
-        /**
-         * @brief Get the list of successor blocks.
-         * @param node: block to get its successors.
-         * @return std::vector<std::shared_ptr<IRBlock>>
-         */
+        
         Nodes IRGraph::get_successors(std::shared_ptr<IRBlock> node)
         {
             if (successors.find(node) == successors.end())
@@ -549,11 +418,7 @@ namespace KUNAI
             return successors[node];
         }
 
-        /**
-         * @brief Get the number of predecessor blocks from the given block.
-         * @param node: block to get its number of predecessors.
-         * @return size_t
-         */
+        
         size_t IRGraph::get_number_of_predecessors(std::shared_ptr<IRBlock> node)
         {
             if (predecessors.find(node) == predecessors.end())
@@ -561,11 +426,7 @@ namespace KUNAI
             return predecessors[node].size();
         }
 
-        /**
-         * @brief Get the list of predecessor blocks.
-         * @param node: block to get its predecessors.
-         * @return std::vector<std::shared_ptr<IRBlock>>
-         */
+        
         Nodes IRGraph::get_predecessors(std::shared_ptr<IRBlock> node)
         {
             if (predecessors.find(node) == predecessors.end())
@@ -573,11 +434,7 @@ namespace KUNAI
             return predecessors[node];
         }
 
-        /**
-         * @brief Get type of node depending on number of successors and predecessors.
-         * @param node: node to check its type.
-         * @return node_type_t
-         */
+        
         IRGraph::node_type_t IRGraph::get_type_of_node(std::shared_ptr<IRBlock> node)
         {
             if (get_number_of_successors(node) > 1)
@@ -588,13 +445,7 @@ namespace KUNAI
                 return REGULAR_NODE;
         }
 
-        // static methods
-
-        /**
-         * @brief Get all the reachable nodes from a given head node.
-         * @param head: head of the set we want to get all its reachable nodes.
-         * @return Nodes
-         */
+        
         Nodes IRGraph::reachable_nodes_forward(std::shared_ptr<IRBlock> head)
         {
             Nodes todo;
@@ -622,11 +473,7 @@ namespace KUNAI
             return reachable;
         }
 
-        /**
-         * @brief Get all the reachable up nodes from a given leaf node.
-         * @param leaf: leaf of the set we of nodes we want to get all its reachable nodes.
-         * @return Nodes
-         */
+        
         Nodes IRGraph::reachable_nodes_backward(std::shared_ptr<IRBlock> leaf)
         {
             Nodes todo;
@@ -654,14 +501,7 @@ namespace KUNAI
             return reachable;
         }
 
-        /**
-         * @brief An extended basic block is a maximal sequence of instructions beginning with a leader
-         *        that contains no join nodes (those with more than 1 successor) other than its first node
-         *        extended basic block has single entry and possible multiply entries.
-         *        Algorithm taken from "Advanced Compiler Design and Implementation" by Steven Muchnick
-         * @param r: entry block to do the extended basic block.
-         * @return Nodes
-         */
+        
         Nodes IRGraph::build_ebb(std::shared_ptr<IRBlock> r)
         {
             Nodes ebb;
@@ -671,11 +511,7 @@ namespace KUNAI
             return ebb;
         }
 
-        /**
-         * @brief Given a head node, give the tree of nodes using a Depth First Search algorithm.
-         * @param head: node where to start the search.
-         * @return Nodes
-         */
+        
         Nodes IRGraph::Deep_First_Search(std::shared_ptr<IRBlock> head)
         {
             Nodes todo;
@@ -703,11 +539,7 @@ namespace KUNAI
             return done;
         }
 
-        /**
-         * @brief Given a head node, give the tree of nodes using a Breadth First Search algorithm.
-         * @param head: node where to start the search.
-         * @return Nodes
-         */
+        
         Nodes IRGraph::Breadth_First_Search(std::shared_ptr<IRBlock> head)
         {
             Nodes todo;
@@ -749,12 +581,7 @@ namespace KUNAI
             return;
         }
 
-        /**
-         * @brief Generate a dot file with the CFG, this will include the IR
-         *        code, and each block as graph nodes.
-         * 
-         * @param name: name for the generated dot file.
-         */
+        
         void IRGraph::generate_dot_file(std::string name)
         {
             std::ofstream stream;
@@ -797,11 +624,7 @@ namespace KUNAI
             stream.close();
         }
 
-        /**
-         * @brief Generate a dot file with the dominator tree.
-         * 
-         * @param name 
-         */
+        
         void IRGraph::generate_dominator_tree(std::string name)
         {
             IRGraph graph;

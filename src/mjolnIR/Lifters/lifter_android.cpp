@@ -5,22 +5,11 @@ namespace KUNAI
     namespace LIFTER
     {
 
-        /**
-         * @brief Constructor of lifter.
-         */
-        LifterAndroid::LifterAndroid()
+        LifterAndroid::LifterAndroid() : temp_reg_id(0),
+                                         current_idx(0)
         {
-            temp_reg_id = 0;
-            current_idx = 0;
         }
 
-        /**
-         * @brief Lift a given method from a method_analysis object.
-         *
-         * @param method_analysis: method from Android to lift.
-         * @param android_analysis: analysis from Android.
-         * @return std::shared_ptr<MJOLNIR::IRGraph>
-         */
         std::shared_ptr<MJOLNIR::IRGraph> LifterAndroid::lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis, std::shared_ptr<DEX::Analysis> android_analysis)
         {
             auto bbs = method_analysis->get_basic_blocks()->get_basic_blocks();
@@ -69,14 +58,6 @@ namespace KUNAI
             return method_graph;
         }
 
-        /**
-         * @brief Lift an android basic block instructions to IR instructions.
-         *
-         * @param basic_block: basic block with Android instructions.
-         * @param bb: IR Basic Block.
-         * @return true
-         * @return false
-         */
         bool LifterAndroid::lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock> basic_block, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             auto instructions = basic_block->get_instructions();
@@ -110,14 +91,6 @@ namespace KUNAI
             return true;
         }
 
-        /**
-         * @brief
-         *
-         * @param instruction: instruction from android to lift.
-         * @param bb: IR Basic Block.
-         * @return true
-         * @return false
-         */
         bool LifterAndroid::lift_android_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
@@ -159,26 +132,11 @@ namespace KUNAI
         /***
          * Private methods.
          */
-
-        /**
-         * @brief Create a new IRReg with the id of the register,
-         *        using different objects will be useful for having
-         *        different registers in different methods.
-         * @param reg_id: id of the register to create.
-         * @return std::shared_ptr<MJOLNIR::IRReg>
-         */
         std::shared_ptr<MJOLNIR::IRReg> LifterAndroid::make_android_register(std::uint32_t reg_id)
         {
             return std::make_shared<MJOLNIR::IRReg>(reg_id, MJOLNIR::dalvik_arch, "v" + std::to_string(reg_id), DWORD_S);
         }
 
-        /**
-         * @brief Return a temporal register, used for operations like
-         *        conditional jumps to have some place where to store result
-         *        of comparison.
-         *
-         * @return std::shared_ptr<MJOLNIR::IRTempReg>
-         */
         std::shared_ptr<MJOLNIR::IRTempReg> LifterAndroid::make_temporal_register()
         {
             auto temp_reg = std::make_shared<MJOLNIR::IRTempReg>(temp_reg_id, "t" + std::to_string(temp_reg_id), DWORD_S);
@@ -186,23 +144,11 @@ namespace KUNAI
             return temp_reg;
         }
 
-        /**
-         * @brief Create a NONE type useful for cases where one of
-         *        the parameters does not exists.
-         * @return std::shared_ptr<MJOLNIR::IRType>
-         */
         std::shared_ptr<MJOLNIR::IRType> LifterAndroid::make_none_type()
         {
             return std::make_shared<MJOLNIR::IRType>(MJOLNIR::IRType::NONE_TYPE, "", 0);
         }
 
-        /**
-         * @brief Create an Int type used for the DEX instructions
-         * @param value: value of the integer as an unsigned of 64 bits
-         * @param is_signed: boolean saying if the value must be signed or unsigned.
-         * @param type_size: size of the integer type.
-         * @return std::shared_ptr<MJOLNIR::IRConstInt>
-         */
         std::shared_ptr<MJOLNIR::IRConstInt> LifterAndroid::make_int(std::uint64_t value, bool is_signed, size_t type_size)
         {
             std::string int_representation;
@@ -215,34 +161,16 @@ namespace KUNAI
             return std::make_shared<MJOLNIR::IRConstInt>(value, is_signed, MJOLNIR::IRType::LE_ACCESS, int_representation, type_size);
         }
 
-        /**
-         * @brief Generate a IRString type for Android, this will have the string
-         *        and the size of the string.
-         * @param value: string to generate the object.
-         * @return std::shared_ptr<MJOLNIR::IRString>
-         */
         std::shared_ptr<MJOLNIR::IRString> LifterAndroid::make_str(std::string value)
         {
             return std::make_shared<MJOLNIR::IRString>(value, value, value.length());
         }
 
-        /**
-         * @brief Generate a IRClass type for Android, this will be nothing more
-         *        than the complete name of the class.
-         * @param value: class to generate the object.
-         * @return std::shared_ptr<MJOLNIR::IRClass>
-         */
         std::shared_ptr<MJOLNIR::IRClass> LifterAndroid::make_class(DEX::Class *value)
         {
             return std::make_shared<MJOLNIR::IRClass>(value->get_name(), value->get_name(), 0);
         }
 
-        /**
-         * @brief Generate a IRField type for Android, this has the values from the
-         *        FieldID.
-         * @param field: FieldID to generate the object.
-         * @return std::shared_ptr<MJOLNIR::IRField>
-         */
         std::shared_ptr<MJOLNIR::IRField> LifterAndroid::make_field(DEX::FieldID *field)
         {
             DEX::Class *class_idx = reinterpret_cast<DEX::Class *>(field->get_class_idx());
@@ -332,14 +260,6 @@ namespace KUNAI
             return nullptr;
         }
 
-        /**
-         * @brief Generate a IRAssign instruction from the IR, this will
-         *        be any instruction for assigning strings, classes or registers
-         *        to registers.
-         * @param instruction: instruction to lift.
-         * @param bb: basic block where to insert the instruction.
-         * @return void.
-         */
         void LifterAndroid::lift_assignment_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRStmnt> assignment_instr;
@@ -609,13 +529,6 @@ namespace KUNAI
                 bb->append_statement_to_block(cast_instr);
         }
 
-        /**
-         * @brief Generate a IRBinOp instruction or IRUnaryOp instruction
-         *        which represent any arithmetic logic instruction.
-         * @param instruction: instruction to lift from arithmetic logic instructions.
-         * @param bb: basic block where to insert the instructions.
-         * @return void.
-         */
         void LifterAndroid::lift_arithmetic_logic_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRExpr> arith_logc_instr;
@@ -882,13 +795,6 @@ namespace KUNAI
                 bb->append_statement_to_block(cast_instr);
         }
 
-        /**
-         * @brief Generate a IRRet instruction which represent a ret instruction.
-         *
-         * @param instruction: instruction to lift.
-         * @param bb: basic block where to insert the instructions.
-         * @return void
-         */
         void LifterAndroid::lift_ret_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRRet> ret_instr;
@@ -914,13 +820,6 @@ namespace KUNAI
             bb->append_statement_to_block(ret_instr);
         }
 
-        /**
-         * @brief Generate a IRBComp instruction which represent a comparison between two values.
-         *
-         * @param instruction: instruction to lift.
-         * @param bb: basic block where to insert the instructions.
-         * @return void
-         */
         void LifterAndroid::lift_comparison_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
@@ -973,13 +872,6 @@ namespace KUNAI
             }
         }
 
-        /**
-         * @brief Generate a IRCJmp instruction which represent a conditional jump.
-         *
-         * @param instruction: instruction to lift.
-         * @param bb: basic block where to insert the instructions.
-         * @return void
-         */
         void LifterAndroid::lift_conditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
@@ -1064,13 +956,6 @@ namespace KUNAI
             }
         }
 
-        /**
-         * @brief Generate a IRUJmp instruction which represent an unconditional jump.
-         *
-         * @param instruction
-         * @param bb
-         * @return void
-         */
         void LifterAndroid::lift_unconditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
@@ -1105,12 +990,6 @@ namespace KUNAI
                 bb->append_statement_to_block(ujmp);
         }
 
-        /**
-         * @brief Generate the IRCall instruction which represent any kind of call function/method instruction.
-         *
-         * @param instruction
-         * @param bb
-         */
         void LifterAndroid::lift_call_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
@@ -1130,7 +1009,7 @@ namespace KUNAI
 
                 // as it is a call to a method, we can safely retrieve the operand as method
                 auto method_called = call_inst->get_operands_kind_method();
-                
+
                 std::string method_name = *method_called->get_method_name();
                 std::string class_name = reinterpret_cast<DEX::Class *>(method_called->get_method_class())->get_name();
                 std::string proto = method_called->get_method_prototype()->get_proto_str();
@@ -1182,12 +1061,6 @@ namespace KUNAI
                 bb->append_statement_to_block(call);
         }
 
-        /**
-         * @brief Generate a IRLoad instruction, this will commonly go with an IRCast.
-         *
-         * @param instruction
-         * @param bb
-         */
         void LifterAndroid::lift_load_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRExpr> load_instr;
@@ -1241,12 +1114,6 @@ namespace KUNAI
             }
         }
 
-        /**
-         * @brief Generate a IRStore instruction from different aput* instructions.
-         *
-         * @param instruction
-         * @param bb
-         */
         void LifterAndroid::lift_store_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRExpr> store_instr;
@@ -1286,11 +1153,6 @@ namespace KUNAI
             bb->append_statement_to_block(store_instr);
         }
 
-        /**
-         * @brief Lift a NOP instruction.
-         *
-         * @param bb
-         */
         void LifterAndroid::lift_nop_instructions(std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRStmnt> nop = std::make_shared<MJOLNIR::IRNop>();
@@ -1298,12 +1160,6 @@ namespace KUNAI
             bb->append_statement_to_block(nop);
         }
 
-        /**
-         * @brief Lift a new instruction.
-         *
-         * @param instruction
-         * @param bb
-         */
         void LifterAndroid::lift_new_instructions(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRStmnt> new_instr;
@@ -1323,12 +1179,6 @@ namespace KUNAI
             bb->append_statement_to_block(new_instr);
         }
 
-        /**
-         * @brief Lift those Android switch instructions.
-         *
-         * @param instruction
-         * @param bb
-         */
         void LifterAndroid::lift_switch_instructions(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRStmnt> switch_instr;
@@ -1365,14 +1215,7 @@ namespace KUNAI
             switch_instr = std::make_shared<MJOLNIR::IRSwitch>(targets, condition, checks);
             bb->append_statement_to_block(switch_instr);
         }
-        /**
-         * @brief Fix for every jump instruction at the end of a basic block,
-         *        its target and in case of conditional jump its fallthrough,
-         *        this will give for each one, the basic block where it points
-         *        to.
-         *
-         * @param bbs: basic blocks from the method.
-         */
+
         void LifterAndroid::jump_target_analysis(std::vector<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>> bbs)
         {
             for (auto bb : bbs)
@@ -1422,21 +1265,10 @@ namespace KUNAI
                 else if (MJOLNIR::is_switch(last_instr))
                 {
                     auto switch_instr = std::dynamic_pointer_cast<MJOLNIR::IRSwitch>(last_instr);
-
-                    
                 }
             }
         }
 
-        /**
-         * @brief Set for a call instruction its return register.
-         *        this will be just for those cases where the current
-         *        instruction is some kind of move_result and then
-         *        the previos instruction is a call.
-         *
-         * @param instruction
-         * @param call
-         */
         void LifterAndroid::lift_move_result_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRCall> call)
         {
             auto move_result = std::dynamic_pointer_cast<DEX::Instruction11x>(instruction);
