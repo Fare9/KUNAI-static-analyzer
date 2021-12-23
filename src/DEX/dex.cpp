@@ -21,29 +21,6 @@ namespace KUNAI
             }
         }
 
-        DEX::~DEX() {}
-
-        std::shared_ptr<DexParser> DEX::get_parser()
-        {
-            if (dex_parsing_correct)
-                return dex_parser;
-            return nullptr;
-        }
-
-        std::shared_ptr<DalvikOpcodes> DEX::get_dalvik_opcode_object()
-        {
-            if (dalvik_opcodes)
-                return dalvik_opcodes;
-            return nullptr;
-        }
-
-        std::shared_ptr<DexDisassembler> DEX::get_dex_disassembler()
-        {
-            if (dex_disassembler)
-                return dex_disassembler;
-            return nullptr;
-        }
-
         std::shared_ptr<Analysis> DEX::get_dex_analysis()
         {
             if (!dex_parsing_correct)
@@ -58,12 +35,7 @@ namespace KUNAI
 
             return dex_analysis;
         }
-
-        bool DEX::get_parsing_correct()
-        {
-            return dex_parsing_correct;
-        }
-
+        
         std::unique_ptr<DEX> get_unique_dex_object(std::ifstream &input_file, std::uint64_t file_size)
         {
             return std::make_unique<DEX>(input_file, file_size);

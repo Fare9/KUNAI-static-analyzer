@@ -8,8 +8,6 @@ namespace KUNAI
         {
         }
 
-        DexParser::~DexParser() {}
-
         void DexParser::parse_dex_file(std::ifstream &input_file, std::uint64_t file_size)
         {
             std::uint8_t header[8];
@@ -37,41 +35,6 @@ namespace KUNAI
             dex_fields = std::make_shared<DexFields>(input_file, dex_header->get_dex_header().field_ids_size, dex_header->get_dex_header().field_ids_off, dex_strings, dex_types);
             dex_methods = std::make_shared<DexMethods>(input_file, dex_header->get_dex_header().method_ids_size, dex_header->get_dex_header().method_ids_off, dex_strings, dex_types, dex_protos);
             dex_classes = std::make_shared<DexClasses>(input_file, file_size, dex_header->get_dex_header().class_defs_size, dex_header->get_dex_header().class_defs_off, dex_strings, dex_types, dex_fields, dex_methods);
-        }
-
-        std::shared_ptr<DexHeader> DexParser::get_header()
-        {
-            return dex_header;
-        }
-
-        std::shared_ptr<DexStrings> DexParser::get_strings()
-        {
-            return dex_strings;
-        }
-
-        std::shared_ptr<DexTypes> DexParser::get_types()
-        {
-            return dex_types;
-        }
-
-        std::shared_ptr<DexProtos> DexParser::get_protos()
-        {
-            return dex_protos;
-        }
-
-        std::shared_ptr<DexFields> DexParser::get_fields()
-        {
-            return dex_fields;
-        }
-
-        std::shared_ptr<DexMethods> DexParser::get_methods()
-        {
-            return dex_methods;
-        }
-
-        std::shared_ptr<DexClasses> DexParser::get_classes()
-        {
-            return dex_classes;
         }
 
         std::uint32_t DexParser::get_header_version()
@@ -104,21 +67,6 @@ namespace KUNAI
                 version = "DEX_VERSION_39";
 
             return version;
-        }
-
-        void DexParser::set_api_version(std::uint32_t api_version)
-        {
-            this->api_version = api_version;
-        }
-
-        std::uint32_t DexParser::get_api_version()
-        {
-            return api_version;
-        }
-
-        std::string DexParser::get_format_type()
-        {
-            return "DEX";
         }
 
         std::vector<std::shared_ptr<ClassDef>> DexParser::get_classes_def_item()

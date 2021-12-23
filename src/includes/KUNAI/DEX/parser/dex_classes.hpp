@@ -39,6 +39,8 @@
 #include <iostream>
 #include <map>
 
+#include "dex_parents.hpp"
+
 #include "dex_dvm_types.hpp"
 #include "dex_types.hpp"
 #include "dex_fields.hpp"
@@ -53,31 +55,131 @@ namespace KUNAI {
         class ClassDataItem
         {
         public:
+
+            /**
+             * @brief Constructor of ClassDataItem here the tool will parse
+             *        fields and methods.
+             * @param input_file: file to parse with DEX information.
+             * @param file_size: size of file used for checking.
+             * @param dex_fields: used for getting fields information during parsing.
+             * @param dex_methods: used for getting information from methods during parsing.
+             * @param dex_types: used for getting types information during parsing.
+             * @return void
+             */
             ClassDataItem(std::ifstream& input_file,
                             std::uint64_t file_size,
                             std::shared_ptr<DexFields> dex_fields,
                             std::shared_ptr<DexMethods> dex_methods,
                             std::shared_ptr<DexTypes> dex_types);
-            ~ClassDataItem();
+            /**
+             * @brief ClassDataItem destructor
+             * @return void
+             */
+            ~ClassDataItem() = default;
 
-            std::uint64_t get_number_of_static_fields();
+            /**
+             * @brief Get the number of static fields in the class.
+             * @return std::uint64_t
+             */
+            std::uint64_t get_number_of_static_fields()
+            {
+                return static_fields.size();
+            }
+
+            /**
+             * @brief Get a class static field, by the field id, this is not a sorted number.
+             * @param id: id of the field to retrieve.
+             * @return std::shared_ptr<EncodedField>
+             */
             std::shared_ptr<EncodedField> get_static_field_by_id(std::uint64_t id);
+            
+            /**
+             * @brief Get a class static field by its position from parsing.
+             * @param pos: position of static field.
+             * @return std::shared_ptr<EncodedField>
+             */
             std::shared_ptr<EncodedField> get_static_field_by_pos(std::uint64_t pos);
 
-            std::uint64_t get_number_of_instance_fields();
+            /**
+             * @brief return the number of instance fields from the class.
+             * @return std::uint64_t
+             */
+            std::uint64_t get_number_of_instance_fields()
+            {
+                return instance_fields.size();
+            }
+
+            /**
+             * @brief return a instance field from a class by the field id.
+             * @param id: id of the EncodedField.
+             * @return std::shared_ptr<EncodedField>
+             */
             std::shared_ptr<EncodedField> get_instance_field_by_id(std::uint64_t id);
+            
+            /**
+             * @brief return a instance field from a class by its position while parsing.
+             * @param pos: position to retrieve.
+             * @return std::shared_ptr<EncodedField>
+             */
             std::shared_ptr<EncodedField> get_instance_field_by_pos(std::uint64_t pos);
 
+            /**
+             * @brief Get all the fields both static and instance fields.
+             * @return std::vector<std::shared_ptr<EncodedField>>
+             */
             std::vector<std::shared_ptr<EncodedField>> get_fields();
 
-            std::uint64_t get_number_of_direct_methods();
+            /**
+             * @brief Get the number of direct methods from the class.
+             * @return std::uint64_t
+             */
+            std::uint64_t get_number_of_direct_methods()
+            {
+                return direct_methods.size();
+            }
+
+            /**
+             * @brief Get a direct method by the id of the method.
+             * @param id: id of the method to retrieve.
+             * @return std::shared_ptr<EncodedMethod>
+             */
             std::shared_ptr<EncodedMethod> get_direct_method_by_id(std::uint64_t id);
+            
+            /**
+             * @brief Get a direct method by its position while parsing it.
+             * @param pos: position of the method to retrieve.
+             * @return std::shared_ptr<EncodedMethod>
+             */
             std::shared_ptr<EncodedMethod> get_direct_method_by_pos(std::uint64_t pos);
 
-            std::uint64_t get_number_of_virtual_methods();
+            /**
+             * @brief Get the number of virtual methods from the class.
+             * @return std::uint64_t
+             */
+            std::uint64_t get_number_of_virtual_methods()
+            {
+                return virtual_methods.size();
+            }
+
+            /**
+             * @brief Get a method from the class by its method id.
+             * @param id: id of the method to retrieve.
+             * @return std::shared_ptr<EncodedMethod>
+             */
             std::shared_ptr<EncodedMethod> get_virtual_method_by_id(std::uint64_t id);
+            
+            /**
+             * @brief Get a method from the class by its position while parsing.
+             * @param pos: position of method while parsing.
+             * @return std::shared_ptr<EncodedMethod>
+             */
             std::shared_ptr<EncodedMethod> get_virtual_method_by_pos(std::uint64_t pos);
 
+            /**
+             * @brief Get all the methods object
+             * 
+             * @return std::vector<std::shared_ptr<EncodedMethod>> 
+             */
             std::vector<std::shared_ptr<EncodedMethod>> get_methods();
         private:
             std::map<std::uint64_t, std::shared_ptr<EncodedField>> static_fields;
@@ -86,7 +188,7 @@ namespace KUNAI {
             std::map<std::uint64_t, std::shared_ptr<EncodedMethod>> virtual_methods;
         };
 
-        class ClassDef
+        class ClassDef : public ParentClass
         {
         public:
 #pragma pack(1)
@@ -103,6 +205,17 @@ namespace KUNAI {
             };
 #pragma pack()
 
+            /**
+             * @brief ClassDef constructor, parse class def by the structure classdef_t.
+             * @param class_def: structure used to parse the class definition.
+             * @param dex_str: strings object used while parsing.
+             * @param dex_types: types object used while parsing.
+             * @param dex_fields: fields object used while parsing.
+             * @param dex_methods: methods object used while parsing.
+             * @param input_file: DEX file where to read data.
+             * @param file_size: size of the file for checks.
+             * @return void
+             */
             ClassDef(classdef_t class_def,
                      std::shared_ptr<DexStrings> dex_str, 
                      std::shared_ptr<DexTypes> dex_types,
@@ -110,20 +223,93 @@ namespace KUNAI {
                      std::shared_ptr<DexMethods> dex_methods,
                      std::ifstream& input_file,
                      std::uint64_t file_size);
-            ~ClassDef();
+            /**
+             * @brief Destructor of ClassDef.
+             * @return void
+             */
+            ~ClassDef() = default;
 
-            Class* get_class_idx();
-            DVMTypes::ACCESS_FLAGS get_access_flags();
-            Class* get_superclass_idx();
-            std::string* get_source_file_idx();
+            /**
+             * @brief Get the ClassDef Class* object with class data.
+             * @return Class*
+             */
+            Class* get_class_idx()
+            {
+                return class_idx.begin()->second;
+            }
 
-            std::uint64_t get_number_of_interfaces();
+            /**
+             * @brief return the access flags from the class.
+             * @return DVMTypes::ACCESS_FLAGS
+             */
+            DVMTypes::ACCESS_FLAGS get_access_flags()
+            {
+                return access_flag;
+            }
+
+            /**
+             * @brief Get the Class* object from the super class of current class.
+             * @return Class*
+             */
+            Class* get_superclass_idx()
+            {
+                return superclass_idx.begin()->second;
+            }
+
+            /**
+             * @brief Get the name of the file where the class is.
+             * @return std::string*
+             */
+            std::string* get_source_file_idx()
+            {
+                return source_file_idx.begin()->second;
+            }
+
+            /**
+             * @brief Get the number of interfaces this class implements
+             * @return std::uint64_t
+             */
+            std::uint64_t get_number_of_interfaces()
+            {
+                return interfaces.size();
+            }
+
+            /**
+             * @brief Get the Class* object from an interface by the class id.
+             * @param id: id of the class.
+             * @return Class*
+             */
             Class* get_interface_by_class_id(std::uint16_t id);
+            
+            /**
+             * @brief Get the Class* object from an interface by its position from parsing.
+             * @param pos: position of interface from parsing.
+             * @return Class*
+             */
             Class* get_interface_by_pos(std::uint64_t pos);
 
-            std::shared_ptr<ClassDataItem> get_class_data();
+            /**
+             * @brief Get the ClassDataItem object from the ClassDef.
+             * @return std::shared_ptr<ClassDataItem>
+             */
+            std::shared_ptr<ClassDataItem> get_class_data()
+            {
+                return class_data_items;
+            }
 
         private:
+            /**
+             * @brief Private method for pasing the ClassDef object,
+             *        get the interfaces, the annotations, the class_data_items
+             *        and the static values.
+             * @param input_file: DEX file where to read data.
+             * @param file_size: size of the file for checks.
+             * @param dex_str: strings object used while parsing.
+             * @param dex_types: types object used while parsing.
+             * @param dex_fields: fields object used while parsing.
+             * @param dex_methods: methods object used while parsing.
+             * @return bool
+             */
             bool parse_class_defs(std::ifstream& input_file, 
                                     std::uint64_t file_size, 
                                     std::shared_ptr<DexStrings> dex_str, 
@@ -191,6 +377,18 @@ namespace KUNAI {
         class DexClasses
         {
         public:
+            /**
+             * @brief Constructor of DexClasses this object manages all the classes from the DEX.
+             * @param input_file: DEX file being parsed.
+             * @param file_size: size of DEX file for checking.
+             * @param number_of_classes: number of classes to parse from DEX.
+             * @param offset: offset where the classes are.
+             * @param dex_str: dex strings used while parsing.
+             * @param dex_types: dex types used while parsing.
+             * @param dex_fields: dex fields used while parsing.
+             * @param dex_methods: dex methods used while parsing.
+             * @return void
+             */
             DexClasses(std::ifstream& input_file,
                         std::uint64_t file_size,
                         std::uint32_t number_of_classes,
@@ -199,13 +397,36 @@ namespace KUNAI {
                         std::shared_ptr<DexTypes> dex_types,
                         std::shared_ptr<DexFields> dex_fields,
                         std::shared_ptr<DexMethods> dex_methods);
+            
+            /**
+             * @brief DexClasses destructor.
+             * @return void
+             */
             ~DexClasses();
 
-            std::uint32_t get_number_of_classes();
+            /**
+             * @brief Get the number of classes parsed.
+             * @return std::uint32_t
+             */
+            std::uint32_t get_number_of_classes()
+            {
+                return number_of_classes;
+            }
+
+            /**
+             * @brief Get the ClassDef object by its position from parsing.
+             * @return std::shared_ptr<ClassDef>
+             */
             std::shared_ptr<ClassDef> get_class_by_pos(std::uint64_t pos);
 
             friend std::ostream& operator<<(std::ostream& os, const DexClasses& entry);
         private:
+            /**
+             * @brief private method for pasing the ClassDef information using the classdef_t structure.
+             * @param input_file: dex file for parsing.
+             * @param file_size: size of file for checks.
+             * @return bool
+             */
             bool parse_classes(std::ifstream& input_file, std::uint64_t file_size);
 
             std::uint32_t number_of_classes;

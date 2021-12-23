@@ -64,15 +64,6 @@ namespace KUNAI
                 values.clear();
         }
 
-        std::vector<std::uint8_t> EncodedValue::get_values()
-        {
-            return values;
-        }
-
-        std::vector<std::shared_ptr<EncodedValue>> EncodedValue::get_array()
-        {
-            return array;
-        }
         /***
          * EncodedArray
          */
@@ -102,31 +93,12 @@ namespace KUNAI
             this->array = std::make_shared<EncodedArray>(input_file);
         }
 
-        EncodedArrayItem::~EncodedArrayItem() {}
-
-        std::shared_ptr<EncodedArray> EncodedArrayItem::get_encoded_array()
-        {
-            return array;
-        }
         /***
          * EncodedField
          */
-        EncodedField::EncodedField(FieldID *field_idx, std::uint64_t access_flags)
+        EncodedField::EncodedField(FieldID *field_idx, std::uint64_t access_flags) : field_idx(field_idx),
+                                                                                     access_flags(static_cast<DVMTypes::ACCESS_FLAGS>(access_flags))
         {
-            this->field_idx = field_idx;
-            this->access_flags = static_cast<DVMTypes::ACCESS_FLAGS>(access_flags);
-        }
-
-        EncodedField::~EncodedField() {}
-
-        FieldID *EncodedField::get_field()
-        {
-            return field_idx;
-        }
-
-        DVMTypes::ACCESS_FLAGS EncodedField::get_access_flags()
-        {
-            return access_flags;
         }
 
         /***
@@ -153,11 +125,6 @@ namespace KUNAI
             return type_idx.begin()->second;
         }
 
-        std::uint64_t EncodedTypePair::get_exception_handler_addr()
-        {
-            return addr;
-        }
-
         /***
          * EncodedCatchHandler
          */
@@ -182,26 +149,11 @@ namespace KUNAI
             return false;
         }
 
-        std::uint64_t EncodedCatchHandler::get_size_of_handlers()
-        {
-            return handlers.size();
-        }
-
         std::shared_ptr<EncodedTypePair> EncodedCatchHandler::get_handler_by_pos(std::uint64_t pos)
         {
             if (pos >= handlers.size())
                 return nullptr;
             return handlers[pos];
-        }
-
-        std::uint64_t EncodedCatchHandler::get_catch_all_addr()
-        {
-            return catch_all_addr;
-        }
-
-        std::uint64_t EncodedCatchHandler::get_offset()
-        {
-            return offset;
         }
 
         bool EncodedCatchHandler::parse_encoded_type_pairs(std::ifstream &input_file,
@@ -215,7 +167,7 @@ namespace KUNAI
 
             encoded_type_pair_size = KUNAI::read_sleb128(input_file);
 
-            if (encoded_type_pair_size < 0)
+            if (encoded_type_pair_size <= 0)
             {
                 catch_all_addr = KUNAI::read_uleb128(input_file);
             }
@@ -224,9 +176,6 @@ namespace KUNAI
                 for (size_t i = 0; i < static_cast<std::uint64_t>(encoded_type_pair_size); i++)
                 {
                     type_idx = KUNAI::read_uleb128(input_file);
-
-                    if (type_idx >= dex_types->get_number_of_types())
-                        throw exceptions::IncorrectTypeId("Error reading EncodedTypePair type_idx, out of types bound");
 
                     addr = KUNAI::read_uleb128(input_file);
 
@@ -238,33 +187,14 @@ namespace KUNAI
                 }
             }
 
-            input_file.seekg(current_offset);
             return true;
         }
 
         /***
          * TryItem
          */
-        TryItem::TryItem(try_item_struct_t try_item_struct)
+        TryItem::TryItem(try_item_struct_t try_item_struct) : try_item_struct(try_item_struct)
         {
-            this->try_item_struct = try_item_struct;
-        }
-
-        TryItem::~TryItem() {}
-
-        std::uint16_t TryItem::get_start_addr()
-        {
-            return try_item_struct.start_addr;
-        }
-
-        std::uint16_t TryItem::get_insn_count()
-        {
-            return try_item_struct.insn_count;
-        }
-
-        std::uint16_t TryItem::get_handler_off()
-        {
-            return try_item_struct.handler_off;
         }
 
         /***
@@ -273,10 +203,8 @@ namespace KUNAI
         CodeItemStruct::CodeItemStruct(std::ifstream &input_file,
                                        std::uint64_t file_size,
                                        code_item_struct_t code_item,
-                                       std::shared_ptr<DexTypes> dex_types)
+                                       std::shared_ptr<DexTypes> dex_types) : code_item(code_item)
         {
-            this->code_item = code_item;
-
             if (!parse_code_item_struct(input_file, file_size, dex_types))
                 throw exceptions::ParserReadingException("Error reading CodeItemStruct");
         }
@@ -291,26 +219,6 @@ namespace KUNAI
                 encoded_catch_handler_list.clear();
         }
 
-        std::uint16_t CodeItemStruct::get_number_of_registers_in_code()
-        {
-            return code_item.registers_size;
-        }
-
-        std::uint16_t CodeItemStruct::get_number_of_incoming_arguments()
-        {
-            return code_item.ins_size;
-        }
-
-        std::uint16_t CodeItemStruct::get_number_of_outgoing_arguments()
-        {
-            return code_item.outs_size;
-        }
-
-        std::uint16_t CodeItemStruct::get_number_of_try_items()
-        {
-            return code_item.tries_size;
-        }
-
         std::shared_ptr<TryItem> CodeItemStruct::get_try_item_by_pos(std::uint64_t pos)
         {
             if (pos >= try_items.size())
@@ -318,31 +226,11 @@ namespace KUNAI
             return try_items[pos];
         }
 
-        std::uint16_t CodeItemStruct::get_number_of_raw_instructions()
-        {
-            return code_item.insns_size;
-        }
-
         std::uint16_t CodeItemStruct::get_raw_instruction_by_pos(std::uint16_t pos)
         {
             if (pos >= instructions_raw.size())
                 return 0;
-            return instructions_raw[pos] | (instructions_raw[pos+1] << 8);
-        }
-
-        std::vector<std::uint8_t> CodeItemStruct::get_all_raw_instructions()
-        {
-            return instructions_raw;
-        }
-
-        std::uint64_t CodeItemStruct::get_encoded_catch_handler_offset()
-        {
-            return encoded_catch_handler_list_offset;
-        }
-
-        std::uint64_t CodeItemStruct::get_encoded_catch_handler_list_size()
-        {
-            return encoded_catch_handler_list.size();
+            return instructions_raw[pos] | (instructions_raw[pos + 1] << 8);
         }
 
         std::shared_ptr<EncodedCatchHandler> CodeItemStruct::get_encoded_catch_handler_by_pos(std::uint64_t pos)
@@ -419,41 +307,18 @@ namespace KUNAI
                                      std::uint64_t code_off,
                                      std::ifstream &input_file,
                                      std::uint64_t file_size,
-                                     std::shared_ptr<DexTypes> dex_types)
+                                     std::shared_ptr<DexTypes> dex_types) : ParentMethod(ParentMethod::INTERNAL_METHOD_T),
+                                                                            method_id(method_id),
+                                                                            access_flags(static_cast<DVMTypes::ACCESS_FLAGS>(access_flags)),
+                                                                            code_off(code_off)
         {
-            this->method_id = method_id;
-            this->access_flags = static_cast<DVMTypes::ACCESS_FLAGS>(access_flags);
-            this->code_off = code_off;
-
             if (!parse_code_item(input_file, file_size, dex_types))
                 throw exceptions::ParserReadingException("Error reading EncodedMethod");
         }
 
-        EncodedMethod::~EncodedMethod() {}
-
-        MethodID *EncodedMethod::get_method()
-        {
-            return method_id;
-        }
-
-        DVMTypes::ACCESS_FLAGS EncodedMethod::get_access_flags()
-        {
-            return access_flags;
-        }
-
-        std::uint64_t EncodedMethod::get_code_offset()
-        {
-            return code_off;
-        }
-
-        std::shared_ptr<CodeItemStruct> EncodedMethod::get_code_item()
-        {
-            return code_item;
-        }
-
         std::string EncodedMethod::full_name()
         {
-            return reinterpret_cast<Class*>(method_id->get_method_class())->get_name() + " " + *method_id->get_method_name() + " " + method_id->get_method_prototype()->get_proto_str();
+            return reinterpret_cast<Class *>(method_id->get_method_class())->get_name() + " " + *method_id->get_method_name() + " " + method_id->get_method_prototype()->get_proto_str();
         }
 
         bool EncodedMethod::parse_code_item(std::ifstream &input_file, std::uint64_t file_size, std::shared_ptr<DexTypes> dex_types)
@@ -473,7 +338,7 @@ namespace KUNAI
 
                 code_item = std::make_shared<CodeItemStruct>(input_file, file_size, code_item_struct, dex_types);
             }
-            
+
             input_file.seekg(current_offset);
             return true;
         }

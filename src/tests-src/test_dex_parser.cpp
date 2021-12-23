@@ -89,12 +89,13 @@ int main(int argc, char **argv)
     auto class_defs = dex_parser->get_classes_def_item();
 
     std::cout << "[ClassDef] classes: " << std::endl;
-    for (auto it = class_defs.begin(); it != class_defs.end(); it++)
+    
+    for (auto class_def : class_defs)
     {
-        std::cout << "\tClass name: " << (*it)->get_class_idx()->get_name() << std::endl;
+        std::cout << "\tClass name: " << class_def->get_class_idx()->get_name() << std::endl;
         std::cout << "\tSource file name: ";
-        if ((*it)->get_source_file_idx())
-            std::cout << *(*it)->get_source_file_idx() << std::endl;
+        if (class_def->get_source_file_idx())
+            std::cout << *class_def->get_source_file_idx() << std::endl;
         else
             std::cout << "None" << std::endl;
         std::cout << std::endl;
@@ -104,9 +105,9 @@ int main(int argc, char **argv)
     auto method_ids = dex_parser->get_methods_id_item();
 
     std::cout << "[MethodId] methods: " << std::endl;
-    for (auto it = method_ids.begin(); it != method_ids.end(); it++)
+    for (auto method : method_ids)
     {
-        std::cout << "\tMethod name: " << *(*it)->get_method_name() << std::endl;
+        std::cout << "\tMethod name: " << *method->get_method_name() << std::endl;
         /**
          * get_method_class returns a Type* that can be
          * enum type_t {
@@ -118,7 +119,7 @@ int main(int argc, char **argv)
         * this time as it's returned by a method, and its is
         * class we can cast it to KUNAI::DEX::Class*
         */
-        std::cout << "\tMethod class: " << (*it)->get_method_class()->get_raw() << std::endl;
+        std::cout << "\tMethod class: " << method->get_method_class()->get_raw() << std::endl;
         std::cout << std::endl;
     }
 

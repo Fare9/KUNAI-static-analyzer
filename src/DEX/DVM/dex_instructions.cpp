@@ -8,48 +8,10 @@ namespace KUNAI
         /**
          * Instruction
          */
-        Instruction::Instruction(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file)
+        Instruction::Instruction(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : dalvik_opcodes(dalvik_opcodes),
+                                                                                                            length(0),
+                                                                                                            OP(0)
         {
-            this->dalvik_opcodes = dalvik_opcodes;
-            this->length = 0;
-            this->OP = 0;
-        }
-
-        Instruction::~Instruction() {}
-
-        DVMTypes::Kind Instruction::get_kind()
-        {
-            return dalvik_opcodes->get_instruction_type(OP);
-        }
-
-        std::string Instruction::get_translated_kind()
-        {
-            return dalvik_opcodes->get_instruction_type_str(OP);
-        }
-
-        std::string Instruction::get_name()
-        {
-            return dalvik_opcodes->get_instruction_name(OP);
-        }
-
-        std::uint32_t Instruction::get_length()
-        {
-            return length;
-        }
-
-        std::uint32_t Instruction::get_OP()
-        {
-            return OP;
-        }
-
-        void Instruction::set_length(std::uint32_t length)
-        {
-            this->length = length;
-        }
-
-        void Instruction::set_OP(std::uint32_t OP)
-        {
-            this->OP = OP;
         }
 
         void Instruction::show_instruction()
@@ -62,46 +24,11 @@ namespace KUNAI
             os << std::left << std::setfill(' ') << std::setw(25) << get_name() << get_output();
         }
 
-        std::string Instruction::get_output()
-        {
-            return "";
-        }
-
-        std::uint64_t Instruction::get_raw()
-        {
-            return this->OP;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
 
             return operands;
-        }
-
-        std::shared_ptr<DalvikOpcodes> Instruction::get_dalvik_opcodes()
-        {
-            return dalvik_opcodes;
-        }
-
-        void Instruction::set_number_of_registers(std::uint32_t number_of_registers)
-        {
-            this->number_of_registers = number_of_registers;
-        }
-
-        void Instruction::set_number_of_parameters(std::uint32_t number_of_parameters)
-        {
-            this->number_of_parameters = number_of_parameters;
-        }
-
-        std::uint32_t Instruction::get_number_of_registers()
-        {
-            return number_of_registers;
-        }
-
-        std::uint32_t Instruction::get_number_of_parameters()
-        {
-            return number_of_parameters;
         }
 
         std::string Instruction::get_register_correct_representation(std::uint32_t reg)
@@ -124,7 +51,6 @@ namespace KUNAI
             this->set_length(0);
         }
 
-        Instruction00x::~Instruction00x() {}
         /**
          * Instruction10x
          */
@@ -142,12 +68,6 @@ namespace KUNAI
             this->set_OP(instruction[0]);
         }
 
-        Instruction10x::~Instruction10x() {}
-
-        std::uint64_t Instruction10x::get_raw()
-        {
-            return this->get_OP();
-        }
         /**
          * Instruction12x
          */
@@ -164,18 +84,6 @@ namespace KUNAI
             this->vB = (instruction[1] & 0xF0) >> 4;
         }
 
-        Instruction12x::~Instruction12x() {}
-
-        std::string Instruction12x::get_output()
-        {
-            return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB);
-        }
-
-        std::uint64_t Instruction12x::get_raw()
-        {
-            return (get_OP() | vA << 8 | vB << 12);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction12x::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -185,25 +93,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction12x::get_source_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction12x::get_source()
-        {
-            return vB;
-        }
-
-        DVMTypes::Operand Instruction12x::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction12x::get_destination()
-        {
-            return vA;
-        }
         /**
          * Instruction11n
          */
@@ -220,18 +109,6 @@ namespace KUNAI
             this->nB = (instruction[1] & 0xF0) >> 4;
         }
 
-        Instruction11n::~Instruction11n() {}
-
-        std::string Instruction11n::get_output()
-        {
-            return this->get_register_correct_representation(vA) + ", " + std::to_string(nB);
-        }
-
-        std::uint64_t Instruction11n::get_raw()
-        {
-            return (get_OP() | vA << 8 | nB << 12);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction11n::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -241,25 +118,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction11n::get_source_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::int8_t Instruction11n::get_source()
-        {
-            return nB;
-        }
-
-        DVMTypes::Operand Instruction11n::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction11n::get_destination()
-        {
-            return vA;
-        }
         /**
          * Instruction11x
          */
@@ -275,18 +133,6 @@ namespace KUNAI
             this->vAA = instruction[1];
         }
 
-        Instruction11x::~Instruction11x() {}
-
-        std::string Instruction11x::get_output()
-        {
-            return this->get_register_correct_representation(vAA);
-        }
-
-        std::uint64_t Instruction11x::get_raw()
-        {
-            return (get_OP() | vAA << 8);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction11x::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -295,15 +141,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction11x::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction11x::get_destination()
-        {
-            return vAA;
-        }
         /***
          * Instruction10t
          */
@@ -322,18 +159,6 @@ namespace KUNAI
             this->nAA = static_cast<std::int8_t>(instruction[1]);
         }
 
-        Instruction10t::~Instruction10t() {}
-
-        std::string Instruction10t::get_output()
-        {
-            return std::to_string(nAA);
-        }
-
-        std::uint64_t Instruction10t::get_raw()
-        {
-            return get_OP() | nAA << 8;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction10t::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -342,15 +167,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction10t::get_offset_type()
-        {
-            return DVMTypes::Operand::OFFSET;
-        }
-
-        std::int8_t Instruction10t::get_offset()
-        {
-            return nAA;
-        }
         /**
          * Instruction20t
          */
@@ -372,18 +188,6 @@ namespace KUNAI
                 throw exceptions::InvalidInstruction("Error reading Instruction20t offset cannot be 0");
         }
 
-        Instruction20t::~Instruction20t() {}
-
-        std::string Instruction20t::get_output()
-        {
-            return std::to_string(nAAAA);
-        }
-
-        std::uint64_t Instruction20t::get_raw()
-        {
-            return static_cast<std::uint64_t>(get_OP()) | static_cast<std::uint64_t>(nAAAA) << 16;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction20t::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -392,15 +196,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction20t::get_offset_type()
-        {
-            return DVMTypes::Operand::OFFSET;
-        }
-
-        std::int16_t Instruction20t::get_offset()
-        {
-            return nAAAA;
-        }
         /**
          * Instruction20bc
          */
@@ -417,18 +212,6 @@ namespace KUNAI
             this->nBBBB = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
         }
 
-        Instruction20bc::~Instruction20bc() {}
-
-        std::string Instruction20bc::get_output()
-        {
-            return std::to_string(nBBBB) + ", " + std::to_string(nAA);
-        }
-
-        std::uint64_t Instruction20bc::get_raw()
-        {
-            return get_OP() | nAA << 8 | nBBBB << 16;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction20bc::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -438,25 +221,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction20bc::get_type_of_error_data_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::uint8_t Instruction20bc::get_type_of_error()
-        {
-            return nAA;
-        }
-
-        DVMTypes::Operand Instruction20bc::get_index_table_data_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::uint16_t Instruction20bc::get_index_table()
-        {
-            return nBBBB;
-        }
         /**
          * Instruction22x
          */
@@ -473,18 +237,6 @@ namespace KUNAI
             this->vBBBB = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
         }
 
-        Instruction22x::~Instruction22x() {}
-
-        std::string Instruction22x::get_output()
-        {
-            return this->get_register_correct_representation(vAA) + ", " + this->get_register_correct_representation(vBBBB);
-        }
-
-        std::uint64_t Instruction22x::get_raw()
-        {
-            return (this->get_OP() | vAA << 8 | vBBBB << 16);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22x::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -494,25 +246,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction22x::get_source_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint16_t Instruction22x::get_source()
-        {
-            return vBBBB;
-        }
-
-        DVMTypes::Operand Instruction22x::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22x::get_destination()
-        {
-            return vAA;
-        }
         /**
          * Instruction21t
          */
@@ -532,18 +265,6 @@ namespace KUNAI
                 throw exceptions::InvalidInstruction("Error reading Instruction21t offset cannot be 0");
         }
 
-        Instruction21t::~Instruction21t() {}
-
-        std::string Instruction21t::get_output()
-        {
-            return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBB);
-        }
-
-        std::uint64_t Instruction21t::get_raw()
-        {
-            return get_OP() | vAA << 8 | nBBBB << 16;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction21t::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -551,26 +272,6 @@ namespace KUNAI
                 {DVMTypes::Operand::OFFSET, nBBBB}};
 
             return operands;
-        }
-
-        DVMTypes::Operand Instruction21t::get_check_reg_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction21t::get_check_reg()
-        {
-            return vAA;
-        }
-
-        DVMTypes::Operand Instruction21t::get_ref_type()
-        {
-            return DVMTypes::Operand::OFFSET;
-        }
-
-        std::int16_t Instruction21t::get_ref()
-        {
-            return nBBBB;
         }
         /**
          * Instruction21s
@@ -588,18 +289,6 @@ namespace KUNAI
             this->nBBBB = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
         }
 
-        Instruction21s::~Instruction21s() {}
-
-        std::string Instruction21s::get_output()
-        {
-            return this->get_register_correct_representation(vA) + ", " + std::to_string(nBBBB);
-        }
-
-        std::uint64_t Instruction21s::get_raw()
-        {
-            return (get_OP() | vA << 8 | nBBBB << 16);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction21s::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -609,25 +298,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction21s::get_source_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::int16_t Instruction21s::get_source()
-        {
-            return nBBBB;
-        }
-
-        DVMTypes::Operand Instruction21s::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction21s::get_destination()
-        {
-            return vA;
-        }
         /**
          * Instruction21h
          */
@@ -660,18 +330,6 @@ namespace KUNAI
             }
         }
 
-        Instruction21h::~Instruction21h() {}
-
-        std::string Instruction21h::get_output()
-        {
-            return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBB);
-        }
-
-        std::uint64_t Instruction21h::get_raw()
-        {
-            return (get_OP() | vAA << 8 | nBBBB << 16);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction21h::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -681,25 +339,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction21h::get_source_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::int64_t Instruction21h::get_source()
-        {
-            return nBBBB;
-        }
-
-        DVMTypes::Operand Instruction21h::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction21h::get_destination()
-        {
-            return vAA;
-        }
         /**
          * Instruction21c
          */
@@ -715,8 +354,6 @@ namespace KUNAI
             this->vAA = instruction[1];
             this->iBBBB = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
         }
-
-        Instruction21c::~Instruction21c() {}
 
         std::string Instruction21c::get_output()
         {
@@ -747,11 +384,6 @@ namespace KUNAI
             return this->get_register_correct_representation(vAA) + ", " + str;
         }
 
-        std::uint64_t Instruction21c::get_raw()
-        {
-            return (get_OP() | vAA << 8 | iBBBB << 16);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction21c::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -759,11 +391,6 @@ namespace KUNAI
                 {DVMTypes::Operand::KIND, iBBBB}};
 
             return operands;
-        }
-
-        DVMTypes::Kind Instruction21c::get_source_kind()
-        {
-            return this->get_kind();
         }
 
         std::string *Instruction21c::get_source_str()
@@ -797,15 +424,6 @@ namespace KUNAI
             return nullptr;
         }
 
-        DVMTypes::Operand Instruction21c::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction21c::get_destination()
-        {
-            return vAA;
-        }
         /**
          * Instruction23x
          */
@@ -823,18 +441,6 @@ namespace KUNAI
             this->vCC = instruction[3];
         }
 
-        Instruction23x::~Instruction23x() {}
-
-        std::string Instruction23x::get_output()
-        {
-            return this->get_register_correct_representation(vAA) + ", " + this->get_register_correct_representation(vBB) + ", " + this->get_register_correct_representation(vCC);
-        }
-
-        std::uint64_t Instruction23x::get_raw()
-        {
-            return get_OP() | vAA << 8 | vBB << 16 | vCC << 24;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction23x::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -846,35 +452,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction23x::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction23x::get_destination()
-        {
-            return vAA;
-        }
-
-        DVMTypes::Operand Instruction23x::get_first_source_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction23x::get_first_source()
-        {
-            return vBB;
-        }
-
-        DVMTypes::Operand Instruction23x::get_second_source_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction23x::get_second_source()
-        {
-            return vCC;
-        }
         /**
          * Instruction22b
          */
@@ -892,18 +469,6 @@ namespace KUNAI
             this->nCC = instruction[3];
         }
 
-        Instruction22b::~Instruction22b() {}
-
-        std::string Instruction22b::get_output()
-        {
-            return this->get_register_correct_representation(vAA) + ", " + this->get_register_correct_representation(vBB) + ", " + std::to_string(nCC);
-        }
-
-        std::uint64_t Instruction22b::get_raw()
-        {
-            return get_OP() | vAA << 8 | vBB << 16 | nCC << 24;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22b::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operators = {
@@ -914,35 +479,6 @@ namespace KUNAI
             return operators;
         }
 
-        DVMTypes::Operand Instruction22b::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22b::get_destination()
-        {
-            return vAA;
-        }
-
-        DVMTypes::Operand Instruction22b::get_source_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22b::get_source()
-        {
-            return vBB;
-        }
-
-        DVMTypes::Operand Instruction22b::get_number_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::int8_t Instruction22b::get_number()
-        {
-            return nCC;
-        }
         /**
          * Instruction22t
          */
@@ -963,18 +499,6 @@ namespace KUNAI
                 throw exceptions::InvalidInstruction("Error reading Instruction22t offset cannot be 0");
         }
 
-        Instruction22t::~Instruction22t() {}
-
-        std::string Instruction22t::get_output()
-        {
-            return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB) + ", " + std::to_string(nCCCC);
-        }
-
-        std::uint64_t Instruction22t::get_raw()
-        {
-            return get_OP() | vA << 8 | vB << 12 | nCCCC << 16;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22t::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -985,35 +509,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction22t::get_first_check_reg_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22t::get_first_check_reg()
-        {
-            return vA;
-        }
-
-        DVMTypes::Operand Instruction22t::get_second_check_reg_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22t::get_second_check_reg()
-        {
-            return vB;
-        }
-
-        DVMTypes::Operand Instruction22t::get_ref_type()
-        {
-            return DVMTypes::Operand::OFFSET;
-        }
-
-        std::int16_t Instruction22t::get_ref()
-        {
-            return nCCCC;
-        }
         /**
          * Instruction22s
          */
@@ -1031,18 +526,6 @@ namespace KUNAI
             this->nCCCC = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
         }
 
-        Instruction22s::~Instruction22s() {}
-
-        std::string Instruction22s::get_output()
-        {
-            return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB) + ", " + std::to_string(nCCCC);
-        }
-
-        std::uint64_t Instruction22s::get_raw()
-        {
-            return get_OP() | vA << 8 | vB << 12 | nCCCC << 16;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22s::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -1053,35 +536,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction22s::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22s::get_destination()
-        {
-            return vA;
-        }
-
-        DVMTypes::Operand Instruction22s::get_source_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22s::get_source()
-        {
-            return vB;
-        }
-
-        DVMTypes::Operand Instruction22s::get_number_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::int16_t Instruction22s::get_number()
-        {
-            return nCCCC;
-        }
         /**
          * Instruction22c
          */
@@ -1098,8 +552,6 @@ namespace KUNAI
             this->vB = (instruction[1] & 0xF0) >> 4;
             this->iCCCC = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
         }
-
-        Instruction22c::~Instruction22c() {}
 
         std::string Instruction22c::get_output()
         {
@@ -1121,11 +573,6 @@ namespace KUNAI
             return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB) + ", " + str;
         }
 
-        std::uint64_t Instruction22c::get_raw()
-        {
-            return (get_OP() | vA << 8 | vB << 12 | iCCCC << 16);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22c::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -1134,41 +581,6 @@ namespace KUNAI
                 {DVMTypes::Operand::KIND, iCCCC}};
 
             return operands;
-        }
-
-        DVMTypes::Operand Instruction22c::get_first_operand_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22c::get_first_operand()
-        {
-            return vA;
-        }
-
-        DVMTypes::Operand Instruction22c::get_second_operand_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22c::get_second_operand()
-        {
-            return vB;
-        }
-
-        DVMTypes::Operand Instruction22c::get_third_operand_type()
-        {
-            return DVMTypes::Operand::KIND;
-        }
-
-        std::uint16_t Instruction22c::get_third_operand()
-        {
-            return iCCCC;
-        }
-
-        DVMTypes::Kind Instruction22c::get_third_operand_kind()
-        {
-            return this->get_kind();
         }
 
         Type *Instruction22c::get_third_operand_typeId()
@@ -1201,8 +613,6 @@ namespace KUNAI
             this->iCCCC = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
         }
 
-        Instruction22cs::~Instruction22cs() {}
-
         std::string Instruction22cs::get_output()
         {
             std::string str;
@@ -1223,11 +633,6 @@ namespace KUNAI
             return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB) + ", " + str;
         }
 
-        std::uint64_t Instruction22cs::get_raw()
-        {
-            return (get_OP() | vA << 8 | vB << 12 | iCCCC << 16);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22cs::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -1236,41 +641,6 @@ namespace KUNAI
                 {DVMTypes::Operand::KIND, iCCCC}};
 
             return operands;
-        }
-
-        DVMTypes::Operand Instruction22cs::get_first_operand_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22cs::get_first_operand()
-        {
-            return vA;
-        }
-
-        DVMTypes::Operand Instruction22cs::get_second_operand_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction22cs::get_second_operand()
-        {
-            return vB;
-        }
-
-        DVMTypes::Operand Instruction22cs::get_third_operand_type()
-        {
-            return DVMTypes::Operand::KIND;
-        }
-
-        std::uint16_t Instruction22cs::get_third_operand()
-        {
-            return iCCCC;
-        }
-
-        DVMTypes::Kind Instruction22cs::get_third_operand_kind()
-        {
-            return this->get_kind();
         }
 
         Type *Instruction22cs::get_third_operand_typeId()
@@ -1307,18 +677,6 @@ namespace KUNAI
                 throw exceptions::InvalidInstruction("Error reading Instruction30t offset cannot be 0");
         }
 
-        Instruction30t::~Instruction30t() {}
-
-        std::string Instruction30t::get_output()
-        {
-            return std::to_string(nAAAAAAAA);
-        }
-
-        std::uint64_t Instruction30t::get_raw()
-        {
-            return get_OP() | nAAAAAAAA << 16;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction30t::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -1327,15 +685,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction30t::get_offset_type()
-        {
-            return DVMTypes::Operand::OFFSET;
-        }
-
-        std::int32_t Instruction30t::get_offset()
-        {
-            return nAAAAAAAA;
-        }
         /**
          * Instruction32x
          */
@@ -1356,18 +705,6 @@ namespace KUNAI
             this->vBBBB = *(reinterpret_cast<std::uint16_t *>(&instruction[4]));
         }
 
-        Instruction32x::~Instruction32x() {}
-
-        std::string Instruction32x::get_output()
-        {
-            return this->get_register_correct_representation(vAAAA) + ", " + this->get_register_correct_representation(vBBBB);
-        }
-
-        std::uint64_t Instruction32x::get_raw()
-        {
-            return (get_OP() | vAAAA << 16 | vBBBB << 24);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction32x::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -1375,26 +712,6 @@ namespace KUNAI
                 {DVMTypes::Operand::REGISTER, vBBBB}};
 
             return operands;
-        }
-
-        DVMTypes::Operand Instruction32x::get_source_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint16_t Instruction32x::get_source()
-        {
-            return vBBBB;
-        }
-
-        DVMTypes::Operand Instruction32x::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint16_t Instruction32x::get_destination()
-        {
-            return vAAAA;
         }
 
         /**
@@ -1413,18 +730,6 @@ namespace KUNAI
             this->nBBBBBBBB = *(reinterpret_cast<std::uint32_t *>(&instruction[2]));
         }
 
-        Instruction31i::~Instruction31i() {}
-
-        std::string Instruction31i::get_output()
-        {
-            return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBBBBBB);
-        }
-
-        std::uint64_t Instruction31i::get_raw()
-        {
-            return (get_OP() | vAA << 8 | nBBBBBBBB << 16);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction31i::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -1434,25 +739,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction31i::get_source_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::int32_t Instruction31i::get_source()
-        {
-            return nBBBBBBBB;
-        }
-
-        DVMTypes::Operand Instruction31i::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction31i::get_destination()
-        {
-            return vAA;
-        }
         /**
          * Instruction31t
          */
@@ -1467,18 +753,13 @@ namespace KUNAI
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
             this->nBBBBBBBB = *(reinterpret_cast<std::int32_t *>(&instruction[2]));
-        }
 
-        Instruction31t::~Instruction31t() {}
-
-        std::string Instruction31t::get_output()
-        {
-            return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBBBBBB);
-        }
-
-        std::uint64_t Instruction31t::get_raw()
-        {
-            return get_OP() | vAA << 8 | nBBBBBBBB << 16;
+            if (get_OP() == DVMTypes::OP_PACKED_SWITCH)
+                this->type_of_switch = PACKED_SWITCH;
+            else if (get_OP() == DVMTypes::OP_SPARSE_SWITCH)
+                this->type_of_switch = SPARSE_SWITCH;
+            else
+                this->type_of_switch = NONE_SWITCH;
         }
 
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction31t::get_operands()
@@ -1490,25 +771,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction31t::get_array_ref_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction31t::get_array_ref()
-        {
-            return vAA;
-        }
-
-        DVMTypes::Operand Instruction31t::get_offset_type()
-        {
-            return DVMTypes::Operand::OFFSET;
-        }
-
-        std::int32_t Instruction31t::get_offset()
-        {
-            return nBBBBBBBB;
-        }
         /**
          * Instruction31c
          */
@@ -1525,18 +787,6 @@ namespace KUNAI
             this->iBBBBBBBB = *(reinterpret_cast<std::uint32_t *>(&instruction[2]));
         }
 
-        Instruction31c::~Instruction31c() {}
-
-        std::string Instruction31c::get_output()
-        {
-            return this->get_register_correct_representation(vAA) + ", " + this->get_dalvik_opcodes()->get_dalvik_string_by_id_str(iBBBBBBBB);
-        }
-
-        std::uint64_t Instruction31c::get_raw()
-        {
-            return (get_OP() | vAA << 8 | iBBBBBBBB << 16);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction31c::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -1546,35 +796,6 @@ namespace KUNAI
             return operands;
         }
 
-        DVMTypes::Operand Instruction31c::get_source_type()
-        {
-            return DVMTypes::Operand::KIND;
-        }
-
-        std::uint16_t Instruction31c::get_source()
-        {
-            return iBBBBBBBB;
-        }
-
-        DVMTypes::Kind Instruction31c::get_source_kind()
-        {
-            return this->get_kind();
-        }
-
-        std::string *Instruction31c::get_source_str()
-        {
-            return this->get_dalvik_opcodes()->get_dalvik_string_by_id(iBBBBBBBB);
-        }
-
-        DVMTypes::Operand Instruction31c::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction31c::get_destination()
-        {
-            return vAA;
-        }
         /**
          * Instruction35c
          */
@@ -1603,8 +824,6 @@ namespace KUNAI
             for (size_t i = 0; i < this->array_size; i++)
                 this->registers.push_back(reg[i]);
         }
-
-        Instruction35c::~Instruction35c() {}
 
         std::string Instruction35c::get_output()
         {
@@ -1661,41 +880,6 @@ namespace KUNAI
             return operands;
         }
 
-        std::uint8_t Instruction35c::get_array_size()
-        {
-            return array_size;
-        }
-
-        std::uint16_t Instruction35c::get_type_index()
-        {
-            return type_index;
-        }
-
-        DVMTypes::Operand Instruction35c::get_operands_types()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        Type *Instruction35c::get_operands_kind_type()
-        {
-            return this->get_dalvik_opcodes()->get_dalvik_Type_by_id(type_index);
-        }
-
-        std::string Instruction35c::get_operands_kind_type_str()
-        {
-            return this->get_dalvik_opcodes()->get_dalvik_type_by_id_str(type_index);
-        }
-
-        MethodID *Instruction35c::get_operands_kind_method()
-        {
-            return this->get_dalvik_opcodes()->get_dalvik_method_by_id(type_index);
-        }
-
-        std::string Instruction35c::get_operands_kind_method_str()
-        {
-            return this->get_dalvik_opcodes()->get_dalvik_method_by_id_str(type_index);
-        }
-
         std::uint8_t Instruction35c::get_operand_register(std::uint8_t index)
         {
             if (index >= array_size)
@@ -1723,8 +907,6 @@ namespace KUNAI
                 registers.push_back(i);
         }
 
-        Instruction3rc::~Instruction3rc() {}
-
         std::string Instruction3rc::get_output()
         {
             std::string output = "";
@@ -1739,7 +921,7 @@ namespace KUNAI
              *  	op {vCCCC .. vNNNN}, meth@BBBB
              *      op {vCCCC .. vNNNN}, site@BBBB
              *      op {vCCCC .. vNNNN}, type@BBBB
-             * 
+             *
              * Check for meth, and type, any other case, return
              * index as string.
              */
@@ -1753,11 +935,6 @@ namespace KUNAI
             return output;
         }
 
-        std::uint64_t Instruction3rc::get_raw()
-        {
-            return get_OP() | array_size << 8 | static_cast<std::uint64_t>(index) << 16 | static_cast<std::uint64_t>(registers[0]) << 32;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction3rc::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
@@ -1768,26 +945,6 @@ namespace KUNAI
             operands.push_back({DVMTypes::Operand::KIND, index});
 
             return operands;
-        }
-
-        std::uint8_t Instruction3rc::get_array_size()
-        {
-            return array_size;
-        }
-
-        std::uint16_t Instruction3rc::get_index()
-        {
-            return index;
-        }
-
-        DVMTypes::Operand Instruction3rc::get_operands_types()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        DVMTypes::Kind Instruction3rc::get_index_kind()
-        {
-            return get_kind();
         }
 
         std::any Instruction3rc::get_last_operand()
@@ -1885,8 +1042,6 @@ namespace KUNAI
                 this->registers.push_back(regG);
         }
 
-        Instruction45cc::~Instruction45cc() {}
-
         std::string Instruction45cc::get_output()
         {
             std::string output = "";
@@ -1938,16 +1093,6 @@ namespace KUNAI
             return operands;
         }
 
-        std::uint8_t Instruction45cc::get_reg_count()
-        {
-            return reg_count;
-        }
-
-        DVMTypes::Operand Instruction45cc::get_register_types()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
         std::uint8_t Instruction45cc::get_register(std::uint16_t index)
         {
             if (index >= reg_count)
@@ -1955,35 +1100,6 @@ namespace KUNAI
             return registers[index];
         }
 
-        DVMTypes::Kind Instruction45cc::get_method_ref_kind()
-        {
-            return DVMTypes::Kind::METH;
-        }
-
-        MethodID *Instruction45cc::get_method_ref()
-        {
-            return get_dalvik_opcodes()->get_dalvik_method_by_id(method_reference);
-        }
-
-        std::string Instruction45cc::get_method_ref_str()
-        {
-            return get_dalvik_opcodes()->get_dalvik_method_by_id_str(method_reference);
-        }
-
-        DVMTypes::Kind Instruction45cc::get_proto_ref_kind()
-        {
-            return DVMTypes::Kind::PROTO;
-        }
-
-        ProtoID *Instruction45cc::get_proto_ref()
-        {
-            return get_dalvik_opcodes()->get_dalvik_proto_by_id(proto_reference);
-        }
-
-        std::string Instruction45cc::get_proto_ref_str()
-        {
-            return get_dalvik_opcodes()->get_dalvik_proto_by_id_str(proto_reference);
-        }
         /**
          * Instruction4rcc
          */
@@ -2005,8 +1121,6 @@ namespace KUNAI
             for (size_t i = vCCCC; i < vCCCC + this->reg_count; i++)
                 this->registers.push_back(i);
         }
-
-        Instruction4rcc::~Instruction4rcc() {}
 
         std::string Instruction4rcc::get_output()
         {
@@ -2045,16 +1159,6 @@ namespace KUNAI
             return operands;
         }
 
-        std::uint8_t Instruction4rcc::get_reg_count()
-        {
-            return reg_count;
-        }
-
-        DVMTypes::Operand Instruction4rcc::get_register_types()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
         std::uint16_t Instruction4rcc::get_register(std::uint16_t index)
         {
             if (index >= reg_count)
@@ -2062,35 +1166,6 @@ namespace KUNAI
             return registers[index];
         }
 
-        DVMTypes::Kind Instruction4rcc::get_method_ref_kind()
-        {
-            return DVMTypes::Kind::METH;
-        }
-
-        MethodID *Instruction4rcc::get_method_ref()
-        {
-            return get_dalvik_opcodes()->get_dalvik_method_by_id(method_reference);
-        }
-
-        std::string Instruction4rcc::get_method_ref_str()
-        {
-            return get_dalvik_opcodes()->get_dalvik_method_by_id_str(method_reference);
-        }
-
-        DVMTypes::Kind Instruction4rcc::get_proto_ref_kind()
-        {
-            return DVMTypes::Kind::PROTO;
-        }
-
-        ProtoID *Instruction4rcc::get_proto_ref()
-        {
-            return get_dalvik_opcodes()->get_dalvik_proto_by_id(proto_reference);
-        }
-
-        std::string Instruction4rcc::get_proto_ref_str()
-        {
-            return get_dalvik_opcodes()->get_dalvik_proto_by_id_str(proto_reference);
-        }
         /**
          * Instruction51l
          */
@@ -2107,18 +1182,6 @@ namespace KUNAI
             this->nBBBBBBBBBBBBBBBB = *(reinterpret_cast<std::uint64_t *>(&instruction[2]));
         }
 
-        Instruction51l::~Instruction51l() {}
-
-        std::string Instruction51l::get_output()
-        {
-            return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBBBBBBBBBBBBBB);
-        }
-
-        std::uint64_t Instruction51l::get_raw()
-        {
-            return (get_OP() | vAA << 8 | nBBBBBBBBBBBBBBBB << 16);
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction51l::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands = {
@@ -2126,26 +1189,6 @@ namespace KUNAI
                 {DVMTypes::Operand::LITERAL, nBBBBBBBBBBBBBBBB}};
 
             return operands;
-        }
-
-        DVMTypes::Operand Instruction51l::get_source_type()
-        {
-            return DVMTypes::Operand::LITERAL;
-        }
-
-        std::uint64_t Instruction51l::get_source()
-        {
-            return nBBBBBBBBBBBBBBBB;
-        }
-
-        DVMTypes::Operand Instruction51l::get_destination_type()
-        {
-            return DVMTypes::Operand::REGISTER;
-        }
-
-        std::uint8_t Instruction51l::get_destination()
-        {
-            return vAA;
         }
 
         /**
@@ -2170,7 +1213,7 @@ namespace KUNAI
 
             for (size_t i = 0; i < buff_size; i++)
             {
-                if (!KUNAI::read_data_file<std::int32_t>(aux, 1, input_file))
+                if (!KUNAI::read_data_file<std::int32_t>(aux, sizeof(std::int32_t), input_file))
                     throw exceptions::DisassemblerException("Error disassembling PackedSwitch");
                 this->targets.push_back(aux);
             }
@@ -2202,11 +1245,6 @@ namespace KUNAI
             return str.str();
         }
 
-        std::uint64_t PackedSwitch::get_raw()
-        {
-            return ident | size << 16 | static_cast<std::uint64_t>(first_key) << 32;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> PackedSwitch::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
@@ -2215,16 +1253,6 @@ namespace KUNAI
                 operands.push_back({DVMTypes::Operand::RAW, targets[i]});
 
             return operands;
-        }
-
-        std::int32_t PackedSwitch::get_first_key()
-        {
-            return first_key;
-        }
-
-        std::vector<std::int32_t> PackedSwitch::get_targets()
-        {
-            return targets;
         }
 
         /**
@@ -2299,13 +1327,7 @@ namespace KUNAI
             return str.str();
         }
 
-        // probably need to change get_raw for returning
-        // an array of bytes
-        std::uint64_t SparseSwitch::get_raw()
-        {
-            return ident | size << 16;
-        }
-
+        
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> SparseSwitch::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
@@ -2342,11 +1364,6 @@ namespace KUNAI
             if (pos >= keys_targets.size())
                 return 0;
             return std::get<1>(keys_targets[pos]);
-        }
-
-        std::vector<std::tuple<std::int32_t, std::int32_t>> SparseSwitch::get_keys_targets()
-        {
-            return keys_targets;
         }
 
         /**
@@ -2405,11 +1422,6 @@ namespace KUNAI
             return str.str();
         }
 
-        std::uint64_t FillArrayData::get_raw()
-        {
-            return ident | element_width << 16 | static_cast<std::uint64_t>(size) << 32;
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> FillArrayData::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
@@ -2418,11 +1430,6 @@ namespace KUNAI
                 operands.push_back({DVMTypes::Operand::RAW, data[i]});
 
             return operands;
-        }
-
-        std::vector<std::uint8_t> FillArrayData::get_data()
-        {
-            return data;
         }
 
         std::shared_ptr<Instruction> get_instruction_object(std::uint32_t opcode, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file)
@@ -2438,7 +1445,7 @@ namespace KUNAI
 
                 input_file.read(byte, 2);
 
-                input_file.seekg(current_offset);
+                input_file.seekg(current_offset); // in this case is necessary to set back the pointer
 
                 if (byte[1] == 0x03)
                     instruction = std::make_shared<FillArrayData>(dalvik_opcodes, input_file); // filled-array-data
@@ -2841,22 +1848,22 @@ namespace KUNAI
          * @brief Determine the next offsets inside the bytecode of an :class:`EncodedMethod`.
          *        The offsets are calculated in number of bytes from the start of the method.
          *        Note, that offsets inside the bytecode are denoted in 16bit units but this method returns actual bytes!
-         * 
+         *
          *        Offsets inside the opcode are counted from the beginning of the opcode.
-         * 
+         *
          *        The returned type is a list, as branching opcodes will have multiple paths.
          *        `if` and `switch` opcodes will return more than one item in the list, while
          *        `throw`, `return` and `goto` opcodes will always return a list with length one.
-         * 
+         *
          *        An offset of -1 indicates that the method is exited, for example by `throw` or `return`.
-         * 
+         *
          *        If the entered opcode is not branching or jumping, an empty list is returned.
-         * 
+         *
          * @param instr: instruction to calculate the next one in case this is a Goto, if, switch.
          * @param curr_idx: current idx to calculate new idx.
          * @param instructions: all the instructions from the method.
-         * 
-        */
+         *
+         */
         std::vector<std::int64_t> determine_next(std::shared_ptr<Instruction> instr,
                                                  std::uint64_t curr_idx,
                                                  std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions)
@@ -2878,24 +1885,24 @@ namespace KUNAI
                 case DVMTypes::Opcode::OP_GOTO:
                 {
                     auto goto_instr = std::dynamic_pointer_cast<Instruction10t>(instr);
-                    offset = goto_instr->get_offset();
+                    offset = goto_instr->get_offset() * 2;
                     break;
                 }
                 case DVMTypes::Opcode::OP_GOTO_16:
                 {
                     auto goto_instr = std::dynamic_pointer_cast<Instruction20t>(instr);
-                    offset = goto_instr->get_offset();
+                    offset = goto_instr->get_offset() * 2;
                     break;
                 }
                 case DVMTypes::Opcode::OP_GOTO_32:
                 {
                     auto goto_instr = std::dynamic_pointer_cast<Instruction30t>(instr);
-                    offset = goto_instr->get_offset();
+                    offset = goto_instr->get_offset() * 2;
                     break;
                 }
-
-                    return {offset + static_cast<std::int64_t>(curr_idx)};
                 }
+
+                return {offset + static_cast<std::int64_t>(curr_idx)};
             }
             else if ((op_value >= DVMTypes::Opcode::OP_IF_EQ) &&
                      (op_value <= DVMTypes::Opcode::OP_IF_LEZ))
@@ -2906,13 +1913,13 @@ namespace KUNAI
                     (op_value <= DVMTypes::Opcode::OP_IF_LE))
                 {
                     auto if_instr = std::dynamic_pointer_cast<Instruction22t>(instr);
-                    offset = if_instr->get_ref();
+                    offset = if_instr->get_ref() * 2;
                 }
                 else if ((op_value >= DVMTypes::Opcode::OP_IF_EQZ) &&
                          (op_value <= DVMTypes::Opcode::OP_IF_LEZ))
                 {
                     auto if_instr = std::dynamic_pointer_cast<Instruction21t>(instr);
-                    offset = if_instr->get_ref();
+                    offset = if_instr->get_ref() * 2;
                 }
 
                 return {static_cast<std::int64_t>(curr_idx) + instr->get_length(), offset + static_cast<std::int64_t>(curr_idx)};
@@ -2922,40 +1929,30 @@ namespace KUNAI
             {
                 std::vector<std::int64_t> x = {static_cast<std::int64_t>(curr_idx) + instr->get_length()};
 
-                std::int64_t offset;
-
                 auto switch_instr = std::dynamic_pointer_cast<Instruction31t>(instr);
-                offset = switch_instr->get_offset() * 2;
 
-                std::int64_t padding = (offset + static_cast<std::int64_t>(curr_idx)) % 4;
-                if (padding != 0)
-                    std::cerr << "Padding should be 0, switch payload not aligned, adding " << padding << " bytes..." << std::endl;
-                auto data = instructions[offset + static_cast<std::int64_t>(curr_idx) + padding];
-
-                if (data)
+                switch (switch_instr->get_type_of_switch())
                 {
-                    if (instanceof <PackedSwitch>(data.get()))
-                    {
-                        auto packed_switch = std::dynamic_pointer_cast<PackedSwitch>(data);
+                case Instruction31t::PACKED_SWITCH:
+                {
+                    auto packed_switch = switch_instr->get_packed_switch();
+                    auto targets = packed_switch->get_targets();
 
-                        for (auto it = packed_switch->get_targets().begin(); it != packed_switch->get_targets().end(); it++)
-                        {
-                            x.push_back(*it);
-                        }
-                    }
-                    else if (instanceof <SparseSwitch>(data.get()))
-                    {
-                        auto sparse_switch = std::dynamic_pointer_cast<SparseSwitch>(data);
+                    for (auto target : targets)
+                        x.push_back(curr_idx + target * 2);
+                }
+                break;
+                case Instruction31t::SPARSE_SWITCH:
+                {
+                    auto sparse_switch = switch_instr->get_sparse_switch();
+                    auto targets = sparse_switch->get_keys_targets();
 
-                        for (auto it = sparse_switch->get_keys_targets().begin(); it != sparse_switch->get_keys_targets().end(); it++)
-                        {
-                            x.push_back(std::get<1>(*it));
-                        }
-                    }
-                    else
-                    {
-                        std::cerr << "Could not determine payload of switch command at offset" << curr_idx << " instruction " << data->get_OP() << " possible broken bytecode." << std::endl;
-                    }
+                    for (auto target : targets)
+                        x.push_back(curr_idx + std::get<1>(target) * 2);
+                }
+                break;
+                default:
+                break;
                 }
 
                 return x;
