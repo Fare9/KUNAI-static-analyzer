@@ -172,6 +172,7 @@ Classes</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a61ab8b125700996e9b45d02e1beede6f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2a/ir__grammar_8hpp.html#a61ab8b125700996e9b45d02e1beede6f">KUNAI::MJOLNIR::is_ir_field</a> (std::shared_ptr&lt; IRStmnt &gt; instr)</td></tr>
+<tr class="memdesc:a61ab8b125700996e9b45d02e1beede6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given statement is a <a class="el" href="../../d7/d5e/classKUNAI_1_1MJOLNIR_1_1IRField.html">IRField</a>.  <a href="../../d9/d2a/ir__grammar_8hpp.html#a61ab8b125700996e9b45d02e1beede6f">More...</a><br /></td></tr>
 <tr class="separator:a61ab8b125700996e9b45d02e1beede6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6eed705eb74996344c6e2b2d8defda79"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2a/ir__grammar_8hpp.html#a6eed705eb74996344c6e2b2d8defda79">KUNAI::MJOLNIR::is_ir_callee</a> (std::shared_ptr&lt; IRStmnt &gt; instr)</td></tr>
 <tr class="memdesc:a6eed705eb74996344c6e2b2d8defda79"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if given statement object is a callee method/function.  <a href="../../d9/d2a/ir__grammar_8hpp.html#a6eed705eb74996344c6e2b2d8defda79">More...</a><br /></td></tr>
@@ -191,8 +192,8 @@ Functions</h2></td></tr>
 <tr class="memitem:ab4401f4783719dd00ff02062a8cdf9f8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2a/ir__grammar_8hpp.html#ab4401f4783719dd00ff02062a8cdf9f8">KUNAI::MJOLNIR::is_ir_temp_reg</a> (std::shared_ptr&lt; IRStmnt &gt; instr)</td></tr>
 <tr class="memdesc:ab4401f4783719dd00ff02062a8cdf9f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a given statement object is a temporal register.  <a href="../../d9/d2a/ir__grammar_8hpp.html#ab4401f4783719dd00ff02062a8cdf9f8">More...</a><br /></td></tr>
 <tr class="separator:ab4401f4783719dd00ff02062a8cdf9f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad40a9f588900b4e83fe076b0e5a3e729"><td class="memItemLeft" align="right" valign="top"><a id="ad40a9f588900b4e83fe076b0e5a3e729" name="ad40a9f588900b4e83fe076b0e5a3e729"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>KUNAI::MJOLNIR::is_ir_register</b> (std::shared_ptr&lt; IRStmnt &gt; instr)</td></tr>
+<tr class="memitem:ad40a9f588900b4e83fe076b0e5a3e729"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2a/ir__grammar_8hpp.html#ad40a9f588900b4e83fe076b0e5a3e729">KUNAI::MJOLNIR::is_ir_register</a> (std::shared_ptr&lt; IRStmnt &gt; instr)</td></tr>
+<tr class="memdesc:ad40a9f588900b4e83fe076b0e5a3e729"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given statement object is a register.  <a href="../../d9/d2a/ir__grammar_8hpp.html#ad40a9f588900b4e83fe076b0e5a3e729">More...</a><br /></td></tr>
 <tr class="separator:ad40a9f588900b4e83fe076b0e5a3e729"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fac57baa349bb73f156e52fdd87ec3e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2a/ir__grammar_8hpp.html#a7fac57baa349bb73f156e52fdd87ec3e">KUNAI::MJOLNIR::is_unconditional_jump</a> (std::shared_ptr&lt; IRStmnt &gt; instr)</td></tr>
 <tr class="memdesc:a7fac57baa349bb73f156e52fdd87ec3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given statement is an unconditional jump instruction.  <a href="../../d9/d2a/ir__grammar_8hpp.html#a7fac57baa349bb73f156e52fdd87ec3e">More...</a><br /></td></tr>
@@ -377,7 +378,18 @@ false </dd></dl>
         </tr>
       </table>
 </div><div class="memdoc">
-<p >Useful methods you can use for getting information about the instructions. </p>
+
+<p>Check if the given statement is a IRField. </p>
+<p >Useful methods you can use for getting information about the instructions.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instr</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true </dd>
+<dd>
+false </dd></dl>
 
 </div>
 </div>
@@ -398,6 +410,35 @@ false </dd></dl>
 </div><div class="memdoc">
 
 <p>Check if given statement object is a memory. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instr</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true </dd>
+<dd>
+false </dd></dl>
+
+</div>
+</div>
+<a id="ad40a9f588900b4e83fe076b0e5a3e729" name="ad40a9f588900b4e83fe076b0e5a3e729"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad40a9f588900b4e83fe076b0e5a3e729">&#9670;&nbsp;</a></span>is_ir_register()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool KUNAI::MJOLNIR::is_ir_register </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../d0/d8d/classKUNAI_1_1MJOLNIR_1_1IRStmnt.html">IRStmnt</a> &gt;&#160;</td>
+          <td class="paramname"><em>instr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if the given statement object is a register. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">instr</td><td></td></tr>

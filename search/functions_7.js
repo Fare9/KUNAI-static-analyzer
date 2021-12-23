@@ -55,7 +55,7 @@ var searchData=
   ['irtempreg_52',['IRTempReg',['../d5/d67/classKUNAI_1_1MJOLNIR_1_1IRTempReg.html#a89d1313388540b5d5a884aa6fff95417',1,'KUNAI::MJOLNIR::IRTempReg']]],
   ['irtype_53',['IRType',['../db/de6/classKUNAI_1_1MJOLNIR_1_1IRType.html#ae6e15df5a0193ff977bbb1b658f298bb',1,'KUNAI::MJOLNIR::IRType']]],
   ['irujmp_54',['IRUJmp',['../db/d9e/classKUNAI_1_1MJOLNIR_1_1IRUJmp.html#a296be76142e03d6deb5bd14a6e019450',1,'KUNAI::MJOLNIR::IRUJmp']]],
-  ['irunaryop_55',['IRUnaryOp',['../da/d6b/classKUNAI_1_1MJOLNIR_1_1IRUnaryOp.html#a66c09f39b2df7e3c6f52c2a3fa23cd7d',1,'KUNAI::MJOLNIR::IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type, cast_type_t cast_type, std::string class_name, std::shared_ptr&lt; IRExpr &gt; result, std::shared_ptr&lt; IRExpr &gt; op, std::shared_ptr&lt; IRExpr &gt; left, std::shared_ptr&lt; IRExpr &gt; right)'],['../da/d6b/classKUNAI_1_1MJOLNIR_1_1IRUnaryOp.html#a76b9d2f13514cccc3262be22f77e80c6',1,'KUNAI::MJOLNIR::IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type, cast_type_t cast_type, std::shared_ptr&lt; IRExpr &gt; result, std::shared_ptr&lt; IRExpr &gt; op, std::shared_ptr&lt; IRExpr &gt; left, std::shared_ptr&lt; IRExpr &gt; right)'],['../da/d6b/classKUNAI_1_1MJOLNIR_1_1IRUnaryOp.html#a34cfe0c767d7ffd66ac521bbcd3fd732',1,'KUNAI::MJOLNIR::IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type, std::shared_ptr&lt; IRExpr &gt; result, std::shared_ptr&lt; IRExpr &gt; op, std::shared_ptr&lt; IRExpr &gt; left, std::shared_ptr&lt; IRExpr &gt; right)']]],
+  ['irunaryop_55',['IRUnaryOp',['../da/d6b/classKUNAI_1_1MJOLNIR_1_1IRUnaryOp.html#a66c09f39b2df7e3c6f52c2a3fa23cd7d',1,'KUNAI::MJOLNIR::IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type, cast_type_t cast_type, std::string class_name, std::shared_ptr&lt; IRExpr &gt; result, std::shared_ptr&lt; IRExpr &gt; op, std::shared_ptr&lt; IRExpr &gt; left, std::shared_ptr&lt; IRExpr &gt; right)'],['../da/d6b/classKUNAI_1_1MJOLNIR_1_1IRUnaryOp.html#a34cfe0c767d7ffd66ac521bbcd3fd732',1,'KUNAI::MJOLNIR::IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type, std::shared_ptr&lt; IRExpr &gt; result, std::shared_ptr&lt; IRExpr &gt; op, std::shared_ptr&lt; IRExpr &gt; left, std::shared_ptr&lt; IRExpr &gt; right)'],['../da/d6b/classKUNAI_1_1MJOLNIR_1_1IRUnaryOp.html#a76b9d2f13514cccc3262be22f77e80c6',1,'KUNAI::MJOLNIR::IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type, cast_type_t cast_type, std::shared_ptr&lt; IRExpr &gt; result, std::shared_ptr&lt; IRExpr &gt; op, std::shared_ptr&lt; IRExpr &gt; left, std::shared_ptr&lt; IRExpr &gt; right)']]],
   ['irzcomp_56',['IRZComp',['../d3/dc8/classKUNAI_1_1MJOLNIR_1_1IRZComp.html#ac93a1e01797296c51bc72e697488d227',1,'KUNAI::MJOLNIR::IRZComp']]],
   ['is_5fandroid_5fapi_57',['is_android_api',['../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a5f6b404e78da9f71f56044a9a5ee9dc5',1,'KUNAI::DEX::ClassAnalysis::is_android_api()'],['../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html#aa05a14fd364ce5321364acd5335c1f78',1,'KUNAI::DEX::MethodAnalysis::is_android_api()']]],
   ['is_5fcall_58',['is_call',['../d9/d2a/ir__grammar_8hpp.html#a7d9c9950ca4723ab8f92dd6a7cfd23c4',1,'KUNAI::MJOLNIR']]],
@@ -67,10 +67,11 @@ var searchData=
   ['is_5fir_5fconst_5fint_64',['is_ir_const_int',['../d9/d2a/ir__grammar_8hpp.html#a675444d1dd4f4aeb6bf80733135b764d',1,'KUNAI::MJOLNIR']]],
   ['is_5fir_5ffield_65',['is_ir_field',['../d9/d2a/ir__grammar_8hpp.html#a61ab8b125700996e9b45d02e1beede6f',1,'KUNAI::MJOLNIR']]],
   ['is_5fir_5fmemory_66',['is_ir_memory',['../d9/d2a/ir__grammar_8hpp.html#a4e821f4a7f9bae7e828498c27f49836b',1,'KUNAI::MJOLNIR']]],
-  ['is_5fir_5fstring_67',['is_ir_string',['../d9/d2a/ir__grammar_8hpp.html#a449e6c9a9d0a41c521f9cc62b1132cef',1,'KUNAI::MJOLNIR']]],
-  ['is_5fir_5ftemp_5freg_68',['is_ir_temp_reg',['../d9/d2a/ir__grammar_8hpp.html#ab4401f4783719dd00ff02062a8cdf9f8',1,'KUNAI::MJOLNIR']]],
-  ['is_5foverwritten_69',['is_overwritten',['../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html#ac15a47f21ade5370649f64d7eb05e4db',1,'KUNAI::DEX::StringAnalysis']]],
-  ['is_5fret_70',['is_ret',['../d9/d2a/ir__grammar_8hpp.html#abd8703d60dd98d2a4ab39bcffe5b848d',1,'KUNAI::MJOLNIR']]],
-  ['is_5fswitch_71',['is_switch',['../d9/d2a/ir__grammar_8hpp.html#ab4e05b1ba3aace5461ad5ee3239a3f8a',1,'KUNAI::MJOLNIR']]],
-  ['is_5funconditional_5fjump_72',['is_unconditional_jump',['../d9/d2a/ir__grammar_8hpp.html#a7fac57baa349bb73f156e52fdd87ec3e',1,'KUNAI::MJOLNIR']]]
+  ['is_5fir_5fregister_67',['is_ir_register',['../d9/d2a/ir__grammar_8hpp.html#ad40a9f588900b4e83fe076b0e5a3e729',1,'KUNAI::MJOLNIR']]],
+  ['is_5fir_5fstring_68',['is_ir_string',['../d9/d2a/ir__grammar_8hpp.html#a449e6c9a9d0a41c521f9cc62b1132cef',1,'KUNAI::MJOLNIR']]],
+  ['is_5fir_5ftemp_5freg_69',['is_ir_temp_reg',['../d9/d2a/ir__grammar_8hpp.html#ab4401f4783719dd00ff02062a8cdf9f8',1,'KUNAI::MJOLNIR']]],
+  ['is_5foverwritten_70',['is_overwritten',['../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html#ac15a47f21ade5370649f64d7eb05e4db',1,'KUNAI::DEX::StringAnalysis']]],
+  ['is_5fret_71',['is_ret',['../d9/d2a/ir__grammar_8hpp.html#abd8703d60dd98d2a4ab39bcffe5b848d',1,'KUNAI::MJOLNIR']]],
+  ['is_5fswitch_72',['is_switch',['../d9/d2a/ir__grammar_8hpp.html#ab4e05b1ba3aace5461ad5ee3239a3f8a',1,'KUNAI::MJOLNIR']]],
+  ['is_5funconditional_5fjump_73',['is_unconditional_jump',['../d9/d2a/ir__grammar_8hpp.html#a7fac57baa349bb73f156e52fdd87ec3e',1,'KUNAI::MJOLNIR']]]
 ];
