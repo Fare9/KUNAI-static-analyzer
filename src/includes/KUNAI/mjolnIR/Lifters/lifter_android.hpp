@@ -13,8 +13,8 @@
 #include <iostream>
 #include <set>
 // DEX
-#include "DVM/dex_instructions.hpp"
-#include "Analysis/dex_analysis.hpp"
+#include "dex_instructions.hpp"
+#include "dex_analysis.hpp"
 
 // mjolnIR
 #include "ir_graph.hpp"
