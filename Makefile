@@ -20,7 +20,7 @@ SHARED_LIB_NAME=libkunai.so
 
 FILE_MODULES = -I ${INCLUDE_FOLDER}DEX/ -I ${INCLUDE_FOLDER}DEX/parser/ -I ${INCLUDE_FOLDER}DEX/DVM/ -I ${INCLUDE_FOLDER}DEX/Analysis/
 UTILITIES = -I ${INCLUDE_FOLDER}Exceptions/ -I ${INCLUDE_FOLDER}Utils/
-IR_MODULES = -I ${INCLUDE_FOLDER}mjolnIR/ -I ${INCLUDE_FOLDER}mjolnIR/Lifters/
+IR_MODULES = -I ${INCLUDE_FOLDER}mjolnIR/ -I ${INCLUDE_FOLDER}mjolnIR/Lifters/ -I ${INCLUDE_FOLDER}mjolnIR/arch/
 ALL_INCLUDE = ${FILE_MODULES} ${UTILITIES} ${IR_MODULES}
 
 DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
@@ -195,4 +195,25 @@ tests:
 clean:
 	rm -rf ${OBJ}
 	rm -rf ${BIN_FOLDER}
+########################################################
+
+########################################################
+install:
+	@echo "Removing previous folders"
+	sudo rm -rf /usr/include/KUNAI
+	sudo rm -f /usr/lib/${SHARED_LIB_NAME}
+	sudo rm -f /usr/lib/${STATIC_LIB_NAME}
+	@echo "Copying libs to /usr/lib"
+	sudo cp ${BIN_FOLDER}${STATIC_LIB_NAME} /usr/lib
+	sudo cp ${BIN_FOLDER}${SHARED_LIB_NAME} /usr/lib
+	@echo "Creating /usr/include/KUNAI and copying header files"
+	sudo mkdir /usr/include/KUNAI
+	sudo find ${INCLUDE_FOLDER} -name '*.hpp' -exec cp "{}" /usr/include/KUNAI \;
+########################################################
+
+########################################################
+remove:
+	sudo rm -rf /usr/include/KUNAI
+	sudo rm -f /usr/lib/${SHARED_LIB_NAME}
+	sudo rm -f /usr/lib/${STATIC_LIB_NAME}
 ########################################################

@@ -9,7 +9,7 @@
 #define LIFTER_ANDROID_INSTRUCTIONS_HPP
 
 #include <set>
-#include "DVM/dex_dvm_types.hpp"
+#include "dex_dvm_types.hpp"
 
 namespace KUNAI
 {

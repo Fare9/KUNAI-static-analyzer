@@ -18,8 +18,8 @@
 #include <list>
 
 // lifters
-#include "arch/ir_x86.hpp"
-#include "arch/ir_dalvik.hpp"
+#include "ir_x86.hpp"
+#include "ir_dalvik.hpp"
 
 namespace KUNAI
 {
