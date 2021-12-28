@@ -1010,8 +1010,25 @@ namespace KUNAI
                 // as it is a call to a method, we can safely retrieve the operand as method
                 auto method_called = call_inst->get_operands_kind_method();
 
+                // Get the values for the Callee
+
                 std::string method_name = *method_called->get_method_name();
-                std::string class_name = reinterpret_cast<DEX::Class *>(method_called->get_method_class())->get_name();
+
+                std::string class_name = "";
+                auto type = method_called->get_method_class();
+                if (type->get_type() == type->ARRAY)
+                {
+                    auto array_type = reinterpret_cast<DEX::Array *>(type);
+
+                    class_name = array_type->get_raw();
+                }
+                else if (type->get_type() == type->CLASS)
+                {
+                    auto class_type = reinterpret_cast<DEX::Class *>(type);
+
+                    class_name = class_type->get_name();
+                }
+
                 std::string proto = method_called->get_method_prototype()->get_proto_str();
 
                 if (this->android_analysis)
