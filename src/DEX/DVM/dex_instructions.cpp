@@ -1985,9 +1985,9 @@ namespace KUNAI
                 if (h_off.find(encoded_catch_handler->get_offset()) == h_off.end())
                     continue;
 
-                for (size_t i = 0; i < h_off[encoded_catch_handler->get_offset()].size(); i++)
+                for (size_t j = 0; j < h_off[encoded_catch_handler->get_offset()].size(); j++)
                 {
-                    h_off[encoded_catch_handler->get_offset()][i].push_back(encoded_catch_handler);
+                    h_off[encoded_catch_handler->get_offset()][j].push_back(encoded_catch_handler);
                 }
             }
 

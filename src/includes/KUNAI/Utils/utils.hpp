@@ -34,7 +34,7 @@ namespace KUNAI {
     std::string read_ansii_string(std::istream& input_file, std::uint64_t offset);
     std::string read_dex_string(std::istream& input_file, std::uint64_t offset);
     std::uint64_t read_uleb128(std::istream& input_file);
-    std::uint64_t read_sleb128(std::istream& input_file);
+    std::int64_t read_sleb128(std::istream& input_file);
 }
 
 #endif

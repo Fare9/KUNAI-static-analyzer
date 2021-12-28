@@ -173,7 +173,9 @@ namespace KUNAI
             }
 
             std::cout << "Parsing the exceptions" << std::endl;
+
             auto excepts = determine_exception(dalvik_opcodes, std::dynamic_pointer_cast<EncodedMethod>(method_encoded));
+
             for (const auto &except : excepts)
             {
                 l.push_back(except.try_value_start_addr);

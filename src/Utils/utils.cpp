@@ -60,29 +60,30 @@ std::uint64_t read_uleb128(std::istream& input_file)
 {
     std::uint64_t value = 0;
     unsigned shift = 0;
-    std::uint8_t byte_read;
+    std::uint8_t byte_read, current;
+    
     do
     {
         read_data_file<std::uint8_t>(byte_read, sizeof(std::uint8_t), input_file);
-        value += static_cast<std::uint64_t>(byte_read & 0x7f) << shift;
+        value |= static_cast<std::uint64_t>(byte_read & 0x7f) << shift;
         shift += 7;
-    } while (byte_read >= 128);
+    } while (byte_read & 0x80);
     
     return value;
 }
 
-std::uint64_t read_sleb128(std::istream& input_file)
+std::int64_t read_sleb128(std::istream& input_file)
 {
-    std::uint64_t value = 0;
+    std::int64_t value = 0;
     unsigned shift = 0;
     std::uint8_t byte_read;
     do
     {
         read_data_file<std::uint8_t>(byte_read, sizeof(std::uint8_t), input_file);
-        value += static_cast<std::uint64_t>(byte_read & 0x7f) << shift;
+        value |= static_cast<std::uint64_t>(byte_read & 0x7f) << shift;
         shift += 7;
-    } while (byte_read >= 128);
-    
+    } while (byte_read & 0x80);
+    // sign extend negative numbers
     if ((byte_read & 0x40) != 0)
         value |= static_cast<int64_t>(-1) << shift;
 

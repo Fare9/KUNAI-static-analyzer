@@ -167,24 +167,19 @@ namespace KUNAI
 
             encoded_type_pair_size = KUNAI::read_sleb128(input_file);
 
+            for (size_t i = 0; i < std::abs(encoded_type_pair_size); i++)
+            {
+                type_idx = KUNAI::read_uleb128(input_file);
+
+                addr = KUNAI::read_uleb128(input_file);
+
+                encoded_type_pair = std::make_shared<EncodedTypePair>(type_idx, addr, dex_types);
+                handlers.push_back(encoded_type_pair);
+            }
+
             if (encoded_type_pair_size <= 0)
             {
                 catch_all_addr = KUNAI::read_uleb128(input_file);
-            }
-            else
-            {
-                for (size_t i = 0; i < static_cast<std::uint64_t>(encoded_type_pair_size); i++)
-                {
-                    type_idx = KUNAI::read_uleb128(input_file);
-
-                    addr = KUNAI::read_uleb128(input_file);
-
-                    if (addr > file_size)
-                        throw exceptions::OutOfBoundException("Error reading EncodedTypePair addr out of file bound");
-
-                    encoded_type_pair = std::make_shared<EncodedTypePair>(type_idx, addr, dex_types);
-                    handlers.push_back(encoded_type_pair);
-                }
             }
 
             return true;
