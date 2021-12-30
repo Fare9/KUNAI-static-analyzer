@@ -285,13 +285,15 @@ namespace KUNAI
                 class_data_items = std::make_shared<ClassDataItem>(input_file, file_size, dex_fields, dex_methods, dex_types);
             }
 
+            /**
             if (static_values_off > 0)
             {
                 input_file.seekg(static_values_off);
 
                 static_values = std::make_shared<EncodedArrayItem>(input_file);
             }
-
+            */
+           
             input_file.seekg(current_offset);
             return true;
         }
@@ -364,7 +366,7 @@ namespace KUNAI
             input_file.seekg(offset);
 
             for (i = 0; i < number_of_classes; i++)
-            {
+            {                
                 if (!KUNAI::read_data_file<ClassDef::classdef_t>(class_def_struct, sizeof(ClassDef::classdef_t), input_file))
                     return false;
 
@@ -409,7 +411,8 @@ namespace KUNAI
             for (auto class_def : entry.class_defs)
             {
                 os << "Class (" << i++ << "):" << std::endl;
-                os << "\tClass idx: " << class_def->get_class_idx()->get_name() << std::endl;
+                if (class_def->get_class_idx())
+                    os << "\tClass idx: " << class_def->get_class_idx()->get_name() << std::endl;
                 os << "\tAccess Flags: " << class_def->get_access_flags() << std::endl;
                 if (class_def->get_superclass_idx())
                     os << "\tSuperclass: " << class_def->get_superclass_idx()->get_name() << std::endl;
