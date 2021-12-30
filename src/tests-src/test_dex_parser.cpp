@@ -92,6 +92,8 @@ int main(int argc, char **argv)
     
     for (auto class_def : class_defs)
     {
+        if (class_def->get_class_idx() == nullptr)
+            continue;
         std::cout << "\tClass name: " << class_def->get_class_idx()->get_name() << std::endl;
         std::cout << "\tSource file name: ";
         if (class_def->get_source_file_idx())
