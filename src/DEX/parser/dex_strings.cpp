@@ -1,14 +1,15 @@
 #include "dex_strings.hpp"
 
-namespace KUNAI {
-    namespace DEX {
+namespace KUNAI
+{
+    namespace DEX
+    {
 
-        DexStrings::DexStrings(std::ifstream& input_file, 
-                                std::uint64_t file_size, 
-                                std::uint32_t number_of_strings, 
-                                std::uint32_t strings_offsets) :
-                                number_of_strings (number_of_strings),
-                                offset (strings_offsets)
+        DexStrings::DexStrings(std::ifstream &input_file,
+                               std::uint64_t file_size,
+                               std::uint32_t number_of_strings,
+                               std::uint32_t strings_offsets) : number_of_strings(number_of_strings),
+                                                                offset(strings_offsets)
         {
             if (!parse_strings(input_file, file_size))
                 throw exceptions::ParserReadingException("Error reading DEX strings");
@@ -20,19 +21,19 @@ namespace KUNAI {
                 strings.clear();
         }
 
-        std::string* DexStrings::get_string_from_offset(std::uint32_t offset)
+        std::string *DexStrings::get_string_from_offset(std::uint32_t offset)
         {
             if (this->strings.find(offset) == this->strings.end())
                 return nullptr;
-            
+
             return &(this->strings[offset]);
         }
-        
-        std::string* DexStrings::get_string_from_order(std::uint32_t pos)
+
+        std::string *DexStrings::get_string_from_order(std::uint32_t pos)
         {
             if (pos >= this->strings.size())
                 return nullptr;
-            
+
             return ordered_strings[pos];
         }
 
@@ -42,16 +43,18 @@ namespace KUNAI {
 
             for (auto it = this->strings.begin(); it != this->strings.end(); it++)
                 all_strings.push_back(it->second);
-            
+
             return all_strings;
         }
 
         /**
          * Private methods
          */
-        
-        bool DexStrings::parse_strings(std::ifstream& input_file, std::uint64_t file_size)
+
+        bool DexStrings::parse_strings(std::ifstream &input_file, std::uint64_t file_size)
         {
+            auto logger = LOGGER::logger();
+
             auto current_offset = input_file.tellg();
             size_t i;
             // string values
@@ -61,22 +64,31 @@ namespace KUNAI {
             // move to offset where are the string ids
             input_file.seekg(this->offset);
 
+            logger->debug("DexStrings parsing of header in offset {} with size {}", this->offset, this->number_of_strings);
+
             // go one by one reading offset and string
             for (i = 0; i < this->number_of_strings; i++)
             {
                 if (!KUNAI::read_data_file<std::uint32_t>(str_offset, sizeof(std::uint32_t), input_file))
                     return false;
-                
+
                 if (str_offset > file_size)
+                {
+                    logger->error("Error offset from string out of file bound ({} > {})", str_offset, file_size);
                     throw exceptions::OutOfBoundException("Error offset from string out of file bound");
+                }
 
                 str = KUNAI::read_dex_string(input_file, str_offset);
 
                 this->strings.insert(std::pair<std::uint32_t, std::string>(str_offset, str));
                 ordered_strings.push_back(&this->strings[str_offset]);
+
+                logger->debug("parsed string number {}", i);
             }
 
             input_file.seekg(current_offset);
+
+            logger->info("DexStrings parsing correct");
 
             return true;
         }
@@ -84,8 +96,8 @@ namespace KUNAI {
         /**
          * friend methods
          */
-        
-        std::ostream& operator<<(std::ostream& os, const DexStrings& entry)
+
+        std::ostream &operator<<(std::ostream &os, const DexStrings &entry)
         {
             size_t i = 0;
             os << std::hex;
@@ -98,7 +110,7 @@ namespace KUNAI {
             return os;
         }
 
-        std::fstream& operator<<(std::fstream& fos, const DexStrings& entry)
+        std::fstream &operator<<(std::fstream &fos, const DexStrings &entry)
         {
             std::stringstream stream;
 

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <memory>
 
+#include <spdlog/spdlog.h>
 // necessary to work with dex import the main DEX object
 #include "dex.hpp"
 
@@ -33,6 +34,9 @@ int main(int argc, char **argv)
      * object will just parse the file, it will not disassembly neither
      * will analyze the DEX, that's something you can decide to do.
      */
+
+    // Set the logging level in spdlog, we set to debug
+    spdlog::set_level(spdlog::level::debug);
 
     // `DEX' class is inside of namespace `DEX' inside of namespace `KUNAI'
     // you have a couple of methods in KUNAI::DEX one to return a dex unique_ptr

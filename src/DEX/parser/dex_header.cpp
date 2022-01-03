@@ -6,35 +6,67 @@ namespace KUNAI
     {
         DexHeader::DexHeader(std::ifstream &input_file, std::uint64_t file_size)
         {
+            auto logger = LOGGER::logger();
+            logger->debug("DexHeader start parsing");
+
             if (!KUNAI::read_data_file<DexHeader::dexheader_t>(this->dex_struct, sizeof(DexHeader::dex_struct), input_file))
                 throw exceptions::ParserReadingException("Error reading DEX Header");
 
             if (dex_struct.link_off > file_size)
+            {
+                logger->error("Error 'link_off' out of file bound ({} > {})", dex_struct.link_off, file_size);
                 throw exceptions::OutOfBoundException("Error 'link_off' out of file bound");
+            }
 
             if (dex_struct.map_off > file_size)
+            {
+                logger->error("Error 'map_off' out of file bound ({} > {})", dex_struct.map_off, file_size);
                 throw exceptions::OutOfBoundException("Error 'map_off' out of file bound");
+            }
 
             if (dex_struct.string_ids_off > file_size)
+            {
+                logger->error("Error 'string_ids_off' out of file bound ({} > {})", dex_struct.string_ids_off, file_size);
                 throw exceptions::OutOfBoundException("Error 'string_ids_off' out of file bound");
+            }
 
             if (dex_struct.type_ids_off > file_size)
+            {
+                logger->error("Error 'type_ids_off' out of file bound ({} > {})", dex_struct.type_ids_off, file_size);
                 throw exceptions::OutOfBoundException("Error 'type_ids_off' out of file bound");
+            }
 
             if (dex_struct.proto_ids_off > file_size)
+            {
+                logger->error("Error 'proto_ids_off' out of file bound ({} > {})", dex_struct.proto_ids_off, file_size);
                 throw exceptions::OutOfBoundException("Error 'proto_ids_off' out of file bound");
+            }
 
             if (dex_struct.field_ids_off > file_size)
+            {
+                logger->error("Error 'field_ids_off' out of file bound ({} > {})", dex_struct.field_ids_off, file_size);
                 throw exceptions::OutOfBoundException("Error 'field_ids_off' out of file bound");
+            }
 
             if (dex_struct.method_ids_off > file_size)
+            {
+                logger->error("Error 'method_ids_off' out of file bound ({} > {})", dex_struct.method_ids_off, file_size);
                 throw exceptions::OutOfBoundException("Error 'method_ids_off' out of file bound");
+            }
 
             if (dex_struct.class_defs_off > file_size)
+            {
+                logger->error("Error 'class_defs_off' out of file bound ({} > {})", dex_struct.class_defs_off, file_size);
                 throw exceptions::OutOfBoundException("Error 'class_defs_off' out of file bound");
+            }
 
             if (dex_struct.data_off > file_size)
+            {
+                logger->error("Error 'data_off' out of file bound ({} > {})", dex_struct.data_off, file_size);
                 throw exceptions::OutOfBoundException("Error 'data_off' out of file bound");
+            }
+
+            logger->info("DexHeader parsing correct");
         }
 
         std::ostream &operator<<(std::ostream &os, const DexHeader &entry)

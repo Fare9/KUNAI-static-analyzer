@@ -94,6 +94,8 @@ namespace KUNAI
 
         bool DexFields::parse_fields(std::ifstream &input_file)
         {
+            auto logger = LOGGER::logger();
+
             FieldID *field_id;
             auto current_offset = input_file.tellg();
             size_t i = 0;
@@ -103,29 +105,42 @@ namespace KUNAI
             // move to offset for analysis
             input_file.seekg(offset);
 
+            logger->debug("DexFields start parsing in offset {} and size {}", offset, number_of_fields);
+
             for (i = 0; i < number_of_fields; i++)
             {
                 if (!KUNAI::read_data_file<std::uint16_t>(class_idx, sizeof(std::uint16_t), input_file))
                     return false;
 
                 if (class_idx >= dex_types->get_number_of_types())
+                {
+                    logger->error("Error reading fields class_idx out of type bound ({} >= {}):", class_idx, dex_types->get_number_of_types());
                     throw exceptions::IncorrectTypeId("Error reading fields class_idx out of type bound");
+                }
 
                 if (!KUNAI::read_data_file<std::uint16_t>(type_idx, sizeof(std::uint16_t), input_file))
                     return false;
 
                 if (type_idx >= dex_types->get_number_of_types())
+                {
+                    logger->error("Error reading fields type_idx out of type bound ({} >= {})", type_idx, dex_types->get_number_of_types());
                     throw exceptions::IncorrectTypeId("Error reading fields type_idx out of type bound");
+                }
 
                 if (!KUNAI::read_data_file<std::uint32_t>(name_idx, sizeof(std::uint32_t), input_file))
                     return false;
 
                 if (name_idx >= dex_strings->get_number_of_strings())
+                {
+                    logger->error("Error reading fields name_idx out of string bound ({} >= {})", name_idx, dex_strings->get_number_of_strings());
                     throw exceptions::IncorrectStringId("Error reading fields name_idx out of string bound");
+                }
 
                 field_id = new FieldID(class_idx, type_idx, name_idx, dex_strings, dex_types);
 
                 field_ids.push_back(field_id);
+
+                logger->debug("parsed field_id number {}", i);
             }
 
             input_file.seekg(current_offset);

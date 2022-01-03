@@ -25,6 +25,8 @@ namespace KUNAI
                                        std::shared_ptr<DexStrings> dex_strings,
                                        std::shared_ptr<DexTypes> dex_types)
         {
+            auto logger = LOGGER::logger();
+
             auto current_offset = input_file.tellg();
             std::uint32_t size;
             std::uint16_t type_id;
@@ -39,6 +41,8 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint32_t>(size, sizeof(std::uint32_t), input_file))
                 return false;
+            
+            logger->debug("Reading ProtoID from offset {} and size {}", parameters_off, size);
 
             for (i = 0; i < size; i++)
             {
@@ -46,11 +50,16 @@ namespace KUNAI
                     return false;
 
                 if (type_id > dex_types->get_number_of_types())
+                {
+                    logger->error("Error reading ProtoID parameters type_id out of type bound ({} > {})", type_id, dex_types->get_number_of_types());
                     exceptions::IncorrectTypeId("Error reading ProtoID parameters type_id out of type bound");
-
+                }
+                
                 type = dex_types->get_type_from_order(type_id);
 
                 parameters.push_back(type);
+
+                logger->debug("Parsed type number {}", i);
             }
 
             input_file.seekg(current_offset);
@@ -110,6 +119,8 @@ namespace KUNAI
 
         bool DexProtos::parse_protos(std::ifstream &input_file, std::uint64_t file_size)
         {
+            auto logger = LOGGER::logger();
+
             ProtoID *proto_id;
             auto current_offset = input_file.tellg();
             size_t i = 0;
@@ -118,19 +129,27 @@ namespace KUNAI
             // set to current offset
             input_file.seekg(offset);
 
+            logger->debug("DexProtos start parsing in offset {} with size {}", offset, number_of_protos);
+
             for (i = 0; i < number_of_protos; i++)
             {
                 if (!KUNAI::read_data_file<std::uint32_t>(shorty_idx, sizeof(std::uint32_t), input_file))
                     return false;
 
                 if (shorty_idx >= dex_strings->get_number_of_strings())
+                {
+                    logger->error("Error reading protos short_idx out of string bound ({} >= {})", shorty_idx, dex_strings->get_number_of_strings());
                     throw exceptions::IncorrectStringId("Error reading protos short_idx out of string bound");
+                }
 
                 if (!KUNAI::read_data_file<std::uint32_t>(return_type_idx, sizeof(std::uint32_t), input_file))
                     return false;
 
                 if (return_type_idx >= dex_types->get_number_of_types())
+                {
+                    logger->error("Error reading protos return_type_idx out of type bound ({} >= {})", return_type_idx, dex_types->get_number_of_types());
                     throw exceptions::IncorrectTypeId("Error reading protos return_type_idx out of type bound");
+                }
 
                 if (!KUNAI::read_data_file<std::uint32_t>(parameters_off, sizeof(std::uint32_t), input_file))
                     return false;
@@ -138,10 +157,14 @@ namespace KUNAI
                 proto_id = new ProtoID(shorty_idx, return_type_idx, parameters_off, input_file, dex_strings, dex_types);
 
                 proto_ids.push_back(proto_id);
+
+                logger->debug("parsed proto id {}", i);
             }
 
             // set to previous offset
             input_file.seekg(current_offset);
+
+            logger->info("DexProtos parsing correct");
 
             return true;
         }
