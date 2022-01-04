@@ -32,10 +32,10 @@ namespace KUNAI
         {
             std::vector<std::shared_ptr<Instruction>> bb_instructions;
 
-            for (auto it = this->instructions.begin(); it != this->instructions.end(); it++)
+            for (auto instruction : instructions)
             {
-                if ((start <= it->first) && (it->first < end))
-                    bb_instructions.push_back(it->second);
+                if ((start <= instruction.first) && (instruction.first < end))
+                    bb_instructions.push_back(instruction.second);
             }
 
             return bb_instructions;
@@ -60,13 +60,13 @@ namespace KUNAI
                 childs.push_back({end - last_length, end, next_block});
             }
 
-            for (auto it = childs.begin(); it != childs.end(); it++)
+            for (auto child : childs)
             {
-                auto child_block = std::get<2>(*it);
+                auto child_block = std::get<2>(child);
                 if (child_block != nullptr)
                 {
-                    auto last_idx = std::get<1>(*it);
-                    auto end_idx = std::get<0>(*it);
+                    auto last_idx = std::get<1>(child);
+                    auto end_idx = std::get<0>(child);
                     child_block->set_parent({last_idx, end_idx, this});
                 }
             }
@@ -150,11 +150,11 @@ namespace KUNAI
 
         std::shared_ptr<DVMBasicBlock> BasicBlocks::get_basic_block_by_idx(std::uint64_t idx)
         {
-            for (auto it = this->basic_blocks.begin(); it != this->basic_blocks.end(); it++)
+            for (auto basic_block : basic_blocks)
             {
-                if ((it->get()->get_start() <= idx) && (idx < it->get()->get_end()))
+                if ((basic_block.get()->get_start() <= idx) && (idx < basic_block.get()->get_end()))
                 {
-                    return *it;
+                    return basic_block;
                 }
             }
 
