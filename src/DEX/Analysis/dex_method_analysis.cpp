@@ -148,6 +148,8 @@ namespace KUNAI
 
         void MethodAnalysis::create_basic_block()
         {
+            auto logger = LOGGER::logger();
+
             basic_blocks = std::make_shared<BasicBlocks>();
             std::shared_ptr<DVMBasicBlock> current_basic = std::make_shared<DVMBasicBlock>(0, dalvik_opcodes, basic_blocks, std::dynamic_pointer_cast<EncodedMethod>(method_encoded), instructions);
 
@@ -157,7 +159,8 @@ namespace KUNAI
             std::vector<std::int64_t> l;
             std::map<std::uint64_t, std::vector<std::int64_t>> h;
 
-            std::cout << "Parsing the instructions for method " << std::hex << std::dynamic_pointer_cast<EncodedMethod>(method_encoded)->full_name() << std::endl;
+            logger->debug("create_basic_block: creating basic blocks for method {}.", std::dynamic_pointer_cast<EncodedMethod>(method_encoded)->full_name());
+
             for (auto const &instruction : instructions)
             {
                 auto idx = std::get<0>(instruction);
@@ -172,7 +175,7 @@ namespace KUNAI
                 }
             }
 
-            std::cout << "Parsing the exceptions" << std::endl;
+            logger->debug("create_basic_block: parsing method exceptions.");
 
             auto excepts = determine_exception(dalvik_opcodes, std::dynamic_pointer_cast<EncodedMethod>(method_encoded));
 
@@ -186,7 +189,8 @@ namespace KUNAI
                 }
             }
 
-            std::cout << "Creating basic blocks" << std::endl;
+            logger->debug("create_basic_block: creating the basic blocks with references.");
+
             for (const auto &instruction : instructions)
             {
                 auto idx = std::get<0>(instruction);
@@ -215,14 +219,16 @@ namespace KUNAI
                 basic_blocks->pop_basic_block();
             }
 
-            std::cout << "Settings basic blocks childs" << std::endl;
+            logger->debug("create_basic_blocks: setting basic blocks childs.");
+            
             auto bbs = basic_blocks->get_basic_blocks();
             for (auto bb : bbs)
             {
                 bb->set_child(h[bb->get_end() - bb->get_last_length()]);
             }
 
-            std::cout << "Creating exceptions" << std::endl;
+            logger->debug("create_basic_blocks: creating exceptions.");
+            
             this->exceptions->add(excepts, this->basic_blocks);
 
             for (auto bb : bbs)

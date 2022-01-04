@@ -15,12 +15,16 @@ namespace KUNAI
 
         void Analysis::add(std::shared_ptr<DexParser> dex_parser)
         {
+            auto logger = LOGGER::logger();
+
             // first of all add it to vector
             this->dex_parsers.push_back(dex_parser);
 
             auto class_dex = dex_parser->get_classes();
 
-            for (size_t i = 0; i < class_dex->get_number_of_classes(); i++)
+            logger->debug("Adding to the analysis {} number of classes", class_dex->get_number_of_classes());
+
+            for (size_t i = 0, n_of_classes = static_cast<size_t>(class_dex->get_number_of_classes()); i < n_of_classes; i++)
             {
                 auto class_def_item = class_dex->get_class_by_pos(i);
 
@@ -36,8 +40,10 @@ namespace KUNAI
                 if (class_data_item == nullptr)
                     continue;
 
+                logger->debug("Adding to the class {} direct methods", class_data_item->get_number_of_direct_methods());
+
                 // add the direct methods
-                for (size_t j = 0; j < class_data_item->get_number_of_direct_methods(); j++)
+                for (size_t j = 0, n_of_methods = static_cast<size_t>(class_data_item->get_number_of_direct_methods()); j < n_of_methods; j++)
                 {
                     auto encoded_method = class_data_item->get_direct_method_by_pos(j);
 
@@ -49,8 +55,10 @@ namespace KUNAI
                     method_hashes[{class_def_item->get_class_idx()->get_name(), *encoded_method->get_method()->get_method_name(), encoded_method->get_method()->get_method_prototype()->get_proto_str()}] = new_method;
                 }
 
+                logger->debug("Adding to the class {} virtual methods", static_cast<size_t>(class_data_item->get_number_of_virtual_methods()));
+
                 // add the virtual methods
-                for (size_t j = 0; j < class_data_item->get_number_of_virtual_methods(); j++)
+                for (size_t j = 0, n_of_methods = static_cast<size_t>(class_data_item->get_number_of_virtual_methods()); j < n_of_methods; j++)
                 {
                     auto encoded_method = class_data_item->get_virtual_method_by_pos(j);
 
@@ -62,22 +70,28 @@ namespace KUNAI
                     method_hashes[{class_def_item->get_class_idx()->get_name(), *encoded_method->get_method()->get_method_name(), encoded_method->get_method()->get_method_prototype()->get_proto_str()}] = new_method;
                 }
             }
+
+            logger->info("Analysis: correctly added parser to analysis object");
         }
 
         void Analysis::create_xref()
         {
+            auto logger = LOGGER::logger();
+
             if (created_xrefs)
             {
-                std::cerr << "Requested create_xref() method more than once" << std::endl;
-                std::cerr << "This will not work again, function will exit right now" << std::endl;
-                std::cerr << "Please if you want to analze various dex parsers, add all of them first, then call this function." << std::endl;
+                logger->info("Requested create_xref() method more than once.");
+                logger->info("create_xref() will not work again, function will exit right now.");
+                logger->info("Please if you want to analze various dex parsers, add all of them first, then call this function.");
 
                 return;
             }
 
             created_xrefs = true;
 
-            for (size_t i = 0; i < dex_parsers.size(); i++)
+            logger->debug("create_xref(): creating xrefs for {} dex files", dex_parsers.size());
+
+            for (size_t i = 0, n_dex_parsers = dex_parsers.size(); i < n_dex_parsers; i++)
             {
                 auto dex_parser = dex_parsers[i];
 
@@ -90,6 +104,8 @@ namespace KUNAI
                     _create_xref(class_def_item);
                 }
             }
+
+            logger->info("cross-references correctly created");
         }
 
         bool Analysis::is_class_present(std::string class_name)
@@ -108,9 +124,9 @@ namespace KUNAI
         {
             std::vector<std::shared_ptr<ClassAnalysis>> classes_vector;
 
-            for (auto it = classes.begin(); it != classes.end(); it++)
+            for (auto class_ : classes)
             {
-                classes_vector.push_back(it->second);
+                classes_vector.push_back(class_.second);
             }
 
             return classes_vector;
@@ -120,10 +136,10 @@ namespace KUNAI
         {
             std::vector<std::shared_ptr<ClassAnalysis>> external_classes;
 
-            for (auto it = classes.begin(); it != classes.end(); it++)
+            for (auto class_ : classes)
             {
-                if (it->second->is_class_external())
-                    external_classes.push_back(it->second);
+                if (class_.second->is_class_external())
+                    external_classes.push_back(class_.second);
             }
 
             return external_classes;
@@ -133,10 +149,10 @@ namespace KUNAI
         {
             std::vector<std::shared_ptr<ClassAnalysis>> internal_classes;
 
-            for (auto it = classes.begin(); it != classes.end(); it++)
+            for (auto class_ : classes)
             {
-                if (!it->second->is_class_external())
-                    internal_classes.push_back(it->second);
+                if (!class_.second->is_class_external())
+                    internal_classes.push_back(class_.second);
             }
 
             return internal_classes;

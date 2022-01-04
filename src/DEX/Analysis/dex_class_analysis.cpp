@@ -34,7 +34,7 @@ namespace KUNAI
 
             auto class_def = std::dynamic_pointer_cast<ClassDef>(this->class_def);
 
-            for (size_t i = 0; class_def->get_number_of_interfaces(); i++)
+            for (size_t i = 0, n_of_interfaces = class_def->get_number_of_interfaces(); i < n_of_interfaces ; i++)
                 implemented_interfaces.push_back(class_def->get_interface_by_pos(i));
 
             return implemented_interfaces;
@@ -71,9 +71,9 @@ namespace KUNAI
 
             std::string class_name = this->name();
 
-            for (auto it = known_apis.begin(); it != known_apis.end(); it++)
+            for (auto known_api : known_apis)
             {
-                if (class_name.find(*it) == 0)
+                if (class_name.find(known_api) == 0)
                     return true;
             }
 
