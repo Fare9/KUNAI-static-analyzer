@@ -35,6 +35,7 @@
 
 # files from test
 apks/
+*.log
 
 # objects and bins
 objs/
