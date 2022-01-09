@@ -6,8 +6,8 @@ namespace KUNAI
     {
 
         Analysis::Analysis(std::shared_ptr<DexParser> dex_parser, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>, std::map<std::uint64_t, std::shared_ptr<Instruction>>> instructions) : created_xrefs(false),
-                                                                                                                                                                                                                                                                         dalvik_opcodes(dalvik_opcodes),
-                                                                                                                                                                                                                                                                         instructions(instructions)
+                                                                                                                                                                                                                                                                        dalvik_opcodes(dalvik_opcodes),
+                                                                                                                                                                                                                                                                        instructions(instructions)
         {
             if (dex_parser)
                 this->add(dex_parser);
@@ -195,8 +195,8 @@ namespace KUNAI
         {
             std::vector<std::shared_ptr<MethodAnalysis>> methods;
 
-            for (auto it = method_hashes.begin(); it != method_hashes.end(); it++)
-                methods.push_back(it->second);
+            for (auto hash : method_hashes)
+                methods.push_back(hash.second);
 
             return methods;
         }
@@ -215,9 +215,9 @@ namespace KUNAI
         {
             std::vector<std::shared_ptr<FieldAnalysis>> fields;
 
-            for (auto it = classes.begin(); it != classes.end(); it++)
+            for (auto c : classes)
             {
-                auto aux = it->second->get_fields();
+                auto aux = c.second->get_fields();
 
                 fields.insert(std::end(fields), std::begin(aux), std::end(aux));
             }
@@ -229,9 +229,9 @@ namespace KUNAI
         {
             std::vector<std::shared_ptr<StringAnalysis>> str_vector;
 
-            for (auto it = strings.begin(); it != strings.end(); it++)
+            for (auto s : strings)
             {
-                str_vector.push_back(it->second);
+                str_vector.push_back(s.second);
             }
 
             return str_vector;
@@ -242,12 +242,12 @@ namespace KUNAI
             std::vector<std::shared_ptr<ClassAnalysis>> classes_vector;
             std::regex class_name_regex(name);
 
-            for (auto it = classes.begin(); it != classes.end(); it++)
+            for (auto c : classes)
             {
-                if (no_external && (it->second->is_class_external()))
+                if (no_external && (c.second->is_class_external()))
                     continue;
-                if (std::regex_search(it->second->name(), class_name_regex))
-                    classes_vector.push_back(it->second);
+                if (std::regex_search(c.second->name(), class_name_regex))
+                    classes_vector.push_back(c.second);
             }
 
             return classes_vector;
@@ -266,21 +266,21 @@ namespace KUNAI
                 descriptor_regex(descriptor),
                 accessflags_regex(accessflags);
 
-            for (auto c = classes.begin(); c != classes.end(); c++)
+            for (auto c : classes)
             {
-                if (std::regex_search(c->second->name(), class_name_regex))
+                if (std::regex_search(c.second->name(), class_name_regex))
                 {
-                    auto methods = c->second->get_methods();
+                    auto methods = c.second->get_methods();
 
-                    for (auto m = methods.begin(); m != methods.end(); m++)
+                    for (auto m : methods)
                     {
-                        if (no_external && (*m)->external())
+                        if (no_external && m->external())
                             continue;
 
-                        if (std::regex_search((*m)->name(), method_name_regex) &&
-                            std::regex_search((*m)->descriptor(), descriptor_regex) &&
-                            std::regex_search((*m)->access(), accessflags_regex))
-                            methods_vector.push_back(*m);
+                        if (std::regex_search(m->name(), method_name_regex) &&
+                            std::regex_search(m->descriptor(), descriptor_regex) &&
+                            std::regex_search(m->access(), accessflags_regex))
+                            methods_vector.push_back(m);
                     }
                 }
             }
@@ -314,18 +314,18 @@ namespace KUNAI
 
             std::vector<std::shared_ptr<FieldAnalysis>> fields_list;
 
-            for (auto c = classes.begin(); c != classes.end(); c++)
+            for (auto c : classes)
             {
-                if (std::regex_search(c->second->name(), class_name_regex))
+                if (std::regex_search(c.second->name(), class_name_regex))
                 {
-                    auto fields = c->second->get_fields();
-                    for (auto f = fields.begin(); f != fields.end(); f++)
+                    auto fields = c.second->get_fields();
+                    for (auto f : fields)
                     {
-                        if (std::regex_search((*f)->name(), field_name_regex) &&
-                            std::regex_search((*f)->get_field()->get_field()->get_type_idx()->get_raw(), field_type_regex) &&
-                            std::regex_search(dalvik_opcodes->get_access_flags_string((*f)->get_field()->get_access_flags()), accessflags_regex))
+                        if (std::regex_search(f->name(), field_name_regex) &&
+                            std::regex_search(f->get_field()->get_field()->get_type_idx()->get_raw(), field_type_regex) &&
+                            std::regex_search(dalvik_opcodes->get_access_flags_string(f->get_field()->get_access_flags()), accessflags_regex))
                         {
-                            fields_list.push_back(*f);
+                            fields_list.push_back(f);
                         }
                     }
                 }
