@@ -49,7 +49,7 @@ namespace KUNAI
             }
             case DVMTypes::VALUE_ANNOTATION:
             {
-                // ToDo
+                annotation = std::make_shared<EncodedAnnotation>(input_file);
                 break;
             }
             case DVMTypes::VALUE_NULL:
@@ -167,24 +167,19 @@ namespace KUNAI
 
             encoded_type_pair_size = KUNAI::read_sleb128(input_file);
 
+            for (size_t i = 0; i < std::abs(encoded_type_pair_size); i++)
+            {
+                type_idx = KUNAI::read_uleb128(input_file);
+
+                addr = KUNAI::read_uleb128(input_file);
+
+                encoded_type_pair = std::make_shared<EncodedTypePair>(type_idx, addr, dex_types);
+                handlers.push_back(encoded_type_pair);
+            }
+
             if (encoded_type_pair_size <= 0)
             {
                 catch_all_addr = KUNAI::read_uleb128(input_file);
-            }
-            else
-            {
-                for (size_t i = 0; i < static_cast<std::uint64_t>(encoded_type_pair_size); i++)
-                {
-                    type_idx = KUNAI::read_uleb128(input_file);
-
-                    addr = KUNAI::read_uleb128(input_file);
-
-                    if (addr > file_size)
-                        throw exceptions::OutOfBoundException("Error reading EncodedTypePair addr out of file bound");
-
-                    encoded_type_pair = std::make_shared<EncodedTypePair>(type_idx, addr, dex_types);
-                    handlers.push_back(encoded_type_pair);
-                }
             }
 
             return true;
@@ -341,6 +336,38 @@ namespace KUNAI
 
             input_file.seekg(current_offset);
             return true;
+        }
+
+        /**
+         * AnnotationElement
+         */
+        AnnotationElement::AnnotationElement(std::ifstream& input_file)
+        {
+            name_idx = read_uleb128(input_file);
+            value = std::make_shared<EncodedValue>(input_file);
+        }
+        
+        /**
+         * EncodedAnnotation
+         */
+        EncodedAnnotation::EncodedAnnotation(std::ifstream& input_file)
+        {
+            type_idx = read_uleb128(input_file);
+            size = read_uleb128(input_file);
+
+            std::shared_ptr<AnnotationElement> annotation_element;
+
+            for (size_t i = 0; i < size; i++)
+            {
+                annotation_element = std::make_shared<AnnotationElement>(input_file);
+                elements.push_back(annotation_element);    
+            }
+        }
+
+        EncodedAnnotation::~EncodedAnnotation()
+        {
+            if (!elements.empty())
+                elements.clear();
         }
     }
 }

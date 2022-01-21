@@ -14,26 +14,36 @@ namespace KUNAI
 
         void DexDisassembler::disassembly_analysis()
         {
+            auto logger = LOGGER::logger();
+
             if (!parsing_correct)
-                std::cerr << "[-] DEX was not correctly parsed, cannot disassembly it" << std::endl;
+            {
+                logger->info("Incorrect parsing of dex header, not possible to disassembly methods.");
+                return;
+            }
 
             try
             {
                 this->disassembly_methods();
                 this->disassembly_correct = true;
+                logger->info("DexDisassembler disassembly of methods was correct.");
             }
             catch (const std::exception &e)
             {
-                std::cerr << "[-] Disassembly error: " << e.what() << '\n';
+                logger->info("DexDisassembler, error in disassembly = '{}'", e.what());
                 this->disassembly_correct = false;
             }
         }
 
         void DexDisassembler::disassembly_methods()
         {
+            auto logger = LOGGER::logger();
+
             auto dex_classes = dex_parser->get_classes();
 
-            for (size_t i = 0; i < dex_classes->get_number_of_classes(); i++)
+            logger->debug("DexDisassembler disassembly a total of {} DEX classes", dex_classes->get_number_of_classes());
+
+            for (size_t i = 0, n_of_classes = static_cast<size_t>(dex_classes->get_number_of_classes()); i < n_of_classes; i++)
             {
                 // get class def
                 auto class_def = dex_classes->get_class_by_pos(i);
@@ -47,9 +57,11 @@ namespace KUNAI
                 if (class_data_item == nullptr)
                     continue;
 
+                logger->debug("For class number {}, disassembly a total of {} DEX direct methods", i, class_data_item->get_number_of_direct_methods());
+
                 // now get direct method
                 // for each one we will start the disassembly.
-                for (size_t j = 0; j < class_data_item->get_number_of_direct_methods(); j++)
+                for (size_t j = 0, n_of_methods = static_cast<size_t>(class_data_item->get_number_of_direct_methods()); j < n_of_methods; j++)
                 {
                     auto direct_method = class_data_item->get_direct_method_by_pos(j);
 
@@ -75,7 +87,9 @@ namespace KUNAI
                     this->method_instructions[{class_def, direct_method}] = instructions;
                 }
 
-                for (size_t j = 0; j < class_data_item->get_number_of_virtual_methods(); j++)
+                logger->debug("For class number {}, disassembly a total of {} DEX virtual methods", i, class_data_item->get_number_of_virtual_methods());
+
+                for (size_t j = 0, n_of_methods = static_cast<size_t>(class_data_item->get_number_of_virtual_methods()); j < n_of_methods; j++)
                 {
                     auto virtual_method = class_data_item->get_virtual_method_by_pos(j);
 
@@ -103,10 +117,18 @@ namespace KUNAI
 
         std::ostream &operator<<(std::ostream &os, const DexDisassembler &entry)
         {
+            auto logger = LOGGER::logger();
+
             for (auto it = entry.method_instructions.begin(); it != entry.method_instructions.end(); it++)
             {
                 auto class_def = std::get<0>(it->first);
                 auto direct_method = std::get<1>(it->first);
+
+                if (!class_def || !direct_method || !class_def->get_class_idx() || !direct_method->get_method() || !direct_method->get_method()->get_method_name())
+                {
+                    logger->warn("Error class_def object, or direct_method object are null or one of their fields is null, going to next one");
+                    continue;
+                }
 
                 os << "Disassembly of method " << class_def->get_class_idx()->get_raw() << "->" << *direct_method->get_method()->get_method_name() << std::endl;
 

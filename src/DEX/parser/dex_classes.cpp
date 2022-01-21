@@ -233,6 +233,7 @@ namespace KUNAI
             this->annotations_off = class_def.annotations_off;
             this->classess_off = class_def.class_data_off;
             this->static_values_off = class_def.static_values_off;
+
             if (!parse_class_defs(input_file, file_size, dex_str, dex_types, dex_fields, dex_methods))
                 throw exceptions::ParserReadingException("Error reading DEX ClassDef");
         }
@@ -244,10 +245,14 @@ namespace KUNAI
                                         std::shared_ptr<DexFields> dex_fields,
                                         std::shared_ptr<DexMethods> dex_methods)
         {
+            auto logger = LOGGER::logger();
+
             auto current_offset = input_file.tellg();
             size_t i;
             std::uint32_t size;
             std::uint16_t interface;
+
+            logger->debug("ClassDef parsing values from class");
 
             // parse first the interfaces
             if (interfaces_off > 0)
@@ -256,6 +261,8 @@ namespace KUNAI
 
                 if (!KUNAI::read_data_file<std::uint32_t>(size, sizeof(std::uint32_t), input_file))
                     return false;
+
+                logger->debug("Parsing interfaces with offset {} and size {}", interfaces_off, size);
 
                 for (i = 0; i < size; i++)
                 {
@@ -274,6 +281,8 @@ namespace KUNAI
             {
                 input_file.seekg(annotations_off);
 
+                logger->debug("Parsing AnnotationsDirectoryItem in offset {}", annotations_off);
+
                 annotation_directory_item = std::make_shared<AnnotationsDirectoryItem>(input_file);
             }
 
@@ -282,16 +291,20 @@ namespace KUNAI
             {
                 input_file.seekg(classess_off);
 
+                logger->debug("Parsing ClassDataItem in offset {}", classess_off);
+
                 class_data_items = std::make_shared<ClassDataItem>(input_file, file_size, dex_fields, dex_methods, dex_types);
             }
 
+            /**
             if (static_values_off > 0)
             {
                 input_file.seekg(static_values_off);
 
                 static_values = std::make_shared<EncodedArrayItem>(input_file);
             }
-
+            */
+           
             input_file.seekg(current_offset);
             return true;
         }
@@ -356,6 +369,8 @@ namespace KUNAI
 
         bool DexClasses::parse_classes(std::ifstream &input_file, std::uint64_t file_size)
         {
+            auto logger = LOGGER::logger();
+
             auto current_offset = input_file.tellg();
             size_t i;
             ClassDef::classdef_t class_def_struct;
@@ -363,40 +378,71 @@ namespace KUNAI
 
             input_file.seekg(offset);
 
+            logger->debug("DexClasses start parsing at offset {} and size {}", offset, number_of_classes);
+
             for (i = 0; i < number_of_classes; i++)
-            {
+            {                
                 if (!KUNAI::read_data_file<ClassDef::classdef_t>(class_def_struct, sizeof(ClassDef::classdef_t), input_file))
                     return false;
 
                 if (class_def_struct.class_idx >= dex_types->get_number_of_types())
+                {
+                    logger->error("Error reading DEX classes class_idx out of type bound ({} >= {})", class_def_struct.class_idx, dex_types->get_number_of_types());
                     throw exceptions::IncorrectTypeId("Error reading DEX classes class_idx out of type bound");
+                }
 
                 if (class_def_struct.access_flags > DVMTypes::ACC_DECLARED_SYNCHRONIZED)
+                {
+                    logger->error("Error reading DEX classes access_flags incorrect value ({})", class_def_struct.access_flags);
                     throw exceptions::IncorrectValue("Error reading DEX classes access_flags incorrect value");
+                }
 
                 if ((class_def_struct.superclass_idx != DVMTypes::NO_INDEX) && (class_def_struct.superclass_idx >= dex_types->get_number_of_types()))
+                {
+                    logger->error("Error reading DEX classes superclass_idx out of type bound ({} >= {})", class_def_struct.superclass_idx, dex_types->get_number_of_types());
                     throw exceptions::IncorrectTypeId("Error reading DEX classes superclass_idx out of type bound");
+                }
 
                 if (class_def_struct.interfaces_off > file_size)
+                {
+                    logger->error("Error reading DEX classes interfaces_off out of file bound ({} > {})", class_def_struct.interfaces_off, file_size);
                     throw exceptions::OutOfBoundException("Error reading DEX classes interfaces_off out of file bound");
+                }
 
                 if ((class_def_struct.source_file_idx != DVMTypes::NO_INDEX) && (class_def_struct.source_file_idx >= dex_str->get_number_of_strings()))
+                {
+                    logger->error("Error reading DEX classes source_file_idx out of string bound ({} >= {})", class_def_struct.source_file_idx, dex_str->get_number_of_strings());
                     throw exceptions::IncorrectStringId("Error reading DEX classes source_file_idx out of string bound");
+                }
 
                 if (class_def_struct.annotations_off > file_size)
+                {
+                    logger->error("Error reading DEX classes annotations_off out of file bound ({} > {})", class_def_struct.annotations_off, file_size);
                     throw exceptions::OutOfBoundException("Error reading DEX classes annotations_off out of file bound");
+                }
 
                 if (class_def_struct.class_data_off > file_size)
+                {
+                    logger->error("Error reading DEX classes class_data_off out of file bound ({} > {})", class_def_struct.class_data_off, file_size);
                     throw exceptions::OutOfBoundException("Error reading DEX classes class_data_off out of file bound");
+                }
 
                 if (class_def_struct.static_values_off > file_size)
+                {
+                    logger->error("Error reading DEX classes static_values_off out of file bound ({} > {})", class_def_struct.static_values_off, file_size);
                     throw exceptions::OutOfBoundException("Error reading DEX classes static_values_off out of file bound");
+                }
 
                 class_def = std::make_shared<ClassDef>(class_def_struct, dex_str, dex_types, dex_fields, dex_methods, input_file, file_size);
                 class_defs.push_back(class_def);
+
+                logger->debug("parsed class_def number {}", i);
             }
 
             input_file.seekg(current_offset);
+
+            logger->info("DexClasses parsing correct");
+
             return true;
         }
 
@@ -409,7 +455,8 @@ namespace KUNAI
             for (auto class_def : entry.class_defs)
             {
                 os << "Class (" << i++ << "):" << std::endl;
-                os << "\tClass idx: " << class_def->get_class_idx()->get_name() << std::endl;
+                if (class_def->get_class_idx())
+                    os << "\tClass idx: " << class_def->get_class_idx()->get_name() << std::endl;
                 os << "\tAccess Flags: " << class_def->get_access_flags() << std::endl;
                 if (class_def->get_superclass_idx())
                     os << "\tSuperclass: " << class_def->get_superclass_idx()->get_name() << std::endl;

@@ -10,6 +10,10 @@ namespace KUNAI
 
         void DexParser::parse_dex_file(std::ifstream &input_file, std::uint64_t file_size)
         {
+            auto logger = LOGGER::logger();
+
+            logger->info("DexParser start parsing dex file with a size of {} bytes", file_size);
+
             std::uint8_t header[8];
 
             if (file_size < sizeof(DexHeader::dexheader_t))
@@ -28,6 +32,10 @@ namespace KUNAI
 
             input_file.seekg(0);
 
+            logger->debug("Checks correct");
+
+            logger->info("Starting DEX headers parsing");
+
             dex_header = std::make_shared<DexHeader>(input_file, file_size);
             dex_strings = std::make_shared<DexStrings>(input_file, file_size, dex_header->get_dex_header().string_ids_size, dex_header->get_dex_header().string_ids_off);
             dex_types = std::make_shared<DexTypes>(input_file, dex_header->get_dex_header().type_ids_size, dex_header->get_dex_header().type_ids_off, dex_strings);
@@ -35,6 +43,8 @@ namespace KUNAI
             dex_fields = std::make_shared<DexFields>(input_file, dex_header->get_dex_header().field_ids_size, dex_header->get_dex_header().field_ids_off, dex_strings, dex_types);
             dex_methods = std::make_shared<DexMethods>(input_file, dex_header->get_dex_header().method_ids_size, dex_header->get_dex_header().method_ids_off, dex_strings, dex_types, dex_protos);
             dex_classes = std::make_shared<DexClasses>(input_file, file_size, dex_header->get_dex_header().class_defs_size, dex_header->get_dex_header().class_defs_off, dex_strings, dex_types, dex_fields, dex_methods);
+        
+            logger->info("Finished DEX headers parsing");
         }
 
         std::uint32_t DexParser::get_header_version()

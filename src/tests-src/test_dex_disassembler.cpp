@@ -28,6 +28,9 @@ main(int argc, char**argv)
     fsize = dex_file.tellg() - fsize;
     dex_file.seekg(0);
 
+    // Set the logging level in spdlog, we set to debug
+    spdlog::set_level(spdlog::level::debug);
+
     // get a unique_ptr from a DEX object.
     // this will parse the DEX file, and nothing more.
     auto dex = KUNAI::DEX::get_unique_dex_object(dex_file, fsize);

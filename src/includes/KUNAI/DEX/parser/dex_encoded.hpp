@@ -25,7 +25,8 @@ namespace KUNAI
 {
     namespace DEX
     {
-
+        class EncodedAnnotation;
+        
         class EncodedValue
         {
         public:
@@ -42,9 +43,15 @@ namespace KUNAI
                 return array;
             }
 
+            std::shared_ptr<EncodedAnnotation> get_annotation()
+            {
+                return annotation;
+            }
+
         private:
             std::vector<std::uint8_t> values;
             std::vector<std::shared_ptr<EncodedValue>> array;
+            std::shared_ptr<EncodedAnnotation> annotation;
         };
 
         class EncodedArray
@@ -314,6 +321,51 @@ namespace KUNAI
             std::shared_ptr<CodeItemStruct> code_item;
         };
 
+        class AnnotationElement
+        {
+        public:
+            AnnotationElement(std::ifstream& input_file);
+            ~AnnotationElement() = default;
+
+            std::uint64_t get_name_idx()
+            {
+                return name_idx;
+            }
+
+            std::shared_ptr<EncodedValue> get_value()
+            {
+                return value;
+            }
+        private:
+            std::uint64_t name_idx;
+            std::shared_ptr<EncodedValue> value;
+        };
+
+        class EncodedAnnotation
+        {
+        public:
+            EncodedAnnotation(std::ifstream& input_file);
+            ~EncodedAnnotation();
+
+            std::uint64_t get_type_idx()
+            {
+                return type_idx;
+            }
+
+            std::uint64_t get_number_of_elements()
+            {
+                return size;
+            }
+
+            const std::vector<std::shared_ptr<AnnotationElement>>& get_elements() const
+            {
+                return elements;
+            }
+        private:
+            std::uint64_t type_idx;
+            std::uint64_t size;
+            std::vector<std::shared_ptr<AnnotationElement>> elements;
+        };
     }
 }
 

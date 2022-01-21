@@ -132,6 +132,8 @@ namespace KUNAI
 
         Type *DexTypes::parse_type(std::string name)
         {
+            auto logger = LOGGER::logger();
+
             Type *type;
             if (name.length() == 1)
             {
@@ -172,6 +174,8 @@ namespace KUNAI
 
         bool DexTypes::parse_types(std::ifstream &input_file)
         {
+            auto logger = LOGGER::logger();
+
             auto current_offset = input_file.tellg();
             size_t i;
             std::uint32_t type_id;
@@ -180,20 +184,30 @@ namespace KUNAI
             // move to offset where are the string ids
             input_file.seekg(offset);
 
+            logger->debug("DexTypes start parsing types in offset {} with size {}", offset, number_of_types);
+
             for (i = 0; i < number_of_types; i++)
             {
                 if (!KUNAI::read_data_file<std::uint32_t>(type_id, sizeof(std::uint32_t), input_file))
                     return false;
 
                 if (type_id >= dex_str->get_number_of_strings())
+                {
+                    logger->error("Error reading types type_id out of string bound ({} >= {})", type_id, dex_str->get_number_of_strings());
                     throw exceptions::IncorrectStringId("Error reading types type_id out of string bound");
+                }
 
                 type = this->parse_type(*dex_str->get_string_from_order(type_id));
 
                 types.insert(std::pair<std::uint32_t, Type *>(type_id, type));
+
+                logger->debug("parsed type number {}", i);
             }
 
             input_file.seekg(current_offset);
+
+            logger->info("DexTypes parsing correct");
+
             return true;
         }
 

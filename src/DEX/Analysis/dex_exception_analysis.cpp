@@ -56,12 +56,12 @@ namespace KUNAI
 
         std::shared_ptr<ExceptionAnalysis> Exception::get_exception(std::uint64_t start_addr, std::uint64_t end_addr)
         {
-            for (auto it = exceptions.begin(); it != exceptions.end(); it++)
+            for (auto exception : exceptions)
             {
-                if (((*it)->get().try_value_start_addr >= start_addr) && ((*it)->get().try_value_end_addr <= end_addr))
-                    return *it;
-                else if ((end_addr <= (*it)->get().try_value_end_addr) && (start_addr >= (*it)->get().try_value_start_addr))
-                    return *it;
+                if (((*exception).get().try_value_start_addr >= start_addr) && ((*exception).get().try_value_end_addr <= end_addr))
+                    return exception;
+                else if ((end_addr <= (*exception).get().try_value_end_addr) && (start_addr >= (*exception).get().try_value_start_addr))
+                    return exception;
             }
 
             return nullptr;
