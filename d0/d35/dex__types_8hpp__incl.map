@@ -1,14 +1,14 @@
 <map id="src/includes/KUNAI/DEX/parser/dex_types.hpp" name="src/includes/KUNAI/DEX/parser/dex_types.hpp">
-<area shape="rect" id="node1" title="Serie of types which points to string values." alt="" coords="2236,5,2415,47"/>
+<area shape="rect" id="node1" title="Serie of types which points to string values." alt="" coords="2685,5,2864,47"/>
 <area shape="rect" id="node2" title=" " alt="" coords="1181,333,1253,360"/>
-<area shape="rect" id="node3" title=" " alt="" coords="2199,169,2265,196"/>
-<area shape="rect" id="node4" title=" " alt="" coords="2433,169,2500,196"/>
-<area shape="rect" id="node5" title=" " alt="" coords="2524,169,2583,196"/>
-<area shape="rect" id="node6" title=" " alt="" coords="2607,169,2654,196"/>
-<area shape="rect" id="node7" title=" " alt="" coords="2558,95,2626,121"/>
+<area shape="rect" id="node3" title=" " alt="" coords="2553,169,2620,196"/>
+<area shape="rect" id="node4" title=" " alt="" coords="2884,169,2951,196"/>
+<area shape="rect" id="node5" title=" " alt="" coords="2975,169,3033,196"/>
+<area shape="rect" id="node6" title=" " alt="" coords="3058,169,3105,196"/>
+<area shape="rect" id="node7" title=" " alt="" coords="3007,95,3075,121"/>
 <area shape="rect" id="node8" href="$da/d49/exceptions_8hpp_source.html" title=" " alt="" coords="1273,169,1381,196"/>
-<area shape="rect" id="node20" href="$df/d93/utils_8hpp_source.html" title=" " alt="" coords="2103,169,2174,196"/>
-<area shape="rect" id="node21" href="$d0/db1/dex__strings_8hpp.html" title="DEX file strings, these are the offsets in the file, we will store the strings too." alt="" coords="2269,95,2381,121"/>
+<area shape="rect" id="node20" href="$df/d93/utils_8hpp_source.html" title=" " alt="" coords="2645,169,2715,196"/>
+<area shape="rect" id="node24" href="$d0/db1/dex__strings_8hpp.html" title="DEX file strings, these are the offsets in the file, we will store the strings too." alt="" coords="2719,95,2831,121"/>
 <area shape="rect" id="node9" href="$d5/d81/parserreading__exception_8hpp_source.html" title=" " alt="" coords="380,251,567,278"/>
 <area shape="rect" id="node10" href="$dc/d37/outofbound__exception_8hpp_source.html" title=" " alt="" coords="591,251,763,278"/>
 <area shape="rect" id="node11" href="$d3/d1c/incorrectstringid__exception_8hpp_source.html" title=" " alt="" coords="788,251,988,278"/>
@@ -20,5 +20,8 @@
 <area shape="rect" id="node17" href="$dc/d3f/incorrectdexfile__exception_8hpp_source.html" title=" " alt="" coords="2113,251,2308,278"/>
 <area shape="rect" id="node18" href="$da/dc0/invalidinstruction__exception_8hpp_source.html" title=" " alt="" coords="27,244,146,285"/>
 <area shape="rect" id="node19" href="$d1/df9/disassembler__exception_8hpp_source.html" title=" " alt="" coords="170,251,355,278"/>
-<area shape="rect" id="node22" title=" " alt="" coords="2289,169,2359,196"/>
+<area shape="rect" id="node21" title=" " alt="" coords="2332,251,2444,278"/>
+<area shape="rect" id="node22" title=" " alt="" coords="2468,244,2599,285"/>
+<area shape="rect" id="node23" title=" " alt="" coords="2623,244,2758,285"/>
+<area shape="rect" id="node25" title=" " alt="" coords="2740,169,2809,196"/>
 </map>
