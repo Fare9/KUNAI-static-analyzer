@@ -159,8 +159,10 @@ namespace KUNAI
             std::vector<std::int64_t> l;
             std::map<std::uint64_t, std::vector<std::int64_t>> h;
 
+            #ifdef DEBUG
             logger->debug("create_basic_block: creating basic blocks for method {}.", std::dynamic_pointer_cast<EncodedMethod>(method_encoded)->full_name());
-
+            #endif
+            
             for (auto const &instruction : instructions)
             {
                 auto idx = std::get<0>(instruction);
@@ -175,7 +177,9 @@ namespace KUNAI
                 }
             }
 
+            #ifdef DEBUG
             logger->debug("create_basic_block: parsing method exceptions.");
+            #endif
 
             auto excepts = determine_exception(dalvik_opcodes, std::dynamic_pointer_cast<EncodedMethod>(method_encoded));
 
@@ -189,7 +193,9 @@ namespace KUNAI
                 }
             }
 
+            #ifdef DEBUG
             logger->debug("create_basic_block: creating the basic blocks with references.");
+            #endif
 
             for (const auto &instruction : instructions)
             {
@@ -219,15 +225,19 @@ namespace KUNAI
                 basic_blocks->pop_basic_block();
             }
 
+            #ifdef DEBUG
             logger->debug("create_basic_blocks: setting basic blocks childs.");
-            
+            #endif
+
             auto bbs = basic_blocks->get_basic_blocks();
             for (auto bb : bbs)
             {
                 bb->set_child(h[bb->get_end() - bb->get_last_length()]);
             }
 
+            #ifdef DEBUG
             logger->debug("create_basic_blocks: creating exceptions.");
+            #endif
             
             this->exceptions->add(excepts, this->basic_blocks);
 

@@ -184,7 +184,9 @@ namespace KUNAI
             // move to offset where are the string ids
             input_file.seekg(offset);
 
+            #ifdef DEBUG
             logger->debug("DexTypes start parsing types in offset {} with size {}", offset, number_of_types);
+            #endif
 
             for (i = 0; i < number_of_types; i++)
             {
@@ -201,7 +203,9 @@ namespace KUNAI
 
                 types.insert(std::pair<std::uint32_t, Type *>(type_id, type));
 
+                #ifdef DEBUG
                 logger->debug("parsed type number {}", i);
+                #endif
             }
 
             input_file.seekg(current_offset);

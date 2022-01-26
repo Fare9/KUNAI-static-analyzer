@@ -41,7 +41,9 @@ namespace KUNAI
 
             auto dex_classes = dex_parser->get_classes();
 
+            #ifdef DEBUG
             logger->debug("DexDisassembler disassembly a total of {} DEX classes", dex_classes->get_number_of_classes());
+            #endif
 
             for (size_t i = 0, n_of_classes = static_cast<size_t>(dex_classes->get_number_of_classes()); i < n_of_classes; i++)
             {
@@ -57,7 +59,9 @@ namespace KUNAI
                 if (class_data_item == nullptr)
                     continue;
 
+                #ifdef DEBUG
                 logger->debug("For class number {}, disassembly a total of {} DEX direct methods", i, class_data_item->get_number_of_direct_methods());
+                #endif
 
                 // now get direct method
                 // for each one we will start the disassembly.
@@ -87,8 +91,10 @@ namespace KUNAI
                     this->method_instructions[{class_def, direct_method}] = instructions;
                 }
 
+                #ifdef DEBUG
                 logger->debug("For class number {}, disassembly a total of {} DEX virtual methods", i, class_data_item->get_number_of_virtual_methods());
-
+                #endif
+                
                 for (size_t j = 0, n_of_methods = static_cast<size_t>(class_data_item->get_number_of_virtual_methods()); j < n_of_methods; j++)
                 {
                     auto virtual_method = class_data_item->get_virtual_method_by_pos(j);
@@ -114,6 +120,14 @@ namespace KUNAI
                 }
             }
         }
+
+
+        void DexDisassembler::add_disassembly(std::shared_ptr<DexDisassembler> disas)
+        {
+            method_instructions.insert(disas->get_instructions().begin(), disas->get_instructions().end());
+            disassembly_correct &= disas->get_disassembly_correct();
+        }
+
 
         std::ostream &operator<<(std::ostream &os, const DexDisassembler &entry)
         {
@@ -143,6 +157,22 @@ namespace KUNAI
             }
 
             return os;
+        }
+
+        /**
+         * @brief Operator + to join two disassemblers, this will join the two maps
+         * as well as we will & the disassembly_correct variable.
+         * 
+         * @param other_disassembler 
+         * @return DexDisassembler& 
+         */
+        DexDisassembler& operator+(DexDisassembler& first_disassembler, DexDisassembler& other_disassembler)
+        {
+            first_disassembler.method_instructions.insert(other_disassembler.method_instructions.begin(), other_disassembler.method_instructions.end());
+            first_disassembler.disassembly_correct &= other_disassembler.disassembly_correct;
+            first_disassembler.parsing_correct &= other_disassembler.parsing_correct;
+
+            return first_disassembler;
         }
     }
 }

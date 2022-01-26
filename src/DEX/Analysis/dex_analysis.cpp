@@ -22,7 +22,9 @@ namespace KUNAI
 
             auto class_dex = dex_parser->get_classes();
 
-            logger->debug("Adding to the analysis {} number of classes", class_dex->get_number_of_classes());
+            #ifdef DEBUG
+                logger->debug("Adding to the analysis {} number of classes", class_dex->get_number_of_classes());
+            #endif
 
             for (size_t i = 0, n_of_classes = static_cast<size_t>(class_dex->get_number_of_classes()); i < n_of_classes; i++)
             {
@@ -40,7 +42,9 @@ namespace KUNAI
                 if (class_data_item == nullptr)
                     continue;
 
+                #ifdef DEBUG
                 logger->debug("Adding to the class {} direct methods", class_data_item->get_number_of_direct_methods());
+                #endif
 
                 // add the direct methods
                 for (size_t j = 0, n_of_methods = static_cast<size_t>(class_data_item->get_number_of_direct_methods()); j < n_of_methods; j++)
@@ -55,7 +59,9 @@ namespace KUNAI
                     method_hashes[{class_def_item->get_class_idx()->get_name(), *encoded_method->get_method()->get_method_name(), encoded_method->get_method()->get_method_prototype()->get_proto_str()}] = new_method;
                 }
 
+                #ifdef DEBUG
                 logger->debug("Adding to the class {} virtual methods", static_cast<size_t>(class_data_item->get_number_of_virtual_methods()));
+                #endif
 
                 // add the virtual methods
                 for (size_t j = 0, n_of_methods = static_cast<size_t>(class_data_item->get_number_of_virtual_methods()); j < n_of_methods; j++)
@@ -89,17 +95,27 @@ namespace KUNAI
 
             created_xrefs = true;
 
+            #ifdef DEBUG
             logger->debug("create_xref(): creating xrefs for {} dex files", dex_parsers.size());
+            #endif
 
             for (size_t i = 0, n_dex_parsers = dex_parsers.size(); i < n_dex_parsers; i++)
             {
+                #ifdef DEBUG
+                logger->debug("Analyzing {} parser from {}", i, n_dex_parsers);
+                #endif
+
                 auto dex_parser = dex_parsers[i];
 
                 auto class_dex = dex_parser->get_classes();
 
-                for (size_t j = 0; j < class_dex->get_number_of_classes(); j++)
+                for (size_t j = 0, n_of_classes = class_dex->get_number_of_classes(); j < n_of_classes; j++)
                 {
-                    auto class_def_item = class_dex->get_class_by_pos(i);
+                    auto class_def_item = class_dex->get_class_by_pos(j);
+
+                    #ifdef DEBUG
+                    logger->debug("Analyzing {}({}) class from {}", class_def_item->get_class_idx()->get_raw() ,j, n_of_classes);
+                    #endif
 
                     _create_xref(class_def_item);
                 }
@@ -336,26 +352,41 @@ namespace KUNAI
 
         void Analysis::_create_xref(std::shared_ptr<KUNAI::DEX::ClassDef> current_class)
         {
+            auto logger = LOGGER::logger();
+
             auto current_class_name = current_class->get_class_idx()->get_name();
 
             auto class_data_item = current_class->get_class_data();
+            
+            if (!class_data_item)
+            {
+                #ifdef DEBUG
+                logger->debug("class_data_item not present for class {}", current_class_name);
+                #endif
+
+                return;
+            }
 
             // add the methods
             auto current_methods = class_data_item->get_methods();
-            for (size_t j = 0; j < current_methods.size(); j++)
+
+            for (size_t j = 0, current_methods_size = current_methods.size(); j < current_methods_size; j++)
             {
                 auto current_method = current_methods[j];
                 auto current_method_analysis = methods[current_method->full_name()];
                 auto current_class = classes[current_class_name];
 
-                // std::cout << "Analyzing the method instructions from: " << current_class_name << "->" << current_method_analysis->name() << current_method_analysis->descriptor() << ";" << std::endl;
+                #ifdef DEBUG
+                logger->debug("Analyzing {}({}) method from {}", current_method_analysis->full_name().c_str() ,j, current_methods_size);
+                #endif
 
                 // now we go parsing each instruction
                 auto instructions = current_method_analysis->get_instructions();
-                for (auto it = instructions.begin(); it != instructions.end(); it++)
+
+                for (auto offset_instr : instructions)
                 {
-                    auto off = it->first;
-                    auto instruction = it->second;
+                    auto off = offset_instr.first;
+                    auto instruction = offset_instr.second;
 
                     auto op_value = instruction->get_OP();
 
@@ -420,6 +451,13 @@ namespace KUNAI
                         // get that kind is method
                         if (invoke_->get_kind() != DVMTypes::Kind::METH)
                             continue;
+
+                        if (invoke_->get_operands_kind_method()->get_method_class()->get_type() != DEX::Type::CLASS)
+                        {
+                            logger->warn("Found a call to a method from non class (type found: {})", 
+                                invoke_->get_operands_kind_method()->get_method_class()->print_type());
+                            continue;
+                        }
 
                         auto class_info = reinterpret_cast<Class *>(invoke_->get_operands_kind_method()->get_method_class())->get_name();
                         auto method_info = *invoke_->get_operands_kind_method()->get_method_name();

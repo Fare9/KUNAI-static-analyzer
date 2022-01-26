@@ -61,7 +61,11 @@ namespace KUNAI
                 return method_instructions;
             }
 
+            void add_disassembly(std::shared_ptr<DexDisassembler> disas);
+
             friend std::ostream &operator<<(std::ostream &os, const DexDisassembler &entry);
+
+            friend DexDisassembler& operator+(DexDisassembler& first_disassembler, DexDisassembler& other_disassembler);
 
         private:
             /**

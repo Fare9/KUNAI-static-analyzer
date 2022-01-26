@@ -42,7 +42,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint32_t>(size, sizeof(std::uint32_t), input_file))
                 return false;
             
+            #ifdef DEBUG
             logger->debug("Reading ProtoID from offset {} and size {}", parameters_off, size);
+            #endif
 
             for (i = 0; i < size; i++)
             {
@@ -59,7 +61,9 @@ namespace KUNAI
 
                 parameters.push_back(type);
 
+                #ifdef DEBUG
                 logger->debug("Parsed type number {}", i);
+                #endif
             }
 
             input_file.seekg(current_offset);
@@ -129,7 +133,9 @@ namespace KUNAI
             // set to current offset
             input_file.seekg(offset);
 
+            #ifdef DEBUG
             logger->debug("DexProtos start parsing in offset {} with size {}", offset, number_of_protos);
+            #endif
 
             for (i = 0; i < number_of_protos; i++)
             {
@@ -158,7 +164,9 @@ namespace KUNAI
 
                 proto_ids.push_back(proto_id);
 
+                #ifdef DEBUG
                 logger->debug("parsed proto id {}", i);
+                #endif
             }
 
             // set to previous offset

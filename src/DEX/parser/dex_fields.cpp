@@ -105,7 +105,9 @@ namespace KUNAI
             // move to offset for analysis
             input_file.seekg(offset);
 
+            #ifdef DEBUG
             logger->debug("DexFields start parsing in offset {} and size {}", offset, number_of_fields);
+            #endif
 
             for (i = 0; i < number_of_fields; i++)
             {
@@ -140,7 +142,9 @@ namespace KUNAI
 
                 field_ids.push_back(field_id);
 
+                #ifdef DEBUG
                 logger->debug("parsed field_id number {}", i);
+                #endif
             }
 
             input_file.seekg(current_offset);

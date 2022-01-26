@@ -252,7 +252,9 @@ namespace KUNAI
             std::uint32_t size;
             std::uint16_t interface;
 
+            #ifdef DEBUG
             logger->debug("ClassDef parsing values from class");
+            #endif
 
             // parse first the interfaces
             if (interfaces_off > 0)
@@ -262,7 +264,9 @@ namespace KUNAI
                 if (!KUNAI::read_data_file<std::uint32_t>(size, sizeof(std::uint32_t), input_file))
                     return false;
 
+                #ifdef DEBUG
                 logger->debug("Parsing interfaces with offset {} and size {}", interfaces_off, size);
+                #endif
 
                 for (i = 0; i < size; i++)
                 {
@@ -281,7 +285,9 @@ namespace KUNAI
             {
                 input_file.seekg(annotations_off);
 
+                #ifdef DEBUG
                 logger->debug("Parsing AnnotationsDirectoryItem in offset {}", annotations_off);
+                #endif
 
                 annotation_directory_item = std::make_shared<AnnotationsDirectoryItem>(input_file);
             }
@@ -291,7 +297,9 @@ namespace KUNAI
             {
                 input_file.seekg(classess_off);
 
+                #ifdef DEBUG
                 logger->debug("Parsing ClassDataItem in offset {}", classess_off);
+                #endif
 
                 class_data_items = std::make_shared<ClassDataItem>(input_file, file_size, dex_fields, dex_methods, dex_types);
             }
@@ -378,8 +386,10 @@ namespace KUNAI
 
             input_file.seekg(offset);
 
+            #ifdef DEBUG
             logger->debug("DexClasses start parsing at offset {} and size {}", offset, number_of_classes);
-
+            #endif
+            
             for (i = 0; i < number_of_classes; i++)
             {                
                 if (!KUNAI::read_data_file<ClassDef::classdef_t>(class_def_struct, sizeof(ClassDef::classdef_t), input_file))
@@ -436,7 +446,10 @@ namespace KUNAI
                 class_def = std::make_shared<ClassDef>(class_def_struct, dex_str, dex_types, dex_fields, dex_methods, input_file, file_size);
                 class_defs.push_back(class_def);
 
+                #ifdef DEBUG
                 logger->debug("parsed class_def number {}", i);
+                #endif
+                
             }
 
             input_file.seekg(current_offset);

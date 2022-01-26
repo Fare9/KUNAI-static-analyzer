@@ -83,7 +83,9 @@ namespace KUNAI
             // set to current offset
             input_file.seekg(offset);
 
+            #ifdef DEBUG
             logger->debug("DexMethods parsing methods in offset {} and size {}", offset, number_of_methods);
+            #endif
 
             for (i = 0; i < number_of_methods; i++)
             {
@@ -118,7 +120,9 @@ namespace KUNAI
 
                 method_ids.push_back(method_id);
 
+                #ifdef DEBUG
                 logger->debug("Added method number {}", i);
+                #endif
             }
 
             // set to previous offset

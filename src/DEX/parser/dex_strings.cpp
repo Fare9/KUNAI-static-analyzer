@@ -64,7 +64,9 @@ namespace KUNAI
             // move to offset where are the string ids
             input_file.seekg(this->offset);
 
+            #ifdef DEBUG
             logger->debug("DexStrings parsing of header in offset {} with size {}", this->offset, this->number_of_strings);
+            #endif
 
             // go one by one reading offset and string
             for (i = 0; i < this->number_of_strings; i++)
@@ -83,7 +85,9 @@ namespace KUNAI
                 this->strings.insert(std::pair<std::uint32_t, std::string>(str_offset, str));
                 ordered_strings.push_back(&this->strings[str_offset]);
 
+                #ifdef DEBUG
                 logger->debug("parsed string number {}", i);
+                #endif
             }
 
             input_file.seekg(current_offset);
