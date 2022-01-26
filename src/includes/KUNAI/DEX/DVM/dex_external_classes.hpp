@@ -41,7 +41,7 @@ namespace KUNAI {
              * 
              * @return std::string 
              */
-            std::string get_name()
+            std::string& get_name()
             {
                 return name;
             }

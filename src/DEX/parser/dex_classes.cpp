@@ -70,6 +70,7 @@ namespace KUNAI
                 code_off = KUNAI::read_uleb128(input_file);
 
                 direct_methods[direct_method] = std::make_shared<EncodedMethod>(dex_methods->get_method_by_order(direct_method), access_flags, code_off, input_file, file_size, dex_types);
+                methods.push_back(direct_methods[direct_method]);
             }
 
             for (size_t i = 0; i < virtual_methods_size; i++)
@@ -84,6 +85,7 @@ namespace KUNAI
                 code_off = KUNAI::read_uleb128(input_file);
 
                 virtual_methods[virtual_method] = std::make_shared<EncodedMethod>(dex_methods->get_method_by_order(virtual_method), access_flags, code_off, input_file, file_size, dex_types);
+                methods.push_back(virtual_methods[virtual_method]);
             }
 
             input_file.seekg(current_offset);
@@ -190,23 +192,6 @@ namespace KUNAI
             return it->second;
         }
 
-        std::vector<std::shared_ptr<EncodedMethod>> ClassDataItem::get_methods()
-        {
-            std::vector<std::shared_ptr<EncodedMethod>> methods;
-
-            for (auto it = direct_methods.begin(); it != direct_methods.end(); it++)
-            {
-                methods.push_back(it->second);
-            }
-
-            for (auto it = virtual_methods.begin(); it != virtual_methods.end(); it++)
-            {
-                methods.push_back(it->second);
-            }
-
-            return methods;
-        }
-
         /***
          * ClassDef
          */
@@ -252,9 +237,9 @@ namespace KUNAI
             std::uint32_t size;
             std::uint16_t interface;
 
-            #ifdef DEBUG
+#ifdef DEBUG
             logger->debug("ClassDef parsing values from class");
-            #endif
+#endif
 
             // parse first the interfaces
             if (interfaces_off > 0)
@@ -264,9 +249,9 @@ namespace KUNAI
                 if (!KUNAI::read_data_file<std::uint32_t>(size, sizeof(std::uint32_t), input_file))
                     return false;
 
-                #ifdef DEBUG
+#ifdef DEBUG
                 logger->debug("Parsing interfaces with offset {} and size {}", interfaces_off, size);
-                #endif
+#endif
 
                 for (i = 0; i < size; i++)
                 {
@@ -285,9 +270,9 @@ namespace KUNAI
             {
                 input_file.seekg(annotations_off);
 
-                #ifdef DEBUG
+#ifdef DEBUG
                 logger->debug("Parsing AnnotationsDirectoryItem in offset {}", annotations_off);
-                #endif
+#endif
 
                 annotation_directory_item = std::make_shared<AnnotationsDirectoryItem>(input_file);
             }
@@ -297,9 +282,9 @@ namespace KUNAI
             {
                 input_file.seekg(classess_off);
 
-                #ifdef DEBUG
+#ifdef DEBUG
                 logger->debug("Parsing ClassDataItem in offset {}", classess_off);
-                #endif
+#endif
 
                 class_data_items = std::make_shared<ClassDataItem>(input_file, file_size, dex_fields, dex_methods, dex_types);
             }
@@ -312,7 +297,7 @@ namespace KUNAI
                 static_values = std::make_shared<EncodedArrayItem>(input_file);
             }
             */
-           
+
             input_file.seekg(current_offset);
             return true;
         }
@@ -359,7 +344,6 @@ namespace KUNAI
                 throw exceptions::ParserReadingException("Error reading DEX classes");
         }
 
-        
         DexClasses::~DexClasses()
         {
             if (!class_defs.empty())
@@ -386,12 +370,12 @@ namespace KUNAI
 
             input_file.seekg(offset);
 
-            #ifdef DEBUG
+#ifdef DEBUG
             logger->debug("DexClasses start parsing at offset {} and size {}", offset, number_of_classes);
-            #endif
-            
+#endif
+
             for (i = 0; i < number_of_classes; i++)
-            {                
+            {
                 if (!KUNAI::read_data_file<ClassDef::classdef_t>(class_def_struct, sizeof(ClassDef::classdef_t), input_file))
                     return false;
 
@@ -446,10 +430,9 @@ namespace KUNAI
                 class_def = std::make_shared<ClassDef>(class_def_struct, dex_str, dex_types, dex_fields, dex_methods, input_file, file_size);
                 class_defs.push_back(class_def);
 
-                #ifdef DEBUG
+#ifdef DEBUG
                 logger->debug("parsed class_def number {}", i);
-                #endif
-                
+#endif
             }
 
             input_file.seekg(current_offset);

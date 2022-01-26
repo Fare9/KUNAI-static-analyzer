@@ -64,7 +64,7 @@ namespace KUNAI
              * 
              * @return std::shared_ptr<DEX::DexDisassembler> 
              */
-            std::shared_ptr<DEX::DexDisassembler> get_global_disassembler()
+            std::shared_ptr<DEX::DexDisassembler>& get_global_disassembler()
             {
                 return global_disassembler;
             }
@@ -77,7 +77,7 @@ namespace KUNAI
              * 
              * @return std::shared_ptr<DEX::Analysis> 
              */
-            std::shared_ptr<DEX::Analysis> get_global_analysis()
+            std::shared_ptr<DEX::Analysis>& get_global_analysis()
             {
                 return global_analysis;
             }

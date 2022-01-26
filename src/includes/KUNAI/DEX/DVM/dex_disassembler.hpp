@@ -45,7 +45,7 @@ namespace KUNAI
              * @brief Get the linear sweep disassembler object.
              * @return std::shared_ptr<LinearSweepDisassembler>
              */
-            std::shared_ptr<LinearSweepDisassembler> get_linear_sweep_disassembler()
+            std::shared_ptr<LinearSweepDisassembler>& get_linear_sweep_disassembler()
             {
                 return dalvik_disassembler;
             }

@@ -974,7 +974,7 @@ namespace KUNAI
              * @brief get the instructions from the method.
              * @return std::map<std::uint64_t, std::shared_ptr<Instruction>>
              */
-            std::map<std::uint64_t, std::shared_ptr<Instruction>> &get_instructions()
+            const std::map<std::uint64_t, std::shared_ptr<Instruction>> &get_instructions() const
             {
                 return instructions;
             }
@@ -983,7 +983,7 @@ namespace KUNAI
              * @brief get the basic blocks with the DVMBasicBlocks with the instructions.
              * @return std::shared_ptr<BasicBlocks>
              */
-            std::shared_ptr<BasicBlocks> get_basic_blocks()
+            std::shared_ptr<BasicBlocks>& get_basic_blocks()
             {
                 return basic_blocks;
             }
@@ -992,7 +992,7 @@ namespace KUNAI
              * @brief Get all the exceptions from the method.
              * @return std::shared_ptr<Exception>
              */
-            std::shared_ptr<Exception> get_exceptions()
+            std::shared_ptr<Exception>& get_exceptions()
             {
                 return exceptions;
             }
@@ -1048,7 +1048,7 @@ namespace KUNAI
              * @brief retrieve name of Field.
              * @return std::string
              */
-            std::string name()
+            std::string& name()
             {
                 return *field->get_field()->get_name_idx();
             }
@@ -1095,7 +1095,7 @@ namespace KUNAI
              * @brief return the FieldID pointer.
              * @return FieldID*
              */
-            std::shared_ptr<EncodedField> get_field()
+            std::shared_ptr<EncodedField>& get_field()
             {
                 return field;
             }
@@ -1210,7 +1210,7 @@ namespace KUNAI
              * @brief Get exception data structure.
              * @return exceptions_data
              */
-            exceptions_data get()
+            exceptions_data& get()
             {
                 return exception;
             }

@@ -70,7 +70,7 @@ namespace KUNAI
              * @brief get raw string from the type object.
              * @return raw: string from the type.
              */
-            std::string get_raw()
+            std::string& get_raw()
             {
                 return this->raw;
             }
@@ -192,7 +192,7 @@ namespace KUNAI
              * @brief get name of Class type.
              * @return std::string with name of Class type.
              */
-            std::string get_name()
+            std::string& get_name()
             {
                 return name;
             }

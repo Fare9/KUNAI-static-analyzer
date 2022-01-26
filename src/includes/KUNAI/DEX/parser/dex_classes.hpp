@@ -180,8 +180,12 @@ namespace KUNAI {
              * 
              * @return std::vector<std::shared_ptr<EncodedMethod>> 
              */
-            std::vector<std::shared_ptr<EncodedMethod>> get_methods();
+            const std::vector<std::shared_ptr<EncodedMethod>>& get_methods() const
+            {
+                return methods;
+            }
         private:
+            std::vector<std::shared_ptr<EncodedMethod>> methods;
             std::map<std::uint64_t, std::shared_ptr<EncodedField>> static_fields;
             std::map<std::uint64_t, std::shared_ptr<EncodedField>> instance_fields;
             std::map<std::uint64_t, std::shared_ptr<EncodedMethod>> direct_methods;
@@ -292,7 +296,7 @@ namespace KUNAI {
              * @brief Get the ClassDataItem object from the ClassDef.
              * @return std::shared_ptr<ClassDataItem>
              */
-            std::shared_ptr<ClassDataItem> get_class_data()
+            std::shared_ptr<ClassDataItem>& get_class_data()
             {
                 return class_data_items;
             }
@@ -418,6 +422,16 @@ namespace KUNAI {
              * @return std::shared_ptr<ClassDef>
              */
             std::shared_ptr<ClassDef> get_class_by_pos(std::uint64_t pos);
+
+            /**
+             * @brief Get the vector reference to all the classes
+             * 
+             * @return const std::vector<std::shared_ptr<ClassDef>>& 
+             */
+            const std::vector<std::shared_ptr<ClassDef>>& get_classes() const
+            {
+                return class_defs;
+            }
 
             friend std::ostream& operator<<(std::ostream& os, const DexClasses& entry);
         private:

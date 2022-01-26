@@ -38,7 +38,7 @@ namespace KUNAI
                 return dalvik_opcodes->get_instruction_type(OP);
             }
 
-            std::string get_translated_kind()
+            std::string& get_translated_kind()
             {
                 return dalvik_opcodes->get_instruction_type_str(OP);
             }
@@ -58,7 +58,7 @@ namespace KUNAI
                 return OP;
             }
 
-            std::shared_ptr<DalvikOpcodes> get_dalvik_opcodes()
+            std::shared_ptr<DalvikOpcodes>& get_dalvik_opcodes()
             {
                 return dalvik_opcodes;
             }
