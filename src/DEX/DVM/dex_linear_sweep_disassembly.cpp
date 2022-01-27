@@ -7,7 +7,7 @@ namespace KUNAI {
         {
         }
 
-        std::map<std::uint64_t, std::shared_ptr<Instruction>> LinearSweepDisassembler::disassembly(std::vector<std::uint8_t> byte_buffer)
+        std::map<std::uint64_t, std::shared_ptr<Instruction>> LinearSweepDisassembler::disassembly(const std::vector<std::uint8_t>& byte_buffer)
         {
             std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions;
             std::uint64_t instruction_index = 0;
@@ -50,7 +50,7 @@ namespace KUNAI {
             return instructions;
         }
 
-        void LinearSweepDisassembler::assign_switch_if_any(std::map<std::uint64_t, std::shared_ptr<Instruction>> instrs)
+        void LinearSweepDisassembler::assign_switch_if_any(std::map<std::uint64_t, std::shared_ptr<Instruction>>& instrs)
         {
             for (auto instr : instrs)
             {
