@@ -15,7 +15,7 @@ main(int argc, char **argv)
     }
 
     // Set the logging level in spdlog, we set to debug
-    spdlog::set_level(spdlog::level::off);
+    spdlog::set_level(spdlog::level::info);
 
     auto logger = KUNAI::LOGGER::logger();
 

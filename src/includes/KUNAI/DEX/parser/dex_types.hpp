@@ -294,7 +294,7 @@ namespace KUNAI
             DexTypes(std::ifstream &input_file,
                      std::uint32_t number_of_types,
                      std::uint32_t types_offsets,
-                     std::shared_ptr<DexStrings> dex_str);
+                     std::shared_ptr<DexStrings>& dex_str);
 
             /**
              * @brief Destructor of DexTypes class, clear all the Types.
@@ -357,7 +357,7 @@ namespace KUNAI
             std::map<std::uint32_t, Type *> types;
             std::uint32_t number_of_types;
             std::uint32_t offset;
-            std::shared_ptr<DexStrings> dex_str;
+            std::shared_ptr<DexStrings>& dex_str;
         };
     }
 }

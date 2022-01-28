@@ -10,9 +10,9 @@ namespace KUNAI
 
         ClassDataItem::ClassDataItem(std::ifstream &input_file,
                                      std::uint64_t file_size,
-                                     std::shared_ptr<DexFields> dex_fields,
-                                     std::shared_ptr<DexMethods> dex_methods,
-                                     std::shared_ptr<DexTypes> dex_types)
+                                     std::shared_ptr<DexFields>& dex_fields,
+                                     std::shared_ptr<DexMethods>& dex_methods,
+                                     std::shared_ptr<DexTypes>& dex_types)
         {
             auto current_offset = input_file.tellg();
 
@@ -196,10 +196,10 @@ namespace KUNAI
          * ClassDef
          */
         ClassDef::ClassDef(classdef_t class_def,
-                           std::shared_ptr<DexStrings> dex_str,
-                           std::shared_ptr<DexTypes> dex_types,
-                           std::shared_ptr<DexFields> dex_fields,
-                           std::shared_ptr<DexMethods> dex_methods,
+                           std::shared_ptr<DexStrings>& dex_str,
+                           std::shared_ptr<DexTypes>& dex_types,
+                           std::shared_ptr<DexFields>& dex_fields,
+                           std::shared_ptr<DexMethods>& dex_methods,
                            std::ifstream &input_file,
                            std::uint64_t file_size) : ParentClass(ParentClass::INTERNAL_CLASS_T)
         {
@@ -225,10 +225,10 @@ namespace KUNAI
 
         bool ClassDef::parse_class_defs(std::ifstream &input_file,
                                         std::uint64_t file_size,
-                                        std::shared_ptr<DexStrings> dex_str,
-                                        std::shared_ptr<DexTypes> dex_types,
-                                        std::shared_ptr<DexFields> dex_fields,
-                                        std::shared_ptr<DexMethods> dex_methods)
+                                        std::shared_ptr<DexStrings>& dex_str,
+                                        std::shared_ptr<DexTypes>& dex_types,
+                                        std::shared_ptr<DexFields>& dex_fields,
+                                        std::shared_ptr<DexMethods>& dex_methods)
         {
             auto logger = LOGGER::logger();
 
@@ -330,10 +330,10 @@ namespace KUNAI
                                std::uint64_t file_size,
                                std::uint32_t number_of_classes,
                                std::uint32_t offset,
-                               std::shared_ptr<DexStrings> dex_str,
-                               std::shared_ptr<DexTypes> dex_types,
-                               std::shared_ptr<DexFields> dex_fields,
-                               std::shared_ptr<DexMethods> dex_methods) : number_of_classes(number_of_classes),
+                               std::shared_ptr<DexStrings>& dex_str,
+                               std::shared_ptr<DexTypes>& dex_types,
+                               std::shared_ptr<DexFields>& dex_fields,
+                               std::shared_ptr<DexMethods>& dex_methods) : number_of_classes(number_of_classes),
                                                                           offset(offset),
                                                                           dex_str(dex_str),
                                                                           dex_types(dex_types),

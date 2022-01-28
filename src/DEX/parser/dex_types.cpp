@@ -94,7 +94,7 @@ namespace KUNAI
         DexTypes::DexTypes(std::ifstream &input_file,
                            std::uint32_t number_of_types,
                            std::uint32_t types_offsets,
-                           std::shared_ptr<DexStrings> dex_str) : number_of_types(number_of_types),
+                           std::shared_ptr<DexStrings>& dex_str) : number_of_types(number_of_types),
                                                                   offset(types_offsets),
                                                                   dex_str(dex_str)
         {

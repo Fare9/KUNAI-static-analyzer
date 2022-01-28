@@ -38,8 +38,8 @@ namespace KUNAI
             FieldID(std::uint16_t class_idx,
                     std::uint16_t type_idx,
                     std::uint32_t name_idx,
-                    std::shared_ptr<DexStrings> dex_strings,
-                    std::shared_ptr<DexTypes> dex_types);
+                    std::shared_ptr<DexStrings>& dex_strings,
+                    std::shared_ptr<DexTypes>& dex_types);
             ~FieldID() = default;
 
             Type *get_class_idx();
@@ -60,8 +60,8 @@ namespace KUNAI
             DexFields(std::ifstream &input_file,
                       std::uint32_t number_of_fields,
                       std::uint32_t offset,
-                      std::shared_ptr<DexStrings> dex_strings,
-                      std::shared_ptr<DexTypes> dex_types);
+                      std::shared_ptr<DexStrings>& dex_strings,
+                      std::shared_ptr<DexTypes>& dex_types);
 
             ~DexFields();
 
@@ -80,8 +80,8 @@ namespace KUNAI
 
             std::uint32_t number_of_fields;
             std::uint32_t offset;
-            std::shared_ptr<DexStrings> dex_strings;
-            std::shared_ptr<DexTypes> dex_types;
+            std::shared_ptr<DexStrings>& dex_strings;
+            std::shared_ptr<DexTypes>& dex_types;
 
             std::vector<FieldID *> field_ids;
         };
