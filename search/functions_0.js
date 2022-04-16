@@ -19,8 +19,9 @@ var searchData=
   ['add_5fxref_5fto_16',['add_xref_to',['../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#ad37d2d2f5ddf79b366f546bc9d1c3821',1,'KUNAI::DEX::ClassAnalysis::add_xref_to()'],['../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html#a857ef1871b61ac568f2d3caabd8cd04f',1,'KUNAI::DEX::MethodAnalysis::add_xref_to(std::shared_ptr&lt; ClassAnalysis &gt; class_object, std::shared_ptr&lt; MethodAnalysis &gt; method_object, std::uint64_t offset)']]],
   ['add_5fxref_5fwrite_17',['add_xref_write',['../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html#a1e32ea0c381eaad26d769b1eebe00392',1,'KUNAI::DEX::MethodAnalysis::add_xref_write()'],['../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#a3f7871c6d8cfde2fbbf2a849c6a8ed46',1,'KUNAI::DEX::FieldAnalysis::add_xref_write()']]],
   ['analysis_18',['Analysis',['../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a383bb14e685ea1545ed70aca56168308',1,'KUNAI::DEX::Analysis']]],
-  ['annotationelement_19',['AnnotationElement',['../d6/d3f/classKUNAI_1_1DEX_1_1AnnotationElement.html#ab00b9ecbf08d9c9a4a2c5ef4c22df304',1,'KUNAI::DEX::AnnotationElement']]],
-  ['annotationsdirectoryitem_20',['AnnotationsDirectoryItem',['../dc/dc9/classKUNAI_1_1DEX_1_1AnnotationsDirectoryItem.html#a6c4180898fcfaf00c9190ab77af8cbb0',1,'KUNAI::DEX::AnnotationsDirectoryItem']]],
-  ['append_5fstatement_5fto_5fblock_21',['append_statement_to_block',['../db/dca/classKUNAI_1_1MJOLNIR_1_1IRBlock.html#afe2a9cddc9c5e6dfc6acefc73fb39a04',1,'KUNAI::MJOLNIR::IRBlock']]],
-  ['array_22',['Array',['../db/d0f/classKUNAI_1_1DEX_1_1Array.html#a38c172563bd4c1cb5f2c7770afd28c0b',1,'KUNAI::DEX::Array']]]
+  ['analyze_5fapk_5ffile_19',['analyze_apk_file',['../d5/d73/classKUNAI_1_1APK_1_1APK.html#ade69ad62e886ff4a61c98c4e7d650ac3',1,'KUNAI::APK::APK']]],
+  ['annotationelement_20',['AnnotationElement',['../d6/d3f/classKUNAI_1_1DEX_1_1AnnotationElement.html#ab00b9ecbf08d9c9a4a2c5ef4c22df304',1,'KUNAI::DEX::AnnotationElement']]],
+  ['annotationsdirectoryitem_21',['AnnotationsDirectoryItem',['../dc/dc9/classKUNAI_1_1DEX_1_1AnnotationsDirectoryItem.html#a6c4180898fcfaf00c9190ab77af8cbb0',1,'KUNAI::DEX::AnnotationsDirectoryItem']]],
+  ['append_5fstatement_5fto_5fblock_22',['append_statement_to_block',['../db/dca/classKUNAI_1_1MJOLNIR_1_1IRBlock.html#afe2a9cddc9c5e6dfc6acefc73fb39a04',1,'KUNAI::MJOLNIR::IRBlock']]],
+  ['array_23',['Array',['../db/d0f/classKUNAI_1_1DEX_1_1Array.html#a38c172563bd4c1cb5f2c7770afd28c0b',1,'KUNAI::DEX::Array']]]
 ];

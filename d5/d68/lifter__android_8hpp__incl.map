@@ -1,52 +1,52 @@
 <map id="src/includes/KUNAI/mjolnIR/Lifters/lifter_android.hpp" name="src/includes/KUNAI/mjolnIR/Lifters/lifter_android.hpp">
-<area shape="rect" id="node1" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="3727,5,3867,61"/>
-<area shape="rect" id="node2" title=" " alt="" coords="2252,945,2324,972"/>
-<area shape="rect" id="node3" title=" " alt="" coords="3845,184,3885,211"/>
-<area shape="rect" id="node4" href="$d2/d2b/dex__instructions_8hpp_source.html" title=" " alt="" coords="3012,184,3152,211"/>
-<area shape="rect" id="node40" href="$dd/df2/dex__analysis_8hpp_source.html" title=" " alt="" coords="3468,109,3588,136"/>
-<area shape="rect" id="node45" href="$d0/d75/ir__graph_8hpp.html" title="DiGraph class from miasm implemented in C++ using the classes from MjolnIR, some of basic graph analy..." alt="" coords="3939,109,4031,136"/>
-<area shape="rect" id="node50" href="$d6/d5b/lifter__android__instructions_8hpp.html" title="Instructions from Android DALVIK for the lifter." alt="" coords="3633,109,3828,136"/>
-<area shape="rect" id="node5" title=" " alt="" coords="3221,259,3264,285"/>
-<area shape="rect" id="node6" title=" " alt="" coords="2867,707,2935,733"/>
-<area shape="rect" id="node7" title=" " alt="" coords="1773,781,1840,808"/>
-<area shape="rect" id="node8" title=" " alt="" coords="3288,259,3338,285"/>
-<area shape="rect" id="node9" title=" " alt="" coords="3222,781,3281,808"/>
-<area shape="rect" id="node10" title=" " alt="" coords="2246,781,2313,808"/>
-<area shape="rect" id="node11" href="$de/d2a/dex__dvm__types_8hpp_source.html" title=" " alt="" coords="3206,557,3342,584"/>
-<area shape="rect" id="node13" href="$dd/d30/dex__dalvik__opcodes_8hpp_source.html" title=" " alt="" coords="2793,259,2956,285"/>
-<area shape="rect" id="node15" href="$da/d49/exceptions_8hpp_source.html" title=" " alt="" coords="1271,781,1379,808"/>
-<area shape="rect" id="node29" href="$df/d93/utils_8hpp_source.html" title=" " alt="" coords="2126,781,2196,808"/>
-<area shape="rect" id="node12" title=" " alt="" coords="3040,781,3087,808"/>
-<area shape="rect" id="node14" href="$d2/d94/dex__parser_8hpp_source.html" title=" " alt="" coords="1929,333,2038,360"/>
-<area shape="rect" id="node27" href="$d0/db1/dex__strings_8hpp.html" title="DEX file strings, these are the offsets in the file, we will store the strings too." alt="" coords="2224,707,2336,733"/>
-<area shape="rect" id="node33" href="$dc/d06/dex__types_8hpp.html" title="Serie of types which points to string values." alt="" coords="2318,632,2422,659"/>
-<area shape="rect" id="node34" href="$d6/d2d/dex__fields_8hpp_source.html" title=" " alt="" coords="2424,557,2527,584"/>
-<area shape="rect" id="node35" href="$d0/d11/dex__methods_8hpp_source.html" title=" " alt="" coords="2122,557,2245,584"/>
-<area shape="rect" id="node36" href="$dc/d3b/dex__classes_8hpp_source.html" title=" " alt="" coords="2319,408,2438,435"/>
-<area shape="rect" id="node16" href="$d5/d81/parserreading__exception_8hpp_source.html" title=" " alt="" coords="909,863,1096,890"/>
-<area shape="rect" id="node17" href="$dc/d37/outofbound__exception_8hpp_source.html" title=" " alt="" coords="1120,863,1292,890"/>
-<area shape="rect" id="node18" href="$d3/d1c/incorrectstringid__exception_8hpp_source.html" title=" " alt="" coords="1317,863,1517,890"/>
-<area shape="rect" id="node19" href="$d6/d7b/incorrecttypeid__exception_8hpp_source.html" title=" " alt="" coords="1541,863,1733,890"/>
-<area shape="rect" id="node20" href="$d5/d5d/incorrectprotoid__exception_8hpp_source.html" title=" " alt="" coords="1757,863,1954,890"/>
-<area shape="rect" id="node21" href="$db/dc7/incorrectvalue__exception_8hpp_source.html" title=" " alt="" coords="1978,863,2168,890"/>
-<area shape="rect" id="node22" href="$d5/db1/incorrectfieldid__exception_8hpp_source.html" title=" " alt="" coords="2192,863,2383,890"/>
-<area shape="rect" id="node23" href="$d2/d3a/incorrectmethodid__exception_8hpp_source.html" title=" " alt="" coords="102,863,313,890"/>
-<area shape="rect" id="node24" href="$dc/d3f/incorrectdexfile__exception_8hpp_source.html" title=" " alt="" coords="337,863,532,890"/>
-<area shape="rect" id="node25" href="$da/dc0/invalidinstruction__exception_8hpp_source.html" title=" " alt="" coords="556,856,675,897"/>
-<area shape="rect" id="node26" href="$d1/df9/disassembler__exception_8hpp_source.html" title=" " alt="" coords="699,863,884,890"/>
-<area shape="rect" id="node28" title=" " alt="" coords="3490,781,3560,808"/>
-<area shape="rect" id="node30" title=" " alt="" coords="2824,863,2936,890"/>
-<area shape="rect" id="node31" title=" " alt="" coords="2509,856,2640,897"/>
-<area shape="rect" id="node32" title=" " alt="" coords="2664,856,2799,897"/>
-<area shape="rect" id="node37" href="$d8/df1/dex__parents_8hpp.html" title="ParentClass &amp; ParentMethod class used to avoid the use of std::any in ClassAnalysis &amp; MethodAnalysis ..." alt="" coords="3418,557,3534,584"/>
-<area shape="rect" id="node38" href="$d1/da9/dex__encoded_8hpp_source.html" title=" " alt="" coords="2962,483,3085,509"/>
-<area shape="rect" id="node39" href="$df/d86/dex__annotations_8hpp_source.html" title=" " alt="" coords="1566,632,1706,659"/>
-<area shape="rect" id="node41" title=" " alt="" coords="3909,184,3984,211"/>
-<area shape="rect" id="node42" title=" " alt="" coords="3565,184,3618,211"/>
-<area shape="rect" id="node43" href="$d5/daf/dex__external__classes_8hpp.html" title="Android external class used to create specific object in the analysis of the code,..." alt="" coords="3644,408,3814,435"/>
-<area shape="rect" id="node44" href="$dd/df7/dex__external__methods_8hpp.html" title="Android external methods, used in exteran classes, used to fill those calls to methods not declared i..." alt="" coords="3566,483,3740,509"/>
-<area shape="rect" id="node46" href="$d9/d2a/ir__grammar_8hpp.html" title="Header file which includes all the grammar of the IR, this will be used as header file by all the int..." alt="" coords="3630,632,3740,659"/>
-<area shape="rect" id="node47" title=" " alt="" coords="3723,707,3762,733"/>
-<area shape="rect" id="node48" href="$d5/db7/ir__x86_8hpp.html" title="Values specific for x86 and x86&#45;64 for the registers this will be enums for the registers,..." alt="" coords="3517,707,3597,733"/>
-<area shape="rect" id="node49" href="$d3/d09/ir__dalvik_8hpp.html" title="All the data values for the dalvik virtual machine." alt="" coords="3838,707,3932,733"/>
+<area shape="rect" id="node1" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="3431,5,3571,61"/>
+<area shape="rect" id="node2" title=" " alt="" coords="2236,945,2308,972"/>
+<area shape="rect" id="node3" title=" " alt="" coords="3576,184,3616,211"/>
+<area shape="rect" id="node4" href="$d2/d2b/dex__instructions_8hpp_source.html" title=" " alt="" coords="2474,184,2614,211"/>
+<area shape="rect" id="node41" href="$dd/df2/dex__analysis_8hpp_source.html" title=" " alt="" coords="3113,109,3233,136"/>
+<area shape="rect" id="node46" href="$d0/d75/ir__graph_8hpp.html" title="DiGraph class from miasm implemented in C++ using the classes from MjolnIR, some of basic graph analy..." alt="" coords="3607,109,3699,136"/>
+<area shape="rect" id="node50" href="$d6/d5b/lifter__android__instructions_8hpp.html" title="Instructions from Android DALVIK for the lifter." alt="" coords="3337,109,3532,136"/>
+<area shape="rect" id="node5" title=" " alt="" coords="2683,259,2725,285"/>
+<area shape="rect" id="node6" title=" " alt="" coords="2619,707,2687,733"/>
+<area shape="rect" id="node7" title=" " alt="" coords="1399,781,1465,808"/>
+<area shape="rect" id="node8" title=" " alt="" coords="2749,259,2800,285"/>
+<area shape="rect" id="node9" title=" " alt="" coords="2873,781,2932,808"/>
+<area shape="rect" id="node10" title=" " alt="" coords="1897,781,1964,808"/>
+<area shape="rect" id="node11" href="$de/d2a/dex__dvm__types_8hpp_source.html" title=" " alt="" coords="2821,557,2957,584"/>
+<area shape="rect" id="node13" href="$dd/d30/dex__dalvik__opcodes_8hpp_source.html" title=" " alt="" coords="2344,259,2507,285"/>
+<area shape="rect" id="node15" href="$da/d49/exceptions_8hpp_source.html" title=" " alt="" coords="1098,781,1206,808"/>
+<area shape="rect" id="node30" href="$df/d93/utils_8hpp_source.html" title=" " alt="" coords="1802,781,1873,808"/>
+<area shape="rect" id="node12" title=" " alt="" coords="2753,781,2799,808"/>
+<area shape="rect" id="node14" href="$d2/d94/dex__parser_8hpp_source.html" title=" " alt="" coords="1983,333,2092,360"/>
+<area shape="rect" id="node28" href="$d0/db1/dex__strings_8hpp.html" title="DEX file strings, these are the offsets in the file, we will store the strings too." alt="" coords="1976,707,2088,733"/>
+<area shape="rect" id="node34" href="$dc/d06/dex__types_8hpp.html" title="Serie of types which points to string values." alt="" coords="1984,632,2088,659"/>
+<area shape="rect" id="node35" href="$d6/d2d/dex__fields_8hpp_source.html" title=" " alt="" coords="2226,557,2329,584"/>
+<area shape="rect" id="node36" href="$d0/d11/dex__methods_8hpp_source.html" title=" " alt="" coords="1877,557,2000,584"/>
+<area shape="rect" id="node37" href="$dc/d3b/dex__classes_8hpp_source.html" title=" " alt="" coords="2105,408,2223,435"/>
+<area shape="rect" id="node16" href="$d5/d81/parserreading__exception_8hpp_source.html" title=" " alt="" coords="781,863,968,890"/>
+<area shape="rect" id="node17" href="$dc/d37/outofbound__exception_8hpp_source.html" title=" " alt="" coords="993,863,1165,890"/>
+<area shape="rect" id="node18" href="$d3/d1c/incorrectstringid__exception_8hpp_source.html" title=" " alt="" coords="1189,863,1389,890"/>
+<area shape="rect" id="node19" href="$d6/d7b/incorrecttypeid__exception_8hpp_source.html" title=" " alt="" coords="1413,863,1605,890"/>
+<area shape="rect" id="node20" href="$d5/d5d/incorrectprotoid__exception_8hpp_source.html" title=" " alt="" coords="1629,863,1827,890"/>
+<area shape="rect" id="node21" href="$db/dc7/incorrectvalue__exception_8hpp_source.html" title=" " alt="" coords="1851,863,2040,890"/>
+<area shape="rect" id="node22" href="$d5/db1/incorrectfieldid__exception_8hpp_source.html" title=" " alt="" coords="2065,863,2255,890"/>
+<area shape="rect" id="node23" href="$d2/d3a/incorrectmethodid__exception_8hpp_source.html" title=" " alt="" coords="2280,863,2491,890"/>
+<area shape="rect" id="node24" href="$dc/d3f/incorrectdexfile__exception_8hpp_source.html" title=" " alt="" coords="2515,863,2709,890"/>
+<area shape="rect" id="node25" href="$da/dc0/invalidinstruction__exception_8hpp_source.html" title=" " alt="" coords="246,856,365,897"/>
+<area shape="rect" id="node26" href="$d1/df9/disassembler__exception_8hpp_source.html" title=" " alt="" coords="389,863,574,890"/>
+<area shape="rect" id="node27" href="$d5/d70/apkunzip__exception_8hpp_source.html" title=" " alt="" coords="598,863,757,890"/>
+<area shape="rect" id="node29" title=" " alt="" coords="3163,781,3232,808"/>
+<area shape="rect" id="node31" title=" " alt="" coords="2835,863,2947,890"/>
+<area shape="rect" id="node32" title=" " alt="" coords="2971,856,3101,897"/>
+<area shape="rect" id="node33" title=" " alt="" coords="3126,856,3261,897"/>
+<area shape="rect" id="node38" href="$d8/df1/dex__parents_8hpp.html" title="ParentClass &amp; ParentMethod class used to avoid the use of std::any in ClassAnalysis &amp; MethodAnalysis ..." alt="" coords="3185,557,3301,584"/>
+<area shape="rect" id="node39" href="$d1/da9/dex__encoded_8hpp_source.html" title=" " alt="" coords="2531,483,2653,509"/>
+<area shape="rect" id="node40" href="$df/d86/dex__annotations_8hpp_source.html" title=" " alt="" coords="1217,632,1357,659"/>
+<area shape="rect" id="node42" title=" " alt="" coords="3477,184,3552,211"/>
+<area shape="rect" id="node43" title=" " alt="" coords="3147,184,3200,211"/>
+<area shape="rect" id="node44" href="$d5/daf/dex__external__classes_8hpp.html" title="Android external class used to create specific object in the analysis of the code,..." alt="" coords="3113,408,3284,435"/>
+<area shape="rect" id="node45" href="$dd/df7/dex__external__methods_8hpp.html" title="Android external methods, used in exteran classes, used to fill those calls to methods not declared i..." alt="" coords="3235,483,3410,509"/>
+<area shape="rect" id="node47" href="$d9/d2a/ir__grammar_8hpp.html" title="Header file which includes all the grammar of the IR, this will be used as header file by all the int..." alt="" coords="3287,632,3398,659"/>
+<area shape="rect" id="node48" title=" " alt="" coords="3323,707,3362,733"/>
+<area shape="rect" id="node49" href="$d5/db7/ir__x86_8hpp.html" title="Values specific for x86 and x86&#45;64 for the registers this will be enums for the registers,..." alt="" coords="3067,707,3147,733"/>
 </map>

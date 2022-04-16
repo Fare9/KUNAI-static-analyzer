@@ -13,6 +13,6 @@ var searchData=
   ['set_5fstart_5fidx_10',['set_start_idx',['../db/dca/classKUNAI_1_1MJOLNIR_1_1IRBlock.html#a2b45ad10d1cfbd7f22e9574e1184581b',1,'KUNAI::MJOLNIR::IRBlock']]],
   ['set_5fvalue_11',['set_value',['../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html#aef0ad7ce2164367b7b57ec3e70990b02',1,'KUNAI::DEX::StringAnalysis']]],
   ['show_5fbuff_12',['show_buff',['../d3/dd5/classKUNAI_1_1DEX_1_1ExceptionAnalysis.html#aff1a0322562417fb668454f8e6fef4a1',1,'KUNAI::DEX::ExceptionAnalysis']]],
-  ['sparseswitch_13',['SparseSwitch',['../d7/d0e/classKUNAI_1_1DEX_1_1SparseSwitch.html#a61730319ca91a4b067e6ec2c4dcc2aea',1,'KUNAI::DEX::SparseSwitch']]],
+  ['sparseswitch_13',['SparseSwitch',['../d7/d0e/classKUNAI_1_1DEX_1_1SparseSwitch.html#a61b99a9178183435f78d60b6b200d79b',1,'KUNAI::DEX::SparseSwitch']]],
   ['stringanalysis_14',['StringAnalysis',['../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html#aa13b34950451bd04203752a1de5fcc1c',1,'KUNAI::DEX::StringAnalysis']]]
 ];
