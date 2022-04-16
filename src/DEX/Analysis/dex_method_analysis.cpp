@@ -171,7 +171,7 @@ namespace KUNAI
                 if (dalvik_opcodes->get_instruction_operation(ins->get_OP()) ==
                     DVMTypes::Operation::BRANCH_DVM_OPCODE)
                 {
-                    auto v = determine_next(ins, idx, instructions);
+                    auto v = determine_next(ins, idx);
                     h[idx] = v;
                     l.insert(l.end(), v.begin(), v.end());
                 }

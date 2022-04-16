@@ -8,7 +8,7 @@ namespace KUNAI
         /**
          * Instruction
          */
-        Instruction::Instruction(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : dalvik_opcodes(dalvik_opcodes),
+        Instruction::Instruction(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : dalvik_opcodes(dalvik_opcodes),
                                                                                                             length(0),
                                                                                                             OP(0)
         {
@@ -46,7 +46,7 @@ namespace KUNAI
         /**
          * Instruction00x
          */
-        Instruction00x::Instruction00x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction00x::Instruction00x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             this->set_length(0);
         }
@@ -54,7 +54,7 @@ namespace KUNAI
         /**
          * Instruction10x
          */
-        Instruction10x::Instruction10x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction10x::Instruction10x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[2];
             this->set_length(2);
@@ -71,7 +71,7 @@ namespace KUNAI
         /**
          * Instruction12x
          */
-        Instruction12x::Instruction12x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction12x::Instruction12x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[2];
             this->set_length(2);
@@ -96,7 +96,7 @@ namespace KUNAI
         /**
          * Instruction11n
          */
-        Instruction11n::Instruction11n(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction11n::Instruction11n(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[2];
             this->set_length(2);
@@ -121,7 +121,7 @@ namespace KUNAI
         /**
          * Instruction11x
          */
-        Instruction11x::Instruction11x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction11x::Instruction11x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[2];
             this->set_length(2);
@@ -144,7 +144,7 @@ namespace KUNAI
         /***
          * Instruction10t
          */
-        Instruction10t::Instruction10t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction10t::Instruction10t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[2];
             this->set_length(2);
@@ -170,7 +170,7 @@ namespace KUNAI
         /**
          * Instruction20t
          */
-        Instruction20t::Instruction20t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction20t::Instruction20t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -199,7 +199,7 @@ namespace KUNAI
         /**
          * Instruction20bc
          */
-        Instruction20bc::Instruction20bc(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction20bc::Instruction20bc(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -224,7 +224,7 @@ namespace KUNAI
         /**
          * Instruction22x
          */
-        Instruction22x::Instruction22x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22x::Instruction22x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -249,7 +249,7 @@ namespace KUNAI
         /**
          * Instruction21t
          */
-        Instruction21t::Instruction21t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction21t::Instruction21t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -276,7 +276,7 @@ namespace KUNAI
         /**
          * Instruction21s
          */
-        Instruction21s::Instruction21s(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction21s::Instruction21s(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -301,7 +301,7 @@ namespace KUNAI
         /**
          * Instruction21h
          */
-        Instruction21h::Instruction21h(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction21h::Instruction21h(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
 
@@ -342,7 +342,7 @@ namespace KUNAI
         /**
          * Instruction21c
          */
-        Instruction21c::Instruction21c(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction21c::Instruction21c(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -427,7 +427,7 @@ namespace KUNAI
         /**
          * Instruction23x
          */
-        Instruction23x::Instruction23x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction23x::Instruction23x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -455,7 +455,7 @@ namespace KUNAI
         /**
          * Instruction22b
          */
-        Instruction22b::Instruction22b(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22b::Instruction22b(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -482,7 +482,7 @@ namespace KUNAI
         /**
          * Instruction22t
          */
-        Instruction22t::Instruction22t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22t::Instruction22t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -512,7 +512,7 @@ namespace KUNAI
         /**
          * Instruction22s
          */
-        Instruction22s::Instruction22s(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22s::Instruction22s(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -539,7 +539,7 @@ namespace KUNAI
         /**
          * Instruction22c
          */
-        Instruction22c::Instruction22c(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22c::Instruction22c(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -599,7 +599,7 @@ namespace KUNAI
         /**
          * Instruction22cs
          */
-        Instruction22cs::Instruction22cs(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22cs::Instruction22cs(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -659,7 +659,7 @@ namespace KUNAI
         /**
          * Instruction30t
          */
-        Instruction30t::Instruction30t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction30t::Instruction30t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[6];
             this->set_length(6);
@@ -688,7 +688,7 @@ namespace KUNAI
         /**
          * Instruction32x
          */
-        Instruction32x::Instruction32x(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction32x::Instruction32x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[6];
 
@@ -717,7 +717,7 @@ namespace KUNAI
         /**
          * Instruction31i
          */
-        Instruction31i::Instruction31i(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction31i::Instruction31i(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             this->set_length(6);
             std::uint8_t instruction[6];
@@ -742,7 +742,7 @@ namespace KUNAI
         /**
          * Instruction31t
          */
-        Instruction31t::Instruction31t(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction31t::Instruction31t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[6];
             this->set_length(6);
@@ -774,7 +774,7 @@ namespace KUNAI
         /**
          * Instruction31c
          */
-        Instruction31c::Instruction31c(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction31c::Instruction31c(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[6];
             this->set_length(6);
@@ -799,7 +799,7 @@ namespace KUNAI
         /**
          * Instruction35c
          */
-        Instruction35c::Instruction35c(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction35c::Instruction35c(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t reg[5];
 
@@ -889,7 +889,7 @@ namespace KUNAI
         /**
          * Instruction3rc
          */
-        Instruction3rc::Instruction3rc(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction3rc::Instruction3rc(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[6];
             std::uint16_t vCCCC;
@@ -1008,7 +1008,7 @@ namespace KUNAI
         /**
          * Instruction45cc
          */
-        Instruction45cc::Instruction45cc(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction45cc::Instruction45cc(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[8];
             std::uint8_t regC, regD, regE, regF, regG;
@@ -1103,7 +1103,7 @@ namespace KUNAI
         /**
          * Instruction4rcc
          */
-        Instruction4rcc::Instruction4rcc(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction4rcc::Instruction4rcc(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[8];
             std::uint16_t vCCCC;
@@ -1169,7 +1169,7 @@ namespace KUNAI
         /**
          * Instruction51l
          */
-        Instruction51l::Instruction51l(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction51l::Instruction51l(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[10];
             this->set_length(10);
@@ -1194,7 +1194,7 @@ namespace KUNAI
         /**
          * PackedSwitch
          */
-        PackedSwitch::PackedSwitch(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        PackedSwitch::PackedSwitch(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction_part1[8];
             std::int32_t aux;
@@ -1258,7 +1258,7 @@ namespace KUNAI
         /**
          * SparseSwitch
          */
-        SparseSwitch::SparseSwitch(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        SparseSwitch::SparseSwitch(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction_part1[4];
             std::int32_t aux;
@@ -1369,7 +1369,7 @@ namespace KUNAI
         /**
          * FillArrayData
          */
-        FillArrayData::FillArrayData(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        FillArrayData::FillArrayData(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction_part1[8];
             std::uint8_t aux;
@@ -1432,7 +1432,7 @@ namespace KUNAI
             return operands;
         }
 
-        std::shared_ptr<Instruction> get_instruction_object(std::uint32_t opcode, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::istream &input_file)
+        std::shared_ptr<Instruction> get_instruction_object(std::uint32_t opcode, std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file)
         {
             std::shared_ptr<Instruction> instruction;
 
@@ -1865,8 +1865,7 @@ namespace KUNAI
          *
          */
         std::vector<std::int64_t> determine_next(std::shared_ptr<Instruction> instr,
-                                                 std::uint64_t curr_idx,
-                                                 std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions)
+                                                 std::uint64_t curr_idx)
         {
             auto op_value = instr->get_OP();
 
