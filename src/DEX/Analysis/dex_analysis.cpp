@@ -22,12 +22,12 @@ namespace KUNAI
 
             auto class_dex = dex_parser->get_classes();
 
+#ifdef DEBUG
             logger->debug("Adding to the analysis {} number of classes", class_dex->get_number_of_classes());
+#endif
 
-            for (size_t i = 0, n_of_classes = static_cast<size_t>(class_dex->get_number_of_classes()); i < n_of_classes; i++)
+            for (auto class_def_item : class_dex->get_classes())
             {
-                auto class_def_item = class_dex->get_class_by_pos(i);
-
                 if (class_def_item == nullptr)
                     continue;
 
@@ -40,28 +40,12 @@ namespace KUNAI
                 if (class_data_item == nullptr)
                     continue;
 
-                logger->debug("Adding to the class {} direct methods", class_data_item->get_number_of_direct_methods());
-
-                // add the direct methods
-                for (size_t j = 0, n_of_methods = static_cast<size_t>(class_data_item->get_number_of_direct_methods()); j < n_of_methods; j++)
+#ifdef DEBUG
+                logger->debug("Adding to the class {} direct and virtual methods", class_data_item->get_number_of_direct_methods());
+#endif
+                // add the direct & virtual methods
+                for (auto encoded_method : class_data_item->get_methods())
                 {
-                    auto encoded_method = class_data_item->get_direct_method_by_pos(j);
-
-                    methods[encoded_method->full_name()] = std::make_shared<MethodAnalysis>(encoded_method, dalvik_opcodes, instructions[{class_def_item, encoded_method}]);
-                    auto new_method = methods[encoded_method->full_name()];
-
-                    new_class->add_method(new_method);
-
-                    method_hashes[{class_def_item->get_class_idx()->get_name(), *encoded_method->get_method()->get_method_name(), encoded_method->get_method()->get_method_prototype()->get_proto_str()}] = new_method;
-                }
-
-                logger->debug("Adding to the class {} virtual methods", static_cast<size_t>(class_data_item->get_number_of_virtual_methods()));
-
-                // add the virtual methods
-                for (size_t j = 0, n_of_methods = static_cast<size_t>(class_data_item->get_number_of_virtual_methods()); j < n_of_methods; j++)
-                {
-                    auto encoded_method = class_data_item->get_virtual_method_by_pos(j);
-
                     methods[encoded_method->full_name()] = std::make_shared<MethodAnalysis>(encoded_method, dalvik_opcodes, instructions[{class_def_item, encoded_method}]);
                     auto new_method = methods[encoded_method->full_name()];
 
@@ -89,17 +73,26 @@ namespace KUNAI
 
             created_xrefs = true;
 
+#ifdef DEBUG
             logger->debug("create_xref(): creating xrefs for {} dex files", dex_parsers.size());
+#endif
 
-            for (size_t i = 0, n_dex_parsers = dex_parsers.size(); i < n_dex_parsers; i++)
+            for (auto dex_parser : dex_parsers)
             {
-                auto dex_parser = dex_parsers[i];
+#ifdef DEBUG
+                static size_t i = 0;
+                logger->debug("Analyzing {} parser from {}", i++, dex_parsers.size());
+#endif
 
                 auto class_dex = dex_parser->get_classes();
+                auto class_def_items = class_dex->get_classes();
 
-                for (size_t j = 0; j < class_dex->get_number_of_classes(); j++)
+                for (auto class_def_item : class_def_items)
                 {
-                    auto class_def_item = class_dex->get_class_by_pos(i);
+#ifdef DEBUG
+                    static size_t j = 0;
+                    logger->debug("Analyzing {}({}) class from {}", class_def_item->get_class_idx()->get_raw(), j++, class_dex->get_number_of_classes());
+#endif
 
                     _create_xref(class_def_item);
                 }
@@ -336,26 +329,40 @@ namespace KUNAI
 
         void Analysis::_create_xref(std::shared_ptr<KUNAI::DEX::ClassDef> current_class)
         {
-            auto current_class_name = current_class->get_class_idx()->get_name();
+            auto logger = LOGGER::logger();
 
+            auto current_class_name = current_class->get_class_idx()->get_name();
             auto class_data_item = current_class->get_class_data();
+
+            if (!class_data_item)
+            {
+#ifdef DEBUG
+                logger->debug("class_data_item not present for class {}", current_class_name);
+#endif
+
+                return;
+            }
 
             // add the methods
             auto current_methods = class_data_item->get_methods();
-            for (size_t j = 0; j < current_methods.size(); j++)
-            {
-                auto current_method = current_methods[j];
-                auto current_method_analysis = methods[current_method->full_name()];
-                auto current_class = classes[current_class_name];
+            auto class_working_on = classes[current_class_name];
 
-                // std::cout << "Analyzing the method instructions from: " << current_class_name << "->" << current_method_analysis->name() << current_method_analysis->descriptor() << ";" << std::endl;
+            for (auto current_method : current_methods)
+            {
+                auto current_method_analysis = methods[current_method->full_name()];
+
+#ifdef DEBUG
+                static size_t j = 0;
+                logger->debug("Analyzing {}({}) method from {}", current_method_analysis->full_name().c_str(), j++, current_methods.size());
+#endif
 
                 // now we go parsing each instruction
                 auto instructions = current_method_analysis->get_instructions();
-                for (auto it = instructions.begin(); it != instructions.end(); it++)
+
+                for (auto offset_instr : instructions)
                 {
-                    auto off = it->first;
-                    auto instruction = it->second;
+                    auto off = offset_instr.first;
+                    auto instruction = offset_instr.second;
 
                     auto op_value = instruction->get_OP();
 
@@ -395,8 +402,8 @@ namespace KUNAI
                          * With the _new_instance and _const_class can this be deprecated?
                          * Removing these does not impact tests
                          */
-                        current_class->add_xref_to(static_cast<DVMTypes::REF_TYPE>(op_value), oth_cls, current_method_analysis, off);
-                        oth_cls->add_xref_from(static_cast<DVMTypes::REF_TYPE>(op_value), current_class, current_method_analysis, off);
+                        class_working_on->add_xref_to(static_cast<DVMTypes::REF_TYPE>(op_value), oth_cls, current_method_analysis, off);
+                        oth_cls->add_xref_from(static_cast<DVMTypes::REF_TYPE>(op_value), class_working_on, current_method_analysis, off);
 
                         if (op_value == DVMTypes::Opcode::OP_CONST_CLASS)
                         {
@@ -421,6 +428,13 @@ namespace KUNAI
                         if (invoke_->get_kind() != DVMTypes::Kind::METH)
                             continue;
 
+                        if (invoke_->get_operands_kind_method()->get_method_class()->get_type() != DEX::Type::CLASS)
+                        {
+                            logger->warn("Found a call to a method from non class (type found: {})",
+                                         invoke_->get_operands_kind_method()->get_method_class()->print_type());
+                            continue;
+                        }
+
                         auto class_info = reinterpret_cast<Class *>(invoke_->get_operands_kind_method()->get_method_class())->get_name();
                         auto method_info = *invoke_->get_operands_kind_method()->get_method_name();
                         auto proto_info = invoke_->get_operands_kind_method()->get_method_prototype()->get_proto_str();
@@ -428,11 +442,11 @@ namespace KUNAI
                         auto oth_meth = _resolve_method(class_info, method_info, proto_info);
                         auto oth_cls = classes[class_info];
 
-                        current_class->add_method_xref_to(current_method_analysis, oth_cls, oth_meth, off);
-                        oth_cls->add_method_xref_from(oth_meth, current_class, current_method_analysis, off);
+                        class_working_on->add_method_xref_to(current_method_analysis, oth_cls, oth_meth, off);
+                        oth_cls->add_method_xref_from(oth_meth, class_working_on, current_method_analysis, off);
 
-                        current_class->add_xref_to(static_cast<DVMTypes::REF_TYPE>(op_value), oth_cls, oth_meth, off);
-                        oth_cls->add_xref_from(static_cast<DVMTypes::REF_TYPE>(op_value), current_class, current_method_analysis, off);
+                        class_working_on->add_xref_to(static_cast<DVMTypes::REF_TYPE>(op_value), oth_cls, oth_meth, off);
+                        oth_cls->add_xref_from(static_cast<DVMTypes::REF_TYPE>(op_value), class_working_on, current_method_analysis, off);
                     }
                     else if ((DVMTypes::Opcode::OP_INVOKE_VIRTUAL_RANGE <= op_value) && (op_value <= DVMTypes::Opcode::OP_INVOKE_INTERFACE_RANGE))
                     {
@@ -449,11 +463,11 @@ namespace KUNAI
                         auto oth_meth = _resolve_method(class_info, method_info, proto_info);
                         auto oth_cls = classes[class_info];
 
-                        current_class->add_method_xref_to(current_method_analysis, oth_cls, oth_meth, off);
-                        oth_cls->add_method_xref_from(oth_meth, current_class, current_method_analysis, off);
+                        class_working_on->add_method_xref_to(current_method_analysis, oth_cls, oth_meth, off);
+                        oth_cls->add_method_xref_from(oth_meth, class_working_on, current_method_analysis, off);
 
-                        current_class->add_xref_to(static_cast<DVMTypes::REF_TYPE>(op_value), oth_cls, oth_meth, off);
-                        oth_cls->add_xref_from(static_cast<DVMTypes::REF_TYPE>(op_value), current_class, current_method_analysis, off);
+                        class_working_on->add_xref_to(static_cast<DVMTypes::REF_TYPE>(op_value), oth_cls, oth_meth, off);
+                        oth_cls->add_xref_from(static_cast<DVMTypes::REF_TYPE>(op_value), class_working_on, current_method_analysis, off);
                     }
 
                     // check for string usage:
@@ -471,7 +485,7 @@ namespace KUNAI
                         if (strings.find(*string_value) == strings.end())
                             strings[*string_value] = std::make_shared<StringAnalysis>(string_value);
 
-                        strings[*string_value]->add_xref_from(current_class, current_method_analysis, off);
+                        strings[*string_value]->add_xref_from(class_working_on, current_method_analysis, off);
                     }
 
                     // check now for field usage, we will first
@@ -488,22 +502,22 @@ namespace KUNAI
 
                         if (dalvik_opcodes->get_instruction_operation(op_value) == DVMTypes::Operation::FIELD_READ_DVM_OPCODE)
                         {
-                            classes[current_class_name]->add_field_xref_read(current_method_analysis, current_class, field_item, off);
+                            classes[current_class_name]->add_field_xref_read(current_method_analysis, class_working_on, field_item, off);
 
                             // necessary to give a field analysis to the add_xref_read method
                             // we can get the created by the add_field_xref_read.
                             auto field_analysis = classes[current_class_name]->get_field_analysis(field_item);
 
-                            current_method_analysis->add_xref_read(current_class, field_analysis, off);
+                            current_method_analysis->add_xref_read(class_working_on, field_analysis, off);
                         }
                         else if (dalvik_opcodes->get_instruction_operation(op_value) == DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE)
                         {
-                            classes[current_class_name]->add_field_xref_write(current_method_analysis, current_class, field_item, off);
+                            classes[current_class_name]->add_field_xref_write(current_method_analysis, class_working_on, field_item, off);
 
                             // same as before
                             auto field_analysis = classes[current_class_name]->get_field_analysis(field_item);
 
-                            current_method_analysis->add_xref_write(current_class, field_analysis, off);
+                            current_method_analysis->add_xref_write(class_working_on, field_analysis, off);
                         }
                     }
                     else if ((DVMTypes::Opcode::OP_SGET <= op_value) && (op_value <= DVMTypes::Opcode::OP_SPUT_SHORT))
@@ -517,22 +531,22 @@ namespace KUNAI
 
                         if (dalvik_opcodes->get_instruction_operation(op_value) == DVMTypes::Operation::FIELD_READ_DVM_OPCODE)
                         {
-                            classes[current_class_name]->add_field_xref_read(current_method_analysis, current_class, field_item, off);
+                            classes[current_class_name]->add_field_xref_read(current_method_analysis, class_working_on, field_item, off);
 
                             // necessary to give a field analysis to the add_xref_read method
                             // we can get the created by the add_field_xref_read.
                             auto field_analysis = classes[current_class_name]->get_field_analysis(field_item);
 
-                            current_method_analysis->add_xref_read(current_class, field_analysis, off);
+                            current_method_analysis->add_xref_read(class_working_on, field_analysis, off);
                         }
                         else if (dalvik_opcodes->get_instruction_operation(op_value) == DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE)
                         {
-                            classes[current_class_name]->add_field_xref_write(current_method_analysis, current_class, field_item, off);
+                            classes[current_class_name]->add_field_xref_write(current_method_analysis, class_working_on, field_item, off);
 
                             // same as before
                             auto field_analysis = classes[current_class_name]->get_field_analysis(field_item);
 
-                            current_method_analysis->add_xref_write(current_class, field_analysis, off);
+                            current_method_analysis->add_xref_write(class_working_on, field_analysis, off);
                         }
                     }
                 }

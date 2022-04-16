@@ -16,5 +16,7 @@
 #include "invalidinstruction_exception.hpp"
 #include "disassembler_exception.hpp"
 
+#include "apkunzip_exception.hpp"
+
 
 #endif

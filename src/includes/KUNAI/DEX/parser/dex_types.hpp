@@ -70,7 +70,7 @@ namespace KUNAI
              * @brief get raw string from the type object.
              * @return raw: string from the type.
              */
-            std::string get_raw()
+            std::string& get_raw()
             {
                 return this->raw;
             }
@@ -192,7 +192,7 @@ namespace KUNAI
              * @brief get name of Class type.
              * @return std::string with name of Class type.
              */
-            std::string get_name()
+            std::string& get_name()
             {
                 return name;
             }
@@ -294,7 +294,7 @@ namespace KUNAI
             DexTypes(std::ifstream &input_file,
                      std::uint32_t number_of_types,
                      std::uint32_t types_offsets,
-                     std::shared_ptr<DexStrings> dex_str);
+                     std::shared_ptr<DexStrings>& dex_str);
 
             /**
              * @brief Destructor of DexTypes class, clear all the Types.
@@ -357,7 +357,7 @@ namespace KUNAI
             std::map<std::uint32_t, Type *> types;
             std::uint32_t number_of_types;
             std::uint32_t offset;
-            std::shared_ptr<DexStrings> dex_str;
+            std::shared_ptr<DexStrings>& dex_str;
         };
     }
 }

@@ -62,7 +62,7 @@ namespace KUNAI
              * @param instruction: std::uint32_t instruction opcode.
              * @return std::string
              */
-            std::string get_instruction_type_str(std::uint32_t instruction);
+            std::string& get_instruction_type_str(std::uint32_t instruction);
 
             /**
              * @brief get string* by id.
@@ -126,7 +126,7 @@ namespace KUNAI
              * @param id: std::uint32_t id of the string.
              * @return std::string
              */
-            std::string get_dalvik_string_by_id_str(std::uint32_t id)
+            std::string& get_dalvik_string_by_id_str(std::uint32_t id)
             {
                 return *dex_parser->get_strings()->get_string_from_order(id);
             }
@@ -136,7 +136,7 @@ namespace KUNAI
              * @param id: std::uint32_t id of the Type.
              * @return std::string
              */
-            std::string get_dalvik_type_by_id_str(std::uint32_t id)
+            std::string& get_dalvik_type_by_id_str(std::uint32_t id)
             {
                 return dex_parser->get_types()->get_type_from_order(id)->get_raw();
             }

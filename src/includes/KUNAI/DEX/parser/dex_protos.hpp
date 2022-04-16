@@ -57,8 +57,8 @@ namespace KUNAI
                     std::uint32_t return_type_idx,
                     std::uint32_t parameters_off,
                     std::ifstream &input_file,
-                    std::shared_ptr<DexStrings> dex_strings,
-                    std::shared_ptr<DexTypes> dex_types);
+                    std::shared_ptr<DexStrings>& dex_strings,
+                    std::shared_ptr<DexTypes>& dex_types);
             ~ProtoID() = default;
 
             size_t get_number_of_parameters()
@@ -82,8 +82,8 @@ namespace KUNAI
 
         private:
             bool parse_parameters(std::ifstream &input_file,
-                                  std::shared_ptr<DexStrings> dex_strings,
-                                  std::shared_ptr<DexTypes> dex_types);
+                                  std::shared_ptr<DexStrings>& dex_strings,
+                                  std::shared_ptr<DexTypes>& dex_types);
 
             std::string *shorty_idx;
             Type *return_type_idx;
@@ -98,8 +98,8 @@ namespace KUNAI
                       std::uint64_t file_size,
                       std::uint32_t number_of_protos,
                       std::uint32_t offset,
-                      std::shared_ptr<DexStrings> dex_strings,
-                      std::shared_ptr<DexTypes> dex_types);
+                      std::shared_ptr<DexStrings>& dex_strings,
+                      std::shared_ptr<DexTypes>& dex_types);
 
             ~DexProtos();
 
@@ -110,6 +110,11 @@ namespace KUNAI
 
             ProtoID *get_proto_by_order(size_t pos);
 
+            const std::vector<ProtoID *>& get_protos() const
+            {
+                return proto_ids;
+            }
+
             friend std::ostream &operator<<(std::ostream &os, const DexProtos &entry);
             friend std::fstream &operator<<(std::fstream &fos, const DexProtos &entry);
 
@@ -118,8 +123,8 @@ namespace KUNAI
 
             std::uint32_t number_of_protos;
             std::uint32_t offset;
-            std::shared_ptr<DexStrings> dex_strings;
-            std::shared_ptr<DexTypes> dex_types;
+            std::shared_ptr<DexStrings>& dex_strings;
+            std::shared_ptr<DexTypes>& dex_types;
 
             std::vector<ProtoID *> proto_ids;
         };

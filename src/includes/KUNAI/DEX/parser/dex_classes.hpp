@@ -68,9 +68,9 @@ namespace KUNAI {
              */
             ClassDataItem(std::ifstream& input_file,
                             std::uint64_t file_size,
-                            std::shared_ptr<DexFields> dex_fields,
-                            std::shared_ptr<DexMethods> dex_methods,
-                            std::shared_ptr<DexTypes> dex_types);
+                            std::shared_ptr<DexFields>& dex_fields,
+                            std::shared_ptr<DexMethods>& dex_methods,
+                            std::shared_ptr<DexTypes>& dex_types);
             /**
              * @brief ClassDataItem destructor
              * @return void
@@ -178,10 +178,14 @@ namespace KUNAI {
             /**
              * @brief Get all the methods object
              * 
-             * @return std::vector<std::shared_ptr<EncodedMethod>> 
+             * @return std::vector<std::shared_ptr<EncodedMethod>>&
              */
-            std::vector<std::shared_ptr<EncodedMethod>> get_methods();
+            const std::vector<std::shared_ptr<EncodedMethod>>& get_methods() const
+            {
+                return methods;
+            }
         private:
+            std::vector<std::shared_ptr<EncodedMethod>> methods;
             std::map<std::uint64_t, std::shared_ptr<EncodedField>> static_fields;
             std::map<std::uint64_t, std::shared_ptr<EncodedField>> instance_fields;
             std::map<std::uint64_t, std::shared_ptr<EncodedMethod>> direct_methods;
@@ -217,10 +221,10 @@ namespace KUNAI {
              * @return void
              */
             ClassDef(classdef_t class_def,
-                     std::shared_ptr<DexStrings> dex_str, 
-                     std::shared_ptr<DexTypes> dex_types,
-                     std::shared_ptr<DexFields> dex_fields,
-                     std::shared_ptr<DexMethods> dex_methods,
+                     std::shared_ptr<DexStrings>& dex_str, 
+                     std::shared_ptr<DexTypes>& dex_types,
+                     std::shared_ptr<DexFields>& dex_fields,
+                     std::shared_ptr<DexMethods>& dex_methods,
                      std::ifstream& input_file,
                      std::uint64_t file_size);
             /**
@@ -292,7 +296,7 @@ namespace KUNAI {
              * @brief Get the ClassDataItem object from the ClassDef.
              * @return std::shared_ptr<ClassDataItem>
              */
-            std::shared_ptr<ClassDataItem> get_class_data()
+            std::shared_ptr<ClassDataItem>& get_class_data()
             {
                 return class_data_items;
             }
@@ -312,10 +316,10 @@ namespace KUNAI {
              */
             bool parse_class_defs(std::ifstream& input_file, 
                                     std::uint64_t file_size, 
-                                    std::shared_ptr<DexStrings> dex_str, 
-                                    std::shared_ptr<DexTypes> dex_types,
-                                    std::shared_ptr<DexFields> dex_fields,
-                                    std::shared_ptr<DexMethods> dex_methods);
+                                    std::shared_ptr<DexStrings>& dex_str, 
+                                    std::shared_ptr<DexTypes>& dex_types,
+                                    std::shared_ptr<DexFields>& dex_fields,
+                                    std::shared_ptr<DexMethods>& dex_methods);
 
 
             std::map<std::uint32_t, Class*> class_idx;
@@ -393,10 +397,10 @@ namespace KUNAI {
                         std::uint64_t file_size,
                         std::uint32_t number_of_classes,
                         std::uint32_t offset,
-                        std::shared_ptr<DexStrings> dex_str,
-                        std::shared_ptr<DexTypes> dex_types,
-                        std::shared_ptr<DexFields> dex_fields,
-                        std::shared_ptr<DexMethods> dex_methods);
+                        std::shared_ptr<DexStrings>& dex_str,
+                        std::shared_ptr<DexTypes>& dex_types,
+                        std::shared_ptr<DexFields>& dex_fields,
+                        std::shared_ptr<DexMethods>& dex_methods);
             
             /**
              * @brief DexClasses destructor.
@@ -419,6 +423,16 @@ namespace KUNAI {
              */
             std::shared_ptr<ClassDef> get_class_by_pos(std::uint64_t pos);
 
+            /**
+             * @brief Get the vector reference to all the classes
+             * 
+             * @return const std::vector<std::shared_ptr<ClassDef>>& 
+             */
+            const std::vector<std::shared_ptr<ClassDef>>& get_classes() const
+            {
+                return class_defs;
+            }
+
             friend std::ostream& operator<<(std::ostream& os, const DexClasses& entry);
         private:
             /**
@@ -431,10 +445,10 @@ namespace KUNAI {
 
             std::uint32_t number_of_classes;
             std::uint32_t offset;
-            std::shared_ptr<DexStrings> dex_str;
-            std::shared_ptr<DexTypes> dex_types;
-            std::shared_ptr<DexFields> dex_fields;
-            std::shared_ptr<DexMethods> dex_methods;
+            std::shared_ptr<DexStrings>& dex_str;
+            std::shared_ptr<DexTypes>& dex_types;
+            std::shared_ptr<DexFields>& dex_fields;
+            std::shared_ptr<DexMethods>& dex_methods;
             std::vector<std::shared_ptr<ClassDef>> class_defs;
         };
     }

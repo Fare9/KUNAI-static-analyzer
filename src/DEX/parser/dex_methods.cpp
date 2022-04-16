@@ -11,9 +11,9 @@ namespace KUNAI
         MethodID::MethodID(std::uint16_t class_idx,
                            std::uint16_t proto_idx,
                            std::uint32_t name_idx,
-                           std::shared_ptr<DexStrings> dex_strings,
-                           std::shared_ptr<DexTypes> dex_types,
-                           std::shared_ptr<DexProtos> dex_protos)
+                           std::shared_ptr<DexStrings>& dex_strings,
+                           std::shared_ptr<DexTypes>& dex_types,
+                           std::shared_ptr<DexProtos>& dex_protos)
         {
             this->class_idx[class_idx] = dex_types->get_type_from_order(class_idx);
             this->proto_idx[proto_idx] = dex_protos->get_proto_by_order(proto_idx);
@@ -41,9 +41,9 @@ namespace KUNAI
         DexMethods::DexMethods(std::ifstream &input_file,
                                std::uint32_t number_of_methods,
                                std::uint32_t offset,
-                               std::shared_ptr<DexStrings> dex_strings,
-                               std::shared_ptr<DexTypes> dex_types,
-                               std::shared_ptr<DexProtos> dex_protos) : number_of_methods(number_of_methods),
+                               std::shared_ptr<DexStrings>& dex_strings,
+                               std::shared_ptr<DexTypes>& dex_types,
+                               std::shared_ptr<DexProtos>& dex_protos) : number_of_methods(number_of_methods),
                                                                         offset(offset),
                                                                         dex_strings(dex_strings),
                                                                         dex_types(dex_types),
@@ -83,7 +83,9 @@ namespace KUNAI
             // set to current offset
             input_file.seekg(offset);
 
+            #ifdef DEBUG
             logger->debug("DexMethods parsing methods in offset {} and size {}", offset, number_of_methods);
+            #endif
 
             for (i = 0; i < number_of_methods; i++)
             {
@@ -118,7 +120,9 @@ namespace KUNAI
 
                 method_ids.push_back(method_id);
 
+                #ifdef DEBUG
                 logger->debug("Added method number {}", i);
+                #endif
             }
 
             // set to previous offset

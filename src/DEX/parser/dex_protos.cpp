@@ -12,8 +12,8 @@ namespace KUNAI
                          std::uint32_t return_type_idx,
                          std::uint32_t parameters_off,
                          std::ifstream &input_file,
-                         std::shared_ptr<DexStrings> dex_strings,
-                         std::shared_ptr<DexTypes> dex_types) : parameters_off(parameters_off)
+                         std::shared_ptr<DexStrings>& dex_strings,
+                         std::shared_ptr<DexTypes>& dex_types) : parameters_off(parameters_off)
         {
             this->shorty_idx = dex_strings->get_string_from_order(shorty_idx);
             this->return_type_idx = dex_types->get_type_from_order(return_type_idx);
@@ -22,8 +22,8 @@ namespace KUNAI
         }
 
         bool ProtoID::parse_parameters(std::ifstream &input_file,
-                                       std::shared_ptr<DexStrings> dex_strings,
-                                       std::shared_ptr<DexTypes> dex_types)
+                                       std::shared_ptr<DexStrings>& dex_strings,
+                                       std::shared_ptr<DexTypes>& dex_types)
         {
             auto logger = LOGGER::logger();
 
@@ -42,7 +42,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint32_t>(size, sizeof(std::uint32_t), input_file))
                 return false;
             
+            #ifdef DEBUG
             logger->debug("Reading ProtoID from offset {} and size {}", parameters_off, size);
+            #endif
 
             for (i = 0; i < size; i++)
             {
@@ -59,7 +61,9 @@ namespace KUNAI
 
                 parameters.push_back(type);
 
+                #ifdef DEBUG
                 logger->debug("Parsed type number {}", i);
+                #endif
             }
 
             input_file.seekg(current_offset);
@@ -97,8 +101,8 @@ namespace KUNAI
                              std::uint64_t file_size,
                              std::uint32_t number_of_protos,
                              std::uint32_t offset,
-                             std::shared_ptr<DexStrings> dex_strings,
-                             std::shared_ptr<DexTypes> dex_types) : number_of_protos(number_of_protos),
+                             std::shared_ptr<DexStrings>& dex_strings,
+                             std::shared_ptr<DexTypes>& dex_types) : number_of_protos(number_of_protos),
                                                                     offset(offset),
                                                                     dex_strings(dex_strings),
                                                                     dex_types(dex_types)
@@ -129,7 +133,9 @@ namespace KUNAI
             // set to current offset
             input_file.seekg(offset);
 
+            #ifdef DEBUG
             logger->debug("DexProtos start parsing in offset {} with size {}", offset, number_of_protos);
+            #endif
 
             for (i = 0; i < number_of_protos; i++)
             {
@@ -158,7 +164,9 @@ namespace KUNAI
 
                 proto_ids.push_back(proto_id);
 
+                #ifdef DEBUG
                 logger->debug("parsed proto id {}", i);
+                #endif
             }
 
             // set to previous offset

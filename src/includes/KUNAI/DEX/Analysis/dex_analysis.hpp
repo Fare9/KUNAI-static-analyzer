@@ -44,6 +44,9 @@ namespace KUNAI
         class ClassAnalysis;
         class Analysis;
 
+        typedef std::set<std::tuple<std::shared_ptr<MethodAnalysis>, std::uint64_t>> xref_method_idx;
+        typedef std::map<std::shared_ptr<ClassAnalysis>, std::set<std::tuple<DVMTypes::REF_TYPE, std::shared_ptr<MethodAnalysis>, std::uint64_t>>> class_xref;
+
         /**
          * Analysis definition
          *
@@ -490,12 +493,9 @@ namespace KUNAI
 
             /**
              * @brief return all the references to other classes called by this class.
-             * @return std::map<std::shared_ptr<ClassAnalysis>, std::set<std::tuple<DVMTypes::REF_TYPE, std::shared_ptr<MethodAnalysis>, std::uint64_t>>>
+             * @return class_xref
              */
-            const std::map<std::shared_ptr<ClassAnalysis>,
-                           std::set<std::tuple<DVMTypes::REF_TYPE,
-                                               std::shared_ptr<MethodAnalysis>,
-                                               std::uint64_t>>> &
+            const class_xref &
             get_xref_to() const
             {
                 return xrefto;
@@ -503,12 +503,9 @@ namespace KUNAI
 
             /**
              * @brief return all the classes that call this class.
-             * @return std::map<std::shared_ptr<ClassAnalysis>, std::set<std::tuple<DVMTypes::REF_TYPE, std::shared_ptr<MethodAnalysis>, std::uint64_t>>>
+             * @return class_xref
              */
-            const std::map<std::shared_ptr<ClassAnalysis>,
-                           std::set<std::tuple<DVMTypes::REF_TYPE,
-                                               std::shared_ptr<MethodAnalysis>,
-                                               std::uint64_t>>> &
+            const class_xref &
             get_xref_from() const
             {
                 return xreffrom;
@@ -524,9 +521,9 @@ namespace KUNAI
 
             /**
              * @brief Return all the references where the call is instantiated.
-             * @return std::set<std::tuple<std::shared_ptr<MethodAnalysis>, std::uint64_t>>
+             * @return xref_method_idx
              */
-            const std::set<std::tuple<std::shared_ptr<MethodAnalysis>, std::uint64_t>> &get_xref_new_instance() const
+            const xref_method_idx &get_xref_new_instance() const
             {
                 return xrefnewinstance;
             }
@@ -541,9 +538,9 @@ namespace KUNAI
 
             /**
              * @brief Return all the methods where this class is referenced.
-             * @return std::set<std::tuple<std::shared_ptr<MethodAnalysis>, std::uint64_t>>
+             * @return xref_method_idx
              */
-            const std::set<std::tuple<std::shared_ptr<MethodAnalysis>, std::uint64_t>> &get_xref_const_class() const
+            const xref_method_idx &get_xref_const_class() const
             {
                 return xrefconstclass;
             }
@@ -558,11 +555,11 @@ namespace KUNAI
             std::map<std::string, std::shared_ptr<MethodAnalysis>> methods;
             std::map<std::shared_ptr<EncodedField>, std::shared_ptr<FieldAnalysis>> fields;
 
-            std::map<std::shared_ptr<ClassAnalysis>, std::set<std::tuple<DVMTypes::REF_TYPE, std::shared_ptr<MethodAnalysis>, std::uint64_t>>> xrefto;
-            std::map<std::shared_ptr<ClassAnalysis>, std::set<std::tuple<DVMTypes::REF_TYPE, std::shared_ptr<MethodAnalysis>, std::uint64_t>>> xreffrom;
+            class_xref xrefto;
+            class_xref xreffrom;
 
-            std::set<std::tuple<std::shared_ptr<MethodAnalysis>, std::uint64_t>> xrefnewinstance;
-            std::set<std::tuple<std::shared_ptr<MethodAnalysis>, std::uint64_t>> xrefconstclass;
+            xref_method_idx xrefnewinstance;
+            xref_method_idx xrefconstclass;
 
             std::vector<std::string> known_apis{
                 "Landroid/", "Lcom/android/internal/util", "Ldalvik/", "Ljava/", "Ljavax/", "Lorg/apache/",
@@ -974,7 +971,7 @@ namespace KUNAI
              * @brief get the instructions from the method.
              * @return std::map<std::uint64_t, std::shared_ptr<Instruction>>
              */
-            std::map<std::uint64_t, std::shared_ptr<Instruction>> &get_instructions()
+            const std::map<std::uint64_t, std::shared_ptr<Instruction>> &get_instructions() const
             {
                 return instructions;
             }
@@ -983,7 +980,7 @@ namespace KUNAI
              * @brief get the basic blocks with the DVMBasicBlocks with the instructions.
              * @return std::shared_ptr<BasicBlocks>
              */
-            std::shared_ptr<BasicBlocks> get_basic_blocks()
+            std::shared_ptr<BasicBlocks>& get_basic_blocks()
             {
                 return basic_blocks;
             }
@@ -992,7 +989,7 @@ namespace KUNAI
              * @brief Get all the exceptions from the method.
              * @return std::shared_ptr<Exception>
              */
-            std::shared_ptr<Exception> get_exceptions()
+            std::shared_ptr<Exception>& get_exceptions()
             {
                 return exceptions;
             }
@@ -1048,7 +1045,7 @@ namespace KUNAI
              * @brief retrieve name of Field.
              * @return std::string
              */
-            std::string name()
+            std::string& name()
             {
                 return *field->get_field()->get_name_idx();
             }
@@ -1095,7 +1092,7 @@ namespace KUNAI
              * @brief return the FieldID pointer.
              * @return FieldID*
              */
-            std::shared_ptr<EncodedField> get_field()
+            std::shared_ptr<EncodedField>& get_field()
             {
                 return field;
             }
@@ -1210,7 +1207,7 @@ namespace KUNAI
              * @brief Get exception data structure.
              * @return exceptions_data
              */
-            exceptions_data get()
+            exceptions_data& get()
             {
                 return exception;
             }
