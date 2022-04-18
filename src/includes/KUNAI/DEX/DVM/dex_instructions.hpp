@@ -9,6 +9,7 @@
 #ifndef DEX_INSTRUCTIONS_HPP
 #define DEX_INSTRUCTIONS_HPP
 
+#include <variant>
 #include <any>
 #include <iostream>
 #include <memory>
@@ -1437,7 +1438,7 @@ namespace KUNAI
             {
                 return get_dalvik_opcodes()->get_dalvik_method_by_id(type_index);
             }
-            
+
             std::string get_operands_kind_method_str()
             {
                 return get_dalvik_opcodes()->get_dalvik_method_by_id_str(type_index);
@@ -1500,7 +1501,16 @@ namespace KUNAI
                 return get_kind();
             }
 
-            std::any get_last_operand();
+            /**
+             * @brief Get the last operand object
+             * 
+             * @return std::variant<KUNAI::DEX::Type *,
+             * KUNAI::DEX::MethodID *,
+             * std::uint16_t> 
+             */
+            std::variant<KUNAI::DEX::Type *,
+                         KUNAI::DEX::MethodID *,
+                         std::uint16_t> get_last_operand();
             std::string get_last_operand_str();
 
             Type *get_operands_type();
@@ -1738,7 +1748,7 @@ namespace KUNAI
                 return first_key;
             }
 
-            const std::vector<std::int32_t>& get_targets() const
+            const std::vector<std::int32_t> &get_targets() const
             {
                 return targets;
             }
@@ -1761,7 +1771,7 @@ namespace KUNAI
             ~SparseSwitch();
 
             virtual std::string get_output();
-            
+
             // probably need to change get_raw for returning
             // an array of bytes
             virtual std::uint64_t get_raw()
@@ -1775,7 +1785,7 @@ namespace KUNAI
             std::int32_t get_key_by_pos(size_t pos);
             std::int32_t get_target_by_pos(size_t pos);
 
-            const std::vector<std::tuple<std::int32_t, std::int32_t>>& get_keys_targets() const
+            const std::vector<std::tuple<std::int32_t, std::int32_t>> &get_keys_targets() const
             {
                 return keys_targets;
             }
@@ -1805,7 +1815,7 @@ namespace KUNAI
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
-            const std::vector<std::uint8_t>& get_data() const
+            const std::vector<std::uint8_t> &get_data() const
             {
                 return data;
             }

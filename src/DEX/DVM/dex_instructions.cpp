@@ -947,7 +947,10 @@ namespace KUNAI
             return operands;
         }
 
-        std::any Instruction3rc::get_last_operand()
+        std::variant<KUNAI::DEX::Type *,
+                     KUNAI::DEX::MethodID *,
+                     std::uint16_t>
+        Instruction3rc::get_last_operand()
         {
             if (get_kind() == DVMTypes::Kind::TYPE)
                 return this->get_dalvik_opcodes()->get_dalvik_Type_by_id(index);
@@ -1327,7 +1330,6 @@ namespace KUNAI
             return str.str();
         }
 
-        
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> SparseSwitch::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
@@ -1952,7 +1954,7 @@ namespace KUNAI
                 }
                 break;
                 default:
-                break;
+                    break;
                 }
 
                 return x;

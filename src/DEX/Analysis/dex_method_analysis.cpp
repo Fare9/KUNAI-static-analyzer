@@ -8,11 +8,11 @@ namespace KUNAI
          * MethodAnalysis methods
          */
 
-        MethodAnalysis::MethodAnalysis(std::shared_ptr<ParentMethod> method_encoded, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions) : method_encoded(method_encoded),
+        MethodAnalysis::MethodAnalysis(std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method_encoded, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions) : method_encoded(method_encoded),
                                                                                                                                                                                                           dalvik_opcodes(dalvik_opcodes),
                                                                                                                                                                                                           instructions(instructions)
         {
-            this->is_external = method_encoded->is_external();
+            this->is_external = method_encoded.index() == 0 ? false : true;
             this->exceptions = std::make_shared<Exception>();
 
             if (this->instructions.size() > 0)
@@ -37,38 +37,26 @@ namespace KUNAI
 
         std::string MethodAnalysis::name()
         {
-            std::string name;
-
             if (is_external)
             {
-                std::shared_ptr<ExternalMethod> method = std::dynamic_pointer_cast<ExternalMethod>(method_encoded);
-                name = method->get_name();
+                return std::get<std::shared_ptr<ExternalMethod>>(method_encoded)->get_name();
             }
             else
             {
-                std::shared_ptr<EncodedMethod> method = std::dynamic_pointer_cast<EncodedMethod>(method_encoded);
-                name = *method->get_method()->get_method_name();
+                return *std::get<std::shared_ptr<EncodedMethod>>(method_encoded)->get_method()->get_method_name();
             }
-
-            return name;
         }
 
         std::string MethodAnalysis::descriptor()
         {
-            std::string descriptor;
-
             if (is_external)
             {
-                std::shared_ptr<ExternalMethod> method = std::dynamic_pointer_cast<ExternalMethod>(method_encoded);
-                descriptor = method->get_descriptor();
+                return std::get<std::shared_ptr<ExternalMethod>>(method_encoded)->get_descriptor();
             }
             else
             {
-                std::shared_ptr<EncodedMethod> method = std::dynamic_pointer_cast<EncodedMethod>(method_encoded);
-                descriptor = method->get_method()->get_method_prototype()->get_proto_str();
+                return std::get<std::shared_ptr<EncodedMethod>>(method_encoded)->get_method()->get_method_prototype()->get_proto_str();
             }
-
-            return descriptor;
         }
 
         std::string MethodAnalysis::access()
@@ -77,12 +65,12 @@ namespace KUNAI
 
             if (is_external)
             {
-                std::shared_ptr<ExternalMethod> method = std::dynamic_pointer_cast<ExternalMethod>(method_encoded);
+                std::shared_ptr<ExternalMethod> method = std::get<std::shared_ptr<ExternalMethod>>(method_encoded);
                 access_flag = this->dalvik_opcodes->get_access_flags_string(method->get_access_flags());
             }
             else
             {
-                std::shared_ptr<EncodedMethod> method = std::dynamic_pointer_cast<EncodedMethod>(method_encoded);
+                std::shared_ptr<EncodedMethod> method = std::get<std::shared_ptr<EncodedMethod>>(method_encoded);
                 access_flag = this->dalvik_opcodes->get_access_flags_string(method->get_access_flags());
             }
 
@@ -95,12 +83,12 @@ namespace KUNAI
 
             if (is_external)
             {
-                std::shared_ptr<ExternalMethod> method = std::dynamic_pointer_cast<ExternalMethod>(method_encoded);
+                std::shared_ptr<ExternalMethod> method = std::get<std::shared_ptr<ExternalMethod>>(method_encoded);
                 class_name = method->get_class_name();
             }
             else
             {
-                std::shared_ptr<EncodedMethod> method = std::dynamic_pointer_cast<EncodedMethod>(method_encoded);
+                std::shared_ptr<EncodedMethod> method = std::get<std::shared_ptr<EncodedMethod>>(method_encoded);
                 class_name = method->get_method()->get_method_class()->get_raw();
             }
 
@@ -151,7 +139,7 @@ namespace KUNAI
             auto logger = LOGGER::logger();
 
             basic_blocks = std::make_shared<BasicBlocks>();
-            std::shared_ptr<DVMBasicBlock> current_basic = std::make_shared<DVMBasicBlock>(0, dalvik_opcodes, basic_blocks, std::dynamic_pointer_cast<EncodedMethod>(method_encoded), instructions);
+            std::shared_ptr<DVMBasicBlock> current_basic = std::make_shared<DVMBasicBlock>(0, dalvik_opcodes, basic_blocks, std::get<std::shared_ptr<EncodedMethod>>(method_encoded), instructions);
 
             // push the first basic block
             basic_blocks->push_basic_block(current_basic);
@@ -159,7 +147,7 @@ namespace KUNAI
             std::vector<std::int64_t> l;
             std::map<std::uint64_t, std::vector<std::int64_t>> h;
 
-            logger->debug("create_basic_block: creating basic blocks for method {}.", std::dynamic_pointer_cast<EncodedMethod>(method_encoded)->full_name());
+            logger->debug("create_basic_block: creating basic blocks for method {}.", std::get<std::shared_ptr<EncodedMethod>>(method_encoded)->full_name());
 
             for (auto const &instruction : instructions)
             {
@@ -177,7 +165,7 @@ namespace KUNAI
 
             logger->debug("create_basic_block: parsing method exceptions.");
 
-            auto excepts = determine_exception(dalvik_opcodes, std::dynamic_pointer_cast<EncodedMethod>(method_encoded));
+            auto excepts = determine_exception(dalvik_opcodes, std::get<std::shared_ptr<EncodedMethod>>(method_encoded));
 
             for (const auto &except : excepts)
             {
@@ -200,7 +188,7 @@ namespace KUNAI
                 {
                     if (current_basic->get_nb_instructions() != 0)
                     {
-                        current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::dynamic_pointer_cast<EncodedMethod>(method_encoded), instructions);
+                        current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::get<std::shared_ptr<EncodedMethod>>(method_encoded), instructions);
                         basic_blocks->push_basic_block(current_basic);
                     }
                 }
@@ -209,7 +197,7 @@ namespace KUNAI
 
                 if (h.find(idx) != h.end())
                 {
-                    current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::dynamic_pointer_cast<EncodedMethod>(method_encoded), instructions);
+                    current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::get<std::shared_ptr<EncodedMethod>>(method_encoded), instructions);
                     basic_blocks->push_basic_block(current_basic);
                 }
             }

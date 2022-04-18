@@ -14,13 +14,12 @@
 #include <vector>
 #include <memory>
 
-#include "dex_parents.hpp"
 #include "dex_external_methods.hpp"
 
 namespace KUNAI {
     namespace DEX {
 
-        class ExternalClass : public ParentClass
+        class ExternalClass
         {
         public:
             /**

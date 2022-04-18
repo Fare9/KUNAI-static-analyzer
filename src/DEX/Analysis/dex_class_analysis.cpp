@@ -5,9 +5,9 @@ namespace KUNAI
     namespace DEX
     {
 
-        ClassAnalysis::ClassAnalysis(std::shared_ptr<ParentClass> class_def) : class_def(class_def)
+        ClassAnalysis::ClassAnalysis(std::variant<std::shared_ptr<ClassDef>, std::shared_ptr<ExternalClass>> class_def) : class_def(class_def)
         {
-            is_external = class_def->is_external();
+            is_external = class_def.index() == 0 ? false : true;
         }
 
         void ClassAnalysis::add_method(std::shared_ptr<MethodAnalysis> method_analysis)
@@ -15,14 +15,14 @@ namespace KUNAI
             std::string method_key;
 
             if (method_analysis->external())
-                method_key = std::dynamic_pointer_cast<ExternalMethod>(method_analysis->get_method())->full_name();
+                method_key = std::get<std::shared_ptr<ExternalMethod>>(method_analysis->get_method())->full_name();
             else
-                method_key = std::dynamic_pointer_cast<EncodedMethod>(method_analysis->get_method())->full_name();
+                method_key = std::get<std::shared_ptr<EncodedMethod>>(method_analysis->get_method())->full_name();
 
             methods[method_key] = method_analysis;
 
             if (is_external)
-                std::dynamic_pointer_cast<ExternalClass>(class_def)->add_method(std::dynamic_pointer_cast<ExternalMethod>(method_analysis->get_method()));
+                std::get<std::shared_ptr<ExternalClass>>(class_def)->add_method(std::get<std::shared_ptr<ExternalMethod>>(method_analysis->get_method()));
         }
 
         std::vector<Class *> ClassAnalysis::implements()
@@ -32,7 +32,7 @@ namespace KUNAI
             if (is_external)
                 return implemented_interfaces;
 
-            auto class_def = std::dynamic_pointer_cast<ClassDef>(this->class_def);
+            auto class_def = std::get<std::shared_ptr<ClassDef>>(this->class_def);
 
             for (size_t i = 0, n_of_interfaces = class_def->get_number_of_interfaces(); i < n_of_interfaces ; i++)
                 implemented_interfaces.push_back(class_def->get_interface_by_pos(i));
@@ -45,22 +45,18 @@ namespace KUNAI
             if (is_external)
                 return "Ljava/lang/Object;";
 
-            auto class_def = std::dynamic_pointer_cast<ClassDef>(this->class_def);
-
-            return class_def->get_superclass_idx()->get_name();
+            return std::get<std::shared_ptr<ClassDef>>(this->class_def)->get_superclass_idx()->get_name();
         }
 
         std::string ClassAnalysis::name()
         {
             if (is_external)
             {
-                auto class_def = std::dynamic_pointer_cast<ExternalClass>(this->class_def);
-                return class_def->get_name();
+                return std::get<std::shared_ptr<ExternalClass>>(this->class_def)->get_name();
             }
             else
             {
-                auto class_def = std::dynamic_pointer_cast<ClassDef>(this->class_def);
-                return class_def->get_class_idx()->get_name();
+                return std::get<std::shared_ptr<ClassDef>>(this->class_def)->get_class_idx()->get_name();
             }
         }
 
@@ -104,14 +100,14 @@ namespace KUNAI
             return field_list;
         }
 
-        std::shared_ptr<MethodAnalysis> ClassAnalysis::get_method_analysis(std::shared_ptr<ParentMethod> method)
+        std::shared_ptr<MethodAnalysis> ClassAnalysis::get_method_analysis(std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method)
         {
             std::string method_key;
 
-            if (method->is_internal())
-                method_key = std::dynamic_pointer_cast<EncodedMethod>(method)->full_name();
+            if (method.index() == 0)
+                method_key = std::get<std::shared_ptr<EncodedMethod>>(method)->full_name();
             else
-                method_key = std::dynamic_pointer_cast<ExternalMethod>(method)->full_name();
+                method_key = std::get<std::shared_ptr<ExternalMethod>>(method)->full_name();
 
             if (methods.find(method_key) != methods.end())
             {
@@ -163,9 +159,9 @@ namespace KUNAI
             std::string method_key;
 
             if (method1->external())
-                method_key = std::dynamic_pointer_cast<ExternalMethod>(method1->get_method())->full_name();
+                method_key = std::get<std::shared_ptr<ExternalMethod>>(method1->get_method())->full_name();
             else
-                method_key = std::dynamic_pointer_cast<EncodedMethod>(method1->get_method())->full_name();
+                method_key = std::get<std::shared_ptr<EncodedMethod>>(method1->get_method())->full_name();
 
             if (methods.find(method_key) == methods.end())
                 this->add_method(method1);
@@ -180,9 +176,9 @@ namespace KUNAI
             std::string method_key;
 
             if (method1->external())
-                method_key = std::dynamic_pointer_cast<ExternalMethod>(method1->get_method())->full_name();
+                method_key = std::get<std::shared_ptr<ExternalMethod>>(method1->get_method())->full_name();
             else
-                method_key = std::dynamic_pointer_cast<EncodedMethod>(method1->get_method())->full_name();
+                method_key = std::get<std::shared_ptr<EncodedMethod>>(method1->get_method())->full_name();
 
             if (methods.find(method_key) == methods.end())
                 this->add_method(method1);

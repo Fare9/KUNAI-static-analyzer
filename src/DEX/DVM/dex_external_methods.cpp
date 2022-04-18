@@ -6,8 +6,7 @@ namespace KUNAI
     {
         ExternalMethod::ExternalMethod(std::string class_idx,
                                        std::string name_idx,
-                                       std::string proto_idx) : ParentMethod(ParentMethod::EXTERNAL_METHOD_T),
-                                                                class_idx(class_idx),
+                                       std::string proto_idx) : class_idx(class_idx),
                                                                 name_idx(name_idx),
                                                                 proto_idx(proto_idx)
         {
