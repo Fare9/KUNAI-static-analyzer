@@ -8,10 +8,10 @@ CFLAGS=-std=c++17 -c -g -fpic
 # CFLAGS execution
 #CFLAGS=-std=c++17 -c -O3 -fpic
 CODE_FOLDER=src/
-CODE_TEST_FOLDER=src/tests-src/
+CODE_TEST_FOLDER=./projects/
 INCLUDE_FOLDER=src/includes/KUNAI/
 BIN_FOLDER=bin/
-BIN_TEST_FOLDER=bin/tests/
+BIN_PROJECTS_FOLDER=bin/projects/
 OBJ=objs/
 BIN_NAME=Kunai
 STATIC_LIB_NAME=libkunai.a
@@ -45,13 +45,13 @@ OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${IR_OBJ_FILES} ${IR_LIFTERS_OBJ_FILES
 .PHONY: tests
 
 all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
-		${BIN_TEST_FOLDER}test_dex_parser ${BIN_TEST_FOLDER}test_dex_disassembler ${BIN_TEST_FOLDER}test_ir ${BIN_TEST_FOLDER}test_dex_lifter \
-		${BIN_TEST_FOLDER}test_ir_graph ${BIN_TEST_FOLDER}test_dominators
+		${BIN_PROJECTS_FOLDER}test_dex_parser ${BIN_PROJECTS_FOLDER}test_dex_disassembler ${BIN_PROJECTS_FOLDER}test_ir ${BIN_PROJECTS_FOLDER}test_dex_lifter \
+		${BIN_PROJECTS_FOLDER}test_ir_graph ${BIN_PROJECTS_FOLDER}test_dominators
 
 dirs:
 	mkdir -p ${OBJ}
 	mkdir -p ${BIN_FOLDER}
-	mkdir -p ${BIN_TEST_FOLDER}
+	mkdir -p ${BIN_PROJECTS_FOLDER}
 
 ${BIN_FOLDER}${BIN_NAME}: ${OBJ}main.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
@@ -69,27 +69,27 @@ ${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
 #  				Test Files
 ####################################################################
 
-${BIN_TEST_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
+${BIN_PROJECTS_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^
 	
-${BIN_TEST_FOLDER}test_dex_disassembler: ${OBJ}test_dex_disassembler.o ${OBJ_FILES}
+${BIN_PROJECTS_FOLDER}test_dex_disassembler: ${OBJ}test_dex_disassembler.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^
 	
-${BIN_TEST_FOLDER}test_ir: ${OBJ}test_ir.o ${OBJ_FILES}
+${BIN_PROJECTS_FOLDER}test_ir: ${OBJ}test_ir.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^
 	
-${BIN_TEST_FOLDER}test_dex_lifter: ${OBJ}test_dex_lifter.o ${OBJ_FILES}
+${BIN_PROJECTS_FOLDER}test_dex_lifter: ${OBJ}test_dex_lifter.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^
 
-${BIN_TEST_FOLDER}test_ir_graph: ${OBJ}test_ir_graph.o ${OBJ_FILES}
+${BIN_PROJECTS_FOLDER}test_ir_graph: ${OBJ}test_ir_graph.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^
 
-${BIN_TEST_FOLDER}test_dominators: ${OBJ}test_dominators.o ${OBJ_FILES}
+${BIN_PROJECTS_FOLDER}test_dominators: ${OBJ}test_dominators.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^
 
