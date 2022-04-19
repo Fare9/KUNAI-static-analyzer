@@ -10,7 +10,7 @@ namespace KUNAI
         {
         }
 
-        std::shared_ptr<MJOLNIR::IRGraph> LifterAndroid::lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis, std::shared_ptr<DEX::Analysis> android_analysis)
+        std::shared_ptr<MJOLNIR::IRGraph> LifterAndroid::lift_android_method(std::shared_ptr<DEX::MethodAnalysis>& method_analysis, std::shared_ptr<DEX::Analysis>& android_analysis)
         {
             auto bbs = method_analysis->get_basic_blocks()->get_basic_blocks();
             size_t n_bbs = bbs.size();
@@ -58,7 +58,7 @@ namespace KUNAI
             return method_graph;
         }
 
-        bool LifterAndroid::lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock> basic_block, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        bool LifterAndroid::lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock>& basic_block, std::shared_ptr<MJOLNIR::IRBlock>& bb)
         {
             auto instructions = basic_block->get_instructions();
             auto next = basic_block->get_next();
@@ -91,7 +91,7 @@ namespace KUNAI
             return true;
         }
 
-        bool LifterAndroid::lift_android_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        bool LifterAndroid::lift_android_instruction(std::shared_ptr<DEX::Instruction>& instruction, std::shared_ptr<MJOLNIR::IRBlock>& bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 

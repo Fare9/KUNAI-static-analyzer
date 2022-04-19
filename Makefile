@@ -190,6 +190,9 @@ tests:
 	@echo "Compiling test-graph"
 	cd ./tests/test-graph/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
 
+	@echo "Compiling test-cyclomatic-complexity"
+	cd ./tests/test-cyclomatic-complexity/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
+
 
 ########################################################
 clean:

@@ -11,6 +11,8 @@
 #include <set>
 #include <algorithm>
 #include <map>
+
+#include "utils.hpp"
 #include "ir_grammar.hpp"
 
 namespace KUNAI
@@ -315,6 +317,14 @@ namespace KUNAI
              * @param name 
              */
             void generate_dominator_tree(std::string name);
+
+            /**
+             * @brief Get the cyclomatic complexity of the graph,
+             *        this will be useful to calculate the complexity
+             *        of a function regarding its CFG.
+             * @return std::uint64_t
+             */
+            const std::uint64_t get_cyclomatic_complexity();
         private:
             Nodes nodes;
             Edges edges;
@@ -323,6 +333,8 @@ namespace KUNAI
             std::map<std::shared_ptr<IRBlock>, Nodes> predecessors;
             
             void add_bbs(std::shared_ptr<IRBlock> r, Nodes ebb);
+
+            std::uint64_t cyclomatic_complexity = -1;
             
         };
     } // namespace MJOLNIR
