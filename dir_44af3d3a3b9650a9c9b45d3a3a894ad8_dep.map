@@ -1,11 +1,9 @@
 <map id="src/includes/KUNAI/DEX" name="src/includes/KUNAI/DEX">
-<area shape="rect" id="node3" href="dir_e1064a3c0deeaa890757cfd51929cdea.html" title="DVM" alt="" coords="133,159,205,207"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000005_000007.html" title="3" alt="" coords="174,133,182,148"/>
-<area shape="rect" id="node2" href="dir_a15cee3e18c5d93fc3362afbbbaebbd9.html" title="Analysis" alt="" coords="133,255,205,303"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000001_000007.html" title="2" alt="" coords="166,218,174,233"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000007_000001.html" title="2" alt="" coords="165,229,173,243"/>
-<area shape="rect" id="node4" href="dir_a5c8edda8036d290f845cef3d09d21c8.html" title="parser" alt="" coords="37,159,109,207"/>
-<area shape="rect" id="edge4-headlabel" href="dir_000016_000001.html" title="2" alt="" coords="135,228,143,243"/>
-<area shape="rect" id="clust2" href="dir_44af3d3a3b9650a9c9b45d3a3a894ad8.html" alt="" coords="27,52,216,313"/>
-<area shape="rect" id="clust1" href="dir_6bc7cd617cb60ed74fc0c937fd809de3.html" title="KUNAI" alt="" coords="16,16,227,324"/>
+<area shape="rect" id="node3" href="dir_e1064a3c0deeaa890757cfd51929cdea.html" title="DVM" alt="" coords="181,159,253,207"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000005_000007.html" title="3" alt="" coords="241,139,249,154"/>
+<area shape="rect" id="node2" href="dir_a15cee3e18c5d93fc3362afbbbaebbd9.html" title="Analysis" alt="" coords="133,63,205,111"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000001_000007.html" title="2" alt="" coords="201,131,209,146"/>
+<area shape="rect" id="node4" href="dir_a5c8edda8036d290f845cef3d09d21c8.html" title="parser" alt="" coords="37,63,109,111"/>
+<area shape="rect" id="clust2" href="dir_44af3d3a3b9650a9c9b45d3a3a894ad8.html" alt="" coords="27,52,312,217"/>
+<area shape="rect" id="clust1" href="dir_6bc7cd617cb60ed74fc0c937fd809de3.html" title="KUNAI" alt="" coords="16,16,323,228"/>
 </map>

@@ -210,6 +210,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ab4e05b1ba3aace5461ad5ee3239a3f8a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d76/ir__utils_8cpp.html#ab4e05b1ba3aace5461ad5ee3239a3f8a">KUNAI::MJOLNIR::is_switch</a> (std::shared_ptr&lt; IRStmnt &gt; instr)</td></tr>
 <tr class="memdesc:ab4e05b1ba3aace5461ad5ee3239a3f8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if given statement is a switch instruction.  <a href="../../d7/d76/ir__utils_8cpp.html#ab4e05b1ba3aace5461ad5ee3239a3f8a">More...</a><br /></td></tr>
 <tr class="separator:ab4e05b1ba3aace5461ad5ee3239a3f8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c1a560675211af91f205c7c65a63bbc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d76/ir__utils_8cpp.html#a7c1a560675211af91f205c7c65a63bbc">KUNAI::MJOLNIR::is_cmp</a> (std::shared_ptr&lt; IRStmnt &gt; instr)</td></tr>
+<tr class="memdesc:a7c1a560675211af91f205c7c65a63bbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if given statement is some kind of comparison.  <a href="../../d7/d76/ir__utils_8cpp.html#a7c1a560675211af91f205c7c65a63bbc">More...</a><br /></td></tr>
+<tr class="separator:a7c1a560675211af91f205c7c65a63bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Header file which includes all the grammar of the IR, this will be used as header file by all the intermediate representation cpp files. </p>
@@ -235,6 +238,35 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Check if given statement is a call instruction. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instr</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true </dd>
+<dd>
+false </dd></dl>
+
+</div>
+</div>
+<a id="a7c1a560675211af91f205c7c65a63bbc" name="a7c1a560675211af91f205c7c65a63bbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c1a560675211af91f205c7c65a63bbc">&#9670;&nbsp;</a></span>is_cmp()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool KUNAI::MJOLNIR::is_cmp </td>
+          <td>(</td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="../../d0/d8d/classKUNAI_1_1MJOLNIR_1_1IRStmnt.html">IRStmnt</a> &gt;&#160;</td>
+          <td class="paramname"><em>instr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>check if given statement is some kind of comparison. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">instr</td><td></td></tr>

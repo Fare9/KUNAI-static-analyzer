@@ -3,7 +3,7 @@ var searchData=
   ['call_5finstructions_0',['call_instructions',['../da/dca/classKUNAI_1_1LIFTER_1_1AndroidInstructions.html#a2c08fcd363f13f5f3d238548bb7f1b14',1,'KUNAI::LIFTER::AndroidInstructions']]],
   ['class_1',['Class',['../dd/d07/classKUNAI_1_1DEX_1_1Class.html#a30fb6b8914865f656305290be6720a66',1,'KUNAI::DEX::Class::Class()'],['../dd/d07/classKUNAI_1_1DEX_1_1Class.html',1,'KUNAI::DEX::Class']]],
   ['class_5fname_2',['class_name',['../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html#afa2ec22b382efc6e6d737e2f0433c2b8',1,'KUNAI::DEX::MethodAnalysis']]],
-  ['classanalysis_3',['ClassAnalysis',['../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a3d891dc6bd2c4c89fb658d9b68bab856',1,'KUNAI::DEX::ClassAnalysis::ClassAnalysis()'],['../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html',1,'KUNAI::DEX::ClassAnalysis']]],
+  ['classanalysis_3',['ClassAnalysis',['../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a11792b3766cddbe1520488aec8c0fbf7',1,'KUNAI::DEX::ClassAnalysis::ClassAnalysis()'],['../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html',1,'KUNAI::DEX::ClassAnalysis']]],
   ['classdataitem_4',['ClassDataItem',['../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a4015dc67d3da847e8651d723a04c4376',1,'KUNAI::DEX::ClassDataItem::ClassDataItem()'],['../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html',1,'KUNAI::DEX::ClassDataItem']]],
   ['classdef_5',['ClassDef',['../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#ad554fe063481fdd7e694c26fade02895',1,'KUNAI::DEX::ClassDef::ClassDef()'],['../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html',1,'KUNAI::DEX::ClassDef']]],
   ['classdef_5ft_6',['classdef_t',['../d8/dad/structKUNAI_1_1DEX_1_1ClassDef_1_1classdef__t.html',1,'KUNAI::DEX::ClassDef']]],
