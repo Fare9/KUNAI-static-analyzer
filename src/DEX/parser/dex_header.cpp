@@ -7,8 +7,10 @@ namespace KUNAI
         DexHeader::DexHeader(std::ifstream &input_file, std::uint64_t file_size)
         {
             auto logger = LOGGER::logger();
+            #ifdef DEBUG
             logger->debug("DexHeader start parsing");
-
+            #endif
+            
             if (!KUNAI::read_data_file<DexHeader::dexheader_t>(this->dex_struct, sizeof(DexHeader::dex_struct), input_file))
                 throw exceptions::ParserReadingException("Error reading DEX Header");
 

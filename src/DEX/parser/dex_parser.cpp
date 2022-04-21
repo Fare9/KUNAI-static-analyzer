@@ -32,8 +32,10 @@ namespace KUNAI
 
             input_file.seekg(0);
 
+            #ifdef DEBUG
             logger->debug("Checks correct");
-
+            #endif
+            
             logger->info("Starting DEX headers parsing");
 
             dex_header = std::make_shared<DexHeader>(input_file, file_size);

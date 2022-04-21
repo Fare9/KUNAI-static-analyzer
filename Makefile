@@ -3,8 +3,14 @@ AR=ar
 # set your paths
 JAVAC=javac
 DX=dx
+
+# libchilkat data if not set
+LIB_CHILKAT ?= -lchilkat-9.5.0
+INCLUDE_CHILKAT_PATH ?= ./external/chilkat-x86_64-linux-gcc/include/
+INCLUDE_CHILKAT = -I ${INCLUDE_CHILKAT_PATH}
+
 # CFLAGS debugging
-CFLAGS=-std=c++17 -c -g -fpic
+CFLAGS=-std=c++17 -c -g -fpic -D DEBUG
 # CFLAGS execution
 #CFLAGS=-std=c++17 -c -O3 -fpic
 CODE_FOLDER=src/
@@ -18,10 +24,11 @@ STATIC_LIB_NAME=libkunai.a
 SHARED_LIB_NAME=libkunai.so
 
 
-FILE_MODULES = -I ${INCLUDE_FOLDER}DEX/ -I ${INCLUDE_FOLDER}DEX/parser/ -I ${INCLUDE_FOLDER}DEX/DVM/ -I ${INCLUDE_FOLDER}DEX/Analysis/
-UTILITIES = -I ${INCLUDE_FOLDER}Exceptions/ -I ${INCLUDE_FOLDER}Utils/
-IR_MODULES = -I ${INCLUDE_FOLDER}mjolnIR/ -I ${INCLUDE_FOLDER}mjolnIR/Lifters/ -I ${INCLUDE_FOLDER}mjolnIR/arch/
-ALL_INCLUDE = ${FILE_MODULES} ${UTILITIES} ${IR_MODULES}
+DEX_MODULES_INCLUDE = -I ${INCLUDE_FOLDER}DEX/ -I ${INCLUDE_FOLDER}DEX/parser/ -I ${INCLUDE_FOLDER}DEX/DVM/ -I ${INCLUDE_FOLDER}DEX/Analysis/
+APK_MODULES_INCLUDE = -I ${INCLUDE_FOLDER}APK/
+UTILITIES_INCLUDE = -I ${INCLUDE_FOLDER}Exceptions/ -I ${INCLUDE_FOLDER}Utils/
+IR_MODULES_INCLUDE = -I ${INCLUDE_FOLDER}mjolnIR/ -I ${INCLUDE_FOLDER}mjolnIR/Lifters/ -I ${INCLUDE_FOLDER}mjolnIR/arch/
+ALL_INCLUDE = ${DEX_MODULES_INCLUDE} ${APK_MODULES_INCLUDE} ${UTILITIES_INCLUDE} ${IR_MODULES_INCLUDE}
 
 DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_types.o ${OBJ}dex_protos.o ${OBJ}dex_fields.o \
@@ -36,17 +43,21 @@ DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_class_analysis.o ${OBJ}dex_analysis.o\
 			${OBJ}dex.o
 
+APK_OBJ_FILES = ${OBJ}apk.o
+
 IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o ${OBJ}ir_blocks.o ${OBJ}ir_graph.o ${OBJ}ir_utils.o
 IR_LIFTERS_OBJ_FILES = ${OBJ}lifter_android.o
 
-OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${IR_OBJ_FILES} ${IR_LIFTERS_OBJ_FILES}
+OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${APK_OBJ_FILES} ${IR_OBJ_FILES} ${IR_LIFTERS_OBJ_FILES}
 
 .PHONY: clean
 .PHONY: tests
 
 all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
-		${BIN_PROJECTS_FOLDER}test_dex_parser ${BIN_PROJECTS_FOLDER}test_dex_disassembler ${BIN_PROJECTS_FOLDER}test_ir ${BIN_PROJECTS_FOLDER}test_dex_lifter \
-		${BIN_PROJECTS_FOLDER}test_ir_graph ${BIN_PROJECTS_FOLDER}test_dominators
+
+${BIN_PROJECTS_FOLDER}test_dex_parser ${BIN_PROJECTS_FOLDER}test_dex_disassembler ${BIN_PROJECTS_FOLDER}test_ir ${BIN_PROJECTS_FOLDER}test_dex_lifter \
+${BIN_PROJECTS_FOLDER}test_ir_graph ${BIN_PROJECTS_FOLDER}test_dominators
+
 
 dirs:
 	mkdir -p ${OBJ}
@@ -55,7 +66,7 @@ dirs:
 
 ${BIN_FOLDER}${BIN_NAME}: ${OBJ}main.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^
+	${CXX} -o $@ $^ ${LIB_CHILKAT}
 	
 ${BIN_FOLDER}${STATIC_LIB_NAME}: ${OBJ_FILES}
 	@echo "Linking static library $@"
@@ -63,7 +74,7 @@ ${BIN_FOLDER}${STATIC_LIB_NAME}: ${OBJ_FILES}
 	
 ${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
 	@echo "Linking dynamic library $@"
-	${CXX} -fpic -shared -Wformat=0 -o $@ $^
+	${CXX} -fpic -shared -Wformat=0 -o $@ $^ ${LIB_CHILKAT}
 	
 ####################################################################
 #  				Test Files
@@ -71,27 +82,31 @@ ${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
 
 ${BIN_PROJECTS_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^
+	${CXX} -o $@ $^ ${LIB_CHILKAT}
 	
 ${BIN_PROJECTS_FOLDER}test_dex_disassembler: ${OBJ}test_dex_disassembler.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^
+	${CXX} -o $@ $^ ${LIB_CHILKAT}
 	
 ${BIN_PROJECTS_FOLDER}test_ir: ${OBJ}test_ir.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^
+	${CXX} -o $@ $^ ${LIB_CHILKAT}
 	
 ${BIN_PROJECTS_FOLDER}test_dex_lifter: ${OBJ}test_dex_lifter.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^
+	${CXX} -o $@ $^ ${LIB_CHILKAT}
 
 ${BIN_PROJECTS_FOLDER}test_ir_graph: ${OBJ}test_ir_graph.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^
+	${CXX} -o $@ $^ ${LIB_CHILKAT}
 
 ${BIN_PROJECTS_FOLDER}test_dominators: ${OBJ}test_dominators.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^
+	${CXX} -o $@ $^ ${LIB_CHILKAT}
+
+${BIN_TEST_FOLDER}test_apk_analysis: ${OBJ}test_apk_analysis.o ${OBJ_FILES}
+	@echo "Linking $< -> $@"
+	${CXX} -o $@ $^ ${LIB_CHILKAT}
 
 ####################################################################
 
@@ -133,13 +148,17 @@ ${OBJ}test_dominators.o: ${CODE_TEST_FOLDER}test_dominators.cpp
 	@echo "Compiling $< -> $@"
 	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS}
 
+${OBJ}test_apk_analysis.o: ${CODE_TEST_FOLDER}test_apk_analysis.cpp
+	@echo "Compiling $< -> $@"
+	${CXX} ${ALL_INCLUDE} ${INCLUDE_CHILKAT} -o $@ $< ${CFLAGS}
+
 ####################################################################
 	
 # Utils
 UTILS_MODULE=Utils/
 ${OBJ}%.o: ${CODE_FOLDER}${UTILS_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CXX} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS}
 	
 # DEX modules here
 DEX_MODULE=DEX/
@@ -148,31 +167,36 @@ DEX_DVM=DEX/DVM/
 DEX_ANALYSIS=DEX/Analysis/
 ${OBJ}dex.o: ${CODE_FOLDER}${DEX_MODULE}dex.cpp
 	@echo "Compiling $^ -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_MODULE} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES} -o $@ $^ ${CFLAGS}
+	${CXX} -I${INCLUDE_FOLDER}${DEX_MODULE} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES_INCLUDE} -o $@ $^ ${CFLAGS}
 	
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_PARSER}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS}
 	
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_DVM}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES} -o $@ $< ${CFLAGS}	
+	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS}	
 
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_ANALYSIS}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES} -o $@ $< ${CFLAGS}
-	
+	${CXX} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS}
+
+# APK modules here
+APK_MODULE=APK/
+${OBJ}%.o: ${CODE_FOLDER}${APK_MODULE}%.cpp
+	@echo "Compiling $< -> $@"
+	${CXX} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} ${APK_MODULES_INCLUDE} ${INCLUDE_CHILKAT} -o $@ $< ${CFLAGS} ${LIB_CHILKAT}
 
 # IR modules here
 IR_MODULE=mjolnIR/
 IR_LIFTERS=mjolnIR/Lifters/
 ${OBJ}%.o: ${CODE_FOLDER}${IR_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${IR_MODULES} ${FILE_MODULES} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS}
 	
 ${OBJ}%.o: ${CODE_FOLDER}${IR_LIFTERS}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${IR_MODULES} ${FILE_MODULES} ${UTILITIES} -o $@ $< ${CFLAGS}
+	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS}
 
 # Compile tests
 tests:

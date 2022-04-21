@@ -12,12 +12,21 @@ MAKE_JOBS=$((${MAKE_JOBS}+0))
 
 COMPILER=g++
 
+LIB_CHILKAT=libchilkat-9.5.0.so
+
+
 check_and_build_dependencies() {
     echo "[+] Checking for package libspdlog-dev"
     dpkg -s libspdlog-dev 2> /dev/null > /dev/null
     if [ $? -ne 0 ]; then
         echo "[-] libspdlog-dev not installed, installing it..."
         sudo apt install libspdlog-dev
+    fi
+
+    echo "[+] Checking for ${LIB_CHILKAT}"
+    if [ ! -f /usr/lib/${LIB_CHILKAT} ]; then
+        echo "[-] ${LIB_CHILKAT} not found, installing it"
+        sudo cp external/chilkat-x86_64-linux-gcc/lib/${LIB_CHILKAT} /usr/lib/${LIB_CHILKAT}
     fi
 }
 
@@ -45,6 +54,14 @@ install_kunai() {
     build_kunai
     echo "[+] Installing on system"
     make install
+
+    if [ $? -ne 0 ]; then
+        echo "[-] An error ocurred while installing..."
+        exit 1
+    fi
+
+    echo "[+] Installing other headers"
+    sudo cp ./external/chilkat-x86_64-linux-gcc/include/* /usr/include/KUNAI/
 
     if [ $? -ne 0 ]; then
         echo "[-] An error ocurred while installing..."
@@ -81,7 +98,7 @@ if [ ${UNAME} != "Linux" ]; then
 fi
 
 case "$TARGET" in
-    "" ) 
+    "build" ) 
         build_kunai;;
     "install" ) 
         install_kunai;;
@@ -95,6 +112,14 @@ case "$TARGET" in
     "run_tests" )
         run_tests;;
     * )
-        echo "Usage: $0 ["`grep '^  "' $0 | cut -d '"' -f 2 | tr "\\n" "|"`"]"
+        echo "Usage: $0 <option>"
+        echo "Next options are available:"
+        echo "    - build: build kunai directly running Makefile."
+        echo "    - install: build kunai and install it on system."
+        echo "    - uninstall: remove kunai from system."
+        echo "    - dependencies: check if dependencies are present, if not, install them."
+        echo "    - clang: build kunai but this time using clang++ as compiler."
+        echo "    - run_tests: run the 'run_tests.sh' script."
+
         exit 1;;
 esac

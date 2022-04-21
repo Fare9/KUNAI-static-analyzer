@@ -147,6 +147,7 @@ namespace KUNAI
             std::vector<std::int64_t> l;
             std::map<std::uint64_t, std::vector<std::int64_t>> h;
 
+
             logger->debug("create_basic_block: creating basic blocks for method {}.", std::get<std::shared_ptr<EncodedMethod>>(method_encoded)->full_name());
 
             for (auto const &instruction : instructions)
@@ -157,13 +158,15 @@ namespace KUNAI
                 if (dalvik_opcodes->get_instruction_operation(ins->get_OP()) ==
                     DVMTypes::Operation::BRANCH_DVM_OPCODE)
                 {
-                    auto v = determine_next(ins, idx, instructions);
+                    auto v = determine_next(ins, idx);
                     h[idx] = v;
                     l.insert(l.end(), v.begin(), v.end());
                 }
             }
 
+            #ifdef DEBUG
             logger->debug("create_basic_block: parsing method exceptions.");
+            #endif
 
             auto excepts = determine_exception(dalvik_opcodes, std::get<std::shared_ptr<EncodedMethod>>(method_encoded));
 
@@ -177,7 +180,9 @@ namespace KUNAI
                 }
             }
 
+            #ifdef DEBUG
             logger->debug("create_basic_block: creating the basic blocks with references.");
+            #endif
 
             for (const auto &instruction : instructions)
             {
@@ -207,15 +212,19 @@ namespace KUNAI
                 basic_blocks->pop_basic_block();
             }
 
+            #ifdef DEBUG
             logger->debug("create_basic_blocks: setting basic blocks childs.");
-            
+            #endif
+
             auto bbs = basic_blocks->get_basic_blocks();
             for (auto bb : bbs)
             {
                 bb->set_child(h[bb->get_end() - bb->get_last_length()]);
             }
 
+            #ifdef DEBUG
             logger->debug("create_basic_blocks: creating exceptions.");
+            #endif
             
             this->exceptions->add(excepts, this->basic_blocks);
 

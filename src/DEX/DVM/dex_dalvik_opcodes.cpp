@@ -30,7 +30,7 @@ namespace KUNAI
             return opcode_instruction_operation[instruction];
         }
 
-        std::string DalvikOpcodes::get_instruction_type_str(std::uint32_t instruction)
+        std::string& DalvikOpcodes::get_instruction_type_str(std::uint32_t instruction)
         {
             DVMTypes::Kind kind = get_instruction_type(instruction);
 

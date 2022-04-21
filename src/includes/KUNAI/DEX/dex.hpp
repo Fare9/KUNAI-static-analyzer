@@ -47,39 +47,33 @@ namespace KUNAI
              * @brief Get the DexParser of the DEX file, this will contain all the headers.
              *        Parsing was already applied.
              *
-             * @return std::shared_ptr<DexParser>
+             * @return std::shared_ptr<DexParser>&
              */
-            std::shared_ptr<DexParser> get_parser()
+            std::shared_ptr<DexParser>& get_parser()
             {
-                if (dex_parsing_correct)
-                    return dex_parser;
-                return nullptr;
+                return dex_parser;
             }
 
             /**
              * @brief Get a DalvikOpcodes object, this is commonly used internally by
              *        disassembler and other classes for Dalvik information.
              *
-             * @return std::shared_ptr<DalvikOpcodes>
+             * @return std::shared_ptr<DalvikOpcodes>&
              */
-            std::shared_ptr<DalvikOpcodes> get_dalvik_opcode_object()
+            std::shared_ptr<DalvikOpcodes>& get_dalvik_opcode_object()
             {
-                if (dalvik_opcodes)
-                    return dalvik_opcodes;
-                return nullptr;
+                return dalvik_opcodes;
             }
 
             /**
              * @brief Get the DexDisassembler if you want to apply manually the
              *        disassembly of the instructions.
              *
-             * @return std::shared_ptr<DexDisassembler>
+             * @return std::shared_ptr<DexDisassembler>&
              */
-            std::shared_ptr<DexDisassembler> get_dex_disassembler()
+            std::shared_ptr<DexDisassembler>& get_dex_disassembler()
             {
-                if (dex_disassembler)
-                    return dex_disassembler;
-                return nullptr;
+                return dex_disassembler;
             }
 
             /**

@@ -43,7 +43,7 @@ namespace KUNAI
              * 
              * @return std::string 
              */
-            std::string get_name()
+            std::string& get_name()
             {
                 return name_idx;
             }
@@ -53,7 +53,7 @@ namespace KUNAI
              * 
              * @return std::string 
              */
-            std::string get_class_name()
+            std::string& get_class_name()
             {
                 return class_idx;
             }
@@ -63,7 +63,7 @@ namespace KUNAI
              * 
              * @return std::string 
              */
-            std::string get_descriptor()
+            std::string& get_descriptor()
             {
                 return proto_idx;
             }

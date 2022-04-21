@@ -251,7 +251,7 @@ namespace KUNAI
 
             std::uint16_t get_raw_instruction_by_pos(std::uint16_t pos);
 
-            const std::vector<std::uint8_t> &get_all_raw_instructions() const
+            std::vector<std::uint8_t> &get_all_raw_instructions()
             {
                 return instructions_raw;
             }
