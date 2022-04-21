@@ -5,6 +5,8 @@ namespace KUNAI
     namespace LIFTER
     {
 
+        std::map<std::uint32_t, std::shared_ptr<MJOLNIR::IRReg>> created_registers;
+
         LifterAndroid::LifterAndroid() : temp_reg_id(0),
                                          current_idx(0)
         {
@@ -134,7 +136,13 @@ namespace KUNAI
          */
         std::shared_ptr<MJOLNIR::IRReg> LifterAndroid::make_android_register(std::uint32_t reg_id)
         {
-            return std::make_shared<MJOLNIR::IRReg>(reg_id, MJOLNIR::dalvik_arch, "v" + std::to_string(reg_id), DWORD_S);
+            // check if was already created
+            // in that case return the already created one
+            if (created_registers.find(reg_id) != created_registers.end())
+                return created_registers[reg_id];
+
+            created_registers[reg_id] = std::make_shared<MJOLNIR::IRReg>(reg_id, MJOLNIR::dalvik_arch, "v" + std::to_string(reg_id), DWORD_S);
+            return created_registers[reg_id];
         }
 
         std::shared_ptr<MJOLNIR::IRTempReg> LifterAndroid::make_temporal_register()
