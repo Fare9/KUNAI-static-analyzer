@@ -146,5 +146,22 @@ namespace KUNAI
 
             return true;
         }
+
+        bool is_cmp(std::shared_ptr<IRStmnt> instr)
+        {
+            auto cmp_instr = std::dynamic_pointer_cast<IRBComp>(instr);
+
+            if (cmp_instr != nullptr)
+                return true;
+            
+            auto zcmp_instr = std::dynamic_pointer_cast<IRZComp>(instr);
+
+            if (zcmp_instr != nullptr)
+                return true;
+            
+            return false;
+        }
+
+        
     }
 }

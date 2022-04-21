@@ -175,6 +175,15 @@ namespace KUNAI
          */
         bool is_switch(std::shared_ptr<IRStmnt> instr);
 
+        /**
+         * @brief check if given statement is some kind of comparison.
+         * 
+         * @param instr
+         * @return true
+         * @return false
+         */
+        bool is_cmp(std::shared_ptr<IRStmnt> instr);
+
         class IRBlock
         {
         public:

@@ -14,6 +14,7 @@
 #define DEX_ANALYSIS_HPP
 
 #include <any>
+#include <variant>
 #include <iostream>
 #include <vector>
 #include <tuple>
@@ -21,7 +22,6 @@
 #include <algorithm>
 #include <regex>
 
-#include "dex_parents.hpp"
 
 #include "dex_classes.hpp"
 #include "dex_external_classes.hpp"
@@ -139,10 +139,10 @@ namespace KUNAI
             /**
              * @brief Get MethodAnalysis object by giving an EncodedMethod or
              *        ExternalMethod object.
-             * @param method: std::shared_ptr<ParentMethod>
+             * @param method: std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>>
              * @return std::shared_ptr<MethodAnalysis>
              */
-            std::shared_ptr<MethodAnalysis> get_method(std::shared_ptr<ParentMethod> method);
+            std::shared_ptr<MethodAnalysis> get_method(std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method);
 
             /**
              * @brief Get MethodID from internal methods by class name, method name and
@@ -314,10 +314,10 @@ namespace KUNAI
         public:
             /**
              * @brief constructor of ClassAnalysis class.
-             * @param class_def: std::shared_ptr<ParentClass> that can be a shared_ptr of ClassDef or of ExternalClass.
+             * @param class_def: std::variant<std::shared_ptr<ClassDef>, std::shared_ptr<ExternalClass>>
              * @return void
              */
-            ClassAnalysis(std::shared_ptr<ParentClass> class_def);
+            ClassAnalysis(std::variant<std::shared_ptr<ClassDef>, std::shared_ptr<ExternalClass>> class_def);
 
             /**
              * @brief destructor of ClassAnalysis class.
@@ -328,9 +328,9 @@ namespace KUNAI
             /**
              * @brief Get the class definition object.
              *
-             * @return std::shared_ptr<ParentClass>
+             * @return std::variant<std::shared_ptr<ClassDef>, std::shared_ptr<ExternalClass>>
              */
-            std::shared_ptr<ParentClass> get_class_definition()
+            std::variant<std::shared_ptr<ClassDef>, std::shared_ptr<ExternalClass>> get_class_definition()
             {
                 return class_def;
             }
@@ -403,7 +403,7 @@ namespace KUNAI
              * @param method Method to get as a parent method.
              * @return std::shared_ptr<MethodAnalysis>
              */
-            std::shared_ptr<MethodAnalysis> get_method_analysis(std::shared_ptr<ParentMethod> method);
+            std::shared_ptr<MethodAnalysis> get_method_analysis(std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method);
 
             /**
              * @brief Get one of the FieldAnalysis object by given std::shared_ptr<EncodedField>
@@ -547,7 +547,7 @@ namespace KUNAI
 
         private:
             // ClassDef or ExternalClass object
-            std::shared_ptr<ParentClass> class_def;
+            std::variant<std::shared_ptr<ClassDef>, std::shared_ptr<ExternalClass>> class_def;
 
             bool is_external;
 
@@ -788,12 +788,12 @@ namespace KUNAI
             /**
              * @brief Constructor of MethodAnalysis it will initialize
              * various variables.
-             * @param method_encoded: std::shared_ptr<ParentMethod>
+             * @param method_encoded: std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>>
              * @param dalvik_opcodes: std::shared_ptr<DalvikOpcodes> object.
              * @param instructions: std::map<std::uint64_t, std::shared_ptr<Instruction>> all the DEX instructions.
              * @return void.
              */
-            MethodAnalysis(std::shared_ptr<ParentMethod> method_encoded, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions);
+            MethodAnalysis(std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method_encoded, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions);
 
             /**
              * @brief MethodAnalysis destructor.
@@ -820,9 +820,9 @@ namespace KUNAI
              * @brief Return method_encoded object, this can
              * be of different types EncodedMethod or ExternalMethod
              * must check which one it is.
-             * @return std::shared_ptr<ParentMethod>
+             * @return std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>>
              */
-            std::shared_ptr<ParentMethod> get_method()
+            std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> get_method()
             {
                 return method_encoded;
             }
@@ -1002,7 +1002,7 @@ namespace KUNAI
             void create_basic_block();
 
             bool is_external;
-            std::shared_ptr<ParentMethod> method_encoded;
+            std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method_encoded;
             std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
             std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions;
             std::shared_ptr<BasicBlocks> basic_blocks;

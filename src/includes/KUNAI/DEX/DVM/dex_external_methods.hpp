@@ -14,7 +14,6 @@
 #include <iostream>
 #include <vector>
 
-#include "dex_parents.hpp"
 #include "dex_dvm_types.hpp"
 
 namespace KUNAI
@@ -22,7 +21,7 @@ namespace KUNAI
     namespace DEX
     {
 
-        class ExternalMethod : public ParentMethod
+        class ExternalMethod
         {
         public:
             /**

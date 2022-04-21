@@ -5,12 +5,14 @@ namespace KUNAI
     namespace LIFTER
     {
 
+        std::map<std::uint32_t, std::shared_ptr<MJOLNIR::IRReg>> created_registers;
+
         LifterAndroid::LifterAndroid() : temp_reg_id(0),
                                          current_idx(0)
         {
         }
 
-        std::shared_ptr<MJOLNIR::IRGraph> LifterAndroid::lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis, std::shared_ptr<DEX::Analysis> android_analysis)
+        std::shared_ptr<MJOLNIR::IRGraph> LifterAndroid::lift_android_method(std::shared_ptr<DEX::MethodAnalysis>& method_analysis, std::shared_ptr<DEX::Analysis>& android_analysis)
         {
             auto bbs = method_analysis->get_basic_blocks()->get_basic_blocks();
             size_t n_bbs = bbs.size();
@@ -58,7 +60,7 @@ namespace KUNAI
             return method_graph;
         }
 
-        bool LifterAndroid::lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock> basic_block, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        bool LifterAndroid::lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock>& basic_block, std::shared_ptr<MJOLNIR::IRBlock>& bb)
         {
             auto instructions = basic_block->get_instructions();
             auto next = basic_block->get_next();
@@ -91,7 +93,7 @@ namespace KUNAI
             return true;
         }
 
-        bool LifterAndroid::lift_android_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        bool LifterAndroid::lift_android_instruction(std::shared_ptr<DEX::Instruction>& instruction, std::shared_ptr<MJOLNIR::IRBlock>& bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
@@ -134,7 +136,13 @@ namespace KUNAI
          */
         std::shared_ptr<MJOLNIR::IRReg> LifterAndroid::make_android_register(std::uint32_t reg_id)
         {
-            return std::make_shared<MJOLNIR::IRReg>(reg_id, MJOLNIR::dalvik_arch, "v" + std::to_string(reg_id), DWORD_S);
+            // check if was already created
+            // in that case return the already created one
+            if (created_registers.find(reg_id) != created_registers.end())
+                return created_registers[reg_id];
+
+            created_registers[reg_id] = std::make_shared<MJOLNIR::IRReg>(reg_id, MJOLNIR::dalvik_arch, "v" + std::to_string(reg_id), DWORD_S);
+            return created_registers[reg_id];
         }
 
         std::shared_ptr<MJOLNIR::IRTempReg> LifterAndroid::make_temporal_register()

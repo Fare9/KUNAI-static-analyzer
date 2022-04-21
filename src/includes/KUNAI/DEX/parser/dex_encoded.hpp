@@ -16,7 +16,6 @@
 #include <memory>
 #include <map>
 
-#include "dex_parents.hpp"
 #include "dex_fields.hpp"
 #include "dex_methods.hpp"
 #include "dex_dvm_types.hpp"
@@ -279,7 +278,7 @@ namespace KUNAI
             std::vector<std::shared_ptr<EncodedCatchHandler>> encoded_catch_handler_list;
         };
 
-        class EncodedMethod : public ParentMethod
+        class EncodedMethod
         {
         public:
             EncodedMethod(MethodID *method_id,

@@ -2,6 +2,22 @@
 
 Tool aimed to provide a binary analysis of different file formats through the use of an Intermmediate Representation.
 
+## Project Structure
+
+The next files/folders are included in the project:
+
+* **doc/**: doxygen documentation automatically generated when files are merged into **main** branch, you shouldn't touch nothing here (or at least is not expected).
+* **example-scripts/**: KUNAI is intended to be a library for analyst writing simple *C++* programs for analyzing *DEX* (and in the future other file formats) files, here there will be pretty easy examples that allows you to quickly get in touch with KUNAI library.
+* **external/**: all the libraries that this project depends on. This could be included as a dependency for installing into system, or as an external project in here.
+    * **external/chilkat-x86_64-linux-gcc/**: very simple library for unziping files, this is used for extracting all the files from an *apk* file.
+* **projects/**: stand-alone binaries that are compiled together with KUNAI that are intended for testing or as tools that comes with KUNAI, even when these can be checked for learning how to use KUNAI, some headers or dependencies can be included in other ways than those in **example-scripts**.
+* **src/**: source code of KUNAI, here are all the C++ classes structured in folders of KUNAI project.
+    * **src/DEX/**: code of KUNAI's DEX analysis.
+    * **src/Utils/**: utilities used by KUNAI.
+    * **src/mjolnIR/**: code of KUNAI's Intermmediate Representation.
+    * **src/includes/KUNAI/**: all KUNAI's headers structured following previous convention.
+
+
 ## DEX
 
 KUNAI offers several classes for the analysis of DEX files, this part of KUNAI's framework is based in [Androguards](https://github.com/androguard/androguard) code, but it follows another working flow, the DEX analysis is divided in three *main* parts:

@@ -70,5 +70,9 @@ int main(int argc, char **argv)
 
     graph->generate_dot_file(method_name);
 
+    auto complexity = graph->get_cyclomatic_complexity();
+
+    std::cout << "\nCyclomatic complexity = " << complexity << "\n";
+
     return 0;
 }

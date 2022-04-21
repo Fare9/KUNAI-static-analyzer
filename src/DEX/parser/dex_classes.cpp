@@ -201,7 +201,7 @@ namespace KUNAI
                            std::shared_ptr<DexFields>& dex_fields,
                            std::shared_ptr<DexMethods>& dex_methods,
                            std::ifstream &input_file,
-                           std::uint64_t file_size) : ParentClass(ParentClass::INTERNAL_CLASS_T)
+                           std::uint64_t file_size)
         {
             this->class_idx[class_def.class_idx] = dynamic_cast<Class *>(dex_types->get_type_from_order(class_def.class_idx));
             if (class_def.superclass_idx == DVMTypes::NO_INDEX)

@@ -39,7 +39,6 @@
 #include <iostream>
 #include <map>
 
-#include "dex_parents.hpp"
 
 #include "dex_dvm_types.hpp"
 #include "dex_types.hpp"
@@ -192,7 +191,7 @@ namespace KUNAI {
             std::map<std::uint64_t, std::shared_ptr<EncodedMethod>> virtual_methods;
         };
 
-        class ClassDef : public ParentClass
+        class ClassDef
         {
         public:
 #pragma pack(1)

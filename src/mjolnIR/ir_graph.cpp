@@ -647,5 +647,47 @@ namespace KUNAI
             graph.generate_dot_file(name);
         }
 
+        const std::uint64_t IRGraph::get_cyclomatic_complexity()
+        {
+            if (cyclomatic_complexity != -1)
+            {
+                return cyclomatic_complexity;
+            }
+
+            auto logger = LOGGER::logger();
+
+            // take a copy of nodes and edges
+            auto & nodes_aux = nodes;
+            auto & edges_aux = edges;
+            
+            auto E = edges_aux.size();
+            auto N = nodes_aux.size();
+
+
+            size_t P = 0;
+
+            // Go through all the nodes to calculate those
+            // which are exit nodes
+            for (auto node : nodes_aux)
+            {
+                auto statements = node->get_statements();
+                // check all instructions
+                for (auto stmnt : statements)
+                {
+                    if (is_ret(stmnt))
+                    {
+                        P += 1;
+                        break;
+                    }
+                }
+            }
+
+            cyclomatic_complexity = E - N + P*2;
+
+            logger->info("Calculated cyclomatic complexity: {}", cyclomatic_complexity);
+
+            return cyclomatic_complexity;
+        }
+
     } // namespace MJOLNIR
 } // namespace KUNAI

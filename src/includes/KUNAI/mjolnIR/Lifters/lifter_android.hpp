@@ -49,7 +49,7 @@ namespace KUNAI
              * @param android_analysis: analysis from Android.
              * @return std::shared_ptr<MJOLNIR::IRGraph>
              */
-            std::shared_ptr<MJOLNIR::IRGraph> lift_android_method(std::shared_ptr<DEX::MethodAnalysis> method_analysis, std::shared_ptr<DEX::Analysis> android_analysis);
+            std::shared_ptr<MJOLNIR::IRGraph> lift_android_method(std::shared_ptr<DEX::MethodAnalysis>& method_analysis, std::shared_ptr<DEX::Analysis>& android_analysis);
 
             /**
              * @brief Lift an android basic block instructions to IR instructions.
@@ -59,7 +59,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock> basic_block, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            bool lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock>& basic_block, std::shared_ptr<MJOLNIR::IRBlock>& bb);
 
             /**
              * @brief
@@ -69,7 +69,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool lift_android_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            bool lift_android_instruction(std::shared_ptr<DEX::Instruction>& instruction, std::shared_ptr<MJOLNIR::IRBlock>& bb);
 
         private:
             uint64_t temp_reg_id;
