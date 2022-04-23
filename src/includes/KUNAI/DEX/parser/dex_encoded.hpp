@@ -24,7 +24,11 @@ namespace KUNAI
 {
     namespace DEX
     {
+        class EncodedValue;
         class EncodedAnnotation;
+
+        using encodedvalue_t = std::shared_ptr<EncodedValue>;
+        using encodedannotation_t = std::shared_ptr<EncodedAnnotation>;
         
         class EncodedValue
         {
@@ -37,21 +41,25 @@ namespace KUNAI
                 return values;
             }
 
-            const std::vector<std::shared_ptr<EncodedValue>> &get_array() const
+            const std::vector<encodedvalue_t> &get_array() const
             {
                 return array;
             }
 
-            std::shared_ptr<EncodedAnnotation> get_annotation()
+            encodedannotation_t get_annotation()
             {
                 return annotation;
             }
 
         private:
             std::vector<std::uint8_t> values;
-            std::vector<std::shared_ptr<EncodedValue>> array;
-            std::shared_ptr<EncodedAnnotation> annotation;
+            std::vector<encodedvalue_t> array;
+            encodedannotation_t annotation;
         };
+
+        class EncodedArray;
+
+        using encodedarray_t = std::shared_ptr<EncodedArray>;
 
         class EncodedArray
         {
@@ -64,15 +72,19 @@ namespace KUNAI
                 return size;
             }
 
-            const std::vector<std::shared_ptr<EncodedValue>> &get_values() const
+            const std::vector<encodedvalue_t> &get_values() const
             {
                 return values;
             }
 
         private:
             std::uint64_t size;
-            std::vector<std::shared_ptr<EncodedValue>> values;
+            std::vector<encodedvalue_t> values;
         };
+
+        class EncodedArrayItem;
+
+        using encodedarrayitem_t = std::shared_ptr<EncodedArrayItem>;
 
         class EncodedArrayItem
         {
@@ -80,14 +92,18 @@ namespace KUNAI
             EncodedArrayItem(std::ifstream &input_file);
             ~EncodedArrayItem() = default;
 
-            std::shared_ptr<EncodedArray> get_encoded_array()
+            encodedarray_t get_encoded_array()
             {
                 return array;
             }
 
         private:
-            std::shared_ptr<EncodedArray> array;
+            encodedarray_t array;
         };
+
+        class EncodedField;
+
+        using encodedfield_t = std::shared_ptr<EncodedField>;
 
         class EncodedField
         {
@@ -110,12 +126,16 @@ namespace KUNAI
             DVMTypes::ACCESS_FLAGS access_flags;
         };
 
+        class EncodedTypePair;
+
+        using encodedtypepair_t = std::shared_ptr<EncodedTypePair>;
+
         class EncodedTypePair
         {
         public:
             EncodedTypePair(std::uint64_t type_idx,
                             std::uint64_t addr,
-                            std::shared_ptr<DexTypes> dex_types);
+                            dextypes_t dex_types);
             ~EncodedTypePair();
 
             Type *get_exception_type();
@@ -130,12 +150,16 @@ namespace KUNAI
             std::uint64_t addr;                       // bytecode address of associated exception handler
         };
 
+        class EncodedCatchHandler;
+
+        using encodedcatchhandler_t = std::shared_ptr<EncodedCatchHandler>;
+
         class EncodedCatchHandler
         {
         public:
             EncodedCatchHandler(std::ifstream &input_file,
                                 std::uint64_t file_size,
-                                std::shared_ptr<DexTypes> dex_types);
+                                dextypes_t dex_types);
             ~EncodedCatchHandler();
 
             bool has_explicit_typed_catches();
@@ -145,7 +169,7 @@ namespace KUNAI
                 return handlers.size();
             }
 
-            std::shared_ptr<EncodedTypePair> get_handler_by_pos(std::uint64_t pos);
+            encodedtypepair_t get_handler_by_pos(std::uint64_t pos);
 
             std::uint64_t get_catch_all_addr()
             {
@@ -160,13 +184,17 @@ namespace KUNAI
         private:
             bool parse_encoded_type_pairs(std::ifstream &input_file,
                                           std::uint64_t file_size,
-                                          std::shared_ptr<DexTypes> dex_types);
+                                          dextypes_t dex_types);
 
             std::uint64_t offset;
             std::int64_t encoded_type_pair_size;
-            std::vector<std::shared_ptr<EncodedTypePair>> handlers;
+            std::vector<encodedtypepair_t> handlers;
             std::uint64_t catch_all_addr;
         };
+
+        class TryItem;
+
+        using tryitem_t = std::shared_ptr<TryItem>;
 
         class TryItem
         {
@@ -202,6 +230,10 @@ namespace KUNAI
             try_item_struct_t try_item_struct;
         };
 
+        class CodeItemStruct;
+
+        using codeitemstruct_t = std::shared_ptr<CodeItemStruct>;
+
         class CodeItemStruct
         {
         public:
@@ -218,7 +250,7 @@ namespace KUNAI
             CodeItemStruct(std::ifstream &input_file,
                            std::uint64_t file_size,
                            code_item_struct_t code_item,
-                           std::shared_ptr<DexTypes> dex_types);
+                           dextypes_t dex_types);
             ~CodeItemStruct();
 
             std::uint16_t get_number_of_registers_in_code()
@@ -241,7 +273,7 @@ namespace KUNAI
                 return code_item.tries_size;
             }
 
-            std::shared_ptr<TryItem> get_try_item_by_pos(std::uint64_t pos);
+            tryitem_t get_try_item_by_pos(std::uint64_t pos);
 
             // raw byte instructions
             std::uint16_t get_number_of_raw_instructions()
@@ -266,17 +298,21 @@ namespace KUNAI
                 return encoded_catch_handler_list.size();
             }
 
-            std::shared_ptr<EncodedCatchHandler> get_encoded_catch_handler_by_pos(std::uint64_t pos);
+            encodedcatchhandler_t get_encoded_catch_handler_by_pos(std::uint64_t pos);
 
         private:
-            bool parse_code_item_struct(std::ifstream &input_file, std::uint64_t file_size, std::shared_ptr<DexTypes> dex_types);
+            bool parse_code_item_struct(std::ifstream &input_file, std::uint64_t file_size, dextypes_t dex_types);
 
             code_item_struct_t code_item;
             std::vector<std::uint8_t> instructions_raw;
-            std::vector<std::shared_ptr<TryItem>> try_items;
+            std::vector<tryitem_t> try_items;
             std::uint64_t encoded_catch_handler_list_offset;
-            std::vector<std::shared_ptr<EncodedCatchHandler>> encoded_catch_handler_list;
+            std::vector<encodedcatchhandler_t> encoded_catch_handler_list;
         };
+
+        class EncodedMethod;
+
+        using encodedmethod_t = std::shared_ptr<EncodedMethod>;
 
         class EncodedMethod
         {
@@ -286,7 +322,7 @@ namespace KUNAI
                           std::uint64_t code_off,
                           std::ifstream &input_file,
                           std::uint64_t file_size,
-                          std::shared_ptr<DexTypes> dex_types);
+                          dextypes_t dex_types);
             ~EncodedMethod() = default;
 
             MethodID *get_method() const
@@ -304,7 +340,7 @@ namespace KUNAI
                 return code_off;
             }
 
-            std::shared_ptr<CodeItemStruct> get_code_item()
+            codeitemstruct_t get_code_item()
             {
                 return code_item;
             }
@@ -312,13 +348,17 @@ namespace KUNAI
             std::string full_name();
 
         private:
-            bool parse_code_item(std::ifstream &input_file, std::uint64_t file_size, std::shared_ptr<DexTypes> dex_types);
+            bool parse_code_item(std::ifstream &input_file, std::uint64_t file_size, dextypes_t dex_types);
 
             MethodID *method_id;
             DVMTypes::ACCESS_FLAGS access_flags;
             std::uint64_t code_off;
-            std::shared_ptr<CodeItemStruct> code_item;
+            codeitemstruct_t code_item;
         };
+
+        class AnnotationElement;
+
+        using annotationelement_t = std::shared_ptr<AnnotationElement>;
 
         class AnnotationElement
         {
@@ -331,14 +371,15 @@ namespace KUNAI
                 return name_idx;
             }
 
-            std::shared_ptr<EncodedValue> get_value()
+            encodedvalue_t get_value()
             {
                 return value;
             }
         private:
             std::uint64_t name_idx;
-            std::shared_ptr<EncodedValue> value;
+            encodedvalue_t value;
         };
+
 
         class EncodedAnnotation
         {
@@ -356,14 +397,14 @@ namespace KUNAI
                 return size;
             }
 
-            const std::vector<std::shared_ptr<AnnotationElement>>& get_elements() const
+            const std::vector<annotationelement_t>& get_elements() const
             {
                 return elements;
             }
         private:
             std::uint64_t type_idx;
             std::uint64_t size;
-            std::vector<std::shared_ptr<AnnotationElement>> elements;
+            std::vector<annotationelement_t> elements;
         };
     }
 }

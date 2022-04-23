@@ -12,8 +12,8 @@ namespace KUNAI
                          std::uint32_t return_type_idx,
                          std::uint32_t parameters_off,
                          std::ifstream &input_file,
-                         std::shared_ptr<DexStrings>& dex_strings,
-                         std::shared_ptr<DexTypes>& dex_types) : parameters_off(parameters_off)
+                         dexstrings_t& dex_strings,
+                         dextypes_t& dex_types) : parameters_off(parameters_off)
         {
             this->shorty_idx = dex_strings->get_string_from_order(shorty_idx);
             this->return_type_idx = dex_types->get_type_from_order(return_type_idx);
@@ -22,8 +22,8 @@ namespace KUNAI
         }
 
         bool ProtoID::parse_parameters(std::ifstream &input_file,
-                                       std::shared_ptr<DexStrings>& dex_strings,
-                                       std::shared_ptr<DexTypes>& dex_types)
+                                       dexstrings_t& dex_strings,
+                                       dextypes_t& dex_types)
         {
             auto logger = LOGGER::logger();
 
@@ -101,8 +101,8 @@ namespace KUNAI
                              std::uint64_t file_size,
                              std::uint32_t number_of_protos,
                              std::uint32_t offset,
-                             std::shared_ptr<DexStrings>& dex_strings,
-                             std::shared_ptr<DexTypes>& dex_types) : number_of_protos(number_of_protos),
+                             dexstrings_t& dex_strings,
+                             dextypes_t& dex_types) : number_of_protos(number_of_protos),
                                                                     offset(offset),
                                                                     dex_strings(dex_strings),
                                                                     dex_types(dex_types)

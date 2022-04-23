@@ -4,7 +4,7 @@ namespace KUNAI
 {
     namespace DEX
     {
-        DexDisassembler::DexDisassembler(bool parsing_correct, std::shared_ptr<DexParser> dex_parser, std::shared_ptr<DalvikOpcodes> dalvik_opcodes) : parsing_correct(parsing_correct),
+        DexDisassembler::DexDisassembler(bool parsing_correct, dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes) : parsing_correct(parsing_correct),
                                                                                                                                                        dex_parser(dex_parser),
                                                                                                                                                        disassembly_correct(false),
                                                                                                                                                        dalvik_opcodes(dalvik_opcodes)
@@ -41,11 +41,11 @@ namespace KUNAI
 
             auto dex_classes = dex_parser->get_classes();
 
-            #ifdef DEBUG
+#ifdef DEBUG
             logger->debug("DexDisassembler disassembly a total of {} DEX classes", dex_classes->get_number_of_classes());
-            #endif
+#endif
 
-            //for (size_t i = 0, n_of_classes = static_cast<size_t>(dex_classes->get_number_of_classes()); i < n_of_classes; i++)
+            // for (size_t i = 0, n_of_classes = static_cast<size_t>(dex_classes->get_number_of_classes()); i < n_of_classes; i++)
 
             auto class_defs = dex_classes->get_classes();
 
@@ -60,10 +60,10 @@ namespace KUNAI
                 if (class_data_item == nullptr)
                     continue;
 
-                #ifdef DEBUG
+#ifdef DEBUG
                 static size_t i = 0;
                 logger->debug("For class number {}, disassembly a total of {} DEX direct methods", i++, class_data_item->get_methods().size());
-                #endif
+#endif
 
                 for (auto method : class_data_item->get_methods())
                 {
@@ -71,7 +71,7 @@ namespace KUNAI
 
                     if (!code_item_struct)
                         continue;
-                    
+
                     auto instructions = this->dalvik_disassembler->disassembly(code_item_struct->get_all_raw_instructions());
 
                     for (auto instruction : instructions)
@@ -86,17 +86,14 @@ namespace KUNAI
 
                     this->method_instructions[{class_def, method}] = instructions;
                 }
-                
             }
         }
 
-
-        void DexDisassembler::add_disassembly(std::shared_ptr<DexDisassembler> disas)
+        void DexDisassembler::add_disassembly(dexdisassembler_t disas)
         {
             method_instructions.insert(disas->get_instructions().begin(), disas->get_instructions().end());
             disassembly_correct &= disas->get_disassembly_correct();
         }
-
 
         std::ostream &operator<<(std::ostream &os, const DexDisassembler &entry)
         {
@@ -131,11 +128,11 @@ namespace KUNAI
         /**
          * @brief Operator + to join two disassemblers, this will join the two maps
          * as well as we will & the disassembly_correct variable.
-         * 
-         * @param other_disassembler 
-         * @return DexDisassembler& 
+         *
+         * @param other_disassembler
+         * @return DexDisassembler&
          */
-        DexDisassembler& operator+(DexDisassembler& first_disassembler, DexDisassembler& other_disassembler)
+        DexDisassembler &operator+(DexDisassembler &first_disassembler, DexDisassembler &other_disassembler)
         {
             first_disassembler.method_instructions.insert(other_disassembler.method_instructions.begin(), other_disassembler.method_instructions.end());
             first_disassembler.disassembly_correct &= other_disassembler.disassembly_correct;

@@ -54,7 +54,7 @@ namespace KUNAI
         }
 
 
-        void IRGraph::merge_graph(std::shared_ptr<IRGraph> graph)
+        void IRGraph::merge_graph(irgraph_t graph)
         {
             auto nodes = graph->get_nodes();
             auto edges = graph->get_edges();
@@ -386,7 +386,7 @@ namespace KUNAI
 
 
         
-        std::shared_ptr<IRGraph> IRGraph::copy()
+        irgraph_t IRGraph::copy()
         {
             auto new_graph = std::make_shared<IRGraph>();
 

@@ -25,14 +25,14 @@ namespace KUNAI {
         class LinearSweepDisassembler
         {
         public:
-            LinearSweepDisassembler(std::shared_ptr<DalvikOpcodes> dalvik_opcodes);
+            LinearSweepDisassembler(dalvikopcodes_t dalvik_opcodes);
             ~LinearSweepDisassembler() = default;
 
-            std::map<std::uint64_t, std::shared_ptr<Instruction>> disassembly(const std::vector<std::uint8_t>& byte_buffer);
+            std::map<std::uint64_t, instruction_t> disassembly(const std::vector<std::uint8_t>& byte_buffer);
         private:
-            void assign_switch_if_any(std::map<std::uint64_t, std::shared_ptr<Instruction>>& instrs);
+            void assign_switch_if_any(std::map<std::uint64_t, instruction_t>& instrs);
 
-            std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
+            dalvikopcodes_t dalvik_opcodes;
         };
     }
 }

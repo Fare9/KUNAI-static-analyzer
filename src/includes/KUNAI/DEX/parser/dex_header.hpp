@@ -49,6 +49,10 @@ namespace KUNAI
     namespace DEX
     {
 
+        class DexHeader;
+
+        using dexheader_t = std::shared_ptr<DexHeader>;
+
         class DexHeader
         {
         public:

@@ -11,6 +11,7 @@
 
 #include <iostream>
 #include <map>
+#include <memory>
 
 namespace KUNAI
 {
@@ -20,6 +21,10 @@ namespace KUNAI
         static const std::uint8_t dex_magic_037[] = {'d', 'e', 'x', '\n', '0', '3', '7', '\0'};
         static const std::uint8_t dex_magic_038[] = {'d', 'e', 'x', '\n', '0', '3', '8', '\0'};
         static const std::uint8_t dex_magic_039[] = {'d', 'e', 'x', '\n', '0', '3', '9', '\0'};
+
+        class DVMTypes;
+
+        using dvmtypes_t = std::shared_ptr<DVMTypes>;
 
         class DVMTypes
         {

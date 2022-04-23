@@ -70,7 +70,7 @@ namespace KUNAI
         EncodedArray::EncodedArray(std::ifstream &input_file)
         {
             size = KUNAI::read_uleb128(input_file);
-            std::shared_ptr<EncodedValue> encoded_value;
+            encodedvalue_t encoded_value;
 
             for (size_t i = 0; i < size; i++)
             {
@@ -106,7 +106,7 @@ namespace KUNAI
          */
         EncodedTypePair::EncodedTypePair(std::uint64_t type_idx,
                                          std::uint64_t addr,
-                                         std::shared_ptr<DexTypes> dex_types)
+                                         dextypes_t dex_types)
         {
             this->type_idx[type_idx] = dex_types->get_type_from_order(type_idx);
             this->addr = addr;
@@ -130,7 +130,7 @@ namespace KUNAI
          */
         EncodedCatchHandler::EncodedCatchHandler(std::ifstream &input_file,
                                                  std::uint64_t file_size,
-                                                 std::shared_ptr<DexTypes> dex_types)
+                                                 dextypes_t dex_types)
         {
             if (!parse_encoded_type_pairs(input_file, file_size, dex_types))
                 throw exceptions::ParserReadingException("Error reading EncodedTypePair from EncodedCatchHandler");
@@ -149,7 +149,7 @@ namespace KUNAI
             return false;
         }
 
-        std::shared_ptr<EncodedTypePair> EncodedCatchHandler::get_handler_by_pos(std::uint64_t pos)
+        encodedtypepair_t EncodedCatchHandler::get_handler_by_pos(std::uint64_t pos)
         {
             if (pos >= handlers.size())
                 return nullptr;
@@ -158,12 +158,12 @@ namespace KUNAI
 
         bool EncodedCatchHandler::parse_encoded_type_pairs(std::ifstream &input_file,
                                                            std::uint64_t file_size,
-                                                           std::shared_ptr<DexTypes> dex_types)
+                                                           dextypes_t dex_types)
         {
             auto current_offset = input_file.tellg();
             this->offset = current_offset;
             std::uint64_t type_idx, addr;
-            std::shared_ptr<EncodedTypePair> encoded_type_pair;
+            encodedtypepair_t encoded_type_pair;
 
             encoded_type_pair_size = KUNAI::read_sleb128(input_file);
 
@@ -198,7 +198,7 @@ namespace KUNAI
         CodeItemStruct::CodeItemStruct(std::ifstream &input_file,
                                        std::uint64_t file_size,
                                        code_item_struct_t code_item,
-                                       std::shared_ptr<DexTypes> dex_types) : code_item(code_item)
+                                       dextypes_t dex_types) : code_item(code_item)
         {
             if (!parse_code_item_struct(input_file, file_size, dex_types))
                 throw exceptions::ParserReadingException("Error reading CodeItemStruct");
@@ -214,7 +214,7 @@ namespace KUNAI
                 encoded_catch_handler_list.clear();
         }
 
-        std::shared_ptr<TryItem> CodeItemStruct::get_try_item_by_pos(std::uint64_t pos)
+        tryitem_t CodeItemStruct::get_try_item_by_pos(std::uint64_t pos)
         {
             if (pos >= try_items.size())
                 return nullptr;
@@ -228,7 +228,7 @@ namespace KUNAI
             return instructions_raw[pos] | (instructions_raw[pos + 1] << 8);
         }
 
-        std::shared_ptr<EncodedCatchHandler> CodeItemStruct::get_encoded_catch_handler_by_pos(std::uint64_t pos)
+        encodedcatchhandler_t CodeItemStruct::get_encoded_catch_handler_by_pos(std::uint64_t pos)
         {
             if (pos >= encoded_catch_handler_list.size())
                 return nullptr;
@@ -237,16 +237,16 @@ namespace KUNAI
 
         bool CodeItemStruct::parse_code_item_struct(std::ifstream &input_file,
                                                     std::uint64_t file_size,
-                                                    std::shared_ptr<DexTypes> dex_types)
+                                                    dextypes_t dex_types)
         {
             auto current_offset = input_file.tellg();
 
             size_t i;
             std::uint16_t instruction;
             TryItem::try_item_struct_t try_item_struct;
-            std::shared_ptr<TryItem> try_item;
+            tryitem_t try_item;
             std::uint64_t encoded_catch_handler_list_size;
-            std::shared_ptr<EncodedCatchHandler> encoded_catch_handler;
+            encodedcatchhandler_t encoded_catch_handler;
 
             for (i = 0; i < code_item.insns_size; i++)
             {
@@ -302,7 +302,7 @@ namespace KUNAI
                                      std::uint64_t code_off,
                                      std::ifstream &input_file,
                                      std::uint64_t file_size,
-                                     std::shared_ptr<DexTypes> dex_types) : method_id(method_id),
+                                     dextypes_t dex_types) : method_id(method_id),
                                                                             access_flags(static_cast<DVMTypes::ACCESS_FLAGS>(access_flags)),
                                                                             code_off(code_off)
         {
@@ -315,7 +315,7 @@ namespace KUNAI
             return reinterpret_cast<Class *>(method_id->get_method_class())->get_name() + " " + *method_id->get_method_name() + " " + method_id->get_method_prototype()->get_proto_str();
         }
 
-        bool EncodedMethod::parse_code_item(std::ifstream &input_file, std::uint64_t file_size, std::shared_ptr<DexTypes> dex_types)
+        bool EncodedMethod::parse_code_item(std::ifstream &input_file, std::uint64_t file_size, dextypes_t dex_types)
         {
             auto current_offset = input_file.tellg();
             CodeItemStruct::code_item_struct_t code_item_struct;
@@ -354,7 +354,7 @@ namespace KUNAI
             type_idx = read_uleb128(input_file);
             size = read_uleb128(input_file);
 
-            std::shared_ptr<AnnotationElement> annotation_element;
+            annotationelement_t annotation_element;
 
             for (size_t i = 0; i < size; i++)
             {

@@ -25,6 +25,17 @@ namespace KUNAI
 {
     namespace DEX
     {
+        class DEX;
+
+        /**
+         * @brief std::shared_ptr of a DEX class, the recommended type for using
+         * this object is dex_t as it allows to keep a shared pointer that will be
+         * freed once it is not used more.
+         * Dex object is a representation of DEX files, it allows to access a parser
+         * and a disassembler as well as an analysis object of the DEX file.
+         */
+        using dex_t = std::shared_ptr<DEX>;
+
         class DEX
         {
         public:
@@ -47,9 +58,9 @@ namespace KUNAI
              * @brief Get the DexParser of the DEX file, this will contain all the headers.
              *        Parsing was already applied.
              *
-             * @return std::shared_ptr<DexParser>&
+             * @return dexparser_t&
              */
-            std::shared_ptr<DexParser>& get_parser()
+            dexparser_t &get_parser()
             {
                 return dex_parser;
             }
@@ -58,9 +69,9 @@ namespace KUNAI
              * @brief Get a DalvikOpcodes object, this is commonly used internally by
              *        disassembler and other classes for Dalvik information.
              *
-             * @return std::shared_ptr<DalvikOpcodes>&
+             * @return dalvikopcodes_t&
              */
-            std::shared_ptr<DalvikOpcodes>& get_dalvik_opcode_object()
+            dalvikopcodes_t &get_dalvik_opcode_object()
             {
                 return dalvik_opcodes;
             }
@@ -69,9 +80,9 @@ namespace KUNAI
              * @brief Get the DexDisassembler if you want to apply manually the
              *        disassembly of the instructions.
              *
-             * @return std::shared_ptr<DexDisassembler>&
+             * @return dexdisassembler_t&
              */
-            std::shared_ptr<DexDisassembler>& get_dex_disassembler()
+            dexdisassembler_t &get_dex_disassembler()
             {
                 return dex_disassembler;
             }
@@ -83,9 +94,9 @@ namespace KUNAI
              *        are already disassembled, and the methods are created with
              *        the CFG.
              *
-             * @return std::shared_ptr<Analysis>
+             * @return analysis_t
              */
-            std::shared_ptr<Analysis> get_dex_analysis();
+            analysis_t get_dex_analysis();
 
             /**
              * @brief Get if parsing was correct or not.
@@ -99,12 +110,12 @@ namespace KUNAI
             }
 
         private:
-            std::shared_ptr<DexParser> dex_parser;
-            std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
-            std::shared_ptr<DexDisassembler> dex_disassembler;
-            std::shared_ptr<Analysis> dex_analysis;
+            dexparser_t dex_parser;
+            dalvikopcodes_t dalvik_opcodes;
+            dexdisassembler_t dex_disassembler;
+            analysis_t dex_analysis;
 
-            std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>, std::map<std::uint64_t, std::shared_ptr<Instruction>>> method_instructions;
+            instruction_map_t method_instructions;
 
             bool dex_parsing_correct;
         };
@@ -123,9 +134,9 @@ namespace KUNAI
          *
          * @param input_file
          * @param file_size
-         * @return std::shared_ptr<DEX>
+         * @return dex_t
          */
-        std::shared_ptr<DEX> get_shared_dex_object(std::ifstream &input_file, std::uint64_t file_size);
+        dex_t get_shared_dex_object(std::ifstream &input_file, std::uint64_t file_size);
     }
 }
 

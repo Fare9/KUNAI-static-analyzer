@@ -49,7 +49,7 @@ namespace KUNAI
              * @param android_analysis: analysis from Android.
              * @return std::shared_ptr<MJOLNIR::IRGraph>
              */
-            std::shared_ptr<MJOLNIR::IRGraph> lift_android_method(std::shared_ptr<DEX::MethodAnalysis>& method_analysis, std::shared_ptr<DEX::Analysis>& android_analysis);
+            std::shared_ptr<MJOLNIR::IRGraph> lift_android_method(DEX::methodanalysis_t& method_analysis, DEX::analysis_t& android_analysis);
 
             /**
              * @brief Lift an android basic block instructions to IR instructions.
@@ -59,7 +59,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock>& basic_block, std::shared_ptr<MJOLNIR::IRBlock>& bb);
+            bool lift_android_basic_block(DEX::dvmbasicblock_t& basic_block, std::shared_ptr<MJOLNIR::IRBlock>& bb);
 
             /**
              * @brief
@@ -69,7 +69,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool lift_android_instruction(std::shared_ptr<DEX::Instruction>& instruction, std::shared_ptr<MJOLNIR::IRBlock>& bb);
+            bool lift_android_instruction(DEX::instruction_t& instruction, std::shared_ptr<MJOLNIR::IRBlock>& bb);
 
         private:
             uint64_t temp_reg_id;
@@ -141,7 +141,7 @@ namespace KUNAI
              * @param bb: basic block where to insert the instruction.
              * @return void.
              */
-            void lift_assignment_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_assignment_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
 
             /**
              * @brief Generate a IRBinOp instruction or IRUnaryOp instruction
@@ -150,7 +150,7 @@ namespace KUNAI
              * @param bb: basic block where to insert the instructions.
              * @return void.
              */
-            void lift_arithmetic_logic_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_arithmetic_logic_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
 
             /**
              * @brief Generate a IRRet instruction which represent a ret instruction.
@@ -159,7 +159,7 @@ namespace KUNAI
              * @param bb: basic block where to insert the instructions.
              * @return void
              */
-            void lift_ret_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_ret_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
 
             /**
              * @brief Generate a IRBComp instruction which represent a comparison between two values.
@@ -168,7 +168,7 @@ namespace KUNAI
              * @param bb: basic block where to insert the instructions.
              * @return void
              */
-            void lift_comparison_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_comparison_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
 
             /**
              * @brief Generate a IRCJmp instruction which represent a conditional jump.
@@ -177,7 +177,7 @@ namespace KUNAI
              * @param bb: basic block where to insert the instructions.
              * @return void
              */
-            void lift_conditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_conditional_jump_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
 
             /**
              * @brief Generate a IRUJmp instruction which represent an unconditional jump.
@@ -186,7 +186,7 @@ namespace KUNAI
              * @param bb
              * @return void
              */
-            void lift_unconditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_unconditional_jump_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
 
             /**
              * @brief Generate the IRCall instruction which represent any kind of call function/method instruction.
@@ -194,7 +194,7 @@ namespace KUNAI
              * @param instruction
              * @param bb
              */
-            void lift_call_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_call_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
 
             /**
              * @brief Set for a call instruction its return register.
@@ -205,7 +205,7 @@ namespace KUNAI
              * @param instruction
              * @param call
              */
-            void lift_move_result_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRCall> call);
+            void lift_move_result_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRCall> call);
 
             /**
              * @brief Generate a IRLoad instruction, this will commonly go with an IRCast.
@@ -213,7 +213,7 @@ namespace KUNAI
              * @param instruction
              * @param bb
              */
-            void lift_load_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_load_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
 
             /**
              * @brief Generate a IRStore instruction from different aput* instructions.
@@ -221,7 +221,7 @@ namespace KUNAI
              * @param instruction
              * @param bb
              */
-            void lift_store_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_store_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
 
             /**
              * @brief Lift a NOP instruction.
@@ -236,7 +236,7 @@ namespace KUNAI
              * @param instruction
              * @param bb
              */
-            void lift_new_instructions(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_new_instructions(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
 
             /**
              * @brief Lift those Android switch instructions.
@@ -244,7 +244,7 @@ namespace KUNAI
              * @param instruction
              * @param bb
              */
-            void lift_switch_instructions(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_switch_instructions(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
 
             // some utilities
 
@@ -256,7 +256,7 @@ namespace KUNAI
              *
              * @param bbs: basic blocks from the method.
              */
-            void jump_target_analysis(std::vector<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>> bbs);
+            void jump_target_analysis(std::vector<DEX::dvmbasicblock_t> bbs);
             void fallthrough_target_analysis(std::shared_ptr<MJOLNIR::IRGraph> ir_graph);
 
             AndroidInstructions androidinstructions;
@@ -273,10 +273,10 @@ namespace KUNAI
             std::map<std::uint32_t, std::shared_ptr<MJOLNIR::IRString>> strings;
 
             //! lifted blocks
-            std::map<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>, std::shared_ptr<MJOLNIR::IRBlock>> lifted_blocks;
+            std::map<DEX::dvmbasicblock_t, std::shared_ptr<MJOLNIR::IRBlock>> lifted_blocks;
 
             //! Android analysis objecto to check internally
-            std::shared_ptr<DEX::Analysis> android_analysis;
+            DEX::analysis_t android_analysis;
         };
     }
 }

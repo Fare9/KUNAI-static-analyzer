@@ -21,11 +21,11 @@ namespace KUNAI
             }
         }
 
-        std::shared_ptr<Analysis> DEX::get_dex_analysis()
+        analysis_t DEX::get_dex_analysis()
         {
             if (!dex_parsing_correct)
                 return nullptr;
-            
+
             dex_disassembler->disassembly_analysis();
 
             if (!dex_disassembler->get_disassembly_correct())
@@ -35,13 +35,13 @@ namespace KUNAI
 
             return dex_analysis;
         }
-        
+
         std::unique_ptr<DEX> get_unique_dex_object(std::ifstream &input_file, std::uint64_t file_size)
         {
             return std::make_unique<DEX>(input_file, file_size);
         }
 
-        std::shared_ptr<DEX> get_shared_dex_object(std::ifstream &input_file, std::uint64_t file_size)
+        dex_t get_shared_dex_object(std::ifstream &input_file, std::uint64_t file_size)
         {
             return std::make_shared<DEX>(input_file, file_size);
         }

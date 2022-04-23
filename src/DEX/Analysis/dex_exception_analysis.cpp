@@ -9,7 +9,7 @@ namespace KUNAI
          * ExceptionAnalysis class
          */
 
-        ExceptionAnalysis::ExceptionAnalysis(exceptions_data exception, std::shared_ptr<BasicBlocks> basic_blocks) : exception(exception)
+        ExceptionAnalysis::ExceptionAnalysis(exceptions_data exception, basicblocks_t basic_blocks) : exception(exception)
         {
             for (auto &handler : exception.handler)
             {
@@ -45,7 +45,7 @@ namespace KUNAI
 
         Exception::Exception() {}
 
-        void Exception::add(std::vector<exceptions_data> exceptions, std::shared_ptr<BasicBlocks> basic_blocks)
+        void Exception::add(std::vector<exceptions_data> exceptions, basicblocks_t basic_blocks)
         {
             for (auto &exception : exceptions)
             {
@@ -54,7 +54,7 @@ namespace KUNAI
             }
         }
 
-        std::shared_ptr<ExceptionAnalysis> Exception::get_exception(std::uint64_t start_addr, std::uint64_t end_addr)
+        exceptionanalysis_t Exception::get_exception(std::uint64_t start_addr, std::uint64_t end_addr)
         {
             for (auto exception : exceptions)
             {

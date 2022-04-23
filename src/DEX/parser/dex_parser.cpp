@@ -81,9 +81,9 @@ namespace KUNAI
             return version;
         }
 
-        std::vector<std::shared_ptr<ClassDef>> DexParser::get_classes_def_item()
+        std::vector<classdef_t> DexParser::get_classes_def_item()
         {
-            std::vector<std::shared_ptr<ClassDef>> classes;
+            std::vector<classdef_t> classes;
 
             for (size_t i = 0; i < dex_classes->get_number_of_classes(); i++)
             {
@@ -117,9 +117,9 @@ namespace KUNAI
             return fields;
         }
 
-        std::vector<std::shared_ptr<CodeItemStruct>> DexParser::get_codes_item()
+        std::vector<codeitemstruct_t> DexParser::get_codes_item()
         {
-            std::vector<std::shared_ptr<CodeItemStruct>> codes;
+            std::vector<codeitemstruct_t> codes;
 
             for (size_t i = 0; i < dex_classes->get_number_of_classes(); i++)
             {

@@ -12,7 +12,7 @@ namespace KUNAI
         {
         }
 
-        std::shared_ptr<MJOLNIR::IRGraph> LifterAndroid::lift_android_method(std::shared_ptr<DEX::MethodAnalysis>& method_analysis, std::shared_ptr<DEX::Analysis>& android_analysis)
+        std::shared_ptr<MJOLNIR::IRGraph> LifterAndroid::lift_android_method(DEX::methodanalysis_t& method_analysis, DEX::analysis_t& android_analysis)
         {
             auto bbs = method_analysis->get_basic_blocks()->get_basic_blocks();
             size_t n_bbs = bbs.size();
@@ -60,7 +60,7 @@ namespace KUNAI
             return method_graph;
         }
 
-        bool LifterAndroid::lift_android_basic_block(std::shared_ptr<DEX::DVMBasicBlock>& basic_block, std::shared_ptr<MJOLNIR::IRBlock>& bb)
+        bool LifterAndroid::lift_android_basic_block(DEX::dvmbasicblock_t& basic_block, std::shared_ptr<MJOLNIR::IRBlock>& bb)
         {
             auto instructions = basic_block->get_instructions();
             auto next = basic_block->get_next();
@@ -93,7 +93,7 @@ namespace KUNAI
             return true;
         }
 
-        bool LifterAndroid::lift_android_instruction(std::shared_ptr<DEX::Instruction>& instruction, std::shared_ptr<MJOLNIR::IRBlock>& bb)
+        bool LifterAndroid::lift_android_instruction(DEX::instruction_t& instruction, std::shared_ptr<MJOLNIR::IRBlock>& bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
@@ -268,7 +268,7 @@ namespace KUNAI
             return nullptr;
         }
 
-        void LifterAndroid::lift_assignment_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_assignment_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRStmnt> assignment_instr;
             std::shared_ptr<MJOLNIR::IRUnaryOp> cast_instr = nullptr;
@@ -537,7 +537,7 @@ namespace KUNAI
                 bb->append_statement_to_block(cast_instr);
         }
 
-        void LifterAndroid::lift_arithmetic_logic_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_arithmetic_logic_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRExpr> arith_logc_instr;
             std::shared_ptr<MJOLNIR::IRUnaryOp> cast_instr = nullptr;
@@ -803,7 +803,7 @@ namespace KUNAI
                 bb->append_statement_to_block(cast_instr);
         }
 
-        void LifterAndroid::lift_ret_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_ret_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRRet> ret_instr;
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
@@ -828,7 +828,7 @@ namespace KUNAI
             bb->append_statement_to_block(ret_instr);
         }
 
-        void LifterAndroid::lift_comparison_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_comparison_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
             auto instr = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
@@ -880,7 +880,7 @@ namespace KUNAI
             }
         }
 
-        void LifterAndroid::lift_conditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_conditional_jump_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
@@ -964,7 +964,7 @@ namespace KUNAI
             }
         }
 
-        void LifterAndroid::lift_unconditional_jump_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_unconditional_jump_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
             std::shared_ptr<MJOLNIR::IRUJmp> ujmp = nullptr;
@@ -998,7 +998,7 @@ namespace KUNAI
                 bb->append_statement_to_block(ujmp);
         }
 
-        void LifterAndroid::lift_call_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_call_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
             std::shared_ptr<MJOLNIR::IRCall> call = nullptr;
@@ -1086,7 +1086,7 @@ namespace KUNAI
                 bb->append_statement_to_block(call);
         }
 
-        void LifterAndroid::lift_load_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_load_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRExpr> load_instr;
             std::shared_ptr<MJOLNIR::IRUnaryOp> cast_instr;
@@ -1139,7 +1139,7 @@ namespace KUNAI
             }
         }
 
-        void LifterAndroid::lift_store_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_store_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRExpr> store_instr;
             auto inst = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
@@ -1185,7 +1185,7 @@ namespace KUNAI
             bb->append_statement_to_block(nop);
         }
 
-        void LifterAndroid::lift_new_instructions(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_new_instructions(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRStmnt> new_instr;
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
@@ -1204,7 +1204,7 @@ namespace KUNAI
             bb->append_statement_to_block(new_instr);
         }
 
-        void LifterAndroid::lift_switch_instructions(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_switch_instructions(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
         {
             std::shared_ptr<MJOLNIR::IRStmnt> switch_instr;
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
@@ -1241,7 +1241,7 @@ namespace KUNAI
             bb->append_statement_to_block(switch_instr);
         }
 
-        void LifterAndroid::jump_target_analysis(std::vector<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>> bbs)
+        void LifterAndroid::jump_target_analysis(std::vector<DEX::dvmbasicblock_t> bbs)
         {
             for (auto bb : bbs)
             {
@@ -1294,7 +1294,7 @@ namespace KUNAI
             }
         }
 
-        void LifterAndroid::lift_move_result_instruction(std::shared_ptr<DEX::Instruction> instruction, std::shared_ptr<MJOLNIR::IRCall> call)
+        void LifterAndroid::lift_move_result_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRCall> call)
         {
             auto move_result = std::dynamic_pointer_cast<DEX::Instruction11x>(instruction);
 

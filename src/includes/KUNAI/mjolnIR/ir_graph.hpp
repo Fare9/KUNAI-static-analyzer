@@ -19,11 +19,14 @@ namespace KUNAI
 {
     namespace MJOLNIR
     {
-        typedef std::vector<std::shared_ptr<IRBlock>> Nodes;
-        typedef std::pair<std::shared_ptr<IRBlock>, std::shared_ptr<IRBlock>> Edge;
-        typedef std::vector<Edge> Edges;
-        typedef std::vector<std::vector<std::shared_ptr<IRBlock>>> Paths;
+        using Nodes = std::vector<std::shared_ptr<IRBlock>>;
+        using Edge  = std::pair<std::shared_ptr<IRBlock>, std::shared_ptr<IRBlock>>;
+        using Edges = std::vector<Edge>;
+        using Paths = std::vector<std::vector<std::shared_ptr<IRBlock>>>;
         
+        class IRGraph;
+
+        using irgraph_t = std::shared_ptr<IRGraph>;
 
         class IRGraph
         {
@@ -109,7 +112,7 @@ namespace KUNAI
              * @param graph: graph to merge with current one.
              * @return void
              */
-            void merge_graph(std::shared_ptr<IRGraph> graph);
+            void merge_graph(irgraph_t graph);
 
             /**
              * @brief Delete an edge given two blocks.
@@ -222,9 +225,9 @@ namespace KUNAI
 
             /**
              * @brief Create a copy of the IRGraph as a smart pointer.
-             * @return std::shared_ptr<IRGraph>
+             * @return irgraph_t
              */
-            std::shared_ptr<IRGraph> copy();
+            irgraph_t copy();
 
 
             // node information

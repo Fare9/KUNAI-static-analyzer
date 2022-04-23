@@ -31,6 +31,14 @@ namespace KUNAI
 {
     namespace DEX
     {
+        class DexParser;
+
+        /**
+         * @brief shared_ptr type of DexParser, this is the parsing of the
+         * DEX headers, different objects represent the different parts of
+         * the DEX.
+         */
+        using dexparser_t = std::shared_ptr<DexParser>;
 
         class DexParser
         {
@@ -42,37 +50,37 @@ namespace KUNAI
 
             // getter methods for the parser, for getting
             // all the parsed fields.
-            std::shared_ptr<DexHeader> get_header()
+            dexheader_t get_header()
             {
                 return dex_header;
             }
 
-            std::shared_ptr<DexStrings> get_strings()
+            dexstrings_t get_strings()
             {
                 return dex_strings;
             }
 
-            std::shared_ptr<DexTypes> get_types()
+            dextypes_t get_types()
             {
                 return dex_types;
             }
 
-            std::shared_ptr<DexProtos> get_protos()
+            dexprotos_t get_protos()
             {
                 return dex_protos;
             }
 
-            std::shared_ptr<DexFields> get_fields()
+            dexfields_t get_fields()
             {
                 return dex_fields;
             }
 
-            std::shared_ptr<DexMethods> get_methods()
+            dexmethods_t get_methods()
             {
                 return dex_methods;
             }
 
-            std::shared_ptr<DexClasses> get_classes()
+            dexclasses_t get_classes()
             {
                 return dex_classes;
             }
@@ -102,10 +110,10 @@ namespace KUNAI
             }
 
             // get all the ClassesDef from DexClasses
-            std::vector<std::shared_ptr<ClassDef>> get_classes_def_item();
+            std::vector<classdef_t> get_classes_def_item();
             std::vector<MethodID *> get_methods_id_item();
             std::vector<FieldID *> get_fields_id_item();
-            std::vector<std::shared_ptr<CodeItemStruct>> get_codes_item();
+            std::vector<codeitemstruct_t> get_codes_item();
             std::vector<std::string> get_string_values();
 
             friend std::ostream &operator<<(std::ostream &os, const DexParser &entry);
@@ -113,13 +121,13 @@ namespace KUNAI
         private:
             std::uint32_t api_version;
 
-            std::shared_ptr<DexHeader> dex_header = nullptr;
-            std::shared_ptr<DexStrings> dex_strings = nullptr;
-            std::shared_ptr<DexTypes> dex_types = nullptr;
-            std::shared_ptr<DexProtos> dex_protos = nullptr;
-            std::shared_ptr<DexFields> dex_fields = nullptr;
-            std::shared_ptr<DexMethods> dex_methods = nullptr;
-            std::shared_ptr<DexClasses> dex_classes = nullptr;
+            dexheader_t dex_header = nullptr;
+            dexstrings_t dex_strings = nullptr;
+            dextypes_t dex_types = nullptr;
+            dexprotos_t dex_protos = nullptr;
+            dexfields_t dex_fields = nullptr;
+            dexmethods_t dex_methods = nullptr;
+            dexclasses_t dex_classes = nullptr;
         };
     }
 }

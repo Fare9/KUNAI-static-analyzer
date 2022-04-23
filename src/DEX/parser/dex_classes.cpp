@@ -10,9 +10,9 @@ namespace KUNAI
 
         ClassDataItem::ClassDataItem(std::ifstream &input_file,
                                      std::uint64_t file_size,
-                                     std::shared_ptr<DexFields>& dex_fields,
-                                     std::shared_ptr<DexMethods>& dex_methods,
-                                     std::shared_ptr<DexTypes>& dex_types)
+                                     dexfields_t& dex_fields,
+                                     dexmethods_t& dex_methods,
+                                     dextypes_t& dex_types)
         {
             auto current_offset = input_file.tellg();
 
@@ -91,7 +91,7 @@ namespace KUNAI
             input_file.seekg(current_offset);
         }
 
-        std::shared_ptr<EncodedField> ClassDataItem::get_static_field_by_id(std::uint64_t id)
+        encodedfield_t ClassDataItem::get_static_field_by_id(std::uint64_t id)
         {
             auto it = static_fields.find(id);
 
@@ -101,7 +101,7 @@ namespace KUNAI
             return nullptr;
         }
 
-        std::shared_ptr<EncodedField> ClassDataItem::get_static_field_by_pos(std::uint64_t pos)
+        encodedfield_t ClassDataItem::get_static_field_by_pos(std::uint64_t pos)
         {
             if (pos >= static_fields.size())
                 return nullptr;
@@ -112,7 +112,7 @@ namespace KUNAI
             return it->second;
         }
 
-        std::shared_ptr<EncodedField> ClassDataItem::get_instance_field_by_id(std::uint64_t id)
+        encodedfield_t ClassDataItem::get_instance_field_by_id(std::uint64_t id)
         {
             auto it = instance_fields.find(id);
 
@@ -122,7 +122,7 @@ namespace KUNAI
             return nullptr;
         }
 
-        std::shared_ptr<EncodedField> ClassDataItem::get_instance_field_by_pos(std::uint64_t pos)
+        encodedfield_t ClassDataItem::get_instance_field_by_pos(std::uint64_t pos)
         {
             if (pos >= instance_fields.size())
                 return nullptr;
@@ -133,9 +133,9 @@ namespace KUNAI
             return it->second;
         }
 
-        std::vector<std::shared_ptr<EncodedField>> ClassDataItem::get_fields()
+        std::vector<encodedfield_t> ClassDataItem::get_fields()
         {
-            std::vector<std::shared_ptr<EncodedField>> fields;
+            std::vector<encodedfield_t> fields;
 
             for (auto it = static_fields.begin(); it != static_fields.end(); it++)
             {
@@ -150,7 +150,7 @@ namespace KUNAI
             return fields;
         }
 
-        std::shared_ptr<EncodedMethod> ClassDataItem::get_direct_method_by_id(std::uint64_t id)
+        encodedmethod_t ClassDataItem::get_direct_method_by_id(std::uint64_t id)
         {
             auto it = direct_methods.find(id);
 
@@ -160,7 +160,7 @@ namespace KUNAI
             return nullptr;
         }
 
-        std::shared_ptr<EncodedMethod> ClassDataItem::get_direct_method_by_pos(std::uint64_t pos)
+        encodedmethod_t ClassDataItem::get_direct_method_by_pos(std::uint64_t pos)
         {
             if (pos >= direct_methods.size())
                 return nullptr;
@@ -171,7 +171,7 @@ namespace KUNAI
             return it->second;
         }
 
-        std::shared_ptr<EncodedMethod> ClassDataItem::get_virtual_method_by_id(std::uint64_t id)
+        encodedmethod_t ClassDataItem::get_virtual_method_by_id(std::uint64_t id)
         {
             auto it = virtual_methods.find(id);
 
@@ -181,7 +181,7 @@ namespace KUNAI
             return nullptr;
         }
 
-        std::shared_ptr<EncodedMethod> ClassDataItem::get_virtual_method_by_pos(std::uint64_t pos)
+        encodedmethod_t ClassDataItem::get_virtual_method_by_pos(std::uint64_t pos)
         {
             if (pos >= virtual_methods.size())
                 return nullptr;
@@ -196,10 +196,10 @@ namespace KUNAI
          * ClassDef
          */
         ClassDef::ClassDef(classdef_t class_def,
-                           std::shared_ptr<DexStrings>& dex_str,
-                           std::shared_ptr<DexTypes>& dex_types,
-                           std::shared_ptr<DexFields>& dex_fields,
-                           std::shared_ptr<DexMethods>& dex_methods,
+                           dexstrings_t& dex_str,
+                           dextypes_t& dex_types,
+                           dexfields_t& dex_fields,
+                           dexmethods_t& dex_methods,
                            std::ifstream &input_file,
                            std::uint64_t file_size)
         {
@@ -225,10 +225,10 @@ namespace KUNAI
 
         bool ClassDef::parse_class_defs(std::ifstream &input_file,
                                         std::uint64_t file_size,
-                                        std::shared_ptr<DexStrings>& dex_str,
-                                        std::shared_ptr<DexTypes>& dex_types,
-                                        std::shared_ptr<DexFields>& dex_fields,
-                                        std::shared_ptr<DexMethods>& dex_methods)
+                                        dexstrings_t& dex_str,
+                                        dextypes_t& dex_types,
+                                        dexfields_t& dex_fields,
+                                        dexmethods_t& dex_methods)
         {
             auto logger = LOGGER::logger();
 
@@ -330,10 +330,10 @@ namespace KUNAI
                                std::uint64_t file_size,
                                std::uint32_t number_of_classes,
                                std::uint32_t offset,
-                               std::shared_ptr<DexStrings>& dex_str,
-                               std::shared_ptr<DexTypes>& dex_types,
-                               std::shared_ptr<DexFields>& dex_fields,
-                               std::shared_ptr<DexMethods>& dex_methods) : number_of_classes(number_of_classes),
+                               dexstrings_t& dex_str,
+                               dextypes_t& dex_types,
+                               dexfields_t& dex_fields,
+                               dexmethods_t& dex_methods) : number_of_classes(number_of_classes),
                                                                           offset(offset),
                                                                           dex_str(dex_str),
                                                                           dex_types(dex_types),
@@ -352,7 +352,7 @@ namespace KUNAI
             }
         }
 
-        std::shared_ptr<ClassDef> DexClasses::get_class_by_pos(std::uint64_t pos)
+        classdef_t DexClasses::get_class_by_pos(std::uint64_t pos)
         {
             if (pos >= class_defs.size())
                 return nullptr;
@@ -366,7 +366,7 @@ namespace KUNAI
             auto current_offset = input_file.tellg();
             size_t i;
             ClassDef::classdef_t class_def_struct;
-            std::shared_ptr<ClassDef> class_def;
+            classdef_t class_def;
 
             input_file.seekg(offset);
 
@@ -466,7 +466,7 @@ namespace KUNAI
                     os << "\t\tInterface(" << j << "):" << class_def->get_interface_by_pos(j)->get_name() << std::endl;
                 }
 
-                std::shared_ptr<ClassDataItem> class_data_item = class_def->get_class_data();
+                classdataitem_t class_data_item = class_def->get_class_data();
 
                 if (class_data_item)
                 {

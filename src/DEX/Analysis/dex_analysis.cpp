@@ -5,15 +5,15 @@ namespace KUNAI
     namespace DEX
     {
 
-        Analysis::Analysis(std::shared_ptr<DexParser> dex_parser, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>, std::map<std::uint64_t, std::shared_ptr<Instruction>>> instructions) : created_xrefs(false),
-                                                                                                                                                                                                                                                                        dalvik_opcodes(dalvik_opcodes),
-                                                                                                                                                                                                                                                                        instructions(instructions)
+        Analysis::Analysis(dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes, instruction_map_t instructions) : created_xrefs(false),
+                                                                                                                                                   dalvik_opcodes(dalvik_opcodes),
+                                                                                                                                                   instructions(instructions)
         {
             if (dex_parser)
                 this->add(dex_parser);
         }
 
-        void Analysis::add(std::shared_ptr<DexParser> dex_parser)
+        void Analysis::add(dexparser_t dex_parser)
         {
             auto logger = LOGGER::logger();
 
@@ -106,16 +106,16 @@ namespace KUNAI
             return (classes.find(class_name) == classes.end());
         }
 
-        std::shared_ptr<ClassAnalysis> Analysis::get_class_analysis(std::string class_name)
+        classanalysis_t Analysis::get_class_analysis(std::string class_name)
         {
             if (classes.find(class_name) == classes.end())
                 return nullptr;
             return classes[class_name];
         }
 
-        std::vector<std::shared_ptr<ClassAnalysis>> Analysis::get_classes()
+        std::vector<classanalysis_t> Analysis::get_classes()
         {
-            std::vector<std::shared_ptr<ClassAnalysis>> classes_vector;
+            std::vector<classanalysis_t> classes_vector;
 
             for (auto class_ : classes)
             {
@@ -125,9 +125,9 @@ namespace KUNAI
             return classes_vector;
         }
 
-        std::vector<std::shared_ptr<ClassAnalysis>> Analysis::get_external_classes()
+        std::vector<classanalysis_t> Analysis::get_external_classes()
         {
-            std::vector<std::shared_ptr<ClassAnalysis>> external_classes;
+            std::vector<classanalysis_t> external_classes;
 
             for (auto class_ : classes)
             {
@@ -138,9 +138,9 @@ namespace KUNAI
             return external_classes;
         }
 
-        std::vector<std::shared_ptr<ClassAnalysis>> Analysis::get_internal_classes()
+        std::vector<classanalysis_t> Analysis::get_internal_classes()
         {
-            std::vector<std::shared_ptr<ClassAnalysis>> internal_classes;
+            std::vector<classanalysis_t> internal_classes;
 
             for (auto class_ : classes)
             {
@@ -151,15 +151,14 @@ namespace KUNAI
             return internal_classes;
         }
 
-        
-        std::shared_ptr<MethodAnalysis> Analysis::get_method(std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method)
+        methodanalysis_t Analysis::get_method(std::variant<encodedmethod_t, externalmethod_t> method)
         {
             std::string method_key;
 
             if (method.index() == 0)
-                method_key = std::get<std::shared_ptr<EncodedMethod>>(method)->full_name();
+                method_key = std::get<encodedmethod_t>(method)->full_name();
             else
-                method_key = std::get<std::shared_ptr<ExternalMethod>>(method)->full_name();
+                method_key = std::get<externalmethod_t>(method)->full_name();
 
             if (methods.find(method_key) != methods.end())
                 return methods[method_key];
@@ -171,12 +170,12 @@ namespace KUNAI
             auto m_a = get_method_analysis_by_name(class_name, method_name, method_descriptor);
 
             if (m_a && (!m_a->external()))
-                return std::get<std::shared_ptr<EncodedMethod>>(m_a->get_method())->get_method();
+                return std::get<encodedmethod_t>(m_a->get_method())->get_method();
 
             return nullptr;
         }
 
-        std::shared_ptr<MethodAnalysis> Analysis::get_method_analysis_by_name(std::string class_name, std::string method_name, std::string method_descriptor)
+        methodanalysis_t Analysis::get_method_analysis_by_name(std::string class_name, std::string method_name, std::string method_descriptor)
         {
             std::tuple<std::string, std::string, std::string> m_hash = {class_name, method_name, method_descriptor};
 
@@ -185,9 +184,9 @@ namespace KUNAI
             return method_hashes[m_hash];
         }
 
-        std::vector<std::shared_ptr<MethodAnalysis>> Analysis::get_methods()
+        std::vector<methodanalysis_t> Analysis::get_methods()
         {
-            std::vector<std::shared_ptr<MethodAnalysis>> methods;
+            std::vector<methodanalysis_t> methods;
 
             for (auto hash : method_hashes)
                 methods.push_back(hash.second);
@@ -195,7 +194,7 @@ namespace KUNAI
             return methods;
         }
 
-        std::shared_ptr<FieldAnalysis> Analysis::get_field_analysis(std::shared_ptr<EncodedField> field)
+        fieldanalysis_t Analysis::get_field_analysis(encodedfield_t field)
         {
             auto class_analysis = get_class_analysis(reinterpret_cast<Class *>(field->get_field()->get_class_idx())->get_name());
 
@@ -205,9 +204,9 @@ namespace KUNAI
             return nullptr;
         }
 
-        std::vector<std::shared_ptr<FieldAnalysis>> Analysis::get_fields()
+        std::vector<fieldanalysis_t> Analysis::get_fields()
         {
-            std::vector<std::shared_ptr<FieldAnalysis>> fields;
+            std::vector<fieldanalysis_t> fields;
 
             for (auto c : classes)
             {
@@ -219,9 +218,9 @@ namespace KUNAI
             return fields;
         }
 
-        std::vector<std::shared_ptr<StringAnalysis>> Analysis::get_strings()
+        std::vector<stringanalysis_t> Analysis::get_strings()
         {
-            std::vector<std::shared_ptr<StringAnalysis>> str_vector;
+            std::vector<stringanalysis_t> str_vector;
 
             for (auto s : strings)
             {
@@ -231,9 +230,9 @@ namespace KUNAI
             return str_vector;
         }
 
-        std::vector<std::shared_ptr<ClassAnalysis>> Analysis::find_classes(std::string name = ".*", bool no_external = false)
+        std::vector<classanalysis_t> Analysis::find_classes(std::string name = ".*", bool no_external = false)
         {
-            std::vector<std::shared_ptr<ClassAnalysis>> classes_vector;
+            std::vector<classanalysis_t> classes_vector;
             std::regex class_name_regex(name);
 
             for (auto c : classes)
@@ -247,13 +246,13 @@ namespace KUNAI
             return classes_vector;
         }
 
-        std::vector<std::shared_ptr<MethodAnalysis>> Analysis::find_methods(std::string class_name = ".*",
+        std::vector<methodanalysis_t> Analysis::find_methods(std::string class_name = ".*",
                                                                             std::string method_name = ".*",
                                                                             std::string descriptor = ".*",
                                                                             std::string accessflags = ".*",
                                                                             bool no_external = false)
         {
-            std::vector<std::shared_ptr<MethodAnalysis>> methods_vector;
+            std::vector<methodanalysis_t> methods_vector;
 
             std::regex class_name_regex(class_name),
                 method_name_regex(method_name),
@@ -282,9 +281,9 @@ namespace KUNAI
             return methods_vector;
         }
 
-        std::vector<std::shared_ptr<StringAnalysis>> Analysis::find_strings(std::string string = ".*")
+        std::vector<stringanalysis_t> Analysis::find_strings(std::string string = ".*")
         {
-            std::vector<std::shared_ptr<StringAnalysis>> strings_list;
+            std::vector<stringanalysis_t> strings_list;
             std::regex str_reg(string);
 
             for (auto it = strings.begin(); it != strings.end(); it++)
@@ -296,7 +295,7 @@ namespace KUNAI
             return strings_list;
         }
 
-        std::vector<std::shared_ptr<FieldAnalysis>> Analysis::find_fields(std::string class_name = ".*",
+        std::vector<fieldanalysis_t> Analysis::find_fields(std::string class_name = ".*",
                                                                           std::string field_name = ".*",
                                                                           std::string field_type = ".*",
                                                                           std::string accessflags = ".*")
@@ -306,7 +305,7 @@ namespace KUNAI
                 field_type_regex(field_type),
                 accessflags_regex(accessflags);
 
-            std::vector<std::shared_ptr<FieldAnalysis>> fields_list;
+            std::vector<fieldanalysis_t> fields_list;
 
             for (auto c : classes)
             {
@@ -554,10 +553,10 @@ namespace KUNAI
             }
         }
 
-        std::shared_ptr<MethodAnalysis> Analysis::_resolve_method(std::string class_name, std::string method_name, std::string method_descriptor)
+        methodanalysis_t Analysis::_resolve_method(std::string class_name, std::string method_name, std::string method_descriptor)
         {
             std::tuple<std::string, std::string, std::string> m_hash = {class_name, method_name, method_descriptor};
-            std::map<std::uint64_t, std::shared_ptr<Instruction>> empty_instructions;
+            std::map<std::uint64_t, instruction_t> empty_instructions;
 
             if (method_hashes.find(m_hash) == method_hashes.end())
             {

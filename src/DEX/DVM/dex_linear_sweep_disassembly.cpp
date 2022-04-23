@@ -2,16 +2,16 @@
 
 namespace KUNAI {
     namespace DEX {
-        LinearSweepDisassembler::LinearSweepDisassembler(std::shared_ptr<DalvikOpcodes> dalvik_opcodes) :
+        LinearSweepDisassembler::LinearSweepDisassembler(dalvikopcodes_t dalvik_opcodes) :
         dalvik_opcodes (dalvik_opcodes)
         {
         }
 
-        std::map<std::uint64_t, std::shared_ptr<Instruction>> LinearSweepDisassembler::disassembly(const std::vector<std::uint8_t>& byte_buffer)
+        std::map<std::uint64_t, instruction_t> LinearSweepDisassembler::disassembly(const std::vector<std::uint8_t>& byte_buffer)
         {
-            std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions;
+            std::map<std::uint64_t, instruction_t> instructions;
             std::uint64_t instruction_index = 0;
-            std::shared_ptr<Instruction> instruction;
+            instruction_t instruction;
             size_t buffer_size = byte_buffer.size();
             std::uint32_t opcode;
             bool exist_switch = false;
@@ -50,7 +50,7 @@ namespace KUNAI {
             return instructions;
         }
 
-        void LinearSweepDisassembler::assign_switch_if_any(std::map<std::uint64_t, std::shared_ptr<Instruction>>& instrs)
+        void LinearSweepDisassembler::assign_switch_if_any(std::map<std::uint64_t, instruction_t>& instrs)
         {
             for (auto instr : instrs)
             {

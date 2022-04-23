@@ -39,6 +39,9 @@ namespace KUNAI
 {
     namespace DEX
     {
+        class Type;
+
+        using type_t = std::shared_ptr<Type>;
 
         class Type
         {
@@ -79,6 +82,10 @@ namespace KUNAI
             enum type_t type;
             std::string raw;
         };
+
+        class Fundamental;
+
+        using fundamental_t = std::shared_ptr<Fundamental>;
 
         class Fundamental : public Type
         {
@@ -156,6 +163,10 @@ namespace KUNAI
             std::string name;
         };
 
+        class Class;
+
+        using class_t = std::shared_ptr<Class>;
+
         class Class : public Type
         {
         public:
@@ -200,6 +211,10 @@ namespace KUNAI
         private:
             std::string name;
         };
+
+        class Array;
+
+        using array_t = std::shared_ptr<Array>;
 
         class Array : public Type
         {
@@ -247,6 +262,10 @@ namespace KUNAI
             std::vector<Type *> array;
         };
 
+        class Unknown;
+
+        using unknown_t = std::shared_ptr<Unknown>;
+
         class Unknown : public Type
         {
         public:
@@ -281,6 +300,10 @@ namespace KUNAI
             }
         };
 
+        class DexTypes;
+
+        using dextypes_t = std::shared_ptr<DexTypes>;
+
         class DexTypes
         {
         public:
@@ -294,7 +317,7 @@ namespace KUNAI
             DexTypes(std::ifstream &input_file,
                      std::uint32_t number_of_types,
                      std::uint32_t types_offsets,
-                     std::shared_ptr<DexStrings>& dex_str);
+                     dexstrings_t& dex_str);
 
             /**
              * @brief Destructor of DexTypes class, clear all the Types.
@@ -357,7 +380,7 @@ namespace KUNAI
             std::map<std::uint32_t, Type *> types;
             std::uint32_t number_of_types;
             std::uint32_t offset;
-            std::shared_ptr<DexStrings>& dex_str;
+            dexstrings_t& dex_str;
         };
     }
 }

@@ -22,13 +22,13 @@
 #include <algorithm>
 #include <regex>
 
-
 #include "dex_classes.hpp"
 #include "dex_external_classes.hpp"
 #include "dex_encoded.hpp"
 #include "dex_external_methods.hpp"
 #include "dex_fields.hpp"
 #include "dex_instructions.hpp"
+#include "dex_disassembler.hpp"
 
 namespace KUNAI
 {
@@ -44,9 +44,6 @@ namespace KUNAI
         class ClassAnalysis;
         class Analysis;
 
-        typedef std::set<std::tuple<std::shared_ptr<MethodAnalysis>, std::uint64_t>> xref_method_idx;
-        typedef std::map<std::shared_ptr<ClassAnalysis>, std::set<std::tuple<DVMTypes::REF_TYPE, std::shared_ptr<MethodAnalysis>, std::uint64_t>>> class_xref;
-
         /**
          * Analysis definition
          *
@@ -60,19 +57,32 @@ namespace KUNAI
          *        * fields (FieldAnalysis object)
          *
          */
+        using analysis_t = std::shared_ptr<Analysis>;
+        using classanalysis_t = std::shared_ptr<ClassAnalysis>;
+        using dvmbasicblock_t = std::shared_ptr<DVMBasicBlock>;
+        using basicblocks_t = std::shared_ptr<BasicBlocks>;
+        using methodanalysis_t = std::shared_ptr<MethodAnalysis>;
+        using fieldanalysis_t = std::shared_ptr<FieldAnalysis>;
+        using stringanalysis_t = std::shared_ptr<StringAnalysis>;
+        using exceptionanalysis_t = std::shared_ptr<ExceptionAnalysis>;
+        using exception_t = std::shared_ptr<Exception>;
+
+        using xref_method_idx = std::set<std::tuple<methodanalysis_t, std::uint64_t>>;
+        using class_xref = std::map<classanalysis_t, std::set<std::tuple<DVMTypes::REF_TYPE, methodanalysis_t, std::uint64_t>>>;
+
         class Analysis
         {
         public:
             /**
              * @brief Analysis class constructor, just accept an initial DexParser object
              *        to start the analysis.
-             * @param dex_parser: std::shared_ptr<DexParser> parser to initialize the analysis.
-             * @param dalvik_opcodes: std::shared_ptr<DalvikOpcodes> used to initialize some objects.
-             * @param instructions: std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>, std::map<std::uint64_t, std::shared_ptr<Instruction>>> instructions to initialize methods.
+             * @param dex_parser: dexparser_t parser to initialize the analysis.
+             * @param dalvik_opcodes: dalvikopcodes_t used to initialize some objects.
+             * @param instructions: instruction_map_t instructions to initialize methods.
              * @return void
              */
-            Analysis(std::shared_ptr<DexParser> dex_parser, std::shared_ptr<DalvikOpcodes> dalvik_opcodes,
-                     std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>, std::map<std::uint64_t, std::shared_ptr<Instruction>>> instructions);
+            Analysis(dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes,
+                     instruction_map_t instructions);
 
             /**
              * @brief Analysis class destructor, nothing really interesting in here.
@@ -84,10 +94,10 @@ namespace KUNAI
              * @brief Analysis method to add a new dex_parser we will have to analyze
              *        classes, methods, fields and strings from the parser as new objects
              *        will be added.
-             * @param dex_parser: std::shared_ptr<DexParser> new parser object to add.
+             * @param dex_parser: dexparser_t new parser object to add.
              * @return void
              */
-            void add(std::shared_ptr<DexParser> dex_parser);
+            void add(dexparser_t dex_parser);
 
             /**
              * @brief Create Class, Method, String and Field cross references
@@ -112,37 +122,37 @@ namespace KUNAI
             /**
              * @brief get a ClassAnalysis object by a class_name.
              * @param class_name: std::string class name to retrieve its ClassAnalysis object.
-             * @return std::shared_ptr<ClassAnalysis>
+             * @return classanalysis_t
              */
-            std::shared_ptr<ClassAnalysis> get_class_analysis(std::string class_name);
+            classanalysis_t get_class_analysis(std::string class_name);
 
             /**
              * @brief Get all the ClassAnalysis objects in a vector.
-             * @return std::vector<std::shared_ptr<ClassAnalysis>>
+             * @return std::vector<classanalysis_t>
              */
-            std::vector<std::shared_ptr<ClassAnalysis>> get_classes();
+            std::vector<classanalysis_t> get_classes();
 
             /**
              * @brief Get all the external classes in a vector.
-             * @return std::vector<std::shared_ptr<ClassAnalysis>>
+             * @return std::vector<classanalysis_t>
              */
-            std::vector<std::shared_ptr<ClassAnalysis>> get_external_classes();
+            std::vector<classanalysis_t> get_external_classes();
 
             /**
              * @brief Get all the internal classes in a vector.
-             * @return std::vector<std::shared_ptr<ClassAnalysis>>
+             * @return std::vector<classanalysis_t>
              */
-            std::vector<std::shared_ptr<ClassAnalysis>> get_internal_classes();
+            std::vector<classanalysis_t> get_internal_classes();
 
             // MethodAnalysis methods
 
             /**
              * @brief Get MethodAnalysis object by giving an EncodedMethod or
              *        ExternalMethod object.
-             * @param method: std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>>
-             * @return std::shared_ptr<MethodAnalysis>
+             * @param method: std::variant<encodedmethod_t, externalmethod_t>
+             * @return methodanalysis_t
              */
-            std::shared_ptr<MethodAnalysis> get_method(std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method);
+            methodanalysis_t get_method(std::variant<encodedmethod_t, externalmethod_t> method);
 
             /**
              * @brief Get MethodID from internal methods by class name, method name and
@@ -159,47 +169,47 @@ namespace KUNAI
              * @param class_name: std::string class name of the method.
              * @param method_name: std::string method name.
              * @param method_descriptor: std::string method descriptor (parameters and return value).
-             * @return std::shared_ptr<MethodAnalysis>
+             * @return methodanalysis_t
              */
-            std::shared_ptr<MethodAnalysis> get_method_analysis_by_name(std::string class_name, std::string method_name, std::string method_descriptor);
+            methodanalysis_t get_method_analysis_by_name(std::string class_name, std::string method_name, std::string method_descriptor);
 
             /**
              * @brief Get all the MethodAnalysis object in a vector.
-             * @return std::vector<std::shared_ptr<MethodAnalysis>>
+             * @return std::vector<methodanalysis_t>
              */
-            std::vector<std::shared_ptr<MethodAnalysis>> get_methods();
+            std::vector<methodanalysis_t> get_methods();
 
             // FieldAnalysis methods
 
             /**
              * @brief Get a FieldAnalysis given a field object.
-             * @param field: std::shared_ptr<EncodedField> field to look for its FieldAnalysis.
-             * @return std::shared_ptr<FieldAnalysis>
+             * @param field: encodedfield_t field to look for its FieldAnalysis.
+             * @return fieldanalysis_t
              */
-            std::shared_ptr<FieldAnalysis> get_field_analysis(std::shared_ptr<EncodedField> field);
+            fieldanalysis_t get_field_analysis(encodedfield_t field);
 
             /**
              * @brief Get all the FieldAnalysis objects in a vector.
-             * @return std::vector<std::shared_ptr<FieldAnalysis>>
+             * @return std::vector<fieldanalysis_t>
              */
-            std::vector<std::shared_ptr<FieldAnalysis>> get_fields();
+            std::vector<fieldanalysis_t> get_fields();
 
             // StringAnalysis methods
 
             /**
              * @brief Get the map of std::string, StringAnalysis objects.
-             * @return std::map<std::string, std::shared_ptr<StringAnalysis>>
+             * @return std::map<std::string, stringanalysis_t>
              */
-            const std::map<std::string, std::shared_ptr<StringAnalysis>> &get_strings_analysis() const
+            const std::map<std::string, stringanalysis_t> &get_strings_analysis() const
             {
                 return strings;
             }
 
             /**
              * @brief Get a vector of all the StringAnalysis objects.
-             * @return std::vector<std::shared_ptr<StringAnalysis>>
+             * @return std::vector<stringanalysis_t>
              */
-            std::vector<std::shared_ptr<StringAnalysis>> get_strings();
+            std::vector<stringanalysis_t> get_strings();
 
             // class analysis by regular expression
 
@@ -209,9 +219,9 @@ namespace KUNAI
              *        that match the regex.
              * @brief name: std::string name with the regex to search.
              * @brief no_external: bool want external classes?
-             * @return std::vector<std::shared_ptr<ClassAnalysis>>
+             * @return std::vector<classanalysis_t>
              */
-            std::vector<std::shared_ptr<ClassAnalysis>> find_classes(std::string name, bool no_external);
+            std::vector<classanalysis_t> find_classes(std::string name, bool no_external);
 
             /**
              * @brief Find MethodAnalysis by name with regular expression,
@@ -223,16 +233,16 @@ namespace KUNAI
              * @param descriptor: std::string descriptor of method prototype.
              * @param accessflags: std::string access flags from the method.
              * @param no_external: bool want external classes?
-             * @return std::vector<std::shared_ptr<MethodAnalysis>>
+             * @return std::vector<methodanalysis_t>
              */
-            std::vector<std::shared_ptr<MethodAnalysis>> find_methods(std::string class_name, std::string method_name, std::string descriptor, std::string accessflags, bool no_external);
+            std::vector<methodanalysis_t> find_methods(std::string class_name, std::string method_name, std::string descriptor, std::string accessflags, bool no_external);
 
             /**
              * @brief Find StringAnalysis objects using regular expressions.
              * @param string: std::string regex to look for.
-             * @return std::vector<std::shared_ptr<StringAnalysis>>
+             * @return std::vector<stringanalysis_t>
              */
-            std::vector<std::shared_ptr<StringAnalysis>> find_strings(std::string string);
+            std::vector<stringanalysis_t> find_strings(std::string string);
 
             /**
              * @brief Find FieldAnalysis objects using regular expression,
@@ -241,9 +251,9 @@ namespace KUNAI
              * @param field_name: std::string name of the field.
              * @param field_type: std::string type of the field.
              * @param accessflags: accessflags from the field.
-             * @return std::vector<std::shared_ptr<FieldAnalysis>>
+             * @return std::vector<fieldanalysis_t>
              */
-            std::vector<std::shared_ptr<FieldAnalysis>> find_fields(std::string class_name, std::string field_name, std::string field_type, std::string accessflags);
+            std::vector<fieldanalysis_t> find_fields(std::string class_name, std::string field_name, std::string field_type, std::string accessflags);
 
         private:
             /**
@@ -265,41 +275,41 @@ namespace KUNAI
              * @param class_name: std::string name of the method's class.
              * @param method_name: std::string name of the method.
              * @param method_descriptor: std::string descriptor (proto) of the method.
-             * @return std::shared_ptr<MethodAnalysis>
+             * @return methodanalysis_t
              */
-            std::shared_ptr<MethodAnalysis> _resolve_method(std::string class_name, std::string method_name, std::string method_descriptor);
+            methodanalysis_t _resolve_method(std::string class_name, std::string method_name, std::string method_descriptor);
 
             /**
              * @brief DEXParser objects
              */
-            std::vector<std::shared_ptr<DexParser>> dex_parsers;
+            std::vector<dexparser_t> dex_parsers;
 
             /**
              * @brief map with std::string of class name
-             * as key and std::shared_ptr<ClassAnalysis> as value.
+             * as key and classanalysis_t as value.
              */
-            std::map<std::string, std::shared_ptr<ClassAnalysis>> classes;
+            std::map<std::string, classanalysis_t> classes;
 
             /**
-             * @brief map with std::string as key and std::shared_ptr<StringAnalysis>
+             * @brief map with std::string as key and stringanalysis_t
              * as value
              */
-            std::map<std::string, std::shared_ptr<StringAnalysis>> strings;
+            std::map<std::string, stringanalysis_t> strings;
 
             /**
-             * @brief map with std::shared_ptr<EncodedMethod> or std::shared_ptr<ExternalMethod>
-             * as keys and std::shared_ptr<MethodAnalysis> as value.
+             * @brief map with encodedmethod_t or externalmethod_t
+             * as keys and methodanalysis_t as value.
              */
-            std::map<std::string, std::shared_ptr<MethodAnalysis>> methods;
+            std::map<std::string, methodanalysis_t> methods;
 
             /**
              * @brief map hash for quickly getting the Method
              */
-            std::map<std::tuple<std::string, std::string, std::string>, std::shared_ptr<MethodAnalysis>> method_hashes;
+            std::map<std::tuple<std::string, std::string, std::string>, methodanalysis_t> method_hashes;
 
-            std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
-            std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>,
-                     std::map<std::uint64_t, std::shared_ptr<Instruction>>>
+            dalvikopcodes_t dalvik_opcodes;
+            std::map<std::tuple<classdef_t, encodedmethod_t>,
+                     std::map<std::uint64_t, instruction_t>>
                 instructions;
 
             // check if xrefs were already created or not
@@ -314,10 +324,10 @@ namespace KUNAI
         public:
             /**
              * @brief constructor of ClassAnalysis class.
-             * @param class_def: std::variant<std::shared_ptr<ClassDef>, std::shared_ptr<ExternalClass>>
+             * @param class_def: std::variant<classdef_t, externalclass_t>
              * @return void
              */
-            ClassAnalysis(std::variant<std::shared_ptr<ClassDef>, std::shared_ptr<ExternalClass>> class_def);
+            ClassAnalysis(std::variant<classdef_t, externalclass_t> class_def);
 
             /**
              * @brief destructor of ClassAnalysis class.
@@ -328,9 +338,9 @@ namespace KUNAI
             /**
              * @brief Get the class definition object.
              *
-             * @return std::variant<std::shared_ptr<ClassDef>, std::shared_ptr<ExternalClass>>
+             * @return std::variant<classdef_t, externalclass_t>
              */
-            std::variant<std::shared_ptr<ClassDef>, std::shared_ptr<ExternalClass>> get_class_definition()
+            std::variant<classdef_t, externalclass_t> get_class_definition()
             {
                 return class_def;
             }
@@ -347,10 +357,10 @@ namespace KUNAI
             /**
              * @brief add a method to the class, in case of being external
              *        add the external method object to the class.
-             * @param method_analysis: std::shared_ptr<MethodAnalysis> object part of the class.
+             * @param method_analysis: methodanalysis_t object part of the class.
              * @return void.
              */
-            void add_method(std::shared_ptr<MethodAnalysis> method_analysis);
+            void add_method(methodanalysis_t method_analysis);
 
             /**
              * @brief get a list of interfaces that the class implements, in the case of ExternalClass, none.
@@ -378,15 +388,15 @@ namespace KUNAI
 
             /**
              * @brief return a vector with all the MethodAnalysis objects.
-             * @return std::vector<std::shared_ptr<MethodAnalysis>>
+             * @return std::vector<methodanalysis_t>
              */
-            std::vector<std::shared_ptr<MethodAnalysis>> get_methods();
+            std::vector<methodanalysis_t> get_methods();
 
             /**
              * @brief return a vector with all the FieldAnalysis objects.
-             * @return std::vector<std::shared_ptr<FieldAnalysis>>
+             * @return std::vector<fieldanalysis_t>
              */
-            std::vector<std::shared_ptr<FieldAnalysis>> get_fields();
+            std::vector<fieldanalysis_t> get_fields();
 
             /**
              * @brief Get number of stored methods.
@@ -401,67 +411,67 @@ namespace KUNAI
              * @brief Get one of the MethodAnalysis object by given EncodedMethod or ExternalMethod.
              *
              * @param method Method to get as a parent method.
-             * @return std::shared_ptr<MethodAnalysis>
+             * @return methodanalysis_t
              */
-            std::shared_ptr<MethodAnalysis> get_method_analysis(std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method);
+            methodanalysis_t get_method_analysis(std::variant<encodedmethod_t, externalmethod_t> method);
 
             /**
-             * @brief Get one of the FieldAnalysis object by given std::shared_ptr<EncodedField>
-             * @param field: std::shared_ptr<EncodedField> object to look for.
-             * @return std::shared_ptr<FieldAnalysis>
+             * @brief Get one of the FieldAnalysis object by given encodedfield_t
+             * @param field: encodedfield_t object to look for.
+             * @return fieldanalysis_t
              */
-            std::shared_ptr<FieldAnalysis> get_field_analysis(std::shared_ptr<EncodedField> field);
+            fieldanalysis_t get_field_analysis(encodedfield_t field);
 
             /**
-             * @brief Create a std::shared_ptr<FieldAnalysis> object and add a read xref.
-             * @param method: std::shared_ptr<MethodAnalysis> to add in xref.
-             * @param classobj: std::shared_ptr<ClassAnalysis> to add in xref.
-             * @param field: std::shared_ptr<EncodedField> object to create FieldAnalysis object.
+             * @brief Create a fieldanalysis_t object and add a read xref.
+             * @param method: methodanalysis_t to add in xref.
+             * @param classobj: classanalysis_t to add in xref.
+             * @param field: encodedfield_t object to create FieldAnalysis object.
              * @param off: std::uint64_t to add in xref.
              * @return void
              */
-            void add_field_xref_read(std::shared_ptr<MethodAnalysis> method,
-                                     std::shared_ptr<ClassAnalysis> classobj,
-                                     std::shared_ptr<EncodedField> field,
+            void add_field_xref_read(methodanalysis_t method,
+                                     classanalysis_t classobj,
+                                     encodedfield_t field,
                                      std::uint64_t off);
 
             /**
-             * @brief Create a std::shared_ptr<FieldAnalysis> object and add a write xref.
-             * @param method: std::shared_ptr<MethodAnalysis> to add in xref.
-             * @param classobj: std::shared_ptr<ClassAnalysis> to add in xref.
-             * @param field: std::shared_ptr<EncodedField> object to create FieldAnalysis object.
+             * @brief Create a fieldanalysis_t object and add a write xref.
+             * @param method: methodanalysis_t to add in xref.
+             * @param classobj: classanalysis_t to add in xref.
+             * @param field: encodedfield_t object to create FieldAnalysis object.
              * @param off: std::uint64_t to add in xref.
              * @return void
              */
-            void add_field_xref_write(std::shared_ptr<MethodAnalysis> method,
-                                      std::shared_ptr<ClassAnalysis> classobj,
-                                      std::shared_ptr<EncodedField> field,
+            void add_field_xref_write(methodanalysis_t method,
+                                      classanalysis_t classobj,
+                                      encodedfield_t field,
                                       std::uint64_t off);
 
             /**
              * @brief Create a std::shared<MethodAnalysis> object and add a to xref.
-             * @param method1: std::shared_ptr<MethodAnalysis> method to add to class and add xref to.
-             * @param classobj: std::shared_ptr<ClassAnalysis> class to add to xref.
-             * @param method2: std::shared_ptr<MethodAnalysis> method to add to xref.
+             * @param method1: methodanalysis_t method to add to class and add xref to.
+             * @param classobj: classanalysis_t class to add to xref.
+             * @param method2: methodanalysis_t method to add to xref.
              * @param off: std::uint64_t offset to add to xref.
              * @return void
              */
-            void add_method_xref_to(std::shared_ptr<MethodAnalysis> method1,
-                                    std::shared_ptr<ClassAnalysis> classobj,
-                                    std::shared_ptr<MethodAnalysis> method2,
+            void add_method_xref_to(methodanalysis_t method1,
+                                    classanalysis_t classobj,
+                                    methodanalysis_t method2,
                                     std::uint64_t off);
 
             /**
              * @brief Create a std::shared<MethodAnalysis> object and add a from xref.
-             * @param method1: std::shared_ptr<MethodAnalysis> method to add to class and add xref from.
-             * @param classobj: std::shared_ptr<ClassAnalysis> class to add to xref.
-             * @param method2: std::shared_ptr<MethodAnalysis> method to add to xref.
+             * @param method1: methodanalysis_t method to add to class and add xref from.
+             * @param classobj: classanalysis_t class to add to xref.
+             * @param method2: methodanalysis_t method to add to xref.
              * @param off: std::uint64_t offset to add to xref.
              * @return void
              */
-            void add_method_xref_from(std::shared_ptr<MethodAnalysis> method1,
-                                      std::shared_ptr<ClassAnalysis> classobj,
-                                      std::shared_ptr<MethodAnalysis> method2,
+            void add_method_xref_from(methodanalysis_t method1,
+                                      classanalysis_t classobj,
+                                      methodanalysis_t method2,
                                       std::uint64_t off);
 
             /**
@@ -469,26 +479,26 @@ namespace KUNAI
              *        XrefTo means, that the current class calls another class.
              *        The current class should also be contained in another class' XrefFrom list.
              * @param ref_kind: DVMTypes::REF_TYPE type of call done to the other class.
-             * @param classobj: std::shared_ptr<ClassAnalysis>
-             * @param methodobj: std::shared_ptr<MethodAnalysis> methods from which other class is called.
+             * @param classobj: classanalysis_t
+             * @param methodobj: methodanalysis_t methods from which other class is called.
              * @param offset: std::uint64_t offset where the call is done.
              */
             void add_xref_to(DVMTypes::REF_TYPE ref_kind,
-                             std::shared_ptr<ClassAnalysis> classobj,
-                             std::shared_ptr<MethodAnalysis> methodobj,
+                             classanalysis_t classobj,
+                             methodanalysis_t methodobj,
                              std::uint64_t offset);
 
             /**
              * @brief Create a cross reference from this class.
              *        XrefFrom means, that current class is called by another class.
              * @param ref_kind: DVMTypes::REF_TYPE type of call done by another class.
-             * @param classobj: std::shared_ptr<ClassAnalysis> class called.
-             * @param methodobj: std::shared_ptr<MethodAnalysis> method from class that calls the other.
+             * @param classobj: classanalysis_t class called.
+             * @param methodobj: methodanalysis_t method from class that calls the other.
              * @param offset: std::uint64_t offset where the call is done.
              */
             void add_xref_from(DVMTypes::REF_TYPE ref_kind,
-                               std::shared_ptr<ClassAnalysis> classobj,
-                               std::shared_ptr<MethodAnalysis> methodobj,
+                               classanalysis_t classobj,
+                               methodanalysis_t methodobj,
                                std::uint64_t offset);
 
             /**
@@ -513,11 +523,11 @@ namespace KUNAI
 
             /**
              * @brief Add a new reference to a method where the class is instantiated.
-             * @param methodobj: std::shared_ptr<MethodAnalysis> method where class is instantiated.
+             * @param methodobj: methodanalysis_t method where class is instantiated.
              * @param offset: offset where class is instantiated.
              * @return void
              */
-            void add_xref_new_instance(std::shared_ptr<MethodAnalysis> methodobj, std::uint64_t offset);
+            void add_xref_new_instance(methodanalysis_t methodobj, std::uint64_t offset);
 
             /**
              * @brief Return all the references where the call is instantiated.
@@ -530,11 +540,11 @@ namespace KUNAI
 
             /**
              * @brief Add a crossreference to a method referencing this classtype.
-             * @param methodobj: std::shared_ptr<MethodAnalysis> method where class is referenced.
+             * @param methodobj: methodanalysis_t method where class is referenced.
              * @param offset: offset where class is referenced.
              * @return void
              */
-            void add_xref_const_class(std::shared_ptr<MethodAnalysis> methodobj, std::uint64_t offset);
+            void add_xref_const_class(methodanalysis_t methodobj, std::uint64_t offset);
 
             /**
              * @brief Return all the methods where this class is referenced.
@@ -547,13 +557,13 @@ namespace KUNAI
 
         private:
             // ClassDef or ExternalClass object
-            std::variant<std::shared_ptr<ClassDef>, std::shared_ptr<ExternalClass>> class_def;
+            std::variant<classdef_t, externalclass_t> class_def;
 
             bool is_external;
 
             // map with method analysis for DEX analysis
-            std::map<std::string, std::shared_ptr<MethodAnalysis>> methods;
-            std::map<std::shared_ptr<EncodedField>, std::shared_ptr<FieldAnalysis>> fields;
+            std::map<std::string, methodanalysis_t> methods;
+            std::map<encodedfield_t, fieldanalysis_t> fields;
 
             class_xref xrefto;
             class_xref xreffrom;
@@ -582,10 +592,10 @@ namespace KUNAI
              * @param instructions
              */
             DVMBasicBlock(std::uint64_t start,
-                          std::shared_ptr<DalvikOpcodes> dalvik_opcodes,
-                          std::shared_ptr<BasicBlocks> context,
-                          std::shared_ptr<EncodedMethod> method,
-                          std::map<std::uint64_t, std::shared_ptr<Instruction>> &instructions);
+                          dalvikopcodes_t dalvik_opcodes,
+                          basicblocks_t context,
+                          encodedmethod_t method,
+                          std::map<std::uint64_t, instruction_t> &instructions);
 
             /**
              * @brief Destroy the DVMBasicBlock object
@@ -606,21 +616,21 @@ namespace KUNAI
 
             /**
              * @brief return all the instructions from current basic block.
-             * @return std::vector<std::shared_ptr<Instruction>>
+             * @return std::vector<instruction_t>
              */
-            std::vector<std::shared_ptr<Instruction>> get_instructions();
+            std::vector<instruction_t> get_instructions();
 
             /**
              * @brief return the last instruction from the basic block.
-             * @return std::shared_ptr<Instruction>
+             * @return instruction_t
              */
-            std::shared_ptr<Instruction> get_last();
+            instruction_t get_last();
 
             /**
              * @brief return all the child basic blocks.
-             * @return std::vector<std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>>>
+             * @return std::vector<std::tuple<std::uint64_t, std::uint64_t, dvmbasicblock_t>>
              */
-            const std::vector<std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>>> &get_next() const
+            const std::vector<std::tuple<std::uint64_t, std::uint64_t, dvmbasicblock_t>> &get_next() const
             {
                 return childs;
             }
@@ -674,51 +684,51 @@ namespace KUNAI
 
             /**
              * @brief Calculate new values with an instruction and push in case is a special instruction.
-             * @param instr: std::shared_ptr<Instruction> object to increase diferent values and insert into special instructions.
+             * @param instr: instruction_t object to increase diferent values and insert into special instructions.
              * @return void
              */
-            void push(std::shared_ptr<Instruction> instr);
+            void push(instruction_t instr);
 
             /**
              * @brief get one of the special instructions.
              * @param idx: std::uint64_t with index of the special instruction.
-             * @return std::shared_ptr<Instruction>
+             * @return instruction_t
              */
-            std::shared_ptr<Instruction> get_special_instruction(std::uint64_t idx);
+            instruction_t get_special_instruction(std::uint64_t idx);
 
             /**
              * @brief return an exception analysis object.
-             * @return std::shared_ptr<ExceptionAnalysis>
+             * @return exceptionanalysis_t
              */
-            std::shared_ptr<ExceptionAnalysis> get_exception_analysis()
+            exceptionanalysis_t get_exception_analysis()
             {
                 return exception_analysis;
             }
 
             /**
              * @brief set exception analysis object
-             * @param exception_analysis: std::shared_ptr<ExceptionAnalysis> object.
+             * @param exception_analysis: exceptionanalysis_t object.
              * @return void
              */
-            void set_exception_analysis(std::shared_ptr<ExceptionAnalysis> exception_analysis)
+            void set_exception_analysis(exceptionanalysis_t exception_analysis)
             {
                 this->exception_analysis = exception_analysis;
             }
 
         private:
             std::uint64_t start, end; // first and final idx from the basic block
-            std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
-            std::shared_ptr<BasicBlocks> context;
-            std::shared_ptr<EncodedMethod> method;
-            std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions;
-            std::map<std::uint64_t, std::shared_ptr<Instruction>> special_instructions;
+            dalvikopcodes_t dalvik_opcodes;
+            basicblocks_t context;
+            encodedmethod_t method;
+            std::map<std::uint64_t, instruction_t> instructions;
+            std::map<std::uint64_t, instruction_t> special_instructions;
             std::uint64_t last_length;
             std::uint64_t nb_instructions;
             std::string name;
-            std::shared_ptr<ExceptionAnalysis> exception_analysis;
+            exceptionanalysis_t exception_analysis;
 
             std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock *>> parents;
-            std::vector<std::tuple<std::uint64_t, std::uint64_t, std::shared_ptr<DVMBasicBlock>>> childs;
+            std::vector<std::tuple<std::uint64_t, std::uint64_t, dvmbasicblock_t>> childs;
         };
 
         /**
@@ -742,20 +752,20 @@ namespace KUNAI
              * @param basic_block: DVMBasicBlock object.
              * @return void
              */
-            void push_basic_block(std::shared_ptr<DVMBasicBlock> basic_block);
+            void push_basic_block(dvmbasicblock_t basic_block);
 
             /**
              * @brief pop the last basic block from the vector, pop operation remove it from the vector.
-             * @return std::shared_ptr<DVMBasicBlock>
+             * @return dvmbasicblock_t
              */
-            std::shared_ptr<DVMBasicBlock> pop_basic_block();
+            dvmbasicblock_t pop_basic_block();
 
             /**
              * @brief get one basic block by the idx of the instruction.
              * @param idx: index of the instruction to retrieve its basic block.
-             * @return std::shared_ptr<DVMBasicBlock>
+             * @return dvmbasicblock_t
              */
-            std::shared_ptr<DVMBasicBlock> get_basic_block_by_idx(std::uint64_t idx);
+            dvmbasicblock_t get_basic_block_by_idx(std::uint64_t idx);
 
             /**
              * @brief get the numbers of basic blocks.
@@ -768,15 +778,15 @@ namespace KUNAI
 
             /**
              * @brief get all the basic blocks.
-             * @return std::vector<std::shared_ptr<DVMBasicBlock>>
+             * @return std::vector<dvmbasicblock_t>
              */
-            const std::vector<std::shared_ptr<DVMBasicBlock>> &get_basic_blocks() const
+            const std::vector<dvmbasicblock_t> &get_basic_blocks() const
             {
                 return basic_blocks;
             }
 
         private:
-            std::vector<std::shared_ptr<DVMBasicBlock>> basic_blocks;
+            std::vector<dvmbasicblock_t> basic_blocks;
         };
 
         /**
@@ -788,12 +798,12 @@ namespace KUNAI
             /**
              * @brief Constructor of MethodAnalysis it will initialize
              * various variables.
-             * @param method_encoded: std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>>
-             * @param dalvik_opcodes: std::shared_ptr<DalvikOpcodes> object.
-             * @param instructions: std::map<std::uint64_t, std::shared_ptr<Instruction>> all the DEX instructions.
+             * @param method_encoded: std::variant<encodedmethod_t, externalmethod_t>
+             * @param dalvik_opcodes: dalvikopcodes_t object.
+             * @param instructions: std::map<std::uint64_t, instruction_t> all the DEX instructions.
              * @return void.
              */
-            MethodAnalysis(std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method_encoded, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions);
+            MethodAnalysis(std::variant<encodedmethod_t, externalmethod_t> method_encoded, dalvikopcodes_t dalvik_opcodes, std::map<std::uint64_t, instruction_t> instructions);
 
             /**
              * @brief MethodAnalysis destructor.
@@ -802,7 +812,7 @@ namespace KUNAI
             ~MethodAnalysis() = default;
 
             /**
-             * @brief return if the method is instance of std::shared_ptr<ExternalMethod>
+             * @brief return if the method is instance of externalmethod_t
              * @return bool
              */
             bool external()
@@ -820,9 +830,9 @@ namespace KUNAI
              * @brief Return method_encoded object, this can
              * be of different types EncodedMethod or ExternalMethod
              * must check which one it is.
-             * @return std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>>
+             * @return std::variant<encodedmethod_t, externalmethod_t>
              */
-            std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> get_method()
+            std::variant<encodedmethod_t, externalmethod_t> get_method()
             {
                 return method_encoded;
             }
@@ -864,7 +874,7 @@ namespace KUNAI
              * @param offset: offset of the instruction where the method is read.
              * @return void
              */
-            void add_xref_read(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<FieldAnalysis> field_object, std::uint64_t offset);
+            void add_xref_read(classanalysis_t class_object, fieldanalysis_t field_object, std::uint64_t offset);
 
             /**
              * @brief Insert a new xref of method written.
@@ -873,7 +883,7 @@ namespace KUNAI
              * @param offset: offset of the instruction where the method is written.
              * @return void
              */
-            void add_xref_write(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<FieldAnalysis> field_object, std::uint64_t offset);
+            void add_xref_write(classanalysis_t class_object, fieldanalysis_t field_object, std::uint64_t offset);
 
             /**
              * @brief Return all the xref where method is read, with or without offset.
@@ -897,21 +907,21 @@ namespace KUNAI
 
             /**
              * @brief Add a reference to a method called by this method.
-             * @param class_object: std::shared_ptr<ClassAnalysis> class of the method called.
-             * @param method_object: std::shared_ptr<MethodAnalysis> method called from current method.
+             * @param class_object: classanalysis_t class of the method called.
+             * @param method_object: methodanalysis_t method called from current method.
              * @param offset: std::uint64_t offset where call is done.
              * @return void
              */
-            void add_xref_to(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset);
+            void add_xref_to(classanalysis_t class_object, methodanalysis_t method_object, std::uint64_t offset);
 
             /**
              * @brief Add a reference of a method that calls current method.
-             * @param class_object: std::shared_ptr<ClassAnalysis> class of the method that calls current method.
-             * @param method_object: std::shared_ptr<MethodAnalysis> method that calls current method.
+             * @param class_object: classanalysis_t class of the method that calls current method.
+             * @param method_object: methodanalysis_t method that calls current method.
              * @param offset: std::uint64_t offset where call is done.
              * @return void
              */
-            void add_xref_from(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset);
+            void add_xref_from(classanalysis_t class_object, methodanalysis_t method_object, std::uint64_t offset);
 
             /**
              * @brief get the methods where current method is called, with or without offset.
@@ -935,61 +945,61 @@ namespace KUNAI
 
             /**
              * @brief Add a cross reference to another class that is instanced within this method.
-             * @param class_object: std::shared_ptr<ClassAnalysis> class_object instanced class.
+             * @param class_object: classanalysis_t class_object instanced class.
              * @param offset: std::uint64_t offset of the method
              * @return void
              */
-            void add_xref_new_instance(std::shared_ptr<ClassAnalysis> class_object, std::uint64_t offset);
+            void add_xref_new_instance(classanalysis_t class_object, std::uint64_t offset);
 
             /**
              * @brief Add a cross reference to another classtype.
-             * @param class_object: std::shared_ptr<ClassAnalysis>
+             * @param class_object: classanalysis_t
              * @param offset: std::uint64_t
              * @return void
              */
-            void add_xref_const_class(std::shared_ptr<ClassAnalysis> class_object, std::uint64_t offset);
+            void add_xref_const_class(classanalysis_t class_object, std::uint64_t offset);
 
             /**
              * @brief return the cross references of classes instanced by this method.
-             * @return std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::uint64_t>>
+             * @return std::vector<std::tuple<classanalysis_t, std::uint64_t>>
              */
-            const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::uint64_t>> &get_xref_new_instance() const
+            const std::vector<std::tuple<classanalysis_t, std::uint64_t>> &get_xref_new_instance() const
             {
                 return xrefnewinstance;
             }
 
             /**
              * @brief return all the cross references of another classtype.
-             * @return std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::uint64_t>>
+             * @return std::vector<std::tuple<classanalysis_t, std::uint64_t>>
              */
-            const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::uint64_t>> &get_xref_const_class() const
+            const std::vector<std::tuple<classanalysis_t, std::uint64_t>> &get_xref_const_class() const
             {
                 return xrefconstclass;
             }
 
             /**
              * @brief get the instructions from the method.
-             * @return std::map<std::uint64_t, std::shared_ptr<Instruction>>
+             * @return std::map<std::uint64_t, instruction_t>
              */
-            const std::map<std::uint64_t, std::shared_ptr<Instruction>> &get_instructions() const
+            const std::map<std::uint64_t, instruction_t> &get_instructions() const
             {
                 return instructions;
             }
 
             /**
              * @brief get the basic blocks with the DVMBasicBlocks with the instructions.
-             * @return std::shared_ptr<BasicBlocks>
+             * @return basicblocks_t
              */
-            std::shared_ptr<BasicBlocks>& get_basic_blocks()
+            basicblocks_t &get_basic_blocks()
             {
                 return basic_blocks;
             }
 
             /**
              * @brief Get all the exceptions from the method.
-             * @return std::shared_ptr<Exception>
+             * @return exception_t
              */
-            std::shared_ptr<Exception>& get_exceptions()
+            exception_t &get_exceptions()
             {
                 return exceptions;
             }
@@ -1002,20 +1012,20 @@ namespace KUNAI
             void create_basic_block();
 
             bool is_external;
-            std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method_encoded;
-            std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
-            std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions;
-            std::shared_ptr<BasicBlocks> basic_blocks;
-            std::shared_ptr<Exception> exceptions;
+            std::variant<encodedmethod_t, externalmethod_t> method_encoded;
+            dalvikopcodes_t dalvik_opcodes;
+            std::map<std::uint64_t, instruction_t> instructions;
+            basicblocks_t basic_blocks;
+            exception_t exceptions;
 
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<FieldAnalysis>, std::uint64_t>> xrefread;
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<FieldAnalysis>, std::uint64_t>> xrefwrite;
+            std::vector<std::tuple<classanalysis_t, fieldanalysis_t, std::uint64_t>> xrefread;
+            std::vector<std::tuple<classanalysis_t, fieldanalysis_t, std::uint64_t>> xrefwrite;
 
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>> xrefto;
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>> xreffrom;
+            std::vector<std::tuple<classanalysis_t, methodanalysis_t, std::uint64_t>> xrefto;
+            std::vector<std::tuple<classanalysis_t, methodanalysis_t, std::uint64_t>> xreffrom;
 
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::uint64_t>> xrefnewinstance;
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::uint64_t>> xrefconstclass;
+            std::vector<std::tuple<classanalysis_t, std::uint64_t>> xrefnewinstance;
+            std::vector<std::tuple<classanalysis_t, std::uint64_t>> xrefconstclass;
 
             std::vector<std::string> known_apis{
                 "Landroid/", "Lcom/android/internal/util", "Ldalvik/", "Ljava/", "Ljavax/", "Lorg/apache/",
@@ -1033,7 +1043,7 @@ namespace KUNAI
              * @param field: FieldID pointer base of the class.
              * @return void
              */
-            FieldAnalysis(std::shared_ptr<EncodedField> field);
+            FieldAnalysis(encodedfield_t field);
 
             /**
              * @brief Destructor of FieldAnalysis class.
@@ -1045,7 +1055,7 @@ namespace KUNAI
              * @brief retrieve name of Field.
              * @return std::string
              */
-            std::string& name()
+            std::string &name()
             {
                 return *field->get_field()->get_name_idx();
             }
@@ -1057,7 +1067,7 @@ namespace KUNAI
              * @param offset: instruction offset where field is read.
              * @return void
              */
-            void add_xref_read(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset);
+            void add_xref_read(classanalysis_t class_object, methodanalysis_t method_object, std::uint64_t offset);
 
             /**
              * @brief Add a xref where this field is written.
@@ -1066,14 +1076,14 @@ namespace KUNAI
              * @param offset: instruction offset where field is written.
              * @return void
              */
-            void add_xref_write(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset);
+            void add_xref_write(classanalysis_t class_object, methodanalysis_t method_object, std::uint64_t offset);
 
             /**
              * @brief Get all the read cross references from the field.
              *
-             * @return const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>&
+             * @return const std::vector<std::tuple<classanalysis_t, methodanalysis_t, std::uint64_t>>&
              */
-            const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>> &get_xref_read() const
+            const std::vector<std::tuple<classanalysis_t, methodanalysis_t, std::uint64_t>> &get_xref_read() const
             {
                 return xrefread;
             }
@@ -1081,9 +1091,9 @@ namespace KUNAI
             /**
              * @brief Get all the write cross references from the field.
              *
-             * @return const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>&
+             * @return const std::vector<std::tuple<classanalysis_t, methodanalysis_t, std::uint64_t>>&
              */
-            const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>> &get_xref_write() const
+            const std::vector<std::tuple<classanalysis_t, methodanalysis_t, std::uint64_t>> &get_xref_write() const
             {
                 return xrefwrite;
             }
@@ -1092,7 +1102,7 @@ namespace KUNAI
              * @brief return the FieldID pointer.
              * @return FieldID*
              */
-            std::shared_ptr<EncodedField>& get_field()
+            encodedfield_t &get_field()
             {
                 return field;
             }
@@ -1100,9 +1110,9 @@ namespace KUNAI
             friend std::ostream &operator<<(std::ostream &os, const FieldAnalysis &entry);
 
         private:
-            std::shared_ptr<EncodedField> field;
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>> xrefread;
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>> xrefwrite;
+            encodedfield_t field;
+            std::vector<std::tuple<classanalysis_t, methodanalysis_t, std::uint64_t>> xrefread;
+            std::vector<std::tuple<classanalysis_t, methodanalysis_t, std::uint64_t>> xrefwrite;
         };
 
         /**
@@ -1126,19 +1136,19 @@ namespace KUNAI
 
             /**
              * @brief Add a reference of a method that reads current string.
-             * @param class_object: std::shared_ptr<ClassAnalysis> class of the method that reads current string.
-             * @param method_object: std::shared_ptr<MethodAnalysis> method that reads current string.
+             * @param class_object: classanalysis_t class of the method that reads current string.
+             * @param method_object: methodanalysis_t method that reads current string.
              * @param offset: std::uint64_t offset where call is done.
              * @return void
              */
-            void add_xref_from(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset);
+            void add_xref_from(classanalysis_t class_object, methodanalysis_t method_object, std::uint64_t offset);
 
             /**
              * @brief Get the read xref from the string
              *
-             * @return const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>>&
+             * @return const std::vector<std::tuple<classanalysis_t, methodanalysis_t, std::uint64_t>>&
              */
-            const std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>> &get_xref_from() const
+            const std::vector<std::tuple<classanalysis_t, methodanalysis_t, std::uint64_t>> &get_xref_from() const
             {
                 return xreffrom;
             }
@@ -1174,7 +1184,7 @@ namespace KUNAI
         private:
             std::string *value;
             std::string *orig_value;
-            std::vector<std::tuple<std::shared_ptr<ClassAnalysis>, std::shared_ptr<MethodAnalysis>, std::uint64_t>> xreffrom;
+            std::vector<std::tuple<classanalysis_t, methodanalysis_t, std::uint64_t>> xreffrom;
         };
 
         /**
@@ -1189,7 +1199,7 @@ namespace KUNAI
              * @param basic_blocks: all the basic blocks where are all the instruction's basic blocks.
              * @return void
              */
-            ExceptionAnalysis(exceptions_data exception, std::shared_ptr<BasicBlocks> basic_blocks);
+            ExceptionAnalysis(exceptions_data exception, basicblocks_t basic_blocks);
 
             /**
              * @brief ExceptionAnalysis destructor.
@@ -1207,14 +1217,14 @@ namespace KUNAI
              * @brief Get exception data structure.
              * @return exceptions_data
              */
-            exceptions_data& get()
+            exceptions_data &get()
             {
                 return exception;
             }
 
         private:
             exceptions_data exception;
-            std::shared_ptr<BasicBlocks> basic_blocks;
+            basicblocks_t basic_blocks;
         };
 
         /**
@@ -1241,27 +1251,27 @@ namespace KUNAI
              * @param basic_blocks: BasicBlocks object for the ExceptionAnalysis object.
              * @return void.
              */
-            void add(std::vector<exceptions_data> exceptions, std::shared_ptr<BasicBlocks> basic_blocks);
+            void add(std::vector<exceptions_data> exceptions, basicblocks_t basic_blocks);
 
             /**
              * @brief Get a ExceptionAnalysis object get by the start and end address of the try handler.
              * @param start_addr: start try value address.
              * @param end_addr: end try value address.
-             * @return std::shared_ptr<ExceptionAnalysis>
+             * @return exceptionanalysis_t
              */
-            std::shared_ptr<ExceptionAnalysis> get_exception(std::uint64_t start_addr, std::uint64_t end_addr);
+            exceptionanalysis_t get_exception(std::uint64_t start_addr, std::uint64_t end_addr);
 
             /**
              * @brief Get all the ExceptionAnalysis objects.
-             * @return std::vector<std::shared_ptr<ExceptionAnalysis>>
+             * @return std::vector<exceptionanalysis_t>
              */
-            const std::vector<std::shared_ptr<ExceptionAnalysis>> &gets() const
+            const std::vector<exceptionanalysis_t> &gets() const
             {
                 return exceptions;
             }
 
         private:
-            std::vector<std::shared_ptr<ExceptionAnalysis>> exceptions;
+            std::vector<exceptionanalysis_t> exceptions;
         };
     } // namespace DEX
 } // namespace KUNAI

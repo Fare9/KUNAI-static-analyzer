@@ -37,21 +37,21 @@ namespace KUNAI
                 throw exceptions::ParserReadingException("Error reading AnnotationsDirectoryItem");
         }
 
-        std::shared_ptr<FieldAnnotation> AnnotationsDirectoryItem::get_field_annotation_by_pos(std::uint64_t pos)
+        fieldannotation_t AnnotationsDirectoryItem::get_field_annotation_by_pos(std::uint64_t pos)
         {
             if (pos >= field_annotations.size())
                 return nullptr;
             return field_annotations[pos];
         }
 
-        std::shared_ptr<MethodAnnotations> AnnotationsDirectoryItem::get_method_annotation_by_pos(std::uint64_t pos)
+        methodannotations_t AnnotationsDirectoryItem::get_method_annotation_by_pos(std::uint64_t pos)
         {
             if (pos >= method_annotations.size())
                 return nullptr;
             return method_annotations[pos];
         }
 
-        std::shared_ptr<ParameterAnnotation> AnnotationsDirectoryItem::get_parameter_annotation_by_pos(std::uint64_t pos)
+        parameterannotation_t AnnotationsDirectoryItem::get_parameter_annotation_by_pos(std::uint64_t pos)
         {
             if (pos >= parameter_annotations.size())
                 return nullptr;
@@ -69,9 +69,9 @@ namespace KUNAI
 
             std::uint32_t field_idx, method_idx, annotations_off;
 
-            std::shared_ptr<FieldAnnotation> field_annotation;
-            std::shared_ptr<MethodAnnotations> method_annotation;
-            std::shared_ptr<ParameterAnnotation> parameter_annotation;
+            fieldannotation_t field_annotation;
+            methodannotations_t method_annotation;
+            parameterannotation_t parameter_annotation;
 
             if (!KUNAI::read_data_file<std::uint32_t>(class_annotations_off, sizeof(std::uint32_t), input_file))
                 return false;
