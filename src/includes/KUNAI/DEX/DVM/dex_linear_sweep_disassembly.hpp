@@ -22,6 +22,10 @@
 
 namespace KUNAI {
     namespace DEX {
+        class LinearSweepDisassembler;
+
+        using linearsweepdisassembler_t = std::shared_ptr<LinearSweepDisassembler>;
+
         class LinearSweepDisassembler
         {
         public:

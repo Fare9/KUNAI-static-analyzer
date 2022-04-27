@@ -5,7 +5,7 @@ namespace KUNAI
     namespace MJOLNIR
     {
         
-        bool is_ir_field(std::shared_ptr<IRStmnt> instr)
+        bool is_ir_field(irstmnt_t instr)
         {
             auto field = std::dynamic_pointer_cast<IRField>(instr);
 
@@ -16,7 +16,7 @@ namespace KUNAI
         }
 
         
-        bool is_ir_callee(std::shared_ptr<IRStmnt> instr)
+        bool is_ir_callee(irstmnt_t instr)
         {
             auto callee = std::dynamic_pointer_cast<IRCallee>(instr);
 
@@ -27,7 +27,7 @@ namespace KUNAI
         }
 
         
-        bool is_ir_class(std::shared_ptr<IRStmnt> instr)
+        bool is_ir_class(irstmnt_t instr)
         {
             auto class_ = std::dynamic_pointer_cast<IRClass>(instr);
 
@@ -38,7 +38,7 @@ namespace KUNAI
         }
 
 
-        bool is_ir_string(std::shared_ptr<IRStmnt> instr)
+        bool is_ir_string(irstmnt_t instr)
         {
             auto str = std::dynamic_pointer_cast<IRString>(instr);
 
@@ -49,7 +49,7 @@ namespace KUNAI
         }
 
 
-        bool is_ir_memory(std::shared_ptr<IRStmnt> instr)
+        bool is_ir_memory(irstmnt_t instr)
         {
             auto mem = std::dynamic_pointer_cast<IRMemory>(instr);
 
@@ -60,7 +60,7 @@ namespace KUNAI
         }
 
         
-        bool is_ir_const_int(std::shared_ptr<IRStmnt> instr)
+        bool is_ir_const_int(irstmnt_t instr)
         {
             auto const_int = std::dynamic_pointer_cast<IRConstInt>(instr);
 
@@ -71,7 +71,7 @@ namespace KUNAI
         }
 
         
-        bool is_ir_temp_reg(std::shared_ptr<IRStmnt> instr)
+        bool is_ir_temp_reg(irstmnt_t instr)
         {
             auto temp_reg = std::dynamic_pointer_cast<IRTempReg>(instr);
 
@@ -82,7 +82,7 @@ namespace KUNAI
         }
 
 
-        bool is_register(std::shared_ptr<IRStmnt> instr)
+        bool is_register(irstmnt_t instr)
         {
             auto reg = std::dynamic_pointer_cast<IRReg>(instr);
 
@@ -93,7 +93,7 @@ namespace KUNAI
         }
 
         
-        bool is_unconditional_jump(std::shared_ptr<IRStmnt> instr)
+        bool is_unconditional_jump(irstmnt_t instr)
         {
             auto ujmp = std::dynamic_pointer_cast<IRUJmp>(instr);
 
@@ -104,7 +104,7 @@ namespace KUNAI
         }
 
         
-        bool is_conditional_jump(std::shared_ptr<IRStmnt> instr)
+        bool is_conditional_jump(irstmnt_t instr)
         {
             auto cjmp = std::dynamic_pointer_cast<IRCJmp>(instr);
 
@@ -115,7 +115,7 @@ namespace KUNAI
         }
         
         
-        bool is_ret(std::shared_ptr<IRStmnt> instr)
+        bool is_ret(irstmnt_t instr)
         {
             auto ret = std::dynamic_pointer_cast<IRRet>(instr);
 
@@ -126,7 +126,7 @@ namespace KUNAI
         }
 
         
-        bool is_call(std::shared_ptr<IRStmnt> instr)
+        bool is_call(irstmnt_t instr)
         {
             auto call = std::dynamic_pointer_cast<IRCall>(instr);
 
@@ -137,7 +137,7 @@ namespace KUNAI
         }
 
         
-        bool is_switch(std::shared_ptr<IRStmnt> instr)
+        bool is_switch(irstmnt_t instr)
         {
             auto switch_instr = std::dynamic_pointer_cast<IRSwitch>(instr);
 
@@ -147,7 +147,7 @@ namespace KUNAI
             return true;
         }
 
-        bool is_cmp(std::shared_ptr<IRStmnt> instr)
+        bool is_cmp(irstmnt_t instr)
         {
             auto cmp_instr = std::dynamic_pointer_cast<IRBComp>(instr);
 

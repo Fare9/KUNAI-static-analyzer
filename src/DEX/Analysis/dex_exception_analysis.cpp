@@ -31,7 +31,7 @@ namespace KUNAI
                 }
                 else
                 {
-                    auto bb = std::any_cast<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>>(it->basic_blocks[0]);
+                    auto bb = std::any_cast<KUNAI::DEX::dvmbasicblock_t>(it->basic_blocks[0]);
                     buff << "\t(" << std::hex << it->handler_type << " -> " << std::hex << it->handler_start_addr << " " << std::hex << bb->get_start() << ")" << std::endl;
                 }
             }

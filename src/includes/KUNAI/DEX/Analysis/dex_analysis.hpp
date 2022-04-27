@@ -265,10 +265,10 @@ namespace KUNAI
              *          - xrefs field manipulation
              *        All the information is stored in the Analysis objects.
              *        It might be quite slow as all instructions are parsed.
-             * @param current_class: std::shared_ptr<KUNAI::DEX::ClassDef> class to create the xrefs.
+             * @param current_class: KUNAI::DEX::classdef_t class to create the xrefs.
              * @return void
              */
-            void _create_xref(std::shared_ptr<KUNAI::DEX::ClassDef> current_class);
+            void _create_xref(KUNAI::DEX::classdef_t current_class);
 
             /**
              * @brief get a method by its hash, return the MethodAnalysis object.
@@ -888,9 +888,9 @@ namespace KUNAI
             /**
              * @brief Return all the xref where method is read, with or without offset.
              *
-             * @return std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::FieldAnalysis>, uint64_t>>
+             * @return std::vector<std::tuple<KUNAI::DEX::classanalysis_t, KUNAI::DEX::fieldanalysis_t, uint64_t>>
              */
-            const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::FieldAnalysis>, uint64_t>> &get_xref_read() const
+            const std::vector<std::tuple<KUNAI::DEX::classanalysis_t, KUNAI::DEX::fieldanalysis_t, uint64_t>> &get_xref_read() const
             {
                 return xrefread;
             }
@@ -898,9 +898,9 @@ namespace KUNAI
             /**
              * @brief Return all the xref where method is written
              *
-             * @return const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::FieldAnalysis>, uint64_t>>&
+             * @return const std::vector<std::tuple<KUNAI::DEX::classanalysis_t, KUNAI::DEX::fieldanalysis_t, uint64_t>>&
              */
-            const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::FieldAnalysis>, uint64_t>> &get_xref_write() const
+            const std::vector<std::tuple<KUNAI::DEX::classanalysis_t, KUNAI::DEX::fieldanalysis_t, uint64_t>> &get_xref_write() const
             {
                 return xrefwrite;
             }
@@ -926,9 +926,9 @@ namespace KUNAI
             /**
              * @brief get the methods where current method is called, with or without offset.
              *
-             * @return const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::MethodAnalysis>, uint64_t>>&
+             * @return const std::vector<std::tuple<KUNAI::DEX::classanalysis_t, KUNAI::DEX::methodanalysis_t, uint64_t>>&
              */
-            const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::MethodAnalysis>, uint64_t>> &get_xref_to() const
+            const std::vector<std::tuple<KUNAI::DEX::classanalysis_t, KUNAI::DEX::methodanalysis_t, uint64_t>> &get_xref_to() const
             {
                 return xrefto;
             }
@@ -936,9 +936,9 @@ namespace KUNAI
             /**
              * @brief get the methods called by current method, with or without offset.
              *
-             * @return const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::MethodAnalysis>, uint64_t>>&
+             * @return const std::vector<std::tuple<KUNAI::DEX::classanalysis_t, KUNAI::DEX::methodanalysis_t, uint64_t>>&
              */
-            const std::vector<std::tuple<std::shared_ptr<KUNAI::DEX::ClassAnalysis>, std::shared_ptr<KUNAI::DEX::MethodAnalysis>, uint64_t>> &get_xref_from() const
+            const std::vector<std::tuple<KUNAI::DEX::classanalysis_t, KUNAI::DEX::methodanalysis_t, uint64_t>> &get_xref_from() const
             {
                 return xreffrom;
             }

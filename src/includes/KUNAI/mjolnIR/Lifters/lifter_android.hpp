@@ -47,9 +47,9 @@ namespace KUNAI
              *
              * @param method_analysis: method from Android to lift.
              * @param android_analysis: analysis from Android.
-             * @return std::shared_ptr<MJOLNIR::IRGraph>
+             * @return MJOLNIR::irgraph_t
              */
-            std::shared_ptr<MJOLNIR::IRGraph> lift_android_method(DEX::methodanalysis_t& method_analysis, DEX::analysis_t& android_analysis);
+            MJOLNIR::irgraph_t lift_android_method(DEX::methodanalysis_t& method_analysis, DEX::analysis_t& android_analysis);
 
             /**
              * @brief Lift an android basic block instructions to IR instructions.
@@ -59,7 +59,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool lift_android_basic_block(DEX::dvmbasicblock_t& basic_block, std::shared_ptr<MJOLNIR::IRBlock>& bb);
+            bool lift_android_basic_block(DEX::dvmbasicblock_t& basic_block, MJOLNIR::irblock_t& bb);
 
             /**
              * @brief
@@ -69,7 +69,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool lift_android_instruction(DEX::instruction_t& instruction, std::shared_ptr<MJOLNIR::IRBlock>& bb);
+            bool lift_android_instruction(DEX::instruction_t& instruction, MJOLNIR::irblock_t& bb);
 
         private:
             uint64_t temp_reg_id;
@@ -80,58 +80,58 @@ namespace KUNAI
              *        using different objects will be useful for having
              *        different registers in different methods.
              * @param reg_id: id of the register to create.
-             * @return std::shared_ptr<MJOLNIR::IRReg>
+             * @return MJOLNIR::irreg_t
              */
-            std::shared_ptr<MJOLNIR::IRReg> make_android_register(std::uint32_t reg_id);
+            MJOLNIR::irreg_t make_android_register(std::uint32_t reg_id);
 
             /**
              * @brief Return a temporal register, used for operations like
              *        conditional jumps to have some place where to store result
              *        of comparison.
              *
-             * @return std::shared_ptr<MJOLNIR::IRTempReg>
+             * @return MJOLNIR::irtempreg_t
              */
-            std::shared_ptr<MJOLNIR::IRTempReg> make_temporal_register();
+            MJOLNIR::irtempreg_t make_temporal_register();
 
             /**
              * @brief Create a NONE type useful for cases where one of
              *        the parameters does not exists.
-             * @return std::shared_ptr<MJOLNIR::IRType>
+             * @return MJOLNIR::irtype_t
              */
-            std::shared_ptr<MJOLNIR::IRType> make_none_type();
+            MJOLNIR::irtype_t make_none_type();
 
             /**
              * @brief Create an Int type used for the DEX instructions
              * @param value: value of the integer as an unsigned of 64 bits
              * @param is_signed: boolean saying if the value must be signed or unsigned.
              * @param type_size: size of the integer type.
-             * @return std::shared_ptr<MJOLNIR::IRConstInt>
+             * @return MJOLNIR::irconstint_t
              */
-            std::shared_ptr<MJOLNIR::IRConstInt> make_int(std::uint64_t value, bool is_signed, size_t type_size);
+            MJOLNIR::irconstint_t make_int(std::uint64_t value, bool is_signed, size_t type_size);
 
             /**
              * @brief Generate a IRString type for Android, this will have the string
              *        and the size of the string.
              * @param value: string to generate the object.
-             * @return std::shared_ptr<MJOLNIR::IRString>
+             * @return MJOLNIR::irstring_t
              */
-            std::shared_ptr<MJOLNIR::IRString> make_str(std::string value);
+            MJOLNIR::irstring_t make_str(std::string value);
 
             /**
              * @brief Generate a IRClass type for Android, this will be nothing more
              *        than the complete name of the class.
              * @param value: class to generate the object.
-             * @return std::shared_ptr<MJOLNIR::IRClass>
+             * @return MJOLNIR::irclass_t
              */
-            std::shared_ptr<MJOLNIR::IRClass> make_class(DEX::Class *value);
+            MJOLNIR::irclass_t make_class(DEX::Class *value);
 
             /**
              * @brief Generate a IRField type for Android, this has the values from the
              *        FieldID.
              * @param field: FieldID to generate the object.
-             * @return std::shared_ptr<MJOLNIR::IRField>
+             * @return MJOLNIR::irfield_t
              */
-            std::shared_ptr<MJOLNIR::IRField> make_field(DEX::FieldID *field);
+            MJOLNIR::irfield_t make_field(DEX::FieldID *field);
 
             /**
              * @brief Generate a IRAssign instruction from the IR, this will
@@ -141,7 +141,7 @@ namespace KUNAI
              * @param bb: basic block where to insert the instruction.
              * @return void.
              */
-            void lift_assignment_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_assignment_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Generate a IRBinOp instruction or IRUnaryOp instruction
@@ -150,7 +150,7 @@ namespace KUNAI
              * @param bb: basic block where to insert the instructions.
              * @return void.
              */
-            void lift_arithmetic_logic_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_arithmetic_logic_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Generate a IRRet instruction which represent a ret instruction.
@@ -159,7 +159,7 @@ namespace KUNAI
              * @param bb: basic block where to insert the instructions.
              * @return void
              */
-            void lift_ret_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_ret_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Generate a IRBComp instruction which represent a comparison between two values.
@@ -168,7 +168,7 @@ namespace KUNAI
              * @param bb: basic block where to insert the instructions.
              * @return void
              */
-            void lift_comparison_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_comparison_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Generate a IRCJmp instruction which represent a conditional jump.
@@ -177,7 +177,7 @@ namespace KUNAI
              * @param bb: basic block where to insert the instructions.
              * @return void
              */
-            void lift_conditional_jump_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_conditional_jump_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Generate a IRUJmp instruction which represent an unconditional jump.
@@ -186,7 +186,7 @@ namespace KUNAI
              * @param bb
              * @return void
              */
-            void lift_unconditional_jump_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_unconditional_jump_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Generate the IRCall instruction which represent any kind of call function/method instruction.
@@ -194,7 +194,7 @@ namespace KUNAI
              * @param instruction
              * @param bb
              */
-            void lift_call_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_call_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Set for a call instruction its return register.
@@ -205,7 +205,7 @@ namespace KUNAI
              * @param instruction
              * @param call
              */
-            void lift_move_result_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRCall> call);
+            void lift_move_result_instruction(DEX::instruction_t instruction, MJOLNIR::ircall_t call);
 
             /**
              * @brief Generate a IRLoad instruction, this will commonly go with an IRCast.
@@ -213,7 +213,7 @@ namespace KUNAI
              * @param instruction
              * @param bb
              */
-            void lift_load_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_load_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Generate a IRStore instruction from different aput* instructions.
@@ -221,14 +221,14 @@ namespace KUNAI
              * @param instruction
              * @param bb
              */
-            void lift_store_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_store_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Lift a NOP instruction.
              *
              * @param bb
              */
-            void lift_nop_instructions(std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_nop_instructions(MJOLNIR::irblock_t bb);
 
             /**
              * @brief Lift a new instruction.
@@ -236,7 +236,7 @@ namespace KUNAI
              * @param instruction
              * @param bb
              */
-            void lift_new_instructions(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_new_instructions(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Lift those Android switch instructions.
@@ -244,7 +244,7 @@ namespace KUNAI
              * @param instruction
              * @param bb
              */
-            void lift_switch_instructions(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb);
+            void lift_switch_instructions(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
 
             // some utilities
 
@@ -257,23 +257,23 @@ namespace KUNAI
              * @param bbs: basic blocks from the method.
              */
             void jump_target_analysis(std::vector<DEX::dvmbasicblock_t> bbs);
-            void fallthrough_target_analysis(std::shared_ptr<MJOLNIR::IRGraph> ir_graph);
+            void fallthrough_target_analysis(MJOLNIR::irgraph_t ir_graph);
 
             AndroidInstructions androidinstructions;
             //! It is nice that while we are lifting to annotate
             //! possible values that a register holds, in that case
             //! we annotate it into a symbolic table and if later
             //! is needed its value, we retrieve it from this variable.
-            std::map<std::uint32_t, std::shared_ptr<MJOLNIR::IRType>> symbolic_table;
+            std::map<std::uint32_t, MJOLNIR::irtype_t> symbolic_table;
 
             //! types can be created in a map for using them when necessary
             //! in the same block same registers, same strings or same fields
             //! can be used more than once.
-            std::map<std::uint32_t, std::shared_ptr<MJOLNIR::IRReg>> regs;
-            std::map<std::uint32_t, std::shared_ptr<MJOLNIR::IRString>> strings;
+            std::map<std::uint32_t, MJOLNIR::irreg_t> regs;
+            std::map<std::uint32_t, MJOLNIR::irstring_t> strings;
 
             //! lifted blocks
-            std::map<DEX::dvmbasicblock_t, std::shared_ptr<MJOLNIR::IRBlock>> lifted_blocks;
+            std::map<DEX::dvmbasicblock_t, MJOLNIR::irblock_t> lifted_blocks;
 
             //! Android analysis objecto to check internally
             DEX::analysis_t android_analysis;

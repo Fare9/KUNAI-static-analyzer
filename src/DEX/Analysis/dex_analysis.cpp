@@ -327,7 +327,7 @@ namespace KUNAI
             return fields_list;
         }
 
-        void Analysis::_create_xref(std::shared_ptr<KUNAI::DEX::ClassDef> current_class)
+        void Analysis::_create_xref(KUNAI::DEX::classdef_t current_class)
         {
             auto logger = LOGGER::logger();
 

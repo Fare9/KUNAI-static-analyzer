@@ -87,7 +87,7 @@ namespace KUNAI
             logger->info("Finished creating analysis xrefs");
         }
 
-        std::shared_ptr<DEX::DEX> APK::manage_dex_files_from_zip_entry(std::shared_ptr<CkZipEntry> dex_file)
+        DEX::dex_t APK::manage_dex_files_from_zip_entry(std::shared_ptr<CkZipEntry> dex_file)
         {
             // get logger object
             auto logger = LOGGER::logger();
@@ -154,7 +154,7 @@ namespace KUNAI
         }
 
 
-        std::shared_ptr<APK> get_shared_apk_object(std::string path_to_apk_file)
+        apk_t get_shared_apk_object(std::string path_to_apk_file)
         {
             return std::make_shared<APK>(path_to_apk_file);
         }

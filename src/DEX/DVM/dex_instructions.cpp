@@ -2000,8 +2000,8 @@ namespace KUNAI
                 {
                     auto value = it_map->second[i];
 
-                    auto try_value = std::any_cast<std::shared_ptr<KUNAI::DEX::TryItem>>(value[0]);
-                    auto handler_catch = std::any_cast<std::shared_ptr<KUNAI::DEX::EncodedCatchHandler>>(value[1]);
+                    auto try_value = std::any_cast<KUNAI::DEX::tryitem_t>(value[0]);
+                    auto handler_catch = std::any_cast<KUNAI::DEX::encodedcatchhandler_t>(value[1]);
 
                     exceptions_data z;
 

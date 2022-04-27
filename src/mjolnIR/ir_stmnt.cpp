@@ -62,7 +62,7 @@ namespace KUNAI
          * IRUJmp class
          */
 
-        IRUJmp::IRUJmp(uint64_t addr, std::shared_ptr<IRBlock> target)
+        IRUJmp::IRUJmp(uint64_t addr, irblock_t target)
             : IRStmnt(UJMP_STMNT_T),
               addr(addr),
               target(target)
@@ -83,7 +83,7 @@ namespace KUNAI
          * IRCJmp target
          */
 
-        IRCJmp::IRCJmp(uint64_t addr, std::shared_ptr<IRStmnt> condition, std::shared_ptr<IRBlock> target, std::shared_ptr<IRBlock> fallthrough)
+        IRCJmp::IRCJmp(uint64_t addr, irstmnt_t condition, irblock_t target, irblock_t fallthrough)
             : IRStmnt(CJMP_STMNT_T),
               addr(addr),
               condition(condition),
@@ -108,7 +108,7 @@ namespace KUNAI
          * IRRet class
          */
 
-        IRRet::IRRet(std::shared_ptr<IRStmnt> ret_value)
+        IRRet::IRRet(irstmnt_t ret_value)
             : IRStmnt(RET_STMNT_T),
               ret_value(ret_value)
         {
@@ -140,7 +140,7 @@ namespace KUNAI
          */
 
         IRSwitch::IRSwitch(std::vector<int32_t> offsets,
-                           std::shared_ptr<IRExpr> condition,
+                           irexpr_t condition,
                            std::vector<int32_t> constants_checks)
             : IRStmnt(SWITCH_STMNT_T),
               offsets(offsets),

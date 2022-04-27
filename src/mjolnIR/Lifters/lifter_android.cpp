@@ -5,26 +5,26 @@ namespace KUNAI
     namespace LIFTER
     {
 
-        std::map<std::uint32_t, std::shared_ptr<MJOLNIR::IRReg>> created_registers;
+        std::map<std::uint32_t, MJOLNIR::irreg_t> created_registers;
 
         LifterAndroid::LifterAndroid() : temp_reg_id(0),
                                          current_idx(0)
         {
         }
 
-        std::shared_ptr<MJOLNIR::IRGraph> LifterAndroid::lift_android_method(DEX::methodanalysis_t& method_analysis, DEX::analysis_t& android_analysis)
+        MJOLNIR::irgraph_t LifterAndroid::lift_android_method(DEX::methodanalysis_t& method_analysis, DEX::analysis_t& android_analysis)
         {
             auto bbs = method_analysis->get_basic_blocks()->get_basic_blocks();
             size_t n_bbs = bbs.size();
             // set android_analysis
             this->android_analysis = android_analysis;
             // graph returnedd by
-            std::shared_ptr<MJOLNIR::IRGraph> method_graph = std::make_shared<MJOLNIR::IRGraph>();
+            MJOLNIR::irgraph_t method_graph = std::make_shared<MJOLNIR::IRGraph>();
 
             // first of all lift all the blocks
             for (auto bb : bbs)
             {
-                std::shared_ptr<MJOLNIR::IRBlock> lifted_bb = std::make_shared<MJOLNIR::IRBlock>();
+                MJOLNIR::irblock_t lifted_bb = std::make_shared<MJOLNIR::IRBlock>();
 
                 this->lift_android_basic_block(bb, lifted_bb);
 
@@ -60,7 +60,7 @@ namespace KUNAI
             return method_graph;
         }
 
-        bool LifterAndroid::lift_android_basic_block(DEX::dvmbasicblock_t& basic_block, std::shared_ptr<MJOLNIR::IRBlock>& bb)
+        bool LifterAndroid::lift_android_basic_block(DEX::dvmbasicblock_t& basic_block, MJOLNIR::irblock_t& bb)
         {
             auto instructions = basic_block->get_instructions();
             auto next = basic_block->get_next();
@@ -93,7 +93,7 @@ namespace KUNAI
             return true;
         }
 
-        bool LifterAndroid::lift_android_instruction(DEX::instruction_t& instruction, std::shared_ptr<MJOLNIR::IRBlock>& bb)
+        bool LifterAndroid::lift_android_instruction(DEX::instruction_t& instruction, MJOLNIR::irblock_t& bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
@@ -134,7 +134,7 @@ namespace KUNAI
         /***
          * Private methods.
          */
-        std::shared_ptr<MJOLNIR::IRReg> LifterAndroid::make_android_register(std::uint32_t reg_id)
+        MJOLNIR::irreg_t LifterAndroid::make_android_register(std::uint32_t reg_id)
         {
             // check if was already created
             // in that case return the already created one
@@ -145,19 +145,19 @@ namespace KUNAI
             return created_registers[reg_id];
         }
 
-        std::shared_ptr<MJOLNIR::IRTempReg> LifterAndroid::make_temporal_register()
+        MJOLNIR::irtempreg_t LifterAndroid::make_temporal_register()
         {
             auto temp_reg = std::make_shared<MJOLNIR::IRTempReg>(temp_reg_id, "t" + std::to_string(temp_reg_id), DWORD_S);
             temp_reg_id++;
             return temp_reg;
         }
 
-        std::shared_ptr<MJOLNIR::IRType> LifterAndroid::make_none_type()
+        MJOLNIR::irtype_t LifterAndroid::make_none_type()
         {
             return std::make_shared<MJOLNIR::IRType>(MJOLNIR::IRType::NONE_TYPE, "", 0);
         }
 
-        std::shared_ptr<MJOLNIR::IRConstInt> LifterAndroid::make_int(std::uint64_t value, bool is_signed, size_t type_size)
+        MJOLNIR::irconstint_t LifterAndroid::make_int(std::uint64_t value, bool is_signed, size_t type_size)
         {
             std::string int_representation;
 
@@ -169,17 +169,17 @@ namespace KUNAI
             return std::make_shared<MJOLNIR::IRConstInt>(value, is_signed, MJOLNIR::IRType::LE_ACCESS, int_representation, type_size);
         }
 
-        std::shared_ptr<MJOLNIR::IRString> LifterAndroid::make_str(std::string value)
+        MJOLNIR::irstring_t LifterAndroid::make_str(std::string value)
         {
             return std::make_shared<MJOLNIR::IRString>(value, value, value.length());
         }
 
-        std::shared_ptr<MJOLNIR::IRClass> LifterAndroid::make_class(DEX::Class *value)
+        MJOLNIR::irclass_t LifterAndroid::make_class(DEX::Class *value)
         {
             return std::make_shared<MJOLNIR::IRClass>(value->get_name(), value->get_name(), 0);
         }
 
-        std::shared_ptr<MJOLNIR::IRField> LifterAndroid::make_field(DEX::FieldID *field)
+        MJOLNIR::irfield_t LifterAndroid::make_field(DEX::FieldID *field)
         {
             DEX::Class *class_idx = reinterpret_cast<DEX::Class *>(field->get_class_idx());
             std::string class_name = class_idx->get_name();
@@ -268,10 +268,10 @@ namespace KUNAI
             return nullptr;
         }
 
-        void LifterAndroid::lift_assignment_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_assignment_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb)
         {
-            std::shared_ptr<MJOLNIR::IRStmnt> assignment_instr;
-            std::shared_ptr<MJOLNIR::IRUnaryOp> cast_instr = nullptr;
+            MJOLNIR::irstmnt_t assignment_instr;
+            MJOLNIR::irunaryop_t cast_instr = nullptr;
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
             // Instruction12x types
@@ -359,7 +359,8 @@ namespace KUNAI
                 auto src = instr->get_source();
 
                 auto dest_reg = make_android_register(dest);
-                std::shared_ptr<KUNAI::MJOLNIR::IRConstInt> src_int = nullptr;
+                
+                MJOLNIR::irconstint_t src_int = nullptr;
 
                 if (op_code == DEX::DVMTypes::Opcode::OP_CONST_HIGH16)
                     src_int = make_int(src << 16, true, QWORD_S);
@@ -537,10 +538,10 @@ namespace KUNAI
                 bb->append_statement_to_block(cast_instr);
         }
 
-        void LifterAndroid::lift_arithmetic_logic_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_arithmetic_logic_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb)
         {
-            std::shared_ptr<MJOLNIR::IRExpr> arith_logc_instr;
-            std::shared_ptr<MJOLNIR::IRUnaryOp> cast_instr = nullptr;
+            MJOLNIR::irexpr_t arith_logc_instr;
+            MJOLNIR::irunaryop_t cast_instr = nullptr;
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
             KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_operation;
@@ -803,9 +804,9 @@ namespace KUNAI
                 bb->append_statement_to_block(cast_instr);
         }
 
-        void LifterAndroid::lift_ret_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_ret_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb)
         {
-            std::shared_ptr<MJOLNIR::IRRet> ret_instr;
+            MJOLNIR::irret_t ret_instr;
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
             if (op_code == DEX::DVMTypes::Opcode::OP_RETURN_VOID)
@@ -828,11 +829,11 @@ namespace KUNAI
             bb->append_statement_to_block(ret_instr);
         }
 
-        void LifterAndroid::lift_comparison_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_comparison_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
             auto instr = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
-            std::shared_ptr<MJOLNIR::IRBComp> ir_comp;
+            MJOLNIR::irbcomp_t ir_comp;
 
             auto reg1 = make_android_register(instr->get_first_source());
             auto reg2 = make_android_register(instr->get_second_source());
@@ -880,7 +881,7 @@ namespace KUNAI
             }
         }
 
-        void LifterAndroid::lift_conditional_jump_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_conditional_jump_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
@@ -964,10 +965,10 @@ namespace KUNAI
             }
         }
 
-        void LifterAndroid::lift_unconditional_jump_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_unconditional_jump_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
-            std::shared_ptr<MJOLNIR::IRUJmp> ujmp = nullptr;
+            MJOLNIR::irujmp_t ujmp = nullptr;
 
             if (DEX::DVMTypes::Opcode::OP_GOTO == op_code)
             {
@@ -998,17 +999,17 @@ namespace KUNAI
                 bb->append_statement_to_block(ujmp);
         }
 
-        void LifterAndroid::lift_call_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_call_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb)
         {
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
-            std::shared_ptr<MJOLNIR::IRCall> call = nullptr;
-            std::shared_ptr<MJOLNIR::IRExpr> callee = nullptr;
+            MJOLNIR::ircall_t call = nullptr;
+            MJOLNIR::irexpr_t callee = nullptr;
             MJOLNIR::IRCall::call_type_t call_type = MJOLNIR::IRCall::INTERNAL_CALL_T;
 
             if (androidinstructions.call_instruction35c.find(op_code) != androidinstructions.call_instruction35c.end())
             {
                 auto call_inst = std::dynamic_pointer_cast<DEX::Instruction35c>(instruction);
-                std::vector<std::shared_ptr<MJOLNIR::IRExpr>> parameters;
+                std::vector<MJOLNIR::irexpr_t> parameters;
 
                 size_t p_size = call_inst->get_array_size();
 
@@ -1055,7 +1056,7 @@ namespace KUNAI
             else if (androidinstructions.call_instruction3rc.find(op_code) != androidinstructions.call_instruction3rc.end())
             {
                 auto call_inst = std::dynamic_pointer_cast<DEX::Instruction3rc>(instruction);
-                std::vector<std::shared_ptr<MJOLNIR::IRExpr>> parameters;
+                std::vector<MJOLNIR::irexpr_t> parameters;
 
                 size_t p_size = call_inst->get_array_size();
 
@@ -1086,10 +1087,10 @@ namespace KUNAI
                 bb->append_statement_to_block(call);
         }
 
-        void LifterAndroid::lift_load_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_load_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb)
         {
-            std::shared_ptr<MJOLNIR::IRExpr> load_instr;
-            std::shared_ptr<MJOLNIR::IRUnaryOp> cast_instr;
+            MJOLNIR::irexpr_t load_instr;
+            MJOLNIR::irunaryop_t cast_instr;
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
             MJOLNIR::IRUnaryOp::cast_type_t cast_type = MJOLNIR::IRUnaryOp::NONE_CAST;
             size_t size = DWORD_S;
@@ -1139,9 +1140,9 @@ namespace KUNAI
             }
         }
 
-        void LifterAndroid::lift_store_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_store_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb)
         {
-            std::shared_ptr<MJOLNIR::IRExpr> store_instr;
+            MJOLNIR::irexpr_t store_instr;
             auto inst = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
             size_t size = DWORD_S;
@@ -1178,16 +1179,16 @@ namespace KUNAI
             bb->append_statement_to_block(store_instr);
         }
 
-        void LifterAndroid::lift_nop_instructions(std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_nop_instructions(MJOLNIR::irblock_t bb)
         {
-            std::shared_ptr<MJOLNIR::IRStmnt> nop = std::make_shared<MJOLNIR::IRNop>();
+            MJOLNIR::irstmnt_t nop = std::make_shared<MJOLNIR::IRNop>();
 
             bb->append_statement_to_block(nop);
         }
 
-        void LifterAndroid::lift_new_instructions(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_new_instructions(DEX::instruction_t instruction, MJOLNIR::irblock_t bb)
         {
-            std::shared_ptr<MJOLNIR::IRStmnt> new_instr;
+            MJOLNIR::irstmnt_t new_instr;
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
             // Instruction new instance
             if (op_code == DEX::DVMTypes::Opcode::OP_NEW_INSTANCE)
@@ -1204,9 +1205,9 @@ namespace KUNAI
             bb->append_statement_to_block(new_instr);
         }
 
-        void LifterAndroid::lift_switch_instructions(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRBlock> bb)
+        void LifterAndroid::lift_switch_instructions(DEX::instruction_t instruction, MJOLNIR::irblock_t bb)
         {
-            std::shared_ptr<MJOLNIR::IRStmnt> switch_instr;
+            MJOLNIR::irstmnt_t switch_instr;
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
             auto instr = std::dynamic_pointer_cast<DEX::Instruction31t>(instruction);
             auto condition = make_android_register(instr->get_array_ref());
@@ -1294,7 +1295,7 @@ namespace KUNAI
             }
         }
 
-        void LifterAndroid::lift_move_result_instruction(DEX::instruction_t instruction, std::shared_ptr<MJOLNIR::IRCall> call)
+        void LifterAndroid::lift_move_result_instruction(DEX::instruction_t instruction, MJOLNIR::ircall_t call)
         {
             auto move_result = std::dynamic_pointer_cast<DEX::Instruction11x>(instruction);
 
@@ -1352,7 +1353,7 @@ namespace KUNAI
          *                           +----------------+
          * @param ir_graph
          */
-        void LifterAndroid::fallthrough_target_analysis(std::shared_ptr<MJOLNIR::IRGraph> ir_graph)
+        void LifterAndroid::fallthrough_target_analysis(MJOLNIR::irgraph_t ir_graph)
         {
             auto nodes = ir_graph->get_nodes();
 

@@ -54,9 +54,9 @@ namespace KUNAI
 
             /**
              * @brief Get the linear sweep disassembler object.
-             * @return std::shared_ptr<LinearSweepDisassembler>
+             * @return linearsweepdisassembler_t
              */
-            std::shared_ptr<LinearSweepDisassembler> &get_linear_sweep_disassembler()
+            linearsweepdisassembler_t &get_linear_sweep_disassembler()
             {
                 return dalvik_disassembler;
             }
@@ -86,7 +86,7 @@ namespace KUNAI
 
             dexparser_t dex_parser;
             dalvikopcodes_t dalvik_opcodes;
-            std::shared_ptr<LinearSweepDisassembler> dalvik_disassembler;
+            linearsweepdisassembler_t dalvik_disassembler;
 
             std::map<std::tuple<classdef_t, encodedmethod_t>,
                      std::map<std::uint64_t, instruction_t>>
