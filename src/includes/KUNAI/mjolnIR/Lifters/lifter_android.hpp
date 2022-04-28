@@ -120,18 +120,18 @@ namespace KUNAI
             /**
              * @brief Generate a IRClass type for Android, this will be nothing more
              *        than the complete name of the class.
-             * @param value: class to generate the object.
+             * @param value: class_t to generate the object.
              * @return MJOLNIR::irclass_t
              */
-            MJOLNIR::irclass_t make_class(DEX::Class *value);
+            MJOLNIR::irclass_t make_class(DEX::class_t value);
 
             /**
              * @brief Generate a IRField type for Android, this has the values from the
-             *        FieldID.
-             * @param field: FieldID to generate the object.
+             *        fieldid_t.
+             * @param field: fieldid_t to generate the object.
              * @return MJOLNIR::irfield_t
              */
-            MJOLNIR::irfield_t make_field(DEX::FieldID *field);
+            MJOLNIR::irfield_t make_field(DEX::fieldid_t field);
 
             /**
              * @brief Generate a IRAssign instruction from the IR, this will
@@ -273,7 +273,7 @@ namespace KUNAI
             std::map<std::uint32_t, MJOLNIR::irstring_t> strings;
 
             //! lifted blocks
-            std::map<DEX::dvmbasicblock_t, MJOLNIR::irblock_t> lifted_blocks;
+            std::map<DEX::DVMBasicBlock*, MJOLNIR::irblock_t> lifted_blocks;
 
             //! Android analysis objecto to check internally
             DEX::analysis_t android_analysis;

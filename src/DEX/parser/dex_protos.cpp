@@ -30,7 +30,7 @@ namespace KUNAI
             auto current_offset = input_file.tellg();
             std::uint32_t size;
             std::uint16_t type_id;
-            Type *type;
+            type_t type;
             size_t i = 0;
 
             if (parameters_off == 0)
@@ -70,7 +70,7 @@ namespace KUNAI
             return true;
         }
 
-        Type *ProtoID::get_parameter_type_by_order(size_t pos)
+        type_t ProtoID::get_parameter_type_by_order(size_t pos)
         {
             if (pos >= parameters.size())
                 return nullptr;
@@ -111,21 +111,11 @@ namespace KUNAI
                 throw exceptions::ParserReadingException("Error reading DEX protos");
         }
 
-        DexProtos::~DexProtos()
-        {
-            if (!proto_ids.empty())
-            {
-                for (size_t i = 0; i < proto_ids.size(); i++)
-                    delete proto_ids[i];
-                proto_ids.clear();
-            }
-        }
-
         bool DexProtos::parse_protos(std::ifstream &input_file, std::uint64_t file_size)
         {
             auto logger = LOGGER::logger();
 
-            ProtoID *proto_id;
+            protoid_t proto_id;
             auto current_offset = input_file.tellg();
             size_t i = 0;
             std::uint32_t shorty_idx = 0, return_type_idx = 0, parameters_off = 0;
@@ -160,7 +150,7 @@ namespace KUNAI
                 if (!KUNAI::read_data_file<std::uint32_t>(parameters_off, sizeof(std::uint32_t), input_file))
                     return false;
 
-                proto_id = new ProtoID(shorty_idx, return_type_idx, parameters_off, input_file, dex_strings, dex_types);
+                proto_id = std::make_shared<ProtoID>(shorty_idx, return_type_idx, parameters_off, input_file, dex_strings, dex_types);
 
                 proto_ids.push_back(proto_id);
 
@@ -177,7 +167,7 @@ namespace KUNAI
             return true;
         }
 
-        ProtoID *DexProtos::get_proto_by_order(size_t pos)
+        protoid_t DexProtos::get_proto_by_order(size_t pos)
         {
             if (pos >= proto_ids.size())
                 return nullptr;
@@ -190,9 +180,9 @@ namespace KUNAI
             size_t i = 0;
             os << std::hex;
             os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Protos ===========" << std::endl;
-            for (auto it = entry.proto_ids.begin(); it != entry.proto_ids.end(); it++)
+            
+            for(auto proto_id : entry.proto_ids)
             {
-                ProtoID *proto_id = *it;
                 os << std::left << std::setfill(' ') << "Proto (" << std::dec << i++ << std::hex << "): ";
                 os << "(";
                 for (size_t j = 0; j < proto_id->get_number_of_parameters(); j++)
@@ -214,9 +204,9 @@ namespace KUNAI
 
             stream << std::hex;
             stream << std::setw(30) << std::left << std::setfill(' ') << "<protos>" << std::endl;
-            for (auto it = entry.proto_ids.begin(); it != entry.proto_ids.end(); it++)
+
+            for (auto proto_id : entry.proto_ids)
             {
-                ProtoID *proto_id = *it;
                 stream << std::left << std::setfill(' ') << "\t<proto>" << std::endl;
                 stream << "\t\t<arguments>" << std::endl;
                 for (size_t j = 0; j < proto_id->get_number_of_parameters(); j++)

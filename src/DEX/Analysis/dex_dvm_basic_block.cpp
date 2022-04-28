@@ -47,7 +47,7 @@ namespace KUNAI
             return bb[bb.size() - 1];
         }
 
-        void DVMBasicBlock::set_parent(std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock *> bb)
+        void DVMBasicBlock::set_parent(std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*> bb)
         {
             parents.push_back(bb);
         }
@@ -55,9 +55,10 @@ namespace KUNAI
         void DVMBasicBlock::set_child()
         {
             auto next_block = context->get_basic_block_by_idx(end + 1);
+
             if (next_block != nullptr)
             {
-                childs.push_back({end - last_length, end, next_block});
+                childs.push_back({end - last_length, end, next_block.get()});
             }
 
             for (auto child : childs)
@@ -74,13 +75,14 @@ namespace KUNAI
 
         void DVMBasicBlock::set_child(const std::vector<int64_t> &values)
         {
+
             for (auto value : values)
             {
                 if (value == -1)
                     continue;
 
                 if (const auto next_block = context->get_basic_block_by_idx(value))
-                    childs.push_back({end - last_length, value, next_block});
+                    childs.push_back({end - last_length, value, next_block.get()});
             }
 
             for (auto child : childs)

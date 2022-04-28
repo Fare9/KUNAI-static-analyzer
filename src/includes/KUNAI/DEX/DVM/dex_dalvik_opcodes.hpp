@@ -83,51 +83,51 @@ namespace KUNAI
             }
 
             /**
-             * @brief get Type* by id.
+             * @brief get type_t by id.
              * @param id: std::uint32_t id of the Type.
-             * @return Type*
+             * @return type_t
              */
-            Type *get_dalvik_Type_by_id(std::uint32_t id)
+            type_t get_dalvik_Type_by_id(std::uint32_t id)
             {
                 return dex_parser->get_types()->get_type_from_order(id);
             }
 
             /**
-             * @brief get FieldID* by id.
+             * @brief get fieldid_t by id.
              * @param id: std::uint32_t of the FieldID.
-             * @return FieldID*
+             * @return fieldid_t
              */
-            FieldID *get_dalvik_field_by_id(std::uint32_t id)
+            fieldid_t get_dalvik_field_by_id(std::uint32_t id)
             {
                 return dex_parser->get_fields()->get_field_id_by_order(id);
             }
 
             /**
-             * @brief get MethodID* by id.
+             * @brief get methodid_t by id.
              * @param id: std::uint32_t of the MethodID.
-             * @return MethodID*
+             * @return methodid_t
              */
-            MethodID *get_dalvik_method_by_id(std::uint32_t id)
+            methodid_t get_dalvik_method_by_id(std::uint32_t id)
             {
                 return dex_parser->get_methods()->get_method_by_order(id);
             }
 
             /**
-             * @brief get ProtoID* by id.
+             * @brief get protoid_t by id.
              * @param id: std::uint32_t of the ProtoID.
-             * @return ProtoID*
+             * @return protoid_t
              */
-            ProtoID *get_dalvik_proto_by_id(std::uint32_t id)
+            protoid_t get_dalvik_proto_by_id(std::uint32_t id)
             {
                 return dex_parser->get_protos()->get_proto_by_order(id);
             }
 
             /**
-             * @brief Get a dalvil EncodedField by a given FieldID*
-             * @param field: FieldID* field to obtain its encodedfield_t
+             * @brief Get a dalvil EncodedField by a given fieldid_t
+             * @param field: fieldid_t field to obtain its encodedfield_t
              * @return encodedfield_t
              */
-            encodedfield_t get_dalvik_encoded_field_by_fieldid(FieldID *field);
+            encodedfield_t get_dalvik_encoded_field_by_fieldid(fieldid_t field);
 
             /**
              * @brief get string by id.

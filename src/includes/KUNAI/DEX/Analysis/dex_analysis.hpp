@@ -160,9 +160,9 @@ namespace KUNAI
              * @param class_name: std::string class name of the method.
              * @param method_name: std::string method name.
              * @param method_descriptor: std::string method descriptor (parameters and return value).
-             * @return MethodID*
+             * @return methodid_t
              */
-            MethodID *get_method_by_name(std::string class_name, std::string method_name, std::string method_descriptor);
+            methodid_t get_method_by_name(std::string class_name, std::string method_name, std::string method_descriptor);
 
             /**
              * @brief Get a method analysis given class name, method name and method descriptor.
@@ -178,6 +178,16 @@ namespace KUNAI
              * @return std::vector<methodanalysis_t>
              */
             std::vector<methodanalysis_t> get_methods();
+
+            /**
+             * @brief Get the methods with hashes object.
+             * 
+             * @return const std::map<std::tuple<std::string, std::string, std::string>, methodanalysis_t>& 
+             */
+            const std::map<std::tuple<std::string, std::string, std::string>, methodanalysis_t>& get_methods_with_hashes() const
+            {
+                return method_hashes;
+            }
 
             // FieldAnalysis methods
 
@@ -364,9 +374,9 @@ namespace KUNAI
 
             /**
              * @brief get a list of interfaces that the class implements, in the case of ExternalClass, none.
-             * @return std::vector<Class *>
+             * @return std::vector<class_t>
              */
-            std::vector<Class *> implements();
+            std::vector<class_t> implements();
 
             /**
              * @brief get the name of the class from which current class extends.
@@ -628,9 +638,9 @@ namespace KUNAI
 
             /**
              * @brief return all the child basic blocks.
-             * @return std::vector<std::tuple<std::uint64_t, std::uint64_t, dvmbasicblock_t>>
+             * @return std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>>
              */
-            const std::vector<std::tuple<std::uint64_t, std::uint64_t, dvmbasicblock_t>> &get_next() const
+            const std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>> &get_next() const
             {
                 return childs;
             }
@@ -639,17 +649,17 @@ namespace KUNAI
              * @brief return all the parent basic blocks.
              * @return std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>>
              */
-            const std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock *>> &get_prev() const
+            const std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>> &get_prev() const
             {
                 return parents;
             }
 
             /**
              * @brief push a basic block into the vector of parent basic blocks.
-             * @param bb: std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>> to push in vector.
+             * @param bb: std::vector<std::tuple<std::uint64_t, std::uint64_t, dvmbasicblock_t>> to push in vector.
              * @return void
              */
-            void set_parent(std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock *>);
+            void set_parent(std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>);
 
             /**
              * @brief set a children basic block, if no argument is given, this is taken from context.
@@ -727,8 +737,8 @@ namespace KUNAI
             std::string name;
             exceptionanalysis_t exception_analysis;
 
-            std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock *>> parents;
-            std::vector<std::tuple<std::uint64_t, std::uint64_t, dvmbasicblock_t>> childs;
+            std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>> parents;
+            std::vector<std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*>> childs;
         };
 
         /**

@@ -739,10 +739,10 @@ namespace KUNAI
             }
 
             std::string *get_source_str();
-            Type *get_source_typeid();
-            FieldID *get_source_static_field();
-            MethodID *get_source_method();
-            ProtoID *get_source_proto();
+            type_t get_source_typeid();
+            fieldid_t get_source_static_field();
+            methodid_t get_source_method();
+            protoid_t get_source_proto();
 
             DVMTypes::Operand get_destination_type()
             {
@@ -1079,8 +1079,8 @@ namespace KUNAI
                 return get_kind();
             }
 
-            Type *get_third_operand_typeId();
-            FieldID *get_third_operand_FieldId();
+            type_t get_third_operand_typeId();
+            fieldid_t get_third_operand_FieldId();
 
         private:
             std::uint8_t vA;
@@ -1147,8 +1147,8 @@ namespace KUNAI
             {
                 return get_kind();
             }
-            Type *get_third_operand_typeId();
-            FieldID *get_third_operand_FieldId();
+            type_t get_third_operand_typeId();
+            fieldid_t get_third_operand_FieldId();
 
         private:
             std::uint8_t vA;
@@ -1491,7 +1491,7 @@ namespace KUNAI
                 return DVMTypes::Operand::REGISTER;
             }
 
-            Type *get_operands_kind_type()
+            type_t get_operands_kind_type()
             {
                 return get_dalvik_opcodes()->get_dalvik_Type_by_id(type_index);
             }
@@ -1501,7 +1501,7 @@ namespace KUNAI
                 return get_dalvik_opcodes()->get_dalvik_type_by_id_str(type_index);
             }
 
-            MethodID *get_operands_kind_method()
+            methodid_t get_operands_kind_method()
             {
                 return get_dalvik_opcodes()->get_dalvik_method_by_id(type_index);
             }
@@ -1571,20 +1571,20 @@ namespace KUNAI
             /**
              * @brief Get the last operand object
              *
-             * @return std::variant<KUNAI::DEX::Type *,
-             * KUNAI::DEX::MethodID *,
+             * @return std::variant<KUNAI::DEX::type_t,
+             * KUNAI::DEX::methodid_t,
              * std::uint16_t>
              */
-            std::variant<KUNAI::DEX::Type *,
-                         KUNAI::DEX::MethodID *,
+            std::variant<KUNAI::DEX::type_t,
+                         KUNAI::DEX::methodid_t,
                          std::uint16_t>
             get_last_operand();
             std::string get_last_operand_str();
 
-            Type *get_operands_type();
+            type_t get_operands_type();
             std::string get_operands_type_str();
 
-            MethodID *get_operands_method();
+            methodid_t get_operands_method();
             std::string get_operands_method_str();
 
             std::uint8_t get_operand_register(std::uint8_t index);
@@ -1636,7 +1636,7 @@ namespace KUNAI
                 return DVMTypes::Kind::METH;
             }
 
-            MethodID *get_method_ref()
+            methodid_t get_method_ref()
             {
                 return get_dalvik_opcodes()->get_dalvik_method_by_id(method_reference);
             }
@@ -1651,7 +1651,7 @@ namespace KUNAI
                 return DVMTypes::Kind::PROTO;
             }
 
-            ProtoID *get_proto_ref()
+            protoid_t get_proto_ref()
             {
                 return get_dalvik_opcodes()->get_dalvik_proto_by_id(proto_reference);
             }
@@ -1707,7 +1707,7 @@ namespace KUNAI
                 return DVMTypes::Kind::METH;
             }
 
-            MethodID *get_method_ref()
+            methodid_t get_method_ref()
             {
                 return get_dalvik_opcodes()->get_dalvik_method_by_id(method_reference);
             }
@@ -1722,7 +1722,7 @@ namespace KUNAI
                 return DVMTypes::Kind::PROTO;
             }
 
-            ProtoID *get_proto_ref()
+            protoid_t get_proto_ref()
             {
                 return get_dalvik_opcodes()->get_dalvik_proto_by_id(proto_reference);
             }

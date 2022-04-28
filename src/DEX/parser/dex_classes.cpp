@@ -203,11 +203,11 @@ namespace KUNAI
                            std::ifstream &input_file,
                            std::uint64_t file_size)
         {
-            this->class_idx[class_def.class_idx] = dynamic_cast<Class *>(dex_types->get_type_from_order(class_def.class_idx));
+            this->class_idx[class_def.class_idx] = std::dynamic_pointer_cast<Class>(dex_types->get_type_from_order(class_def.class_idx));
             if (class_def.superclass_idx == DVMTypes::NO_INDEX)
                 this->superclass_idx[class_def.superclass_idx] = nullptr;
             else
-                this->superclass_idx[class_def.superclass_idx] = dynamic_cast<Class *>(dex_types->get_type_from_order(class_def.superclass_idx));
+                this->superclass_idx[class_def.superclass_idx] = std::dynamic_pointer_cast<Class>(dex_types->get_type_from_order(class_def.superclass_idx));
 
             if (class_def.source_file_idx == DVMTypes::NO_INDEX)
                 this->source_file_idx[class_def.source_file_idx] = nullptr;
@@ -261,7 +261,7 @@ namespace KUNAI
                     if (interface >= dex_types->get_number_of_types())
                         throw exceptions::IncorrectTypeId("Error reading DEX ClassDefs interface out of type bound");
 
-                    interfaces[interface] = dynamic_cast<Class *>(dex_types->get_type_from_order(interface));
+                    interfaces[interface] = std::dynamic_pointer_cast<Class>(dex_types->get_type_from_order(interface));
                 }
             }
 
@@ -302,7 +302,7 @@ namespace KUNAI
             return true;
         }
 
-        Class *ClassDef::get_interface_by_class_id(std::uint16_t id)
+        class_t ClassDef::get_interface_by_class_id(std::uint16_t id)
         {
             auto it = interfaces.find(id);
 
@@ -312,7 +312,7 @@ namespace KUNAI
             return nullptr;
         }
 
-        Class *ClassDef::get_interface_by_pos(std::uint64_t pos)
+        class_t ClassDef::get_interface_by_pos(std::uint64_t pos)
         {
             if (pos >= interfaces.size())
                 return nullptr;

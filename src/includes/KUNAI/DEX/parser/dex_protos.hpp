@@ -51,7 +51,7 @@ namespace KUNAI
     {
         class ProtoID;
 
-        using prodoid_t = std::shared_ptr<ProtoID>;
+        using protoid_t = std::shared_ptr<ProtoID>;
 
         class ProtoID
         {
@@ -69,9 +69,16 @@ namespace KUNAI
                 return parameters.size();
             }
 
-            Type *get_parameter_type_by_order(size_t pos);
+            std::vector<type_t>& get_parameters()
+            {
+                return parameters;
+            }
 
-            Type *get_return_idx()
+            
+            type_t get_parameter_type_by_order(size_t pos);
+
+
+            type_t get_return_idx()
             {
                 return return_type_idx;
             }
@@ -89,9 +96,9 @@ namespace KUNAI
                                   dextypes_t& dex_types);
 
             std::string *shorty_idx;
-            Type *return_type_idx;
+            type_t return_type_idx;
             std::uint32_t parameters_off;
-            std::vector<Type *> parameters;
+            std::vector<type_t> parameters;
         };
 
         class DexProtos;
@@ -108,16 +115,16 @@ namespace KUNAI
                       dexstrings_t& dex_strings,
                       dextypes_t& dex_types);
 
-            ~DexProtos();
+            ~DexProtos() = default;
 
             std::uint32_t get_number_of_protos()
             {
                 return number_of_protos;
             }
 
-            ProtoID *get_proto_by_order(size_t pos);
+            protoid_t get_proto_by_order(size_t pos);
 
-            const std::vector<ProtoID *>& get_protos() const
+            const std::vector<protoid_t>& get_protos() const
             {
                 return proto_ids;
             }
@@ -133,7 +140,7 @@ namespace KUNAI
             dexstrings_t& dex_strings;
             dextypes_t& dex_types;
 
-            std::vector<ProtoID *> proto_ids;
+            std::vector<protoid_t> proto_ids;
         };
     }
 }

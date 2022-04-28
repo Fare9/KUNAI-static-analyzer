@@ -51,18 +51,16 @@ namespace KUNAI
 
         std::uint32_t DexParser::get_header_version()
         {
-            std::uint8_t version = 0;
-
             if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_035, 8))
-                version = 35;
+                return 35;
             else if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_037, 8))
-                version = 37;
+                return 37;
             else if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_038, 8))
-                version = 38;
+                return 38;
             else if (memcmp(this->dex_header->get_dex_header().magic, dex_magic_039, 8))
-                version = 39;
-
-            return version;
+                return 39;
+            else
+                return 0;
         }
 
         std::string DexParser::get_header_version_str()
@@ -79,42 +77,6 @@ namespace KUNAI
                 version = "DEX_VERSION_39";
 
             return version;
-        }
-
-        std::vector<classdef_t> DexParser::get_classes_def_item()
-        {
-            std::vector<classdef_t> classes;
-
-            for (size_t i = 0; i < dex_classes->get_number_of_classes(); i++)
-            {
-                classes.push_back(dex_classes->get_class_by_pos(i));
-            }
-
-            return classes;
-        }
-
-        std::vector<MethodID *> DexParser::get_methods_id_item()
-        {
-            std::vector<MethodID *> methods;
-
-            for (size_t i = 0; i < dex_methods->get_number_of_methods(); i++)
-            {
-                methods.push_back(dex_methods->get_method_by_order(i));
-            }
-
-            return methods;
-        }
-
-        std::vector<FieldID *> DexParser::get_fields_id_item()
-        {
-            std::vector<FieldID *> fields;
-
-            for (size_t i = 0; i < dex_fields->get_number_of_fields(); i++)
-            {
-                fields.push_back(dex_fields->get_field_id_by_order(i));
-            }
-
-            return fields;
         }
 
         std::vector<codeitemstruct_t> DexParser::get_codes_item()

@@ -242,9 +242,9 @@ namespace KUNAI {
 
             /**
              * @brief Get the ClassDef Class* object with class data.
-             * @return Class*
+             * @return class_t
              */
-            Class* get_class_idx()
+            class_t get_class_idx()
             {
                 return class_idx.begin()->second;
             }
@@ -260,9 +260,9 @@ namespace KUNAI {
 
             /**
              * @brief Get the Class* object from the super class of current class.
-             * @return Class*
+             * @return class_t
              */
-            Class* get_superclass_idx()
+            class_t get_superclass_idx()
             {
                 return superclass_idx.begin()->second;
             }
@@ -288,16 +288,16 @@ namespace KUNAI {
             /**
              * @brief Get the Class* object from an interface by the class id.
              * @param id: id of the class.
-             * @return Class*
+             * @return class_t
              */
-            Class* get_interface_by_class_id(std::uint16_t id);
+            class_t get_interface_by_class_id(std::uint16_t id);
             
             /**
              * @brief Get the Class* object from an interface by its position from parsing.
              * @param pos: position of interface from parsing.
-             * @return Class*
+             * @return class_t
              */
-            Class* get_interface_by_pos(std::uint64_t pos);
+            class_t get_interface_by_pos(std::uint64_t pos);
 
             /**
              * @brief Get the ClassDataItem object from the ClassDef.
@@ -329,9 +329,9 @@ namespace KUNAI {
                                     dexmethods_t& dex_methods);
 
 
-            std::map<std::uint32_t, Class*> class_idx;
+            std::map<std::uint32_t, class_t> class_idx;
             DVMTypes::ACCESS_FLAGS access_flag;
-            std::map<std::uint32_t, Class*> superclass_idx;
+            std::map<std::uint32_t, class_t> superclass_idx;
             std::map<std::uint32_t, std::string*> source_file_idx;
             /**
              * type_list:
@@ -341,7 +341,7 @@ namespace KUNAI {
              *      ushort
              */
             std::uint32_t interfaces_off;
-            std::map<std::uint16_t, Class*> interfaces;
+            std::map<std::uint16_t, class_t> interfaces;
 
             std::uint32_t annotations_off;
             annotationsdirectoryitem_t annotation_directory_item;

@@ -31,7 +31,7 @@ namespace KUNAI
                 if (lifted_bb->get_number_of_statements() == 0)
                     continue;
 
-                lifted_blocks[bb] = lifted_bb;
+                lifted_blocks[bb.get()] = lifted_bb;
 
                 method_graph->add_node(lifted_bb);
             }
@@ -42,7 +42,7 @@ namespace KUNAI
             {
                 auto next_bbs = bb->get_next();
 
-                auto current_bb = lifted_blocks[bb];
+                auto current_bb = lifted_blocks[bb.get()];
 
                 for (auto next_bb : next_bbs)
                 {
@@ -174,14 +174,14 @@ namespace KUNAI
             return std::make_shared<MJOLNIR::IRString>(value, value, value.length());
         }
 
-        MJOLNIR::irclass_t LifterAndroid::make_class(DEX::Class *value)
+        MJOLNIR::irclass_t LifterAndroid::make_class(DEX::class_t value)
         {
             return std::make_shared<MJOLNIR::IRClass>(value->get_name(), value->get_name(), 0);
         }
 
-        MJOLNIR::irfield_t LifterAndroid::make_field(DEX::FieldID *field)
+        MJOLNIR::irfield_t LifterAndroid::make_field(DEX::fieldid_t field)
         {
-            DEX::Class *class_idx = reinterpret_cast<DEX::Class *>(field->get_class_idx());
+            DEX::class_t class_idx = std::dynamic_pointer_cast<DEX::Class>(field->get_class_idx());
             std::string class_name = class_idx->get_name();
             MJOLNIR::IRField::field_t field_type;
             std::string field_type_class = "";
@@ -191,7 +191,7 @@ namespace KUNAI
 
             if (field->get_type_idx()->get_type() == DEX::Type::FUNDAMENTAL)
             {
-                DEX::Fundamental *fundamental_idx = reinterpret_cast<DEX::Fundamental *>(field->get_type_idx());
+                DEX::fundamental_t fundamental_idx = std::dynamic_pointer_cast<DEX::Fundamental>(field->get_type_idx());
 
                 switch (fundamental_idx->get_fundamental_type())
                 {
@@ -248,7 +248,7 @@ namespace KUNAI
             }
             else if (field->get_type_idx()->get_type() == DEX::Type::CLASS)
             {
-                DEX::Class *type_idx = reinterpret_cast<DEX::Class *>(field->get_type_idx());
+                DEX::class_t type_idx = std::dynamic_pointer_cast<DEX::Class>(field->get_type_idx());
                 field_type = MJOLNIR::IRField::CLASS_F;
                 field_type_class = type_idx->get_name();
                 type_size = ADDR_S;
@@ -402,7 +402,7 @@ namespace KUNAI
                         // ToDo generate an exception
                         return;
                     }
-                    auto src_class = dynamic_cast<DEX::Class *>(instr->get_source_typeid());
+                    auto src_class = std::dynamic_pointer_cast<DEX::Class>(instr->get_source_typeid());
                     auto src = make_class(src_class);
 
                     assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src, nullptr, nullptr);
@@ -1027,13 +1027,13 @@ namespace KUNAI
                 auto type = method_called->get_method_class();
                 if (type->get_type() == type->ARRAY)
                 {
-                    auto array_type = reinterpret_cast<DEX::Array *>(type);
+                    auto array_type = std::dynamic_pointer_cast<DEX::Array>(type);
 
                     class_name = array_type->get_raw();
                 }
                 else if (type->get_type() == type->CLASS)
                 {
-                    auto class_type = reinterpret_cast<DEX::Class *>(type);
+                    auto class_type = std::dynamic_pointer_cast<DEX::Class>(type);
 
                     class_name = class_type->get_name();
                 }
@@ -1066,7 +1066,7 @@ namespace KUNAI
                 auto method_called = call_inst->get_operands_method();
 
                 std::string method_name = *method_called->get_method_name();
-                std::string class_name = reinterpret_cast<DEX::Class *>(method_called->get_method_class())->get_name();
+                std::string class_name = std::dynamic_pointer_cast<DEX::Class>(method_called->get_method_class())->get_name();
                 std::string proto = method_called->get_method_prototype()->get_proto_str();
 
                 if (this->android_analysis)
@@ -1197,7 +1197,7 @@ namespace KUNAI
 
                 auto dst_reg = make_android_register(instr->get_destination());
 
-                auto class_ = make_class(dynamic_cast<DEX::Class *>(instr->get_source_typeid()));
+                auto class_ = make_class(std::dynamic_pointer_cast<DEX::Class>(instr->get_source_typeid()));
 
                 new_instr = std::make_shared<MJOLNIR::IRNew>(dst_reg, class_, nullptr, nullptr);
             }
@@ -1248,7 +1248,7 @@ namespace KUNAI
             {
                 auto next_bbs = bb->get_next();
 
-                auto current_bb = lifted_blocks[bb];
+                auto current_bb = lifted_blocks[bb.get()];
 
                 if (current_bb == nullptr || current_bb->get_number_of_statements() == 0) // security check
                     continue;

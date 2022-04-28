@@ -399,25 +399,25 @@ namespace KUNAI
                 return this->get_dalvik_opcodes()->get_dalvik_string_by_id(iBBBB);
             return nullptr;
         }
-        Type *Instruction21c::get_source_typeid()
+        type_t Instruction21c::get_source_typeid()
         {
             if (this->get_kind() == DVMTypes::Kind::TYPE)
                 return this->get_dalvik_opcodes()->get_dalvik_Type_by_id(iBBBB);
             return nullptr;
         }
-        FieldID *Instruction21c::get_source_static_field()
+        fieldid_t Instruction21c::get_source_static_field()
         {
             if (this->get_kind() == DVMTypes::Kind::FIELD)
                 return this->get_dalvik_opcodes()->get_dalvik_field_by_id(iBBBB);
             return nullptr;
         }
-        MethodID *Instruction21c::get_source_method()
+        methodid_t Instruction21c::get_source_method()
         {
             if (this->get_kind() == DVMTypes::Kind::METH)
                 return this->get_dalvik_opcodes()->get_dalvik_method_by_id(iBBBB);
             return nullptr;
         }
-        ProtoID *Instruction21c::get_source_proto()
+        protoid_t Instruction21c::get_source_proto()
         {
             if (this->get_kind() == DVMTypes::Kind::PROTO)
                 return this->get_dalvik_opcodes()->get_dalvik_proto_by_id(iBBBB);
@@ -583,14 +583,14 @@ namespace KUNAI
             return operands;
         }
 
-        Type *Instruction22c::get_third_operand_typeId()
+        type_t Instruction22c::get_third_operand_typeId()
         {
             if (get_kind() == DVMTypes::Kind::TYPE)
                 return this->get_dalvik_opcodes()->get_dalvik_Type_by_id(iCCCC);
             return nullptr;
         }
 
-        FieldID *Instruction22c::get_third_operand_FieldId()
+        fieldid_t Instruction22c::get_third_operand_FieldId()
         {
             if (get_kind() == DVMTypes::Kind::FIELD)
                 return this->get_dalvik_opcodes()->get_dalvik_field_by_id(iCCCC);
@@ -643,14 +643,14 @@ namespace KUNAI
             return operands;
         }
 
-        Type *Instruction22cs::get_third_operand_typeId()
+        type_t Instruction22cs::get_third_operand_typeId()
         {
             if (get_kind() == DVMTypes::Kind::TYPE)
                 return this->get_dalvik_opcodes()->get_dalvik_Type_by_id(iCCCC);
             return nullptr;
         }
 
-        FieldID *Instruction22cs::get_third_operand_FieldId()
+        fieldid_t Instruction22cs::get_third_operand_FieldId()
         {
             if (get_kind() == DVMTypes::Kind::FIELD)
                 return this->get_dalvik_opcodes()->get_dalvik_field_by_id(iCCCC);
@@ -947,8 +947,8 @@ namespace KUNAI
             return operands;
         }
 
-        std::variant<KUNAI::DEX::Type *,
-                     KUNAI::DEX::MethodID *,
+        std::variant<KUNAI::DEX::type_t,
+                     KUNAI::DEX::methodid_t,
                      std::uint16_t>
         Instruction3rc::get_last_operand()
         {
@@ -970,7 +970,7 @@ namespace KUNAI
                 return std::to_string(index);
         }
 
-        Type *Instruction3rc::get_operands_type()
+        type_t Instruction3rc::get_operands_type()
         {
             if (get_kind() == DVMTypes::Kind::TYPE)
                 return this->get_dalvik_opcodes()->get_dalvik_Type_by_id(index);
@@ -986,7 +986,7 @@ namespace KUNAI
                 return "";
         }
 
-        MethodID *Instruction3rc::get_operands_method()
+        methodid_t Instruction3rc::get_operands_method()
         {
             if (get_kind() == DVMTypes::Kind::METH)
                 return this->get_dalvik_opcodes()->get_dalvik_method_by_id(index);
@@ -2014,9 +2014,9 @@ namespace KUNAI
                         std::string cm_type;
 
                         if (catch_type_pair->get_exception_type()->get_type() == Type::FUNDAMENTAL)
-                            cm_type = reinterpret_cast<Fundamental *>(catch_type_pair->get_exception_type())->print_fundamental_type();
+                            cm_type = std::dynamic_pointer_cast<Fundamental>(catch_type_pair->get_exception_type())->print_fundamental_type();
                         else if (catch_type_pair->get_exception_type()->get_type() == Type::CLASS)
-                            cm_type = reinterpret_cast<Class *>(catch_type_pair->get_exception_type())->get_name();
+                            cm_type = std::dynamic_pointer_cast<Class>(catch_type_pair->get_exception_type())->get_name();
                         else
                             cm_type = catch_type_pair->get_exception_type()->get_raw();
 

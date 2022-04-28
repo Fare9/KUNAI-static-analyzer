@@ -96,7 +96,7 @@ namespace KUNAI
         /***
          * EncodedField
          */
-        EncodedField::EncodedField(FieldID *field_idx, std::uint64_t access_flags) : field_idx(field_idx),
+        EncodedField::EncodedField(fieldid_t field_idx, std::uint64_t access_flags) : field_idx(field_idx),
                                                                                      access_flags(static_cast<DVMTypes::ACCESS_FLAGS>(access_flags))
         {
         }
@@ -112,13 +112,7 @@ namespace KUNAI
             this->addr = addr;
         }
 
-        EncodedTypePair::~EncodedTypePair()
-        {
-            if (!type_idx.empty())
-                type_idx.clear();
-        }
-
-        Type *EncodedTypePair::get_exception_type()
+        type_t EncodedTypePair::get_exception_type()
         {
             if (type_idx.empty())
                 return nullptr;
@@ -297,7 +291,7 @@ namespace KUNAI
         /***
          * EncodedMethod
          */
-        EncodedMethod::EncodedMethod(MethodID *method_id,
+        EncodedMethod::EncodedMethod(methodid_t method_id,
                                      std::uint64_t access_flags,
                                      std::uint64_t code_off,
                                      std::ifstream &input_file,
@@ -312,7 +306,9 @@ namespace KUNAI
 
         std::string EncodedMethod::full_name()
         {
-            return reinterpret_cast<Class *>(method_id->get_method_class())->get_name() + " " + *method_id->get_method_name() + " " + method_id->get_method_prototype()->get_proto_str();
+            return std::dynamic_pointer_cast<Class>(method_id->get_method_class())->get_name() +
+                    *method_id->get_method_name() + " " +
+                    method_id->get_method_prototype()->get_proto_str();
         }
 
         bool EncodedMethod::parse_code_item(std::ifstream &input_file, std::uint64_t file_size, dextypes_t dex_types)

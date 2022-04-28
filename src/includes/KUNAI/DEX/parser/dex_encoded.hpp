@@ -108,10 +108,10 @@ namespace KUNAI
         class EncodedField
         {
         public:
-            EncodedField(FieldID *field_idx, std::uint64_t access_flags);
+            EncodedField(fieldid_t field_idx, std::uint64_t access_flags);
             ~EncodedField() = default;
 
-            FieldID *get_field() const
+            fieldid_t get_field() const
             {
                 return field_idx;
             }
@@ -122,7 +122,7 @@ namespace KUNAI
             }
 
         private:
-            FieldID *field_idx;
+            fieldid_t field_idx;
             DVMTypes::ACCESS_FLAGS access_flags;
         };
 
@@ -136,9 +136,10 @@ namespace KUNAI
             EncodedTypePair(std::uint64_t type_idx,
                             std::uint64_t addr,
                             dextypes_t dex_types);
-            ~EncodedTypePair();
 
-            Type *get_exception_type();
+            ~EncodedTypePair() = default;
+
+            type_t get_exception_type();
 
             std::uint64_t get_exception_handler_addr()
             {
@@ -146,7 +147,7 @@ namespace KUNAI
             }
 
         private:
-            std::map<std::uint64_t, Type *> type_idx; // type of the exception to catch
+            std::map<std::uint64_t, type_t> type_idx; // type of the exception to catch
             std::uint64_t addr;                       // bytecode address of associated exception handler
         };
 
@@ -160,6 +161,7 @@ namespace KUNAI
             EncodedCatchHandler(std::ifstream &input_file,
                                 std::uint64_t file_size,
                                 dextypes_t dex_types);
+
             ~EncodedCatchHandler();
 
             bool has_explicit_typed_catches();
@@ -251,6 +253,7 @@ namespace KUNAI
                            std::uint64_t file_size,
                            code_item_struct_t code_item,
                            dextypes_t dex_types);
+
             ~CodeItemStruct();
 
             std::uint16_t get_number_of_registers_in_code()
@@ -317,7 +320,7 @@ namespace KUNAI
         class EncodedMethod
         {
         public:
-            EncodedMethod(MethodID *method_id,
+            EncodedMethod(methodid_t method_id,
                           std::uint64_t access_flags,
                           std::uint64_t code_off,
                           std::ifstream &input_file,
@@ -325,7 +328,7 @@ namespace KUNAI
                           dextypes_t dex_types);
             ~EncodedMethod() = default;
 
-            MethodID *get_method() const
+            methodid_t get_method() const
             {
                 return method_id;
             }
@@ -350,7 +353,7 @@ namespace KUNAI
         private:
             bool parse_code_item(std::ifstream &input_file, std::uint64_t file_size, dextypes_t dex_types);
 
-            MethodID *method_id;
+            methodid_t method_id;
             DVMTypes::ACCESS_FLAGS access_flags;
             std::uint64_t code_off;
             codeitemstruct_t code_item;

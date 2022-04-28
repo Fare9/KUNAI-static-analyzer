@@ -46,15 +46,15 @@ namespace KUNAI
                     dextypes_t& dex_types);
             ~FieldID() = default;
 
-            Type *get_class_idx();
-            Type *get_type_idx();
+            type_t get_class_idx();
+            type_t get_type_idx();
             std::string *get_name_idx();
 
             friend std::ostream &operator<<(std::ostream &os, const FieldID &entry);
 
         private:
-            std::map<std::uint16_t, Type *> class_idx;
-            std::map<std::uint16_t, Type *> type_idx;
+            std::map<std::uint16_t, type_t> class_idx;
+            std::map<std::uint16_t, type_t> type_idx;
             std::map<std::uint32_t, std::string *> name_idx;
         };
 
@@ -71,14 +71,19 @@ namespace KUNAI
                       dexstrings_t& dex_strings,
                       dextypes_t& dex_types);
 
-            ~DexFields();
+            ~DexFields() = default;
 
             std::uint64_t get_number_of_fields()
             {
                 return number_of_fields;
             }
 
-            FieldID *get_field_id_by_order(size_t pos);
+            std::vector<fieldid_t>& get_fields()
+            {
+                return field_ids;
+            }
+
+            fieldid_t get_field_id_by_order(size_t pos);
 
             friend std::ostream &operator<<(std::ostream &os, const DexFields &entry);
             friend std::fstream &operator<<(std::fstream &fos, const DexFields &entry);
@@ -91,7 +96,7 @@ namespace KUNAI
             dexstrings_t& dex_strings;
             dextypes_t& dex_types;
 
-            std::vector<FieldID *> field_ids;
+            std::vector<fieldid_t> field_ids;
         };
 
     }

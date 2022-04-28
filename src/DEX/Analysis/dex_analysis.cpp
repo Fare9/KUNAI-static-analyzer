@@ -165,7 +165,7 @@ namespace KUNAI
             return nullptr;
         }
 
-        MethodID *Analysis::get_method_by_name(std::string class_name, std::string method_name, std::string method_descriptor)
+        methodid_t Analysis::get_method_by_name(std::string class_name, std::string method_name, std::string method_descriptor)
         {
             auto m_a = get_method_analysis_by_name(class_name, method_name, method_descriptor);
 
@@ -196,7 +196,7 @@ namespace KUNAI
 
         fieldanalysis_t Analysis::get_field_analysis(encodedfield_t field)
         {
-            auto class_analysis = get_class_analysis(reinterpret_cast<Class *>(field->get_field()->get_class_idx())->get_name());
+            auto class_analysis = get_class_analysis(std::dynamic_pointer_cast<Class>(field->get_field()->get_class_idx())->get_name());
 
             if (class_analysis)
                 return class_analysis->get_field_analysis(field);
@@ -381,7 +381,7 @@ namespace KUNAI
                             (const_class_new_instance->get_source_typeid()->get_type() != Type::CLASS))
                             continue;
 
-                        auto type_info = reinterpret_cast<Class *>(const_class_new_instance->get_source_typeid())->get_name();
+                        auto type_info = std::dynamic_pointer_cast<Class>(const_class_new_instance->get_source_typeid())->get_name();
 
                         // we do not going to analyze our current class name
                         if (type_info == current_class_name)
@@ -435,7 +435,7 @@ namespace KUNAI
                             continue;
                         }
 
-                        auto class_info = reinterpret_cast<Class *>(invoke_->get_operands_kind_method()->get_method_class())->get_name();
+                        auto class_info = std::dynamic_pointer_cast<Class>(invoke_->get_operands_kind_method()->get_method_class())->get_name();
                         auto method_info = *invoke_->get_operands_kind_method()->get_method_name();
                         auto proto_info = invoke_->get_operands_kind_method()->get_method_prototype()->get_proto_str();
 
@@ -456,7 +456,7 @@ namespace KUNAI
                         if (invoke_xxx_range->get_kind() != DVMTypes::Kind::METH)
                             continue;
 
-                        auto class_info = reinterpret_cast<Class *>(invoke_xxx_range->get_operands_method()->get_method_class())->get_name();
+                        auto class_info = std::dynamic_pointer_cast<Class>(invoke_xxx_range->get_operands_method()->get_method_class())->get_name();
                         auto method_info = *invoke_xxx_range->get_operands_method()->get_method_name();
                         auto proto_info = invoke_xxx_range->get_operands_method()->get_method_prototype()->get_proto_str();
 

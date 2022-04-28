@@ -53,17 +53,8 @@ namespace KUNAI
                 throw exceptions::ParserReadingException("Error reading DEX methods");
         }
 
-        DexMethods::~DexMethods()
-        {
-            if (!method_ids.empty())
-            {
-                for (size_t i = 0; i < method_ids.size(); i++)
-                    delete method_ids[i];
-                method_ids.clear();
-            }
-        }
 
-        MethodID *DexMethods::get_method_by_order(size_t pos)
+        methodid_t DexMethods::get_method_by_order(size_t pos)
         {
             if (pos >= method_ids.size())
                 return nullptr;
@@ -74,7 +65,7 @@ namespace KUNAI
         {
             auto logger = LOGGER::logger();
 
-            MethodID *method_id;
+            methodid_t method_id;
             auto current_offset = input_file.tellg();
             size_t i = 0;
             std::uint16_t class_idx = 0, proto_idx = 0;
@@ -116,7 +107,7 @@ namespace KUNAI
                     throw exceptions::IncorrectStringId("Error reading methods name_idx out of string bound");
                 }
 
-                method_id = new MethodID(class_idx, proto_idx, name_idx, dex_strings, dex_types, dex_protos);
+                method_id = std::make_shared<MethodID>(class_idx, proto_idx, name_idx, dex_strings, dex_types, dex_protos);
 
                 method_ids.push_back(method_id);
 
@@ -138,9 +129,9 @@ namespace KUNAI
             size_t i = 0;
             os << std::hex;
             os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Methods ===========" << std::endl;
-            for (auto it = entry.method_ids.begin(); it != entry.method_ids.end(); it++)
+            
+            for (auto method_id : entry.method_ids)
             {
-                auto method_id = *it;
                 os << "Method (" << i++ << "): ";
                 os << *method_id;
             }

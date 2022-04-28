@@ -25,9 +25,9 @@ namespace KUNAI
                 std::get<externalclass_t>(class_def)->add_method(std::get<externalmethod_t>(method_analysis->get_method()));
         }
 
-        std::vector<Class *> ClassAnalysis::implements()
+        std::vector<class_t> ClassAnalysis::implements()
         {
-            std::vector<Class *> implemented_interfaces;
+            std::vector<class_t> implemented_interfaces;
 
             if (is_external)
                 return implemented_interfaces;
