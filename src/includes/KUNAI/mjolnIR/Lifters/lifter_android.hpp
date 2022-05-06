@@ -17,7 +17,7 @@
 #include "dex_analysis.hpp"
 
 // mjolnIR
-#include "ir_graph.hpp"
+#include "optimizer.hpp"
 
 namespace KUNAI
 {
@@ -260,14 +260,16 @@ namespace KUNAI
              *
              * @param bbs: basic blocks from the method.
              */
-            void jump_target_analysis(std::vector<DEX::dvmbasicblock_t> bbs);
-            void fallthrough_target_analysis(MJOLNIR::irgraph_t ir_graph);
+            void jump_target_analysis(std::vector<DEX::dvmbasicblock_t>& bbs);
 
             //! lifted blocks
             std::map<DEX::DVMBasicBlock*, MJOLNIR::irblock_t> lifted_blocks;
 
             //! Android analysis object to check internally
             DEX::analysis_t android_analysis;
+
+            //! Optimization passes
+            MJOLNIR::optimizer_t optimizer;
         };
     }
 }
