@@ -19,9 +19,6 @@
 // mjolnIR
 #include "ir_graph.hpp"
 
-// lifter
-#include "lifter_android_instructions.hpp"
-
 namespace KUNAI
 {
     namespace LIFTER
@@ -74,6 +71,126 @@ namespace KUNAI
         private:
             uint64_t temp_reg_id;
             uint64_t current_idx;
+
+
+            /**
+             * @brief Lift an instruction of type instruction23x, avoid repetition of code.
+             * 
+             * @param instruction: instruction to check.
+             * @param bin_op: type of binary operation used.
+             * @param cast_type: cast to correct type after instruction.
+             * @param bb: basic block where to push the instructions.
+             */
+            void lift_instruction23x_binary_instruction(KUNAI::DEX::instruction_t& instruction,
+                                                        KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
+                                                        MJOLNIR::IRUnaryOp::cast_type_t cast_type,
+                                                        MJOLNIR::irblock_t& bb);
+
+            /**
+             * @brief Lift an instruction of type instruction12x, avoid repetition of code.
+             * 
+             * @param instruction: instruction to check.
+             * @param bin_op: type of binary operation used.
+             * @param cast_type: cast to correct type after instruction.
+             * @param bb: basic block where to push the instructions.
+             */
+            void lift_instruction12x_binary_instruction(KUNAI::DEX::instruction_t& instruction,
+                                                        KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
+                                                        MJOLNIR::IRUnaryOp::cast_type_t cast_type,
+                                                        MJOLNIR::irblock_t& bb);
+
+            /**
+             * @brief Lift an instruction of type instruction22s
+             * 
+             * @param instruction 
+             * @param bin_op 
+             * @param cast_type 
+             * @param bb 
+             */
+            void lift_instruction22s_binary_instruction(KUNAI::DEX::instruction_t& instruction,
+                                                        KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
+                                                        MJOLNIR::IRUnaryOp::cast_type_t cast_type,
+                                                        MJOLNIR::irblock_t& bb);                
+
+            /**
+             * @brief Lift an instruction of type instruction22b
+             * 
+             * @param instruction 
+             * @param bin_op 
+             * @param cast_type 
+             * @param bb 
+             */
+            void lift_instruction22b_binary_instruction(KUNAI::DEX::instruction_t& instruction,
+                                                        KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
+                                                        MJOLNIR::IRUnaryOp::cast_type_t cast_type,
+                                                        MJOLNIR::irblock_t& bb);
+
+            /**
+             * @brief Lift an instruction of type instruction12x
+             * 
+             * @param instruction 
+             * @param unary_op 
+             * @param cast_type 
+             * @param bb 
+             */
+            void lift_instruction12x_unary_instruction(KUNAI::DEX::instruction_t& instruction,
+                                                        KUNAI::MJOLNIR::IRUnaryOp::unary_op_t unary_op,
+                                                        MJOLNIR::IRUnaryOp::cast_type_t cast_type,
+                                                        MJOLNIR::irblock_t& bb);
+
+            /**
+             * @brief Lift a comparison instruction.
+             * 
+             * @param instruction 
+             * @param cast_type 
+             * @param comparison 
+             * @param bb 
+             */
+            void lift_comparison_instruction(KUNAI::DEX::instruction_t& instruction,
+                                             MJOLNIR::IRUnaryOp::cast_type_t cast_type,
+                                             MJOLNIR::IRBComp::comp_t comparison,
+                                             MJOLNIR::irblock_t& bb);
+
+            /**
+             * @brief Lift a conditional jump instruction of type instruction22t
+             * 
+             * @param instruction 
+             * @param comparison 
+             * @param bb 
+             */
+            void lift_jcc_instruction22t(KUNAI::DEX::instruction_t& instruction,
+                                         MJOLNIR::IRBComp::comp_t comparison,
+                                         MJOLNIR::irblock_t& bb);
+
+            /**
+             * @brief Lift a conditional jump instruction of type instruction21t (comparison against zero).
+             * 
+             * @param instruction 
+             * @param comparison 
+             * @param bb 
+             */
+            void lift_jcc_instruction21t(KUNAI::DEX::instruction_t& instruction,
+                                         MJOLNIR::IRZComp::zero_comp_t comparison,
+                                         MJOLNIR::irblock_t& bb);
+
+            /**
+             * @brief Generate a IRLoad instruction, this will commonly go with an IRCast.
+             *
+             * @param instruction
+             * @param size
+             * @param cast_type
+             * @param bb
+             */
+            void lift_load_instruction(DEX::instruction_t instruction, size_t size, MJOLNIR::IRUnaryOp::cast_type_t cast_type, MJOLNIR::irblock_t bb);
+
+            /**
+             * @brief Generate a IRStore instruction.
+             * 
+             * @param instruction 
+             * @param size 
+             * @param bb 
+             */
+            void lift_store_instruction(DEX::instruction_t instruction, size_t size, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Create a new IRReg with the id of the register,
@@ -133,119 +250,6 @@ namespace KUNAI
              */
             MJOLNIR::irfield_t make_field(DEX::fieldid_t field);
 
-            /**
-             * @brief Generate a IRAssign instruction from the IR, this will
-             *        be any instruction for assigning strings, classes or registers
-             *        to registers.
-             * @param instruction: instruction to lift.
-             * @param bb: basic block where to insert the instruction.
-             * @return void.
-             */
-            void lift_assignment_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
-
-            /**
-             * @brief Generate a IRBinOp instruction or IRUnaryOp instruction
-             *        which represent any arithmetic logic instruction.
-             * @param instruction: instruction to lift from arithmetic logic instructions.
-             * @param bb: basic block where to insert the instructions.
-             * @return void.
-             */
-            void lift_arithmetic_logic_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
-
-            /**
-             * @brief Generate a IRRet instruction which represent a ret instruction.
-             *
-             * @param instruction: instruction to lift.
-             * @param bb: basic block where to insert the instructions.
-             * @return void
-             */
-            void lift_ret_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
-
-            /**
-             * @brief Generate a IRBComp instruction which represent a comparison between two values.
-             *
-             * @param instruction: instruction to lift.
-             * @param bb: basic block where to insert the instructions.
-             * @return void
-             */
-            void lift_comparison_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
-
-            /**
-             * @brief Generate a IRCJmp instruction which represent a conditional jump.
-             *
-             * @param instruction: instruction to lift.
-             * @param bb: basic block where to insert the instructions.
-             * @return void
-             */
-            void lift_conditional_jump_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
-
-            /**
-             * @brief Generate a IRUJmp instruction which represent an unconditional jump.
-             *
-             * @param instruction
-             * @param bb
-             * @return void
-             */
-            void lift_unconditional_jump_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
-
-            /**
-             * @brief Generate the IRCall instruction which represent any kind of call function/method instruction.
-             *
-             * @param instruction
-             * @param bb
-             */
-            void lift_call_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
-
-            /**
-             * @brief Set for a call instruction its return register.
-             *        this will be just for those cases where the current
-             *        instruction is some kind of move_result and then
-             *        the previos instruction is a call.
-             *
-             * @param instruction
-             * @param call
-             */
-            void lift_move_result_instruction(DEX::instruction_t instruction, MJOLNIR::ircall_t call);
-
-            /**
-             * @brief Generate a IRLoad instruction, this will commonly go with an IRCast.
-             *
-             * @param instruction
-             * @param bb
-             */
-            void lift_load_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
-
-            /**
-             * @brief Generate a IRStore instruction from different aput* instructions.
-             *
-             * @param instruction
-             * @param bb
-             */
-            void lift_store_instruction(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
-
-            /**
-             * @brief Lift a NOP instruction.
-             *
-             * @param bb
-             */
-            void lift_nop_instructions(MJOLNIR::irblock_t bb);
-
-            /**
-             * @brief Lift a new instruction.
-             *
-             * @param instruction
-             * @param bb
-             */
-            void lift_new_instructions(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
-
-            /**
-             * @brief Lift those Android switch instructions.
-             *
-             * @param instruction
-             * @param bb
-             */
-            void lift_switch_instructions(DEX::instruction_t instruction, MJOLNIR::irblock_t bb);
-
             // some utilities
 
             /**
@@ -259,23 +263,10 @@ namespace KUNAI
             void jump_target_analysis(std::vector<DEX::dvmbasicblock_t> bbs);
             void fallthrough_target_analysis(MJOLNIR::irgraph_t ir_graph);
 
-            AndroidInstructions androidinstructions;
-            //! It is nice that while we are lifting to annotate
-            //! possible values that a register holds, in that case
-            //! we annotate it into a symbolic table and if later
-            //! is needed its value, we retrieve it from this variable.
-            std::map<std::uint32_t, MJOLNIR::irtype_t> symbolic_table;
-
-            //! types can be created in a map for using them when necessary
-            //! in the same block same registers, same strings or same fields
-            //! can be used more than once.
-            std::map<std::uint32_t, MJOLNIR::irreg_t> regs;
-            std::map<std::uint32_t, MJOLNIR::irstring_t> strings;
-
             //! lifted blocks
             std::map<DEX::DVMBasicBlock*, MJOLNIR::irblock_t> lifted_blocks;
 
-            //! Android analysis objecto to check internally
+            //! Android analysis object to check internally
             DEX::analysis_t android_analysis;
         };
     }
