@@ -876,6 +876,7 @@ namespace KUNAI
         public:
             enum unary_op_t
             {
+                NONE_UNARY_OP_T,
                 INC_OP_T,
                 DEC_OP_T,
                 NOT_OP_T,
