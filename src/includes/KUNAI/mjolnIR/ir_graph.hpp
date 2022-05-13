@@ -7,6 +7,9 @@
  *        in this class.
  */
 
+#ifndef IR_GRAPH_HPP
+#define IR_GRAPH_HPP
+
 #include <iostream>
 #include <set>
 #include <algorithm>
@@ -343,3 +346,5 @@ namespace KUNAI
     } // namespace MJOLNIR
 
 } // namespace KUNAI
+
+#endif

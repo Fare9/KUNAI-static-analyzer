@@ -10,6 +10,9 @@
  *
  */
 
+#ifndef IR_GRAMMAR_HPP
+#define IR_GRAMMAR_HPP
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -2784,3 +2787,5 @@ namespace KUNAI
         };
     }
 }
+
+#endif

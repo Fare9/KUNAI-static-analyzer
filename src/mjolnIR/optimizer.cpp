@@ -203,5 +203,13 @@ namespace KUNAI
             }
         }
 
+        optimizer_t NewDefaultOptimizer()
+        {
+            auto optimizer = std::make_shared<Optimizer>();
+
+            optimizer->add_single_stmnt_pass(constant_folding);
+
+            return optimizer;
+        }
     }
 }

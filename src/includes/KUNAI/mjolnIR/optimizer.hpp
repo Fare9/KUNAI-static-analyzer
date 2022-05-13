@@ -7,6 +7,9 @@
  *
  */
 
+#ifndef OPTIMIZER_HPP
+#define OPTIMIZER_HPP
+
 #include <memory>
 
 #include "utils.hpp"
@@ -112,5 +115,14 @@ namespace KUNAI
          * @return irstmnt_t
          */
         irstmnt_t constant_folding(irstmnt_t &instr);
+
+        /**
+         * @brief Return a default optimizer object with all the configured passes.
+         * 
+         * @return optimizer_t 
+         */
+        optimizer_t NewDefaultOptimizer();
     }
 }
+
+#endif
