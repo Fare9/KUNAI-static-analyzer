@@ -36,7 +36,7 @@ main(int argc, char **argv)
     if (dex_disassembler->get_disassembly_correct())
         std::cout << *dex_disassembler;
     
-    auto dex_analysis = dex->get_dex_analysis();
+    auto dex_analysis = dex->get_dex_analysis(true);
 
     dex_analysis->create_xref();
 

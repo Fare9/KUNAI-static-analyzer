@@ -21,7 +21,7 @@ namespace KUNAI
             }
         }
 
-        analysis_t DEX::get_dex_analysis()
+        analysis_t DEX::get_dex_analysis(bool create_xrefs)
         {
             if (!dex_parsing_correct)
                 return nullptr;
@@ -31,7 +31,7 @@ namespace KUNAI
             if (!dex_disassembler->get_disassembly_correct())
                 return nullptr;
 
-            dex_analysis = std::make_shared<Analysis>(dex_parser, dalvik_opcodes, dex_disassembler->get_instructions());
+            dex_analysis = std::make_shared<Analysis>(dex_parser, dalvik_opcodes, dex_disassembler->get_instructions(), create_xrefs);
 
             return dex_analysis;
         }

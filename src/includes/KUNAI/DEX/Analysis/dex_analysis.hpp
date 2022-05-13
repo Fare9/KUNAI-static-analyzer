@@ -79,10 +79,11 @@ namespace KUNAI
              * @param dex_parser: dexparser_t parser to initialize the analysis.
              * @param dalvik_opcodes: dalvikopcodes_t used to initialize some objects.
              * @param instructions: instruction_map_t instructions to initialize methods.
+             * @param create_xrefs: create or not the xrefs for the analysis, not necessary of you do not want cross references, which takes long time.
              * @return void
              */
             Analysis(dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes,
-                     instruction_map_t instructions);
+                     instruction_map_t instructions, bool create_xrefs);
 
             /**
              * @brief Analysis class destructor, nothing really interesting in here.
@@ -117,14 +118,14 @@ namespace KUNAI
              * @param class_name: std::string class name to search.
              * @return bool
              */
-            bool is_class_present(std::string class_name);
+            bool is_class_present(std::string& class_name);
 
             /**
              * @brief get a ClassAnalysis object by a class_name.
              * @param class_name: std::string class name to retrieve its ClassAnalysis object.
              * @return classanalysis_t
              */
-            classanalysis_t get_class_analysis(std::string class_name);
+            classanalysis_t get_class_analysis(std::string& class_name);
 
             /**
              * @brief Get all the ClassAnalysis objects in a vector.
@@ -162,7 +163,7 @@ namespace KUNAI
              * @param method_descriptor: std::string method descriptor (parameters and return value).
              * @return methodid_t
              */
-            methodid_t get_method_by_name(std::string class_name, std::string method_name, std::string method_descriptor);
+            methodid_t get_method_by_name(std::string& class_name, std::string& method_name, std::string& method_descriptor);
 
             /**
              * @brief Get a method analysis given class name, method name and method descriptor.
@@ -171,7 +172,7 @@ namespace KUNAI
              * @param method_descriptor: std::string method descriptor (parameters and return value).
              * @return methodanalysis_t
              */
-            methodanalysis_t get_method_analysis_by_name(std::string class_name, std::string method_name, std::string method_descriptor);
+            methodanalysis_t get_method_analysis_by_name(std::string& class_name, std::string& method_name, std::string& method_descriptor);
 
             /**
              * @brief Get all the MethodAnalysis object in a vector.

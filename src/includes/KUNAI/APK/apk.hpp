@@ -49,7 +49,7 @@ namespace KUNAI
         {
         public:
 
-            APK(std::string path_to_apk_file);
+            APK(std::string path_to_apk_file, bool create_xrefs);
             
             ~APK();
 
@@ -147,23 +147,27 @@ namespace KUNAI
 
             std::string path_to_apk_file;
             std::string temporal_path;
+
+            bool create_xrefs;
         };
 
         /**
          * @brief Get the unique apk object object
          * 
          * @param path_to_apk_file 
+         * @param create_xrefs
          * @return std::unique_ptr<APK> 
          */
-        std::unique_ptr<APK> get_unique_apk_object(std::string path_to_apk_file);
+        std::unique_ptr<APK> get_unique_apk_object(std::string path_to_apk_file, bool create_xrefs);
 
         /**
          * @brief Get the shared apk object object
          * 
          * @param path_to_apk_file 
+         * @param create_xrefs
          * @return apk_t 
          */
-        apk_t get_shared_apk_object(std::string path_to_apk_file);
+        apk_t get_shared_apk_object(std::string path_to_apk_file, bool create_xrefs);
     }
 }
 

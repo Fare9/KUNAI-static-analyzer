@@ -94,9 +94,10 @@ namespace KUNAI
              *        are already disassembled, and the methods are created with
              *        the CFG.
              *
+             * @param create_xrefs: create xrefs in the analysis, use it only if necessary.
              * @return analysis_t
              */
-            analysis_t get_dex_analysis();
+            analysis_t get_dex_analysis(bool create_xrefs);
 
             /**
              * @brief Get if parsing was correct or not.

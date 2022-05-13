@@ -5,7 +5,7 @@ namespace KUNAI
     namespace DEX
     {
 
-        Analysis::Analysis(dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes, instruction_map_t instructions) : created_xrefs(false),
+        Analysis::Analysis(dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes, instruction_map_t instructions, bool create_xrefs) : created_xrefs(!create_xrefs),
                                                                                                                                                    dalvik_opcodes(dalvik_opcodes),
                                                                                                                                                    instructions(instructions)
         {
@@ -77,7 +77,7 @@ namespace KUNAI
             logger->debug("create_xref(): creating xrefs for {} dex files", dex_parsers.size());
 #endif
 
-            for (auto dex_parser : dex_parsers)
+            for (auto& dex_parser : dex_parsers)
             {
 #ifdef DEBUG
                 static size_t i = 0;
@@ -87,7 +87,7 @@ namespace KUNAI
                 auto class_dex = dex_parser->get_classes();
                 auto class_def_items = class_dex->get_classes();
 
-                for (auto class_def_item : class_def_items)
+                for (auto& class_def_item : class_def_items)
                 {
 #ifdef DEBUG
                     static size_t j = 0;
@@ -101,12 +101,12 @@ namespace KUNAI
             logger->info("cross-references correctly created");
         }
 
-        bool Analysis::is_class_present(std::string class_name)
+        bool Analysis::is_class_present(std::string& class_name)
         {
             return (classes.find(class_name) == classes.end());
         }
 
-        classanalysis_t Analysis::get_class_analysis(std::string class_name)
+        classanalysis_t Analysis::get_class_analysis(std::string& class_name)
         {
             if (classes.find(class_name) == classes.end())
                 return nullptr;
@@ -165,7 +165,7 @@ namespace KUNAI
             return nullptr;
         }
 
-        methodid_t Analysis::get_method_by_name(std::string class_name, std::string method_name, std::string method_descriptor)
+        methodid_t Analysis::get_method_by_name(std::string& class_name, std::string& method_name, std::string& method_descriptor)
         {
             auto m_a = get_method_analysis_by_name(class_name, method_name, method_descriptor);
 
@@ -175,7 +175,7 @@ namespace KUNAI
             return nullptr;
         }
 
-        methodanalysis_t Analysis::get_method_analysis_by_name(std::string class_name, std::string method_name, std::string method_descriptor)
+        methodanalysis_t Analysis::get_method_analysis_by_name(std::string& class_name, std::string& method_name, std::string& method_descriptor)
         {
             std::tuple<std::string, std::string, std::string> m_hash = {class_name, method_name, method_descriptor};
 
@@ -344,10 +344,10 @@ namespace KUNAI
             }
 
             // add the methods
-            auto current_methods = class_data_item->get_methods();
-            auto class_working_on = classes[current_class_name];
+            auto& current_methods = class_data_item->get_methods();
+            auto& class_working_on = classes[current_class_name];
 
-            for (auto current_method : current_methods)
+            for (auto& current_method : current_methods)
             {
                 auto current_method_analysis = methods[current_method->full_name()];
 
@@ -357,12 +357,12 @@ namespace KUNAI
 #endif
 
                 // now we go parsing each instruction
-                auto instructions = current_method_analysis->get_instructions();
+                auto& instructions = current_method_analysis->get_instructions();
 
-                for (auto offset_instr : instructions)
+                for (auto& offset_instr : instructions)
                 {
-                    auto off = offset_instr.first;
-                    auto instruction = offset_instr.second;
+                    auto& off = offset_instr.first;
+                    auto& instruction = offset_instr.second;
 
                     auto op_value = instruction->get_OP();
 

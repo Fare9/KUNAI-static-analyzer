@@ -5,7 +5,7 @@ namespace KUNAI
     namespace APK
     {
 
-        APK::APK(std::string path_to_apk_file) : path_to_apk_file(path_to_apk_file)
+        APK::APK(std::string path_to_apk_file, bool create_xrefs) : path_to_apk_file(path_to_apk_file), create_xrefs(create_xrefs)
         {
             // get a temporal path where to dump files
             // temporal_path = std::tmpnam(nullptr);
@@ -70,7 +70,7 @@ namespace KUNAI
 
             global_analysis = std::make_shared<DEX::Analysis>(nullptr, 
                 dex_files.begin()->second->get_dalvik_opcode_object(), 
-                global_disassembler->get_instructions() );
+                global_disassembler->get_instructions(), this->create_xrefs);
 
             logger->info("Adding DEX files to analysis object");
 
@@ -148,15 +148,15 @@ namespace KUNAI
         }
         
 
-        std::unique_ptr<APK> get_unique_apk_object(std::string path_to_apk_file)
+        std::unique_ptr<APK> get_unique_apk_object(std::string path_to_apk_file, bool create_xrefs)
         {
-            return std::make_unique<APK>(path_to_apk_file);
+            return std::make_unique<APK>(path_to_apk_file, create_xrefs);
         }
 
 
-        apk_t get_shared_apk_object(std::string path_to_apk_file)
+        apk_t get_shared_apk_object(std::string path_to_apk_file, bool create_xrefs)
         {
-            return std::make_shared<APK>(path_to_apk_file);
+            return std::make_shared<APK>(path_to_apk_file, create_xrefs);
         }
     }
 }
