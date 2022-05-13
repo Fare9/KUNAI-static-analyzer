@@ -8,7 +8,8 @@ DX=dx
 LIB_CHILKAT ?= -lchilkat-9.5.0
 INCLUDE_CHILKAT_PATH ?= ./external/chilkat-x86_64-linux-gcc/include/
 INCLUDE_CHILKAT = -I ${INCLUDE_CHILKAT_PATH}
-CFLAGS=-std=c++17 -c -O3 -fpic
+CFLAGS=-std=c++17 -c -fpic
+OPTIMIZATION ?= -O3
 
 CODE_FOLDER=src/
 CODE_TEST_FOLDER=./projects/
@@ -53,7 +54,7 @@ OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${APK_OBJ_FILES} ${IR_OBJ_FILES} ${IR_
 
 all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
 ${BIN_PROJECTS_FOLDER}test_dex_parser ${BIN_PROJECTS_FOLDER}test_dex_disassembler ${BIN_PROJECTS_FOLDER}test_ir ${BIN_PROJECTS_FOLDER}test_dex_lifter \
-${BIN_PROJECTS_FOLDER}test_ir_graph ${BIN_PROJECTS_FOLDER}test_dominators
+${BIN_PROJECTS_FOLDER}test_ir_graph ${BIN_PROJECTS_FOLDER}test_dominators ${BIN_PROJECTS_FOLDER}test-optimizations
 
 
 
@@ -102,6 +103,10 @@ ${BIN_PROJECTS_FOLDER}test_dominators: ${OBJ}test_dominators.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^ ${LIB_CHILKAT}
 
+${BIN_PROJECTS_FOLDER}test-optimizations: ${OBJ}test-optimizations.o ${OBJ_FILES}
+	@echo "Linking $< -> $@"
+	${CXX} -o $@ $^ ${LIB_CHILKAT}
+
 ${BIN_TEST_FOLDER}test_apk_analysis: ${OBJ}test_apk_analysis.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^ ${LIB_CHILKAT}
@@ -112,7 +117,7 @@ ${BIN_TEST_FOLDER}test_apk_analysis: ${OBJ}test_apk_analysis.o ${OBJ_FILES}
 # main
 ${OBJ}main.o: ${CODE_FOLDER}main.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 ####################################################################
 #  				Test Files
@@ -121,34 +126,38 @@ ${OBJ}main.o: ${CODE_FOLDER}main.cpp
 # test_dex_parser
 ${OBJ}test_dex_parser.o: ${CODE_TEST_FOLDER}test_dex_parser.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 # test_dex_disassembler
 ${OBJ}test_dex_disassembler.o: ${CODE_TEST_FOLDER}test_dex_disassembler.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 # test IR
 ${OBJ}test_ir.o: ${CODE_TEST_FOLDER}test_ir.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 # test dex lifter
 ${OBJ}test_dex_lifter.o: ${CODE_TEST_FOLDER}test_dex_lifter.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ${OBJ}test_ir_graph.o: ${CODE_TEST_FOLDER}test_ir_graph.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ${OBJ}test_dominators.o: ${CODE_TEST_FOLDER}test_dominators.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ${OBJ}test_apk_analysis.o: ${CODE_TEST_FOLDER}test_apk_analysis.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} ${INCLUDE_CHILKAT} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} ${ALL_INCLUDE} ${INCLUDE_CHILKAT} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+
+${OBJ}test-optimizations.o: ${CODE_TEST_FOLDER}test-optimizations.cpp
+	@echo "Compiling $< -> $@"
+	${CXX} ${ALL_INCLUDE} ${INCLUDE_CHILKAT} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ####################################################################
 	
@@ -156,7 +165,7 @@ ${OBJ}test_apk_analysis.o: ${CODE_TEST_FOLDER}test_apk_analysis.cpp
 UTILS_MODULE=Utils/
 ${OBJ}%.o: ${CODE_FOLDER}${UTILS_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 # DEX modules here
 DEX_MODULE=DEX/
@@ -165,36 +174,36 @@ DEX_DVM=DEX/DVM/
 DEX_ANALYSIS=DEX/Analysis/
 ${OBJ}dex.o: ${CODE_FOLDER}${DEX_MODULE}dex.cpp
 	@echo "Compiling $^ -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_MODULE} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES_INCLUDE} -o $@ $^ ${CFLAGS} $(DEBUG)
+	${CXX} -I${INCLUDE_FOLDER}${DEX_MODULE} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES_INCLUDE} -o $@ $^ ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_PARSER}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_DVM}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)	
+	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)	
 
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_ANALYSIS}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 # APK modules here
 APK_MODULE=APK/
 ${OBJ}%.o: ${CODE_FOLDER}${APK_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} ${APK_MODULES_INCLUDE} ${INCLUDE_CHILKAT} -o $@ $< ${CFLAGS} $(DEBUG) ${LIB_CHILKAT}
+	${CXX} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} ${APK_MODULES_INCLUDE} ${INCLUDE_CHILKAT} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG) ${LIB_CHILKAT}
 
 # IR modules here
 IR_MODULE=mjolnIR/
 IR_LIFTERS=mjolnIR/Lifters/
 ${OBJ}%.o: ${CODE_FOLDER}${IR_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 ${OBJ}%.o: ${CODE_FOLDER}${IR_LIFTERS}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(DEBUG)
+	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 # Compile tests
 tests:
@@ -245,4 +254,4 @@ remove:
 
 
 debug:
-	$(MAKE) $(MAKEFILE) DEBUG="-g -D DEBUG"
+	$(MAKE) $(MAKEFILE) OPTIMIZATION="-O0" DEBUG="-g -D DEBUG" 
