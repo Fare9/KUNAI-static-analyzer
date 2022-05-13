@@ -20,9 +20,25 @@ namespace KUNAI
 
         using optimizer_t = std::shared_ptr<Optimizer>;
 
+        using one_stmnt_opt_t = irstmnt_t (*)(irstmnt_t&);
+
         class Optimizer
         {
         public:
+            /**
+             * @brief Add a single line optimization to the vector of optimizations
+             *
+             * @param opt
+             */
+            void add_single_stmnt_pass(one_stmnt_opt_t opt);
+
+            /**
+             * @brief Run all the selected optimizations.
+             *
+             * @param func
+             */
+            void run_analysis(irgraph_t &func);
+
             /**
              * @brief Analyze the basic blocks of the graph in order to create the
              *        fallthrough edges between blocks which are from conditional
@@ -73,6 +89,28 @@ namespace KUNAI
              * @param ir_graph
              */
             void fallthrough_target_analysis(MJOLNIR::irgraph_t &ir_graph);
+
+        private:
+            std::vector<one_stmnt_opt_t> single_statement_optimization;
         };
+
+        /**
+         * @brief Optimizations applied directly to one statement
+         *        this in opposite to other optimizations will be
+         *        applied only to the current instruction, the others
+         *        would need to check a whole block or even whole graph.
+         */
+
+        /**
+         * @brief Apply constant folding optimization to the
+         *        given instruction, we can have different operations
+         *        where we can apply constant folding:
+         *        IRExpr <- IRConstInt IRBinOp IRConstInt
+         *        IRExpr <- IRUnaryOp IRConstInt
+         *
+         * @param instr
+         * @return irstmnt_t
+         */
+        irstmnt_t constant_folding(irstmnt_t &instr);
     }
 }

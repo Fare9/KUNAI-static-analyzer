@@ -258,9 +258,156 @@ namespace KUNAI
 
         bool operator==(IRConstInt &type1, IRConstInt &type2)
         {
-            if (type1.value == type2.value)
+            if (type1.value == type2.value && type1.is_signed == type2.is_signed)
                 return true;
             return false;
+        }
+
+        IRConstInt operator+(IRConstInt& a, IRConstInt& b)
+        {
+            if (a.is_signed)
+            {
+                int64_t result = static_cast<int64_t>(a.value) + static_cast<int64_t>(b.value);
+                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+
+                return res;
+            } 
+            uint64_t result = a.value + a.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator-(IRConstInt& a, IRConstInt& b)
+        {
+            if (a.is_signed)
+            {
+                int64_t result = static_cast<int64_t>(a.value) - static_cast<int64_t>(b.value);
+                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+
+                return res;
+            } 
+            uint64_t result = a.value - b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator/(IRConstInt& a, IRConstInt& b)
+        {
+            if (a.is_signed)
+            {
+                int64_t result = static_cast<int64_t>(a.value) / static_cast<int64_t>(b.value);
+                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+
+                return res;
+            } 
+            uint64_t result = a.value / b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator*(IRConstInt& a, IRConstInt& b)
+        {
+            if (a.is_signed)
+            {
+                int64_t result = static_cast<int64_t>(a.value) * static_cast<int64_t>(b.value);
+                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+
+                return res;
+            } 
+            uint64_t result = a.value * b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator%(IRConstInt& a, IRConstInt& b)
+        {
+            if (a.is_signed)
+            {
+                int64_t result = static_cast<int64_t>(a.value) % static_cast<int64_t>(b.value);
+                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+
+                return res;
+            } 
+            uint64_t result = a.value % b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator&(IRConstInt& a, IRConstInt& b)
+        {
+            uint64_t result = a.value & b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator|(IRConstInt& a, IRConstInt& b)
+        {
+            uint64_t result = a.value | b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator^(IRConstInt& a, IRConstInt& b)
+        {
+            uint64_t result = a.value ^ b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator<<(IRConstInt& a, IRConstInt& b)
+        {
+            uint64_t result = a.value << b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator>>(IRConstInt& a, IRConstInt& b)
+        {
+            uint64_t result = a.value >> b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator++(IRConstInt& a, int)
+        {
+            uint64_t result = a.value++;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator--(IRConstInt& a, int)
+        {
+            uint64_t result = a.value--;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator!(IRConstInt& a)
+        {
+            uint64_t result = !a.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator~(IRConstInt& a)
+        {
+            uint64_t result = ~a.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
         }
 
         /**

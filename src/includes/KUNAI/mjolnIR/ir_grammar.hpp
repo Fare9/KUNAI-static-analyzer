@@ -54,101 +54,159 @@ namespace KUNAI
 
         using irblock_t = std::shared_ptr<IRBlock>;
         using irstmnt_t = std::shared_ptr<IRStmnt>;
+
         using irujmp_t = std::shared_ptr<IRUJmp>;
+        /**
+         * @brief Check if the given statement is an unconditional jump instruction.
+         *
+         * @param instr
+         * @return true
+         * @return false
+         */
+        bool is_unconditional_jump(irstmnt_t& instr);
+
         using ircjmp_t = std::shared_ptr<IRCJmp>;
+        /**
+         * @brief Check if the given statement is a conditional jump instruction.
+         *
+         * @param instr
+         * @return true
+         * @return false
+         */
+        bool is_conditional_jump(irstmnt_t& instr);
+
         using irret_t = std::shared_ptr<IRRet>;
+        /**
+         * @brief Check if given statement is a ret instruction.
+         *
+         * @param instr
+         * @return true
+         * @return false
+         */
+        bool is_ret(irstmnt_t& instr);
+
         using irnop_t = std::shared_ptr<IRNop>;
+        /**
+         * @brief Check if given statement is a NOP instruction
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_nop(irstmnt_t& instr);
+
         using irswitch_t = std::shared_ptr<IRSwitch>;
+        /**
+         * @brief Check if given statement is a switch instruction.
+         *
+         * @param instr
+         * @return true
+         * @return false
+         */
+        bool is_switch(irstmnt_t& instr);
+
         using irexpr_t = std::shared_ptr<IRExpr>;
+        /**
+         * @brief Check if given statement is an expression instruction.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_expr(irstmnt_t& instr);
+
         using irbinop_t = std::shared_ptr<IRBinOp>;
+        /**
+         * @brief Check if given statement is a binary operation.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_bin_op(irstmnt_t& instr);
+
         using irunaryop_t = std::shared_ptr<IRUnaryOp>;
+        /**
+         * @brief Check if given statement is a unary operation.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_unary_op(irstmnt_t& instr);
+
         using irassign_t = std::shared_ptr<IRAssign>;
+        /**
+         * @brief Check if given statement is an assignment operation.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_assign(irstmnt_t& instr);
+
         using ircall_t = std::shared_ptr<IRCall>;
+        /**
+         * @brief Check if given statement is a call instruction.
+         *
+         * @param instr
+         * @return true
+         * @return false
+         */
+        bool is_call(irstmnt_t& instr);
+
         using irload_t = std::shared_ptr<IRLoad>;
+        /**
+         * @brief Check if given statement is a load instruction.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_load(irstmnt_t& instr);
+
         using irstore_t = std::shared_ptr<IRStore>;
+        /**
+         * @brief Check if given statement is a store instruction.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_store(irstmnt_t& instr);
+
         using irzcomp_t = std::shared_ptr<IRZComp>;
         using irbcomp_t = std::shared_ptr<IRBComp>;
+        /**
+         * @brief check if given statement is some kind of comparison.
+         * 
+         * @param instr
+         * @return true
+         * @return false
+         */
+        bool is_cmp(irstmnt_t& instr);
+
         using irnew_t = std::shared_ptr<IRNew>;
+        /**
+         * @brief check if given statement is a new statement.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_new(irstmnt_t& instr);
+
         using irtype_t = std::shared_ptr<IRType>;
+        /**
+         * @brief Check if given statement is type statement.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
+         */
+        bool is_type(irstmnt_t& instr);
+
         using irreg_t = std::shared_ptr<IRReg>;
-        using irtempreg_t = std::shared_ptr<IRTempReg>;
-        using irconstint_t = std::shared_ptr<IRConstInt>;
-        using irmemory_t = std::shared_ptr<IRMemory>;
-        using irstring_t = std::shared_ptr<IRString>;
-        using irclass_t = std::shared_ptr<IRClass>;
-        using ircallee_t = std::shared_ptr<IRCallee>;
-        using irfield_t = std::shared_ptr<IRField>;
-
-        /**
-         * Useful methods you can use
-         * for getting information about
-         * the instructions.
-         */
-
-        /**
-         * @brief Check if the given statement is a IRField.
-         *
-         * @param instr
-         * @return true
-         * @return false
-         */
-        bool is_ir_field(irstmnt_t instr);
-
-        /**
-         * @brief Check if given statement object is
-         *        a callee method/function
-         *
-         * @param instr
-         * @return true
-         * @return false
-         */
-        bool is_ir_callee(irstmnt_t instr);
-
-        /**
-         * @brief Check if given statement object is a class.
-         *
-         * @param instr
-         * @return true
-         * @return false
-         */
-        bool is_ir_class(irstmnt_t instr);
-
-        /**
-         * @brief Check if given statement object is a string.
-         *
-         * @param instr
-         * @return true
-         * @return false
-         */
-        bool is_ir_string(irstmnt_t instr);
-
-        /**
-         * @brief Check if given statement object is a memory.
-         *
-         * @param instr
-         * @return true
-         * @return false
-         */
-        bool is_ir_memory(irstmnt_t instr);
-
-        /**
-         * @brief Check if given statement object is a constant integer.
-         *
-         * @param instr
-         * @return true
-         * @return false
-         */
-        bool is_ir_const_int(irstmnt_t instr);
-
-        /**
-         * @brief Check if a given statement object is a temporal register.
-         *
-         * @param instr
-         * @return true
-         * @return false
-         */
-        bool is_ir_temp_reg(irstmnt_t instr);
-
         /**
          * @brief Check if the given statement object is
          *        a register.
@@ -157,61 +215,87 @@ namespace KUNAI
          * @return true
          * @return false
          */
-        bool is_ir_register(irstmnt_t instr);
+        bool is_ir_register(irstmnt_t& instr);
 
+
+        using irtempreg_t = std::shared_ptr<IRTempReg>;
         /**
-         * @brief Check if the given statement is an unconditional jump instruction.
+         * @brief Check if a given statement object is a temporal register.
          *
          * @param instr
          * @return true
          * @return false
          */
-        bool is_unconditional_jump(irstmnt_t instr);
+        bool is_ir_temp_reg(irstmnt_t& instr);
 
+
+        using irconstint_t = std::shared_ptr<IRConstInt>;
         /**
-         * @brief Check if the given statement is a conditional jump instruction.
+         * @brief Check if given statement object is a constant integer.
          *
          * @param instr
          * @return true
          * @return false
          */
-        bool is_conditional_jump(irstmnt_t instr);
+        bool is_ir_const_int(irstmnt_t& instr);
 
+
+        using irmemory_t = std::shared_ptr<IRMemory>;
         /**
-         * @brief Check if given statement is a ret instruction.
+         * @brief Check if given statement object is a memory.
          *
          * @param instr
          * @return true
          * @return false
          */
-        bool is_ret(irstmnt_t instr);
+        bool is_ir_memory(irstmnt_t& instr);
 
+
+
+        using irstring_t = std::shared_ptr<IRString>;
         /**
-         * @brief Check if given statement is a call instruction.
+         * @brief Check if given statement object is a string.
          *
          * @param instr
          * @return true
          * @return false
          */
-        bool is_call(irstmnt_t instr);
+        bool is_ir_string(irstmnt_t& instr);
 
+
+        using irclass_t = std::shared_ptr<IRClass>;
         /**
-         * @brief Check if given statement is a switch instruction.
+         * @brief Check if given statement object is a class.
          *
          * @param instr
          * @return true
          * @return false
          */
-        bool is_switch(irstmnt_t instr);
-
+        bool is_ir_class(irstmnt_t& instr);
+        
+        
+        using ircallee_t = std::shared_ptr<IRCallee>;
         /**
-         * @brief check if given statement is some kind of comparison.
-         * 
+         * @brief Check if given statement object is
+         *        a callee method/function
+         *
          * @param instr
          * @return true
          * @return false
          */
-        bool is_cmp(irstmnt_t instr);
+        bool is_ir_callee(irstmnt_t& instr);
+
+        using irfield_t = std::shared_ptr<IRField>;
+        /**
+         * @brief Check if the given statement is a IRField.
+         *
+         * @param instr
+         * @return true
+         * @return false
+         */
+        bool is_ir_field(irstmnt_t& instr);
+
+        
 
         class IRBlock
         {
@@ -257,9 +341,9 @@ namespace KUNAI
 
             /**
              * @brief Get the list of statements.
-             * @return std::list<irstmnt_t>
+             * @return std::vector<irstmnt_t>
              */
-            std::list<irstmnt_t> &get_statements()
+            std::vector<irstmnt_t> &get_statements()
             {
                 return block_statements;
             }
@@ -322,7 +406,7 @@ namespace KUNAI
             //! starting idx and last idx (used for jump calculation)
             uint64_t start_idx, end_idx;
             //! statements from the basic block.
-            std::list<irstmnt_t> block_statements;
+            std::vector<irstmnt_t> block_statements;
         };
 
         class IRStmnt
@@ -2053,6 +2137,26 @@ namespace KUNAI
             }
 
             /**
+             * @brief Get the value unsigned object
+             * 
+             * @return uint64_t 
+             */
+            uint64_t get_value_unsigned()
+            {
+                return value;
+            }
+
+            /**
+             * @brief Get the value signed object
+             * 
+             * @return int64_t 
+             */
+            int64_t get_value_signed()
+            {
+                return static_cast<int64_t>(value);
+            }
+
+            /**
              * @brief Return a string representation of the IRConstInt instruction.
              * @return bool
              */
@@ -2073,6 +2177,127 @@ namespace KUNAI
              */
             friend bool operator==(IRConstInt &, IRConstInt &);
 
+            /**
+             * @brief ADD operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator+(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief SUB operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator-(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief DIV operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator/(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief MUL operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator*(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief MOD operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator%(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief AND operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator&(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief OR operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator|(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief XOR operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator^(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief SHL operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator<<(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief SHR operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator>>(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief INC operator for IRConstInt, some checks are applied.
+             * 
+             * @param a
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator++(IRConstInt& a, int);
+
+            /**
+             * @brief DEC operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator--(IRConstInt& a, int);
+
+            /**
+             * @brief NOT operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator!(IRConstInt& a);
+
+            /**
+             * @brief NEG operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator~(IRConstInt& a);
         private:
             //! Value of the integer
             std::uint64_t value;

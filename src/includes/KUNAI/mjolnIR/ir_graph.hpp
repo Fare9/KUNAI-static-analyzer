@@ -93,7 +93,7 @@ namespace KUNAI
              * @brief Get the set of nodes from the current graph.
              * @return Nodes
              */
-            const Nodes& get_nodes() const
+            Nodes& get_nodes()
             {
                 return nodes;
             }
@@ -102,7 +102,7 @@ namespace KUNAI
              * @brief Get the vector with pair of edges.
              * @return Edges
              */
-            const Edges& get_edges() const
+            Edges& get_edges()
             {
                 return edges;
             }
