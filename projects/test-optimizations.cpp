@@ -10,7 +10,7 @@ main()
 
     auto graph = std::make_shared<KUNAI::MJOLNIR::IRGraph>();
 
-    // Create a couple of blocks
+    // Create a block
     auto block1 = std::make_shared<KUNAI::MJOLNIR::IRBlock>();
 
     std::string any_str = "test_passed";
@@ -19,10 +19,10 @@ main()
     auto callee = std::make_shared<KUNAI::MJOLNIR::IRCallee>(0xA, any_str, any_str, 2, any_str, any_str, 0);
 
     auto const_1 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(2, true, KUNAI::MJOLNIR::IRConstInt::LE_ACCESS, "2", 64);
-    auto const_2 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(3, true, KUNAI::MJOLNIR::IRConstInt::LE_ACCESS, "2", 64);
+    auto const_2 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(3, true, KUNAI::MJOLNIR::IRConstInt::LE_ACCESS, "3", 64);
 
-    auto const_3 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(10, false, KUNAI::MJOLNIR::IRConstInt::LE_ACCESS, "2", 64);
-    auto const_4 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(43, false, KUNAI::MJOLNIR::IRConstInt::LE_ACCESS, "2", 64);
+    auto const_3 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(10, false, KUNAI::MJOLNIR::IRConstInt::LE_ACCESS, "10", 64);
+    auto const_4 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(43, false, KUNAI::MJOLNIR::IRConstInt::LE_ACCESS, "43", 64);
 
     auto temp_reg1 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(0x0, any_str, 4);
     auto temp_reg2 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(0x1, any_str, 4);
@@ -40,14 +40,46 @@ main()
     block1->append_statement_to_block(sub_instr);
     block1->append_statement_to_block(and_instr);
     block1->append_statement_to_block(or_instr);
+    block1->set_start_idx(0);
+    block1->set_end_idx(6);
 
     graph->add_node(block1);
+
+    // create another block
+
+    auto block2 = std::make_shared<KUNAI::MJOLNIR::IRBlock>();
+
+    auto temp_reg5 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(0x5, any_str, 4);
+    auto temp_reg6 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(0x6, any_str, 4);
+
+    auto reg1 = std::make_shared<KUNAI::MJOLNIR::IRReg>(0, KUNAI::MJOLNIR::dalvik_arch, "v0", 4);
+    auto reg2 = std::make_shared<KUNAI::MJOLNIR::IRReg>(1, KUNAI::MJOLNIR::dalvik_arch, "v1", 4);
+    
+    auto const_5 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(0, true, KUNAI::MJOLNIR::IRConstInt::LE_ACCESS, "0", 32);
+    auto const_6 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(1, true, KUNAI::MJOLNIR::IRConstInt::LE_ACCESS, "1", 32);
+
+    auto add_reg_zero = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::ADD_OP_T, temp_reg5, reg1, const_5, nullptr, nullptr);
+    auto add_zero_reg = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::ADD_OP_T, temp_reg5,const_5, reg1, nullptr, nullptr);
+
+    auto multiply_reg_one = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::S_MUL_OP_T, temp_reg6, reg2, const_6, nullptr, nullptr);
+    auto multiply_one_reg = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::S_MUL_OP_T, temp_reg6, const_6, reg2, nullptr, nullptr);
+
+    block2->append_statement_to_block(add_reg_zero);
+    block2->append_statement_to_block(add_zero_reg);
+    block2->append_statement_to_block(multiply_reg_one);
+    block2->append_statement_to_block(multiply_one_reg);
+    block2->set_start_idx(7);
+    block2->set_end_idx(11);
+
+    graph->add_node(block2);
+
+    graph->add_edge(block1, block2);
 
     graph->generate_dot_file("no_simplified");
 
     optimizer->run_analysis(graph);
 
-    graph->generate_dominator_tree("simplified");
+    graph->generate_dot_file("simplified");
 
     
 

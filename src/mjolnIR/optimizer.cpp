@@ -13,19 +13,19 @@ namespace KUNAI
             single_statement_optimization.push_back(opt);
         }
 
-        void Optimizer::run_analysis(irgraph_t& func)
+        void Optimizer::run_analysis(irgraph_t &func)
         {
-            auto& blocks = func->get_nodes();
+            auto &blocks = func->get_nodes();
             for (size_t i = 0, blk_size = blocks.size(); i < blk_size; i++)
             {
-                auto& stmnts = blocks[i]->get_statements();
+                auto &stmnts = blocks[i]->get_statements();
 
                 for (size_t j = 0, stmnt_size = stmnts.size(); j < stmnt_size; j++)
                 {
-                    irstmnt_t& final_stmnt = stmnts[j];
+                    irstmnt_t &final_stmnt = stmnts[j];
                     for (auto func : single_statement_optimization)
-                        final_stmnt = (*func)(final_stmnt);       
-                    stmnts[j] = final_stmnt;             
+                        final_stmnt = (*func)(final_stmnt);
+                    stmnts[j] = final_stmnt;
                 }
             }
         }
@@ -44,90 +44,145 @@ namespace KUNAI
                 auto op2 = std::dynamic_pointer_cast<IRStmnt>(bin_op->get_op2());
                 auto bin_op_type = bin_op->get_bin_op_type();
 
-                if (!is_ir_const_int(op1) || !is_ir_const_int(op2))
-                    return instr;
 
-                auto op1_int = std::dynamic_pointer_cast<IRConstInt>(op1);
-                auto op2_int = std::dynamic_pointer_cast<IRConstInt>(op2);
-
-                switch (bin_op_type)
+                // REG = X ADD|SUB|MUL|DIV|MOD|AND|OR|XOR Y --> REG = Const
+                if (is_ir_const_int(op1) && is_ir_const_int(op2))
                 {
-                case IRBinOp::ADD_OP_T:
-                {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int + *op2_int);
+                    auto op1_int = std::dynamic_pointer_cast<IRConstInt>(op1);
+                    auto op2_int = std::dynamic_pointer_cast<IRConstInt>(op2);
 
-                    assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
-                    break;
-                }
-                case IRBinOp::SUB_OP_T:
-                {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int - *op2_int);
+                    switch (bin_op_type)
+                    {
+                    case IRBinOp::ADD_OP_T:
+                    {
+                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int + *op2_int);
 
-                    assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
-                    break;
-                }
-                case IRBinOp::S_MUL_OP_T:
-                case IRBinOp::U_MUL_OP_T:
-                {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int * *op2_int);
+                        assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
+                        break;
+                    }
+                    case IRBinOp::SUB_OP_T:
+                    {
+                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int - *op2_int);
 
-                    assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
-                    break;
-                }
-                case IRBinOp::S_DIV_OP_T:
-                case IRBinOp::U_DIV_OP_T:
-                {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int / *op2_int);
+                        assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
+                        break;
+                    }
+                    case IRBinOp::S_MUL_OP_T:
+                    case IRBinOp::U_MUL_OP_T:
+                    {
+                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int * *op2_int);
 
-                    assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
-                    break;
-                }
-                case IRBinOp::MOD_OP_T:
-                {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int % *op2_int);
+                        assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
+                        break;
+                    }
+                    case IRBinOp::S_DIV_OP_T:
+                    case IRBinOp::U_DIV_OP_T:
+                    {
+                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int / *op2_int);
 
-                    assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
-                    break;
-                }
-                case IRBinOp::AND_OP_T:
-                {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int & *op2_int);
+                        assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
+                        break;
+                    }
+                    case IRBinOp::MOD_OP_T:
+                    {
+                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int % *op2_int);
 
-                    assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
-                    break;
-                }
-                case IRBinOp::OR_OP_T:
-                {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int | *op2_int);
+                        assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
+                        break;
+                    }
+                    case IRBinOp::AND_OP_T:
+                    {
+                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int & *op2_int);
 
-                    assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
-                    break;
-                }
-                case IRBinOp::XOR_OP_T:
-                {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int ^ *op2_int);
+                        assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
+                        break;
+                    }
+                    case IRBinOp::OR_OP_T:
+                    {
+                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int | *op2_int);
 
-                    assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
-                    break;
-                }
-                case IRBinOp::SHL_OP_T:
-                {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int << *op2_int);
+                        assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
+                        break;
+                    }
+                    case IRBinOp::XOR_OP_T:
+                    {
+                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int ^ *op2_int);
 
-                    assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
-                    break;
-                }
-                case IRBinOp::SHR_OP_T:
-                case IRBinOp::USHR_OP_T:
-                {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int >> *op2_int);
+                        assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
+                        break;
+                    }
+                    case IRBinOp::SHL_OP_T:
+                    {
+                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int << *op2_int);
 
-                    assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
-                    break;
+                        assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
+                        break;
+                    }
+                    case IRBinOp::SHR_OP_T:
+                    case IRBinOp::USHR_OP_T:
+                    {
+                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int >> *op2_int);
+
+                        assign = std::make_shared<IRAssign>(dest, const_int, nullptr, nullptr);
+                        break;
+                    }
+                    default:
+                        return instr;
+                    }
                 }
-                default:
-                    return instr;
+
+                if (bin_op_type == IRBinOp::ADD_OP_T)
+                {
+                    // REG = A + 0 --> REG = A                    
+                    if (is_ir_const_int(op2) && std::dynamic_pointer_cast<IRConstInt>(op2)->get_value_unsigned() == 0)
+                    {
+                        assign = std::make_shared<IRAssign>(dest, std::dynamic_pointer_cast<IRExpr>(op1), nullptr, nullptr);
+                        return assign;
+                    }
+                    // REG = 0 + A --> REG = A
+                    if (is_ir_const_int(op1) && std::dynamic_pointer_cast<IRConstInt>(op1)->get_value_unsigned() == 0)
+                    {
+                        assign = std::make_shared<IRAssign>(dest, std::dynamic_pointer_cast<IRExpr>(op2), nullptr, nullptr);
+                        return assign;
+                    }
                 }
+
+                if (bin_op_type == IRBinOp::S_MUL_OP_T || bin_op_type == IRBinOp::U_MUL_OP_T)
+                {
+                    // REG = A * 1 --> REG = A
+                    if (is_ir_const_int(op2) && std::dynamic_pointer_cast<IRConstInt>(op2)->get_value_unsigned() == 1)
+                    {
+                        assign = std::make_shared<IRAssign>(dest, std::dynamic_pointer_cast<IRExpr>(op1), nullptr, nullptr);
+                        return assign;
+                    }
+
+                    // REG = 1 * A --> REG = A
+                    if (is_ir_const_int(op1) && std::dynamic_pointer_cast<IRConstInt>(op1)->get_value_unsigned() == 1)
+                    {
+                        assign = std::make_shared<IRAssign>(dest, std::dynamic_pointer_cast<IRExpr>(op2), nullptr, nullptr);
+                        return assign;
+                    }
+                }
+
+                if (bin_op_type == IRBinOp::SUB_OP_T)
+                {
+                    // REG = A - 0 --> REG = A
+                    if (is_ir_const_int(op2) && std::dynamic_pointer_cast<IRConstInt>(op2)->get_value_unsigned() == 0)
+                    {
+                        assign = std::make_shared<IRAssign>(dest, std::dynamic_pointer_cast<IRExpr>(op1), nullptr, nullptr);
+                        return assign;
+                    }
+
+                    // REG = 0 - A --> REG = -A
+                    if (is_ir_const_int(op1) && std::dynamic_pointer_cast<IRConstInt>(op1)->get_value_unsigned() == 0)
+                    {
+                        assign = std::make_shared<IRUnaryOp>(IRUnaryOp::NEG_OP_T, dest, std::dynamic_pointer_cast<IRExpr>(op2), nullptr, nullptr);
+                        return assign;
+                    }
+
+                }
+
+                return instr;
             }
             else if (is_unary_op(instr))
             {
