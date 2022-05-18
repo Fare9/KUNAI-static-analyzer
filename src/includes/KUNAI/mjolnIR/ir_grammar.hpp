@@ -63,151 +63,157 @@ namespace KUNAI
          * @brief Check if the given statement is an unconditional jump instruction.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irujmp_t or nullptr
          */
-        bool is_unconditional_jump(irstmnt_t& instr);
+        irujmp_t unconditional_jump_ir(irstmnt_t& instr);
 
         using ircjmp_t = std::shared_ptr<IRCJmp>;
         /**
          * @brief Check if the given statement is a conditional jump instruction.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return ircjmp_t or nullptr
          */
-        bool is_conditional_jump(irstmnt_t& instr);
+        ircjmp_t conditional_jump_ir(irstmnt_t& instr);
 
         using irret_t = std::shared_ptr<IRRet>;
         /**
          * @brief Check if given statement is a ret instruction.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irret_t or nullptr
          */
-        bool is_ret(irstmnt_t& instr);
+        irret_t ret_ir(irstmnt_t& instr);
 
         using irnop_t = std::shared_ptr<IRNop>;
         /**
          * @brief Check if given statement is a NOP instruction
          * 
          * @param instr 
-         * @return true 
-         * @return false 
+         * @return irnop_t or nullptr
          */
-        bool is_nop(irstmnt_t& instr);
+        irnop_t nop_ir(irstmnt_t& instr);
 
         using irswitch_t = std::shared_ptr<IRSwitch>;
         /**
          * @brief Check if given statement is a switch instruction.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irswitch_t or nullptr
          */
-        bool is_switch(irstmnt_t& instr);
+        irswitch_t switch_ir(irstmnt_t& instr);
 
         using irexpr_t = std::shared_ptr<IRExpr>;
         /**
          * @brief Check if given statement is an expression instruction.
          * 
          * @param instr 
-         * @return true 
-         * @return false 
+         * @return irexpr_t ornullptr
          */
-        bool is_expr(irstmnt_t& instr);
+        irexpr_t expr_ir(irstmnt_t& instr);
 
         using irbinop_t = std::shared_ptr<IRBinOp>;
         /**
          * @brief Check if given statement is a binary operation.
          * 
          * @param instr 
-         * @return true 
-         * @return false 
+         * @return irbinop_t or nullptr
          */
-        bool is_bin_op(irstmnt_t& instr);
+        irbinop_t bin_op_ir(irstmnt_t& instr);
 
         using irunaryop_t = std::shared_ptr<IRUnaryOp>;
         /**
          * @brief Check if given statement is a unary operation.
          * 
          * @param instr 
-         * @return true 
-         * @return false 
+         * @return irunaryop_t or nullptr
          */
-        bool is_unary_op(irstmnt_t& instr);
+        irunaryop_t unary_op_ir(irstmnt_t& instr);
 
         using irassign_t = std::shared_ptr<IRAssign>;
         /**
          * @brief Check if given statement is an assignment operation.
          * 
          * @param instr 
-         * @return true 
-         * @return false 
+         * @return irassign_t or nullptr
          */
-        bool is_assign(irstmnt_t& instr);
+        irassign_t assign_ir(irstmnt_t& instr);
 
         using ircall_t = std::shared_ptr<IRCall>;
         /**
          * @brief Check if given statement is a call instruction.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return ircall_t or nullptr
          */
-        bool is_call(irstmnt_t& instr);
+        ircall_t call_ir(irstmnt_t& instr);
 
         using irload_t = std::shared_ptr<IRLoad>;
         /**
          * @brief Check if given statement is a load instruction.
          * 
          * @param instr 
-         * @return true 
-         * @return false 
+         * @return irload_t or nullptr
          */
-        bool is_load(irstmnt_t& instr);
+        irload_t load_ir(irstmnt_t& instr);
 
         using irstore_t = std::shared_ptr<IRStore>;
         /**
          * @brief Check if given statement is a store instruction.
          * 
          * @param instr 
+         * @return irstore_t or nullptr
+         */
+        irstore_t store_ir(irstmnt_t& instr);
+
+        using irzcomp_t = std::shared_ptr<IRZComp>;
+
+        /**
+         * @brief Check if given statement is a zero comparison.
+         * 
+         * @param instr 
+         * @return irzcomp_t or nullptr
+         */
+        irzcomp_t zcomp_ir(irstmnt_t& instr);
+
+
+        using irbcomp_t = std::shared_ptr<IRBComp>;
+        
+        /**
+         * @brief Check if given statement is a binary comparison.
+         * 
+         * @param instr 
+         * @return irbcomp_t or nullptr
+         */
+        irbcomp_t bcomp_ir(irstmnt_t& instr);
+
+        /**
+         * @brief Check if the given statements is one of the comparisons.
+         * 
+         * @param instr 
          * @return true 
          * @return false 
          */
-        bool is_store(irstmnt_t& instr);
-
-        using irzcomp_t = std::shared_ptr<IRZComp>;
-        using irbcomp_t = std::shared_ptr<IRBComp>;
-        /**
-         * @brief check if given statement is some kind of comparison.
-         * 
-         * @param instr
-         * @return true
-         * @return false
-         */
         bool is_cmp(irstmnt_t& instr);
+
 
         using irnew_t = std::shared_ptr<IRNew>;
         /**
          * @brief check if given statement is a new statement.
          * 
          * @param instr 
-         * @return true 
-         * @return false 
+         * @return irnew_t or nullptr
          */
-        bool is_new(irstmnt_t& instr);
+        irnew_t new_ir(irstmnt_t& instr);
 
         using irtype_t = std::shared_ptr<IRType>;
         /**
          * @brief Check if given statement is type statement.
          * 
          * @param instr 
-         * @return true 
-         * @return false 
+         * @return irtype_t or nullptr
          */
-        bool is_type(irstmnt_t& instr);
+        irtype_t type_ir(irstmnt_t& instr);
 
         using irreg_t = std::shared_ptr<IRReg>;
         /**
@@ -215,10 +221,9 @@ namespace KUNAI
          *        a register.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irreg_t or nullptr
          */
-        bool is_ir_register(irstmnt_t& instr);
+        irreg_t register_ir(irstmnt_t& instr);
 
 
         using irtempreg_t = std::shared_ptr<IRTempReg>;
@@ -226,10 +231,9 @@ namespace KUNAI
          * @brief Check if a given statement object is a temporal register.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irtempreg_t or nullptr
          */
-        bool is_ir_temp_reg(irstmnt_t& instr);
+        irtempreg_t temp_reg_ir(irstmnt_t& instr);
 
 
         using irconstint_t = std::shared_ptr<IRConstInt>;
@@ -237,10 +241,9 @@ namespace KUNAI
          * @brief Check if given statement object is a constant integer.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irconstint_t or nullptr
          */
-        bool is_ir_const_int(irstmnt_t& instr);
+        irconstint_t const_int_ir(irstmnt_t& instr);
 
 
         using irmemory_t = std::shared_ptr<IRMemory>;
@@ -248,10 +251,9 @@ namespace KUNAI
          * @brief Check if given statement object is a memory.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irmemory_t or nullptr
          */
-        bool is_ir_memory(irstmnt_t& instr);
+        irmemory_t memory_ir(irstmnt_t& instr);
 
 
 
@@ -260,10 +262,9 @@ namespace KUNAI
          * @brief Check if given statement object is a string.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irstring_t or nullptr
          */
-        bool is_ir_string(irstmnt_t& instr);
+        irstring_t string_ir(irstmnt_t& instr);
 
 
         using irclass_t = std::shared_ptr<IRClass>;
@@ -271,10 +272,9 @@ namespace KUNAI
          * @brief Check if given statement object is a class.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irclass_t or nullptr
          */
-        bool is_ir_class(irstmnt_t& instr);
+        irclass_t class_ir(irstmnt_t& instr);
         
         
         using ircallee_t = std::shared_ptr<IRCallee>;
@@ -283,20 +283,18 @@ namespace KUNAI
          *        a callee method/function
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return ircallee_t or nullptr
          */
-        bool is_ir_callee(irstmnt_t& instr);
+        ircallee_t callee_ir(irstmnt_t& instr);
 
         using irfield_t = std::shared_ptr<IRField>;
         /**
          * @brief Check if the given statement is a IRField.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irfield_t or nullptr
          */
-        bool is_ir_field(irstmnt_t& instr);
+        irfield_t field_ir(irstmnt_t& instr);
 
         
 

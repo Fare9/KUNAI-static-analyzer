@@ -35,10 +35,8 @@ namespace KUNAI
             irstmnt_t assign = nullptr;
 
             // Check if the instruction is a binary operation
-            if (is_bin_op(instr))
+            if (auto bin_op = bin_op_ir(instr))
             {
-                auto bin_op = std::dynamic_pointer_cast<IRBinOp>(instr);
-
                 auto dest = bin_op->get_result();
                 auto op1 = std::dynamic_pointer_cast<IRStmnt>(bin_op->get_op1());
                 auto op2 = std::dynamic_pointer_cast<IRStmnt>(bin_op->get_op2());
@@ -46,10 +44,11 @@ namespace KUNAI
 
 
                 // REG = X ADD|SUB|MUL|DIV|MOD|AND|OR|XOR Y --> REG = Const
-                if (is_ir_const_int(op1) && is_ir_const_int(op2))
+                auto op1_int = const_int_ir(op1);
+                auto op2_int = const_int_ir(op2);
+
+                if (op1_int && op2_int)
                 {
-                    auto op1_int = std::dynamic_pointer_cast<IRConstInt>(op1);
-                    auto op2_int = std::dynamic_pointer_cast<IRConstInt>(op2);
 
                     switch (bin_op_type)
                     {
@@ -134,13 +133,13 @@ namespace KUNAI
                 if (bin_op_type == IRBinOp::ADD_OP_T)
                 {
                     // REG = A + 0 --> REG = A                    
-                    if (is_ir_const_int(op2) && std::dynamic_pointer_cast<IRConstInt>(op2)->get_value_unsigned() == 0)
+                    if (op2_int && op2_int->get_value_unsigned() == 0)
                     {
                         assign = std::make_shared<IRAssign>(dest, std::dynamic_pointer_cast<IRExpr>(op1), nullptr, nullptr);
                         return assign;
                     }
                     // REG = 0 + A --> REG = A
-                    if (is_ir_const_int(op1) && std::dynamic_pointer_cast<IRConstInt>(op1)->get_value_unsigned() == 0)
+                    if (op1_int && op1_int->get_value_unsigned() == 0)
                     {
                         assign = std::make_shared<IRAssign>(dest, std::dynamic_pointer_cast<IRExpr>(op2), nullptr, nullptr);
                         return assign;
@@ -150,14 +149,14 @@ namespace KUNAI
                 if (bin_op_type == IRBinOp::S_MUL_OP_T || bin_op_type == IRBinOp::U_MUL_OP_T)
                 {
                     // REG = A * 1 --> REG = A
-                    if (is_ir_const_int(op2) && std::dynamic_pointer_cast<IRConstInt>(op2)->get_value_unsigned() == 1)
+                    if (op2_int && op2_int->get_value_unsigned() == 1)
                     {
                         assign = std::make_shared<IRAssign>(dest, std::dynamic_pointer_cast<IRExpr>(op1), nullptr, nullptr);
                         return assign;
                     }
 
                     // REG = 1 * A --> REG = A
-                    if (is_ir_const_int(op1) && std::dynamic_pointer_cast<IRConstInt>(op1)->get_value_unsigned() == 1)
+                    if (op1_int && op1_int->get_value_unsigned() == 1)
                     {
                         assign = std::make_shared<IRAssign>(dest, std::dynamic_pointer_cast<IRExpr>(op2), nullptr, nullptr);
                         return assign;
@@ -167,14 +166,14 @@ namespace KUNAI
                 if (bin_op_type == IRBinOp::SUB_OP_T)
                 {
                     // REG = A - 0 --> REG = A
-                    if (is_ir_const_int(op2) && std::dynamic_pointer_cast<IRConstInt>(op2)->get_value_unsigned() == 0)
+                    if (op2_int && op2_int->get_value_unsigned() == 0)
                     {
                         assign = std::make_shared<IRAssign>(dest, std::dynamic_pointer_cast<IRExpr>(op1), nullptr, nullptr);
                         return assign;
                     }
 
                     // REG = 0 - A --> REG = -A
-                    if (is_ir_const_int(op1) && std::dynamic_pointer_cast<IRConstInt>(op1)->get_value_unsigned() == 0)
+                    if (op1_int && op1_int->get_value_unsigned() == 0)
                     {
                         assign = std::make_shared<IRUnaryOp>(IRUnaryOp::NEG_OP_T, dest, std::dynamic_pointer_cast<IRExpr>(op2), nullptr, nullptr);
                         return assign;
@@ -184,18 +183,16 @@ namespace KUNAI
 
                 return instr;
             }
-            else if (is_unary_op(instr))
+            else if (auto unary_op = unary_op_ir(instr))
             {
-                auto unary_op = std::dynamic_pointer_cast<IRUnaryOp>(instr);
-
                 auto dest = unary_op->get_result();
                 auto op1 = std::dynamic_pointer_cast<IRStmnt>(unary_op->get_op());
                 auto unary_op_type = unary_op->get_unary_op_type();
 
-                if (!is_ir_const_int(op1))
-                    return instr;
-
                 auto op1_int = std::dynamic_pointer_cast<IRConstInt>(op1);
+
+                if (!op1_int)
+                    return instr;
 
                 switch (unary_op_type)
                 {
@@ -245,7 +242,7 @@ namespace KUNAI
 
                 auto last_inst = node->get_statements().back();
 
-                if (MJOLNIR::is_conditional_jump(last_inst) || MJOLNIR::is_unconditional_jump(last_inst) || MJOLNIR::is_ret(last_inst))
+                if (MJOLNIR::conditional_jump_ir(last_inst) || MJOLNIR::unconditional_jump_ir(last_inst) || MJOLNIR::ret_ir(last_inst))
                     continue;
 
                 for (auto aux : nodes)

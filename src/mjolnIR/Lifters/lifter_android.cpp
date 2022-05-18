@@ -81,9 +81,8 @@ namespace KUNAI
 
                     auto last_instr = bb->get_statements().back();
 
-                    if (MJOLNIR::is_call(last_instr))
+                    if (auto ir_call = MJOLNIR::call_ir(last_instr))
                     {
-                        auto ir_call = std::dynamic_pointer_cast<MJOLNIR::IRCall>(last_instr);
                         auto move_result = std::dynamic_pointer_cast<DEX::Instruction11x>(instruction);
                         ir_call->set_ret_val(make_android_register(move_result->get_destination()));
                     }
@@ -1690,20 +1689,16 @@ namespace KUNAI
                 // now set some interesting stuff for instructions.
                 auto last_instr = current_bb->get_statements().back();
 
-                if (MJOLNIR::is_unconditional_jump(last_instr))
+                if (auto jmp = MJOLNIR::unconditional_jump_ir(last_instr))
                 {
-                    auto jmp = std::dynamic_pointer_cast<MJOLNIR::IRUJmp>(last_instr);
-
                     if (next_bbs.size() == 1)
                     {
                         auto block = std::get<2>(next_bbs[0]);
                         jmp->set_jump_target(lifted_blocks[block]);
                     }
                 }
-                else if (MJOLNIR::is_conditional_jump(last_instr))
+                else if (auto jcc = MJOLNIR::conditional_jump_ir(last_instr))
                 {
-                    auto jcc = std::dynamic_pointer_cast<MJOLNIR::IRCJmp>(last_instr);
-
                     if (next_bbs.size() == 2)
                     {
                         auto bb1 = std::get<2>(next_bbs[0]);
@@ -1720,10 +1715,6 @@ namespace KUNAI
                             jcc->set_fallthrough_Target(lifted_blocks[bb1]);
                         }
                     }
-                }
-                else if (MJOLNIR::is_switch(last_instr))
-                {
-                    auto switch_instr = std::dynamic_pointer_cast<MJOLNIR::IRSwitch>(last_instr);
                 }
             }
         }

@@ -14,6 +14,7 @@
 
 #include "utils.hpp"
 #include "ir_graph.hpp"
+#include "ir_grammar.hpp"
 
 namespace KUNAI
 {

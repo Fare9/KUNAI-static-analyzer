@@ -674,7 +674,7 @@ namespace KUNAI
                 // check all instructions
                 for (auto stmnt : statements)
                 {
-                    if (is_ret(stmnt))
+                    if (ret_ir(stmnt))
                     {
                         P += 1;
                         break;
