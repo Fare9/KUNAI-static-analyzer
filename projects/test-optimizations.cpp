@@ -29,10 +29,10 @@ main()
     auto temp_reg3 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(0x2, any_str, 4);
     auto temp_reg4 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(0x4, any_str, 4);
 
-    auto add_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::ADD_OP_T, temp_reg1, const_1, const_2, nullptr, nullptr);
-    auto sub_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::SUB_OP_T, temp_reg2, const_1, const_2, nullptr, nullptr);
-    auto and_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::AND_OP_T, temp_reg3, const_3, const_4, nullptr, nullptr);
-    auto or_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::XOR_OP_T, temp_reg4, const_3, const_4, nullptr, nullptr);
+    auto add_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::ADD_OP_T, temp_reg1, const_1, const_2);
+    auto sub_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::SUB_OP_T, temp_reg2, const_1, const_2);
+    auto and_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::AND_OP_T, temp_reg3, const_3, const_4);
+    auto or_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::XOR_OP_T, temp_reg4, const_3, const_4);
 
     block1->append_statement_to_block(nop);
     block1->append_statement_to_block(callee);
@@ -58,11 +58,11 @@ main()
     auto const_5 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(0, true, KUNAI::MJOLNIR::IRConstInt::LE_ACCESS, "0", 32);
     auto const_6 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(1, true, KUNAI::MJOLNIR::IRConstInt::LE_ACCESS, "1", 32);
 
-    auto add_reg_zero = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::ADD_OP_T, temp_reg5, reg1, const_5, nullptr, nullptr);
-    auto add_zero_reg = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::ADD_OP_T, temp_reg5,const_5, reg1, nullptr, nullptr);
+    auto add_reg_zero = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::ADD_OP_T, temp_reg5, reg1, const_5);
+    auto add_zero_reg = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::ADD_OP_T, temp_reg5,const_5, reg1);
 
-    auto multiply_reg_one = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::S_MUL_OP_T, temp_reg6, reg2, const_6, nullptr, nullptr);
-    auto multiply_one_reg = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::S_MUL_OP_T, temp_reg6, const_6, reg2, nullptr, nullptr);
+    auto multiply_reg_one = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::S_MUL_OP_T, temp_reg6, reg2, const_6);
+    auto multiply_one_reg = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::S_MUL_OP_T, temp_reg6, const_6, reg2);
 
     block2->append_statement_to_block(add_reg_zero);
     block2->append_statement_to_block(add_zero_reg);

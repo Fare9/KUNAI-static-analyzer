@@ -130,7 +130,7 @@ namespace KUNAI
                 auto dest_reg = make_android_register(dest);
                 auto src_reg = make_android_register(src);
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_reg, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_reg);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -149,7 +149,7 @@ namespace KUNAI
                 auto dest_reg = make_android_register(dest);
                 auto src_reg = make_android_register(src);
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_reg, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_reg);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -169,7 +169,7 @@ namespace KUNAI
                 auto dest_reg = make_android_register(dest);
                 auto src_reg = make_android_register(src);
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_reg, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_reg);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -187,7 +187,7 @@ namespace KUNAI
                 auto dest_reg = make_android_register(dest);
                 auto src_int = make_int(src, true, NIBBLE_S);
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_int, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_int);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -206,7 +206,7 @@ namespace KUNAI
                 auto dest_reg = make_android_register(dest);
                 auto src_int = make_int(src, true, WORD_S);
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_int, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_int);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -225,7 +225,7 @@ namespace KUNAI
                 auto dest_reg = make_android_register(dest);
                 auto src_int = make_int(src, true, DWORD_S);
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_int, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_int);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -249,7 +249,7 @@ namespace KUNAI
                 else if (op_code == DEX::DVMTypes::Opcode::OP_CONST_WIDE_HIGH16)
                     src_int = make_int(src << 48, true, QWORD_S);
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_int, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_int);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -267,7 +267,7 @@ namespace KUNAI
                 auto dest_reg = make_android_register(dest);
                 auto src_int = make_int(src, true, QWORD_S);
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_int, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_int);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -284,7 +284,7 @@ namespace KUNAI
 
                 auto src = make_str(*instr->get_source_str());
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -307,7 +307,7 @@ namespace KUNAI
                 auto src_class = std::dynamic_pointer_cast<DEX::Class>(instr->get_source_typeid());
                 auto src = make_class(src_class);
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -336,49 +336,49 @@ namespace KUNAI
                 {
                     logger->error("Not implemented DEX::DVMTypes::METH yet");
                     auto src = make_none_type();
-                    assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src, nullptr, nullptr);
+                    assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src);
                     break;
                 }
                 case DEX::DVMTypes::STRING:
                 {
                     auto src = make_str(*instr->get_source_str());
-                    assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src, nullptr, nullptr);
+                    assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src);
                     break;
                 }
                 case DEX::DVMTypes::TYPE:
                 {
                     logger->error("Not implemented DEX::DVMTypes::TYPE yet");
                     auto src = make_none_type();
-                    assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src, nullptr, nullptr);
+                    assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src);
                     break;
                 }
                 case DEX::DVMTypes::FIELD:
                 {
                     auto src = make_field(instr->get_source_static_field());
-                    assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src, nullptr, nullptr);
+                    assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src);
 
                     switch (src->get_type())
                     {
                     case MJOLNIR::IRField::BOOLEAN_F:
-                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_BOOLEAN, dest_reg, dest_reg, nullptr, nullptr);
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_BOOLEAN, dest_reg, dest_reg);
                         break;
                     case MJOLNIR::IRField::BYTE_F:
-                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_BYTE, dest_reg, dest_reg, nullptr, nullptr);
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_BYTE, dest_reg, dest_reg);
                         break;
                     case MJOLNIR::IRField::CHAR_F:
-                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_CHAR, dest_reg, dest_reg, nullptr, nullptr);
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_CHAR, dest_reg, dest_reg);
                         break;
                     case MJOLNIR::IRField::SHORT_F:
-                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_SHORT, dest_reg, dest_reg, nullptr, nullptr);
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_SHORT, dest_reg, dest_reg);
                         break;
                     case MJOLNIR::IRField::INT_F:
-                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_INT, dest_reg, dest_reg, nullptr, nullptr);
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_INT, dest_reg, dest_reg);
                         break;
                     case MJOLNIR::IRField::DOUBLE_F:
-                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, dest_reg, dest_reg, nullptr, nullptr);
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, dest_reg, dest_reg);
                         break;
                     case MJOLNIR::IRField::CLASS_F:
-                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg, nullptr, nullptr);
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg);
                         break;
                     } // src->get_type()
 
@@ -388,7 +388,7 @@ namespace KUNAI
                 {
                     logger->error("Not implemented DEX::DVMTypes::PROTO yet");
                     auto src = make_none_type();
-                    assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src, nullptr, nullptr);
+                    assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src);
                     break;
                 }
                 }
@@ -422,7 +422,7 @@ namespace KUNAI
 
                 auto dst = make_field(instr->get_source_static_field());
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dst, src_reg, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dst, src_reg);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -438,7 +438,7 @@ namespace KUNAI
                 auto dest_reg = make_android_register(dest);
 
                 auto src = make_str(*instr->get_source_str());
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -460,30 +460,30 @@ namespace KUNAI
                 auto dest_reg = make_android_register(instr->get_first_operand());
                 auto src_field = make_field(instr->get_third_operand_FieldId());
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_field, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src_field);
 
                 switch (src_field->get_type())
                 {
                 case MJOLNIR::IRField::BOOLEAN_F:
-                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_BOOLEAN, dest_reg, dest_reg, nullptr, nullptr);
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_BOOLEAN, dest_reg, dest_reg);
                     break;
                 case MJOLNIR::IRField::BYTE_F:
-                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_BYTE, dest_reg, dest_reg, nullptr, nullptr);
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_BYTE, dest_reg, dest_reg);
                     break;
                 case MJOLNIR::IRField::CHAR_F:
-                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_CHAR, dest_reg, dest_reg, nullptr, nullptr);
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_CHAR, dest_reg, dest_reg);
                     break;
                 case MJOLNIR::IRField::SHORT_F:
-                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_SHORT, dest_reg, dest_reg, nullptr, nullptr);
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_SHORT, dest_reg, dest_reg);
                     break;
                 case MJOLNIR::IRField::INT_F:
-                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_INT, dest_reg, dest_reg, nullptr, nullptr);
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_INT, dest_reg, dest_reg);
                     break;
                 case MJOLNIR::IRField::DOUBLE_F:
-                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, dest_reg, dest_reg, nullptr, nullptr);
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, dest_reg, dest_reg);
                     break;
                 case MJOLNIR::IRField::CLASS_F:
-                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg, nullptr, nullptr);
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg);
                     break;
                 } // src_field->get_type()
 
@@ -509,7 +509,7 @@ namespace KUNAI
                 auto src_reg = make_android_register(instr->get_first_operand());
                 auto dst_field = make_field(instr->get_third_operand_FieldId());
 
-                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dst_field, src_reg, nullptr, nullptr);
+                assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dst_field, src_reg);
 
                 bb->append_statement_to_block(assignment_instr);
 
@@ -1130,7 +1130,7 @@ namespace KUNAI
                 }
 
                 callee = std::make_shared<MJOLNIR::IRCallee>(0, method_name, class_name, p_size, proto, class_name + "->" + method_name + proto, ADDR_S);
-                call = std::make_shared<MJOLNIR::IRCall>(callee, call_type, parameters, nullptr, nullptr);
+                call = std::make_shared<MJOLNIR::IRCall>(callee, call_type, parameters);
 
                 bb->append_statement_to_block(call);
 
@@ -1172,7 +1172,7 @@ namespace KUNAI
                 }
 
                 callee = std::make_shared<MJOLNIR::IRCallee>(0, method_name, class_name, p_size, proto, class_name + "->" + method_name + proto, ADDR_S);
-                call = std::make_shared<MJOLNIR::IRCall>(callee, call_type, parameters, nullptr, nullptr);
+                call = std::make_shared<MJOLNIR::IRCall>(callee, call_type, parameters);
 
                 bb->append_statement_to_block(call);
 
@@ -1259,7 +1259,7 @@ namespace KUNAI
 
                 auto class_ = make_class(std::dynamic_pointer_cast<DEX::Class>(instr->get_source_typeid()));
 
-                new_instr = std::make_shared<MJOLNIR::IRNew>(dst_reg, class_, nullptr, nullptr);
+                new_instr = std::make_shared<MJOLNIR::IRNew>(dst_reg, class_);
 
                 bb->append_statement_to_block(new_instr);
 
@@ -1337,8 +1337,8 @@ namespace KUNAI
             auto src1_reg = make_android_register(src1);
             auto src2_reg = make_android_register(src2);
 
-            arith_logc_instr = std::make_shared<MJOLNIR::IRBinOp>(bin_op, dest_reg, src1_reg, src2_reg, nullptr, nullptr);
-            cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dest_reg, dest_reg, nullptr, nullptr);
+            arith_logc_instr = std::make_shared<MJOLNIR::IRBinOp>(bin_op, dest_reg, src1_reg, src2_reg);
+            cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dest_reg, dest_reg);
 
             bb->append_statement_to_block(arith_logc_instr);
             bb->append_statement_to_block(cast_instr);
@@ -1360,8 +1360,8 @@ namespace KUNAI
             auto dest_reg = make_android_register(dest);
             auto src_reg = make_android_register(src);
 
-            arith_logc_instr = std::make_shared<MJOLNIR::IRBinOp>(bin_op, dest_reg, dest_reg, src_reg, nullptr, nullptr);
-            cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dest_reg, dest_reg, nullptr, nullptr);
+            arith_logc_instr = std::make_shared<MJOLNIR::IRBinOp>(bin_op, dest_reg, dest_reg, src_reg);
+            cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dest_reg, dest_reg);
 
             bb->append_statement_to_block(arith_logc_instr);
             bb->append_statement_to_block(cast_instr);
@@ -1385,8 +1385,8 @@ namespace KUNAI
             auto src1_reg = make_android_register(src1);
             auto src2_num = make_int(src2, true, WORD_S);
 
-            arith_logc_instr = std::make_shared<MJOLNIR::IRBinOp>(bin_op, dest_reg, src1_reg, src2_num, nullptr, nullptr);
-            cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dest_reg, dest_reg, nullptr, nullptr);
+            arith_logc_instr = std::make_shared<MJOLNIR::IRBinOp>(bin_op, dest_reg, src1_reg, src2_num);
+            cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dest_reg, dest_reg);
 
             bb->append_statement_to_block(arith_logc_instr);
             bb->append_statement_to_block(cast_instr);
@@ -1410,8 +1410,8 @@ namespace KUNAI
             auto src1_reg = make_android_register(src1);
             auto src2_num = make_int(src2, true, BYTE_S);
 
-            arith_logc_instr = std::make_shared<MJOLNIR::IRBinOp>(bin_op, dest_reg, src1_reg, src2_num, nullptr, nullptr);
-            cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dest_reg, dest_reg, nullptr, nullptr);
+            arith_logc_instr = std::make_shared<MJOLNIR::IRBinOp>(bin_op, dest_reg, src1_reg, src2_num);
+            cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dest_reg, dest_reg);
 
             bb->append_statement_to_block(arith_logc_instr);
             bb->append_statement_to_block(cast_instr);
@@ -1434,9 +1434,9 @@ namespace KUNAI
             auto src_reg = make_android_register(src);
 
             if (unary_op != MJOLNIR::IRUnaryOp::NONE_UNARY_OP_T)
-                arith_logc_instr = std::make_shared<MJOLNIR::IRUnaryOp>(unary_op, dest_reg, src_reg, nullptr, nullptr);
+                arith_logc_instr = std::make_shared<MJOLNIR::IRUnaryOp>(unary_op, dest_reg, src_reg);
 
-            cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dest_reg, dest_reg, nullptr, nullptr);
+            cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dest_reg, dest_reg);
 
             if (unary_op != MJOLNIR::IRUnaryOp::NONE_UNARY_OP_T)
                 bb->append_statement_to_block(arith_logc_instr);
@@ -1457,10 +1457,10 @@ namespace KUNAI
             auto reg2 = make_android_register(instr->get_second_source());
             auto result = make_android_register(instr->get_destination());
 
-            auto cast1 = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, reg1, reg1, nullptr, nullptr);
-            auto cast2 = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, reg2, reg2, nullptr, nullptr);
+            auto cast1 = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, reg1, reg1);
+            auto cast2 = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, reg2, reg2);
 
-            ir_comp = std::make_shared<MJOLNIR::IRBComp>(comparison, result, reg1, reg2, nullptr, nullptr);
+            ir_comp = std::make_shared<MJOLNIR::IRBComp>(comparison, result, reg1, reg2);
 
             bb->append_statement_to_block(cast1);
             bb->append_statement_to_block(cast2);
@@ -1480,7 +1480,7 @@ namespace KUNAI
 
             uint64_t target = current_idx + (instr->get_ref() * 2);
 
-            auto bcomp = std::make_shared<MJOLNIR::IRBComp>(comparison, temp_reg, reg1, reg2, nullptr, nullptr);
+            auto bcomp = std::make_shared<MJOLNIR::IRBComp>(comparison, temp_reg, reg1, reg2);
             auto ir_cond = std::make_shared<MJOLNIR::IRCJmp>(target, temp_reg, nullptr, nullptr);
 
             bb->append_statement_to_block(bcomp);
@@ -1497,7 +1497,7 @@ namespace KUNAI
 
             uint64_t target = current_idx + (instr->get_ref() * 2);
 
-            auto zcomp = std::make_shared<MJOLNIR::IRZComp>(comparison, temp_reg, reg, nullptr, nullptr);
+            auto zcomp = std::make_shared<MJOLNIR::IRZComp>(comparison, temp_reg, reg);
             auto ir_cond = std::make_shared<MJOLNIR::IRCJmp>(target, temp_reg, nullptr, nullptr);
 
             bb->append_statement_to_block(zcomp);
@@ -1516,12 +1516,12 @@ namespace KUNAI
             auto source = make_android_register(inst->get_first_source());
             auto index = make_android_register(inst->get_second_source());
 
-            load_instr = std::make_shared<MJOLNIR::IRLoad>(dst, source, index, size, nullptr, nullptr);
+            load_instr = std::make_shared<MJOLNIR::IRLoad>(dst, source, index, size);
             bb->append_statement_to_block(load_instr);
 
             if (cast_type != MJOLNIR::IRUnaryOp::NONE_CAST)
             {
-                cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dst, dst, nullptr, nullptr);
+                cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, cast_type, dst, dst);
                 bb->append_statement_to_block(cast_instr);
             }
         }
@@ -1536,7 +1536,7 @@ namespace KUNAI
             auto source = make_android_register(inst->get_first_source());
             auto index = make_android_register(inst->get_second_source());
 
-            store_instr = std::make_shared<MJOLNIR::IRStore>(dst, source, index, size, nullptr, nullptr);
+            store_instr = std::make_shared<MJOLNIR::IRStore>(dst, source, index, size);
             bb->append_statement_to_block(store_instr);
         }
 

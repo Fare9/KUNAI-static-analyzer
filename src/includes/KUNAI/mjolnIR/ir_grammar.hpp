@@ -751,12 +751,10 @@ namespace KUNAI
 
             /**
              * @brief Constructor of IRExpr this will be the most common type of instruction of the IR.
+             * 
              * @param type: type of the expression (type of the instruction).
-             * @param left: left expression for the AST.
-             * @param right: right expression for the AST.
-             * @return void
              */
-            IRExpr(expr_type_t type, irexpr_t left, irexpr_t right);
+            IRExpr(expr_type_t type);
 
             /**
              * @brief Destructor of IRExpr, nothing to be done.
@@ -765,39 +763,96 @@ namespace KUNAI
             ~IRExpr() = default;
 
             /**
-             * @brief Set the left expression (for the AST).
-             * @param left: left part of expression for the AST.
+             * @brief Get the use-def chain from the result object.
+             * 
+             * @return std::vector<irexpr_t&>& 
              */
-            void set_left_expr(irexpr_t left)
+            const std::vector<irexpr_t>& get_use_def_chain() const
             {
-                this->left = left;
+                return use_def_chain;
             }
 
             /**
-             * @brief Set the right expression (for the AST).
-             * @param left: right part of expression for the AST.
+             * @brief Get the def-use chain of the operand1 (if exists)
+             * 
+             * @return const std::vector<irexpr_t&>& 
              */
-            void set_right_expr(irexpr_t right)
+            const std::vector<irexpr_t>& get_op1_def_use_chain() const
             {
-                this->right = right;
+                return def_use_chain_op1;
             }
 
             /**
-             * @brief Get the left expression (from the AST)
-             * @return irexpr_t
+             * @brief Get the def-use chain of the operand2 (if exists)
+             * 
+             * @return const std::vector<irexpr_t&>& 
              */
-            irexpr_t get_left_expr()
+            const std::vector<irexpr_t>& get_op2_def_use_chain() const
             {
-                return left;
+                return def_use_chain_op2;
             }
 
             /**
-             * @brief Get the right expression (from the AST)
-             * @return irexpr_t
+             * @brief Add instruction to use_def_chain
+             * 
+             * @param instr 
              */
-            irexpr_t get_right_expr()
+            void add_instr_to_use_def_chain(irexpr_t instr)
             {
-                return right;
+                use_def_chain.push_back(instr);
+            }
+
+            /**
+             * @brief Add instruction to op1 def_use_chain
+             * 
+             * @param instr 
+             */
+            void add_instr_to_op1_def_use_chain(irexpr_t instr)
+            {
+                def_use_chain_op1.push_back(instr);
+            }
+
+            /**
+             * @brief Add instruction to op2 def_use_chain
+             * 
+             * @param instr 
+             */
+            void add_instr_to_op2_def_use_chain(irexpr_t instr)
+            {
+                def_use_chain_op2.push_back(instr);
+            }
+
+            /**
+             * @brief Invalidate the use_def and def_use chains
+             * 
+             */
+            void invalidate_chains();
+
+            /**
+             * @brief Invalidate the use_def_chain clearing the vector.
+             * 
+             */
+            void invalidate_use_def_chain()
+            {
+                use_def_chain.clear();
+            }
+
+            /**
+             * @brief Invalidate the op1 def_use_chain
+             * 
+             */
+            void invalidate_op1_def_use_chain()
+            {
+                def_use_chain_op1.clear();
+            }
+            
+            /**
+             * @brief Invalidate the op2 def_use_chain
+             * 
+             */
+            void invalidate_op2_def_use_chain()
+            {
+                def_use_chain_op2.clear();
             }
 
             /**
@@ -831,10 +886,10 @@ namespace KUNAI
             friend bool operator==(IRExpr &, IRExpr &);
 
         private:
-            //! pointers used for the abstract syntax tree
-            //! these pointers are common in the IRExpr.
-            irexpr_t left;
-            irexpr_t right;
+            //! Vectors used for use-def and def-use chains
+            std::vector<irexpr_t> use_def_chain;
+            std::vector<irexpr_t> def_use_chain_op1;
+            std::vector<irexpr_t> def_use_chain_op2;
 
             //! ir expression as string
             std::string ir_expr_str;
@@ -871,16 +926,11 @@ namespace KUNAI
              * @param result: where result of operation is stored.
              * @param op1: first operand of the operation.
              * @param op2: second operand of the operation.
-             * @param left: left expression for the AST.
-             * @param right: right expression for the AST.
-             * @return void
              */
             IRBinOp(bin_op_t bin_op_type,
                     irexpr_t result,
                     irexpr_t op1,
-                    irexpr_t op2,
-                    irexpr_t left,
-                    irexpr_t right);
+                    irexpr_t op2);
 
             /**
              * @brief Destructor of IRBinOp.
@@ -991,15 +1041,10 @@ namespace KUNAI
              * @param unary_op_type: type of unary operation.
              * @param result: where the operation stores the result.
              * @param op: operand from the instruction.
-             * @param left: left expression for the AST.
-             * @param right: right expression for the AST.
-             * @return void
              */
             IRUnaryOp(unary_op_t unary_op_type,
                       irexpr_t result,
-                      irexpr_t op,
-                      irexpr_t left,
-                      irexpr_t right);
+                      irexpr_t op);
 
             /**
              * @brief Constructor of IRUnaryOp class, this will get different values for the instruction.
@@ -1007,16 +1052,11 @@ namespace KUNAI
              * @param cast_type: instruction is cast, specify type of cast.
              * @param result: where the operation stores the result.
              * @param op: operand from the instruction.
-             * @param left: left expression for the AST.
-             * @param right: right expression for the AST.
-             * @return void
              */
             IRUnaryOp(unary_op_t unary_op_type,
                       cast_type_t cast_type,
                       irexpr_t result,
-                      irexpr_t op,
-                      irexpr_t left,
-                      irexpr_t right);
+                      irexpr_t op);
 
             /**
              * @brief  Constructor of IRUnaryOp class, this will get different values for the instruction.
@@ -1026,17 +1066,13 @@ namespace KUNAI
              * @param class_name: if cast is TO_CLASS, specify the name of the class.
              * @param result: where the operation stores the result.
              * @param op: operand from the instruction.
-             * @param left: left expression for the AST.
-             * @param right: right expression for the AST.
              * @return void
              */
             IRUnaryOp(unary_op_t unary_op_type,
                       cast_type_t cast_type,
                       std::string class_name,
                       irexpr_t result,
-                      irexpr_t op,
-                      irexpr_t left,
-                      irexpr_t right);
+                      irexpr_t op);
 
             /**
              * @brief Destructor of IRUnaryOp class, nothing to be done.
@@ -1138,19 +1174,15 @@ namespace KUNAI
         class IRAssign : public IRExpr
         {
         public:
+
             /**
              * @brief Constructor of IRAssign, this one will have just those from the basic types,
              *        no more information is needed, the left part and the right part.
              * @param destination: type where the value will be assigned.
              * @param source: type from where the value is taken.
-             * @param left: left part of the assignment (also used for AST).
-             * @param right: right part of the assignment (also used for AST).
-             * @return void
              */
             IRAssign(irexpr_t destination,
-                     irexpr_t source,
-                     irexpr_t left,
-                     irexpr_t right);
+                     irexpr_t source);
 
             /**
              * @brief Destructor of IRAssign, nothing to be done here.
@@ -1219,28 +1251,19 @@ namespace KUNAI
              * @brief Constructor of IRCall, this expression represents a Call to a function or method.
              * @param callee: function/method called represented as IRExpr (super-super-class of IRCallee).
              * @param args: vector of arguments to the function/method.
-             * @param left: left part of the call (used for AST).
-             * @param right: right part of the call (used for AST).
-             * @return void
              */
             IRCall(irexpr_t callee,
-                   std::vector<irexpr_t> args,
-                   irexpr_t left,
-                   irexpr_t right);
+                   std::vector<irexpr_t> args);
 
             /**
              * @brief Constructor of IRCall, this expression represents a Call to a function or method.
              * @param callee: function/method called represented as IRExpr (super-super-class of IRCallee).
              * @param call_type: type of call instruction.
              * @param args: vector of arguments to the function/method.
-             * @param left: left part of the call (used for AST).
-             * @param right: right part of the call (used for AST).
              */
             IRCall(irexpr_t callee,
                    call_type_t call_type,
-                   std::vector<irexpr_t> args,
-                   irexpr_t left,
-                   irexpr_t right);
+                   std::vector<irexpr_t> args);
 
             /**
              * @brief Destructor of IRCall, nothing to be done.
@@ -1326,15 +1349,11 @@ namespace KUNAI
              * @param destination: register where the value will be stored.
              * @param source: expression from where the memory will be retrieved.
              * @param size: loaded size.
-             * @param left: left part of the load (used for AST).
-             * @param right: right part of the load (used for AST).
              * @return void
              */
             IRLoad(irexpr_t destination,
                    irexpr_t source,
-                   std::uint32_t size,
-                   irexpr_t left,
-                   irexpr_t right);
+                   std::uint32_t size);
 
             /**
              * @brief Constructor of IRLoad class, this class represent a load from memory (using memory or using register).
@@ -1342,16 +1361,12 @@ namespace KUNAI
              * @param source: expression from where the memory will be retrieved.
              * @param index: index from the load if this is referenced with an index.
              * @param size: loaded size.
-             * @param left: left part of the load (used for AST).
-             * @param right: right part of the load (used for AST).
              * @return void
              */
             IRLoad(irexpr_t destination,
                    irexpr_t source,
                    irexpr_t index,
-                   std::uint32_t size,
-                   irexpr_t left,
-                   irexpr_t right);
+                   std::uint32_t size);
 
             /**
              * @brief Destructor of IRLoad, nothing to be done.
@@ -1436,15 +1451,11 @@ namespace KUNAI
              * @param destination: Expression where value is written to.
              * @param source: register with the value to be stored.
              * @param size: size of the stored value.
-             * @param left: left part of the store (used for AST).
-             * @param right: right part of the store (used for AST).
              * @return void
              */
             IRStore(irexpr_t destination,
                     irexpr_t source,
-                    std::uint32_t size,
-                    irexpr_t left,
-                    irexpr_t right);
+                    std::uint32_t size);
 
             /**
              * @brief Constructor of IRStore class, this represent an store to memory instruction.
@@ -1452,16 +1463,12 @@ namespace KUNAI
              * @param source: register with the value to be stored.
              * @param index: index where value is stored.
              * @param size: size of the stored value.
-             * @param left: left part of the store (used for AST).
-             * @param right: right part of the store (used for AST).
              * @return void
              */
             IRStore(irexpr_t destination,
                     irexpr_t source,
                     irexpr_t index,
-                    std::uint32_t size,
-                    irexpr_t left,
-                    irexpr_t right);
+                    std::uint32_t size);
 
             /**
              * @brief Destructor of IRStore class, nothing to be done.
@@ -1546,15 +1553,11 @@ namespace KUNAI
              * @param comp: type of comparison (== or !=).
              * @param result: register or temporal register where result is stored.
              * @param reg: register used in the comparison.
-             * @param left: left part of the zero comparison (used for AST).
-             * @param right: right part of the zero comparison (used for AST).
              * @return void
              */
             IRZComp(zero_comp_t comp,
                     irexpr_t result,
-                    irexpr_t reg,
-                    irexpr_t left,
-                    irexpr_t right);
+                    irexpr_t reg);
 
             /**
              * @brief Destructor of IRZComp, nothing to be done.
@@ -1642,16 +1645,12 @@ namespace KUNAI
              * @param result: register or temporal register where result is stored.
              * @param reg1: first type where the comparison is applied.
              * @param reg2: second type where the comparison is applied.
-             * @param left: left part of the comparison (used for AST).
-             * @param right: right part of the comparison (used for AST).
              * @return void
              */
             IRBComp(comp_t comp,
                     irexpr_t result,
                     irexpr_t reg1,
-                    irexpr_t reg2,
-                    irexpr_t left,
-                    irexpr_t right);
+                    irexpr_t reg2);
 
             /**
              * @brief Destructor of IRBComp, nothing to be done.
@@ -1736,14 +1735,10 @@ namespace KUNAI
              *
              * @param result: result register where object is stored.
              * @param class_instance: IRClass object which represent the instance.
-             * @param left: left part of the comparison (used for AST).
-             * @param right: right part of the comparison (used for AST).
              * @return void
              */
             IRNew(irexpr_t result,
-                  irexpr_t class_instance,
-                  irexpr_t left,
-                  irexpr_t right);
+                  irexpr_t class_instance);
 
             /**
              * @brief Destroy the IRNew::IRNew object

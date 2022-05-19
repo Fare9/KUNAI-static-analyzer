@@ -8,7 +8,7 @@ namespace KUNAI
          * IRType class.
          */
 
-        IRType::IRType(type_t type, std::string type_name, size_t type_size) : IRExpr(IRExpr::TYPE_EXPR_T, nullptr, nullptr),
+        IRType::IRType(type_t type, std::string type_name, size_t type_size) : IRExpr(IRExpr::TYPE_EXPR_T),
                                                                                type(type),
                                                                                type_name(type_name),
                                                                                type_size(type_size),
