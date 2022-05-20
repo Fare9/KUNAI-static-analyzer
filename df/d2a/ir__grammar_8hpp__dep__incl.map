@@ -1,5 +1,6 @@
 <map id="src/includes/KUNAI/mjolnIR/ir_grammar.hpp" name="src/includes/KUNAI/mjolnIR/ir_grammar.hpp">
-<area shape="rect" id="node1" title="Header file which includes all the grammar of the IR, this will be used as header file by all the int..." alt="" coords="5,5,168,47"/>
-<area shape="rect" id="node2" href="$d0/d75/ir__graph_8hpp.html" title="DiGraph class from miasm implemented in C++ using the classes from MjolnIR, some of basic graph analy..." alt="" coords="15,95,159,136"/>
-<area shape="rect" id="node3" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="17,184,157,240"/>
+<area shape="rect" id="node1" title="Header file which includes all the grammar of the IR, this will be used as header file by all the int..." alt="" coords="51,5,213,47"/>
+<area shape="rect" id="node2" href="$d0/d75/ir__graph_8hpp.html" title="DiGraph class from miasm implemented in C++ using the classes from MjolnIR, some of basic graph analy..." alt="" coords="5,95,149,136"/>
+<area shape="rect" id="node3" href="$d8/d39/optimizer_8hpp.html" title="Class for applying optimization passes to IR, working in IR we will be able to create more generic op..." alt="" coords="57,184,207,225"/>
+<area shape="rect" id="node4" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="62,273,202,329"/>
 </map>

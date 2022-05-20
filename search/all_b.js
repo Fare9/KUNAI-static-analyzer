@@ -1,11 +1,10 @@
 var searchData=
 [
-  ['lift_5fandroid_5fbasic_5fblock_0',['lift_android_basic_block',['../dd/da6/classKUNAI_1_1LIFTER_1_1LifterAndroid.html#a77fb5423f89c51468746ece8a409e8fa',1,'KUNAI::LIFTER::LifterAndroid']]],
-  ['lift_5fandroid_5finstruction_1',['lift_android_instruction',['../dd/da6/classKUNAI_1_1LIFTER_1_1LifterAndroid.html#a1652276411850b8c14a54a376a0cccc0',1,'KUNAI::LIFTER::LifterAndroid']]],
-  ['lift_5fandroid_5fmethod_2',['lift_android_method',['../dd/da6/classKUNAI_1_1LIFTER_1_1LifterAndroid.html#a764e79d7aa10de1bba1a6ce8b3d72fbd',1,'KUNAI::LIFTER::LifterAndroid']]],
-  ['lifter_5fandroid_2ehpp_3',['lifter_android.hpp',['../d5/db8/lifter__android_8hpp.html',1,'']]],
-  ['lifter_5fandroid_5finstructions_2ehpp_4',['lifter_android_instructions.hpp',['../d6/d5b/lifter__android__instructions_8hpp.html',1,'']]],
-  ['lifterandroid_5',['LifterAndroid',['../dd/da6/classKUNAI_1_1LIFTER_1_1LifterAndroid.html',1,'KUNAI::LIFTER::LifterAndroid'],['../dd/da6/classKUNAI_1_1LIFTER_1_1LifterAndroid.html#ab0146fa0d3c73b75efe472a9f9d30318',1,'KUNAI::LIFTER::LifterAndroid::LifterAndroid()']]],
-  ['linearsweepdisassembler_6',['LinearSweepDisassembler',['../d8/dd0/classKUNAI_1_1DEX_1_1LinearSweepDisassembler.html',1,'KUNAI::DEX']]],
-  ['load_5finstruction_7',['load_instruction',['../da/dca/classKUNAI_1_1LIFTER_1_1AndroidInstructions.html#a3c91c4761fcfe6c7f6ca0f976b6b1f91',1,'KUNAI::LIFTER::AndroidInstructions']]]
+  ['me_5faccess_0',['ME_ACCESS',['../db/de6/classKUNAI_1_1MJOLNIR_1_1IRType.html#a25d51b97bed66eb5104f17f31c1896e3a346a3f7652b22f7ba2bd54253e3d543c',1,'KUNAI::MJOLNIR::IRType']]],
+  ['mem_5faccess_5ft_1',['mem_access_t',['../db/de6/classKUNAI_1_1MJOLNIR_1_1IRType.html#a25d51b97bed66eb5104f17f31c1896e3',1,'KUNAI::MJOLNIR::IRType']]],
+  ['merge_5fgraph_2',['merge_graph',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#a32f5be074117958e9bf41b4f591954e4',1,'KUNAI::MJOLNIR::IRGraph']]],
+  ['method_5fhandle_5ftype_5fcodes_3',['METHOD_HANDLE_TYPE_CODES',['../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a750a62ccf066b9c0386b50415ef50314',1,'KUNAI::DEX::DVMTypes']]],
+  ['methodanalysis_4',['MethodAnalysis',['../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html',1,'KUNAI::DEX::MethodAnalysis'],['../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html#a1e6e047fd7849085f1ffba54b7ca3d1a',1,'KUNAI::DEX::MethodAnalysis::MethodAnalysis()']]],
+  ['methodannotations_5',['MethodAnnotations',['../dc/d37/classKUNAI_1_1DEX_1_1MethodAnnotations.html',1,'KUNAI::DEX::MethodAnnotations'],['../dc/d37/classKUNAI_1_1DEX_1_1MethodAnnotations.html#ae25f8de7a5f8f751709508b073b68db1',1,'KUNAI::DEX::MethodAnnotations::MethodAnnotations()']]],
+  ['methodid_6',['MethodID',['../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html',1,'KUNAI::DEX']]]
 ];

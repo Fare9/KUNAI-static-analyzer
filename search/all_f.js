@@ -1,13 +1,10 @@
 var searchData=
 [
-  ['packedswitch_0',['PackedSwitch',['../df/d1e/classKUNAI_1_1DEX_1_1PackedSwitch.html',1,'KUNAI::DEX::PackedSwitch'],['../df/d1e/classKUNAI_1_1DEX_1_1PackedSwitch.html#a1643154b5712518d523b9a5e8fce1558',1,'KUNAI::DEX::PackedSwitch::PackedSwitch()']]],
-  ['parameterannotation_1',['ParameterAnnotation',['../d7/da1/classKUNAI_1_1DEX_1_1ParameterAnnotation.html',1,'KUNAI::DEX::ParameterAnnotation'],['../d7/da1/classKUNAI_1_1DEX_1_1ParameterAnnotation.html#a156918a03280b005223f9a8c8b0b76c9',1,'KUNAI::DEX::ParameterAnnotation::ParameterAnnotation()']]],
-  ['parserreadingexception_2',['ParserReadingException',['../d0/d55/classexceptions_1_1ParserReadingException.html',1,'exceptions']]],
-  ['permission_5fapi_5fname_3',['permission_api_name',['../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#abc2339e7fcadcb78125106476556de70',1,'KUNAI::DEX::ExternalMethod']]],
-  ['pop_5fbasic_5fblock_4',['pop_basic_block',['../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a76a6853cec168a840a46df58ca5794c4',1,'KUNAI::DEX::BasicBlocks']]],
-  ['print_5ffundamental_5ftype_5',['print_fundamental_type',['../d6/dc1/classKUNAI_1_1DEX_1_1Fundamental.html#a229cace917b5a266309ec2c8e5d948a2',1,'KUNAI::DEX::Fundamental']]],
-  ['print_5ftype_6',['print_type',['../d6/dc1/classKUNAI_1_1DEX_1_1Fundamental.html#acb0c2a90bd3743cb93f01322e619cf93',1,'KUNAI::DEX::Fundamental::print_type()'],['../dd/d07/classKUNAI_1_1DEX_1_1Class.html#a66093c9a10073399544e4bc3321e7a09',1,'KUNAI::DEX::Class::print_type()'],['../db/d0f/classKUNAI_1_1DEX_1_1Array.html#afef240d0fd8dd8578b09260889c05417',1,'KUNAI::DEX::Array::print_type()'],['../d1/de3/classKUNAI_1_1DEX_1_1Unknown.html#af28e726b464b4a09fb23a878f1b9532c',1,'KUNAI::DEX::Unknown::print_type()']]],
-  ['protoid_7',['ProtoID',['../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html',1,'KUNAI::DEX']]],
-  ['push_8',['push',['../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a9fc129b2b227e6f87dbc24b76fa7c16e',1,'KUNAI::DEX::DVMBasicBlock']]],
-  ['push_5fbasic_5fblock_9',['push_basic_block',['../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a445fbbe65555ee4cdf96a504ec2aa5f5',1,'KUNAI::DEX::BasicBlocks']]]
+  ['reachable_5fnodes_5fbackward_0',['reachable_nodes_backward',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#a4191dcc46c983ac61c0c607147b98641',1,'KUNAI::MJOLNIR::IRGraph']]],
+  ['reachable_5fnodes_5fforward_1',['reachable_nodes_forward',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#a219f1c1db5757fb036911f29062aed8a',1,'KUNAI::MJOLNIR::IRGraph']]],
+  ['reachable_5fparents_2',['reachable_parents',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#ab338483091704026b6fb2fe417407d8c',1,'KUNAI::MJOLNIR::IRGraph']]],
+  ['reachable_5fsons_3',['reachable_sons',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#ad1888c5e5348f398f7a70951a0399b9e',1,'KUNAI::MJOLNIR::IRGraph']]],
+  ['read_5fannotations_4',['read_annotations',['../db/de6/classKUNAI_1_1MJOLNIR_1_1IRType.html#a8dd693be08b2f11e30f0bfee92c9a4c5',1,'KUNAI::MJOLNIR::IRType']]],
+  ['ref_5ftype_5',['REF_TYPE',['../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad27c9e4a3df9ffb1119d6cf6cedf6bfc',1,'KUNAI::DEX::DVMTypes']]],
+  ['run_5fanalysis_6',['run_analysis',['../d6/d70/classKUNAI_1_1MJOLNIR_1_1Optimizer.html#a46eace4bc0edc52401e0d541e4af204d',1,'KUNAI::MJOLNIR::Optimizer']]]
 ];

@@ -1,4 +1,5 @@
 <map id="src/includes/KUNAI/mjolnIR/ir_graph.hpp" name="src/includes/KUNAI/mjolnIR/ir_graph.hpp">
-<area shape="rect" id="node1" title="DiGraph class from miasm implemented in C++ using the classes from MjolnIR, some of basic graph analy..." alt="" coords="5,5,149,47"/>
-<area shape="rect" id="node2" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="7,95,147,151"/>
+<area shape="rect" id="node1" title="DiGraph class from miasm implemented in C++ using the classes from MjolnIR, some of basic graph analy..." alt="" coords="9,5,153,47"/>
+<area shape="rect" id="node2" href="$d8/d39/optimizer_8hpp.html" title="Class for applying optimization passes to IR, working in IR we will be able to create more generic op..." alt="" coords="5,95,156,136"/>
+<area shape="rect" id="node3" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="11,184,151,240"/>
 </map>

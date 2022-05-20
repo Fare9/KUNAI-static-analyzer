@@ -1,5 +1,7 @@
 <map id="src/includes/KUNAI/DEX/DVM/dex_disassembler.hpp" name="src/includes/KUNAI/DEX/DVM/dex_disassembler.hpp">
-<area shape="rect" id="node1" title="Class to manage the disassembly process of the DEX file." alt="" coords="5,5,223,47"/>
-<area shape="rect" id="node2" href="$df/dd0/apk_8hpp.html" title="Class to manage the APK file." alt="" coords="45,184,183,225"/>
-<area shape="rect" id="node3" href="$d8/d45/dex_8hpp_source.html" title=" " alt="" coords="98,95,237,136"/>
+<area shape="rect" id="node1" title="Class to manage the disassembly process of the DEX file." alt="" coords="74,5,291,47"/>
+<area shape="rect" id="node2" href="$df/dd0/apk_8hpp.html" title="Class to manage the APK file." alt="" coords="5,288,144,329"/>
+<area shape="rect" id="node3" href="$dd/df2/dex__analysis_8hpp_source.html" title=" " alt="" coords="79,95,286,136"/>
+<area shape="rect" id="node4" href="$d8/d45/dex_8hpp_source.html" title=" " alt="" coords="277,191,416,233"/>
+<area shape="rect" id="node5" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="113,184,253,240"/>
 </map>

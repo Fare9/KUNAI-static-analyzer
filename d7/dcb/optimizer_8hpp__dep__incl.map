@@ -1,0 +1,4 @@
+<map id="src/includes/KUNAI/mjolnIR/optimizer.hpp" name="src/includes/KUNAI/mjolnIR/optimizer.hpp">
+<area shape="rect" id="node1" title="Class for applying optimization passes to IR, working in IR we will be able to create more generic op..." alt="" coords="5,5,156,47"/>
+<area shape="rect" id="node2" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="11,95,151,151"/>
+</map>
