@@ -50,6 +50,10 @@
 
 namespace KUNAI {
     namespace DEX {
+
+        class ClassDataItem;
+
+        using classdataitem_t = std::shared_ptr<ClassDataItem>;
         
         class ClassDataItem
         {
@@ -67,9 +71,9 @@ namespace KUNAI {
              */
             ClassDataItem(std::ifstream& input_file,
                             std::uint64_t file_size,
-                            std::shared_ptr<DexFields>& dex_fields,
-                            std::shared_ptr<DexMethods>& dex_methods,
-                            std::shared_ptr<DexTypes>& dex_types);
+                            dexfields_t& dex_fields,
+                            dexmethods_t& dex_methods,
+                            dextypes_t& dex_types);
             /**
              * @brief ClassDataItem destructor
              * @return void
@@ -88,16 +92,16 @@ namespace KUNAI {
             /**
              * @brief Get a class static field, by the field id, this is not a sorted number.
              * @param id: id of the field to retrieve.
-             * @return std::shared_ptr<EncodedField>
+             * @return encodedfield_t
              */
-            std::shared_ptr<EncodedField> get_static_field_by_id(std::uint64_t id);
+            encodedfield_t get_static_field_by_id(std::uint64_t id);
             
             /**
              * @brief Get a class static field by its position from parsing.
              * @param pos: position of static field.
-             * @return std::shared_ptr<EncodedField>
+             * @return encodedfield_t
              */
-            std::shared_ptr<EncodedField> get_static_field_by_pos(std::uint64_t pos);
+            encodedfield_t get_static_field_by_pos(std::uint64_t pos);
 
             /**
              * @brief return the number of instance fields from the class.
@@ -111,22 +115,22 @@ namespace KUNAI {
             /**
              * @brief return a instance field from a class by the field id.
              * @param id: id of the EncodedField.
-             * @return std::shared_ptr<EncodedField>
+             * @return encodedfield_t
              */
-            std::shared_ptr<EncodedField> get_instance_field_by_id(std::uint64_t id);
+            encodedfield_t get_instance_field_by_id(std::uint64_t id);
             
             /**
              * @brief return a instance field from a class by its position while parsing.
              * @param pos: position to retrieve.
-             * @return std::shared_ptr<EncodedField>
+             * @return encodedfield_t
              */
-            std::shared_ptr<EncodedField> get_instance_field_by_pos(std::uint64_t pos);
+            encodedfield_t get_instance_field_by_pos(std::uint64_t pos);
 
             /**
              * @brief Get all the fields both static and instance fields.
-             * @return std::vector<std::shared_ptr<EncodedField>>
+             * @return std::vector<encodedfield_t>
              */
-            std::vector<std::shared_ptr<EncodedField>> get_fields();
+            std::vector<encodedfield_t> get_fields();
 
             /**
              * @brief Get the number of direct methods from the class.
@@ -140,16 +144,16 @@ namespace KUNAI {
             /**
              * @brief Get a direct method by the id of the method.
              * @param id: id of the method to retrieve.
-             * @return std::shared_ptr<EncodedMethod>
+             * @return encodedmethod_t
              */
-            std::shared_ptr<EncodedMethod> get_direct_method_by_id(std::uint64_t id);
+            encodedmethod_t get_direct_method_by_id(std::uint64_t id);
             
             /**
              * @brief Get a direct method by its position while parsing it.
              * @param pos: position of the method to retrieve.
-             * @return std::shared_ptr<EncodedMethod>
+             * @return encodedmethod_t
              */
-            std::shared_ptr<EncodedMethod> get_direct_method_by_pos(std::uint64_t pos);
+            encodedmethod_t get_direct_method_by_pos(std::uint64_t pos);
 
             /**
              * @brief Get the number of virtual methods from the class.
@@ -163,33 +167,37 @@ namespace KUNAI {
             /**
              * @brief Get a method from the class by its method id.
              * @param id: id of the method to retrieve.
-             * @return std::shared_ptr<EncodedMethod>
+             * @return encodedmethod_t
              */
-            std::shared_ptr<EncodedMethod> get_virtual_method_by_id(std::uint64_t id);
+            encodedmethod_t get_virtual_method_by_id(std::uint64_t id);
             
             /**
              * @brief Get a method from the class by its position while parsing.
              * @param pos: position of method while parsing.
-             * @return std::shared_ptr<EncodedMethod>
+             * @return encodedmethod_t
              */
-            std::shared_ptr<EncodedMethod> get_virtual_method_by_pos(std::uint64_t pos);
+            encodedmethod_t get_virtual_method_by_pos(std::uint64_t pos);
 
             /**
              * @brief Get all the methods object
              * 
-             * @return std::vector<std::shared_ptr<EncodedMethod>>&
+             * @return std::vector<encodedmethod_t>&
              */
-            const std::vector<std::shared_ptr<EncodedMethod>>& get_methods() const
+            const std::vector<encodedmethod_t>& get_methods() const
             {
                 return methods;
             }
         private:
-            std::vector<std::shared_ptr<EncodedMethod>> methods;
-            std::map<std::uint64_t, std::shared_ptr<EncodedField>> static_fields;
-            std::map<std::uint64_t, std::shared_ptr<EncodedField>> instance_fields;
-            std::map<std::uint64_t, std::shared_ptr<EncodedMethod>> direct_methods;
-            std::map<std::uint64_t, std::shared_ptr<EncodedMethod>> virtual_methods;
+            std::vector<encodedmethod_t> methods;
+            std::map<std::uint64_t, encodedfield_t> static_fields;
+            std::map<std::uint64_t, encodedfield_t> instance_fields;
+            std::map<std::uint64_t, encodedmethod_t> direct_methods;
+            std::map<std::uint64_t, encodedmethod_t> virtual_methods;
         };
+
+        class ClassDef;
+
+        using classdef_t = std::shared_ptr<ClassDef>;
 
         class ClassDef
         {
@@ -220,10 +228,10 @@ namespace KUNAI {
              * @return void
              */
             ClassDef(classdef_t class_def,
-                     std::shared_ptr<DexStrings>& dex_str, 
-                     std::shared_ptr<DexTypes>& dex_types,
-                     std::shared_ptr<DexFields>& dex_fields,
-                     std::shared_ptr<DexMethods>& dex_methods,
+                     dexstrings_t& dex_str, 
+                     dextypes_t& dex_types,
+                     dexfields_t& dex_fields,
+                     dexmethods_t& dex_methods,
                      std::ifstream& input_file,
                      std::uint64_t file_size);
             /**
@@ -234,9 +242,9 @@ namespace KUNAI {
 
             /**
              * @brief Get the ClassDef Class* object with class data.
-             * @return Class*
+             * @return class_t
              */
-            Class* get_class_idx()
+            class_t get_class_idx()
             {
                 return class_idx.begin()->second;
             }
@@ -252,9 +260,9 @@ namespace KUNAI {
 
             /**
              * @brief Get the Class* object from the super class of current class.
-             * @return Class*
+             * @return class_t
              */
-            Class* get_superclass_idx()
+            class_t get_superclass_idx()
             {
                 return superclass_idx.begin()->second;
             }
@@ -280,22 +288,22 @@ namespace KUNAI {
             /**
              * @brief Get the Class* object from an interface by the class id.
              * @param id: id of the class.
-             * @return Class*
+             * @return class_t
              */
-            Class* get_interface_by_class_id(std::uint16_t id);
+            class_t get_interface_by_class_id(std::uint16_t id);
             
             /**
              * @brief Get the Class* object from an interface by its position from parsing.
              * @param pos: position of interface from parsing.
-             * @return Class*
+             * @return class_t
              */
-            Class* get_interface_by_pos(std::uint64_t pos);
+            class_t get_interface_by_pos(std::uint64_t pos);
 
             /**
              * @brief Get the ClassDataItem object from the ClassDef.
-             * @return std::shared_ptr<ClassDataItem>
+             * @return classdataitem_t&
              */
-            std::shared_ptr<ClassDataItem>& get_class_data()
+            classdataitem_t& get_class_data()
             {
                 return class_data_items;
             }
@@ -315,15 +323,15 @@ namespace KUNAI {
              */
             bool parse_class_defs(std::ifstream& input_file, 
                                     std::uint64_t file_size, 
-                                    std::shared_ptr<DexStrings>& dex_str, 
-                                    std::shared_ptr<DexTypes>& dex_types,
-                                    std::shared_ptr<DexFields>& dex_fields,
-                                    std::shared_ptr<DexMethods>& dex_methods);
+                                    dexstrings_t& dex_str, 
+                                    dextypes_t& dex_types,
+                                    dexfields_t& dex_fields,
+                                    dexmethods_t& dex_methods);
 
 
-            std::map<std::uint32_t, Class*> class_idx;
+            std::map<std::uint32_t, class_t> class_idx;
             DVMTypes::ACCESS_FLAGS access_flag;
-            std::map<std::uint32_t, Class*> superclass_idx;
+            std::map<std::uint32_t, class_t> superclass_idx;
             std::map<std::uint32_t, std::string*> source_file_idx;
             /**
              * type_list:
@@ -333,10 +341,10 @@ namespace KUNAI {
              *      ushort
              */
             std::uint32_t interfaces_off;
-            std::map<std::uint16_t, Class*> interfaces;
+            std::map<std::uint16_t, class_t> interfaces;
 
             std::uint32_t annotations_off;
-            std::shared_ptr<AnnotationsDirectoryItem> annotation_directory_item;
+            annotationsdirectoryitem_t annotation_directory_item;
             /**
              * classes def
              * 
@@ -362,7 +370,7 @@ namespace KUNAI {
              *  code_off: uleb128
              */
             std::uint32_t classess_off;
-            std::shared_ptr<ClassDataItem> class_data_items;
+            classdataitem_t class_data_items;
 
             /**
              * static values
@@ -374,8 +382,12 @@ namespace KUNAI {
              *      values: EncodedValue[size]
              */
             std::uint32_t static_values_off;
-            std::shared_ptr<EncodedArrayItem> static_values;
+            encodedarrayitem_t static_values;
         };
+
+        class DexClasses;
+
+        using dexclasses_t = std::shared_ptr<DexClasses>;
 
         class DexClasses
         {
@@ -396,10 +408,10 @@ namespace KUNAI {
                         std::uint64_t file_size,
                         std::uint32_t number_of_classes,
                         std::uint32_t offset,
-                        std::shared_ptr<DexStrings>& dex_str,
-                        std::shared_ptr<DexTypes>& dex_types,
-                        std::shared_ptr<DexFields>& dex_fields,
-                        std::shared_ptr<DexMethods>& dex_methods);
+                        dexstrings_t& dex_str,
+                        dextypes_t& dex_types,
+                        dexfields_t& dex_fields,
+                        dexmethods_t& dex_methods);
             
             /**
              * @brief DexClasses destructor.
@@ -418,16 +430,16 @@ namespace KUNAI {
 
             /**
              * @brief Get the ClassDef object by its position from parsing.
-             * @return std::shared_ptr<ClassDef>
+             * @return classdef_t
              */
-            std::shared_ptr<ClassDef> get_class_by_pos(std::uint64_t pos);
+            classdef_t get_class_by_pos(std::uint64_t pos);
 
             /**
              * @brief Get the vector reference to all the classes
              * 
-             * @return const std::vector<std::shared_ptr<ClassDef>>& 
+             * @return const std::vector<classdef_t>& 
              */
-            const std::vector<std::shared_ptr<ClassDef>>& get_classes() const
+            const std::vector<classdef_t>& get_classes() const
             {
                 return class_defs;
             }
@@ -444,11 +456,11 @@ namespace KUNAI {
 
             std::uint32_t number_of_classes;
             std::uint32_t offset;
-            std::shared_ptr<DexStrings>& dex_str;
-            std::shared_ptr<DexTypes>& dex_types;
-            std::shared_ptr<DexFields>& dex_fields;
-            std::shared_ptr<DexMethods>& dex_methods;
-            std::vector<std::shared_ptr<ClassDef>> class_defs;
+            dexstrings_t& dex_str;
+            dextypes_t& dex_types;
+            dexfields_t& dex_fields;
+            dexmethods_t& dex_methods;
+            std::vector<classdef_t> class_defs;
         };
     }
 }

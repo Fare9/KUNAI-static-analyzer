@@ -12,16 +12,19 @@ int main(int argc, char **argv)
         std::cerr << "[-] USAGE: " << argv[0] << " <file.apk> [<class_name>]" << std::endl;
         return -1;
     }
+    std::vector<std::string> all_args;
 
-    // Set the logging level in spdlog, we set to err
-    // so we only see error messages
-    spdlog::set_level(spdlog::level::err);
+    all_args.assign(argv + 1, argv + argc);
+
+    // Set the logging level in spdlog, we set to info
+    // so we only see info and error messages
+    spdlog::set_level(spdlog::level::info);
 
     auto logger = KUNAI::LOGGER::logger();
 
-    std::cout << "Starting the analysis of the APK file " << argv[1] << "\n";
+    std::cout << "Starting the analysis of the APK file " << all_args[0] << "\n";
 
-    auto apk_file = KUNAI::APK::get_unique_apk_object(argv[1]);
+    auto apk_file = KUNAI::APK::get_unique_apk_object(all_args[0], false);
 
     apk_file->analyze_apk_file();
 
@@ -55,13 +58,14 @@ int main(int argc, char **argv)
 
     if (argc == 3)
     {
-        std::cout << "Obtaining class " << argv[2] << "\n";
+        std::cout << "Obtaining class " << all_args[1] << "\n";
 
         /*
          * Now we take the class analysis given its name.
          * From it, we will extract all the xrefs that the class creates.
          */
-        auto chosen_class = analysis_object->get_class_analysis(argv[2]);
+        
+        auto chosen_class = analysis_object->get_class_analysis(all_args[1]);
 
         if (!chosen_class)
         {

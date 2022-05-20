@@ -180,16 +180,16 @@ int main(int argc, char **argv)
         switch (type->get_type())
         {
         case KUNAI::DEX::Type::FUNDAMENTAL:
-            type = reinterpret_cast<KUNAI::DEX::Fundamental*>(type);
+            type = std::dynamic_pointer_cast<KUNAI::DEX::Fundamental>(type);
             break;
         case KUNAI::DEX::Type::CLASS:
-            type = reinterpret_cast<KUNAI::DEX::Class*>(type);
+            type = std::dynamic_pointer_cast<KUNAI::DEX::Class>(type);
             break;
         case KUNAI::DEX::Type::ARRAY:
-            type = reinterpret_cast<KUNAI::DEX::Array*>(type);
+            type = std::dynamic_pointer_cast<KUNAI::DEX::Array>(type);
             break;
         case KUNAI::DEX::Type::UNKNOWN:
-            type = reinterpret_cast<KUNAI::DEX::Unknown*>(type);
+            type = std::dynamic_pointer_cast<KUNAI::DEX::Unknown>(type);
             break;
         }
 

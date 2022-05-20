@@ -36,7 +36,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    auto dex_analysis = dex->get_dex_analysis();
+    auto dex_analysis = dex->get_dex_analysis(true);
 
     auto main_method = dex_analysis->get_method_analysis_by_name(class_name, method_name, prototype);
 

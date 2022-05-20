@@ -31,48 +31,100 @@ namespace KUNAI
 {
     namespace DEX
     {
+        class DexParser;
+
+        /**
+         * @brief shared_ptr type of DexParser, this is the parsing of the
+         * DEX headers, different objects represent the different parts of
+         * the DEX.
+         */
+        using dexparser_t = std::shared_ptr<DexParser>;
 
         class DexParser
         {
         public:
             DexParser();
+
             ~DexParser() = default;
 
+            /**
+             * @brief Parse the given DEX file and extract all the different types from the
+             *        header.
+             * 
+             * @param input_file 
+             * @param file_size 
+             */
             void parse_dex_file(std::ifstream &input_file, std::uint64_t file_size);
 
             // getter methods for the parser, for getting
             // all the parsed fields.
-            std::shared_ptr<DexHeader> get_header()
+
+            /**
+             * @brief Get the header object
+             * 
+             * @return dexheader_t& 
+             */
+            dexheader_t& get_header()
             {
                 return dex_header;
             }
 
-            std::shared_ptr<DexStrings> get_strings()
+            /**
+             * @brief Get the strings object
+             * 
+             * @return dexstrings_t& 
+             */
+            dexstrings_t& get_strings()
             {
                 return dex_strings;
             }
 
-            std::shared_ptr<DexTypes> get_types()
+            /**
+             * @brief Get the types object.
+             * 
+             * @return dextypes_t& 
+             */
+            dextypes_t& get_types()
             {
                 return dex_types;
             }
 
-            std::shared_ptr<DexProtos> get_protos()
+            /**
+             * @brief Get the protos object
+             * 
+             * @return dexprotos_t& 
+             */
+            dexprotos_t& get_protos()
             {
                 return dex_protos;
             }
 
-            std::shared_ptr<DexFields> get_fields()
+            /**
+             * @brief Get the fields object.
+             * 
+             * @return dexfields_t& 
+             */
+            dexfields_t& get_fields()
             {
                 return dex_fields;
             }
 
-            std::shared_ptr<DexMethods> get_methods()
+            /**
+             * @brief Get the methods object.
+             * 
+             * @return dexmethods_t& 
+             */
+            dexmethods_t& get_methods()
             {
                 return dex_methods;
             }
 
-            std::shared_ptr<DexClasses> get_classes()
+            /**
+             * @brief Get the classes object.
+             * 
+             * @return dexclasses_t& 
+             */
+            dexclasses_t& get_classes()
             {
                 return dex_classes;
             }
@@ -81,7 +133,20 @@ namespace KUNAI
             // information.
 
             // header version
+
+            /**
+             * @brief Get the header version as an unsgned integer.
+             * 
+             * @return std::uint32_t 
+             */
             std::uint32_t get_header_version();
+
+
+            /**
+             * @brief Get the header version as a string.
+             * 
+             * @return std::string 
+             */
             std::string get_header_version_str();
 
             // dex api version (if analyzed the AndroidManifest.xml)
@@ -90,22 +155,68 @@ namespace KUNAI
                 this->api_version = api_version;
             }
 
+            /**
+             * @brief Get the api version from the DEX file.
+             * 
+             * @return std::uint32_t 
+             */
             std::uint32_t get_api_version()
             {
                 return api_version;
             }
 
-            // get format type
+            /**
+             * @brief Get the format type as a string.
+             * 
+             * @return std::string 
+             */
             std::string get_format_type()
             {
                 return "DEX";
             }
 
-            // get all the ClassesDef from DexClasses
-            std::vector<std::shared_ptr<ClassDef>> get_classes_def_item();
-            std::vector<MethodID *> get_methods_id_item();
-            std::vector<FieldID *> get_fields_id_item();
-            std::vector<std::shared_ptr<CodeItemStruct>> get_codes_item();
+            /**
+             * @brief Get the classes def item object
+             * 
+             * @return const std::vector<classdef_t>& 
+             */
+            const std::vector<classdef_t>& get_classes_def_item() const
+            {
+                return dex_classes->get_classes();
+            }
+
+            /**
+             * @brief Get the methods id item object.
+             * 
+             * @return std::vector<methodid_t>& 
+             */
+            std::vector<methodid_t>& get_methods_id_item() const
+            {
+                return dex_methods->get_method_ids();
+            }
+            
+            /**
+             * @brief Get the fields id item object.
+             * 
+             * @return std::vector<fieldid_t>& 
+             */
+            std::vector<fieldid_t>& get_fields_id_item() const
+            {
+                return dex_fields->get_fields();
+            }
+
+            /**
+             * @brief Get the codes item object.
+             * 
+             * @return std::vector<codeitemstruct_t> 
+             */
+            std::vector<codeitemstruct_t> get_codes_item();
+
+            /**
+             * @brief Get the string values object
+             * 
+             * @return std::vector<std::string> 
+             */
             std::vector<std::string> get_string_values();
 
             friend std::ostream &operator<<(std::ostream &os, const DexParser &entry);
@@ -113,13 +224,13 @@ namespace KUNAI
         private:
             std::uint32_t api_version;
 
-            std::shared_ptr<DexHeader> dex_header = nullptr;
-            std::shared_ptr<DexStrings> dex_strings = nullptr;
-            std::shared_ptr<DexTypes> dex_types = nullptr;
-            std::shared_ptr<DexProtos> dex_protos = nullptr;
-            std::shared_ptr<DexFields> dex_fields = nullptr;
-            std::shared_ptr<DexMethods> dex_methods = nullptr;
-            std::shared_ptr<DexClasses> dex_classes = nullptr;
+            dexheader_t dex_header = nullptr;
+            dexstrings_t dex_strings = nullptr;
+            dextypes_t dex_types = nullptr;
+            dexprotos_t dex_protos = nullptr;
+            dexfields_t dex_fields = nullptr;
+            dexmethods_t dex_methods = nullptr;
+            dexclasses_t dex_classes = nullptr;
         };
     }
 }

@@ -20,7 +20,7 @@ check_and_build_dependencies() {
     dpkg -s libspdlog-dev 2> /dev/null > /dev/null
     if [ $? -ne 0 ]; then
         echo "[-] libspdlog-dev not installed, installing it..."
-        sudo apt install libspdlog-dev
+        sudo apt install libspdlog-dev=1:1.5.0-1
     fi
 
     echo "[+] Checking for ${LIB_CHILKAT}"
@@ -28,6 +28,23 @@ check_and_build_dependencies() {
         echo "[-] ${LIB_CHILKAT} not found, installing it"
         sudo cp external/chilkat-x86_64-linux-gcc/lib/${LIB_CHILKAT} /usr/lib/${LIB_CHILKAT}
     fi
+}
+
+
+build_debug() {
+    # check if dependencies are not installed.
+    check_and_build_dependencies
+
+    echo "[+] Compiling KUNAI with ${MAKE_JOBS} jobs"
+
+    CXX=${COMPILER} make debug --silent -j${MAKE_JOBS}
+
+    if [ $? -ne 0 ]; then
+        echo "[-] An error ocurred, check output..."
+        exit 1
+    fi
+
+    echo "[+] KUNAI compiled correctly"
 }
 
 
@@ -100,6 +117,8 @@ fi
 case "$TARGET" in
     "build" ) 
         build_kunai;;
+    "debug" ) 
+        build_debug;;
     "install" ) 
         install_kunai;;
     "uninstall" )
@@ -115,6 +134,7 @@ case "$TARGET" in
         echo "Usage: $0 <option>"
         echo "Next options are available:"
         echo "    - build: build kunai directly running Makefile."
+        echo "    - debug: build kunai with symbols and verbose debug messages directly running Makefile."
         echo "    - install: build kunai and install it on system."
         echo "    - uninstall: remove kunai from system."
         echo "    - dependencies: check if dependencies are present, if not, install them."

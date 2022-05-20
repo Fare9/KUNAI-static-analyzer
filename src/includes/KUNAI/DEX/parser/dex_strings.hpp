@@ -37,6 +37,10 @@
 namespace KUNAI {
     namespace DEX {
 
+        class DexStrings;
+
+        using dexstrings_t = std::shared_ptr<DexStrings>;
+
         class DexStrings
         {
         public:

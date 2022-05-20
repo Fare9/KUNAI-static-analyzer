@@ -39,11 +39,14 @@ namespace KUNAI
 {
     namespace DEX
     {
+        class Type;
+
+        using type_t = std::shared_ptr<Type>;
 
         class Type
         {
         public:
-            enum type_t
+            enum type_e
             {
                 FUNDAMENTAL,
                 CLASS,
@@ -53,17 +56,17 @@ namespace KUNAI
 
             /**
              * @brief Constructor of Type base class.
-             * @param type: Type of object from Type::type_t enum.
+             * @param type: Type of object from Type::type_e enum.
              * @param raw: raw string with the name.
              */
-            Type(type_t type, std::string raw);
+            Type(type_e type, std::string raw);
 
             /**
              * @brief Type destructor.
              */
             virtual ~Type() = default;
 
-            virtual type_t get_type() = 0;
+            virtual type_e get_type() = 0;
             virtual std::string print_type() = 0;
 
             /**
@@ -76,14 +79,18 @@ namespace KUNAI
             }
 
         private:
-            enum type_t type;
+            enum type_e type;
             std::string raw;
         };
+
+        class Fundamental;
+
+        using fundamental_t = std::shared_ptr<Fundamental>;
 
         class Fundamental : public Type
         {
         public:
-            enum fundamental_t
+            enum fundamental_e
             {
                 BOOLEAN,
                 BYTE,
@@ -98,10 +105,10 @@ namespace KUNAI
 
             /**
              * @brief Constructor of derived Fundamental class.
-             * @param f_type: Fundamental::fundamental_t enum value, type of fundamental.
+             * @param f_type: Fundamental::fundamental_e enum value, type of fundamental.
              * @param name: std::string with name of fundamental type.
              */
-            Fundamental(fundamental_t f_type,
+            Fundamental(fundamental_e f_type,
                         std::string name);
 
             /**
@@ -110,10 +117,10 @@ namespace KUNAI
             ~Fundamental() = default;
 
             /**
-             * @brief return Type::type_t of object, in this case FUNDAMENTAL.
-             * @return Type::type_t FUNDAMENTAL.
+             * @brief return Type::type_e of object, in this case FUNDAMENTAL.
+             * @return Type::type_e FUNDAMENTAL.
              */
-            type_t get_type()
+            type_e get_type()
             {
                 return FUNDAMENTAL;
             }
@@ -128,10 +135,10 @@ namespace KUNAI
             }
 
             /**
-             * @brief Get fundamental type from enum Fundamental::fundamental_t.
-             * @return Fundamental::fundamental_t value.
+             * @brief Get fundamental type from enum Fundamental::fundamental_e.
+             * @return Fundamental::fundamental_e value.
              */
-            fundamental_t get_fundamental_type()
+            fundamental_e get_fundamental_type()
             {
                 return f_type;
             }
@@ -152,9 +159,13 @@ namespace KUNAI
             }
 
         private:
-            enum fundamental_t f_type;
+            enum fundamental_e f_type;
             std::string name;
         };
+
+        class Class;
+
+        using class_t = std::shared_ptr<Class>;
 
         class Class : public Type
         {
@@ -171,10 +182,10 @@ namespace KUNAI
             ~Class() = default;
 
             /**
-             * @brief get Type::type_t enum value for Class object.
-             * @return Type::type_t with value CLASS.
+             * @brief get Type::type_e enum value for Class object.
+             * @return Type::type_e with value CLASS.
              */
-            type_t get_type()
+            type_e get_type()
             {
                 return CLASS;
             }
@@ -201,6 +212,10 @@ namespace KUNAI
             std::string name;
         };
 
+        class Array;
+
+        using array_t = std::shared_ptr<Array>;
+
         class Array : public Type
         {
         public:
@@ -209,25 +224,25 @@ namespace KUNAI
              * @param array: a std::vector with types inside of the array.
              * @param name: std::string with name of Array type.
              */
-            Array(std::vector<Type *> array, std::string raw);
+            Array(std::vector<type_t> array, std::string raw);
 
             /**
-             * @brief Destructor of Array class, destroy all the values inside of the array.
+             * @brief Destructor of Array class.
              */
-            ~Array();
+            ~Array() = default;
 
             /**
-             * @brief get type from Type::type_t enum.
-             * @return return ARRAY from Type::type_t.
+             * @brief get type from Type::type_e enum.
+             * @return return ARRAY from Type::type_e.
              */
-            type_t get_type()
+            type_e get_type()
             {
                 return ARRAY;
             }
 
             /**
-             * @brief get type from Type::type_t enum as string.
-             * @return ARRAY from Type::type_t as string.
+             * @brief get type from Type::type_e enum as string.
+             * @return ARRAY from Type::type_e as string.
              */
             std::string print_type()
             {
@@ -236,16 +251,20 @@ namespace KUNAI
 
             /**
              * @brief get the vector of the array of types.
-             * @return std::vector<Type *> with all the types in the array.
+             * @return std::vector<type_t> with all the types in the array.
              */
-            const std::vector<Type *> &get_array() const
+            const std::vector<type_t> &get_array() const
             {
                 return array;
             }
 
         private:
-            std::vector<Type *> array;
+            std::vector<type_t> array;
         };
+
+        class Unknown;
+
+        using unknown_t = std::shared_ptr<Unknown>;
 
         class Unknown : public Type
         {
@@ -255,7 +274,7 @@ namespace KUNAI
              * @param type: for parent class.
              * @param raw: for parent class.
              */
-            Unknown(type_t type, std::string raw);
+            Unknown(type_e type, std::string raw);
 
             /**
              * @brief Destructor of unrecognized type.
@@ -263,23 +282,27 @@ namespace KUNAI
             ~Unknown() = default;
 
             /**
-             * @brief return Type::type_t of UNKNOWN.
-             * @return Type::type_t UNKNOWN.
+             * @brief return Type::type_e of UNKNOWN.
+             * @return Type::type_e UNKNOWN.
              */
-            type_t get_type()
+            type_e get_type()
             {
                 return UNKNOWN;
             }
 
             /**
-             * @brief return Type::type_t of UNKNOWN as std::string.
-             * @return Type::type_t UNKNOWN as std::string.
+             * @brief return Type::type_e of UNKNOWN as std::string.
+             * @return Type::type_e UNKNOWN as std::string.
              */
             std::string print_type()
             {
                 return "Unknown";
             }
         };
+
+        class DexTypes;
+
+        using dextypes_t = std::shared_ptr<DexTypes>;
 
         class DexTypes
         {
@@ -294,7 +317,7 @@ namespace KUNAI
             DexTypes(std::ifstream &input_file,
                      std::uint32_t number_of_types,
                      std::uint32_t types_offsets,
-                     std::shared_ptr<DexStrings>& dex_str);
+                     dexstrings_t& dex_str);
 
             /**
              * @brief Destructor of DexTypes class, clear all the Types.
@@ -304,16 +327,16 @@ namespace KUNAI
             /**
              * @brief Get a type by a given type id as it appears in DEX.
              * @param type_id: type to retrieve by its id.
-             * @return Type* object.
+             * @return type_t object.
              */
-            Type *get_type_by_id(std::uint32_t type_id);
+            type_t get_type_by_id(std::uint32_t type_id);
 
             /**
              * @brief Get a type by a given position from the map.
              * @param pos: position of the Type in the map.
-             * @return Type* object.
+             * @return type_t object.
              */
-            Type *get_type_from_order(std::uint32_t pos);
+            type_t get_type_from_order(std::uint32_t pos);
 
             /**
              * @brief Return the number of types in map.
@@ -342,9 +365,9 @@ namespace KUNAI
             /**
              * @brief Method to create a Type given a raw name.
              * @param name: raw name of the type.
-             * @return Type* object created.
+             * @return type_t object created.
              */
-            Type *parse_type(std::string name);
+            type_t parse_type(std::string name);
 
             /**
              * @brief parser method for DEX types. It will make use of method parse_type.
@@ -354,10 +377,10 @@ namespace KUNAI
             bool parse_types(std::ifstream &input_file);
 
             // variables from types
-            std::map<std::uint32_t, Type *> types;
+            std::map<std::uint32_t, type_t> types;
             std::uint32_t number_of_types;
             std::uint32_t offset;
-            std::shared_ptr<DexStrings>& dex_str;
+            dexstrings_t& dex_str;
         };
     }
 }

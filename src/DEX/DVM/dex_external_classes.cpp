@@ -14,7 +14,7 @@ namespace KUNAI {
                     methods.clear();
             }
 
-            std::shared_ptr<ExternalMethod> ExternalClass::get_method_by_pos(std::uint64_t pos)
+            externalmethod_t ExternalClass::get_method_by_pos(std::uint64_t pos)
             {
                 if (pos >= methods.size())
                     return nullptr;

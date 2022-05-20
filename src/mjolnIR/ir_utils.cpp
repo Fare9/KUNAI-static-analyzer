@@ -5,163 +5,143 @@ namespace KUNAI
     namespace MJOLNIR
     {
         
-        bool is_ir_field(std::shared_ptr<IRStmnt> instr)
+        irfield_t field_ir(irstmnt_t& instr)
         {
-            auto field = std::dynamic_pointer_cast<IRField>(instr);
-
-            if (field == nullptr)
-                return false;
-
-            return true;
+            return std::dynamic_pointer_cast<IRField>(instr);
         }
 
         
-        bool is_ir_callee(std::shared_ptr<IRStmnt> instr)
+        ircallee_t callee_ir(irstmnt_t& instr)
         {
-            auto callee = std::dynamic_pointer_cast<IRCallee>(instr);
-
-            if (callee == nullptr)
-                return false;
-
-            return true;
+            return std::dynamic_pointer_cast<IRCallee>(instr);
         }
 
         
-        bool is_ir_class(std::shared_ptr<IRStmnt> instr)
+        irclass_t class_ir(irstmnt_t& instr)
         {
-            auto class_ = std::dynamic_pointer_cast<IRClass>(instr);
-
-            if (class_ == nullptr)
-                return false;
-            
-            return true;
+            return std::dynamic_pointer_cast<IRClass>(instr);
         }
 
 
-        bool is_ir_string(std::shared_ptr<IRStmnt> instr)
+        irstring_t string_ir(irstmnt_t& instr)
         {
-            auto str = std::dynamic_pointer_cast<IRString>(instr);
-
-            if (str == nullptr)
-                return false;
-
-            return true;
+            return std::dynamic_pointer_cast<IRString>(instr);
         }
 
 
-        bool is_ir_memory(std::shared_ptr<IRStmnt> instr)
+        irmemory_t memory_ir(irstmnt_t& instr)
         {
-            auto mem = std::dynamic_pointer_cast<IRMemory>(instr);
-
-            if (mem == nullptr)
-                return false;
-            
-            return true;
+            return std::dynamic_pointer_cast<IRMemory>(instr);
         }
 
         
-        bool is_ir_const_int(std::shared_ptr<IRStmnt> instr)
+        irconstint_t const_int_ir(irstmnt_t& instr)
         {
-            auto const_int = std::dynamic_pointer_cast<IRConstInt>(instr);
-
-            if (const_int == nullptr)
-                return false;
-            
-            return true;
+            return std::dynamic_pointer_cast<IRConstInt>(instr);
         }
 
         
-        bool is_ir_temp_reg(std::shared_ptr<IRStmnt> instr)
+        irtempreg_t temp_reg_ir(irstmnt_t& instr)
         {
-            auto temp_reg = std::dynamic_pointer_cast<IRTempReg>(instr);
-
-            if (temp_reg == nullptr)
-                return false;
-
-            return true;
+            return std::dynamic_pointer_cast<IRTempReg>(instr);
         }
 
 
-        bool is_register(std::shared_ptr<IRStmnt> instr)
+        irreg_t register_ir(irstmnt_t& instr)
         {
-            auto reg = std::dynamic_pointer_cast<IRReg>(instr);
-
-            if (reg == nullptr)
-                return false;
-
-            return true;
+            return std::dynamic_pointer_cast<IRReg>(instr);
         }
 
         
-        bool is_unconditional_jump(std::shared_ptr<IRStmnt> instr)
+        irujmp_t unconditional_jump_ir(irstmnt_t& instr)
         {
-            auto ujmp = std::dynamic_pointer_cast<IRUJmp>(instr);
+            return std::dynamic_pointer_cast<IRUJmp>(instr);   
+        }
 
-            if (ujmp == nullptr)
+        
+        ircjmp_t conditional_jump_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRCJmp>(instr);
+        }
+        
+        
+        irret_t ret_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRRet>(instr);
+        }
+
+        
+        ircall_t call_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRCall>(instr);
+        }
+
+        
+        irswitch_t switch_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRSwitch>(instr);
+        }
+
+        irzcomp_t zcomp_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRZComp>(instr);
+        }
+
+        irbcomp_t bcomp_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRBComp>(instr);
+        }
+
+        bool is_cmp(irstmnt_t& instr)
+        {
+            if (bcomp_ir(instr) == nullptr && zcomp_ir(instr))
                 return false;
-            
             return true;
         }
 
-        
-        bool is_conditional_jump(std::shared_ptr<IRStmnt> instr)
+        irnop_t nop_ir(irstmnt_t& instr)
         {
-            auto cjmp = std::dynamic_pointer_cast<IRCJmp>(instr);
-
-            if (cjmp == nullptr)
-                return false;
-            
-            return true;
-        }
-        
-        
-        bool is_ret(std::shared_ptr<IRStmnt> instr)
-        {
-            auto ret = std::dynamic_pointer_cast<IRRet>(instr);
-
-            if (ret == nullptr)
-                return false;
-            
-            return true;
+            return std::dynamic_pointer_cast<IRNop>(instr);
         }
 
-        
-        bool is_call(std::shared_ptr<IRStmnt> instr)
+        irexpr_t expr_ir(irstmnt_t& instr)
         {
-            auto call = std::dynamic_pointer_cast<IRCall>(instr);
-
-            if (call == nullptr)
-                return false;
-
-            return true;
+            return std::dynamic_pointer_cast<IRExpr>(instr);
         }
 
-        
-        bool is_switch(std::shared_ptr<IRStmnt> instr)
+        irbinop_t bin_op_ir(irstmnt_t& instr)
         {
-            auto switch_instr = std::dynamic_pointer_cast<IRSwitch>(instr);
-
-            if (switch_instr == nullptr)
-                return false;
-
-            return true;
+            return std::dynamic_pointer_cast<IRBinOp>(instr);
         }
 
-        bool is_cmp(std::shared_ptr<IRStmnt> instr)
+        irunaryop_t unary_op_ir(irstmnt_t& instr)
         {
-            auto cmp_instr = std::dynamic_pointer_cast<IRBComp>(instr);
-
-            if (cmp_instr != nullptr)
-                return true;
-            
-            auto zcmp_instr = std::dynamic_pointer_cast<IRZComp>(instr);
-
-            if (zcmp_instr != nullptr)
-                return true;
-            
-            return false;
+            return std::dynamic_pointer_cast<IRUnaryOp>(instr);
         }
 
-        
+        irassign_t assign_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRAssign>(instr);
+        }
+
+        irload_t load_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRLoad>(instr);
+        }
+
+        irstore_t store_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRStore>(instr);
+        }
+
+        irnew_t new_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRNew>(instr);
+        }
+
+        irtype_t type_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRType>(instr);
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace KUNAI
         /***
          * Type class
          */
-        Type::Type(type_t type, std::string raw) : type(type),
+        Type::Type(type_e type, std::string raw) : type(type),
                                                    raw(raw)
         {
         }
@@ -16,7 +16,7 @@ namespace KUNAI
          * Fundamental class
          */
 
-        Fundamental::Fundamental(fundamental_t f_type,
+        Fundamental::Fundamental(fundamental_e f_type,
                                  std::string name)
             : Type(FUNDAMENTAL, name),
               f_type(f_type),
@@ -64,25 +64,19 @@ namespace KUNAI
          * Array class
          */
 
-        Array::Array(std::vector<Type *> array,
+        Array::Array(std::vector<type_t> array,
                      std::string raw)
             : Type(ARRAY, raw),
               array(array)
         {
         }
 
-        Array::~Array()
-        {
-            if (!array.empty())
-                delete array[0];
-            array.clear();
-        }
 
         /***
          * Unknown class
          */
 
-        Unknown::Unknown(type_t type, std::string raw)
+        Unknown::Unknown(type_e type, std::string raw)
             : Type(type, raw)
         {
         }
@@ -94,7 +88,7 @@ namespace KUNAI
         DexTypes::DexTypes(std::ifstream &input_file,
                            std::uint32_t number_of_types,
                            std::uint32_t types_offsets,
-                           std::shared_ptr<DexStrings>& dex_str) : number_of_types(number_of_types),
+                           dexstrings_t& dex_str) : number_of_types(number_of_types),
                                                                   offset(types_offsets),
                                                                   dex_str(dex_str)
         {
@@ -108,12 +102,12 @@ namespace KUNAI
                 types.clear();
         }
 
-        Type *DexTypes::get_type_by_id(std::uint32_t type_id)
+        type_t DexTypes::get_type_by_id(std::uint32_t type_id)
         {
             return types[type_id];
         }
 
-        Type *DexTypes::get_type_from_order(std::uint32_t pos)
+        type_t DexTypes::get_type_from_order(std::uint32_t pos)
         {
             size_t i = pos;
 
@@ -130,44 +124,44 @@ namespace KUNAI
          * Private methods
          */
 
-        Type *DexTypes::parse_type(std::string name)
+        type_t DexTypes::parse_type(std::string name)
         {
             auto logger = LOGGER::logger();
 
-            Type *type;
+            type_t type;
             if (name.length() == 1)
             {
                 if (name == "Z")
-                    type = new Fundamental(Fundamental::BOOLEAN, name);
+                    type = std::make_shared<Fundamental>(Fundamental::BOOLEAN, name);
                 else if (name == "B")
-                    type = new Fundamental(Fundamental::BYTE, name);
+                    type = std::make_shared<Fundamental>(Fundamental::BYTE, name);
                 else if (name == "C")
-                    type = new Fundamental(Fundamental::CHAR, name);
+                    type = std::make_shared<Fundamental>(Fundamental::CHAR, name);
                 else if (name == "D")
-                    type = new Fundamental(Fundamental::DOUBLE, name);
+                    type = std::make_shared<Fundamental>(Fundamental::DOUBLE, name);
                 else if (name == "F")
-                    type = new Fundamental(Fundamental::FLOAT, name);
+                    type = std::make_shared<Fundamental>(Fundamental::FLOAT, name);
                 else if (name == "I")
-                    type = new Fundamental(Fundamental::INT, name);
+                    type = std::make_shared<Fundamental>(Fundamental::INT, name);
                 else if (name == "J")
-                    type = new Fundamental(Fundamental::LONG, name);
+                    type = std::make_shared<Fundamental>(Fundamental::LONG, name);
                 else if (name == "S")
-                    type = new Fundamental(Fundamental::SHORT, name);
+                    type = std::make_shared<Fundamental>(Fundamental::SHORT, name);
                 else if (name == "V")
-                    type = new Fundamental(Fundamental::VOID, name);
+                    type = std::make_shared<Fundamental>(Fundamental::VOID, name);
             }
             else if (name[0] == 'L')
-                type = new Class(name);
+                type = std::make_shared<Class>(name);
             else if (name[0] == '[')
             {
-                std::vector<Type *> aux_vec;
-                Type *aux_type;
+                std::vector<type_t> aux_vec;
+                type_t aux_type;
                 aux_type = parse_type(name.substr(1, name.length() - 1));
                 aux_vec.push_back(aux_type);
-                type = new Array(aux_vec, name);
+                type = std::make_shared<Array>(aux_vec, name);
             }
             else
-                type = new Unknown(Type::UNKNOWN, name);
+                type = std::make_shared<Unknown>(Type::UNKNOWN, name);
 
             return type;
         }
@@ -179,7 +173,7 @@ namespace KUNAI
             auto current_offset = input_file.tellg();
             size_t i;
             std::uint32_t type_id;
-            Type *type;
+            type_t type;
 
             // move to offset where are the string ids
             input_file.seekg(offset);
@@ -199,9 +193,9 @@ namespace KUNAI
                     throw exceptions::IncorrectStringId("Error reading types type_id out of string bound");
                 }
 
-                type = this->parse_type(*dex_str->get_string_from_order(type_id));
+                type = parse_type(*dex_str->get_string_from_order(type_id));
 
-                types.insert(std::pair<std::uint32_t, Type *>(type_id, type));
+                types.insert(std::pair<std::uint32_t, type_t>(type_id, type));
 
                 #ifdef DEBUG
                 logger->debug("parsed type number {}", i);
