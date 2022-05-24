@@ -34,29 +34,33 @@ namespace KUNAI
 {
     namespace DEX
     {
+        class MethodID;
+
+        using methodid_t = std::shared_ptr<MethodID>;
+
         class MethodID
         {
         public:
             MethodID(std::uint16_t class_idx,
                      std::uint16_t proto_idx,
                      std::uint32_t name_idx,
-                     std::shared_ptr<DexStrings>& dex_strings,
-                     std::shared_ptr<DexTypes>& dex_types,
-                     std::shared_ptr<DexProtos>& dex_protos);
+                     dexstrings_t& dex_strings,
+                     dextypes_t& dex_types,
+                     dexprotos_t& dex_protos);
 
             ~MethodID() = default;
 
-            Type *get_method_class()
+            type_t get_method_class()
             {
                 return class_idx.begin()->second;
             }
 
-            ProtoID *get_method_prototype()
+            protoid_t get_method_prototype()
             {
                 return proto_idx.begin()->second;
             }
 
-            std::string *get_method_name()
+            std::string* get_method_name()
             {
                 return name_idx.begin()->second;
             }
@@ -64,10 +68,14 @@ namespace KUNAI
             friend std::ostream &operator<<(std::ostream &os, const MethodID &entry);
 
         private:
-            std::map<std::uint16_t, Type *> class_idx;
-            std::map<std::uint16_t, ProtoID *> proto_idx;
+            std::map<std::uint16_t, type_t> class_idx;
+            std::map<std::uint16_t, protoid_t> proto_idx;
             std::map<std::uint32_t, std::string *> name_idx;
         };
+
+        class DexMethods;
+
+        using dexmethods_t = std::shared_ptr<DexMethods>;
 
         class DexMethods
         {
@@ -75,17 +83,23 @@ namespace KUNAI
             DexMethods(std::ifstream &input_file,
                        std::uint32_t number_of_methods,
                        std::uint32_t offset,
-                       std::shared_ptr<DexStrings>& dex_strings,
-                       std::shared_ptr<DexTypes>& dex_types,
-                       std::shared_ptr<DexProtos>& dex_protos);
-            ~DexMethods();
+                       dexstrings_t& dex_strings,
+                       dextypes_t& dex_types,
+                       dexprotos_t& dex_protos);
+
+            ~DexMethods() = default;
 
             std::uint32_t get_number_of_methods()
             {
                 return number_of_methods;
             }
 
-            MethodID *get_method_by_order(size_t pos);
+            std::vector<methodid_t>& get_method_ids()
+            {
+                return method_ids;
+            }
+
+            methodid_t get_method_by_order(size_t pos);
 
             friend std::ostream &operator<<(std::ostream &os, const DexMethods &entry);
             friend std::fstream &operator<<(std::fstream &fos, const DexMethods &entry);
@@ -95,11 +109,11 @@ namespace KUNAI
 
             std::uint32_t number_of_methods;
             std::uint32_t offset;
-            std::shared_ptr<DexStrings>& dex_strings;
-            std::shared_ptr<DexTypes>& dex_types;
-            std::shared_ptr<DexProtos>& dex_protos;
+            dexstrings_t& dex_strings;
+            dextypes_t& dex_types;
+            dexprotos_t& dex_protos;
 
-            std::vector<MethodID *> method_ids;
+            std::vector<methodid_t> method_ids;
         };
     }
 }

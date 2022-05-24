@@ -28,10 +28,80 @@ namespace KUNAI
     namespace DEX
     {
 
+        class Instruction;
+        class Instruction00x;
+        class Instruction10x;
+        class Instruction12x;
+        class Instruction11n;
+        class Instruction11x;
+        class Instruction10t;
+        class Instruction20t;
+        class Instruction20bc;
+        class Instruction22x;
+        class Instruction21t;
+        class Instruction21s;
+        class Instruction21h;
+        class Instruction21c;
+        class Instruction23x;
+        class Instruction22b;
+        class Instruction22t;
+        class Instruction22s;
+        class Instruction22c;
+        class Instruction22cs;
+        class Instruction30t;
+        class Instruction32x;
+        class Instruction31i;
+        class Instruction31t;
+        class Instruction31c;
+        class Instruction35c;
+        class Instruction3rc;
+        class Instruction45cc;
+        class Instruction4rcc;
+        class Instruction51l;
+        class PackedSwitch;
+        class SparseSwitch;
+        class FillArrayData;
+
+        using instruction_t = std::shared_ptr<Instruction>;
+        using instruction00x_t = std::shared_ptr<Instruction00x>;
+        using instruction10x_t = std::shared_ptr<Instruction10x>;
+        using instruction12x_t = std::shared_ptr<Instruction12x>;
+        using instruction11n_t = std::shared_ptr<Instruction11n>;
+        using instruction11x_t = std::shared_ptr<Instruction11x>;
+        using instruction10t_t = std::shared_ptr<Instruction10t>;
+        using instruction20t_t = std::shared_ptr<Instruction20t>;
+        using instruction20bc_t = std::shared_ptr<Instruction20bc>;
+        using instruction22x_t = std::shared_ptr<Instruction22x>;
+        using instruction21t_t = std::shared_ptr<Instruction21t>;
+        using instruction21s_t = std::shared_ptr<Instruction21s>;
+        using instruction21h_t = std::shared_ptr<Instruction21h>;
+        using instruction21c_t = std::shared_ptr<Instruction21c>;
+        using instruction23x_t = std::shared_ptr<Instruction23x>;
+        using instruction22b_t = std::shared_ptr<Instruction22b>;
+        using instruction22t_t = std::shared_ptr<Instruction22t>;
+        using instruction22s_t = std::shared_ptr<Instruction22s>;
+        using instruction22c_t = std::shared_ptr<Instruction22c>;
+        using instruction22cs_t = std::shared_ptr<Instruction22cs>;
+        using instruction30t_t = std::shared_ptr<Instruction30t>;
+        using instruction32x_t = std::shared_ptr<Instruction32x>;
+        using instruction31i_t = std::shared_ptr<Instruction31i>;
+        using instruction31t_t = std::shared_ptr<Instruction31t>;
+        using instruction31c_t = std::shared_ptr<Instruction31c>;
+        using instruction35c_t = std::shared_ptr<Instruction35c>;
+        using instruction3rc_t = std::shared_ptr<Instruction3rc>;
+        using instruction45cc_t = std::shared_ptr<Instruction45cc>;
+        using instruction4rcc_t = std::shared_ptr<Instruction4rcc>;
+        using instruction51l_t = std::shared_ptr<Instruction51l>;
+        using packedswitch_t = std::shared_ptr<PackedSwitch>;
+        using sparseswitch_t = std::shared_ptr<SparseSwitch>;
+        using fillarraydata_t = std::shared_ptr<FillArrayData>;
+
+
+
         class Instruction
         {
         public:
-            Instruction(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             virtual ~Instruction() = default;
 
             DVMTypes::Kind get_kind()
@@ -39,7 +109,7 @@ namespace KUNAI
                 return dalvik_opcodes->get_instruction_type(OP);
             }
 
-            std::string& get_translated_kind()
+            std::string &get_translated_kind()
             {
                 return dalvik_opcodes->get_instruction_type_str(OP);
             }
@@ -59,7 +129,7 @@ namespace KUNAI
                 return OP;
             }
 
-            std::shared_ptr<DalvikOpcodes>& get_dalvik_opcodes()
+            dalvikopcodes_t &get_dalvik_opcodes()
             {
                 return dalvik_opcodes;
             }
@@ -113,7 +183,7 @@ namespace KUNAI
             std::string get_register_correct_representation(std::uint32_t reg);
 
         private:
-            std::shared_ptr<DalvikOpcodes>& dalvik_opcodes;
+            dalvikopcodes_t &dalvik_opcodes;
             std::uint32_t length;
             std::uint32_t OP;
 
@@ -124,7 +194,7 @@ namespace KUNAI
         class Instruction00x : public Instruction
         {
         public:
-            Instruction00x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction00x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction00x() = default;
         };
 
@@ -140,7 +210,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction10x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction10x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction10x() = default;
 
             virtual std::uint64_t get_raw()
@@ -162,7 +232,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction12x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction12x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction12x() = default;
 
             virtual std::string get_output()
@@ -215,7 +285,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction11n(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction11n(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction11n() = default;
 
             virtual std::string get_output()
@@ -268,7 +338,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction11x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction11x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction11x() = default;
 
             virtual std::string get_output()
@@ -308,7 +378,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction10t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction10t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction10t() = default;
 
             virtual std::string get_output()
@@ -348,7 +418,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction20t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction20t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction20t() = default;
 
             virtual std::string get_output()
@@ -386,7 +456,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction20bc(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction20bc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction20bc() = default;
 
             virtual std::string get_output()
@@ -439,7 +509,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction22x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction22x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22x() = default;
 
             virtual std::string get_output()
@@ -492,7 +562,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction21t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction21t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction21t() = default;
 
             virtual std::string get_output()
@@ -545,7 +615,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction21s(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction21s(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction21s() = default;
 
             virtual std::string get_output()
@@ -598,7 +668,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction21h(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction21h(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction21h() = default;
 
             virtual std::string get_output()
@@ -652,7 +722,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction21c(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction21c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction21c() = default;
 
             virtual std::string get_output();
@@ -669,10 +739,10 @@ namespace KUNAI
             }
 
             std::string *get_source_str();
-            Type *get_source_typeid();
-            FieldID *get_source_static_field();
-            MethodID *get_source_method();
-            ProtoID *get_source_proto();
+            type_t get_source_typeid();
+            fieldid_t get_source_static_field();
+            methodid_t get_source_method();
+            protoid_t get_source_proto();
 
             DVMTypes::Operand get_destination_type()
             {
@@ -702,7 +772,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction23x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction23x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction23x() = default;
 
             virtual std::string get_output()
@@ -767,7 +837,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction22b(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction22b(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22b() = default;
 
             virtual std::string get_output()
@@ -831,7 +901,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction22t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction22t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22t() = default;
 
             virtual std::string get_output()
@@ -896,7 +966,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction22s(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction22s(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22s() = default;
 
             virtual std::string get_output()
@@ -962,7 +1032,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction22c(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction22c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22c() = default;
 
             virtual std::string get_output();
@@ -1009,8 +1079,8 @@ namespace KUNAI
                 return get_kind();
             }
 
-            Type *get_third_operand_typeId();
-            FieldID *get_third_operand_FieldId();
+            type_t get_third_operand_typeId();
+            fieldid_t get_third_operand_FieldId();
 
         private:
             std::uint8_t vA;
@@ -1031,7 +1101,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction22cs(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction22cs(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22cs() = default;
 
             virtual std::string get_output();
@@ -1077,8 +1147,8 @@ namespace KUNAI
             {
                 return get_kind();
             }
-            Type *get_third_operand_typeId();
-            FieldID *get_third_operand_FieldId();
+            type_t get_third_operand_typeId();
+            fieldid_t get_third_operand_FieldId();
 
         private:
             std::uint8_t vA;
@@ -1097,7 +1167,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction30t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction30t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction30t() = default;
 
             virtual std::string get_output()
@@ -1139,7 +1209,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction32x(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction32x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction32x() = default;
 
             virtual std::string get_output()
@@ -1192,7 +1262,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction31i(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction31i(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction31i() = default;
 
             virtual std::string get_output()
@@ -1231,9 +1301,6 @@ namespace KUNAI
             std::uint32_t nBBBBBBBB;
         };
 
-        class PackedSwitch;
-        class SparseSwitch;
-
         class Instruction31t : public Instruction
         /***
          * Fill given array with indicated data. Reference must
@@ -1254,7 +1321,7 @@ namespace KUNAI
                 NONE_SWITCH,
             };
 
-            Instruction31t(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction31t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction31t() = default;
 
             virtual std::string get_output()
@@ -1294,22 +1361,22 @@ namespace KUNAI
                 return type_of_switch;
             }
 
-            std::shared_ptr<PackedSwitch> get_packed_switch()
+            packedswitch_t get_packed_switch()
             {
                 return packed_switch;
             }
 
-            std::shared_ptr<SparseSwitch> get_sparse_switch()
+            sparseswitch_t get_sparse_switch()
             {
                 return sparse_switch;
             }
 
-            void set_packed_switch(std::shared_ptr<PackedSwitch> packed_switch)
+            void set_packed_switch(packedswitch_t packed_switch)
             {
                 this->packed_switch = packed_switch;
             }
 
-            void set_sparse_switch(std::shared_ptr<SparseSwitch> sparse_switch)
+            void set_sparse_switch(sparseswitch_t sparse_switch)
             {
                 this->sparse_switch = sparse_switch;
             }
@@ -1319,8 +1386,8 @@ namespace KUNAI
             std::int32_t nBBBBBBBB;
 
             type_of_switch_t type_of_switch;
-            std::shared_ptr<PackedSwitch> packed_switch;
-            std::shared_ptr<SparseSwitch> sparse_switch;
+            packedswitch_t packed_switch;
+            sparseswitch_t sparse_switch;
         };
 
         class Instruction31c : public Instruction
@@ -1336,7 +1403,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction31c(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction31c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction31c() = default;
 
             virtual std::string get_output()
@@ -1402,7 +1469,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction35c(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction35c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction35c() = default;
 
             virtual std::string get_output();
@@ -1424,7 +1491,7 @@ namespace KUNAI
                 return DVMTypes::Operand::REGISTER;
             }
 
-            Type *get_operands_kind_type()
+            type_t get_operands_kind_type()
             {
                 return get_dalvik_opcodes()->get_dalvik_Type_by_id(type_index);
             }
@@ -1434,7 +1501,7 @@ namespace KUNAI
                 return get_dalvik_opcodes()->get_dalvik_type_by_id_str(type_index);
             }
 
-            MethodID *get_operands_kind_method()
+            methodid_t get_operands_kind_method()
             {
                 return get_dalvik_opcodes()->get_dalvik_method_by_id(type_index);
             }
@@ -1469,7 +1536,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction3rc(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction3rc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction3rc() = default;
 
             virtual std::string get_output();
@@ -1503,20 +1570,21 @@ namespace KUNAI
 
             /**
              * @brief Get the last operand object
-             * 
-             * @return std::variant<KUNAI::DEX::Type *,
-             * KUNAI::DEX::MethodID *,
-             * std::uint16_t> 
+             *
+             * @return std::variant<KUNAI::DEX::type_t,
+             * KUNAI::DEX::methodid_t,
+             * std::uint16_t>
              */
-            std::variant<KUNAI::DEX::Type *,
-                         KUNAI::DEX::MethodID *,
-                         std::uint16_t> get_last_operand();
+            std::variant<KUNAI::DEX::type_t,
+                         KUNAI::DEX::methodid_t,
+                         std::uint16_t>
+            get_last_operand();
             std::string get_last_operand_str();
 
-            Type *get_operands_type();
+            type_t get_operands_type();
             std::string get_operands_type_str();
 
-            MethodID *get_operands_method();
+            methodid_t get_operands_method();
             std::string get_operands_method_str();
 
             std::uint8_t get_operand_register(std::uint8_t index);
@@ -1544,7 +1612,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction45cc(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction45cc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction45cc() = default;
 
             virtual std::string get_output();
@@ -1568,7 +1636,7 @@ namespace KUNAI
                 return DVMTypes::Kind::METH;
             }
 
-            MethodID *get_method_ref()
+            methodid_t get_method_ref()
             {
                 return get_dalvik_opcodes()->get_dalvik_method_by_id(method_reference);
             }
@@ -1583,7 +1651,7 @@ namespace KUNAI
                 return DVMTypes::Kind::PROTO;
             }
 
-            ProtoID *get_proto_ref()
+            protoid_t get_proto_ref()
             {
                 return get_dalvik_opcodes()->get_dalvik_proto_by_id(proto_reference);
             }
@@ -1615,7 +1683,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction4rcc(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction4rcc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction4rcc() = default;
 
             virtual std::string get_output();
@@ -1639,7 +1707,7 @@ namespace KUNAI
                 return DVMTypes::Kind::METH;
             }
 
-            MethodID *get_method_ref()
+            methodid_t get_method_ref()
             {
                 return get_dalvik_opcodes()->get_dalvik_method_by_id(method_reference);
             }
@@ -1654,7 +1722,7 @@ namespace KUNAI
                 return DVMTypes::Kind::PROTO;
             }
 
-            ProtoID *get_proto_ref()
+            protoid_t get_proto_ref()
             {
                 return get_dalvik_opcodes()->get_dalvik_proto_by_id(proto_reference);
             }
@@ -1684,7 +1752,7 @@ namespace KUNAI
          */
         {
         public:
-            Instruction51l(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            Instruction51l(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction51l() = default;
 
             virtual std::string get_output()
@@ -1731,7 +1799,7 @@ namespace KUNAI
          */
         {
         public:
-            PackedSwitch(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            PackedSwitch(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~PackedSwitch();
 
             virtual std::string get_output();
@@ -1767,7 +1835,7 @@ namespace KUNAI
          */
         {
         public:
-            SparseSwitch(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            SparseSwitch(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~SparseSwitch();
 
             virtual std::string get_output();
@@ -1803,7 +1871,7 @@ namespace KUNAI
          */
         {
         public:
-            FillArrayData(std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
+            FillArrayData(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~FillArrayData();
 
             virtual std::string get_output();
@@ -1841,10 +1909,10 @@ namespace KUNAI
             std::vector<handler_data> handler;
         } exceptions_data;
 
-        std::shared_ptr<Instruction> get_instruction_object(std::uint32_t opcode, std::shared_ptr<DalvikOpcodes>& dalvik_opcodes, std::istream &input_file);
-        std::vector<std::int64_t> determine_next(std::shared_ptr<Instruction> instr,
+        instruction_t get_instruction_object(std::uint32_t opcode, dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
+        std::vector<std::int64_t> determine_next(instruction_t instr,
                                                  std::uint64_t curr_idx);
-        std::vector<exceptions_data> determine_exception(std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::shared_ptr<EncodedMethod> method);
+        std::vector<exceptions_data> determine_exception(dalvikopcodes_t& dalvik_opcodes, encodedmethod_t& method);
     }
 }
 

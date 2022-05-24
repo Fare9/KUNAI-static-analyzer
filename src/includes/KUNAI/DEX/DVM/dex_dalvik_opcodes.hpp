@@ -21,15 +21,23 @@ namespace KUNAI
 {
     namespace DEX
     {
+        class DalvikOpcodes;
+
+        /**
+         * @brief A shared_ptr of DalvikOpcodes a utility class to get
+         * different values from the opcodes of the Dalvik machine these
+         * can be strings, values, types, etc.
+         */
+        using dalvikopcodes_t = std::shared_ptr<DalvikOpcodes>;
 
         class DalvikOpcodes
         {
         public:
             /**
              * @brief DalvikOpcodes constructor.
-             * @param dex_parser: std::shared_ptr<DexParser> object to use in the object.
+             * @param dex_parser: dexparser_t object to use in the object.
              */
-            DalvikOpcodes(std::shared_ptr<DexParser> dex_parser);
+            DalvikOpcodes(dexparser_t dex_parser);
 
             /**
              * @brief DalvikOpcodes destructor.
@@ -62,7 +70,7 @@ namespace KUNAI
              * @param instruction: std::uint32_t instruction opcode.
              * @return std::string
              */
-            std::string& get_instruction_type_str(std::uint32_t instruction);
+            std::string &get_instruction_type_str(std::uint32_t instruction);
 
             /**
              * @brief get string* by id.
@@ -75,58 +83,58 @@ namespace KUNAI
             }
 
             /**
-             * @brief get Type* by id.
+             * @brief get type_t by id.
              * @param id: std::uint32_t id of the Type.
-             * @return Type*
+             * @return type_t
              */
-            Type *get_dalvik_Type_by_id(std::uint32_t id)
+            type_t get_dalvik_Type_by_id(std::uint32_t id)
             {
                 return dex_parser->get_types()->get_type_from_order(id);
             }
 
             /**
-             * @brief get FieldID* by id.
+             * @brief get fieldid_t by id.
              * @param id: std::uint32_t of the FieldID.
-             * @return FieldID*
+             * @return fieldid_t
              */
-            FieldID *get_dalvik_field_by_id(std::uint32_t id)
+            fieldid_t get_dalvik_field_by_id(std::uint32_t id)
             {
                 return dex_parser->get_fields()->get_field_id_by_order(id);
             }
 
             /**
-             * @brief get MethodID* by id.
+             * @brief get methodid_t by id.
              * @param id: std::uint32_t of the MethodID.
-             * @return MethodID*
+             * @return methodid_t
              */
-            MethodID *get_dalvik_method_by_id(std::uint32_t id)
+            methodid_t get_dalvik_method_by_id(std::uint32_t id)
             {
                 return dex_parser->get_methods()->get_method_by_order(id);
             }
 
             /**
-             * @brief get ProtoID* by id.
+             * @brief get protoid_t by id.
              * @param id: std::uint32_t of the ProtoID.
-             * @return ProtoID*
+             * @return protoid_t
              */
-            ProtoID *get_dalvik_proto_by_id(std::uint32_t id)
+            protoid_t get_dalvik_proto_by_id(std::uint32_t id)
             {
                 return dex_parser->get_protos()->get_proto_by_order(id);
             }
 
             /**
-             * @brief Get a dalvil EncodedField by a given FieldID*
-             * @param field: FieldID* field to obtain its std::shared_ptr<EncodedField>
-             * @return std::shared_ptr<EncodedField>
+             * @brief Get a dalvil EncodedField by a given fieldid_t
+             * @param field: fieldid_t field to obtain its encodedfield_t
+             * @return encodedfield_t
              */
-            std::shared_ptr<EncodedField> get_dalvik_encoded_field_by_fieldid(FieldID *field);
+            encodedfield_t get_dalvik_encoded_field_by_fieldid(fieldid_t field);
 
             /**
              * @brief get string by id.
              * @param id: std::uint32_t id of the string.
              * @return std::string
              */
-            std::string& get_dalvik_string_by_id_str(std::uint32_t id)
+            std::string &get_dalvik_string_by_id_str(std::uint32_t id)
             {
                 return *dex_parser->get_strings()->get_string_from_order(id);
             }
@@ -136,7 +144,7 @@ namespace KUNAI
              * @param id: std::uint32_t id of the Type.
              * @return std::string
              */
-            std::string& get_dalvik_type_by_id_str(std::uint32_t id)
+            std::string &get_dalvik_type_by_id_str(std::uint32_t id)
             {
                 return dex_parser->get_types()->get_type_from_order(id)->get_raw();
             }
@@ -170,7 +178,7 @@ namespace KUNAI
             std::string get_access_flags_string(DVMTypes::ACCESS_FLAGS acc_flag);
 
         private:
-            std::shared_ptr<DexParser> dex_parser;
+            dexparser_t dex_parser;
 
             /**
              * @brief Translation table from opcode to string

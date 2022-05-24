@@ -8,7 +8,7 @@ namespace KUNAI
          * IRType class.
          */
 
-        IRType::IRType(type_t type, std::string type_name, size_t type_size) : IRExpr(IRExpr::TYPE_EXPR_T, nullptr, nullptr),
+        IRType::IRType(type_t type, std::string type_name, size_t type_size) : IRExpr(IRExpr::TYPE_EXPR_T),
                                                                                type(type),
                                                                                type_name(type_name),
                                                                                type_size(type_size),
@@ -66,7 +66,7 @@ namespace KUNAI
             return "";
         }
 
-        bool IRType::equal(std::shared_ptr<IRType> type)
+        bool IRType::equal(irtype_t type)
         {
             return *this == *(type.get());
         }
@@ -169,7 +169,7 @@ namespace KUNAI
             return stream.str();
         }
 
-        bool IRReg::equal(std::shared_ptr<IRReg> reg)
+        bool IRReg::equal(irreg_t reg)
         {
             return *(this) == *(reg.get());
         }
@@ -200,7 +200,7 @@ namespace KUNAI
             return stream.str();
         }
 
-        bool IRTempReg::equal(std::shared_ptr<IRTempReg> temp_reg)
+        bool IRTempReg::equal(irtempreg_t temp_reg)
         {
             return *(this) == *(temp_reg.get());
         }
@@ -251,16 +251,163 @@ namespace KUNAI
             return stream.str();
         }
 
-        bool IRConstInt::equal(std::shared_ptr<IRConstInt> const_int)
+        bool IRConstInt::equal(irconstint_t const_int)
         {
             return *(this) == *(const_int.get());
         }
 
         bool operator==(IRConstInt &type1, IRConstInt &type2)
         {
-            if (type1.value == type2.value)
+            if (type1.value == type2.value && type1.is_signed == type2.is_signed)
                 return true;
             return false;
+        }
+
+        IRConstInt operator+(IRConstInt& a, IRConstInt& b)
+        {
+            if (a.is_signed)
+            {
+                int64_t result = static_cast<int64_t>(a.value) + static_cast<int64_t>(b.value);
+                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+
+                return res;
+            } 
+            uint64_t result = a.value + a.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator-(IRConstInt& a, IRConstInt& b)
+        {
+            if (a.is_signed)
+            {
+                int64_t result = static_cast<int64_t>(a.value) - static_cast<int64_t>(b.value);
+                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+
+                return res;
+            } 
+            uint64_t result = a.value - b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator/(IRConstInt& a, IRConstInt& b)
+        {
+            if (a.is_signed)
+            {
+                int64_t result = static_cast<int64_t>(a.value) / static_cast<int64_t>(b.value);
+                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+
+                return res;
+            } 
+            uint64_t result = a.value / b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator*(IRConstInt& a, IRConstInt& b)
+        {
+            if (a.is_signed)
+            {
+                int64_t result = static_cast<int64_t>(a.value) * static_cast<int64_t>(b.value);
+                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+
+                return res;
+            } 
+            uint64_t result = a.value * b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator%(IRConstInt& a, IRConstInt& b)
+        {
+            if (a.is_signed)
+            {
+                int64_t result = static_cast<int64_t>(a.value) % static_cast<int64_t>(b.value);
+                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+
+                return res;
+            } 
+            uint64_t result = a.value % b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator&(IRConstInt& a, IRConstInt& b)
+        {
+            uint64_t result = a.value & b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator|(IRConstInt& a, IRConstInt& b)
+        {
+            uint64_t result = a.value | b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator^(IRConstInt& a, IRConstInt& b)
+        {
+            uint64_t result = a.value ^ b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator<<(IRConstInt& a, IRConstInt& b)
+        {
+            uint64_t result = a.value << b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator>>(IRConstInt& a, IRConstInt& b)
+        {
+            uint64_t result = a.value >> b.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator++(IRConstInt& a, int)
+        {
+            uint64_t result = a.value++;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator--(IRConstInt& a, int)
+        {
+            uint64_t result = a.value--;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator!(IRConstInt& a)
+        {
+            uint64_t result = !a.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
+        }
+
+        IRConstInt operator~(IRConstInt& a)
+        {
+            uint64_t result = ~a.value;
+
+            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            return res;
         }
 
         /**
@@ -305,7 +452,7 @@ namespace KUNAI
             return stream.str();
         }
 
-        bool IRMemory::equal(std::shared_ptr<IRMemory> memory)
+        bool IRMemory::equal(irmemory_t memory)
         {
             return *this == *(memory.get());
         }
@@ -336,7 +483,7 @@ namespace KUNAI
             return stream.str();
         }
 
-        bool IRString::equal(std::shared_ptr<IRString> str)
+        bool IRString::equal(irstring_t str)
         {
             return *this == *(str.get());
         }
@@ -367,7 +514,7 @@ namespace KUNAI
             return stream.str();
         }
 
-        bool IRClass::equal(std::shared_ptr<IRClass> class_)
+        bool IRClass::equal(irclass_t class_)
         {
             return *(this) == *(class_.get());
         }
@@ -424,7 +571,7 @@ namespace KUNAI
             return str_stream.str();
         }
 
-        bool IRCallee::equal(std::shared_ptr<IRCallee> callee)
+        bool IRCallee::equal(ircallee_t callee)
         {
             return *this == *(callee.get());
         }
@@ -520,7 +667,7 @@ namespace KUNAI
             return str_stream.str();
         }
 
-        bool IRField::equal(std::shared_ptr<IRField> field)
+        bool IRField::equal(irfield_t field)
         {
             return *this == *(field.get());
         }

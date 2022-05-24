@@ -8,7 +8,7 @@ namespace KUNAI
          * MethodAnalysis methods
          */
 
-        MethodAnalysis::MethodAnalysis(std::variant<std::shared_ptr<EncodedMethod>, std::shared_ptr<ExternalMethod>> method_encoded, std::shared_ptr<DalvikOpcodes> dalvik_opcodes, std::map<std::uint64_t, std::shared_ptr<Instruction>> instructions) : method_encoded(method_encoded),
+        MethodAnalysis::MethodAnalysis(std::variant<encodedmethod_t, externalmethod_t> method_encoded, dalvikopcodes_t dalvik_opcodes, std::map<std::uint64_t, instruction_t> instructions) : method_encoded(method_encoded),
                                                                                                                                                                                                           dalvik_opcodes(dalvik_opcodes),
                                                                                                                                                                                                           instructions(instructions)
         {
@@ -39,11 +39,11 @@ namespace KUNAI
         {
             if (is_external)
             {
-                return std::get<std::shared_ptr<ExternalMethod>>(method_encoded)->get_name();
+                return std::get<externalmethod_t>(method_encoded)->get_name();
             }
             else
             {
-                return *std::get<std::shared_ptr<EncodedMethod>>(method_encoded)->get_method()->get_method_name();
+                return *std::get<encodedmethod_t>(method_encoded)->get_method()->get_method_name();
             }
         }
 
@@ -51,11 +51,11 @@ namespace KUNAI
         {
             if (is_external)
             {
-                return std::get<std::shared_ptr<ExternalMethod>>(method_encoded)->get_descriptor();
+                return std::get<externalmethod_t>(method_encoded)->get_descriptor();
             }
             else
             {
-                return std::get<std::shared_ptr<EncodedMethod>>(method_encoded)->get_method()->get_method_prototype()->get_proto_str();
+                return std::get<encodedmethod_t>(method_encoded)->get_method()->get_method_prototype()->get_proto_str();
             }
         }
 
@@ -65,12 +65,12 @@ namespace KUNAI
 
             if (is_external)
             {
-                std::shared_ptr<ExternalMethod> method = std::get<std::shared_ptr<ExternalMethod>>(method_encoded);
+                externalmethod_t method = std::get<externalmethod_t>(method_encoded);
                 access_flag = this->dalvik_opcodes->get_access_flags_string(method->get_access_flags());
             }
             else
             {
-                std::shared_ptr<EncodedMethod> method = std::get<std::shared_ptr<EncodedMethod>>(method_encoded);
+                encodedmethod_t method = std::get<encodedmethod_t>(method_encoded);
                 access_flag = this->dalvik_opcodes->get_access_flags_string(method->get_access_flags());
             }
 
@@ -83,12 +83,12 @@ namespace KUNAI
 
             if (is_external)
             {
-                std::shared_ptr<ExternalMethod> method = std::get<std::shared_ptr<ExternalMethod>>(method_encoded);
+                externalmethod_t method = std::get<externalmethod_t>(method_encoded);
                 class_name = method->get_class_name();
             }
             else
             {
-                std::shared_ptr<EncodedMethod> method = std::get<std::shared_ptr<EncodedMethod>>(method_encoded);
+                encodedmethod_t method = std::get<encodedmethod_t>(method_encoded);
                 class_name = method->get_method()->get_method_class()->get_raw();
             }
 
@@ -104,32 +104,32 @@ namespace KUNAI
             return class_name + " " + name + " " + descriptor;
         }
 
-        void MethodAnalysis::add_xref_read(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<FieldAnalysis> field_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_read(classanalysis_t class_object, fieldanalysis_t field_object, std::uint64_t offset)
         {
             xrefread.push_back({class_object, field_object, offset});
         }
 
-        void MethodAnalysis::add_xref_write(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<FieldAnalysis> field_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_write(classanalysis_t class_object, fieldanalysis_t field_object, std::uint64_t offset)
         {
             xrefwrite.push_back({class_object, field_object, offset});
         }
 
-        void MethodAnalysis::add_xref_to(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_to(classanalysis_t class_object, methodanalysis_t method_object, std::uint64_t offset)
         {
             xrefto.push_back({class_object, method_object, offset});
         }
 
-        void MethodAnalysis::add_xref_from(std::shared_ptr<ClassAnalysis> class_object, std::shared_ptr<MethodAnalysis> method_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_from(classanalysis_t class_object, methodanalysis_t method_object, std::uint64_t offset)
         {
             xreffrom.push_back({class_object, method_object, offset});
         }
 
-        void MethodAnalysis::add_xref_new_instance(std::shared_ptr<ClassAnalysis> class_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_new_instance(classanalysis_t class_object, std::uint64_t offset)
         {
             xrefnewinstance.push_back({class_object, offset});
         }
 
-        void MethodAnalysis::add_xref_const_class(std::shared_ptr<ClassAnalysis> class_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_const_class(classanalysis_t class_object, std::uint64_t offset)
         {
             xrefconstclass.push_back({class_object, offset});
         }
@@ -139,7 +139,7 @@ namespace KUNAI
             auto logger = LOGGER::logger();
 
             basic_blocks = std::make_shared<BasicBlocks>();
-            std::shared_ptr<DVMBasicBlock> current_basic = std::make_shared<DVMBasicBlock>(0, dalvik_opcodes, basic_blocks, std::get<std::shared_ptr<EncodedMethod>>(method_encoded), instructions);
+            dvmbasicblock_t current_basic = std::make_shared<DVMBasicBlock>(0, dalvik_opcodes, basic_blocks, std::get<encodedmethod_t>(method_encoded), instructions);
 
             // push the first basic block
             basic_blocks->push_basic_block(current_basic);
@@ -148,7 +148,7 @@ namespace KUNAI
             std::map<std::uint64_t, std::vector<std::int64_t>> h;
 
 
-            logger->debug("create_basic_block: creating basic blocks for method {}.", std::get<std::shared_ptr<EncodedMethod>>(method_encoded)->full_name());
+            logger->debug("create_basic_block: creating basic blocks for method {}.", std::get<encodedmethod_t>(method_encoded)->full_name());
 
             for (auto const &instruction : instructions)
             {
@@ -168,7 +168,7 @@ namespace KUNAI
             logger->debug("create_basic_block: parsing method exceptions.");
             #endif
 
-            auto excepts = determine_exception(dalvik_opcodes, std::get<std::shared_ptr<EncodedMethod>>(method_encoded));
+            auto excepts = determine_exception(dalvik_opcodes, std::get<encodedmethod_t>(method_encoded));
 
             for (const auto &except : excepts)
             {
@@ -193,7 +193,7 @@ namespace KUNAI
                 {
                     if (current_basic->get_nb_instructions() != 0)
                     {
-                        current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::get<std::shared_ptr<EncodedMethod>>(method_encoded), instructions);
+                        current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::get<encodedmethod_t>(method_encoded), instructions);
                         basic_blocks->push_basic_block(current_basic);
                     }
                 }
@@ -202,7 +202,7 @@ namespace KUNAI
 
                 if (h.find(idx) != h.end())
                 {
-                    current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::get<std::shared_ptr<EncodedMethod>>(method_encoded), instructions);
+                    current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::get<encodedmethod_t>(method_encoded), instructions);
                     basic_blocks->push_basic_block(current_basic);
                 }
             }

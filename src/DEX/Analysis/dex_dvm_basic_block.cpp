@@ -9,10 +9,10 @@ namespace KUNAI
          * DVMBasicBlock
          */
         DVMBasicBlock::DVMBasicBlock(std::uint64_t start,
-                                     std::shared_ptr<DalvikOpcodes> dalvik_opcodes,
-                                     std::shared_ptr<BasicBlocks> context,
-                                     std::shared_ptr<EncodedMethod> method,
-                                     std::map<std::uint64_t, std::shared_ptr<Instruction>> &instructions) : start(start),
+                                     dalvikopcodes_t dalvik_opcodes,
+                                     basicblocks_t context,
+                                     encodedmethod_t method,
+                                     std::map<std::uint64_t, instruction_t> &instructions) : start(start),
                                                                                                             end(start),
                                                                                                             dalvik_opcodes(dalvik_opcodes),
                                                                                                             context(context),
@@ -28,9 +28,9 @@ namespace KUNAI
             this->name += "-BB@" + stream.str();
         }
 
-        std::vector<std::shared_ptr<Instruction>> DVMBasicBlock::get_instructions()
+        std::vector<instruction_t> DVMBasicBlock::get_instructions()
         {
-            std::vector<std::shared_ptr<Instruction>> bb_instructions;
+            std::vector<instruction_t> bb_instructions;
 
             for (auto instruction : instructions)
             {
@@ -41,13 +41,13 @@ namespace KUNAI
             return bb_instructions;
         }
 
-        std::shared_ptr<Instruction> DVMBasicBlock::get_last()
+        instruction_t DVMBasicBlock::get_last()
         {
             auto bb = get_instructions();
             return bb[bb.size() - 1];
         }
 
-        void DVMBasicBlock::set_parent(std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock *> bb)
+        void DVMBasicBlock::set_parent(std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*> bb)
         {
             parents.push_back(bb);
         }
@@ -55,9 +55,10 @@ namespace KUNAI
         void DVMBasicBlock::set_child()
         {
             auto next_block = context->get_basic_block_by_idx(end + 1);
+
             if (next_block != nullptr)
             {
-                childs.push_back({end - last_length, end, next_block});
+                childs.push_back({end - last_length, end, next_block.get()});
             }
 
             for (auto child : childs)
@@ -74,13 +75,14 @@ namespace KUNAI
 
         void DVMBasicBlock::set_child(const std::vector<int64_t> &values)
         {
+
             for (auto value : values)
             {
                 if (value == -1)
                     continue;
 
                 if (const auto next_block = context->get_basic_block_by_idx(value))
-                    childs.push_back({end - last_length, value, next_block});
+                    childs.push_back({end - last_length, value, next_block.get()});
             }
 
             for (auto child : childs)
@@ -94,7 +96,7 @@ namespace KUNAI
             }
         }
 
-        void DVMBasicBlock::push(std::shared_ptr<Instruction> instr)
+        void DVMBasicBlock::push(instruction_t instr)
         {
             nb_instructions += 1;
             std::uint64_t idx = end;
@@ -112,7 +114,7 @@ namespace KUNAI
             }
         }
 
-        std::shared_ptr<Instruction> DVMBasicBlock::get_special_instruction(std::uint64_t idx)
+        instruction_t DVMBasicBlock::get_special_instruction(std::uint64_t idx)
         {
             if (special_instructions.find(idx) != special_instructions.end())
                 return special_instructions[idx];
@@ -131,14 +133,14 @@ namespace KUNAI
                 basic_blocks.clear();
         }
 
-        void BasicBlocks::push_basic_block(std::shared_ptr<DVMBasicBlock> basic_block)
+        void BasicBlocks::push_basic_block(dvmbasicblock_t basic_block)
         {
             this->basic_blocks.push_back(basic_block);
         }
 
-        std::shared_ptr<DVMBasicBlock> BasicBlocks::pop_basic_block()
+        dvmbasicblock_t BasicBlocks::pop_basic_block()
         {
-            std::shared_ptr<DVMBasicBlock> last_bb = nullptr;
+            dvmbasicblock_t last_bb = nullptr;
             if (this->basic_blocks.size() >= 1)
             {
                 last_bb = this->basic_blocks[this->basic_blocks.size() - 1];
@@ -148,7 +150,7 @@ namespace KUNAI
             return last_bb;
         }
 
-        std::shared_ptr<DVMBasicBlock> BasicBlocks::get_basic_block_by_idx(std::uint64_t idx)
+        dvmbasicblock_t BasicBlocks::get_basic_block_by_idx(std::uint64_t idx)
         {
             for (auto basic_block : basic_blocks)
             {

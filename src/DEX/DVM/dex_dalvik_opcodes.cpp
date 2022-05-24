@@ -5,7 +5,7 @@ namespace KUNAI
     namespace DEX
     {
 
-        DalvikOpcodes::DalvikOpcodes(std::shared_ptr<DexParser> dex_parser) : dex_parser(dex_parser)
+        DalvikOpcodes::DalvikOpcodes(dexparser_t dex_parser) : dex_parser(dex_parser)
         {
         }
 
@@ -37,21 +37,21 @@ namespace KUNAI
             return KindString[kind];
         }
 
-        std::shared_ptr<EncodedField> DalvikOpcodes::get_dalvik_encoded_field_by_fieldid(FieldID *field)
+        encodedfield_t DalvikOpcodes::get_dalvik_encoded_field_by_fieldid(fieldid_t field)
         {
             auto classes_def = dex_parser->get_classes_def_item();
 
-            for (auto c = classes_def.begin(); c != classes_def.end(); c++)
+            for (auto c : classes_def)
             {
-                if ((*c)->get_class_idx()->get_name() == reinterpret_cast<Class *>(field->get_class_idx())->get_name())
+                if (c->get_class_idx()->get_name() == std::dynamic_pointer_cast<Class>(field->get_class_idx())->get_name())
                 {
-                    auto fields = (*c)->get_class_data()->get_fields();
+                    auto fields = c->get_class_data()->get_fields();
 
-                    for (auto f = fields.begin(); f != fields.end(); f++)
+                    for (auto f : fields)
                     {
-                        if ((*f)->get_field() == field)
+                        if (f->get_field().get() == field.get())
                         {
-                            return *f;
+                            return f;
                         }
                     }
                 }

@@ -20,10 +20,21 @@ namespace KUNAI
 {
     namespace DEX
     {
+        class DexDisassembler;
+
+        /**
+         * @brief std::shared_ptr of DexDisassembler object which manages the disassembly
+         * of the DEX bytecode, currently it implements a LinearSweepDisassembly which
+         * will take methods and will disassemble them, it returns the instructions as a map.
+         */
+        using dexdisassembler_t = std::shared_ptr<DexDisassembler>;
+
+        using instruction_map_t = std::map<std::tuple<classdef_t, encodedmethod_t>, std::map<std::uint64_t, instruction_t>>;
+
         class DexDisassembler
         {
         public:
-            DexDisassembler(bool parsing_correct, std::shared_ptr<DexParser> dex_parser, std::shared_ptr<DalvikOpcodes> dalvik_opcodes);
+            DexDisassembler(bool parsing_correct, dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes);
             ~DexDisassembler() = default;
 
             /**
@@ -43,29 +54,28 @@ namespace KUNAI
 
             /**
              * @brief Get the linear sweep disassembler object.
-             * @return std::shared_ptr<LinearSweepDisassembler>
+             * @return linearsweepdisassembler_t
              */
-            std::shared_ptr<LinearSweepDisassembler>& get_linear_sweep_disassembler()
+            linearsweepdisassembler_t &get_linear_sweep_disassembler()
             {
                 return dalvik_disassembler;
             }
 
             /**
              * @brief Return all the instructions from the disassembled DEX.
-             * @return std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>, std::map<std::uint64_t, std::shared_ptr<Instruction>>>
+             * @return instruction_map_t
              */
-            std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>,
-                     std::map<std::uint64_t, std::shared_ptr<Instruction>>> &
+            instruction_map_t &
             get_instructions()
             {
                 return method_instructions;
             }
 
-            void add_disassembly(std::shared_ptr<DexDisassembler> disas);
+            void add_disassembly(dexdisassembler_t disas);
 
             friend std::ostream &operator<<(std::ostream &os, const DexDisassembler &entry);
 
-            friend DexDisassembler& operator+(DexDisassembler& first_disassembler, DexDisassembler& other_disassembler);
+            friend DexDisassembler &operator+(DexDisassembler &first_disassembler, DexDisassembler &other_disassembler);
 
         private:
             /**
@@ -74,12 +84,12 @@ namespace KUNAI
              */
             void disassembly_methods();
 
-            std::shared_ptr<DexParser> dex_parser;
-            std::shared_ptr<DalvikOpcodes> dalvik_opcodes;
-            std::shared_ptr<LinearSweepDisassembler> dalvik_disassembler;
+            dexparser_t dex_parser;
+            dalvikopcodes_t dalvik_opcodes;
+            linearsweepdisassembler_t dalvik_disassembler;
 
-            std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>,
-                     std::map<std::uint64_t, std::shared_ptr<Instruction>>>
+            std::map<std::tuple<classdef_t, encodedmethod_t>,
+                     std::map<std::uint64_t, instruction_t>>
                 method_instructions;
             bool parsing_correct;
             bool disassembly_correct;

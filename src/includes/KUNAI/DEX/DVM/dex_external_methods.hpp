@@ -21,6 +21,10 @@ namespace KUNAI
     namespace DEX
     {
 
+        class ExternalMethod;
+
+        using externalmethod_t = std::shared_ptr<ExternalMethod>;
+
         class ExternalMethod
         {
         public:

@@ -32,27 +32,35 @@ namespace KUNAI
 {
     namespace DEX
     {
+        class FieldID;
+
+        using fieldid_t = std::shared_ptr<FieldID>;
+
         class FieldID
         {
         public:
             FieldID(std::uint16_t class_idx,
                     std::uint16_t type_idx,
                     std::uint32_t name_idx,
-                    std::shared_ptr<DexStrings>& dex_strings,
-                    std::shared_ptr<DexTypes>& dex_types);
+                    dexstrings_t& dex_strings,
+                    dextypes_t& dex_types);
             ~FieldID() = default;
 
-            Type *get_class_idx();
-            Type *get_type_idx();
+            type_t get_class_idx();
+            type_t get_type_idx();
             std::string *get_name_idx();
 
             friend std::ostream &operator<<(std::ostream &os, const FieldID &entry);
 
         private:
-            std::map<std::uint16_t, Type *> class_idx;
-            std::map<std::uint16_t, Type *> type_idx;
+            std::map<std::uint16_t, type_t> class_idx;
+            std::map<std::uint16_t, type_t> type_idx;
             std::map<std::uint32_t, std::string *> name_idx;
         };
+
+        class DexFields;
+
+        using dexfields_t = std::shared_ptr<DexFields>;
 
         class DexFields
         {
@@ -60,17 +68,22 @@ namespace KUNAI
             DexFields(std::ifstream &input_file,
                       std::uint32_t number_of_fields,
                       std::uint32_t offset,
-                      std::shared_ptr<DexStrings>& dex_strings,
-                      std::shared_ptr<DexTypes>& dex_types);
+                      dexstrings_t& dex_strings,
+                      dextypes_t& dex_types);
 
-            ~DexFields();
+            ~DexFields() = default;
 
             std::uint64_t get_number_of_fields()
             {
                 return number_of_fields;
             }
 
-            FieldID *get_field_id_by_order(size_t pos);
+            std::vector<fieldid_t>& get_fields()
+            {
+                return field_ids;
+            }
+
+            fieldid_t get_field_id_by_order(size_t pos);
 
             friend std::ostream &operator<<(std::ostream &os, const DexFields &entry);
             friend std::fstream &operator<<(std::fstream &fos, const DexFields &entry);
@@ -80,10 +93,10 @@ namespace KUNAI
 
             std::uint32_t number_of_fields;
             std::uint32_t offset;
-            std::shared_ptr<DexStrings>& dex_strings;
-            std::shared_ptr<DexTypes>& dex_types;
+            dexstrings_t& dex_strings;
+            dextypes_t& dex_types;
 
-            std::vector<FieldID *> field_ids;
+            std::vector<fieldid_t> field_ids;
         };
 
     }

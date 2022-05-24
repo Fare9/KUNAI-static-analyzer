@@ -31,6 +31,10 @@ namespace KUNAI
 {
     namespace APK
     {
+        class APK;
+
+        using apk_t = std::shared_ptr<APK>;
+
         /**
          * APK definition
          * 
@@ -45,7 +49,7 @@ namespace KUNAI
         {
         public:
 
-            APK(std::string path_to_apk_file);
+            APK(std::string path_to_apk_file, bool create_xrefs);
             
             ~APK();
 
@@ -62,9 +66,9 @@ namespace KUNAI
              * this is necessary to create a global analysis object
              * too.
              * 
-             * @return std::shared_ptr<DEX::DexDisassembler> 
+             * @return dexdisassembler_t
              */
-            std::shared_ptr<DEX::DexDisassembler>& get_global_disassembler()
+            DEX::dexdisassembler_t& get_global_disassembler()
             {
                 return global_disassembler;
             }
@@ -75,9 +79,9 @@ namespace KUNAI
              * the global disassembler in order to analyze the whole
              * APK.
              * 
-             * @return std::shared_ptr<DEX::Analysis> 
+             * @return DEX::analysis_t
              */
-            std::shared_ptr<DEX::Analysis>& get_global_analysis()
+            DEX::analysis_t& get_global_analysis()
             {
                 return global_analysis;
             }
@@ -85,9 +89,9 @@ namespace KUNAI
             /**
              * @brief Get the map of the DEX file objects.
              * 
-             * @return const std::map<std::string, std::shared_ptr<DEX::DEX>>& 
+             * @return const std::map<std::string, DEX::dex_t>& 
              */
-            const std::map<std::string, std::shared_ptr<DEX::DEX>>& get_dex_files() const
+            const std::map<std::string, DEX::dex_t>& get_dex_files() const
             {
                 return dex_files;
             }
@@ -96,9 +100,9 @@ namespace KUNAI
              * @brief Get a dex object by name or nullptr if dex file does not exists.
              * 
              * @param dex_name 
-             * @return std::shared_ptr<DEX::DEX> 
+             * @return DEX::dex_t
              */
-            std::shared_ptr<DEX::DEX> get_dex_by_name(std::string dex_name)
+            DEX::dex_t get_dex_by_name(std::string dex_name)
             {
                 if (dex_files.find(dex_name) == dex_files.end())
                     return nullptr;
@@ -132,34 +136,38 @@ namespace KUNAI
              * with it.
              * 
              * @param dex_file 
-             * @return std::shared_ptr<DEX::DEX>
+             * @return DEX::dex_t
              */
-            std::shared_ptr<DEX::DEX> manage_dex_files_from_zip_entry(std::shared_ptr<CkZipEntry> dex_file);
+            DEX::dex_t manage_dex_files_from_zip_entry(std::shared_ptr<CkZipEntry> dex_file);
 
 
-            std::map<std::string, std::shared_ptr<DEX::DEX>> dex_files;
-            std::shared_ptr<DEX::DexDisassembler> global_disassembler;
-            std::shared_ptr<DEX::Analysis> global_analysis;
+            std::map<std::string, DEX::dex_t> dex_files;
+            DEX::dexdisassembler_t global_disassembler;
+            DEX::analysis_t global_analysis;
 
             std::string path_to_apk_file;
             std::string temporal_path;
+
+            bool create_xrefs;
         };
 
         /**
          * @brief Get the unique apk object object
          * 
          * @param path_to_apk_file 
+         * @param create_xrefs
          * @return std::unique_ptr<APK> 
          */
-        std::unique_ptr<APK> get_unique_apk_object(std::string path_to_apk_file);
+        std::unique_ptr<APK> get_unique_apk_object(std::string path_to_apk_file, bool create_xrefs);
 
         /**
          * @brief Get the shared apk object object
          * 
          * @param path_to_apk_file 
-         * @return std::shared_ptr<APK> 
+         * @param create_xrefs
+         * @return apk_t 
          */
-        std::shared_ptr<APK> get_shared_apk_object(std::string path_to_apk_file);
+        apk_t get_shared_apk_object(std::string path_to_apk_file, bool create_xrefs);
     }
 }
 

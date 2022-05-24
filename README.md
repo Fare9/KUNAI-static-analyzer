@@ -211,9 +211,10 @@ Dalvik has been the first "assembly" language to be supported with **MjolnIR** i
 Here there are some references used as ideas and base for the design and/or implementation of **KUNAI** and **MjolnIR**:
 
 * Projects:
-    * [Androguard](https://github.com/androguard/androguard)
-    * [Miasm](https://github.com/cea-sec/miasm/tree/master)
-    * [VEX](https://github.com/angr/vex)
+    * [Androguard](https://github.com/androguard/androguard): Androguard is a static analysis tool aimed to analyze Android applications and DEX files.
+    * [Miasm](https://github.com/cea-sec/miasm/tree/master): Miasm is a symbolic execution engine written in python which allows to analyze statically binaries using its SymbEx engine and the possibility to optimize/simplify the generated code.
+    * [VEX](https://github.com/angr/vex): VEX is a binary lifter and an IR that Angr uses as its own IR for doing symbolic execution.
+    * [Maat](https://github.com/trailofbits/maat): Maat is a symbolic execution engine written in C++ by trail of bits, it uses Ghidra P-Code as its Intermediate Representation.
 * Papers:
     * [Wire -- A Formal Intermediate Language for Binary Analysis](https://ieeexplore.ieee.org/document/6296015)
     * [REIL: A platform-independent intermediate representation of disassembled code for static code analysis](https://static.googleusercontent.com/media/www.zynamics.com/en//downloads/csw09.pdf)

@@ -5,12 +5,18 @@ namespace KUNAI
     namespace MJOLNIR
     {
 
-        IRExpr::IRExpr(expr_type_t type, std::shared_ptr<IRExpr> left, std::shared_ptr<IRExpr> right)
+        IRExpr::IRExpr(expr_type_t type)
             : IRStmnt(EXPR_STMNT_T),
-              type(type),
-              left(left),
-              right(right)
+              type(type)
         {
+        }
+
+
+        void IRExpr::invalidate_chains()
+        {
+            invalidate_use_def_chain();
+            invalidate_op1_def_use_chain();
+            invalidate_op2_def_use_chain();
         }
 
         std::string IRExpr::to_string()
@@ -83,7 +89,7 @@ namespace KUNAI
             return "";
         }
 
-        bool IRExpr::equals(std::shared_ptr<IRExpr> irexpr)
+        bool IRExpr::equals(irexpr_t irexpr)
         {
             return *(this) == *(irexpr.get());
         }
@@ -172,12 +178,10 @@ namespace KUNAI
          */
 
         IRBinOp::IRBinOp(bin_op_t bin_op_type,
-                         std::shared_ptr<IRExpr> result,
-                         std::shared_ptr<IRExpr> op1,
-                         std::shared_ptr<IRExpr> op2,
-                         std::shared_ptr<IRExpr> left,
-                         std::shared_ptr<IRExpr> right)
-            : IRExpr(BINOP_EXPR_T, left, right),
+                         irexpr_t result,
+                         irexpr_t op1,
+                         irexpr_t op2)
+            : IRExpr(BINOP_EXPR_T),
               bin_op_type(bin_op_type),
               result(result),
               op1(op1),
@@ -241,7 +245,7 @@ namespace KUNAI
             return str_stream.str();
         }
 
-        bool IRBinOp::equals(std::shared_ptr<IRBinOp> irbinop)
+        bool IRBinOp::equals(irbinop_t irbinop)
         {
             return *this == *(irbinop.get());
         }
@@ -259,11 +263,9 @@ namespace KUNAI
          */
 
         IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type,
-                             std::shared_ptr<IRExpr> result,
-                             std::shared_ptr<IRExpr> op,
-                             std::shared_ptr<IRExpr> left,
-                             std::shared_ptr<IRExpr> right)
-            : IRExpr(UNARYOP_EXPR_T, left, right),
+                             irexpr_t result,
+                             irexpr_t op)
+            : IRExpr(UNARYOP_EXPR_T),
               unary_op_type(unary_op_type),
               result(result),
               op(op),
@@ -273,26 +275,22 @@ namespace KUNAI
 
         IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type,
                              cast_type_t cast_type,
-                             std::shared_ptr<IRExpr> result,
-                             std::shared_ptr<IRExpr> op,
-                             std::shared_ptr<IRExpr> left,
-                             std::shared_ptr<IRExpr> right)
-            : IRExpr(UNARYOP_EXPR_T, left, right),
+                             irexpr_t result,
+                             irexpr_t op)
+            : IRExpr(UNARYOP_EXPR_T),
               unary_op_type(unary_op_type),
               result(result),
-              op(op),
-              cast_type(cast_type)
+              op(op)
         {
         }
+
 
         IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type,
                              cast_type_t cast_type,
                              std::string class_name,
-                             std::shared_ptr<IRExpr> result,
-                             std::shared_ptr<IRExpr> op,
-                             std::shared_ptr<IRExpr> left,
-                             std::shared_ptr<IRExpr> right)
-            : IRExpr(UNARYOP_EXPR_T, left, right),
+                             irexpr_t result,
+                             irexpr_t op)
+            : IRExpr(UNARYOP_EXPR_T),
               unary_op_type(unary_op_type),
               result(result),
               op(op),
@@ -374,7 +372,7 @@ namespace KUNAI
             return str_stream.str();
         }
 
-        bool IRUnaryOp::equals(std::shared_ptr<IRUnaryOp> irunaryop)
+        bool IRUnaryOp::equals(irunaryop_t irunaryop)
         {
             return *this == *(irunaryop.get());
         }
@@ -389,12 +387,9 @@ namespace KUNAI
         /**
          * IRAssign class
          */
-
-        IRAssign::IRAssign(std::shared_ptr<IRExpr> destination,
-                           std::shared_ptr<IRExpr> source,
-                           std::shared_ptr<IRExpr> left,
-                           std::shared_ptr<IRExpr> right)
-            : IRExpr(ASSIGN_EXPR_T, left, right),
+        IRAssign::IRAssign(irexpr_t destination,
+                           irexpr_t source)
+            : IRExpr(ASSIGN_EXPR_T),
               destination(destination),
               source(source)
         {
@@ -411,7 +406,7 @@ namespace KUNAI
             return str_stream.str();
         }
 
-        bool IRAssign::equals(std::shared_ptr<IRAssign> irassign)
+        bool IRAssign::equals(irassign_t irassign)
         {
             return *this == *(irassign.get());
         }
@@ -426,11 +421,9 @@ namespace KUNAI
          * IRCall class
          */
 
-        IRCall::IRCall(std::shared_ptr<IRExpr> callee,
-                       std::vector<std::shared_ptr<IRExpr>> args,
-                       std::shared_ptr<IRExpr> left,
-                       std::shared_ptr<IRExpr> right)
-            : IRExpr(CALL_EXPR_T, left, right),
+        IRCall::IRCall(irexpr_t callee,
+                       std::vector<irexpr_t> args)
+            : IRExpr(CALL_EXPR_T),
               callee(callee),
               args(args),
               ret_val(nullptr),
@@ -438,12 +431,10 @@ namespace KUNAI
         {
         }
 
-        IRCall::IRCall(std::shared_ptr<IRExpr> callee,
+        IRCall::IRCall(irexpr_t callee,
                        call_type_t call_type,
-                       std::vector<std::shared_ptr<IRExpr>> args,
-                       std::shared_ptr<IRExpr> left,
-                       std::shared_ptr<IRExpr> right)
-            : IRExpr(CALL_EXPR_T, left, right),
+                       std::vector<irexpr_t> args)
+            : IRExpr(CALL_EXPR_T),
               callee(callee),
               call_type(call_type),
               args(args),
@@ -483,7 +474,7 @@ namespace KUNAI
             return str_stream.str();
         }
 
-        bool IRCall::equals(std::shared_ptr<IRCall> ircall)
+        bool IRCall::equals(ircall_t ircall)
         {
             return *(this) == *(ircall.get());
         }
@@ -497,13 +488,10 @@ namespace KUNAI
         /**
          * IRLoad class
          */
-
-        IRLoad::IRLoad(std::shared_ptr<IRExpr> destination,
-                       std::shared_ptr<IRExpr> source,
-                       std::uint32_t size,
-                       std::shared_ptr<IRExpr> left,
-                       std::shared_ptr<IRExpr> right)
-            : IRExpr(LOAD_EXPR_T, left, right),
+        IRLoad::IRLoad(irexpr_t destination,
+                       irexpr_t source,
+                       std::uint32_t size)
+            : IRExpr(LOAD_EXPR_T),
               destination(destination),
               source(source),
               index(nullptr),
@@ -511,13 +499,11 @@ namespace KUNAI
         {
         }
 
-        IRLoad::IRLoad(std::shared_ptr<IRExpr> destination,
-                       std::shared_ptr<IRExpr> source,
-                       std::shared_ptr<IRExpr> index,
-                       std::uint32_t size,
-                       std::shared_ptr<IRExpr> left,
-                       std::shared_ptr<IRExpr> right)
-            : IRExpr(LOAD_EXPR_T, left, right),
+        IRLoad::IRLoad(irexpr_t destination,
+                       irexpr_t source,
+                       irexpr_t index,
+                       std::uint32_t size)
+            : IRExpr(LOAD_EXPR_T),
               destination(destination),
               source(source),
               index(index),
@@ -541,7 +527,7 @@ namespace KUNAI
             return str_stream.str();
         }
 
-        bool IRLoad::equals(std::shared_ptr<IRLoad> irload)
+        bool IRLoad::equals(irload_t irload)
         {
             return *this == *(irload.get());
         }
@@ -557,12 +543,10 @@ namespace KUNAI
          * IRStore class
          */
 
-        IRStore::IRStore(std::shared_ptr<IRExpr> destination,
-                         std::shared_ptr<IRExpr> source,
-                         std::uint32_t size,
-                         std::shared_ptr<IRExpr> left,
-                         std::shared_ptr<IRExpr> right)
-            : IRExpr(STORE_EXPR_T, left, right),
+        IRStore::IRStore(irexpr_t destination,
+                         irexpr_t source,
+                         std::uint32_t size)
+            : IRExpr(STORE_EXPR_T),
               destination(destination),
               source(source),
               index(nullptr),
@@ -570,13 +554,11 @@ namespace KUNAI
         {
         }
 
-        IRStore::IRStore(std::shared_ptr<IRExpr> destination,
-                         std::shared_ptr<IRExpr> source,
-                         std::shared_ptr<IRExpr> index,
-                         std::uint32_t size,
-                         std::shared_ptr<IRExpr> left,
-                         std::shared_ptr<IRExpr> right)
-            : IRExpr(STORE_EXPR_T, left, right),
+        IRStore::IRStore(irexpr_t destination,
+                         irexpr_t source,
+                         irexpr_t index,
+                         std::uint32_t size)
+            : IRExpr(STORE_EXPR_T),
               destination(destination),
               source(source),
               index(index),
@@ -601,7 +583,7 @@ namespace KUNAI
             return str_stream.str();
         }
 
-        bool IRStore::equals(std::shared_ptr<IRStore> irstore)
+        bool IRStore::equals(irstore_t irstore)
         {
             return *(this) == *(irstore.get());
         }
@@ -618,11 +600,9 @@ namespace KUNAI
          */
 
         IRZComp::IRZComp(zero_comp_t comp,
-                         std::shared_ptr<IRExpr> result,
-                         std::shared_ptr<IRExpr> reg,
-                         std::shared_ptr<IRExpr> left,
-                         std::shared_ptr<IRExpr> right)
-            : IRExpr(ZCOMP_EXPR_T, left, right),
+                    irexpr_t result,
+                    irexpr_t reg)
+            : IRExpr(ZCOMP_EXPR_T),
               comp(comp),
               result(result),
               reg(reg)
@@ -662,7 +642,7 @@ namespace KUNAI
             return str_stream.str();
         }
 
-        bool IRZComp::equals(std::shared_ptr<IRZComp> irzcomp)
+        bool IRZComp::equals(irzcomp_t irzcomp)
         {
             return *this == *(irzcomp.get());
         }
@@ -678,12 +658,10 @@ namespace KUNAI
          */
 
         IRBComp::IRBComp(comp_t comp,
-                         std::shared_ptr<IRExpr> result,
-                         std::shared_ptr<IRExpr> reg1,
-                         std::shared_ptr<IRExpr> reg2,
-                         std::shared_ptr<IRExpr> left,
-                         std::shared_ptr<IRExpr> right)
-            : IRExpr(BCOMP_EXPR_T, left, right),
+                         irexpr_t result,
+                         irexpr_t reg1,
+                         irexpr_t reg2)
+            : IRExpr(BCOMP_EXPR_T),
               comp(comp),
               result(result),
               reg1(reg1),
@@ -735,7 +713,7 @@ namespace KUNAI
             return str_stream.str();
         }
 
-        bool IRBComp::equals(std::shared_ptr<IRBComp> bcomp)
+        bool IRBComp::equals(irbcomp_t bcomp)
         {
             return *this == *(bcomp.get());
         }
@@ -751,11 +729,9 @@ namespace KUNAI
          * IRNew class
          */
 
-        IRNew::IRNew(std::shared_ptr<IRExpr> result,
-                     std::shared_ptr<IRExpr> class_instance,
-                     std::shared_ptr<IRExpr> left,
-                     std::shared_ptr<IRExpr> right)
-            : IRExpr(NEW_EXPR_T, nullptr, nullptr),
+        IRNew::IRNew(irexpr_t result,
+                     irexpr_t class_instance)
+            : IRExpr(NEW_EXPR_T),
               result(result),
               class_instance(class_instance)
         {
@@ -773,7 +749,7 @@ namespace KUNAI
             return stream.str();
         }
 
-        bool IRNew::equals(std::shared_ptr<IRNew> new_i)
+        bool IRNew::equals(irnew_t new_i)
         {
             return (*this) == *(new_i.get());
         }

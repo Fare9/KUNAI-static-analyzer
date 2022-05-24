@@ -19,6 +19,11 @@
 namespace KUNAI {
     namespace DEX {
 
+        class ExternalClass;
+
+        using externalclass_t = std::shared_ptr<ExternalClass>;
+
+
         class ExternalClass
         {
         public:
@@ -59,23 +64,23 @@ namespace KUNAI {
              * @brief Get the method by position.
              * 
              * @param pos 
-             * @return std::shared_ptr<ExternalMethod> 
+             * @return externalmethod_t 
              */
-            std::shared_ptr<ExternalMethod> get_method_by_pos(std::uint64_t pos);
+            externalmethod_t get_method_by_pos(std::uint64_t pos);
 
             /**
              * @brief Add external method to class.
              * 
              * @param method 
              */
-            void add_method(std::shared_ptr<ExternalMethod> method)
+            void add_method(externalmethod_t method)
             {
                 methods.push_back(method);
             }
 
         private:
             std::string name;
-            std::vector<std::shared_ptr<ExternalMethod>> methods;
+            std::vector<externalmethod_t> methods;
         };
     }
 }

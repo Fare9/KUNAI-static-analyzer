@@ -12,22 +12,22 @@ namespace KUNAI
         FieldID::FieldID(std::uint16_t class_idx,
                          std::uint16_t type_idx,
                          std::uint32_t name_idx,
-                         std::shared_ptr<DexStrings>& dex_strings,
-                         std::shared_ptr<DexTypes>& dex_types)
+                         dexstrings_t& dex_strings,
+                         dextypes_t& dex_types)
         {
             this->class_idx[class_idx] = dex_types->get_type_from_order(class_idx);
             this->type_idx[type_idx] = dex_types->get_type_from_order(type_idx);
             this->name_idx[name_idx] = dex_strings->get_string_from_order(name_idx);
         }
 
-        Type *FieldID::get_class_idx()
+        type_t FieldID::get_class_idx()
         {
             if (class_idx.empty())
                 return nullptr;
             return class_idx.begin()->second;
         }
 
-        Type *FieldID::get_type_idx()
+        type_t FieldID::get_type_idx()
         {
             if (type_idx.empty())
                 return nullptr;
@@ -65,8 +65,8 @@ namespace KUNAI
         DexFields::DexFields(std::ifstream &input_file,
                              std::uint32_t number_of_fields,
                              std::uint32_t offset,
-                             std::shared_ptr<DexStrings>& dex_strings,
-                             std::shared_ptr<DexTypes>& dex_types) : number_of_fields(number_of_fields),
+                             dexstrings_t& dex_strings,
+                             dextypes_t& dex_types) : number_of_fields(number_of_fields),
                                                                     offset(offset),
                                                                     dex_strings(dex_strings),
                                                                     dex_types(dex_types)
@@ -75,17 +75,8 @@ namespace KUNAI
                 throw exceptions::ParserReadingException("Error reading DEX fields");
         }
 
-        DexFields::~DexFields()
-        {
-            if (!field_ids.empty())
-            {
-                for (size_t i = 0; i < field_ids.size(); i++)
-                    delete field_ids[i];
-                field_ids.clear();
-            }
-        }
 
-        FieldID *DexFields::get_field_id_by_order(size_t pos)
+        fieldid_t DexFields::get_field_id_by_order(size_t pos)
         {
             if (pos >= field_ids.size())
                 return nullptr;
@@ -96,7 +87,7 @@ namespace KUNAI
         {
             auto logger = LOGGER::logger();
 
-            FieldID *field_id;
+            fieldid_t field_id;
             auto current_offset = input_file.tellg();
             size_t i = 0;
             std::uint16_t class_idx, type_idx;
@@ -138,7 +129,7 @@ namespace KUNAI
                     throw exceptions::IncorrectStringId("Error reading fields name_idx out of string bound");
                 }
 
-                field_id = new FieldID(class_idx, type_idx, name_idx, dex_strings, dex_types);
+                field_id = std::make_shared<FieldID>(class_idx, type_idx, name_idx, dex_strings, dex_types);
 
                 field_ids.push_back(field_id);
 
@@ -157,9 +148,9 @@ namespace KUNAI
             size_t i = 0;
             os << std::hex;
             os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Fields ===========" << std::endl;
-            for (auto it = entry.field_ids.begin(); it != entry.field_ids.end(); it++)
+
+            for (auto field_id : entry.field_ids)
             {
-                FieldID *field_id = *it;
                 os << std::left << std::setfill(' ') << "Field (" << std::dec << i++ << std::hex << "): ";
                 os << *field_id;
             }
@@ -172,9 +163,8 @@ namespace KUNAI
             std::stringstream stream;
             stream << std::hex;
             stream << std::setw(30) << std::left << std::setfill(' ') << "<fields>" << std::endl;
-            for (auto it = entry.field_ids.begin(); it != entry.field_ids.end(); it++)
+            for (auto field_id : entry.field_ids)
             {
-                FieldID *field_id = *it;
                 stream << "\t<field>" << std::endl;
                 stream << "\t\t<type>" << field_id->get_type_idx()->get_raw() << "</type>" << std::endl;
                 stream << "\t\t<class>" << field_id->get_class_idx()->get_raw() << "</class>" << std::endl;

@@ -10,6 +10,9 @@
  *
  */
 
+#ifndef IR_GRAMMAR_HPP
+#define IR_GRAMMAR_HPP
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -41,6 +44,7 @@ namespace KUNAI
         class IRStore;
         class IRZComp;
         class IRBComp;
+        class IRNew;
         class IRType;
         class IRReg;
         class IRTempReg;
@@ -49,140 +53,250 @@ namespace KUNAI
         class IRString;
         class IRClass;
         class IRCallee;
+        class IRField;
 
-        /**
-         * Useful methods you can use
-         * for getting information about
-         * the instructions.
-         */
+        using irblock_t = std::shared_ptr<IRBlock>;
+        using irstmnt_t = std::shared_ptr<IRStmnt>;
 
+        using irujmp_t = std::shared_ptr<IRUJmp>;
         /**
-         * @brief Check if the given statement is a IRField.
+         * @brief Check if the given statement is an unconditional jump instruction.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irujmp_t or nullptr
          */
-        bool is_ir_field(std::shared_ptr<IRStmnt> instr);
+        irujmp_t unconditional_jump_ir(irstmnt_t& instr);
 
+        using ircjmp_t = std::shared_ptr<IRCJmp>;
         /**
-         * @brief Check if given statement object is
-         *        a callee method/function
+         * @brief Check if the given statement is a conditional jump instruction.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return ircjmp_t or nullptr
          */
-        bool is_ir_callee(std::shared_ptr<IRStmnt> instr);
+        ircjmp_t conditional_jump_ir(irstmnt_t& instr);
 
+        using irret_t = std::shared_ptr<IRRet>;
         /**
-         * @brief Check if given statement object is a class.
+         * @brief Check if given statement is a ret instruction.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irret_t or nullptr
          */
-        bool is_ir_class(std::shared_ptr<IRStmnt> instr);
+        irret_t ret_ir(irstmnt_t& instr);
 
+        using irnop_t = std::shared_ptr<IRNop>;
         /**
-         * @brief Check if given statement object is a string.
+         * @brief Check if given statement is a NOP instruction
+         * 
+         * @param instr 
+         * @return irnop_t or nullptr
+         */
+        irnop_t nop_ir(irstmnt_t& instr);
+
+        using irswitch_t = std::shared_ptr<IRSwitch>;
+        /**
+         * @brief Check if given statement is a switch instruction.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irswitch_t or nullptr
          */
-        bool is_ir_string(std::shared_ptr<IRStmnt> instr);
+        irswitch_t switch_ir(irstmnt_t& instr);
 
+        using irexpr_t = std::shared_ptr<IRExpr>;
         /**
-         * @brief Check if given statement object is a memory.
+         * @brief Check if given statement is an expression instruction.
+         * 
+         * @param instr 
+         * @return irexpr_t ornullptr
+         */
+        irexpr_t expr_ir(irstmnt_t& instr);
+
+        using irbinop_t = std::shared_ptr<IRBinOp>;
+        /**
+         * @brief Check if given statement is a binary operation.
+         * 
+         * @param instr 
+         * @return irbinop_t or nullptr
+         */
+        irbinop_t bin_op_ir(irstmnt_t& instr);
+
+        using irunaryop_t = std::shared_ptr<IRUnaryOp>;
+        /**
+         * @brief Check if given statement is a unary operation.
+         * 
+         * @param instr 
+         * @return irunaryop_t or nullptr
+         */
+        irunaryop_t unary_op_ir(irstmnt_t& instr);
+
+        using irassign_t = std::shared_ptr<IRAssign>;
+        /**
+         * @brief Check if given statement is an assignment operation.
+         * 
+         * @param instr 
+         * @return irassign_t or nullptr
+         */
+        irassign_t assign_ir(irstmnt_t& instr);
+
+        using ircall_t = std::shared_ptr<IRCall>;
+        /**
+         * @brief Check if given statement is a call instruction.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return ircall_t or nullptr
          */
-        bool is_ir_memory(std::shared_ptr<IRStmnt> instr);
+        ircall_t call_ir(irstmnt_t& instr);
+
+        using irload_t = std::shared_ptr<IRLoad>;
+        /**
+         * @brief Check if given statement is a load instruction.
+         * 
+         * @param instr 
+         * @return irload_t or nullptr
+         */
+        irload_t load_ir(irstmnt_t& instr);
+
+        using irstore_t = std::shared_ptr<IRStore>;
+        /**
+         * @brief Check if given statement is a store instruction.
+         * 
+         * @param instr 
+         * @return irstore_t or nullptr
+         */
+        irstore_t store_ir(irstmnt_t& instr);
+
+        using irzcomp_t = std::shared_ptr<IRZComp>;
 
         /**
-         * @brief Check if given statement object is a constant integer.
-         *
-         * @param instr
-         * @return true
-         * @return false
+         * @brief Check if given statement is a zero comparison.
+         * 
+         * @param instr 
+         * @return irzcomp_t or nullptr
          */
-        bool is_ir_const_int(std::shared_ptr<IRStmnt> instr);
+        irzcomp_t zcomp_ir(irstmnt_t& instr);
+
+
+        using irbcomp_t = std::shared_ptr<IRBComp>;
+        
+        /**
+         * @brief Check if given statement is a binary comparison.
+         * 
+         * @param instr 
+         * @return irbcomp_t or nullptr
+         */
+        irbcomp_t bcomp_ir(irstmnt_t& instr);
 
         /**
-         * @brief Check if a given statement object is a temporal register.
-         *
-         * @param instr
-         * @return true
-         * @return false
+         * @brief Check if the given statements is one of the comparisons.
+         * 
+         * @param instr 
+         * @return true 
+         * @return false 
          */
-        bool is_ir_temp_reg(std::shared_ptr<IRStmnt> instr);
+        bool is_cmp(irstmnt_t& instr);
 
+
+        using irnew_t = std::shared_ptr<IRNew>;
+        /**
+         * @brief check if given statement is a new statement.
+         * 
+         * @param instr 
+         * @return irnew_t or nullptr
+         */
+        irnew_t new_ir(irstmnt_t& instr);
+
+        using irtype_t = std::shared_ptr<IRType>;
+        /**
+         * @brief Check if given statement is type statement.
+         * 
+         * @param instr 
+         * @return irtype_t or nullptr
+         */
+        irtype_t type_ir(irstmnt_t& instr);
+
+        using irreg_t = std::shared_ptr<IRReg>;
         /**
          * @brief Check if the given statement object is
          *        a register.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irreg_t or nullptr
          */
-        bool is_ir_register(std::shared_ptr<IRStmnt> instr);
+        irreg_t register_ir(irstmnt_t& instr);
 
+
+        using irtempreg_t = std::shared_ptr<IRTempReg>;
         /**
-         * @brief Check if the given statement is an unconditional jump instruction.
+         * @brief Check if a given statement object is a temporal register.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irtempreg_t or nullptr
          */
-        bool is_unconditional_jump(std::shared_ptr<IRStmnt> instr);
+        irtempreg_t temp_reg_ir(irstmnt_t& instr);
 
+
+        using irconstint_t = std::shared_ptr<IRConstInt>;
         /**
-         * @brief Check if the given statement is a conditional jump instruction.
+         * @brief Check if given statement object is a constant integer.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irconstint_t or nullptr
          */
-        bool is_conditional_jump(std::shared_ptr<IRStmnt> instr);
+        irconstint_t const_int_ir(irstmnt_t& instr);
 
+
+        using irmemory_t = std::shared_ptr<IRMemory>;
         /**
-         * @brief Check if given statement is a ret instruction.
+         * @brief Check if given statement object is a memory.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irmemory_t or nullptr
          */
-        bool is_ret(std::shared_ptr<IRStmnt> instr);
+        irmemory_t memory_ir(irstmnt_t& instr);
 
+
+
+        using irstring_t = std::shared_ptr<IRString>;
         /**
-         * @brief Check if given statement is a call instruction.
+         * @brief Check if given statement object is a string.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irstring_t or nullptr
          */
-        bool is_call(std::shared_ptr<IRStmnt> instr);
+        irstring_t string_ir(irstmnt_t& instr);
 
+
+        using irclass_t = std::shared_ptr<IRClass>;
         /**
-         * @brief Check if given statement is a switch instruction.
+         * @brief Check if given statement object is a class.
          *
          * @param instr
-         * @return true
-         * @return false
+         * @return irclass_t or nullptr
          */
-        bool is_switch(std::shared_ptr<IRStmnt> instr);
-
+        irclass_t class_ir(irstmnt_t& instr);
+        
+        
+        using ircallee_t = std::shared_ptr<IRCallee>;
         /**
-         * @brief check if given statement is some kind of comparison.
-         * 
+         * @brief Check if given statement object is
+         *        a callee method/function
+         *
          * @param instr
-         * @return true
-         * @return false
+         * @return ircallee_t or nullptr
          */
-        bool is_cmp(std::shared_ptr<IRStmnt> instr);
+        ircallee_t callee_ir(irstmnt_t& instr);
+
+        using irfield_t = std::shared_ptr<IRField>;
+        /**
+         * @brief Check if the given statement is a IRField.
+         *
+         * @param instr
+         * @return irfield_t or nullptr
+         */
+        irfield_t field_ir(irstmnt_t& instr);
+
+        
 
         class IRBlock
         {
@@ -205,7 +319,7 @@ namespace KUNAI
              * @param statement: statement to append to the list.
              * @return void
              */
-            void append_statement_to_block(std::shared_ptr<IRStmnt> statement)
+            void append_statement_to_block(irstmnt_t statement)
             {
                 block_statements.push_back(statement);
             }
@@ -228,9 +342,9 @@ namespace KUNAI
 
             /**
              * @brief Get the list of statements.
-             * @return std::list<std::shared_ptr<IRStmnt>>
+             * @return std::vector<irstmnt_t>
              */
-            std::list<std::shared_ptr<IRStmnt>> &get_statements()
+            std::vector<irstmnt_t> &get_statements()
             {
                 return block_statements;
             }
@@ -293,7 +407,7 @@ namespace KUNAI
             //! starting idx and last idx (used for jump calculation)
             uint64_t start_idx, end_idx;
             //! statements from the basic block.
-            std::list<std::shared_ptr<IRStmnt>> block_statements;
+            std::vector<irstmnt_t> block_statements;
         };
 
         class IRStmnt
@@ -351,7 +465,7 @@ namespace KUNAI
              * @param target: target of the jump.
              * @return void
              */
-            IRUJmp(uint64_t addr, std::shared_ptr<IRBlock> target);
+            IRUJmp(uint64_t addr, irblock_t target);
 
             /**
              * @brief Destructor of IRUJmp, nothing to be done here.
@@ -364,16 +478,16 @@ namespace KUNAI
              *
              * @param target: block target where will jump.
              */
-            void set_jump_target(std::shared_ptr<IRBlock> target)
+            void set_jump_target(irblock_t target)
             {
                 this->target = target;
             }
 
             /**
              * @brief Get the target of the unconditional jump.
-             * @return std::shared_ptr<IRBlock>
+             * @return irblock_t
              */
-            std::shared_ptr<IRBlock> get_jump_target()
+            irblock_t get_jump_target()
             {
                 return target;
             }
@@ -399,7 +513,7 @@ namespace KUNAI
             //! offset or address of target
             uint64_t addr;
             //! target where the jump will fall
-            std::shared_ptr<IRBlock> target;
+            irblock_t target;
         };
 
         class IRCJmp : public IRStmnt
@@ -413,7 +527,7 @@ namespace KUNAI
              * @param fallthrough: block of the statement if the condition is not true.
              * @return void
              */
-            IRCJmp(uint64_t addr, std::shared_ptr<IRStmnt> condition, std::shared_ptr<IRBlock> target, std::shared_ptr<IRBlock> fallthrough);
+            IRCJmp(uint64_t addr, irstmnt_t condition, irblock_t target, irblock_t fallthrough);
 
             /**
              * @brief Destructor of IRCJmp, nothing to be done.
@@ -433,9 +547,9 @@ namespace KUNAI
 
             /**
              * @brief Get the condition of the conditional jump.
-             * @return std::shared_ptr<IRStmnt>
+             * @return irstmnt_t
              */
-            std::shared_ptr<IRStmnt> get_condition()
+            irstmnt_t get_condition()
             {
                 return condition;
             }
@@ -445,16 +559,16 @@ namespace KUNAI
              *
              * @param target: target where jump would go if taken.
              */
-            void set_jump_target(std::shared_ptr<IRBlock> target)
+            void set_jump_target(irblock_t target)
             {
                 this->target = target;
             }
 
             /**
              * @brief Get the jump target if the condition is true.
-             * @return std::shared_ptr<IRStmnt>
+             * @return irstmnt_t
              */
-            std::shared_ptr<IRBlock> get_jump_target()
+            irblock_t get_jump_target()
             {
                 return target;
             }
@@ -464,16 +578,16 @@ namespace KUNAI
              *
              * @param fallthrough: block where jump would go if not taken.
              */
-            void set_fallthrough_Target(std::shared_ptr<IRBlock> fallthrough)
+            void set_fallthrough_Target(irblock_t fallthrough)
             {
                 this->fallthrough = fallthrough;
             }
 
             /**
              * @brief Get the fallthrough target in case condition is false.
-             * @return std::shared_ptr<IRStmnt>
+             * @return irstmnt_t
              */
-            std::shared_ptr<IRBlock> get_fallthrough_target()
+            irblock_t get_fallthrough_target()
             {
                 return fallthrough;
             }
@@ -489,11 +603,11 @@ namespace KUNAI
             //! offset or address of target
             uint64_t addr;
             //! Condition for taking the target jump
-            std::shared_ptr<IRStmnt> condition;
+            irstmnt_t condition;
             //! target where the jump will fall
-            std::shared_ptr<IRBlock> target;
+            irblock_t target;
             //! fallthrough target.
-            std::shared_ptr<IRBlock> fallthrough;
+            irblock_t fallthrough;
         };
 
         class IRRet : public IRStmnt
@@ -504,7 +618,7 @@ namespace KUNAI
              * @param ret_value: return value, this can be a NONE type or a register.
              * @return void
              */
-            IRRet(std::shared_ptr<IRStmnt> ret_value);
+            IRRet(irstmnt_t ret_value);
 
             /**
              * @brief Destructor of IRRet, nothing to be done.
@@ -514,9 +628,9 @@ namespace KUNAI
 
             /**
              * @brief Get the return value this will be a NONE IRType, or an IRReg.
-             * @return std::shared_ptr<IRStmnt>
+             * @return irstmnt_t
              */
-            std::shared_ptr<IRStmnt> get_return_value()
+            irstmnt_t get_return_value()
             {
                 return ret_value;
             }
@@ -530,7 +644,7 @@ namespace KUNAI
 
         private:
             //! Returned value, commonly a NONE IRType, or an IRReg.
-            std::shared_ptr<IRStmnt> ret_value;
+            irstmnt_t ret_value;
         };
 
         class IRNop : public IRStmnt
@@ -563,7 +677,7 @@ namespace KUNAI
              * @param constants_checks: values checked on switch (if any)
              */
             IRSwitch(std::vector<int32_t> offsets,
-                     std::shared_ptr<IRExpr> condition,
+                     irexpr_t condition,
                      std::vector<int32_t> constants_checks);
 
             /**
@@ -584,9 +698,9 @@ namespace KUNAI
             /**
              * @brief Return the possible condition checked on switch.
              *
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_condition()
+            irexpr_t get_condition()
             {
                 return condition;
             }
@@ -612,7 +726,7 @@ namespace KUNAI
             //! switch offsets where instruction will jump.
             std::vector<int32_t> offsets;
             //! condition taken to decide where to jump
-            std::shared_ptr<IRExpr> condition;
+            irexpr_t condition;
             //! conditions checked during switch.
             std::vector<int32_t> constants_checks;
         };
@@ -637,12 +751,10 @@ namespace KUNAI
 
             /**
              * @brief Constructor of IRExpr this will be the most common type of instruction of the IR.
+             * 
              * @param type: type of the expression (type of the instruction).
-             * @param left: left expression for the AST.
-             * @param right: right expression for the AST.
-             * @return void
              */
-            IRExpr(expr_type_t type, std::shared_ptr<IRExpr> left, std::shared_ptr<IRExpr> right);
+            IRExpr(expr_type_t type);
 
             /**
              * @brief Destructor of IRExpr, nothing to be done.
@@ -651,39 +763,96 @@ namespace KUNAI
             ~IRExpr() = default;
 
             /**
-             * @brief Set the left expression (for the AST).
-             * @param left: left part of expression for the AST.
+             * @brief Get the use-def chain from the result object.
+             * 
+             * @return std::vector<irexpr_t&>& 
              */
-            void set_left_expr(std::shared_ptr<IRExpr> left)
+            const std::vector<irexpr_t>& get_use_def_chain() const
             {
-                this->left = left;
+                return use_def_chain;
             }
 
             /**
-             * @brief Set the right expression (for the AST).
-             * @param left: right part of expression for the AST.
+             * @brief Get the def-use chain of the operand1 (if exists)
+             * 
+             * @return const std::vector<irexpr_t&>& 
              */
-            void set_right_expr(std::shared_ptr<IRExpr> right)
+            const std::vector<irexpr_t>& get_op1_def_use_chain() const
             {
-                this->right = right;
+                return def_use_chain_op1;
             }
 
             /**
-             * @brief Get the left expression (from the AST)
-             * @return std::shared_ptr<IRExpr>
+             * @brief Get the def-use chain of the operand2 (if exists)
+             * 
+             * @return const std::vector<irexpr_t&>& 
              */
-            std::shared_ptr<IRExpr> get_left_expr()
+            const std::vector<irexpr_t>& get_op2_def_use_chain() const
             {
-                return left;
+                return def_use_chain_op2;
             }
 
             /**
-             * @brief Get the right expression (from the AST)
-             * @return std::shared_ptr<IRExpr>
+             * @brief Add instruction to use_def_chain
+             * 
+             * @param instr 
              */
-            std::shared_ptr<IRExpr> get_right_expr()
+            void add_instr_to_use_def_chain(irexpr_t instr)
             {
-                return right;
+                use_def_chain.push_back(instr);
+            }
+
+            /**
+             * @brief Add instruction to op1 def_use_chain
+             * 
+             * @param instr 
+             */
+            void add_instr_to_op1_def_use_chain(irexpr_t instr)
+            {
+                def_use_chain_op1.push_back(instr);
+            }
+
+            /**
+             * @brief Add instruction to op2 def_use_chain
+             * 
+             * @param instr 
+             */
+            void add_instr_to_op2_def_use_chain(irexpr_t instr)
+            {
+                def_use_chain_op2.push_back(instr);
+            }
+
+            /**
+             * @brief Invalidate the use_def and def_use chains
+             * 
+             */
+            void invalidate_chains();
+
+            /**
+             * @brief Invalidate the use_def_chain clearing the vector.
+             * 
+             */
+            void invalidate_use_def_chain()
+            {
+                use_def_chain.clear();
+            }
+
+            /**
+             * @brief Invalidate the op1 def_use_chain
+             * 
+             */
+            void invalidate_op1_def_use_chain()
+            {
+                def_use_chain_op1.clear();
+            }
+            
+            /**
+             * @brief Invalidate the op2 def_use_chain
+             * 
+             */
+            void invalidate_op2_def_use_chain()
+            {
+                def_use_chain_op2.clear();
             }
 
             /**
@@ -706,7 +875,7 @@ namespace KUNAI
              * @brief Comparison of IRExpr instructions.
              * @return bool
              */
-            bool equals(std::shared_ptr<IRExpr> irexpr);
+            bool equals(irexpr_t irexpr);
 
             /**
              * @brief Operator == for IRExpr.
@@ -717,10 +886,10 @@ namespace KUNAI
             friend bool operator==(IRExpr &, IRExpr &);
 
         private:
-            //! pointers used for the abstract syntax tree
-            //! these pointers are common in the IRExpr.
-            std::shared_ptr<IRExpr> left;
-            std::shared_ptr<IRExpr> right;
+            //! Vectors used for use-def and def-use chains
+            std::vector<irexpr_t> use_def_chain;
+            std::vector<irexpr_t> def_use_chain_op1;
+            std::vector<irexpr_t> def_use_chain_op2;
 
             //! ir expression as string
             std::string ir_expr_str;
@@ -757,16 +926,11 @@ namespace KUNAI
              * @param result: where result of operation is stored.
              * @param op1: first operand of the operation.
              * @param op2: second operand of the operation.
-             * @param left: left expression for the AST.
-             * @param right: right expression for the AST.
-             * @return void
              */
             IRBinOp(bin_op_t bin_op_type,
-                    std::shared_ptr<IRExpr> result,
-                    std::shared_ptr<IRExpr> op1,
-                    std::shared_ptr<IRExpr> op2,
-                    std::shared_ptr<IRExpr> left,
-                    std::shared_ptr<IRExpr> right);
+                    irexpr_t result,
+                    irexpr_t op1,
+                    irexpr_t op2);
 
             /**
              * @brief Destructor of IRBinOp.
@@ -785,27 +949,27 @@ namespace KUNAI
 
             /**
              * @brief Get expression of type where result is stored.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_result()
+            irexpr_t get_result()
             {
                 return result;
             }
 
             /**
              * @brief Get the operand 1 of the operation.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_op1()
+            irexpr_t get_op1()
             {
                 return op1;
             }
 
             /**
              * @brief Get the operand 2 of the operation.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_op2()
+            irexpr_t get_op2()
             {
                 return op2;
             }
@@ -821,7 +985,7 @@ namespace KUNAI
              * @brief Comparison of IRBinOp instructions.
              * @return bool
              */
-            bool equals(std::shared_ptr<IRBinOp> irbinop);
+            bool equals(irbinop_t irbinop);
 
             /**
              * @brief Operator == for IRBinOp.
@@ -836,10 +1000,10 @@ namespace KUNAI
             bin_op_t bin_op_type;
             //! IRBinOp =>  IRExpr(result) = IRExpr(op1) <binop> IRExpr(op2)
             //! for the result we will have an IRExpr too.
-            std::shared_ptr<IRExpr> result;
+            irexpr_t result;
             //! now each one of the operators
-            std::shared_ptr<IRExpr> op1;
-            std::shared_ptr<IRExpr> op2;
+            irexpr_t op1;
+            irexpr_t op2;
         };
 
         class IRUnaryOp : public IRExpr
@@ -847,6 +1011,7 @@ namespace KUNAI
         public:
             enum unary_op_t
             {
+                NONE_UNARY_OP_T,
                 INC_OP_T,
                 DEC_OP_T,
                 NOT_OP_T,
@@ -876,15 +1041,10 @@ namespace KUNAI
              * @param unary_op_type: type of unary operation.
              * @param result: where the operation stores the result.
              * @param op: operand from the instruction.
-             * @param left: left expression for the AST.
-             * @param right: right expression for the AST.
-             * @return void
              */
             IRUnaryOp(unary_op_t unary_op_type,
-                      std::shared_ptr<IRExpr> result,
-                      std::shared_ptr<IRExpr> op,
-                      std::shared_ptr<IRExpr> left,
-                      std::shared_ptr<IRExpr> right);
+                      irexpr_t result,
+                      irexpr_t op);
 
             /**
              * @brief Constructor of IRUnaryOp class, this will get different values for the instruction.
@@ -892,16 +1052,11 @@ namespace KUNAI
              * @param cast_type: instruction is cast, specify type of cast.
              * @param result: where the operation stores the result.
              * @param op: operand from the instruction.
-             * @param left: left expression for the AST.
-             * @param right: right expression for the AST.
-             * @return void
              */
             IRUnaryOp(unary_op_t unary_op_type,
                       cast_type_t cast_type,
-                      std::shared_ptr<IRExpr> result,
-                      std::shared_ptr<IRExpr> op,
-                      std::shared_ptr<IRExpr> left,
-                      std::shared_ptr<IRExpr> right);
+                      irexpr_t result,
+                      irexpr_t op);
 
             /**
              * @brief  Constructor of IRUnaryOp class, this will get different values for the instruction.
@@ -911,17 +1066,13 @@ namespace KUNAI
              * @param class_name: if cast is TO_CLASS, specify the name of the class.
              * @param result: where the operation stores the result.
              * @param op: operand from the instruction.
-             * @param left: left expression for the AST.
-             * @param right: right expression for the AST.
              * @return void
              */
             IRUnaryOp(unary_op_t unary_op_type,
                       cast_type_t cast_type,
                       std::string class_name,
-                      std::shared_ptr<IRExpr> result,
-                      std::shared_ptr<IRExpr> op,
-                      std::shared_ptr<IRExpr> left,
-                      std::shared_ptr<IRExpr> right);
+                      irexpr_t result,
+                      irexpr_t op);
 
             /**
              * @brief Destructor of IRUnaryOp class, nothing to be done.
@@ -940,18 +1091,18 @@ namespace KUNAI
 
             /**
              * @brief Get the IRExpr where result of the operation would be stored.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_result()
+            irexpr_t get_result()
             {
                 return result;
             }
 
             /**
              * @brief Get the IRExpr of the operand of the instruction.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_op()
+            irexpr_t get_op()
             {
                 return op;
             }
@@ -996,7 +1147,7 @@ namespace KUNAI
              * @brief Comparison of IRUnaryOp instructions.
              * @return bool
              */
-            bool equals(std::shared_ptr<IRUnaryOp> irunaryop);
+            bool equals(irunaryop_t irunaryop);
 
             /**
              * @brief Operator == for IRUnaryOp.
@@ -1015,27 +1166,23 @@ namespace KUNAI
             std::string class_name;
             //! IRUnaryOp => IRExpr(result) = <unaryop> IRExpr(op)
             //! an IRExpr for where the result is stored.
-            std::shared_ptr<IRExpr> result;
+            irexpr_t result;
             // operator
-            std::shared_ptr<IRExpr> op;
+            irexpr_t op;
         };
 
         class IRAssign : public IRExpr
         {
         public:
+
             /**
              * @brief Constructor of IRAssign, this one will have just those from the basic types,
              *        no more information is needed, the left part and the right part.
              * @param destination: type where the value will be assigned.
              * @param source: type from where the value is taken.
-             * @param left: left part of the assignment (also used for AST).
-             * @param right: right part of the assignment (also used for AST).
-             * @return void
              */
-            IRAssign(std::shared_ptr<IRExpr> destination,
-                     std::shared_ptr<IRExpr> source,
-                     std::shared_ptr<IRExpr> left,
-                     std::shared_ptr<IRExpr> right);
+            IRAssign(irexpr_t destination,
+                     irexpr_t source);
 
             /**
              * @brief Destructor of IRAssign, nothing to be done here.
@@ -1045,18 +1192,18 @@ namespace KUNAI
 
             /**
              * @brief Get destination type where value is assigned.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_destination()
+            irexpr_t get_destination()
             {
                 return destination;
             }
 
             /**
              * @brief Get the source operand from the assignment.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_source()
+            irexpr_t get_source()
             {
                 return source;
             }
@@ -1072,7 +1219,7 @@ namespace KUNAI
              * @brief Comparison of IRAssign instructions.
              * @return bool
              */
-            bool equals(std::shared_ptr<IRAssign> irassign);
+            bool equals(irassign_t irassign);
 
             /**
              * @brief Operator == for IRAssign.
@@ -1084,9 +1231,9 @@ namespace KUNAI
 
         private:
             //! destination where the value will be stored.
-            std::shared_ptr<IRExpr> destination;
+            irexpr_t destination;
             //! source expression from where the value is taken
-            std::shared_ptr<IRExpr> source;
+            irexpr_t source;
         };
 
         class IRCall : public IRExpr
@@ -1104,28 +1251,19 @@ namespace KUNAI
              * @brief Constructor of IRCall, this expression represents a Call to a function or method.
              * @param callee: function/method called represented as IRExpr (super-super-class of IRCallee).
              * @param args: vector of arguments to the function/method.
-             * @param left: left part of the call (used for AST).
-             * @param right: right part of the call (used for AST).
-             * @return void
              */
-            IRCall(std::shared_ptr<IRExpr> callee,
-                   std::vector<std::shared_ptr<IRExpr>> args,
-                   std::shared_ptr<IRExpr> left,
-                   std::shared_ptr<IRExpr> right);
+            IRCall(irexpr_t callee,
+                   std::vector<irexpr_t> args);
 
             /**
              * @brief Constructor of IRCall, this expression represents a Call to a function or method.
              * @param callee: function/method called represented as IRExpr (super-super-class of IRCallee).
              * @param call_type: type of call instruction.
              * @param args: vector of arguments to the function/method.
-             * @param left: left part of the call (used for AST).
-             * @param right: right part of the call (used for AST).
              */
-            IRCall(std::shared_ptr<IRExpr> callee,
+            IRCall(irexpr_t callee,
                    call_type_t call_type,
-                   std::vector<std::shared_ptr<IRExpr>> args,
-                   std::shared_ptr<IRExpr> left,
-                   std::shared_ptr<IRExpr> right);
+                   std::vector<irexpr_t> args);
 
             /**
              * @brief Destructor of IRCall, nothing to be done.
@@ -1135,18 +1273,18 @@ namespace KUNAI
 
             /**
              * @brief Get the callee object from the function/method called.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_callee()
+            irexpr_t get_callee()
             {
                 return callee;
             }
 
             /**
              * @brief Get the arguments from the call.
-             * @return std::vector<std::shared_ptr<IRExpr>>
+             * @return std::vector<irexpr_t>
              */
-            const std::vector<std::shared_ptr<IRExpr>> &get_args() const
+            const std::vector<irexpr_t> &get_args() const
             {
                 return args;
             }
@@ -1163,7 +1301,7 @@ namespace KUNAI
              *
              * @param ret_val
              */
-            void set_ret_val(std::shared_ptr<IRExpr> ret_val)
+            void set_ret_val(irexpr_t ret_val)
             {
                 this->ret_val = ret_val;
             }
@@ -1171,9 +1309,9 @@ namespace KUNAI
             /**
              * @brief Get the ret_val object
              *
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_ret_val()
+            irexpr_t get_ret_val()
             {
                 return ret_val;
             }
@@ -1182,7 +1320,7 @@ namespace KUNAI
              * @brief Comparison of IRCall instructions.
              * @return bool
              */
-            bool equals(std::shared_ptr<IRCall> ircall);
+            bool equals(ircall_t ircall);
 
             /**
              * @brief Operator == for IRCall.
@@ -1196,11 +1334,11 @@ namespace KUNAI
             //! Type of call
             call_type_t call_type;
             //! Type representing the function/method called
-            std::shared_ptr<IRExpr> callee;
+            irexpr_t callee;
             //! Vector with possible arguments
-            std::vector<std::shared_ptr<IRExpr>> args;
+            std::vector<irexpr_t> args;
             //! Return value (if it's for example a register)
-            std::shared_ptr<IRExpr> ret_val;
+            irexpr_t ret_val;
         };
 
         class IRLoad : public IRExpr
@@ -1211,15 +1349,11 @@ namespace KUNAI
              * @param destination: register where the value will be stored.
              * @param source: expression from where the memory will be retrieved.
              * @param size: loaded size.
-             * @param left: left part of the load (used for AST).
-             * @param right: right part of the load (used for AST).
              * @return void
              */
-            IRLoad(std::shared_ptr<IRExpr> destination,
-                   std::shared_ptr<IRExpr> source,
-                   std::uint32_t size,
-                   std::shared_ptr<IRExpr> left,
-                   std::shared_ptr<IRExpr> right);
+            IRLoad(irexpr_t destination,
+                   irexpr_t source,
+                   std::uint32_t size);
 
             /**
              * @brief Constructor of IRLoad class, this class represent a load from memory (using memory or using register).
@@ -1227,16 +1361,12 @@ namespace KUNAI
              * @param source: expression from where the memory will be retrieved.
              * @param index: index from the load if this is referenced with an index.
              * @param size: loaded size.
-             * @param left: left part of the load (used for AST).
-             * @param right: right part of the load (used for AST).
              * @return void
              */
-            IRLoad(std::shared_ptr<IRExpr> destination,
-                   std::shared_ptr<IRExpr> source,
-                   std::shared_ptr<IRExpr> index,
-                   std::uint32_t size,
-                   std::shared_ptr<IRExpr> left,
-                   std::shared_ptr<IRExpr> right);
+            IRLoad(irexpr_t destination,
+                   irexpr_t source,
+                   irexpr_t index,
+                   std::uint32_t size);
 
             /**
              * @brief Destructor of IRLoad, nothing to be done.
@@ -1246,18 +1376,18 @@ namespace KUNAI
 
             /**
              * @brief Get destination register from the load.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_destination()
+            irexpr_t get_destination()
             {
                 return destination;
             }
 
             /**
              * @brief Get the expression from where value is loaded.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_source()
+            irexpr_t get_source()
             {
                 return source;
             }
@@ -1265,9 +1395,9 @@ namespace KUNAI
             /**
              * @brief Get the index of the instruction used.
              *
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_index()
+            irexpr_t get_index()
             {
                 return index;
             }
@@ -1292,7 +1422,7 @@ namespace KUNAI
              * @brief Comparison of IRLoad instruction.
              * @return bool
              */
-            bool equals(std::shared_ptr<IRLoad> irload);
+            bool equals(irload_t irload);
 
             /**
              * @brief Operator == for IRLoad.
@@ -1304,11 +1434,11 @@ namespace KUNAI
 
         private:
             //! Register where the memory pointed by a register will be loaded.
-            std::shared_ptr<IRExpr> destination;
+            irexpr_t destination;
             //! Expression from where memory is read.
-            std::shared_ptr<IRExpr> source;
+            irexpr_t source;
             //! Index if this is referenced by for example a register.
-            std::shared_ptr<IRExpr> index;
+            irexpr_t index;
             //! Size of loaded value
             std::uint32_t size;
         };
@@ -1321,15 +1451,11 @@ namespace KUNAI
              * @param destination: Expression where value is written to.
              * @param source: register with the value to be stored.
              * @param size: size of the stored value.
-             * @param left: left part of the store (used for AST).
-             * @param right: right part of the store (used for AST).
              * @return void
              */
-            IRStore(std::shared_ptr<IRExpr> destination,
-                    std::shared_ptr<IRExpr> source,
-                    std::uint32_t size,
-                    std::shared_ptr<IRExpr> left,
-                    std::shared_ptr<IRExpr> right);
+            IRStore(irexpr_t destination,
+                    irexpr_t source,
+                    std::uint32_t size);
 
             /**
              * @brief Constructor of IRStore class, this represent an store to memory instruction.
@@ -1337,16 +1463,12 @@ namespace KUNAI
              * @param source: register with the value to be stored.
              * @param index: index where value is stored.
              * @param size: size of the stored value.
-             * @param left: left part of the store (used for AST).
-             * @param right: right part of the store (used for AST).
              * @return void
              */
-            IRStore(std::shared_ptr<IRExpr> destination,
-                    std::shared_ptr<IRExpr> source,
-                    std::shared_ptr<IRExpr> index,
-                    std::uint32_t size,
-                    std::shared_ptr<IRExpr> left,
-                    std::shared_ptr<IRExpr> right);
+            IRStore(irexpr_t destination,
+                    irexpr_t source,
+                    irexpr_t index,
+                    std::uint32_t size);
 
             /**
              * @brief Destructor of IRStore class, nothing to be done.
@@ -1356,18 +1478,18 @@ namespace KUNAI
 
             /**
              * @brief Get expression destination where value is going to be written.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_destination()
+            irexpr_t get_destination()
             {
                 return destination;
             }
 
             /**
              * @brief Get source where value is taken from.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_source()
+            irexpr_t get_source()
             {
                 return source;
             }
@@ -1392,7 +1514,7 @@ namespace KUNAI
              * @brief Comparison of IRStore instructions.
              * @return bool
              */
-            bool equals(std::shared_ptr<IRStore> irstore);
+            bool equals(irstore_t irstore);
 
             /**
              * @brief Operator == for IRStore.
@@ -1404,11 +1526,11 @@ namespace KUNAI
 
         private:
             //! Memory pointed by register where value will be stored.
-            std::shared_ptr<IRExpr> destination;
+            irexpr_t destination;
             //! Expression with source of value to be stored.
-            std::shared_ptr<IRExpr> source;
+            irexpr_t source;
             //! Index if this is referenced by for example a register.
-            std::shared_ptr<IRExpr> index;
+            irexpr_t index;
             //! Size of stored value
             std::uint32_t size;
         };
@@ -1431,15 +1553,11 @@ namespace KUNAI
              * @param comp: type of comparison (== or !=).
              * @param result: register or temporal register where result is stored.
              * @param reg: register used in the comparison.
-             * @param left: left part of the zero comparison (used for AST).
-             * @param right: right part of the zero comparison (used for AST).
              * @return void
              */
             IRZComp(zero_comp_t comp,
-                    std::shared_ptr<IRExpr> result,
-                    std::shared_ptr<IRExpr> reg,
-                    std::shared_ptr<IRExpr> left,
-                    std::shared_ptr<IRExpr> right);
+                    irexpr_t result,
+                    irexpr_t reg);
 
             /**
              * @brief Destructor of IRZComp, nothing to be done.
@@ -1450,18 +1568,18 @@ namespace KUNAI
             /**
              * @brief Return the result register or temporal register.
              *
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_result()
+            irexpr_t get_result()
             {
                 return result;
             }
 
             /**
              * @brief Get register used in the comparison.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_reg()
+            irexpr_t get_reg()
             {
                 return reg;
             }
@@ -1486,7 +1604,7 @@ namespace KUNAI
              * @brief Comparison of IRZComp instruction with shared_ptr.
              * @return bool
              */
-            bool equals(std::shared_ptr<IRZComp> irzcomp);
+            bool equals(irzcomp_t irzcomp);
 
             /**
              * @brief Operator == for IRZComp.
@@ -1498,9 +1616,9 @@ namespace KUNAI
 
         private:
             //! Register where result is stored
-            std::shared_ptr<IRExpr> result;
+            irexpr_t result;
             //! Register for comparison with zero.
-            std::shared_ptr<IRExpr> reg;
+            irexpr_t reg;
             //! Type of comparison
             zero_comp_t comp;
         };
@@ -1527,16 +1645,12 @@ namespace KUNAI
              * @param result: register or temporal register where result is stored.
              * @param reg1: first type where the comparison is applied.
              * @param reg2: second type where the comparison is applied.
-             * @param left: left part of the comparison (used for AST).
-             * @param right: right part of the comparison (used for AST).
              * @return void
              */
             IRBComp(comp_t comp,
-                    std::shared_ptr<IRExpr> result,
-                    std::shared_ptr<IRExpr> reg1,
-                    std::shared_ptr<IRExpr> reg2,
-                    std::shared_ptr<IRExpr> left,
-                    std::shared_ptr<IRExpr> right);
+                    irexpr_t result,
+                    irexpr_t reg1,
+                    irexpr_t reg2);
 
             /**
              * @brief Destructor of IRBComp, nothing to be done.
@@ -1547,27 +1661,27 @@ namespace KUNAI
             /**
              * @brief Get the result register or temporal register.
              *
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_result()
+            irexpr_t get_result()
             {
                 return result;
             }
 
             /**
              * @brief Return the first part of the comparison.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_reg1()
+            irexpr_t get_reg1()
             {
                 return reg1;
             }
 
             /**
              * @brief Return the second part of the comparison.
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_reg2()
+            irexpr_t get_reg2()
             {
                 return reg2;
             }
@@ -1592,7 +1706,7 @@ namespace KUNAI
              * @brief Comparison of IRBComp instruction with shared_ptr.
              * @return bool
              */
-            bool equals(std::shared_ptr<IRBComp> bcomp);
+            bool equals(irbcomp_t bcomp);
 
             /**
              * @brief Operator == for IRBComp.
@@ -1604,10 +1718,10 @@ namespace KUNAI
 
         private:
             //! register or temporal register where result is stored
-            std::shared_ptr<IRExpr> result;
+            irexpr_t result;
             //! registers used in the comparisons.
-            std::shared_ptr<IRExpr> reg1;
-            std::shared_ptr<IRExpr> reg2;
+            irexpr_t reg1;
+            irexpr_t reg2;
             //! Type of comparison
             comp_t comp;
         };
@@ -1621,14 +1735,10 @@ namespace KUNAI
              *
              * @param result: result register where object is stored.
              * @param class_instance: IRClass object which represent the instance.
-             * @param left: left part of the comparison (used for AST).
-             * @param right: right part of the comparison (used for AST).
              * @return void
              */
-            IRNew(std::shared_ptr<IRExpr> result,
-                  std::shared_ptr<IRExpr> class_instance,
-                  std::shared_ptr<IRExpr> left,
-                  std::shared_ptr<IRExpr> right);
+            IRNew(irexpr_t result,
+                  irexpr_t class_instance);
 
             /**
              * @brief Destroy the IRNew::IRNew object
@@ -1639,9 +1749,9 @@ namespace KUNAI
             /**
              * @brief Get the destination register
              *
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_result()
+            irexpr_t get_result()
             {
                 return result;
             }
@@ -1649,9 +1759,9 @@ namespace KUNAI
             /**
              * @brief Get the source class.
              *
-             * @return std::shared_ptr<IRExpr>
+             * @return irexpr_t
              */
-            std::shared_ptr<IRExpr> get_source_class()
+            irexpr_t get_source_class()
             {
                 return class_instance;
             }
@@ -1670,7 +1780,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool equals(std::shared_ptr<IRNew> bcomp);
+            bool equals(irnew_t bcomp);
 
             /**
              * @brief Operator == for IRNew instruction.
@@ -1684,9 +1794,9 @@ namespace KUNAI
 
         private:
             //! register where the result will be stored.
-            std::shared_ptr<IRExpr> result;
+            irexpr_t result;
             //! class type which will create a new instance.
-            std::shared_ptr<IRExpr> class_instance;
+            irexpr_t class_instance;
         };
 
         class IRType : public IRExpr
@@ -1799,7 +1909,7 @@ namespace KUNAI
              * @brief Comparison of two IRType with shared_ptr.
              * @return bool
              */
-            bool equal(std::shared_ptr<IRType> type);
+            bool equal(irtype_t type);
 
             /**
              * @brief == operator for IRType, we have specific check to do.
@@ -1880,7 +1990,7 @@ namespace KUNAI
              * @brief Compare two IRRegs given by smart pointer.
              * @return bool
              */
-            bool equal(std::shared_ptr<IRReg> reg);
+            bool equal(irreg_t reg);
 
             /**
              * @brief == operator for IRRegs, we have specific check to do.
@@ -1959,7 +2069,7 @@ namespace KUNAI
              * @param temp_reg: IRTempReg to compare with.
              * @return bool
              */
-            bool equal(std::shared_ptr<IRTempReg> temp_reg);
+            bool equal(irtempreg_t temp_reg);
 
             /**
              * @brief == operator for IRTempReg, we have specific check to do.
@@ -2023,6 +2133,26 @@ namespace KUNAI
             }
 
             /**
+             * @brief Get the value unsigned object
+             * 
+             * @return uint64_t 
+             */
+            uint64_t get_value_unsigned()
+            {
+                return value;
+            }
+
+            /**
+             * @brief Get the value signed object
+             * 
+             * @return int64_t 
+             */
+            int64_t get_value_signed()
+            {
+                return static_cast<int64_t>(value);
+            }
+
+            /**
              * @brief Return a string representation of the IRConstInt instruction.
              * @return bool
              */
@@ -2033,7 +2163,7 @@ namespace KUNAI
              * @param const_int: IRConstInt to compare with.
              * @return bool
              */
-            bool equal(std::shared_ptr<IRConstInt> const_int);
+            bool equal(irconstint_t const_int);
 
             /**
              * @brief == operator for IRConstInt, we have specific check to do.
@@ -2043,6 +2173,127 @@ namespace KUNAI
              */
             friend bool operator==(IRConstInt &, IRConstInt &);
 
+            /**
+             * @brief ADD operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator+(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief SUB operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator-(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief DIV operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator/(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief MUL operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator*(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief MOD operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator%(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief AND operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator&(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief OR operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator|(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief XOR operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator^(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief SHL operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator<<(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief SHR operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @param b 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator>>(IRConstInt& a, IRConstInt& b);
+
+            /**
+             * @brief INC operator for IRConstInt, some checks are applied.
+             * 
+             * @param a
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator++(IRConstInt& a, int);
+
+            /**
+             * @brief DEC operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator--(IRConstInt& a, int);
+
+            /**
+             * @brief NOT operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator!(IRConstInt& a);
+
+            /**
+             * @brief NEG operator for IRConstInt, some checks are applied.
+             * 
+             * @param a 
+             * @return IRConstInt 
+             */
+            friend IRConstInt operator~(IRConstInt& a);
         private:
             //! Value of the integer
             std::uint64_t value;
@@ -2120,7 +2371,7 @@ namespace KUNAI
              * @param memory: IRMemory instruction to compare.
              * @return bool.
              */
-            bool equal(std::shared_ptr<IRMemory> memory);
+            bool equal(irmemory_t memory);
 
             /**
              * @brief == operator for IRMemory, we have specific check to do.
@@ -2194,7 +2445,7 @@ namespace KUNAI
              * @brief Compare two IRString values.
              * @return bool
              */
-            bool equal(std::shared_ptr<IRString> str);
+            bool equal(irstring_t str);
 
             /**
              * @brief == operator for IRString, we have specific check to do.
@@ -2265,7 +2516,7 @@ namespace KUNAI
              * @brief Compare two IRClass with smart pointers
              * @return bool
              */
-            bool equal(std::shared_ptr<IRClass> class_);
+            bool equal(irclass_t class_);
 
             /**
              * @brief Operator == of IRClass we will compare name of classes.
@@ -2382,7 +2633,7 @@ namespace KUNAI
              * @param callee: IRType instruction to compare.
              * @return bool
              */
-            bool equal(std::shared_ptr<IRCallee> callee);
+            bool equal(ircallee_t callee);
 
             /**
              * @brief == operator for IRCallee, we have specific check to do.
@@ -2505,7 +2756,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool equal(std::shared_ptr<IRField> field);
+            bool equal(irfield_t field);
 
             /**
              * @brief == operator for IRField.
@@ -2529,3 +2780,5 @@ namespace KUNAI
         };
     }
 }
+
+#endif
