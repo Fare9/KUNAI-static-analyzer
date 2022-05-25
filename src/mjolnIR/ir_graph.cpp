@@ -54,6 +54,17 @@ namespace KUNAI
         }
 
 
+        std::optional<irblock_t> IRGraph::get_node_by_start_idx(std::uint64_t idx)
+        {
+            for (auto& node : nodes)
+            {
+                if (idx == node->get_start_idx())
+                    return node;
+            }
+
+            return std::nullopt;
+        }
+
         void IRGraph::merge_graph(irgraph_t graph)
         {
             auto nodes = graph->get_nodes();

@@ -14,6 +14,7 @@
 #include <set>
 #include <algorithm>
 #include <map>
+#include <optional>
 
 #include "utils.hpp"
 #include "ir_grammar.hpp"
@@ -109,6 +110,14 @@ namespace KUNAI
             {
                 return edges;
             }
+
+            /**
+             * @brief Get the node by start idx object
+             * 
+             * @param idx 
+             * @return std::optional<irblock_t> 
+             */
+            std::optional<irblock_t> get_node_by_start_idx(std::uint64_t idx);
 
             /**
              * @brief Merge one given graph with current one.
