@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "optimizer.hpp"
+#include "reachingDefinition.hpp"
 
 int
 main()
@@ -77,11 +78,21 @@ main()
 
     graph->generate_dot_file("no_simplified");
 
+    auto reachingdefinition = std::make_shared<KUNAI::MJOLNIR::ReachingDefinition>(graph);
+
+    reachingdefinition->compute();
+
+    std::cout << "Reaching Definition Analysis:" << std::endl;
+
+    std::cout << *reachingdefinition;
+
     optimizer->run_analysis(graph);
 
     graph->generate_dot_file("simplified");
 
-    
+    const auto& last_block = graph->get_nodes().back();
+
+    auto last_reach_definition = reachingdefinition->get_reach_definition_point(last_block->get_start_idx(), last_block->get_number_of_statements());
 
     return 0;
 }
