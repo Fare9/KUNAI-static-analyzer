@@ -25,7 +25,7 @@ SHARED_LIB_NAME=libkunai.so
 DEX_MODULES_INCLUDE = -I ${INCLUDE_FOLDER}DEX/ -I ${INCLUDE_FOLDER}DEX/parser/ -I ${INCLUDE_FOLDER}DEX/DVM/ -I ${INCLUDE_FOLDER}DEX/Analysis/
 APK_MODULES_INCLUDE = -I ${INCLUDE_FOLDER}APK/
 UTILITIES_INCLUDE = -I ${INCLUDE_FOLDER}Exceptions/ -I ${INCLUDE_FOLDER}Utils/
-IR_MODULES_INCLUDE = -I ${INCLUDE_FOLDER}mjolnIR/ -I ${INCLUDE_FOLDER}mjolnIR/Lifters/ -I ${INCLUDE_FOLDER}mjolnIR/arch/
+IR_MODULES_INCLUDE = -I ${INCLUDE_FOLDER}mjolnIR/ -I ${INCLUDE_FOLDER}mjolnIR/Lifters/ -I ${INCLUDE_FOLDER}mjolnIR/Analysis/ -I ${INCLUDE_FOLDER}mjolnIR/arch/ 
 ALL_INCLUDE = ${DEX_MODULES_INCLUDE} ${APK_MODULES_INCLUDE} ${UTILITIES_INCLUDE} ${IR_MODULES_INCLUDE}
 
 DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
@@ -43,7 +43,7 @@ DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 
 APK_OBJ_FILES = ${OBJ}apk.o
 
-IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o ${OBJ}ir_blocks.o ${OBJ}ir_graph.o ${OBJ}ir_utils.o ${OBJ}optimizer.o
+IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o ${OBJ}ir_blocks.o ${OBJ}ir_graph.o ${OBJ}ir_utils.o ${OBJ}optimizer.o ${OBJ}reachingDefinition.o
 IR_LIFTERS_OBJ_FILES = ${OBJ}lifter_android.o
 
 OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${APK_OBJ_FILES} ${IR_OBJ_FILES} ${IR_LIFTERS_OBJ_FILES}
@@ -197,6 +197,7 @@ ${OBJ}%.o: ${CODE_FOLDER}${APK_MODULE}%.cpp
 # IR modules here
 IR_MODULE=mjolnIR/
 IR_LIFTERS=mjolnIR/Lifters/
+IR_ANALYSIS=mjolnIR/Analysis/
 ${OBJ}%.o: ${CODE_FOLDER}${IR_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
 	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
@@ -205,6 +206,10 @@ ${OBJ}%.o: ${CODE_FOLDER}${IR_LIFTERS}%.cpp
 	@echo "Compiling $< -> $@"
 	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
+${OBJ}%.o: ${CODE_FOLDER}${IR_ANALYSIS}%.cpp
+	@echo "Compiling $< -> $@"
+	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	
 # Compile tests
 tests:
 	current_dir=$(shell pwd)
