@@ -4,6 +4,55 @@ namespace KUNAI
 {
     namespace MJOLNIR
     {
+        /**
+         * Pseudo-code of the algorithm implemented for the Reaching definition
+         * analysis.
+         * 
+         * Algorithm ReachingDefinition
+         * 
+         * procedure reaching_definition
+         * Input
+         *      graph ← Control-flow graph with method blocks
+         * BEGIN
+         *      change ← true
+         *      while change do
+         *          change ← f alse
+         *          for block ∈ graph.blocks do
+         *              change ← REACHING_DEFINITION_BLOCK(block)
+         * END
+         * 
+         * procedure REACHING_DEFINITION_BLOCK
+         * Input
+         *     block ← Block of instructions.
+         * BEGIN
+         *     old ← in(block)
+         *     in(block) ← ⋃ out(p)
+         *             p∈pred(block)
+         *     modified ← old != in(block)
+         *     if modified = false then
+         *         return false
+         *         close;
+         *     for i ∈ length(block.instrs) do
+         *         modified ← REACHING_DEFINITION_INSTR(block, i)
+         *     out(block) ← out(length(block.instrs))
+         *     return modified
+         * END
+         * 
+         * procedure REACHING_DEFINITION_INSTR
+         * Input
+         *     block ← Block of instructions.
+         *     instr ← Index of instruction to analyze.
+         * BEGIN
+         *     old ← out(instr)
+         *     //kill(instr) ← gen(instr) ⋂ in(instr)
+         *     out(instr) ← gen(instr) ⋃(in(instr) − kill(instr)
+         *     modified ← old ̸ = out(instr)
+         *     if modif ied then
+         *         in(instr + 1) ← out(instr)
+         *         close;
+         *     return modified
+         * END
+        */
 
         ReachingDefinition::ReachingDefinition(irgraph_t &graph) : graph(graph)
         {
@@ -11,6 +60,7 @@ namespace KUNAI
 
         ReachingDefinition::~ReachingDefinition() = default;
 
+        
         void ReachingDefinition::compute()
         {
             bool change = true;
