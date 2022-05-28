@@ -775,21 +775,24 @@ namespace KUNAI
             /**
              * @brief Get the def-use chain of the operand1 (if exists)
              * 
-             * @return const std::vector<irexpr_t&>& 
+             * @return const std::map<irexpr_t, std::vector<irexpr_t>>&
              */
-            const std::vector<irexpr_t>& get_op1_def_use_chain() const
+            const std::map<irexpr_t, std::vector<irexpr_t>>& get_def_use_chains() const
             {
-                return def_use_chain_op1;
+                return def_use_chains;
             }
 
             /**
-             * @brief Get the def-use chain of the operand2 (if exists)
+             * @brief Get the def use chain by value object
              * 
-             * @return const std::vector<irexpr_t&>& 
+             * @param value 
+             * @return std::optional<std::vector<irexpr_t>&> 
              */
-            const std::vector<irexpr_t>& get_op2_def_use_chain() const
+            std::optional<std::vector<irexpr_t>*> get_def_use_chain_by_value(irexpr_t value)
             {
-                return def_use_chain_op2;
+                if (def_use_chains.find(value) == def_use_chains.end())
+                    return std::nullopt;
+                return &def_use_chains.at(value);
             }
 
             /**
@@ -805,21 +808,12 @@ namespace KUNAI
             /**
              * @brief Add instruction to op1 def_use_chain
              * 
-             * @param instr 
+             * @param var register, or temporal register to use in def_use_chains.
+             * @param instr instruction with the definition of the value.
              */
-            void add_instr_to_op1_def_use_chain(irexpr_t instr)
+            void add_instr_to_def_use_chain(irexpr_t var, irexpr_t instr)
             {
-                def_use_chain_op1.push_back(instr);
-            }
-
-            /**
-             * @brief Add instruction to op2 def_use_chain
-             * 
-             * @param instr 
-             */
-            void add_instr_to_op2_def_use_chain(irexpr_t instr)
-            {
-                def_use_chain_op2.push_back(instr);
+                def_use_chains[var].push_back(instr);
             }
 
             /**
@@ -838,21 +832,12 @@ namespace KUNAI
             }
 
             /**
-             * @brief Invalidate the op1 def_use_chain
+             * @brief Invalidate the def-use chains
              * 
              */
-            void invalidate_op1_def_use_chain()
+            void invalidate_def_use_chains()
             {
-                def_use_chain_op1.clear();
-            }
-            
-            /**
-             * @brief Invalidate the op2 def_use_chain
-             * 
-             */
-            void invalidate_op2_def_use_chain()
-            {
-                def_use_chain_op2.clear();
+                def_use_chains.clear();
             }
 
             /**
@@ -888,8 +873,7 @@ namespace KUNAI
         private:
             //! Vectors used for use-def and def-use chains
             std::vector<irexpr_t> use_def_chain;
-            std::vector<irexpr_t> def_use_chain_op1;
-            std::vector<irexpr_t> def_use_chain_op2;
+            std::map<irexpr_t, std::vector<irexpr_t>> def_use_chains;
 
             //! ir expression as string
             std::string ir_expr_str;
