@@ -15,8 +15,7 @@ namespace KUNAI
         void IRExpr::invalidate_chains()
         {
             invalidate_use_def_chain();
-            invalidate_op1_def_use_chain();
-            invalidate_op2_def_use_chain();
+            invalidate_def_use_chains();
         }
 
         std::string IRExpr::to_string()
