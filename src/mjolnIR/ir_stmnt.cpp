@@ -58,6 +58,38 @@ namespace KUNAI
             return "";
         }
 
+        void IRStmnt::invalidate_chains()
+        {
+            invalidate_use_def_chain();
+            invalidate_def_use_chains();
+        }
+
+        void IRStmnt::print_use_def_and_def_use_chain()
+        {
+
+            std::cout << "Use-Def and Def-Use chain of: " << this->to_string() << "\n";
+            if (!use_def_chain.empty())
+            {
+                std::cout << "\tUse-Def chain:\n";
+
+                for (auto& use_def : use_def_chain)
+                    std::cout << "\t\t" << use_def->to_string() << "\n";
+            }
+
+            if (!def_use_chains.empty())
+            {
+                std::cout << "\5Def-Use chains:\n";
+
+                for (auto& def_use : def_use_chains)
+                {
+                    auto& value = def_use.first;
+                    std::cout << "\t\t" << value->to_string() << ": ";
+                    for (auto& def : def_use.second)
+                        std::cout << def->to_string() << "\n";
+                }
+            }
+        }
+
         /**
          * IRUJmp class
          */

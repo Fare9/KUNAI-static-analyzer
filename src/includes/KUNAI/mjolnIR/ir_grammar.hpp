@@ -452,9 +452,98 @@ namespace KUNAI
              */
             std::string to_string();
 
+            /**
+             * @brief Get the use-def chain from the result object.
+             * 
+             * @return std::vector<irexpr_t&>& 
+             */
+            const std::vector<irstmnt_t>& get_use_def_chain() const
+            {
+                return use_def_chain;
+            }
+
+            /**
+             * @brief Get the def-use chain of the operand1 (if exists)
+             * 
+             * @return const std::map<irexpr_t, std::vector<irexpr_t>>&
+             */
+            const std::map<irexpr_t, std::vector<irstmnt_t>>& get_def_use_chains() const
+            {
+                return def_use_chains;
+            }
+
+            /**
+             * @brief Get the def use chain by value object
+             * 
+             * @param value 
+             * @return std::optional<std::vector<irexpr_t>&> 
+             */
+            std::optional<std::vector<irstmnt_t>*> get_def_use_chain_by_value(irexpr_t value)
+            {
+                if (def_use_chains.find(value) == def_use_chains.end())
+                    return std::nullopt;
+                return &def_use_chains.at(value);
+            }
+
+            /**
+             * @brief Add instruction to use_def_chain
+             * 
+             * @param instr 
+             */
+            void add_instr_to_use_def_chain(irstmnt_t instr)
+            {
+                use_def_chain.push_back(instr);
+            }
+
+            /**
+             * @brief Add instruction to op1 def_use_chain
+             * 
+             * @param var register, or temporal register to use in def_use_chains.
+             * @param instr instruction with the definition of the value.
+             */
+            void add_instr_to_def_use_chain(irexpr_t var, irstmnt_t instr)
+            {
+                def_use_chains[var].push_back(instr);
+            }
+
+            /**
+             * @brief Invalidate the use_def and def_use chains
+             * 
+             */
+            void invalidate_chains();
+
+            /**
+             * @brief Invalidate the use_def_chain clearing the vector.
+             * 
+             */
+            void invalidate_use_def_chain()
+            {
+                use_def_chain.clear();
+            }
+
+            /**
+             * @brief Invalidate the def-use chains
+             * 
+             */
+            void invalidate_def_use_chains()
+            {
+                def_use_chains.clear();
+            }
+
+            /**
+             * @brief Print the use def and def use chain
+             *        for debugging purposes.
+             * 
+             */
+            void print_use_def_and_def_use_chain();
+
         private:
             //! Type of the statement.
             stmnt_type_t stmnt_type;
+
+            //! Vectors used for use-def and def-use chains
+            std::vector<irstmnt_t> use_def_chain;
+            std::map<irexpr_t, std::vector<irstmnt_t>> def_use_chains;
         };
 
         class IRUJmp : public IRStmnt
@@ -763,84 +852,6 @@ namespace KUNAI
             ~IRExpr() = default;
 
             /**
-             * @brief Get the use-def chain from the result object.
-             * 
-             * @return std::vector<irexpr_t&>& 
-             */
-            const std::vector<irexpr_t>& get_use_def_chain() const
-            {
-                return use_def_chain;
-            }
-
-            /**
-             * @brief Get the def-use chain of the operand1 (if exists)
-             * 
-             * @return const std::map<irexpr_t, std::vector<irexpr_t>>&
-             */
-            const std::map<irexpr_t, std::vector<irexpr_t>>& get_def_use_chains() const
-            {
-                return def_use_chains;
-            }
-
-            /**
-             * @brief Get the def use chain by value object
-             * 
-             * @param value 
-             * @return std::optional<std::vector<irexpr_t>&> 
-             */
-            std::optional<std::vector<irexpr_t>*> get_def_use_chain_by_value(irexpr_t value)
-            {
-                if (def_use_chains.find(value) == def_use_chains.end())
-                    return std::nullopt;
-                return &def_use_chains.at(value);
-            }
-
-            /**
-             * @brief Add instruction to use_def_chain
-             * 
-             * @param instr 
-             */
-            void add_instr_to_use_def_chain(irexpr_t instr)
-            {
-                use_def_chain.push_back(instr);
-            }
-
-            /**
-             * @brief Add instruction to op1 def_use_chain
-             * 
-             * @param var register, or temporal register to use in def_use_chains.
-             * @param instr instruction with the definition of the value.
-             */
-            void add_instr_to_def_use_chain(irexpr_t var, irexpr_t instr)
-            {
-                def_use_chains[var].push_back(instr);
-            }
-
-            /**
-             * @brief Invalidate the use_def and def_use chains
-             * 
-             */
-            void invalidate_chains();
-
-            /**
-             * @brief Invalidate the use_def_chain clearing the vector.
-             * 
-             */
-            void invalidate_use_def_chain()
-            {
-                use_def_chain.clear();
-            }
-
-            /**
-             * @brief Invalidate the def-use chains
-             * 
-             */
-            void invalidate_def_use_chains()
-            {
-                def_use_chains.clear();
-            }
-
-            /**
              * @brief Get the type of current expression.
              * @return expr_type_t
              */
@@ -871,10 +882,6 @@ namespace KUNAI
             friend bool operator==(IRExpr &, IRExpr &);
 
         private:
-            //! Vectors used for use-def and def-use chains
-            std::vector<irexpr_t> use_def_chain;
-            std::map<irexpr_t, std::vector<irexpr_t>> def_use_chains;
-
             //! ir expression as string
             std::string ir_expr_str;
 
