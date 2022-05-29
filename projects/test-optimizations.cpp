@@ -91,6 +91,10 @@ main()
 
     optimizer->calculate_def_use_and_use_def_analysis(graph, reachingdefinition);
 
+    for (auto& block : graph->get_nodes())
+        for (auto& instr : block->get_statements())
+            instr->print_use_def_and_def_use_chain();
+
     optimizer->run_analysis(graph);
 
     graph->generate_dot_file("simplified");

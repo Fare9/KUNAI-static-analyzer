@@ -349,12 +349,32 @@ namespace KUNAI
 
                         solve_def_use_use_def(source, store_instr, reach_def_set, ir_graph);
                     }
+                    // RET A
+                    else if (auto ret_instr = ret_ir(instr))
+                    {
+                        ret_instr->invalidate_chains();
+
+                        auto ret_value = ret_instr->get_return_value();
+
+                        if (auto reg_value = expr_ir(ret_value))
+                            solve_def_use_use_def(reg_value, ret_instr, reach_def_set, ir_graph);
+                    }
+                    // JCC <condition>
+                    else if (auto jcc_instr = conditional_jump_ir(instr))
+                    {
+                        jcc_instr->invalidate_chains();
+
+                        auto condition = jcc_instr->get_condition();
+
+                        if (auto reg_value = expr_ir(condition))
+                            solve_def_use_use_def(reg_value, jcc_instr, reach_def_set, ir_graph);
+                    }
                 }
             }
         }
 
         void Optimizer::solve_def_use_use_def(irexpr_t &operand,
-                                              irexpr_t expr,
+                                              irstmnt_t expr,
                                               regdefinitionset_t &reach_def_set,
                                               MJOLNIR::irgraph_t &ir_graph)
         {
@@ -378,7 +398,7 @@ namespace KUNAI
                         continue;
 
                     // get the instruction, we will use it to cross-reference both
-                    auto definition_instr = std::dynamic_pointer_cast<IRExpr>(definition_block.value()->get_statements().at(instr));
+                    auto definition_instr = definition_block.value()->get_statements().at(instr);
 
                     // set one use of a definition
                     definition_instr->add_instr_to_use_def_chain(expr);

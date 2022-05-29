@@ -118,7 +118,7 @@ namespace KUNAI
              * @param reach_def_set
              * @param ir_graph
              */
-            void solve_def_use_use_def(irexpr_t &operand, irexpr_t expr, regdefinitionset_t &reach_def_set, MJOLNIR::irgraph_t &ir_graph);
+            void solve_def_use_use_def(irexpr_t &operand, irstmnt_t expr, regdefinitionset_t &reach_def_set, MJOLNIR::irgraph_t &ir_graph);
 
             std::vector<one_stmnt_opt_t> single_statement_optimization;
             reachingdefinition_t reachingdefinition;
