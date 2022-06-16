@@ -22,8 +22,7 @@
 #include "dex_disassembler.hpp"
 #include "dex_analysis.hpp"
 
-#include "CkZip.h"
-#include "CkZipEntry.h"
+#include "zip.h"
 
 #include "utils.hpp"
 
@@ -138,7 +137,7 @@ namespace KUNAI
              * @param dex_file 
              * @return DEX::dex_t
              */
-            DEX::dex_t manage_dex_files_from_zip_entry(std::shared_ptr<CkZipEntry> dex_file);
+            DEX::dex_t manage_dex_files_from_zip_entry(struct zip_t* dex_file);
 
 
             std::map<std::string, DEX::dex_t> dex_files;
