@@ -5,9 +5,10 @@ JAVAC=javac
 DX=dx
 
 # libchilkat data if not set
-LIB_CHILKAT ?= -lchilkat-9.5.0
-INCLUDE_CHILKAT_PATH ?= ./external/chilkat-x86_64-linux-gcc/include/
-INCLUDE_CHILKAT = -I ${INCLUDE_CHILKAT_PATH}
+LIB_ZIP_PATH ?= ./external/zip/build/libzip.so
+LIB_ZIP ?= -lzip
+INCLUDE_ZIP_PATH ?= ./external/zip/src/
+INCLUDE_ZIP = -I ${INCLUDE_ZIP_PATH}
 CFLAGS=-std=c++17 -c -fpic
 OPTIMIZATION ?= -O3
 
@@ -65,7 +66,7 @@ dirs:
 
 ${BIN_FOLDER}${BIN_NAME}: ${OBJ}main.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^ ${LIB_CHILKAT}
+	${CXX} -o $@ $^ ${LIB_ZIP}
 	
 ${BIN_FOLDER}${STATIC_LIB_NAME}: ${OBJ_FILES}
 	@echo "Linking static library $@"
@@ -73,7 +74,7 @@ ${BIN_FOLDER}${STATIC_LIB_NAME}: ${OBJ_FILES}
 	
 ${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
 	@echo "Linking dynamic library $@"
-	${CXX} -fpic -shared -Wformat=0 -o $@ $^ ${LIB_CHILKAT}
+	${CXX} -fpic -shared -Wformat=0 -o $@ $^ ${LIB_ZIP}
 	
 ####################################################################
 #  				Test Files
@@ -81,35 +82,35 @@ ${BIN_FOLDER}${SHARED_LIB_NAME}: ${OBJ_FILES}
 
 ${BIN_PROJECTS_FOLDER}test_dex_parser: ${OBJ}test_dex_parser.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^ ${LIB_CHILKAT}
+	${CXX} -o $@ $^ ${LIB_ZIP}
 	
 ${BIN_PROJECTS_FOLDER}test_dex_disassembler: ${OBJ}test_dex_disassembler.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^ ${LIB_CHILKAT}
+	${CXX} -o $@ $^ ${LIB_ZIP}
 	
 ${BIN_PROJECTS_FOLDER}test_ir: ${OBJ}test_ir.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^ ${LIB_CHILKAT}
+	${CXX} -o $@ $^ ${LIB_ZIP}
 	
 ${BIN_PROJECTS_FOLDER}test_dex_lifter: ${OBJ}test_dex_lifter.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^ ${LIB_CHILKAT}
+	${CXX} -o $@ $^ ${LIB_ZIP}
 
 ${BIN_PROJECTS_FOLDER}test_ir_graph: ${OBJ}test_ir_graph.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^ ${LIB_CHILKAT}
+	${CXX} -o $@ $^ ${LIB_ZIP}
 
 ${BIN_PROJECTS_FOLDER}test_dominators: ${OBJ}test_dominators.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^ ${LIB_CHILKAT}
+	${CXX} -o $@ $^ ${LIB_ZIP}
 
 ${BIN_PROJECTS_FOLDER}test-optimizations: ${OBJ}test-optimizations.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^ ${LIB_CHILKAT}
+	${CXX} -o $@ $^ ${LIB_ZIP}
 
 ${BIN_TEST_FOLDER}test_apk_analysis: ${OBJ}test_apk_analysis.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
-	${CXX} -o $@ $^ ${LIB_CHILKAT}
+	${CXX} -o $@ $^ ${LIB_ZIP}
 
 ####################################################################
 
@@ -153,11 +154,11 @@ ${OBJ}test_dominators.o: ${CODE_TEST_FOLDER}test_dominators.cpp
 
 ${OBJ}test_apk_analysis.o: ${CODE_TEST_FOLDER}test_apk_analysis.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} ${INCLUDE_CHILKAT} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} ${ALL_INCLUDE} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ${OBJ}test-optimizations.o: ${CODE_TEST_FOLDER}test-optimizations.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} ${INCLUDE_CHILKAT} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} ${ALL_INCLUDE} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ####################################################################
 	
@@ -192,7 +193,7 @@ ${OBJ}%.o: ${CODE_FOLDER}${DEX_ANALYSIS}%.cpp
 APK_MODULE=APK/
 ${OBJ}%.o: ${CODE_FOLDER}${APK_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} ${APK_MODULES_INCLUDE} ${INCLUDE_CHILKAT} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG) ${LIB_CHILKAT}
+	${CXX} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} ${APK_MODULES_INCLUDE} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG) ${LIB_ZIP}
 
 # IR modules here
 IR_MODULE=mjolnIR/
@@ -229,6 +230,10 @@ tests:
 	@echo "Compiling test-cyclomatic-complexity"
 	cd ./tests/test-cyclomatic-complexity/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
 
+	@echo "Compiling test-vm"
+	cd ./tests/test-vm/ && ${JAVAC} --release 8 PCodeVM.java VClass.java && \
+		${DX} --dex --output VClass.dex VClass.class && \
+		${DX} --dex --output PCodeVM.dex PCodeVM.class
 
 ########################################################
 clean:
@@ -245,9 +250,11 @@ install:
 	@echo "Copying libs to /usr/lib"
 	sudo cp ${BIN_FOLDER}${STATIC_LIB_NAME} /usr/lib
 	sudo cp ${BIN_FOLDER}${SHARED_LIB_NAME} /usr/lib
+	sudo cp ${LIB_ZIP_PATH} /usr/lib
 	@echo "Creating /usr/include/KUNAI and copying header files"
 	sudo mkdir /usr/include/KUNAI
 	sudo find ${INCLUDE_FOLDER} -name '*.hpp' -exec cp "{}" /usr/include/KUNAI \;
+	sudo cp ${INCLUDE_ZIP_PATH}/zip.h /usr/include/KUNAI
 ########################################################
 
 ########################################################
