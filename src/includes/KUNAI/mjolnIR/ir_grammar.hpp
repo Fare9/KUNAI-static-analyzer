@@ -1939,6 +1939,17 @@ namespace KUNAI
             IRReg(std::uint32_t reg_id, int current_arch, std::string type_name, size_t type_size);
 
             /**
+             * @brief Constructor of IRReg type.
+             * @param reg_id: id of the register this can be an enum if is a well known register, or just an id.
+             * @param reg_sub_id: sub id of the register used in the SSA form.
+             * @param current_arch: curreng architecture to create the register.
+             * @param type_name: string for representing the register.
+             * @param type_size: size of the register.
+             * @return void
+             */
+            IRReg(std::uint32_t reg_id, std::uint32_t reg_sub_id, int current_arch, std::string type_name, size_t type_size);
+
+            /**
              * @brief Destructor of IRReg.
              * @return void
              */
@@ -1951,6 +1962,15 @@ namespace KUNAI
             std::uint32_t get_id()
             {
                 return id;
+            }
+
+            /**
+             * @brief Get the sub ID from the register.
+             * @return std::uint32_t 
+             */
+            std::uint32_t get_sub_id()
+            {
+                return sub_id;
             }
 
             /**
@@ -2000,6 +2020,10 @@ namespace KUNAI
             //! Other arquitectures like DEX VM will not have
             //! an specific set.
             std::uint32_t id;
+            //! sub id of the register, this sub id will be used
+            //! in the SSA form, and used to check if a register
+            //! is the same than other.
+            std::uint32_t sub_id;
 
             int current_arch;
         };

@@ -395,7 +395,40 @@ namespace KUNAI
             return idom;
         }
 
+        std::map<irblock_t, std::set<irblock_t>> IRGraph::compute_dominance_frontier()
+        {
+            /*
+            * Compute the immediate dominators from all the
+            * nodes.
+            */
+            auto idoms = compute_immediate_dominators();
+            std::map<irblock_t, std::set<irblock_t>> frontier;
 
+
+            for (auto& idom : idoms)
+            {
+                // check if the node has more than 1 predecessor
+                // this node is a convergence node
+                if (predecessors.at(idom.first).size() >= 2)
+                {
+                    for (auto& runner : predecessors.at(idom.first))
+                    {
+                        // check if the predecessor is in the
+                        // map of immediate dominators nodes.
+                        if (idoms.find(runner) == idoms.end())
+                            continue;
+                        
+                        while (runner != idom.second)
+                        {
+                            frontier[runner].insert(idom.first);
+                            runner = idoms.at(runner);
+                        }
+                    }
+                }
+            }
+
+            return frontier;
+        }
         
         irgraph_t IRGraph::copy()
         {

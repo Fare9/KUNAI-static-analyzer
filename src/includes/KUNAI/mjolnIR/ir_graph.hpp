@@ -236,6 +236,20 @@ namespace KUNAI
             std::map<irblock_t, irblock_t> compute_immediate_dominators();
 
             /**
+             * @brief Compute the dominance frontier from the current IRGraph,
+             *        the dominance frontier of a node n, DF(n) is the border of
+             *        the CFG region that is dominated by n:
+             *        - Node x strictly dominates node y if x dominates y and x != y.
+             *        - Set of nodes DF(n) contains all nodes x such that n dominates a
+             *          precessor of x but n does not strictly dominate x.
+             *        "SSA-based Compiler Design"
+             *        Algorithm taken from Miasm.
+             * 
+             * @return std::map<irblock_t, std::set<irblock_t>> 
+             */
+            std::map<irblock_t, std::set<irblock_t>> compute_dominance_frontier();
+
+            /**
              * @brief Create a copy of the IRGraph as a smart pointer.
              * @return irgraph_t
              */
@@ -340,6 +354,8 @@ namespace KUNAI
              * @return std::uint64_t
              */
             const std::uint64_t get_cyclomatic_complexity();
+
+
         private:
             Nodes nodes;
             Edges edges;

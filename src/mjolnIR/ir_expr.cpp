@@ -321,6 +321,9 @@ namespace KUNAI
             case S_EXT_OP_T:
                 str_stream << "[Type: SIGN_EXT_OP]";
                 break;
+            case NONE_UNARY_OP_T:
+                str_stream << "[Type: NONE_UNARY_OP_T]";
+                break;
             }
 
             if (unary_op_type == CAST_OP_T)

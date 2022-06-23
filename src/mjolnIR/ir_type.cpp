@@ -143,6 +143,15 @@ namespace KUNAI
         IRReg::IRReg(std::uint32_t reg_id, int current_arch, std::string type_name, size_t type_size)
             : IRType(REGISTER_TYPE, type_name, type_size),
               id(reg_id),
+              sub_id(0),
+              current_arch(current_arch)
+        {
+        }
+
+        IRReg::IRReg(std::uint32_t reg_id, std::uint32_t reg_sub_id, int current_arch, std::string type_name, size_t type_size)
+            : IRType(REGISTER_TYPE, type_name, type_size),
+              id(reg_id),
+              sub_id(reg_sub_id),
               current_arch(current_arch)
         {
         }
@@ -156,13 +165,22 @@ namespace KUNAI
             switch (current_arch)
             {
             case MJOLNIR::x86_arch:
-                stream << "[x86: " << x86_regs_name.at(static_cast<x86_regs_t>(id)) << "]";
+                stream << "[x86: " << x86_regs_name.at(static_cast<x86_regs_t>(id));
+                if (sub_id != 0)
+                    stream << "." << sub_id;
+                stream << "]";
                 break;
             case MJOLNIR::dalvik_arch:
-                stream << "[dalvik: v" << id << "]";
+                stream << "[dalvik: v" << id;
+                if (sub_id != 0)
+                    stream << "." << sub_id;
+                stream << "]";
                 break;
             default:
-                stream << "[None: reg" << id << "]";
+                stream << "[None: reg" << id;
+                if (sub_id != 0)
+                    stream << "." << sub_id;
+                stream << "]";
                 break;
             }
 
@@ -176,7 +194,7 @@ namespace KUNAI
 
         bool operator==(IRReg &type1, IRReg &type2)
         {
-            if (type1.id == type2.id && type1.current_arch == type2.current_arch)
+            if (type1.id == type2.id && type1.sub_id == type2.sub_id && type1.current_arch == type2.current_arch)
                 return true;
             return false;
         }
