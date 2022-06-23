@@ -18,5 +18,7 @@
 
 #include "apkunzip_exception.hpp"
 
+#include "lifter_exception.hpp"
+#include "ir_exception.hpp"
 
 #endif
