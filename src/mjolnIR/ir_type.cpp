@@ -1,4 +1,4 @@
-#include "ir_grammar.hpp"
+#include "KUNAI/mjolnIR/ir_grammar.hpp"
 
 namespace KUNAI
 {

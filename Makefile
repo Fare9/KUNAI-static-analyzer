@@ -14,7 +14,7 @@ OPTIMIZATION ?= -O3
 
 CODE_FOLDER=src/
 CODE_TEST_FOLDER=./projects/
-INCLUDE_FOLDER=src/includes/KUNAI/
+INCLUDE_FOLDER=src/include/KUNAI/
 BIN_FOLDER=bin/
 BIN_PROJECTS_FOLDER=bin/projects/
 OBJ=objs/
@@ -22,12 +22,8 @@ BIN_NAME=Kunai
 STATIC_LIB_NAME=libkunai.a
 SHARED_LIB_NAME=libkunai.so
 
+INCLUDE_PATH=src/include/
 
-DEX_MODULES_INCLUDE = -I ${INCLUDE_FOLDER}DEX/ -I ${INCLUDE_FOLDER}DEX/parser/ -I ${INCLUDE_FOLDER}DEX/DVM/ -I ${INCLUDE_FOLDER}DEX/Analysis/
-APK_MODULES_INCLUDE = -I ${INCLUDE_FOLDER}APK/
-UTILITIES_INCLUDE = -I ${INCLUDE_FOLDER}Exceptions/ -I ${INCLUDE_FOLDER}Utils/
-IR_MODULES_INCLUDE = -I ${INCLUDE_FOLDER}mjolnIR/ -I ${INCLUDE_FOLDER}mjolnIR/Lifters/ -I ${INCLUDE_FOLDER}mjolnIR/Analysis/ -I ${INCLUDE_FOLDER}mjolnIR/arch/ 
-ALL_INCLUDE = ${DEX_MODULES_INCLUDE} ${APK_MODULES_INCLUDE} ${UTILITIES_INCLUDE} ${IR_MODULES_INCLUDE}
 
 DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_types.o ${OBJ}dex_protos.o ${OBJ}dex_fields.o \
@@ -118,7 +114,7 @@ ${BIN_TEST_FOLDER}test_apk_analysis: ${OBJ}test_apk_analysis.o ${OBJ_FILES}
 # main
 ${OBJ}main.o: ${CODE_FOLDER}main.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 ####################################################################
 #  				Test Files
@@ -127,38 +123,38 @@ ${OBJ}main.o: ${CODE_FOLDER}main.cpp
 # test_dex_parser
 ${OBJ}test_dex_parser.o: ${CODE_TEST_FOLDER}test_dex_parser.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 # test_dex_disassembler
 ${OBJ}test_dex_disassembler.o: ${CODE_TEST_FOLDER}test_dex_disassembler.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 # test IR
 ${OBJ}test_ir.o: ${CODE_TEST_FOLDER}test_ir.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 # test dex lifter
 ${OBJ}test_dex_lifter.o: ${CODE_TEST_FOLDER}test_dex_lifter.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ${OBJ}test_ir_graph.o: ${CODE_TEST_FOLDER}test_ir_graph.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ${OBJ}test_dominators.o: ${CODE_TEST_FOLDER}test_dominators.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ${OBJ}test_apk_analysis.o: ${CODE_TEST_FOLDER}test_apk_analysis.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ${OBJ}test-optimizations.o: ${CODE_TEST_FOLDER}test-optimizations.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${ALL_INCLUDE} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ####################################################################
 	
@@ -166,7 +162,7 @@ ${OBJ}test-optimizations.o: ${CODE_TEST_FOLDER}test-optimizations.cpp
 UTILS_MODULE=Utils/
 ${OBJ}%.o: ${CODE_FOLDER}${UTILS_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 # DEX modules here
 DEX_MODULE=DEX/
@@ -175,25 +171,25 @@ DEX_DVM=DEX/DVM/
 DEX_ANALYSIS=DEX/Analysis/
 ${OBJ}dex.o: ${CODE_FOLDER}${DEX_MODULE}dex.cpp
 	@echo "Compiling $^ -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_MODULE} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES_INCLUDE} -o $@ $^ ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $^ ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_PARSER}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_DVM}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)	
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)	
 
 ${OBJ}%.o: ${CODE_FOLDER}${DEX_ANALYSIS}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} -I${INCLUDE_FOLDER}${DEX_PARSER} -I${INCLUDE_FOLDER}${DEX_DVM} -I${INCLUDE_FOLDER}${DEX_ANALYSIS} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 # APK modules here
 APK_MODULE=APK/
 ${OBJ}%.o: ${CODE_FOLDER}${APK_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} ${APK_MODULES_INCLUDE} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG) ${LIB_ZIP}
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG) ${LIB_ZIP}
 
 # IR modules here
 IR_MODULE=mjolnIR/
@@ -201,15 +197,15 @@ IR_LIFTERS=mjolnIR/Lifters/
 IR_ANALYSIS=mjolnIR/Analysis/
 ${OBJ}%.o: ${CODE_FOLDER}${IR_MODULE}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 ${OBJ}%.o: ${CODE_FOLDER}${IR_LIFTERS}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ${OBJ}%.o: ${CODE_FOLDER}${IR_ANALYSIS}%.cpp
 	@echo "Compiling $< -> $@"
-	${CXX} ${IR_MODULES_INCLUDE} ${DEX_MODULES_INCLUDE} ${UTILITIES_INCLUDE} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+	${CXX} -I${INCLUDE_PATH} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 	
 # Compile tests
 tests:
@@ -252,9 +248,7 @@ install:
 	sudo cp ${BIN_FOLDER}${SHARED_LIB_NAME} /usr/lib
 	sudo cp ${LIB_ZIP_PATH} /usr/lib
 	@echo "Creating /usr/include/KUNAI and copying header files"
-	sudo mkdir /usr/include/KUNAI
-	sudo find ${INCLUDE_FOLDER} -name '*.hpp' -exec cp "{}" /usr/include/KUNAI \;
-	sudo cp ${INCLUDE_ZIP_PATH}/zip.h /usr/include/KUNAI
+	sudo cp -r ${INCLUDE_FOLDER} /usr/include/
 ########################################################
 
 ########################################################

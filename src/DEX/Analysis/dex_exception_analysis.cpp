@@ -1,4 +1,4 @@
-#include "dex_analysis.hpp"
+#include "KUNAI/DEX/Analysis/dex_analysis.hpp"
 
 namespace KUNAI
 {

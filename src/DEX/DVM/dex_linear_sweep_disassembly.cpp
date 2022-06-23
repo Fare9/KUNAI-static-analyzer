@@ -1,4 +1,4 @@
-#include "dex_linear_sweep_disassembly.hpp"
+#include "KUNAI/DEX/DVM/dex_linear_sweep_disassembly.hpp"
 
 namespace KUNAI {
     namespace DEX {

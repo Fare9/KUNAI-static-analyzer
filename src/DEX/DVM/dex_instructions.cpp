@@ -1,4 +1,4 @@
-#include "dex_instructions.hpp"
+#include "KUNAI/DEX/DVM/dex_instructions.hpp"
 
 namespace KUNAI
 {

@@ -3,7 +3,7 @@
 
 #include <spdlog/spdlog.h>
 // necessary to work with dex import the main DEX object
-#include "dex.hpp"
+#include "KUNAI/DEX/dex.hpp"
 
 
 int main(int argc, char **argv)

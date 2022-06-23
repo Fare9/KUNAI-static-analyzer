@@ -3,8 +3,8 @@
 #include <string>
 #include <cassert>
 
-#include "ir_grammar.hpp"
-#include "utils.hpp"
+#include "KUNAI/mjolnIR/ir_grammar.hpp"
+#include "KUNAI/Utils/utils.hpp"
 
 int
 main()

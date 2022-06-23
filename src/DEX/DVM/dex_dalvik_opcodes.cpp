@@ -1,4 +1,4 @@
-#include "dex_dalvik_opcodes.hpp"
+#include "KUNAI/DEX/DVM/dex_dalvik_opcodes.hpp"
 
 namespace KUNAI
 {

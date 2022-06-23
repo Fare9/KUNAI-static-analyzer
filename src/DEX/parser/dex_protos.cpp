@@ -1,4 +1,4 @@
-#include "dex_protos.hpp"
+#include "KUNAI/DEX/parser/dex_protos.hpp"
 
 namespace KUNAI
 {

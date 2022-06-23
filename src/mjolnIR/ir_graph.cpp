@@ -1,4 +1,4 @@
-#include "ir_graph.hpp"
+#include "KUNAI/mjolnIR/ir_graph.hpp"
 
 namespace KUNAI
 {

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <memory>
 
-#include "optimizer.hpp"
-#include "reachingDefinition.hpp"
+#include "KUNAI/mjolnIR/Analysis/optimizer.hpp"
+#include "KUNAI/mjolnIR/Analysis/reachingDefinition.hpp"
 
 int
 main()

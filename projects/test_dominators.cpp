@@ -1,8 +1,8 @@
 #include <iostream>
 #include <memory>
 
-#include "lifter_android.hpp"
-#include "dex.hpp"
+#include "KUNAI/mjolnIR/Lifters/lifter_android.hpp"
+#include "KUNAI/DEX/dex.hpp"
 
 int main(int argc, char **argv)
 {

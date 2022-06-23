@@ -1,4 +1,4 @@
-#include "dex_disassembler.hpp"
+#include "KUNAI/DEX/DVM/dex_disassembler.hpp"
 
 namespace KUNAI
 {
