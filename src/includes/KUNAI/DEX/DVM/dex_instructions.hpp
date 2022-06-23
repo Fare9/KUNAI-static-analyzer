@@ -62,6 +62,8 @@ namespace KUNAI
         class SparseSwitch;
         class FillArrayData;
 
+        class DalvikIncorrectInstruction;
+
         using instruction_t = std::shared_ptr<Instruction>;
         using instruction00x_t = std::shared_ptr<Instruction00x>;
         using instruction10x_t = std::shared_ptr<Instruction10x>;
@@ -95,6 +97,7 @@ namespace KUNAI
         using packedswitch_t = std::shared_ptr<PackedSwitch>;
         using sparseswitch_t = std::shared_ptr<SparseSwitch>;
         using fillarraydata_t = std::shared_ptr<FillArrayData>;
+        using dalvikincorrectinstr_t = std::shared_ptr<DalvikIncorrectInstruction>;
 
 
 
@@ -1893,6 +1896,19 @@ namespace KUNAI
             std::uint16_t element_width;
             std::uint32_t size;
             std::vector<std::uint8_t> data;
+        };
+
+        class DalvikIncorrectInstruction : public Instruction
+        {
+        public:
+            DalvikIncorrectInstruction(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file, std::uint64_t size);
+            ~DalvikIncorrectInstruction() = default;
+
+            void show_instruction();
+            void give_me_instruction(std::ostream &os);
+        private:
+            std::uint64_t size;
+            std::vector<std::uint8_t> opcodes;
         };
 
         typedef struct handler_data_

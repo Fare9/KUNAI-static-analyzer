@@ -8,9 +8,9 @@ namespace KUNAI
         /**
          * Instruction
          */
-        Instruction::Instruction(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : dalvik_opcodes(dalvik_opcodes),
-                                                                                                            length(0),
-                                                                                                            OP(0)
+        Instruction::Instruction(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : dalvik_opcodes(dalvik_opcodes),
+                                                                                              length(0),
+                                                                                              OP(0)
         {
         }
 
@@ -46,15 +46,15 @@ namespace KUNAI
         /**
          * Instruction00x
          */
-        Instruction00x::Instruction00x(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction00x::Instruction00x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
-            this->set_length(0);
+            this->set_length(1);
         }
 
         /**
          * Instruction10x
          */
-        Instruction10x::Instruction10x(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction10x::Instruction10x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[2];
             this->set_length(2);
@@ -63,7 +63,7 @@ namespace KUNAI
                 throw exceptions::DisassemblerException("Error disassembling Instruction10x");
 
             if (instruction[1] != 0)
-                throw exceptions::InvalidInstruction("Instruction10x high byte should be 0");
+                throw exceptions::InvalidInstruction("Instruction10x high byte should be 0", 2);
 
             this->set_OP(instruction[0]);
         }
@@ -71,7 +71,7 @@ namespace KUNAI
         /**
          * Instruction12x
          */
-        Instruction12x::Instruction12x(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction12x::Instruction12x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[2];
             this->set_length(2);
@@ -96,7 +96,7 @@ namespace KUNAI
         /**
          * Instruction11n
          */
-        Instruction11n::Instruction11n(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction11n::Instruction11n(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[2];
             this->set_length(2);
@@ -121,7 +121,7 @@ namespace KUNAI
         /**
          * Instruction11x
          */
-        Instruction11x::Instruction11x(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction11x::Instruction11x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[2];
             this->set_length(2);
@@ -144,7 +144,7 @@ namespace KUNAI
         /***
          * Instruction10t
          */
-        Instruction10t::Instruction10t(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction10t::Instruction10t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[2];
             this->set_length(2);
@@ -153,7 +153,7 @@ namespace KUNAI
                 throw exceptions::DisassemblerException("Error disassembling Instruction10t");
 
             if (instruction[1] == 0)
-                throw exceptions::InvalidInstruction("Error reading Instruction10t offset cannot be 0");
+                throw exceptions::InvalidInstruction("Error reading Instruction10t offset cannot be 0", 2);
 
             this->set_OP(instruction[0]);
             this->nAA = static_cast<std::int8_t>(instruction[1]);
@@ -170,7 +170,7 @@ namespace KUNAI
         /**
          * Instruction20t
          */
-        Instruction20t::Instruction20t(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction20t::Instruction20t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -179,13 +179,13 @@ namespace KUNAI
                 throw exceptions::DisassemblerException("Error disassembling Instruction20t");
 
             if (instruction[1] != 0)
-                throw exceptions::InvalidInstruction("Error reading Instruction20t padding must be 0");
+                throw exceptions::InvalidInstruction("Error reading Instruction20t padding must be 0", 4);
 
             this->set_OP(instruction[0]);
             this->nAAAA = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
 
             if (this->nAAAA == 0)
-                throw exceptions::InvalidInstruction("Error reading Instruction20t offset cannot be 0");
+                throw exceptions::InvalidInstruction("Error reading Instruction20t offset cannot be 0", 4);
         }
 
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction20t::get_operands()
@@ -199,7 +199,7 @@ namespace KUNAI
         /**
          * Instruction20bc
          */
-        Instruction20bc::Instruction20bc(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction20bc::Instruction20bc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -224,7 +224,7 @@ namespace KUNAI
         /**
          * Instruction22x
          */
-        Instruction22x::Instruction22x(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22x::Instruction22x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -249,7 +249,7 @@ namespace KUNAI
         /**
          * Instruction21t
          */
-        Instruction21t::Instruction21t(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction21t::Instruction21t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -262,7 +262,7 @@ namespace KUNAI
             this->nBBBB = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
 
             if (this->nBBBB == 0)
-                throw exceptions::InvalidInstruction("Error reading Instruction21t offset cannot be 0");
+                throw exceptions::InvalidInstruction("Error reading Instruction21t offset cannot be 0", 4);
         }
 
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction21t::get_operands()
@@ -276,7 +276,7 @@ namespace KUNAI
         /**
          * Instruction21s
          */
-        Instruction21s::Instruction21s(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction21s::Instruction21s(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -301,7 +301,7 @@ namespace KUNAI
         /**
          * Instruction21h
          */
-        Instruction21h::Instruction21h(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction21h::Instruction21h(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
 
@@ -342,7 +342,7 @@ namespace KUNAI
         /**
          * Instruction21c
          */
-        Instruction21c::Instruction21c(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction21c::Instruction21c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -427,7 +427,7 @@ namespace KUNAI
         /**
          * Instruction23x
          */
-        Instruction23x::Instruction23x(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction23x::Instruction23x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -455,7 +455,7 @@ namespace KUNAI
         /**
          * Instruction22b
          */
-        Instruction22b::Instruction22b(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22b::Instruction22b(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -482,7 +482,7 @@ namespace KUNAI
         /**
          * Instruction22t
          */
-        Instruction22t::Instruction22t(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22t::Instruction22t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -496,7 +496,7 @@ namespace KUNAI
             this->nCCCC = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
 
             if (this->nCCCC == 0)
-                throw exceptions::InvalidInstruction("Error reading Instruction22t offset cannot be 0");
+                throw exceptions::InvalidInstruction("Error reading Instruction22t offset cannot be 0", 4);
         }
 
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction22t::get_operands()
@@ -512,7 +512,7 @@ namespace KUNAI
         /**
          * Instruction22s
          */
-        Instruction22s::Instruction22s(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22s::Instruction22s(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -539,7 +539,7 @@ namespace KUNAI
         /**
          * Instruction22c
          */
-        Instruction22c::Instruction22c(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22c::Instruction22c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -599,7 +599,7 @@ namespace KUNAI
         /**
          * Instruction22cs
          */
-        Instruction22cs::Instruction22cs(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction22cs::Instruction22cs(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[4];
             this->set_length(4);
@@ -659,7 +659,7 @@ namespace KUNAI
         /**
          * Instruction30t
          */
-        Instruction30t::Instruction30t(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction30t::Instruction30t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[6];
             this->set_length(6);
@@ -668,13 +668,13 @@ namespace KUNAI
                 throw exceptions::DisassemblerException("Error disassembling Instruction30t");
 
             if (instruction[1] != 0)
-                throw exceptions::InvalidInstruction("Error reading Instruction30t padding must be 0");
+                throw exceptions::InvalidInstruction("Error reading Instruction30t padding must be 0", 6);
 
             this->set_OP(instruction[0]);
             this->nAAAAAAAA = *(reinterpret_cast<std::int32_t *>(&instruction[2]));
 
             if (this->nAAAAAAAA == 0)
-                throw exceptions::InvalidInstruction("Error reading Instruction30t offset cannot be 0");
+                throw exceptions::InvalidInstruction("Error reading Instruction30t offset cannot be 0", 6);
         }
 
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction30t::get_operands()
@@ -688,7 +688,7 @@ namespace KUNAI
         /**
          * Instruction32x
          */
-        Instruction32x::Instruction32x(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction32x::Instruction32x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[6];
 
@@ -698,7 +698,7 @@ namespace KUNAI
                 throw exceptions::DisassemblerException("Error disassembling Instruction32x");
 
             if (instruction[1] != 0)
-                throw exceptions::InvalidInstruction("Instruction32x OP code high byte should be 0");
+                throw exceptions::InvalidInstruction("Instruction32x OP code high byte should be 0", 6);
 
             this->set_OP(instruction[0]);
             this->vAAAA = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
@@ -717,7 +717,7 @@ namespace KUNAI
         /**
          * Instruction31i
          */
-        Instruction31i::Instruction31i(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction31i::Instruction31i(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             this->set_length(6);
             std::uint8_t instruction[6];
@@ -742,7 +742,7 @@ namespace KUNAI
         /**
          * Instruction31t
          */
-        Instruction31t::Instruction31t(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction31t::Instruction31t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[6];
             this->set_length(6);
@@ -774,7 +774,7 @@ namespace KUNAI
         /**
          * Instruction31c
          */
-        Instruction31c::Instruction31c(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction31c::Instruction31c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[6];
             this->set_length(6);
@@ -799,7 +799,7 @@ namespace KUNAI
         /**
          * Instruction35c
          */
-        Instruction35c::Instruction35c(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction35c::Instruction35c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t reg[5];
 
@@ -819,7 +819,7 @@ namespace KUNAI
             reg[3] = (instruction[5] & 0xf0) >> 4;
 
             if (this->array_size > 5)
-                throw exceptions::InvalidInstruction("Error in array size of Instruction35c, cannot be greater than 5");
+                throw exceptions::InvalidInstruction("Error in array size of Instruction35c, cannot be greater than 5", 6);
 
             for (size_t i = 0; i < this->array_size; i++)
                 this->registers.push_back(reg[i]);
@@ -889,7 +889,7 @@ namespace KUNAI
         /**
          * Instruction3rc
          */
-        Instruction3rc::Instruction3rc(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction3rc::Instruction3rc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[6];
             std::uint16_t vCCCC;
@@ -1011,7 +1011,7 @@ namespace KUNAI
         /**
          * Instruction45cc
          */
-        Instruction45cc::Instruction45cc(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction45cc::Instruction45cc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[8];
             std::uint8_t regC, regD, regE, regF, regG;
@@ -1031,7 +1031,7 @@ namespace KUNAI
             this->proto_reference = *(reinterpret_cast<std::uint16_t *>(&instruction[6]));
 
             if (this->reg_count > 5)
-                throw exceptions::InvalidInstruction("Error in reg_count from Instruction45cc cannot be greater than 5");
+                throw exceptions::InvalidInstruction("Error in reg_count from Instruction45cc cannot be greater than 5", 8);
 
             if (this->reg_count > 0)
                 this->registers.push_back(regC);
@@ -1106,7 +1106,7 @@ namespace KUNAI
         /**
          * Instruction4rcc
          */
-        Instruction4rcc::Instruction4rcc(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction4rcc::Instruction4rcc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[8];
             std::uint16_t vCCCC;
@@ -1172,7 +1172,7 @@ namespace KUNAI
         /**
          * Instruction51l
          */
-        Instruction51l::Instruction51l(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        Instruction51l::Instruction51l(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction[10];
             this->set_length(10);
@@ -1197,7 +1197,7 @@ namespace KUNAI
         /**
          * PackedSwitch
          */
-        PackedSwitch::PackedSwitch(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        PackedSwitch::PackedSwitch(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction_part1[8];
             std::int32_t aux;
@@ -1261,7 +1261,7 @@ namespace KUNAI
         /**
          * SparseSwitch
          */
-        SparseSwitch::SparseSwitch(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        SparseSwitch::SparseSwitch(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction_part1[4];
             std::int32_t aux;
@@ -1371,7 +1371,7 @@ namespace KUNAI
         /**
          * FillArrayData
          */
-        FillArrayData::FillArrayData(dalvikopcodes_t& dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
+        FillArrayData::FillArrayData(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file) : Instruction(dalvik_opcodes, input_file)
         {
             std::uint8_t instruction_part1[8];
             std::uint8_t aux;
@@ -1434,7 +1434,40 @@ namespace KUNAI
             return operands;
         }
 
-        instruction_t get_instruction_object(std::uint32_t opcode, dalvikopcodes_t& dalvik_opcodes, std::istream &input_file)
+        /*
+         *   DalvikIncorrectInstruction
+         */
+        DalvikIncorrectInstruction::DalvikIncorrectInstruction(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file, std::uint64_t size)
+            : Instruction(dalvik_opcodes, input_file)
+        {
+            std::uint8_t invalid_opcode;
+            this->size = size;
+
+            this->set_length(size);
+
+            for (std::uint64_t i = 0; i < size; i++)
+            {
+                if (!KUNAI::read_data_file<std::uint8_t>(invalid_opcode, 1, input_file))
+                    throw exceptions::DisassemblerException("Error disassembling DalvikIncorrectInstruction");
+                opcodes.push_back(invalid_opcode);
+            }
+        }
+
+        void DalvikIncorrectInstruction::show_instruction()
+        {
+            std::cout << std::left << std::setfill(' ') << std::setw(25) << "DalvikInvalidInstruction: ";
+            for (auto val : opcodes)
+                std::cout << std::hex << val << " ";
+        }
+
+        void DalvikIncorrectInstruction::give_me_instruction(std::ostream &os)
+        {
+            os << std::left << std::setfill(' ') << std::setw(25) << "DalvikInvalidInstruction: ";
+            for (auto val : opcodes)
+                os << std::hex << val << " ";
+        }
+
+        instruction_t get_instruction_object(std::uint32_t opcode, dalvikopcodes_t &dalvik_opcodes, std::istream &input_file)
         {
             instruction_t instruction;
 
@@ -1834,7 +1867,7 @@ namespace KUNAI
                 break;
             default:
                 std::string msg = "Invalud Instruction '" + std::to_string(opcode) + "'";
-                throw exceptions::InvalidInstruction(msg);
+                throw exceptions::InvalidInstruction(msg, 1);
             }
 
             return instruction;
@@ -1962,7 +1995,7 @@ namespace KUNAI
             return {};
         }
 
-        std::vector<exceptions_data> determine_exception(dalvikopcodes_t& dalvik_opcodes, encodedmethod_t& method)
+        std::vector<exceptions_data> determine_exception(dalvikopcodes_t &dalvik_opcodes, encodedmethod_t &method)
         {
             if (method->get_code_item()->get_number_of_try_items() <= 0)
                 return {};
