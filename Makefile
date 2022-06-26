@@ -2,7 +2,7 @@ CXX ?= g++
 AR=ar
 # set your paths
 JAVAC=javac
-DX=dx
+D8=d8
 
 # libchilkat data if not set
 LIB_ZIP_PATH ?= ./external/zip/build/libzip.so
@@ -212,24 +212,26 @@ tests:
 	current_dir=$(shell pwd)
 
 	@echo "Compiling test-assignment-arith-logic"
-	cd ./tests/test-assignment-arith-logic/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
+	cd ./tests/test-assignment-arith-logic/ && ${JAVAC} --release 8 Main.java && ${D8} Main.class && mv classes.dex Main.dex
 
 	@echo "Compiling test-const_class"
-	cd ./tests/test-const_class/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
+	cd ./tests/test-const_class/ && ${JAVAC} --release 8 Main.java && ${D8} Main.class && mv classes.dex Main.dex
 
 	@echo "Compiling test-try-catch"
-	cd ./tests/test-try-catch/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
+	cd ./tests/test-try-catch/ && ${JAVAC} --release 8 Main.java && ${D8} Main.class && mv classes.dex Main.dex
 
 	@echo "Compiling test-graph"
-	cd ./tests/test-graph/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
+	cd ./tests/test-graph/ && ${JAVAC} --release 8 Main.java && ${D8} Main.class && mv classes.dex Main.dex
 
 	@echo "Compiling test-cyclomatic-complexity"
-	cd ./tests/test-cyclomatic-complexity/ && ${JAVAC} --release 8 Main.java && ${DX} --dex --output Main.dex Main.class
+	cd ./tests/test-cyclomatic-complexity/ && ${JAVAC} --release 8 Main.java && ${D8} Main.class && mv classes.dex Main.dex
 
 	@echo "Compiling test-vm"
 	cd ./tests/test-vm/ && ${JAVAC} --release 8 PCodeVM.java VClass.java && \
-		${DX} --dex --output VClass.dex VClass.class && \
-		${DX} --dex --output PCodeVM.dex PCodeVM.class
+		${D8} VClass.class && \
+		mv classes.dex VClass.dex &&\
+		${D8} PCodeVM.class &&\
+		mv classes.dex PCodeVM.dex
 
 ########################################################
 clean:
