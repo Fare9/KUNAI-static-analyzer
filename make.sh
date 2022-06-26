@@ -28,6 +28,8 @@ check_and_build_dependencies() {
         git clone https://github.com/kuba--/zip.git ./external/zip/
     fi
 
+    sudo apt install cmake
+
     if [ ! -f external/zip/build/${LIB_ZIP} ]; then
         echo "[-] Not found compiled library, compiling"
         current_dir=${PWD}
@@ -48,6 +50,8 @@ check_and_build_dependencies() {
         echo "[-] ${LIB_ZIP} not found, installing it"
         sudo cp external/zip/build/${LIB_ZIP} /usr/lib/${LIB_ZIP}
     fi
+
+    echo "[!] Finished installing dependencies"
 }
 
 
