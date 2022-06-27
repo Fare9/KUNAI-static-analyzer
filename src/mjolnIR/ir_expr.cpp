@@ -113,6 +113,13 @@ namespace KUNAI
 
                 return assign1 == assign2;
             }
+            else if (ope1.type == IRExpr::PHI_EXPR_T)
+            {
+                IRPhi& phi1 = reinterpret_cast<IRPhi&>(ope1);
+                IRPhi& phi2 = reinterpret_cast<IRPhi&>(ope1);
+                
+                return phi1 == phi2;
+            }
             else if (ope1.type == IRExpr::CALL_EXPR_T)
             {
                 IRCall &call1 = reinterpret_cast<IRCall &>(ope1);
@@ -411,6 +418,45 @@ namespace KUNAI
         {
             return (ope1.destination->equals(ope2.destination)) &&
                    (ope1.source->equals(ope2.source));
+        }
+
+        /**
+         * IRPhi class
+         */
+        IRPhi::IRPhi() : IRExpr(PHI_EXPR_T)
+        {
+        }
+
+        std::string IRPhi::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRPhi ";
+            str_stream << "[Params: ";
+            for (auto& param : params)
+                str_stream << "[" << param->to_string() << "]";
+            str_stream << "]";
+
+            return str_stream.str();
+        }
+
+        bool IRPhi::equals(irphi_t irphi)
+        {
+            return *this == *(irphi.get());
+        }
+
+        bool operator==(IRPhi &ope1, IRPhi &ope2)
+        {
+            if (ope1.params.size() != ope2.params.size())
+                return false;
+
+            for (size_t n_size = ope1.params.size(), i = 0; i < n_size; i++)
+            {
+                if (!ope1.params.at(i)->equals(ope2.params.at(i)))
+                    return false;
+            }
+
+            return true;
         }
 
         /**

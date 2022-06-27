@@ -124,6 +124,11 @@ namespace KUNAI
             return std::dynamic_pointer_cast<IRAssign>(instr);
         }
 
+        irphi_t phi_ir(irstmnt_t& instr)
+        {
+            return std::dynamic_pointer_cast<IRPhi>(instr);
+        }
+
         irload_t load_ir(irstmnt_t& instr)
         {
             return std::dynamic_pointer_cast<IRLoad>(instr);

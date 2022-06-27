@@ -9,6 +9,7 @@
  */
 
 #include <optional>
+#include <unordered_map>
 
 #include "KUNAI/mjolnIR/ir_graph.hpp"
 
@@ -38,7 +39,7 @@ namespace KUNAI
             ~IRGraphSSA() = default;
 
         private:
-            std::map<irreg_t, std::uint32_t> reg_last_index;
+            std::unordered_map<irreg_t, std::uint32_t> reg_last_index;
 
             std::optional<irblock_t> translate_ir_block(irblock_t& current_block);
             

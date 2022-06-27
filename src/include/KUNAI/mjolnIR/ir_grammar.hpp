@@ -39,6 +39,7 @@ namespace KUNAI
         class IRBinOp;
         class IRUnaryOp;
         class IRAssign;
+        class IRPhi;
         class IRCall;
         class IRLoad;
         class IRStore;
@@ -138,6 +139,16 @@ namespace KUNAI
          * @return irassign_t or nullptr
          */
         irassign_t assign_ir(irstmnt_t& instr);
+
+        using irphi_t = std::shared_ptr<IRPhi>;
+
+        /**
+         * @brief Check if given statement is a phi operation.
+         * 
+         * @param instr 
+         * @return irphi_t or nullptr
+         */
+        irphi_t phi_ir(irstmnt_t& instr);
 
         using ircall_t = std::shared_ptr<IRCall>;
         /**
@@ -828,6 +839,7 @@ namespace KUNAI
                 BINOP_EXPR_T,
                 UNARYOP_EXPR_T,
                 ASSIGN_EXPR_T,
+                PHI_EXPR_T,
                 CALL_EXPR_T,
                 TYPE_EXPR_T,
                 LOAD_EXPR_T,
@@ -1225,6 +1237,54 @@ namespace KUNAI
             irexpr_t destination;
             //! source expression from where the value is taken
             irexpr_t source;
+        };
+
+        class IRPhi : public IRExpr
+        {
+        public:
+            /**
+             * @brief Construct a new IRPhi object, this will be used in
+             *        the IRGraphSSA, these kind of instructions represent
+             *        how a variable could contain different definitions of
+             *        a variable.
+             */
+            IRPhi();
+
+            /**
+             * @brief Destroy the IRPhi object
+             */
+            ~IRPhi() = default;
+
+            const std::vector<irexpr_t>& get_params() const
+            {
+                return params;
+            }
+
+            void add_param(irexpr_t param);
+
+            /**
+             * @brief Return the string representation of IRPhi.
+             *
+             * @return std::string
+             */
+            std::string to_string();
+
+            /**
+             * @brief Comparison of IRPhi instructions.
+             * @return bool
+             */
+            bool equals(irphi_t irphi);
+
+            /**
+             * @brief Operator == for IRPhi.
+             * @param ope1: first operation to compare.
+             * @param ope2: second operation to compare.
+             * @return bool
+             */
+            friend bool operator==(IRPhi &, IRPhi &);
+
+        private:
+            std::vector<irexpr_t> params;
         };
 
         class IRCall : public IRExpr
