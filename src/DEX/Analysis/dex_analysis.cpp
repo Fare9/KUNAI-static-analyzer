@@ -498,10 +498,10 @@ namespace KUNAI
                         if ((op_i->get_kind() != DVMTypes::Kind::FIELD) || (op_i->get_third_operand_kind() != DVMTypes::Kind::FIELD))
                             continue;
 
-                        auto field_item = dalvik_opcodes->get_dalvik_encoded_field_by_fieldid(op_i->get_third_operand_FieldId());
-
                         if (dalvik_opcodes->get_instruction_operation(op_value) == DVMTypes::Operation::FIELD_READ_DVM_OPCODE)
                         {
+                            auto field_item = dalvik_opcodes->get_dalvik_encoded_field_by_fieldid(op_i->get_third_operand_FieldId());
+
                             classes[current_class_name]->add_field_xref_read(current_method_analysis, class_working_on, field_item, off);
 
                             // necessary to give a field analysis to the add_xref_read method
@@ -512,6 +512,8 @@ namespace KUNAI
                         }
                         else if (dalvik_opcodes->get_instruction_operation(op_value) == DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE)
                         {
+                            auto field_item = dalvik_opcodes->get_dalvik_encoded_field_by_fieldid(op_i->get_third_operand_FieldId());
+
                             classes[current_class_name]->add_field_xref_write(current_method_analysis, class_working_on, field_item, off);
 
                             // same as before
@@ -527,10 +529,10 @@ namespace KUNAI
                         if ((op_s->get_kind() != DVMTypes::Kind::FIELD) || (op_s->get_source_kind() != DVMTypes::Kind::FIELD))
                             continue;
 
-                        auto field_item = dalvik_opcodes->get_dalvik_encoded_field_by_fieldid(op_s->get_source_static_field());
-
                         if (dalvik_opcodes->get_instruction_operation(op_value) == DVMTypes::Operation::FIELD_READ_DVM_OPCODE)
                         {
+                            auto field_item = dalvik_opcodes->get_dalvik_encoded_field_by_fieldid(op_s->get_source_static_field());
+
                             classes[current_class_name]->add_field_xref_read(current_method_analysis, class_working_on, field_item, off);
 
                             // necessary to give a field analysis to the add_xref_read method
@@ -541,6 +543,8 @@ namespace KUNAI
                         }
                         else if (dalvik_opcodes->get_instruction_operation(op_value) == DVMTypes::Operation::FIELD_WRITE_DVM_OPCODE)
                         {
+                            auto field_item = dalvik_opcodes->get_dalvik_encoded_field_by_fieldid(op_s->get_source_static_field());
+                            
                             classes[current_class_name]->add_field_xref_write(current_method_analysis, class_working_on, field_item, off);
 
                             // same as before

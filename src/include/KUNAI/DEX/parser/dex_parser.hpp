@@ -219,9 +219,23 @@ namespace KUNAI
              */
             std::vector<std::string> get_string_values();
 
+            const std::vector<encodedfield_t>& get_encoded_fields_from_classes() const
+            {
+                return encoded_fields;
+            }
+
             friend std::ostream &operator<<(std::ostream &os, const DexParser &entry);
 
         private:
+
+            /**
+             * @brief Method to retrieve from the classes all
+             *        the encoded_fields, this can be used
+             *        later to improve the performance in the analysis
+             *        of the cross references.
+             */
+            void retrieve_encoded_fields_from_classes();
+
             std::uint32_t api_version;
 
             dexheader_t dex_header = nullptr;
@@ -231,6 +245,8 @@ namespace KUNAI
             dexfields_t dex_fields = nullptr;
             dexmethods_t dex_methods = nullptr;
             dexclasses_t dex_classes = nullptr;
+
+            std::vector<encodedfield_t> encoded_fields;
         };
     }
 }

@@ -137,16 +137,21 @@ namespace KUNAI
         {
             std::vector<encodedfield_t> fields;
 
-            for (auto it = static_fields.begin(); it != static_fields.end(); it++)
+            if (!static_fields.empty())
             {
-                fields.push_back(it->second);
+                for (auto it = static_fields.begin(); it != static_fields.end(); it++)
+                {
+                    fields.push_back(it->second);
+                }
             }
 
-            for (auto it = instance_fields.begin(); it != instance_fields.end(); it++)
+            if (!instance_fields.empty())
             {
-                fields.push_back(it->second);
+                for (auto it = instance_fields.begin(); it != instance_fields.end(); it++)
+                {
+                    fields.push_back(it->second);
+                }
             }
-
             return fields;
         }
 
