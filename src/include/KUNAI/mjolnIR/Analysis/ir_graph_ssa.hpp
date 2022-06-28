@@ -39,9 +39,30 @@ namespace KUNAI
             ~IRGraphSSA() = default;
 
         private:
-            std::unordered_map<irreg_t, std::uint32_t> reg_last_index;
+            std::unordered_map<irreg_t, irreg_t> reg_last_index;
+
 
             std::optional<irblock_t> translate_ir_block(irblock_t& current_block);
+
+            /**
+             * @brief Translate an instruction to an SSA form this will involve
+             *        parsing the instruction and checking if it contains registers
+             *        to translate to a new SSA form.
+             * 
+             * @param instr instruction to translate to an SSA form
+             * @return irstmnt_t
+             */
+            irstmnt_t translate_instruction(irstmnt_t& instr);
+
+            /**
+             * @brief Create a new register that uses always the last index
+             *        this is necessary for the variable renaming in the SSA
+             *        form.
+             * 
+             * @param old_reg register to rename to an SSA form
+             * @return irreg_t 
+             */
+            irreg_t rename(irreg_t old_reg);
             
             
         };

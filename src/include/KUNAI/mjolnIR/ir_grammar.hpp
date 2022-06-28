@@ -2034,6 +2034,16 @@ namespace KUNAI
             }
 
             /**
+             * @brief Get the current arch value
+             * 
+             * @return int 
+             */
+            int get_current_arch()
+            {
+                return current_arch;
+            }
+
+            /**
              * @brief Return the register type as str.
              * @return std::string
              */
