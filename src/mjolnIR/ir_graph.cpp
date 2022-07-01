@@ -407,24 +407,26 @@ namespace KUNAI
 
             for (auto& idom : idoms)
             {
+                
+                if (predecessors.at(idom.first).size() < 2)
+                    continue;
+
                 // check if the node has more than 1 predecessor
                 // this node is a convergence node
-                if (predecessors.at(idom.first).size() >= 2)
+                for (auto& runner : predecessors.at(idom.first))
                 {
-                    for (auto& runner : predecessors.at(idom.first))
+                    // check if the predecessor is in the
+                    // map of immediate dominators nodes.
+                    if (idoms.find(runner) == idoms.end())
+                        continue;
+                    
+                    while (runner != idom.second)
                     {
-                        // check if the predecessor is in the
-                        // map of immediate dominators nodes.
-                        if (idoms.find(runner) == idoms.end())
-                            continue;
-                        
-                        while (runner != idom.second)
-                        {
-                            frontier[runner].insert(idom.first);
-                            runner = idoms.at(runner);
-                        }
+                        frontier[runner].insert(idom.first);
+                        runner = idoms.at(runner);
                     }
                 }
+                
             }
 
             return frontier;

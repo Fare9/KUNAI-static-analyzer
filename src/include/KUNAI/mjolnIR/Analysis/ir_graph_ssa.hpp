@@ -40,9 +40,20 @@ namespace KUNAI
 
         private:
             std::unordered_map<irreg_t, irreg_t> reg_last_index;
+            std::unordered_map<irreg_t, std::set<irblock_t>> var_block_map;
 
 
             std::optional<irblock_t> translate_ir_block(irblock_t& current_block);
+
+            /**
+             * @brief Obtain all kind of assignment that can generate
+             *        a newer value for a variable.
+             * 
+             * @param graph 
+             */
+            void collect_var_assign();
+
+            void insert_phi_node();
 
             /**
              * @brief Translate an instruction to an SSA form this will involve

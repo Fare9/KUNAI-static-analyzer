@@ -427,6 +427,11 @@ namespace KUNAI
         {
         }
 
+        void IRPhi::add_param(irexpr_t param)
+        {
+            params.push_back(param);
+        }
+
         std::string IRPhi::to_string()
         {
             std::stringstream str_stream;

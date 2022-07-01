@@ -210,7 +210,7 @@ namespace KUNAI
             // A = New Class
             else if (auto new_instr = new_ir(instr))
             {
-                reg = load_instr->get_destination();
+                reg = new_instr->get_result();
             }
             else
                 return std::nullopt;

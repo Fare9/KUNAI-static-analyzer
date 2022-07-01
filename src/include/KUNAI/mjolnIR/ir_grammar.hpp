@@ -325,6 +325,16 @@ namespace KUNAI
             ~IRBlock() = default;
 
             /**
+             * @brief Add a statement at the beginning of the block of instructions,
+             *        this will be useful to insert instructions like phi nodes.
+             * @param statement statement to insert at the beginning of the statements.
+             */
+            void add_statement_at_beginning(irstmnt_t statement)
+            {
+                block_statements.insert(block_statements.begin(), statement);
+            }
+
+            /**
              * @brief Append one statement to the list, we use the class std::list as it allows us to
              *        insert instructions between other instructions easily.
              * @param statement: statement to append to the list.
@@ -1255,12 +1265,42 @@ namespace KUNAI
              */
             ~IRPhi() = default;
 
+            /**
+             * @brief Get the vector with all the parameters.
+             * 
+             * @return const std::vector<irexpr_t>& 
+             */
             const std::vector<irexpr_t>& get_params() const
             {
                 return params;
             }
 
+            /**
+             * @brief Add a parameter into the Phi node.
+             * 
+             * @param param 
+             */
             void add_param(irexpr_t param);
+
+            /**
+             * @brief Get the result register for the phi node.
+             * 
+             * @return irexpr_t 
+             */
+            irexpr_t get_result()
+            {
+                return result;
+            }
+
+            /**
+             * @brief Add the register used as result of the phi node.
+             * 
+             * @param result 
+             */
+            void add_result(irexpr_t result)
+            {
+                this->result = result;
+            }
 
             /**
              * @brief Return the string representation of IRPhi.
@@ -1284,6 +1324,7 @@ namespace KUNAI
             friend bool operator==(IRPhi &, IRPhi &);
 
         private:
+            irexpr_t result;
             std::vector<irexpr_t> params;
         };
 
@@ -1365,6 +1406,16 @@ namespace KUNAI
             irexpr_t get_ret_val()
             {
                 return ret_val;
+            }
+            
+            /**
+             * @brief Get the call type value
+             * 
+             * @return call_type_t 
+             */
+            call_type_t get_call_type()
+            {
+                return call_type;
             }
 
             /**
@@ -1543,6 +1594,16 @@ namespace KUNAI
             irexpr_t get_source()
             {
                 return source;
+            }
+
+            /**
+             * @brief Get the index from the store instruction.
+             * 
+             * @return irexpr_t 
+             */
+            irexpr_t get_index()
+            {
+                return index;
             }
 
             /**
