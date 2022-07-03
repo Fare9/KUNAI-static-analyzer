@@ -17,6 +17,9 @@ namespace KUNAI
 
             collect_var_assign();
             insert_phi_node();
+
+            for (auto& node : get_nodes())
+                search(node);
         }
 
         void IRGraphSSA::collect_var_assign()
@@ -128,16 +131,18 @@ namespace KUNAI
                     auto& block = work_list.front();
                     work_list.erase(work_list.begin());
 
-                    for (auto & df_block : dominance_frontier.at(block))
+                    for (auto & df_block : dominance_frontier[block])
                     {
-                        if (inserted.at(df_block) != reg)
+                        if (inserted[df_block] != reg)
                         {
-                            auto lhs = std::make_shared<IRReg>(*reg.get());
-                            auto result = std::make_shared<IRReg>(*reg.get());
+                            // add phi node
+                            inserted[df_block] = reg;
+
 
                             auto phi_instr = std::make_shared<IRPhi>();
-                            phi_instr->add_result(result);
-                            phi_instr->add_param(lhs);
+                            phi_instr->add_result(reg);
+                            phi_instr->add_param(reg);
+                            
                             
                             df_block->add_statement_at_beginning(phi_instr);
 
@@ -145,14 +150,33 @@ namespace KUNAI
                             // into the worklist
                             work_list.push_back(df_block);
                         }
+                        else
+                        {
+                            auto phi_instr = std::dynamic_pointer_cast<IRPhi>(df_block->get_statements()[0]);
+                            phi_instr->add_param(reg);
+                        }
                     }
                 }
             }
         }
 
+        void IRGraphSSA::search(irblock_t& v)
+        {
+            auto& statements = v->get_statements();
+            for (size_t v_size = statements.size(), i = 0; i < v_size; i++)
+            {
+                auto& instr = statements[i];
+
+                auto new_instr = translate_instruction(instr);
+
+                if (new_instr != instr)
+                    statements[i] = new_instr;
+            }
+        }
+
         irstmnt_t IRGraphSSA::translate_instruction(irstmnt_t &instr)
         {
-            irstmnt_t new_instr;
+            irstmnt_t new_instr = instr;
 
             // A = B
             if (auto assign_instr = assign_ir(instr))
@@ -161,10 +185,10 @@ namespace KUNAI
                 irstmnt_t source = assign_instr->get_source();
 
                 if (auto reg = register_ir(destination))
-                    destination = rename(reg);
+                    destination = create_new_ssa_reg(reg);
 
                 if (auto reg = register_ir(source))
-                    source = reg_last_index.at(reg);
+                    source = S[reg].top();
 
                 new_instr = std::make_shared<IRAssign>(std::dynamic_pointer_cast<IRExpr>(destination), std::dynamic_pointer_cast<IRExpr>(source));
             }
@@ -175,10 +199,10 @@ namespace KUNAI
                 irstmnt_t op = unary_instr->get_op();
 
                 if (auto reg = register_ir(result))
-                    result = rename(reg);
+                    result = create_new_ssa_reg(reg);
 
                 if (auto reg = register_ir(op))
-                    op = reg_last_index.at(reg);
+                    op = S[reg].top();
 
                 if (unary_instr->get_unary_op_type() == IRUnaryOp::CAST_OP_T && unary_instr->get_cast_type() == IRUnaryOp::TO_CLASS)
                     new_instr = std::make_shared<IRUnaryOp>(IRUnaryOp::CAST_OP_T, IRUnaryOp::TO_CLASS, unary_instr->get_class_cast(), std::dynamic_pointer_cast<IRExpr>(result), std::dynamic_pointer_cast<IRExpr>(op));
@@ -195,13 +219,13 @@ namespace KUNAI
                 irstmnt_t op2 = binary_instr->get_op2();
 
                 if (auto reg = register_ir(result))
-                    result = rename(reg);
+                    result = create_new_ssa_reg(reg);
 
                 if (auto reg = register_ir(op1))
-                    op1 = reg_last_index.at(reg);
+                    op1 = S[reg].top();
 
                 if (auto reg = register_ir(op2))
-                    op2 = reg_last_index.at(reg);
+                    op2 = S[reg].top();
 
                 new_instr = std::make_shared<IRBinOp>(binary_instr->get_bin_op_type(), std::dynamic_pointer_cast<IRExpr>(result), std::dynamic_pointer_cast<IRExpr>(op1), std::dynamic_pointer_cast<IRExpr>(op2));
             }
@@ -213,13 +237,13 @@ namespace KUNAI
                 irstmnt_t index = load_instr->get_index();
 
                 if (auto reg = register_ir(destination))
-                    destination = rename(reg);
+                    destination = create_new_ssa_reg(reg);
 
                 if (auto reg = register_ir(source))
-                    source = reg_last_index.at(reg);
+                    source = S[reg].top();
 
                 if (auto reg = register_ir(index))
-                    index = reg_last_index.at(reg);
+                    index = S[reg].top();
 
                 new_instr = std::make_shared<IRLoad>(std::dynamic_pointer_cast<IRExpr>(destination), std::dynamic_pointer_cast<IRExpr>(source), std::dynamic_pointer_cast<IRExpr>(index), load_instr->get_size());
             }
@@ -229,7 +253,7 @@ namespace KUNAI
                 irstmnt_t result = new_ir_instr->get_result();
 
                 if (auto reg = register_ir(result))
-                    result = rename(reg);
+                    result = create_new_ssa_reg(reg);
 
                 new_instr = std::make_shared<IRNew>(std::dynamic_pointer_cast<IRExpr>(result), new_ir_instr->get_source_class());
             }
@@ -239,7 +263,7 @@ namespace KUNAI
                 irstmnt_t return_value = ret_instr->get_return_value();
 
                 if (auto reg = register_ir(return_value))
-                    return_value = rename(reg);
+                    return_value = create_new_ssa_reg(reg);
 
                 new_instr = std::make_shared<IRRet>(std::dynamic_pointer_cast<IRExpr>(return_value));
             }
@@ -252,11 +276,12 @@ namespace KUNAI
 
                 for (auto arg : args)
                 {
-                    new_args.push_back(reg_last_index.at(std::dynamic_pointer_cast<IRReg>(arg)));
+                    auto reg = std::dynamic_pointer_cast<IRReg>(arg);
+                    new_args.push_back(S[reg].top());
                 }
 
                 if (auto reg = register_ir(ret_val))
-                    ret_val = rename(reg);
+                    ret_val = create_new_ssa_reg(reg);
 
                 new_instr = std::make_shared<IRCall>(call_instr->get_callee(), call_instr->get_call_type(), new_args);
                 std::dynamic_pointer_cast<IRCall>(new_instr)->set_ret_val(std::dynamic_pointer_cast<IRExpr>(ret_val));
@@ -269,13 +294,13 @@ namespace KUNAI
                 irstmnt_t index = store_instr->get_index();
 
                 if (auto reg = register_ir(destination))
-                    destination = rename(reg);
+                    destination = create_new_ssa_reg(reg);
 
                 if (auto reg = register_ir(source))
-                    source = reg_last_index.at(reg);
+                    source = S[reg].top();
 
                 if (auto reg = register_ir(index))
-                    index = reg_last_index.at(reg);
+                    index = S[reg].top();
 
                 new_instr = std::make_shared<IRStore>(std::dynamic_pointer_cast<IRExpr>(destination), std::dynamic_pointer_cast<IRExpr>(source), std::dynamic_pointer_cast<IRExpr>(index), store_instr->get_size());
             }
@@ -283,30 +308,20 @@ namespace KUNAI
             return new_instr;
         }
 
-        irreg_t IRGraphSSA::rename(irreg_t old_reg)
+        irreg_t IRGraphSSA::create_new_ssa_reg(irreg_t old_reg)
         {
             irreg_t new_reg;
 
-            if (reg_last_index.find(old_reg) == reg_last_index.end())
-            {
-                new_reg = std::make_shared<IRReg>(old_reg->get_id(),
+            if (C.find(old_reg) == C.end())
+                C[old_reg] = 0;
+            
+            new_reg = std::make_shared<IRReg>(old_reg->get_id(),
                                                   0,
                                                   old_reg->get_current_arch(),
-                                                  "v" + std::to_string(old_reg->get_id()) + "." + std::to_string(0),
+                                                  old_reg->to_string() + "." + std::to_string(0),
                                                   old_reg->get_type_size());
-                reg_last_index[old_reg] = new_reg;
-            }
-            else
-            {
-                auto current_reg = reg_last_index[old_reg];
-                auto new_sub_id = current_reg->get_sub_id() + 1;
-                new_reg = std::make_shared<IRReg>(
-                    current_reg->get_id(),
-                    new_sub_id,
-                    current_reg->get_current_arch(),
-                    "v" + std::to_string(current_reg->get_id()) + "." + std::to_string(new_sub_id),
-                    current_reg->get_type_size());
-            }
+            C[old_reg]++;
+            S[old_reg].push(new_reg);
 
             return new_reg;
         }

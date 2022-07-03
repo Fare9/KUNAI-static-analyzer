@@ -51,7 +51,8 @@ OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${APK_OBJ_FILES} ${IR_OBJ_FILES} ${IR_
 
 all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
 ${BIN_PROJECTS_FOLDER}test_dex_parser ${BIN_PROJECTS_FOLDER}test_dex_disassembler ${BIN_PROJECTS_FOLDER}test_ir ${BIN_PROJECTS_FOLDER}test_dex_lifter \
-${BIN_PROJECTS_FOLDER}test_ir_graph ${BIN_PROJECTS_FOLDER}test_dominators ${BIN_PROJECTS_FOLDER}test-optimizations
+${BIN_PROJECTS_FOLDER}test_ir_graph ${BIN_PROJECTS_FOLDER}test_dominators ${BIN_PROJECTS_FOLDER}test-optimizations \
+${BIN_PROJECTS_FOLDER}test_ssa_form
 
 
 
@@ -104,6 +105,10 @@ ${BIN_PROJECTS_FOLDER}test-optimizations: ${OBJ}test-optimizations.o ${OBJ_FILES
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^ ${LIB_ZIP}
 
+${BIN_PROJECTS_FOLDER}test_ssa_form: ${OBJ}test_ssa_form.o ${OBJ_FILES}
+	@echo "Linking $< -> $@"
+	${CXX} -o $@ $^ ${LIB_ZIP}
+
 ${BIN_TEST_FOLDER}test_apk_analysis: ${OBJ}test_apk_analysis.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^ ${LIB_ZIP}
@@ -153,6 +158,10 @@ ${OBJ}test_apk_analysis.o: ${CODE_TEST_FOLDER}test_apk_analysis.cpp
 	${CXX} -I${INCLUDE_PATH} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ${OBJ}test-optimizations.o: ${CODE_TEST_FOLDER}test-optimizations.cpp
+	@echo "Compiling $< -> $@"
+	${CXX} -I${INCLUDE_PATH} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+
+${OBJ}test_ssa_form.o: ${CODE_TEST_FOLDER}test_ssa_form.cpp
 	@echo "Compiling $< -> $@"
 	${CXX} -I${INCLUDE_PATH} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 

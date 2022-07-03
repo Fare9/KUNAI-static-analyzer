@@ -10,6 +10,7 @@
 #define IR_X86_HPP
 
 #include <map>
+#include <unordered_map>
 
 namespace KUNAI
 {
@@ -58,7 +59,7 @@ namespace KUNAI
             dr0, dr1, dr2, dr3, dr6, dr7
         };
 
-        static const std::map<x86_regs_t, size_t> x86_regs_size = {
+        static const std::unordered_map<x86_regs_t, size_t> x86_regs_size = {
             {rax,8}, {eax,4}, {ax,2}, {ah,1}, {al,1},
             {rbx,8}, {ebx,4}, {bx,2}, {bh,1}, {bl,1},
             {rcx,8}, {ecx,4}, {cx,2}, {ch,1}, {cl,1},
@@ -76,7 +77,7 @@ namespace KUNAI
             {r15, 8}, {r15d,4}, {r15w,2}, {r15b,1}
         };
 
-        static const std::map<x86_regs_t, std::string> x86_regs_name = {
+        static const std::unordered_map<x86_regs_t, std::string> x86_regs_name = {
             {rax,"rax"}, {eax,"eax"}, {ax,"ax"}, {ah,"ah"}, {al,"al"},
             {rbx,"rbx"}, {ebx,"ebx"}, {bx,"bx"}, {bh,"bh"}, {bl,"bl"},
             {rcx,"rcx"}, {ecx,"ecx"}, {cx,"cx"}, {ch,"ch"}, {cl,"cl"},

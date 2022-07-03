@@ -32,6 +32,12 @@ namespace KUNAI
 
                 return assign->to_string();
             }
+            else if (type == PHI_EXPR_T)
+            {
+                auto phi = reinterpret_cast<IRPhi *>(this);
+
+                return phi->to_string();
+            }
             else if (type == TYPE_EXPR_T)
             {
                 auto type_ = reinterpret_cast<IRType *>(this);
@@ -437,6 +443,7 @@ namespace KUNAI
             std::stringstream str_stream;
 
             str_stream << "IRPhi ";
+            str_stream << "[Result: " << result->to_string() << "]";
             str_stream << "[Params: ";
             for (auto& param : params)
                 str_stream << "[" << param->to_string() << "]";

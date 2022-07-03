@@ -368,6 +368,10 @@ namespace KUNAI
             std::uint64_t cyclomatic_complexity = -1;
             
         };
+    
+        std::unique_ptr<IRGraph> get_unique_empty_graph();
+        
+        irgraph_t get_shared_empty_graph();
     } // namespace MJOLNIR
 
 } // namespace KUNAI

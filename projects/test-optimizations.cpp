@@ -10,7 +10,7 @@ main()
 {
     auto optimizer = KUNAI::MJOLNIR::NewDefaultOptimizer();
 
-    auto graph = std::make_shared<KUNAI::MJOLNIR::IRGraph>();
+    auto graph = KUNAI::MJOLNIR::get_shared_empty_graph();
 
     // Create a block
     auto block1 = std::make_shared<KUNAI::MJOLNIR::IRBlock>();
@@ -95,8 +95,6 @@ main()
     for (auto& block : graph->get_nodes())
         for (auto& instr : block->get_statements())
             instr->print_use_def_and_def_use_chain();
-
-    auto graph_ssa = std::make_shared<KUNAI::MJOLNIR::IRGraphSSA>(graph);
 
     optimizer->run_analysis(graph);
 

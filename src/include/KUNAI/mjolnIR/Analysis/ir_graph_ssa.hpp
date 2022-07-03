@@ -10,6 +10,7 @@
 
 #include <optional>
 #include <unordered_map>
+#include <stack>
 
 #include "KUNAI/mjolnIR/ir_graph.hpp"
 
@@ -42,6 +43,9 @@ namespace KUNAI
             std::unordered_map<irreg_t, irreg_t> reg_last_index;
             std::unordered_map<irreg_t, std::set<irblock_t>> var_block_map;
 
+            std::unordered_map<irreg_t, std::uint32_t> C;
+            std::unordered_map<irreg_t, std::stack<irreg_t>> S;
+
 
             std::optional<irblock_t> translate_ir_block(irblock_t& current_block);
 
@@ -61,6 +65,15 @@ namespace KUNAI
             void insert_phi_node();
 
             /**
+             * @brief Apply variable renaming to a basic block of the IRGraph
+             *        here we will apply the global variables in order to translate
+             *        each instruction.
+             * 
+             * @param v basic block to translate.
+             */
+            void search(irblock_t& v);
+
+            /**
              * @brief Translate an instruction to an SSA form this will involve
              *        parsing the instruction and checking if it contains registers
              *        to translate to a new SSA form.
@@ -71,16 +84,16 @@ namespace KUNAI
             irstmnt_t translate_instruction(irstmnt_t& instr);
 
             /**
-             * @brief Create a new register that uses always the last index
-             *        this is necessary for the variable renaming in the SSA
-             *        form.
+             * @brief Create a new register for the SSA, this will be used
+             *        in the renaming algorithm, the algorithm is based in
+             *        the one of the book
+             *        "An Introduction to the Theory of Optimizing Compilers".
+             *        This function will use both C and S.
              * 
-             * @param old_reg register to rename to an SSA form
+             * @param old_reg 
              * @return irreg_t 
              */
-            irreg_t rename(irreg_t old_reg);
-            
-            
+            irreg_t create_new_ssa_reg(irreg_t old_reg);
         };
     } //! MJOLNIR
 } //! KUNAI

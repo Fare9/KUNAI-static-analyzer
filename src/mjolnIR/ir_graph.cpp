@@ -4,6 +4,16 @@ namespace KUNAI
 {
     namespace MJOLNIR
     {
+        std::unique_ptr<IRGraph> get_unique_empty_graph()
+        {
+            return std::make_unique<IRGraph>();
+        }
+
+        irgraph_t get_shared_empty_graph()
+        {
+            return std::make_shared<IRGraph>();
+        }
+
         /**
          * IRGraph class
          */
@@ -407,8 +417,7 @@ namespace KUNAI
 
             for (auto& idom : idoms)
             {
-                
-                if (predecessors.at(idom.first).size() < 2)
+                if (predecessors.find(idom.first) == predecessors.end() || predecessors.at(idom.first).size() < 2)
                     continue;
 
                 // check if the node has more than 1 predecessor
