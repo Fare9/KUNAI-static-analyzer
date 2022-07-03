@@ -3,6 +3,7 @@
 
 #include "KUNAI/mjolnIR/Analysis/optimizer.hpp"
 #include "KUNAI/mjolnIR/Analysis/reachingDefinition.hpp"
+#include "KUNAI/mjolnIR/Analysis/ir_graph_ssa.hpp"
 
 int
 main()
@@ -94,6 +95,8 @@ main()
     for (auto& block : graph->get_nodes())
         for (auto& instr : block->get_statements())
             instr->print_use_def_and_def_use_chain();
+
+    auto graph_ssa = std::make_shared<KUNAI::MJOLNIR::IRGraphSSA>(graph);
 
     optimizer->run_analysis(graph);
 

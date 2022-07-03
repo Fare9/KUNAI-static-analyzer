@@ -53,6 +53,11 @@ namespace KUNAI
              */
             void collect_var_assign();
 
+            /**
+             * @brief Look for a place in the dominance frontier where
+             *        to write 
+             * 
+             */
             void insert_phi_node();
 
             /**
