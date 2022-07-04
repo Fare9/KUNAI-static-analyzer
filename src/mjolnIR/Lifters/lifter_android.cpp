@@ -492,6 +492,7 @@ namespace KUNAI
                 case MJOLNIR::IRField::DOUBLE_F:
                     cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, dest_reg, dest_reg);
                     break;
+                case MJOLNIR::IRField::ARRAY_F:
                 case MJOLNIR::IRField::CLASS_F:
                     cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg);
                     break;

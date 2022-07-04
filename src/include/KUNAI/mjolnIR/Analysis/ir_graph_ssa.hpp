@@ -47,9 +47,6 @@ namespace KUNAI
 
             std::map<KUNAI::MJOLNIR::irblock_t, KUNAI::MJOLNIR::irblock_t> dominance_tree;
 
-
-            std::optional<irblock_t> translate_ir_block(irblock_t& current_block);
-
             /**
              * @brief Obtain all kind of assignment that can generate
              *        a newer value for a variable.

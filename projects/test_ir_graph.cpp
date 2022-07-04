@@ -3,6 +3,7 @@
 
 #include "KUNAI/mjolnIR/Lifters/lifter_android.hpp"
 #include "KUNAI/DEX/dex.hpp"
+#include "KUNAI/mjolnIR/Analysis/ir_graph_ssa.hpp"
 
 int main(int argc, char **argv)
 {
@@ -73,6 +74,10 @@ int main(int argc, char **argv)
     auto complexity = graph->get_cyclomatic_complexity();
 
     std::cout << "\nCyclomatic complexity = " << complexity << "\n";
+
+    std::cout << "\nDumping the dominance tree\n";
+
+    graph->generate_dominator_tree(method_name+"_dominance_tree");
 
     return 0;
 }

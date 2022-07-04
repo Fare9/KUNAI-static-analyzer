@@ -1866,7 +1866,7 @@ namespace KUNAI
                 instruction = std::make_shared<Instruction21c>(dalvik_opcodes, input_file); // 'const-method-type' # Dalvik 039
                 break;
             default:
-                std::string msg = "Invalud Instruction '" + std::to_string(opcode) + "'";
+                std::string msg = "Invalid Instruction '" + std::to_string(opcode) + "'";
                 throw exceptions::InvalidInstruction(msg, 1);
             }
 
