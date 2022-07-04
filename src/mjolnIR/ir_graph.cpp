@@ -466,10 +466,8 @@ namespace KUNAI
         }
 
         
-        Nodes IRGraph::get_successors(irblock_t node)
+        Nodes& IRGraph::get_successors(irblock_t node)
         {
-            if (successors.find(node) == successors.end())
-                return {};
             return successors[node];
         }
 
@@ -482,10 +480,8 @@ namespace KUNAI
         }
 
         
-        Nodes IRGraph::get_predecessors(irblock_t node)
+        Nodes& IRGraph::get_predecessors(irblock_t node)
         {
-            if (predecessors.find(node) == predecessors.end())
-                return {};
             return predecessors[node];
         }
 

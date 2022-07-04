@@ -143,12 +143,12 @@ namespace KUNAI
         IRReg::IRReg(std::uint32_t reg_id, int current_arch, std::string type_name, size_t type_size)
             : IRType(REGISTER_TYPE, type_name, type_size),
               id(reg_id),
-              sub_id(0),
+              sub_id(-1),
               current_arch(current_arch)
         {
         }
 
-        IRReg::IRReg(std::uint32_t reg_id, std::uint32_t reg_sub_id, int current_arch, std::string type_name, size_t type_size)
+        IRReg::IRReg(std::uint32_t reg_id, std::int32_t reg_sub_id, int current_arch, std::string type_name, size_t type_size)
             : IRType(REGISTER_TYPE, type_name, type_size),
               id(reg_id),
               sub_id(reg_sub_id),
@@ -166,19 +166,19 @@ namespace KUNAI
             {
             case MJOLNIR::x86_arch:
                 stream << "[x86: " << x86_regs_name.at(static_cast<x86_regs_t>(id));
-                if (sub_id != 0)
+                if (sub_id != -1)
                     stream << "." << sub_id;
                 stream << "]";
                 break;
             case MJOLNIR::dalvik_arch:
                 stream << "[dalvik: v" << id;
-                if (sub_id != 0)
+                if (sub_id != -1)
                     stream << "." << sub_id;
                 stream << "]";
                 break;
             default:
                 stream << "[None: reg" << id;
-                if (sub_id != 0)
+                if (sub_id != -1)
                     stream << "." << sub_id;
                 stream << "]";
                 break;

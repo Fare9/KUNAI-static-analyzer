@@ -1270,7 +1270,7 @@ namespace KUNAI
              * 
              * @return const std::vector<irexpr_t>& 
              */
-            const std::vector<irexpr_t>& get_params() const
+            std::vector<irexpr_t>& get_params()
             {
                 return params;
             }
@@ -2068,7 +2068,7 @@ namespace KUNAI
              * @param type_size: size of the register.
              * @return void
              */
-            IRReg(std::uint32_t reg_id, std::uint32_t reg_sub_id, int current_arch, std::string type_name, size_t type_size);
+            IRReg(std::uint32_t reg_id, std::int32_t reg_sub_id, int current_arch, std::string type_name, size_t type_size);
 
             /**
              * @brief Destructor of IRReg.
@@ -2154,7 +2154,7 @@ namespace KUNAI
             //! sub id of the register, this sub id will be used
             //! in the SSA form, and used to check if a register
             //! is the same than other.
-            std::uint32_t sub_id;
+            std::int32_t sub_id;
 
             int current_arch;
         };

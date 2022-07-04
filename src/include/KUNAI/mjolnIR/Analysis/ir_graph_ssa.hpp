@@ -40,11 +40,12 @@ namespace KUNAI
             ~IRGraphSSA() = default;
 
         private:
-            std::unordered_map<irreg_t, irreg_t> reg_last_index;
             std::unordered_map<irreg_t, std::set<irblock_t>> var_block_map;
 
             std::unordered_map<irreg_t, std::uint32_t> C;
             std::unordered_map<irreg_t, std::stack<irreg_t>> S;
+
+            std::map<KUNAI::MJOLNIR::irblock_t, KUNAI::MJOLNIR::Nodes> dominance_tree;
 
 
             std::optional<irblock_t> translate_ir_block(irblock_t& current_block);
@@ -79,9 +80,10 @@ namespace KUNAI
              *        to translate to a new SSA form.
              * 
              * @param instr instruction to translate to an SSA form
+             * @param p defined registers that we must remove later from stack.
              * @return irstmnt_t
              */
-            irstmnt_t translate_instruction(irstmnt_t& instr);
+            irstmnt_t translate_instruction(irstmnt_t& instr, std::list<irreg_t>& p);
 
             /**
              * @brief Create a new register for the SSA, this will be used
@@ -91,9 +93,10 @@ namespace KUNAI
              *        This function will use both C and S.
              * 
              * @param old_reg 
+             * @param p defined registers that we must remove later from stack.
              * @return irreg_t 
              */
-            irreg_t create_new_ssa_reg(irreg_t old_reg);
+            irreg_t create_new_ssa_reg(irreg_t old_reg, std::list<irreg_t>& p);
         };
     } //! MJOLNIR
 } //! KUNAI

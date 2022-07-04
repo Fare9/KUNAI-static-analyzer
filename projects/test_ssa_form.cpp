@@ -77,5 +77,5 @@ main()
 
     auto graph_ssa = std::make_shared<KUNAI::MJOLNIR::IRGraphSSA>(graph);
 
-    graph->generate_dot_file("ssa_graph");
+    graph_ssa->generate_dot_file("ssa_graph");
 }

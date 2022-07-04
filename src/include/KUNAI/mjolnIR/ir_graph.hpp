@@ -269,7 +269,7 @@ namespace KUNAI
              * @param node: block to get its successors.
              * @return std::vector<irblock_t>
              */
-            Nodes get_successors(irblock_t node);
+            Nodes& get_successors(irblock_t node);
 
             /**
              * @brief Get the number of predecessor blocks from the given block.
@@ -283,7 +283,7 @@ namespace KUNAI
              * @param node: block to get its predecessors.
              * @return std::vector<irblock_t>
              */
-            Nodes get_predecessors(irblock_t node);
+            Nodes& get_predecessors(irblock_t node);
 
             /**
              * @brief Get type of node depending on number of successors and predecessors.
