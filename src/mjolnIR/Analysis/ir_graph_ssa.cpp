@@ -15,7 +15,7 @@ namespace KUNAI
             for (auto edge : edges)
                 add_edge(edge.first, edge.second);
 
-            dominance_tree = compute_postdominators(get_nodes()[0]);
+            dominance_tree = compute_immediate_dominators();
             //dominance_tree = compute_dominators();
 
             collect_var_assign();
@@ -162,7 +162,7 @@ namespace KUNAI
             }
         }
 
-        void IRGraphSSA::search(irblock_t &v)
+        void IRGraphSSA::search(const irblock_t &v)
         {
             std::list<irreg_t> p;
 
@@ -205,9 +205,12 @@ namespace KUNAI
             }
 
             // go through each child from the dominance tree
-            auto &childs = dominance_tree[v];
-            for (auto &child : childs)
-                search(child);
+            for (auto& doms : dominance_tree)
+                if (doms.second == v)
+                {
+                    auto & child = doms.first;
+                    search(child);
+                }
 
             // now POP all the defined variables here!
             for (auto x : p)
@@ -368,6 +371,24 @@ namespace KUNAI
 
                 new_instr = std::make_shared<IRBComp>(bcomp->get_comparison(), bcomp->get_result(), std::dynamic_pointer_cast<IRExpr>(op1), std::dynamic_pointer_cast<IRExpr>(op2));
             }
+            // Phi node (only the result)
+            if (auto phi_instr = phi_ir(instr))
+            {
+                irstmnt_t result = phi_instr->get_result();
+
+                if (auto reg = register_ir(result))
+                    result = create_new_ssa_reg(reg, p);
+                
+                new_instr = std::make_shared<IRPhi>();
+
+                auto aux = std::dynamic_pointer_cast<IRPhi>(new_instr);
+                aux->add_result(std::dynamic_pointer_cast<IRExpr>(result));
+
+                for (auto param : phi_instr->get_params())
+                {
+                    aux->add_param(param);
+                }
+            }
 
             return new_instr;
         }
@@ -386,7 +407,7 @@ namespace KUNAI
                                               old_reg->get_type_size());
             C[old_reg]++;
             S[old_reg].push(new_reg);
-            p.push_back(new_reg);
+            p.push_back(old_reg);
 
             return new_reg;
         }

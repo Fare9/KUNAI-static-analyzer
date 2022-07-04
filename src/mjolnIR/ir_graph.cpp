@@ -422,7 +422,7 @@ namespace KUNAI
 
                 // check if the node has more than 1 predecessor
                 // this node is a convergence node
-                for (auto& runner : predecessors.at(idom.first))
+                for (auto runner : predecessors[idom.first])
                 {
                     // check if the predecessor is in the
                     // map of immediate dominators nodes.
@@ -432,7 +432,7 @@ namespace KUNAI
                     while (runner != idom.second)
                     {
                         frontier[runner].insert(idom.first);
-                        runner = idoms.at(runner);
+                        runner = idoms[runner];
                     }
                 }
                 

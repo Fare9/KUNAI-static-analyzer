@@ -45,7 +45,7 @@ namespace KUNAI
             std::unordered_map<irreg_t, std::uint32_t> C;
             std::unordered_map<irreg_t, std::stack<irreg_t>> S;
 
-            std::map<KUNAI::MJOLNIR::irblock_t, KUNAI::MJOLNIR::Nodes> dominance_tree;
+            std::map<KUNAI::MJOLNIR::irblock_t, KUNAI::MJOLNIR::irblock_t> dominance_tree;
 
 
             std::optional<irblock_t> translate_ir_block(irblock_t& current_block);
@@ -72,7 +72,7 @@ namespace KUNAI
              * 
              * @param v basic block to translate.
              */
-            void search(irblock_t& v);
+            void search(const irblock_t& v);
 
             /**
              * @brief Translate an instruction to an SSA form this will involve
