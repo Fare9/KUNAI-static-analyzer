@@ -2,6 +2,40 @@
 
 Tool aimed to provide a binary analysis of different file formats through the use of an Intermmediate Representation.
 
+## Installation
+
+Kunai has a couple of dependencies, one of them can be downloaded in the **external** folder, to do that just run the next command:
+
+```console
+https://github.com/Fare9/KUNAI-static-analyzer.git
+cd KUNAI-static-analyzer
+git submodule update --init --rebase --recursive
+```
+
+With this, you will download the **zip** external dependency that can be compiled and installed next. The library **libspdlog-dev** will be also installed for logging in its version *1:1.5.0-1*, for doing that we can use the script you'll find in the root of the folder with the next command:
+
+```console
+./make.sh dependencies
+```
+
+This step is also run if you want to build Kunai using the same script with the next command:
+
+```console
+./make.sh build
+```
+
+Or if you want to build using a debug configuration:
+
+```console
+./make.sh debug
+```
+
+In case you want to install dependencies, compile Kunai and finally install it, do it with the next command:
+
+```console
+./make.sh install
+```
+
 ## Project Structure
 
 The next files/folders are included in the project:
@@ -22,7 +56,7 @@ The next files/folders are included in the project:
     * **src/mjolnIR/Analysis/**: classes written for applying different types of analysis to the Intermmediate Representation, some of them can be useful in deobfuscation.
     * **src/mjolnIR/Lifters/**: code to lift the disassembled instructions to KUNAI's Intermmediate Representation instructions.
     * **src/includes/KUNAI/**: all KUNAI's headers structured following previous convention.
-
+    * **src/includes/KUNAI/Exceptions/**: all the custom exceptions used in KUNAI.
 
 ## DEX
 
