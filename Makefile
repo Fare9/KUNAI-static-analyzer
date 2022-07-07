@@ -241,6 +241,9 @@ tests:
 		mv classes.dex VClass.dex &&\
 		${D8} PCodeVM.class &&\
 		mv classes.dex PCodeVM.dex
+	
+	@echo "Compiling test-modexp"
+	cd ./tests/test-modexp && ${JAVAC} --release 8 Main.java && ${D8} Main.class && mv classes.dex Main.dex
 
 ########################################################
 clean:
