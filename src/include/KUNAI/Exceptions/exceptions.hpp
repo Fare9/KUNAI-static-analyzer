@@ -1,5 +1,3 @@
-#pragma once
-
 #ifndef EXCEPTIONS_HPP
 #define EXCEPTIONS_HPP
 
