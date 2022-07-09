@@ -16,7 +16,6 @@ namespace KUNAI
                 add_edge(edge.first, edge.second);
 
             dominance_tree = compute_immediate_dominators();
-            //dominance_tree = compute_dominators();
 
             collect_var_assign();
             insert_phi_node();
@@ -144,18 +143,12 @@ namespace KUNAI
 
                             auto phi_instr = std::make_shared<IRPhi>();
                             phi_instr->add_result(reg);
-                            phi_instr->add_param(reg);
 
                             df_block->add_statement_at_beginning(phi_instr);
 
                             // finally add the block from dominance_frontier
                             // into the worklist
                             work_list.push_back(df_block);
-                        }
-                        else
-                        {
-                            auto phi_instr = std::dynamic_pointer_cast<IRPhi>(df_block->get_statements()[0]);
-                            phi_instr->add_param(reg);
                         }
                     }
                 }
@@ -197,7 +190,10 @@ namespace KUNAI
                 {
                     if (auto phi_instr = phi_ir(w_stmnt))
                     {
-                        irreg_t reg = std::dynamic_pointer_cast<IRReg>(phi_instr->get_params()[j]);
+                        irreg_t reg = std::dynamic_pointer_cast<IRReg>(phi_instr->get_result());
+
+                        if (reg->get_sub_id() != -1)
+                            reg = ssa_to_non_ssa_form[reg];
 
                         phi_instr->get_params()[j] = S[reg].top();
                     }
@@ -205,10 +201,10 @@ namespace KUNAI
             }
 
             // go through each child from the dominance tree
-            for (auto& doms : dominance_tree)
+            for (auto &doms : dominance_tree)
                 if (doms.second == v)
                 {
-                    auto & child = doms.first;
+                    auto &child = doms.first;
                     search(child);
                 }
 
@@ -378,7 +374,7 @@ namespace KUNAI
 
                 if (auto reg = register_ir(result))
                     result = create_new_ssa_reg(reg, p);
-                
+
                 new_instr = std::make_shared<IRPhi>();
 
                 auto aux = std::dynamic_pointer_cast<IRPhi>(new_instr);
@@ -386,7 +382,7 @@ namespace KUNAI
 
                 for (auto param : phi_instr->get_params())
                 {
-                    aux->add_param(param);
+                    aux->add_param(param.second, param.first);
                 }
             }
 
@@ -407,6 +403,8 @@ namespace KUNAI
                                               old_reg->get_type_size());
             C[old_reg]++;
             S[old_reg].push(new_reg);
+            ssa_to_non_ssa_form[new_reg] = old_reg;
+
             p.push_back(old_reg);
 
             return new_reg;

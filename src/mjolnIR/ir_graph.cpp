@@ -275,13 +275,16 @@ namespace KUNAI
                 {
                     if (std::find(nodes.begin(), nodes.end(), pred) == nodes.end()) // pred is not in nodes
                         continue;
+
                     if (new_dom.empty())
                         new_dom = dominators[pred];
 
                     Nodes intersect_aux;
+                    
                     std::set_intersection(new_dom.begin(), new_dom.end(),
                                           dominators[pred].begin(), dominators[pred].end(),
                                           std::inserter(intersect_aux, intersect_aux.begin()));
+
                     new_dom = intersect_aux;
                 }
 

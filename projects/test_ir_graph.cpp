@@ -79,5 +79,11 @@ int main(int argc, char **argv)
 
     graph->generate_dominator_tree(method_name+"_dominance_tree");
 
+    auto graph_ssa = std::make_shared<KUNAI::MJOLNIR::IRGraphSSA>(graph);
+
+    std::cout << "\nDumping the Graph in SSA form\n";
+    
+    graph_ssa->generate_dot_file(method_name+"_ssa");
+
     return 0;
 }

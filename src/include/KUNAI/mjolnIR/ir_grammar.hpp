@@ -1268,9 +1268,9 @@ namespace KUNAI
             /**
              * @brief Get the vector with all the parameters.
              * 
-             * @return const std::vector<irexpr_t>& 
+             * @return std::unordered_map<uint32_t, irexpr_t>
              */
-            std::vector<irexpr_t>& get_params()
+            std::unordered_map<uint32_t, irexpr_t>& get_params()
             {
                 return params;
             }
@@ -1278,9 +1278,10 @@ namespace KUNAI
             /**
              * @brief Add a parameter into the Phi node.
              * 
-             * @param param 
+             * @param param parameter to include
+             * @param id identifier where to insert the parameter
              */
-            void add_param(irexpr_t param);
+            void add_param(irexpr_t param, uint32_t id);
 
             /**
              * @brief Get the result register for the phi node.
@@ -1325,7 +1326,7 @@ namespace KUNAI
 
         private:
             irexpr_t result;
-            std::vector<irexpr_t> params;
+            std::unordered_map<uint32_t, irexpr_t> params;
         };
 
         class IRCall : public IRExpr

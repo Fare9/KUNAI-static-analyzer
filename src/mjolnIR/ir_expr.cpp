@@ -433,9 +433,9 @@ namespace KUNAI
         {
         }
 
-        void IRPhi::add_param(irexpr_t param)
+        void IRPhi::add_param(irexpr_t param, uint32_t id)
         {
-            params.push_back(param);
+            params[id] = param;
         }
 
         std::string IRPhi::to_string()
@@ -446,7 +446,7 @@ namespace KUNAI
             str_stream << "[Result: " << result->to_string() << "]";
             str_stream << "[Params: ";
             for (auto& param : params)
-                str_stream << "[" << param->to_string() << "]";
+                str_stream << "[" << param.second->to_string() << "]";
             str_stream << "]";
 
             return str_stream.str();
