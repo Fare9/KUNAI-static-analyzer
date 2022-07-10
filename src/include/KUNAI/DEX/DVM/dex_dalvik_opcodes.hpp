@@ -183,7 +183,7 @@ namespace KUNAI
             /**
              * @brief Translation table from opcode to string
              */
-            std::map<std::uint32_t, std::string> opcodes_instruction_name = {
+            std::unordered_map<std::uint32_t, std::string> opcodes_instruction_name = {
                 {DVMTypes::Opcode::OP_NOP, "nop"},
                 {DVMTypes::Opcode::OP_MOVE, "move"},
                 {DVMTypes::Opcode::OP_MOVE_FROM16, "move/from16"},
@@ -462,7 +462,7 @@ namespace KUNAI
             /**
              * @brief Translation table from opcode to instruction type.
              */
-            std::map<std::uint32_t, DVMTypes::Kind> opcodes_instruction_type = {
+            std::unordered_map<std::uint32_t, DVMTypes::Kind> opcodes_instruction_type = {
                 {DVMTypes::Opcode::OP_CONST_STRING, DVMTypes::Kind::STRING},
                 {DVMTypes::Opcode::OP_CONST_STRING_JUMBO, DVMTypes::Kind::STRING},
                 {DVMTypes::Opcode::OP_CONST_CLASS, DVMTypes::Kind::TYPE},
@@ -539,7 +539,7 @@ namespace KUNAI
              * @brief instructions that makes some specific operation
              *        branch, break, read, write...
              */
-            std::map<std::uint32_t, DVMTypes::Operation> opcode_instruction_operation = {
+            std::unordered_map<std::uint32_t, DVMTypes::Operation> opcode_instruction_operation = {
                 // branch instructions
                 {0x27, DVMTypes::Operation::BRANCH_DVM_OPCODE},
                 {0x32, DVMTypes::Operation::BRANCH_DVM_OPCODE},

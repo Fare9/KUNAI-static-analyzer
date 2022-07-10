@@ -19,6 +19,7 @@
 #include <memory>
 #include <vector>
 #include <list>
+#include <unordered_map>
 
 // lifters
 #include "KUNAI/mjolnIR/arch/ir_x86.hpp"
@@ -424,7 +425,23 @@ namespace KUNAI
              */
             std::string to_string();
 
+            void set_phi_node()
+            {
+                phi_node = true;
+            }
+
+            void clear_phi_node()
+            {
+                phi_node = false;
+            }
+
+            bool contains_phi_node()
+            {
+                return phi_node;
+            }
+
         private:
+            bool phi_node = false;
             //! starting idx and last idx (used for jump calculation)
             uint64_t start_idx, end_idx;
             //! statements from the basic block.
@@ -486,9 +503,9 @@ namespace KUNAI
             /**
              * @brief Get the def-use chain of the operand1 (if exists)
              * 
-             * @return const std::map<irexpr_t, std::vector<irexpr_t>>&
+             * @return const std::unordered_map<irexpr_t, std::vector<irstmnt_t>>&
              */
-            const std::map<irexpr_t, std::vector<irstmnt_t>>& get_def_use_chains() const
+            const std::unordered_map<irexpr_t, std::vector<irstmnt_t>>& get_def_use_chains() const
             {
                 return def_use_chains;
             }
@@ -497,7 +514,7 @@ namespace KUNAI
              * @brief Get the def use chain by value object
              * 
              * @param value 
-             * @return std::optional<std::vector<irexpr_t>&> 
+             * @return std::optional<std::vector<irexpr_t>*> 
              */
             std::optional<std::vector<irstmnt_t>*> get_def_use_chain_by_value(irexpr_t value)
             {
@@ -564,7 +581,7 @@ namespace KUNAI
 
             //! Vectors used for use-def and def-use chains
             std::vector<irstmnt_t> use_def_chain;
-            std::map<irexpr_t, std::vector<irstmnt_t>> def_use_chains;
+            std::unordered_map<irexpr_t, std::vector<irstmnt_t>> def_use_chains;
         };
 
         class IRUJmp : public IRStmnt

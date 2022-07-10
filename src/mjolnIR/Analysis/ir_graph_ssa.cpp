@@ -146,6 +146,8 @@ namespace KUNAI
 
                             df_block->add_statement_at_beginning(phi_instr);
 
+                            df_block->set_phi_node();
+
                             // finally add the block from dominance_frontier
                             // into the worklist
                             work_list.push_back(df_block);
@@ -175,7 +177,15 @@ namespace KUNAI
             auto &succs = get_successors(v);
             for (auto &w : succs)
             {
+                // if the next block does not contain
+                // a phi node, just continue, avoid
+                // all the other calculations
+                if (!w->contains_phi_node())
+                    continue;
+
                 // extract which_pred is v for w
+                // this will take by index which
+                // predecessor is v from w
                 auto &preds = get_predecessors(w);
                 auto it = find(preds.begin(), preds.end(), v);
 
@@ -190,6 +200,11 @@ namespace KUNAI
                 {
                     if (auto phi_instr = phi_ir(w_stmnt))
                     {
+                        // trick to fill the parameters from the PHI function
+                        // extract the result register, and turn it to a non SSA form
+                        // if needed, then assign the register to the phi statement
+                        // as one of the parameters.
+
                         irreg_t reg = std::dynamic_pointer_cast<IRReg>(phi_instr->get_result());
 
                         if (reg->get_sub_id() != -1)
@@ -202,6 +217,8 @@ namespace KUNAI
 
             // go through each child from the dominance tree
             for (auto &doms : dominance_tree)
+                // check that current block strictly
+                // dominates the next one to analyze
                 if (doms.second == v)
                 {
                     auto &child = doms.first;
@@ -401,8 +418,12 @@ namespace KUNAI
                                               old_reg->get_current_arch(),
                                               old_reg->to_string() + "." + std::to_string(C[old_reg]),
                                               old_reg->get_type_size());
+            // save last index of the register
             C[old_reg]++;
+            // save all the references to new registers
+            // from old one
             S[old_reg].push(new_reg);
+            // save the old register from the newer one
             ssa_to_non_ssa_form[new_reg] = old_reg;
 
             p.push_back(old_reg);
