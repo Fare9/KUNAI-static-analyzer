@@ -1,7 +1,0 @@
-<map id="src/includes/KUNAI/mjolnIR/arch/ir_x86.hpp" name="src/includes/KUNAI/mjolnIR/arch/ir_x86.hpp">
-<area shape="rect" id="node1" title="Values specific for x86 and x86&#45;64 for the registers this will be enums for the registers,..." alt="" coords="51,5,213,47"/>
-<area shape="rect" id="node2" href="$d9/d2a/ir__grammar_8hpp.html" title="Header file which includes all the grammar of the IR, this will be used as header file by all the int..." alt="" coords="51,95,213,136"/>
-<area shape="rect" id="node3" href="$d0/d75/ir__graph_8hpp.html" title="DiGraph class from miasm implemented in C++ using the classes from MjolnIR, some of basic graph analy..." alt="" coords="5,184,149,225"/>
-<area shape="rect" id="node4" href="$d8/d39/optimizer_8hpp.html" title="Class for applying optimization passes to IR, working in IR we will be able to create more generic op..." alt="" coords="57,273,207,315"/>
-<area shape="rect" id="node5" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="62,363,202,419"/>
-</map>
