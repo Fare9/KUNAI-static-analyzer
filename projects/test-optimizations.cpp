@@ -1,14 +1,16 @@
 #include <iostream>
 #include <memory>
 
-#include "optimizer.hpp"
+#include "KUNAI/mjolnIR/Analysis/optimizer.hpp"
+#include "KUNAI/mjolnIR/Analysis/reachingDefinition.hpp"
+#include "KUNAI/mjolnIR/Analysis/ir_graph_ssa.hpp"
 
 int
 main()
 {
     auto optimizer = KUNAI::MJOLNIR::NewDefaultOptimizer();
 
-    auto graph = std::make_shared<KUNAI::MJOLNIR::IRGraph>();
+    auto graph = KUNAI::MJOLNIR::get_shared_empty_graph();
 
     // Create a block
     auto block1 = std::make_shared<KUNAI::MJOLNIR::IRBlock>();
@@ -28,11 +30,13 @@ main()
     auto temp_reg2 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(0x1, any_str, 4);
     auto temp_reg3 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(0x2, any_str, 4);
     auto temp_reg4 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(0x4, any_str, 4);
+    auto temp_reg10 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(0x10, any_str, 4);
 
     auto add_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::ADD_OP_T, temp_reg1, const_1, const_2);
     auto sub_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::SUB_OP_T, temp_reg2, const_1, const_2);
     auto and_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::AND_OP_T, temp_reg3, const_3, const_4);
     auto or_instr = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::XOR_OP_T, temp_reg4, const_3, const_4);
+    auto assign_instr = std::make_shared<KUNAI::MJOLNIR::IRAssign>(temp_reg10, temp_reg4);
 
     block1->append_statement_to_block(nop);
     block1->append_statement_to_block(callee);
@@ -40,8 +44,9 @@ main()
     block1->append_statement_to_block(sub_instr);
     block1->append_statement_to_block(and_instr);
     block1->append_statement_to_block(or_instr);
+    block1->append_statement_to_block(assign_instr);
     block1->set_start_idx(0);
-    block1->set_end_idx(6);
+    block1->set_end_idx(7);
 
     graph->add_node(block1);
 
@@ -68,8 +73,8 @@ main()
     block2->append_statement_to_block(add_zero_reg);
     block2->append_statement_to_block(multiply_reg_one);
     block2->append_statement_to_block(multiply_one_reg);
-    block2->set_start_idx(7);
-    block2->set_end_idx(11);
+    block2->set_start_idx(8);
+    block2->set_end_idx(12);
 
     graph->add_node(block2);
 
@@ -77,11 +82,27 @@ main()
 
     graph->generate_dot_file("no_simplified");
 
+    auto reachingdefinition = std::make_shared<KUNAI::MJOLNIR::ReachingDefinition>(graph);
+
+    reachingdefinition->compute();
+
+    std::cout << "Reaching Definition Analysis:" << std::endl;
+
+    std::cout << *reachingdefinition;
+
+    optimizer->calculate_def_use_and_use_def_analysis(graph, reachingdefinition);
+
+    for (auto& block : graph->get_nodes())
+        for (auto& instr : block->get_statements())
+            instr->print_use_def_and_def_use_chain();
+
     optimizer->run_analysis(graph);
 
     graph->generate_dot_file("simplified");
 
-    
+    const auto& last_block = graph->get_nodes().back();
+
+    auto last_reach_definition = reachingdefinition->get_reach_definition_point(last_block->get_start_idx(), last_block->get_number_of_statements());
 
     return 0;
 }

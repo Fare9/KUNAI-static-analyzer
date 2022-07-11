@@ -1,4 +1,4 @@
-#include "dex_external_classes.hpp"
+#include "KUNAI/DEX/DVM/dex_external_classes.hpp"
 
 namespace KUNAI {
     namespace DEX {

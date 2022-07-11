@@ -1,4 +1,4 @@
-#include "ir_grammar.hpp"
+#include "KUNAI/mjolnIR/ir_grammar.hpp"
 
 namespace KUNAI
 {
@@ -11,13 +11,6 @@ namespace KUNAI
         {
         }
 
-
-        void IRExpr::invalidate_chains()
-        {
-            invalidate_use_def_chain();
-            invalidate_op1_def_use_chain();
-            invalidate_op2_def_use_chain();
-        }
 
         std::string IRExpr::to_string()
         {
@@ -38,6 +31,12 @@ namespace KUNAI
                 auto assign = reinterpret_cast<IRAssign *>(this);
 
                 return assign->to_string();
+            }
+            else if (type == PHI_EXPR_T)
+            {
+                auto phi = reinterpret_cast<IRPhi *>(this);
+
+                return phi->to_string();
             }
             else if (type == TYPE_EXPR_T)
             {
@@ -119,6 +118,13 @@ namespace KUNAI
                 IRAssign &assign2 = reinterpret_cast<IRAssign &>(ope2);
 
                 return assign1 == assign2;
+            }
+            else if (ope1.type == IRExpr::PHI_EXPR_T)
+            {
+                IRPhi& phi1 = reinterpret_cast<IRPhi&>(ope1);
+                IRPhi& phi2 = reinterpret_cast<IRPhi&>(ope1);
+                
+                return phi1 == phi2;
             }
             else if (ope1.type == IRExpr::CALL_EXPR_T)
             {
@@ -328,6 +334,9 @@ namespace KUNAI
             case S_EXT_OP_T:
                 str_stream << "[Type: SIGN_EXT_OP]";
                 break;
+            case NONE_UNARY_OP_T:
+                str_stream << "[Type: NONE_UNARY_OP_T]";
+                break;
             }
 
             if (unary_op_type == CAST_OP_T)
@@ -415,6 +424,51 @@ namespace KUNAI
         {
             return (ope1.destination->equals(ope2.destination)) &&
                    (ope1.source->equals(ope2.source));
+        }
+
+        /**
+         * IRPhi class
+         */
+        IRPhi::IRPhi() : IRExpr(PHI_EXPR_T)
+        {
+        }
+
+        void IRPhi::add_param(irexpr_t param, uint32_t id)
+        {
+            params[id] = param;
+        }
+
+        std::string IRPhi::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRPhi ";
+            str_stream << "[Result: " << result->to_string() << "]";
+            str_stream << "[Params: ";
+            for (auto& param : params)
+                str_stream << "[" << param.second->to_string() << "]";
+            str_stream << "]";
+
+            return str_stream.str();
+        }
+
+        bool IRPhi::equals(irphi_t irphi)
+        {
+            return *this == *(irphi.get());
+        }
+
+        bool operator==(IRPhi &ope1, IRPhi &ope2)
+        {
+            if (ope1.params.size() != ope2.params.size())
+                return false;
+
+            for (size_t n_size = ope1.params.size(), i = 0; i < n_size; i++)
+            {
+                if (!ope1.params.at(i)->equals(ope2.params.at(i)))
+                    return false;
+            }
+
+            return true;
         }
 
         /**

@@ -1,4 +1,4 @@
-#include "dex_dalvik_opcodes.hpp"
+#include "KUNAI/DEX/DVM/dex_dalvik_opcodes.hpp"
 
 namespace KUNAI
 {
@@ -39,21 +39,13 @@ namespace KUNAI
 
         encodedfield_t DalvikOpcodes::get_dalvik_encoded_field_by_fieldid(fieldid_t field)
         {
-            auto classes_def = dex_parser->get_classes_def_item();
+            auto fields = dex_parser->get_encoded_fields_from_classes();
 
-            for (auto c : classes_def)
+            for (auto f : fields)
             {
-                if (c->get_class_idx()->get_name() == std::dynamic_pointer_cast<Class>(field->get_class_idx())->get_name())
+                if (f->get_field().get() == field.get())
                 {
-                    auto fields = c->get_class_data()->get_fields();
-
-                    for (auto f : fields)
-                    {
-                        if (f->get_field().get() == field.get())
-                        {
-                            return f;
-                        }
-                    }
+                    return f;
                 }
             }
 

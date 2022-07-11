@@ -1,4 +1,4 @@
-#include "apk.hpp"
+#include "KUNAI/APK/apk.hpp"
 
 namespace KUNAI
 {
@@ -12,6 +12,8 @@ namespace KUNAI
             temporal_path = std::filesystem::temp_directory_path().c_str();
             temporal_path += std::filesystem::path::preferred_separator;
             temporal_path += std::filesystem::path(path_to_apk_file).stem();
+
+            std::filesystem::create_directory(temporal_path.c_str());
         }
 
         APK::~APK()
@@ -25,33 +27,37 @@ namespace KUNAI
         void APK::analyze_apk_file()
         {
             auto logger = LOGGER::logger();
-            CkZip zip;
 
             // try opening the file with library
-            if (!zip.OpenZip(path_to_apk_file.c_str()))
+            struct zip_t* zip = zip_open(path_to_apk_file.c_str(), 0, 'r');
+
+            if (!zip)
             {
-                logger->error("There was an error opening apk file:\n{}", zip.lastErrorText());
+                logger->error("There was an error opening apk file.");
                 throw exceptions::ApkUnzipException("Exception opening apk file");
             }
 
-            // go over each entry
-            for (int i = 0, n = zip.get_NumEntries(); i < n; i++)
-            {
-                std::shared_ptr<CkZipEntry> entry_file(zip.GetEntryByIndex(i));
 
-                std::string file_name = entry_file->fileName();
+            // go over each entry
+            for (int i = 0, n = zip_entries_total(zip); i < n; i++)
+            {
+                zip_entry_openbyindex(zip, i);
+                std::string file_name = zip_entry_name(zip);
 
                 // in case it contains .dex, work with it
-                if (file_name.find(".dex") != std::string::npos)
+                if (file_name.find(".dex") != std::string::npos && file_name.find("classes") != std::string::npos)
                 {
-                    auto dex = manage_dex_files_from_zip_entry(entry_file);
+                    auto dex = manage_dex_files_from_zip_entry(zip);
 
                     if (dex == nullptr)
                         throw exceptions::ApkUnzipException("Exception extracting dex file");
 
                     dex_files[file_name] = dex;
                 }
+                zip_entry_close(zip);
             }
+
+            zip_close(zip);
 
             logger->info("Adding disassemblers to global disassembler");
 
@@ -87,39 +93,37 @@ namespace KUNAI
             logger->info("Finished creating analysis xrefs");
         }
 
-        DEX::dex_t APK::manage_dex_files_from_zip_entry(std::shared_ptr<CkZipEntry> dex_file)
+        DEX::dex_t APK::manage_dex_files_from_zip_entry(struct zip_t* dex_file)
         {
             // get logger object
             auto logger = LOGGER::logger();
 
             std::string temporal_file_path;
             std::ifstream file;
-
-            // first of all, let's try to unzip the file
-            logger->info("Extracting {} DEX file", dex_file->fileName());
-
-            auto success = dex_file->Extract(temporal_path.c_str());
-
-            if (!success)
-            {
-                logger->error("There was a problem extracting '{}', error log:\n{}", dex_file->fileName(), dex_file->lastErrorText());
-                return nullptr;
-            }
+            const char* name = zip_entry_name(dex_file);
 
             // create the path to it
             temporal_file_path = temporal_path +
                                  std::filesystem::path::preferred_separator +
-                                 std::string(dex_file->fileName());
+                                 std::string(name);
 
-            // calculate file size
-            file.open(temporal_file_path, std::ios::binary);
+            // first of all, let's try to unzip the file
+            logger->info("Extracting {} DEX file", name);
 
-            auto fsize = file.tellg();
-            file.seekg(0, std::ios::end);
-            fsize = file.tellg() - fsize;
-            file.seekg(0, std::ios::beg);
+            auto error = zip_entry_fread(dex_file, temporal_file_path.c_str());
+
+            if (error)
+            {
+                logger->error("There was a problem extracting '{}', error message: {}", name, zip_strerror(error));
+                return nullptr;
+            }
+
+            // get file size
+            auto fsize = zip_entry_size(dex_file);
 
             logger->info("Extracted DEX file with size {}", fsize);
+
+            file.open(temporal_file_path, std::ios::binary);
 
             // Create DEX object
             auto dex = KUNAI::DEX::get_shared_dex_object(file, fsize);
@@ -142,7 +146,7 @@ namespace KUNAI
                 return nullptr;
             }
 
-            logger->info("Finished extracting {} DEX file", dex_file->fileName());
+            logger->info("Finished extracting {} DEX file", name);
 
             return dex;
         }

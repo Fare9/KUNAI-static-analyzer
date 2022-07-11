@@ -1,4 +1,4 @@
-#include "lifter_android.hpp"
+#include "KUNAI/mjolnIR/Lifters/lifter_android.hpp"
 
 namespace KUNAI
 {
@@ -371,8 +371,14 @@ namespace KUNAI
                     case MJOLNIR::IRField::SHORT_F:
                         cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_SHORT, dest_reg, dest_reg);
                         break;
+                    case MJOLNIR::IRField::LONG_F:
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_LONG, dest_reg, dest_reg);
+                        break;
                     case MJOLNIR::IRField::INT_F:
                         cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_INT, dest_reg, dest_reg);
+                        break;
+                    case MJOLNIR::IRField::FLOAT_F:
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_FLOAT, dest_reg, dest_reg);
                         break;
                     case MJOLNIR::IRField::DOUBLE_F:
                         cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, dest_reg, dest_reg);
@@ -380,6 +386,8 @@ namespace KUNAI
                     case MJOLNIR::IRField::CLASS_F:
                         cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg);
                         break;
+                    default:
+                        throw exceptions::LifterException("lift_android_instruction: case DEX::DVMTypes::FIELD src->get_type() not implemented.");
                     } // src->get_type()
 
                     break;
@@ -391,6 +399,8 @@ namespace KUNAI
                     assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src);
                     break;
                 }
+                default:
+                    throw exceptions::LifterException("lift_android_instruction: instr->get_source_kind() value not implemented");
                 }
 
                 bb->append_statement_to_block(assignment_instr);
@@ -482,9 +492,18 @@ namespace KUNAI
                 case MJOLNIR::IRField::DOUBLE_F:
                     cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_DOUBLE, dest_reg, dest_reg);
                     break;
+                case MJOLNIR::IRField::ARRAY_F:
                 case MJOLNIR::IRField::CLASS_F:
                     cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg);
                     break;
+                case MJOLNIR::IRField::FLOAT_F:
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_FLOAT, dest_reg, dest_reg);
+                    break;
+                case MJOLNIR::IRField::LONG_F:
+                    cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_LONG, dest_reg, dest_reg);
+                    break;
+                default:
+                    throw exceptions::LifterException("lift_android_instruction: DEX::DVMTypes::Opcode::OP_IGET_SHORT src_field->get_type() not implemented");
                 } // src_field->get_type()
 
                 bb->append_statement_to_block(assignment_instr);
@@ -1115,6 +1134,8 @@ namespace KUNAI
                 case DEX::Type::type_e::CLASS:
                     class_name = std::dynamic_pointer_cast<DEX::Class>(type)->get_raw();
                     break;
+                default:
+                    throw exceptions::LifterException("lift_android_instruction: DEX::DVMTypes::Opcode::OP_INVOKE_* type->get_type() not implemented");
                 }
 
                 std::string proto = method_called->get_method_prototype()->get_proto_str();

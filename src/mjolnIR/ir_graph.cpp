@@ -1,9 +1,19 @@
-#include "ir_graph.hpp"
+#include "KUNAI/mjolnIR/ir_graph.hpp"
 
 namespace KUNAI
 {
     namespace MJOLNIR
     {
+        std::unique_ptr<IRGraph> get_unique_empty_graph()
+        {
+            return std::make_unique<IRGraph>();
+        }
+
+        irgraph_t get_shared_empty_graph()
+        {
+            return std::make_shared<IRGraph>();
+        }
+
         /**
          * IRGraph class
          */
@@ -53,6 +63,17 @@ namespace KUNAI
             predecessors[node].push_back(predecessor);
         }
 
+
+        std::optional<irblock_t> IRGraph::get_node_by_start_idx(std::uint64_t idx)
+        {
+            for (auto& node : nodes)
+            {
+                if (idx == node->get_start_idx())
+                    return node;
+            }
+
+            return std::nullopt;
+        }
 
         void IRGraph::merge_graph(irgraph_t graph)
         {
@@ -254,13 +275,16 @@ namespace KUNAI
                 {
                     if (std::find(nodes.begin(), nodes.end(), pred) == nodes.end()) // pred is not in nodes
                         continue;
+
                     if (new_dom.empty())
                         new_dom = dominators[pred];
 
                     Nodes intersect_aux;
+                    
                     std::set_intersection(new_dom.begin(), new_dom.end(),
                                           dominators[pred].begin(), dominators[pred].end(),
                                           std::inserter(intersect_aux, intersect_aux.begin()));
+
                     new_dom = intersect_aux;
                 }
 
@@ -384,7 +408,41 @@ namespace KUNAI
             return idom;
         }
 
+        std::map<irblock_t, std::set<irblock_t>> IRGraph::compute_dominance_frontier()
+        {
+            /*
+            * Compute the immediate dominators from all the
+            * nodes.
+            */
+            auto idoms = compute_immediate_dominators();
+            std::map<irblock_t, std::set<irblock_t>> frontier;
 
+
+            for (auto& idom : idoms)
+            {
+                if (predecessors.find(idom.first) == predecessors.end() || predecessors.at(idom.first).size() < 2)
+                    continue;
+
+                // check if the node has more than 1 predecessor
+                // this node is a convergence node
+                for (auto runner : predecessors[idom.first])
+                {
+                    // check if the predecessor is in the
+                    // map of immediate dominators nodes.
+                    if (idoms.find(runner) == idoms.end())
+                        continue;
+                    
+                    while (runner != idom.second)
+                    {
+                        frontier[runner].insert(idom.first);
+                        runner = idoms[runner];
+                    }
+                }
+                
+            }
+
+            return frontier;
+        }
         
         irgraph_t IRGraph::copy()
         {
@@ -411,10 +469,8 @@ namespace KUNAI
         }
 
         
-        Nodes IRGraph::get_successors(irblock_t node)
+        Nodes& IRGraph::get_successors(irblock_t node)
         {
-            if (successors.find(node) == successors.end())
-                return {};
             return successors[node];
         }
 
@@ -427,10 +483,8 @@ namespace KUNAI
         }
 
         
-        Nodes IRGraph::get_predecessors(irblock_t node)
+        Nodes& IRGraph::get_predecessors(irblock_t node)
         {
-            if (predecessors.find(node) == predecessors.end())
-                return {};
             return predecessors[node];
         }
 

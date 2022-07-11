@@ -1,4 +1,4 @@
-#include "dex_parser.hpp"
+#include "KUNAI/DEX/parser/dex_parser.hpp"
 
 namespace KUNAI
 {
@@ -32,10 +32,10 @@ namespace KUNAI
 
             input_file.seekg(0);
 
-            #ifdef DEBUG
+#ifdef DEBUG
             logger->debug("Checks correct");
-            #endif
-            
+#endif
+
             logger->info("Starting DEX headers parsing");
 
             dex_header = std::make_shared<DexHeader>(input_file, file_size);
@@ -45,7 +45,9 @@ namespace KUNAI
             dex_fields = std::make_shared<DexFields>(input_file, dex_header->get_dex_header().field_ids_size, dex_header->get_dex_header().field_ids_off, dex_strings, dex_types);
             dex_methods = std::make_shared<DexMethods>(input_file, dex_header->get_dex_header().method_ids_size, dex_header->get_dex_header().method_ids_off, dex_strings, dex_types, dex_protos);
             dex_classes = std::make_shared<DexClasses>(input_file, file_size, dex_header->get_dex_header().class_defs_size, dex_header->get_dex_header().class_defs_off, dex_strings, dex_types, dex_fields, dex_methods);
-        
+
+            retrieve_encoded_fields_from_classes();
+
             logger->info("Finished DEX headers parsing");
         }
 
@@ -112,6 +114,27 @@ namespace KUNAI
             }
 
             return strings;
+        }
+
+        void DexParser::retrieve_encoded_fields_from_classes()
+        {
+            auto classes_def = dex_classes->get_classes();
+
+            for (auto c : classes_def)
+            {
+                if (!c->get_class_data())
+                    continue;
+
+                auto fields = c->get_class_data()->get_fields();
+
+                if (fields.empty())
+                    continue;
+
+                for (auto f : fields)
+                {
+                    encoded_fields.push_back(f);
+                }
+            }
         }
 
         std::ostream &operator<<(std::ostream &os, const DexParser &entry)

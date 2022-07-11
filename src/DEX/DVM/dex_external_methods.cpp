@@ -1,4 +1,4 @@
-#include "dex_external_methods.hpp"
+#include "KUNAI/DEX/DVM/dex_external_methods.hpp"
 
 namespace KUNAI
 {

@@ -2,6 +2,40 @@
 
 Tool aimed to provide a binary analysis of different file formats through the use of an Intermmediate Representation.
 
+## Installation
+
+Kunai has a couple of dependencies, one of them can be downloaded in the **external** folder, to do that just run the next command:
+
+```console
+https://github.com/Fare9/KUNAI-static-analyzer.git
+cd KUNAI-static-analyzer
+git submodule update --init --rebase --recursive
+```
+
+With this, you will download the **zip** external dependency that can be compiled and installed next. The library **libspdlog-dev** will be also installed for logging in its version *1:1.5.0-1*, for doing that we can use the script you'll find in the root of the folder with the next command:
+
+```console
+./make.sh dependencies
+```
+
+This step is also run if you want to build Kunai using the same script with the next command:
+
+```console
+./make.sh build
+```
+
+Or if you want to build using a debug configuration:
+
+```console
+./make.sh debug
+```
+
+In case you want to install dependencies, compile Kunai and finally install it, do it with the next command:
+
+```console
+./make.sh install
+```
+
 ## Project Structure
 
 The next files/folders are included in the project:
@@ -9,14 +43,20 @@ The next files/folders are included in the project:
 * **doc/**: doxygen documentation automatically generated when files are merged into **main** branch, you shouldn't touch nothing here (or at least is not expected).
 * **example-scripts/**: KUNAI is intended to be a library for analyst writing simple *C++* programs for analyzing *DEX* (and in the future other file formats) files, here there will be pretty easy examples that allows you to quickly get in touch with KUNAI library.
 * **external/**: all the libraries that this project depends on. This could be included as a dependency for installing into system, or as an external project in here.
-    * **external/chilkat-x86_64-linux-gcc/**: very simple library for unziping files, this is used for extracting all the files from an *apk* file.
+    * **external/zip/**: very simple library for unziping files, this is used for extracting all the files from an *apk* file, you need to retrieve it with make.sh or cloning repo with submodules.
 * **projects/**: stand-alone binaries that are compiled together with KUNAI that are intended for testing or as tools that comes with KUNAI, even when these can be checked for learning how to use KUNAI, some headers or dependencies can be included in other ways than those in **example-scripts**.
 * **src/**: source code of KUNAI, here are all the C++ classes structured in folders of KUNAI project.
+    * **src/APK/**: code to manage APK files, an APK is a zip file which contains all the necessary files for running an application.
     * **src/DEX/**: code of KUNAI's DEX analysis.
+    * **src/DEX/parser/**: code with DEX structure for file parsing, related structures are joined in the same file with different classes.
+    * **src/DEX/DVM/**: utilities for the Dalvik machine, this contains opcodes, instructions, a linear sweep disassembler, and other constants from the DVM.
+    * **src/DEX/Analysis/**: classes that contains utilities for the analyst, these includes managing all the DEX files as just one, it contains the disassembler, it allows managing classes, methods, fields and strings.
     * **src/Utils/**: utilities used by KUNAI.
     * **src/mjolnIR/**: code of KUNAI's Intermmediate Representation.
+    * **src/mjolnIR/Analysis/**: classes written for applying different types of analysis to the Intermmediate Representation, some of them can be useful in deobfuscation.
+    * **src/mjolnIR/Lifters/**: code to lift the disassembled instructions to KUNAI's Intermmediate Representation instructions.
     * **src/includes/KUNAI/**: all KUNAI's headers structured following previous convention.
-
+    * **src/includes/KUNAI/Exceptions/**: all the custom exceptions used in KUNAI.
 
 ## DEX
 
@@ -142,6 +182,7 @@ The IR involves to support various instructions from the code, these are what we
 IRExpr    -->   IRBinOp   |
                 IRUnaryOp | 
                 IRAssign  |
+                IRPhi     |
                 IRCall    |
                 IRLoad    |
                 IRStore   |
@@ -153,6 +194,7 @@ IRExpr    -->   IRBinOp   |
 IRBinOp   -->   IRExpr <- IRExpr bin_op_t IRExpr
 IRUnaryOp -->   IRExpr <- unary_op_t IRExpr
 IRAssign  -->   IRExpr <- IRExpr
+IRPhi     -->   IRExpr <- IRExpr, IRExpr, ..., IRExpr
 IRCall    -->   IRExpr(IRExpr1, IRExpr2, ..., IRExprN)
 IRLoad    -->   IRExpr <- *IRExpr
 IRStore   -->   *IRExpr <- IRExpr
@@ -201,6 +243,16 @@ IRType   -->   IRReg |
                IRClass  |
                NONE
 ```
+
+### Implementations on the IR
+
+Kunai's IR implements each function analyzed as an **IRGraph**, this graph contains all the blocks as nodes, and the connections between blocks as edges. Recently an implementation of an **SSA** form for the **IRGraph** has been implemented, but this is not as stable as the previous one. In the next images you can see the differences between both:
+
+![IRGraph no SSA](./images/no_ssa_graph.png)
+
+And the SSA version:
+
+![IRGraph SSA](./images/ssa_graph.png)
 
 ### Dalvik
 

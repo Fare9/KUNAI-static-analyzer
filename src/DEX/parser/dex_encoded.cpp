@@ -1,4 +1,4 @@
-#include "dex_encoded.hpp"
+#include "KUNAI/DEX/parser/dex_encoded.hpp"
 
 namespace KUNAI
 {

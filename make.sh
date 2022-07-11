@@ -12,7 +12,7 @@ MAKE_JOBS=$((${MAKE_JOBS}+0))
 
 COMPILER=g++
 
-LIB_CHILKAT=libchilkat-9.5.0.so
+LIB_ZIP=libzip.so
 
 
 check_and_build_dependencies() {
@@ -23,11 +23,35 @@ check_and_build_dependencies() {
         sudo apt install libspdlog-dev=1:1.5.0-1
     fi
 
-    echo "[+] Checking for ${LIB_CHILKAT}"
-    if [ ! -f /usr/lib/${LIB_CHILKAT} ]; then
-        echo "[-] ${LIB_CHILKAT} not found, installing it"
-        sudo cp external/chilkat-x86_64-linux-gcc/lib/${LIB_CHILKAT} /usr/lib/${LIB_CHILKAT}
+    if [ ! -f external/zip/ ]; then
+        echo "[-] Not found zip folder, cloning from repo..."
+        git clone https://github.com/kuba--/zip.git ./external/zip/
     fi
+
+    sudo apt install cmake
+
+    if [ ! -f external/zip/build/${LIB_ZIP} ]; then
+        echo "[-] Not found compiled library, compiling"
+        current_dir=${PWD}
+        echo "[+] Moving to external/zip/"
+        cd external/zip/
+        echo "[+] Creating new build folder"
+        mkdir build
+        cd build
+        echo "[+] Compiling library"
+        cmake -DBUILD_SHARED_LIBS=true ..
+        cmake --build .
+        echo "[+] Returning to ${current_dir}"
+        cd ${current_dir}
+    fi
+
+    echo "[+] Checking for ${LIB_ZIP}"
+    if [ ! -f /usr/lib/${LIB_ZIP} ]; then
+        echo "[-] ${LIB_ZIP} not found, installing it"
+        sudo cp external/zip/build/${LIB_ZIP} /usr/lib/${LIB_ZIP}
+    fi
+
+    echo "[!] Finished installing dependencies"
 }
 
 

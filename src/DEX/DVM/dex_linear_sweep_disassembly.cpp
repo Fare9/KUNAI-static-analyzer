@@ -1,4 +1,4 @@
-#include "dex_linear_sweep_disassembly.hpp"
+#include "KUNAI/DEX/DVM/dex_linear_sweep_disassembly.hpp"
 
 namespace KUNAI {
     namespace DEX {
@@ -9,6 +9,7 @@ namespace KUNAI {
 
         std::map<std::uint64_t, instruction_t> LinearSweepDisassembler::disassembly(const std::vector<std::uint8_t>& byte_buffer)
         {
+            auto logger = LOGGER::logger();
             std::map<std::uint64_t, instruction_t> instructions;
             std::uint64_t instruction_index = 0;
             instruction_t instruction;
@@ -36,10 +37,23 @@ namespace KUNAI {
                         instruction_index += instruction->get_length();
                     }
                 }
+                catch(const exceptions::InvalidInstruction& i)
+                {
+                    logger->error("InvalidInstruction in the index: {}, opcode: {}, message: {}, instruction size: {}", instruction_index, opcode, i.what(), i.size());
+                    // Create a DalvikErrorInstruction
+                    std::stringstream error_buffer;
+                    error_buffer.write(reinterpret_cast<const char*>(byte_buffer.data() + instruction_index), i.size());
+                    instruction = std::make_shared<DalvikIncorrectInstruction>(this->dalvik_opcodes, error_buffer, i.size());
+
+                    // Set the instruction
+                    instructions[instruction_index] = instruction;
+
+                    // advance the index
+                    instruction_index += i.size();
+                }
                 catch(const std::exception& e)
                 {
-                    std::cerr << "Error reading index " << instruction_index << " opcode " << opcode << " message: '";
-                    std::cerr << e.what() << "'\n";
+                    logger->error("Error reading index: {}, opcode: {}, message: {}", instruction_index, opcode, e.what());
                     instruction_index += 1;
                 }
             }

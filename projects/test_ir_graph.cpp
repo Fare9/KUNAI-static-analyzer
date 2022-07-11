@@ -1,8 +1,9 @@
 #include <iostream>
 #include <memory>
 
-#include "lifter_android.hpp"
-#include "dex.hpp"
+#include "KUNAI/mjolnIR/Lifters/lifter_android.hpp"
+#include "KUNAI/DEX/dex.hpp"
+#include "KUNAI/mjolnIR/Analysis/ir_graph_ssa.hpp"
 
 int main(int argc, char **argv)
 {
@@ -73,6 +74,16 @@ int main(int argc, char **argv)
     auto complexity = graph->get_cyclomatic_complexity();
 
     std::cout << "\nCyclomatic complexity = " << complexity << "\n";
+
+    std::cout << "\nDumping the dominance tree\n";
+
+    graph->generate_dominator_tree(method_name+"_dominance_tree");
+
+    auto graph_ssa = std::make_shared<KUNAI::MJOLNIR::IRGraphSSA>(graph);
+
+    std::cout << "\nDumping the Graph in SSA form\n";
+    
+    graph_ssa->generate_dot_file(method_name+"_ssa");
 
     return 0;
 }
