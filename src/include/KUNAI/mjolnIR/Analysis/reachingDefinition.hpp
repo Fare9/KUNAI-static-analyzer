@@ -48,7 +48,7 @@ namespace KUNAI
              *
              * @param graph graph to apply the ReachingDefinition analysis
              */
-            ReachingDefinition(irgraph_t &graph);
+            ReachingDefinition(irgraph_t graph);
 
             ~ReachingDefinition();
 
@@ -74,7 +74,7 @@ namespace KUNAI
             friend std::ostream &operator<<(std::ostream &os, const ReachingDefinition &entry);
 
         private:
-            irgraph_t &graph;
+            irgraph_t graph;
 
             /**
              * @brief Analyze a block looking for definitions and updating the global

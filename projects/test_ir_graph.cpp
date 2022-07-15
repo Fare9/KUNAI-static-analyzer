@@ -85,5 +85,17 @@ int main(int argc, char **argv)
     
     graph_ssa->generate_dot_file(method_name+"_ssa");
 
+    auto reachingdefinition = std::make_shared<KUNAI::MJOLNIR::ReachingDefinition>(graph_ssa);
+
+    reachingdefinition->compute();
+
+    auto optimizer = KUNAI::MJOLNIR::NewDefaultOptimizer();
+
+    optimizer->calculate_def_use_and_use_def_analysis(graph, reachingdefinition);
+
+    for (auto& block : graph_ssa->get_nodes())
+        for (auto& instr : block->get_statements())
+            instr->print_use_def_and_def_use_chain();
+
     return 0;
 }

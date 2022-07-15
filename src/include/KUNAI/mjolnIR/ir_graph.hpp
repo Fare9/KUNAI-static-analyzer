@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <map>
 #include <optional>
+#include <stack>
 
 #include "KUNAI/Utils/utils.hpp"
 #include "KUNAI/mjolnIR/ir_grammar.hpp"
@@ -323,7 +324,7 @@ namespace KUNAI
              * @param head: node where to start the search.
              * @return Nodes
              */
-            Nodes Deep_First_Search(irblock_t head);
+            Nodes Depth_First_Search(irblock_t head);
             
             /**
              * @brief Given a head node, give the tree of nodes using a Breadth First Search algorithm.

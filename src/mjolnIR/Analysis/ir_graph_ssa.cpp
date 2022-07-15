@@ -241,7 +241,7 @@ namespace KUNAI
                 irstmnt_t source = assign_instr->get_source();
 
                 if (auto reg = register_ir(source))
-                    source = S[reg].top();
+                    source = get_top_or_create(reg, p);
 
                 if (auto reg = register_ir(destination))
                     destination = create_new_ssa_reg(reg, p);
@@ -255,7 +255,7 @@ namespace KUNAI
                 irstmnt_t op = unary_instr->get_op();
 
                 if (auto reg = register_ir(op))
-                    op = S[reg].top();
+                    op = get_top_or_create(reg, p);
 
                 if (auto reg = register_ir(result))
                     result = create_new_ssa_reg(reg, p);
@@ -275,10 +275,10 @@ namespace KUNAI
                 irstmnt_t op2 = binary_instr->get_op2();
 
                 if (auto reg = register_ir(op1))
-                    op1 = S[reg].top();
+                    op1 = get_top_or_create(reg, p);
 
                 if (auto reg = register_ir(op2))
-                    op2 = S[reg].top();
+                    op2 = get_top_or_create(reg, p);
 
                 if (auto reg = register_ir(result))
                     result = create_new_ssa_reg(reg, p);
@@ -293,10 +293,10 @@ namespace KUNAI
                 irstmnt_t index = load_instr->get_index();
 
                 if (auto reg = register_ir(source))
-                    source = S[reg].top();
+                    source = get_top_or_create(reg, p);
 
                 if (auto reg = register_ir(index))
-                    index = S[reg].top();
+                    index = get_top_or_create(reg, p);
 
                 if (auto reg = register_ir(destination))
                     destination = create_new_ssa_reg(reg, p);
@@ -333,7 +333,7 @@ namespace KUNAI
                 for (auto arg : args)
                 {
                     auto reg = std::dynamic_pointer_cast<IRReg>(arg);
-                    new_args.push_back(S[reg].top());
+                    new_args.push_back(get_top_or_create(reg, p));
                 }
 
                 if (auto reg = register_ir(ret_val))
@@ -350,10 +350,10 @@ namespace KUNAI
                 irstmnt_t index = store_instr->get_index();
 
                 if (auto reg = register_ir(source))
-                    source = S[reg].top();
+                    source = get_top_or_create(reg, p);
 
                 if (auto reg = register_ir(index))
-                    index = S[reg].top();
+                    index = get_top_or_create(reg, p);
 
                 if (auto reg = register_ir(destination))
                     destination = create_new_ssa_reg(reg, p);
@@ -366,7 +366,7 @@ namespace KUNAI
                 irstmnt_t op = zcomp->get_reg();
 
                 if (auto reg = register_ir(op))
-                    op = S[reg].top();
+                    op = get_top_or_create(reg, p);
 
                 new_instr = std::make_shared<IRZComp>(zcomp->get_comparison(), zcomp->get_result(), std::dynamic_pointer_cast<IRExpr>(op));
             }
@@ -377,10 +377,10 @@ namespace KUNAI
                 irstmnt_t op2 = bcomp->get_reg2();
 
                 if (auto reg = register_ir(op1))
-                    op1 = S[reg].top();
+                    op1 = get_top_or_create(reg, p);
 
                 if (auto reg = register_ir(op2))
-                    op2 = S[reg].top();
+                    op2 = get_top_or_create(reg, p);
 
                 new_instr = std::make_shared<IRBComp>(bcomp->get_comparison(), bcomp->get_result(), std::dynamic_pointer_cast<IRExpr>(op1), std::dynamic_pointer_cast<IRExpr>(op2));
             }
@@ -429,6 +429,15 @@ namespace KUNAI
             p.push_back(old_reg);
 
             return new_reg;
+        }
+
+
+        irreg_t IRGraphSSA::get_top_or_create(irreg_t old_reg, std::list<irreg_t> &p)
+        {
+            if (S.find(old_reg) != S.end() && S[old_reg].size() != 0)
+                return S[old_reg].top();
+            else
+                return create_new_ssa_reg(old_reg, p);
         }
 
     }

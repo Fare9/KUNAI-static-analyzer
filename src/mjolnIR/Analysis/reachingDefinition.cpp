@@ -54,7 +54,7 @@ namespace KUNAI
          * END
         */
 
-        ReachingDefinition::ReachingDefinition(irgraph_t &graph) : graph(graph)
+        ReachingDefinition::ReachingDefinition(irgraph_t graph) : graph(graph)
         {
         }
 
@@ -65,10 +65,12 @@ namespace KUNAI
         {
             bool change = true;
 
+            auto dfs = graph->Depth_First_Search(graph->get_nodes()[0]);
+
             while (change)
             {
                 change = false;
-                for (auto &block : graph->get_nodes())
+                for (auto &block : dfs)
                     change |= analyze_block(block);
             }
         }
@@ -211,6 +213,11 @@ namespace KUNAI
             else if (auto new_instr = new_ir(instr))
             {
                 reg = new_instr->get_result();
+            }
+            // A = phi(A, A, A...)
+            else if (auto phi_instr = phi_ir(instr))
+            {
+                reg = phi_instr->get_result();
             }
             else
                 return std::nullopt;

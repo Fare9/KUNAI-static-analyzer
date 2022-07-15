@@ -275,10 +275,6 @@ namespace KUNAI
                 {
                     auto &instr = instructions.at(i);
 
-                    // we are just caring about the ir_exrp
-                    if (expr_ir(instr) == nullptr)
-                        continue;
-
                     auto reach_def_instr = reachingdefinition->get_reach_definition_point(block->get_start_idx(), i);
 
                     // check if there was a reach_def
@@ -298,6 +294,15 @@ namespace KUNAI
 
                         auto op = assign_instr->get_source();
                         solve_def_use_use_def(op, assign_instr, reach_def_set, ir_graph);
+                    }
+                    // A = phi(A1, A2, A3, ...)
+                    else if (auto phi_instr = phi_ir(instr))
+                    {
+                        phi_instr->invalidate_chains();
+
+                        auto& params = phi_instr->get_params();
+                        for (auto& op : params)
+                            solve_def_use_use_def(op.second, phi_instr, reach_def_set, ir_graph);
                     }
                     // A = IRUnaryOp B
                     else if (auto unary_op_instr = unary_op_ir(instr))
@@ -368,6 +373,25 @@ namespace KUNAI
 
                         if (auto reg_value = expr_ir(condition))
                             solve_def_use_use_def(reg_value, jcc_instr, reach_def_set, ir_graph);
+                    }
+                    // BComp A, B
+                    else if (auto bcomp_instr = bcomp_ir(instr))
+                    {
+                        bcomp_instr->invalidate_chains();
+
+                        if (auto reg = bcomp_instr->get_reg1())
+                            solve_def_use_use_def(reg, bcomp_instr, reach_def_set, ir_graph);
+                        
+                        if (auto reg = bcomp_instr->get_reg2())
+                            solve_def_use_use_def(reg, bcomp_instr, reach_def_set, ir_graph);
+                    }
+                    // ZComp A, 0
+                    else if (auto zcomp_instr = zcomp_ir(instr))
+                    {
+                        zcomp_instr->invalidate_chains();
+
+                        if (auto reg = zcomp_instr->get_reg())
+                            solve_def_use_use_def(reg, zcomp_instr, reach_def_set, ir_graph);
                     }
                 }
             }

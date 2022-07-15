@@ -20,7 +20,6 @@ namespace KUNAI
 
         IRGraph::IRGraph() {}
 
-        
         bool IRGraph::add_node(irblock_t node)
         {
             if (std::find(nodes.begin(), nodes.end(), node) != nodes.end())
@@ -29,7 +28,6 @@ namespace KUNAI
             return true;
         }
 
-        
         void IRGraph::add_edge(irblock_t src, irblock_t dst)
         {
             if (std::find(nodes.begin(), nodes.end(), src) != nodes.end())
@@ -41,7 +39,6 @@ namespace KUNAI
             add_block_to_predecessors(dst, src);
         }
 
-        
         void IRGraph::add_uniq_edge(irblock_t src, irblock_t dst)
         {
             // if src is not in nodes, or if
@@ -51,22 +48,19 @@ namespace KUNAI
                 add_edge(src, dst);
         }
 
-        
         void IRGraph::add_block_to_sucessors(irblock_t node, irblock_t successor)
         {
             successors[node].push_back(successor);
         }
 
-        
         void IRGraph::add_block_to_predecessors(irblock_t node, irblock_t predecessor)
         {
             predecessors[node].push_back(predecessor);
         }
 
-
         std::optional<irblock_t> IRGraph::get_node_by_start_idx(std::uint64_t idx)
         {
-            for (auto& node : nodes)
+            for (auto &node : nodes)
             {
                 if (idx == node->get_start_idx())
                     return node;
@@ -86,7 +80,6 @@ namespace KUNAI
                 add_edge(edge.first, edge.second);
         }
 
-    
         void IRGraph::del_edge(irblock_t src, irblock_t dst)
         {
             auto edge = std::find(edges.begin(), edges.end(), std::make_pair(src, dst));
@@ -99,7 +92,6 @@ namespace KUNAI
             delete_block_from_precessors(dst, src);
         }
 
-        
         void IRGraph::del_node(irblock_t node)
         {
             auto node_set = std::find(nodes.begin(), nodes.end(), node);
@@ -116,7 +108,6 @@ namespace KUNAI
                 del_edge(node, succ);
         }
 
-        
         void IRGraph::delete_block_from_sucessors(irblock_t node, irblock_t block)
         {
             auto node_it = successors.find(node);
@@ -127,7 +118,6 @@ namespace KUNAI
             }
         }
 
-        
         void IRGraph::delete_block_from_precessors(irblock_t node, irblock_t block)
         {
             auto node_it = predecessors.find(node);
@@ -138,7 +128,6 @@ namespace KUNAI
             }
         }
 
-        
         std::vector<irblock_t> IRGraph::get_leaves()
         {
             std::vector<irblock_t> leaves;
@@ -152,7 +141,6 @@ namespace KUNAI
             return leaves;
         }
 
-        
         std::vector<irblock_t> IRGraph::get_heads()
         {
             std::vector<irblock_t> heads;
@@ -166,7 +154,6 @@ namespace KUNAI
             return heads;
         }
 
-        
         Paths IRGraph::find_path(irblock_t src,
                                  irblock_t dst,
                                  size_t cycles_count,
@@ -199,7 +186,6 @@ namespace KUNAI
             return out;
         }
 
-        
         Paths IRGraph::find_path_from_src(irblock_t src,
                                           irblock_t dst,
                                           size_t cycles_count,
@@ -233,19 +219,16 @@ namespace KUNAI
             return out;
         }
 
-        
         Nodes IRGraph::reachable_sons(irblock_t head)
         {
             return IRGraph::reachable_nodes_forward(head);
         }
 
-        
         Nodes IRGraph::reachable_parents(irblock_t leaf)
         {
             return IRGraph::reachable_nodes_backward(leaf);
         }
 
-        
         std::map<irblock_t, Nodes> IRGraph::compute_dominators(irblock_t head)
         {
             std::map<irblock_t, Nodes> dominators;
@@ -257,7 +240,10 @@ namespace KUNAI
 
             dominators[head] = {head};
 
-            Nodes todo = nodes;
+            std::set<KUNAI::MJOLNIR::irblock_t> todo;
+
+            for (auto &node : nodes)
+                todo.insert(node);
 
             while (!todo.empty())
             {
@@ -280,7 +266,7 @@ namespace KUNAI
                         new_dom = dominators[pred];
 
                     Nodes intersect_aux;
-                    
+
                     std::set_intersection(new_dom.begin(), new_dom.end(),
                                           dominators[pred].begin(), dominators[pred].end(),
                                           std::inserter(intersect_aux, intersect_aux.begin()));
@@ -295,13 +281,12 @@ namespace KUNAI
 
                 dominators[node] = new_dom;
                 for (auto succ : get_successors(node))
-                    todo.push_back(succ);
+                    todo.insert(succ);
             }
 
             return dominators;
         }
 
-        
         std::map<irblock_t, Nodes> IRGraph::compute_postdominators(irblock_t leaf)
         {
             std::map<irblock_t, Nodes> postdominators;
@@ -354,7 +339,6 @@ namespace KUNAI
             return postdominators;
         }
 
-        
         std::map<irblock_t, irblock_t> IRGraph::compute_immediate_dominators()
         {
             std::map<irblock_t, Nodes> tmp;
@@ -367,7 +351,7 @@ namespace KUNAI
 
             // compute the dominators
             tmp = compute_dominators(first_node);
-            
+
             // remove itself from dominators
             for (auto item = tmp.begin(); item != tmp.end(); item++)
             {
@@ -385,7 +369,7 @@ namespace KUNAI
                     {
                         if (t == s)
                             continue;
-                        
+
                         if (std::find(tmp[s].begin(), tmp[s].end(), t) != tmp[s].end())
                         {
                             auto rem = std::find(tmp[n].begin(), tmp[n].end(), t);
@@ -399,10 +383,10 @@ namespace KUNAI
 
             for (auto n : nodes)
             {
-                if (tmp[n].size() == 1)
-                    idom[n] = tmp[n][0];
+                if (tmp[n].size() >= 1)
+                    idom[n] = tmp[n][tmp[n].size() - 1];
                 else
-                    idom[n] = nullptr; 
+                    idom[n] = nullptr;
             }
 
             return idom;
@@ -411,14 +395,13 @@ namespace KUNAI
         std::map<irblock_t, std::set<irblock_t>> IRGraph::compute_dominance_frontier()
         {
             /*
-            * Compute the immediate dominators from all the
-            * nodes.
-            */
+             * Compute the immediate dominators from all the
+             * nodes.
+             */
             auto idoms = compute_immediate_dominators();
             std::map<irblock_t, std::set<irblock_t>> frontier;
 
-
-            for (auto& idom : idoms)
+            for (auto &idom : idoms)
             {
                 if (predecessors.find(idom.first) == predecessors.end() || predecessors.at(idom.first).size() < 2)
                     continue;
@@ -431,19 +414,18 @@ namespace KUNAI
                     // map of immediate dominators nodes.
                     if (idoms.find(runner) == idoms.end())
                         continue;
-                    
+
                     while (runner != idom.second)
                     {
                         frontier[runner].insert(idom.first);
                         runner = idoms[runner];
                     }
                 }
-                
             }
 
             return frontier;
         }
-        
+
         irgraph_t IRGraph::copy()
         {
             auto new_graph = std::make_shared<IRGraph>();
@@ -460,7 +442,7 @@ namespace KUNAI
         }
 
         // node information
-        
+
         size_t IRGraph::get_number_of_successors(irblock_t node)
         {
             if (successors.find(node) == successors.end())
@@ -468,13 +450,11 @@ namespace KUNAI
             return successors[node].size();
         }
 
-        
-        Nodes& IRGraph::get_successors(irblock_t node)
+        Nodes &IRGraph::get_successors(irblock_t node)
         {
             return successors[node];
         }
 
-        
         size_t IRGraph::get_number_of_predecessors(irblock_t node)
         {
             if (predecessors.find(node) == predecessors.end())
@@ -482,13 +462,11 @@ namespace KUNAI
             return predecessors[node].size();
         }
 
-        
-        Nodes& IRGraph::get_predecessors(irblock_t node)
+        Nodes &IRGraph::get_predecessors(irblock_t node)
         {
             return predecessors[node];
         }
 
-        
         IRGraph::node_type_t IRGraph::get_type_of_node(irblock_t node)
         {
             if (get_number_of_successors(node) > 1)
@@ -499,7 +477,6 @@ namespace KUNAI
                 return REGULAR_NODE;
         }
 
-        
         Nodes IRGraph::reachable_nodes_forward(irblock_t head)
         {
             Nodes todo;
@@ -527,7 +504,6 @@ namespace KUNAI
             return reachable;
         }
 
-        
         Nodes IRGraph::reachable_nodes_backward(irblock_t leaf)
         {
             Nodes todo;
@@ -555,7 +531,6 @@ namespace KUNAI
             return reachable;
         }
 
-        
         Nodes IRGraph::build_ebb(irblock_t r)
         {
             Nodes ebb;
@@ -565,10 +540,9 @@ namespace KUNAI
             return ebb;
         }
 
-        
-        Nodes IRGraph::Deep_First_Search(irblock_t head)
+        Nodes IRGraph::Depth_First_Search(irblock_t head)
         {
-            Nodes todo;
+            std::list<irblock_t> todo;
             Nodes done;
 
             todo.push_back(head);
@@ -576,27 +550,27 @@ namespace KUNAI
             while (!todo.empty())
             {
                 // pop last element
-                auto node_it = todo.end();
-                node_it--;
-                auto node = *node_it;
-                todo.erase(node_it);
+                auto node = todo.back();
+                todo.pop_back();
 
                 if (std::find(done.begin(), done.end(), node) != done.end())
                     continue;
 
                 done.push_back(node);
 
-                for (auto succ : get_successors(node))
-                    todo.push_back(succ);
+                // push the nodes in reverse order
+                // so we go from left to right in depth
+                auto succs = get_successors(node);
+                for (auto succ = succs.rbegin(); succ != succs.rend(); ++succ)
+                    todo.push_back(*succ);
             }
 
             return done;
         }
 
-        
         Nodes IRGraph::Breadth_First_Search(irblock_t head)
         {
-            Nodes todo;
+            std::list<irblock_t> todo;
             Nodes done;
 
             todo.push_back(head);
@@ -604,9 +578,8 @@ namespace KUNAI
             while (!todo.empty())
             {
                 // pop first element
-                auto node_it = todo.begin();
-                auto node = *node_it;
-                todo.erase(node_it);
+                auto node = todo.front();
+                todo.pop_front();
 
                 if (std::find(done.begin(), done.end(), node) != done.end())
                     continue;
@@ -635,13 +608,12 @@ namespace KUNAI
             return;
         }
 
-        
         void IRGraph::generate_dot_file(std::string name)
         {
             std::ofstream stream;
 
             stream.open(name + std::string(".dot")); // open dot file and write on it
-            //std::stringstream stream;
+            // std::stringstream stream;
 
             stream << "digraph \"" << name << "\"{\n";
             stream << "style=\"dashed\";\n";
@@ -678,7 +650,6 @@ namespace KUNAI
             stream.close();
         }
 
-        
         void IRGraph::generate_dominator_tree(std::string name)
         {
             IRGraph graph;
@@ -711,12 +682,11 @@ namespace KUNAI
             auto logger = LOGGER::logger();
 
             // take a copy of nodes and edges
-            auto & nodes_aux = nodes;
-            auto & edges_aux = edges;
-            
+            auto &nodes_aux = nodes;
+            auto &edges_aux = edges;
+
             auto E = edges_aux.size();
             auto N = nodes_aux.size();
-
 
             size_t P = 0;
 
@@ -736,7 +706,7 @@ namespace KUNAI
                 }
             }
 
-            cyclomatic_complexity = E - N + P*2;
+            cyclomatic_complexity = E - N + P * 2;
 
             logger->info("Calculated cyclomatic complexity: {}", cyclomatic_complexity);
 

@@ -89,11 +89,21 @@ namespace KUNAI
              *        "An Introduction to the Theory of Optimizing Compilers".
              *        This function will use both C and S.
              *
-             * @param old_reg
+             * @param old_reg register we want to transform to SSA
              * @param p defined registers that we must remove later from stack.
              * @return irreg_t
              */
             irreg_t create_new_ssa_reg(irreg_t old_reg, std::list<irreg_t> &p);
+
+            /**
+             * @brief Get the top of the S stack for a given register, in case
+             *        it doesn't exist yet, call to create_new_ssa_reg function.
+             * 
+             * @param old_reg register we want to transform to SSA
+             * @param p definedd registers that we must remove later from stack
+             * @return irreg_t 
+             */
+            irreg_t get_top_or_create(irreg_t old_reg, std::list<irreg_t> &p);
         };
     } //! MJOLNIR
 } //! KUNAI
