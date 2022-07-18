@@ -267,6 +267,7 @@ Here there are some references used as ideas and base for the design and/or impl
     * [Miasm](https://github.com/cea-sec/miasm/tree/master): Miasm is a symbolic execution engine written in python which allows to analyze statically binaries using its SymbEx engine and the possibility to optimize/simplify the generated code.
     * [VEX](https://github.com/angr/vex): VEX is a binary lifter and an IR that Angr uses as its own IR for doing symbolic execution.
     * [Maat](https://github.com/trailofbits/maat): Maat is a symbolic execution engine written in C++ by trail of bits, it uses Ghidra P-Code as its Intermediate Representation.
+    * [Cyx2](https://github.com/flylai/cyx2): Code for generating the SSA form of the graph.
 * Papers:
     * [Wire -- A Formal Intermediate Language for Binary Analysis](https://ieeexplore.ieee.org/document/6296015)
     * [REIL: A platform-independent intermediate representation of disassembled code for static code analysis](https://static.googleusercontent.com/media/www.zynamics.com/en//downloads/csw09.pdf)
