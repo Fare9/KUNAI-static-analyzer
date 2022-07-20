@@ -48,11 +48,17 @@ namespace KUNAI
                 for (auto next_bb : next_bbs)
                 {
                     auto block = std::get<2>(next_bb);
-                    method_graph->add_edge(current_bb, lifted_blocks[block]);
+
+                    auto last_instr = lifted_blocks[block]->get_statements().back();
+
+                    // unsigned jumps are fixed later, they only have to point
+                    // to where jump targets
+                    if (last_instr->get_op_type() != MJOLNIR::IRStmnt::UJMP_OP_T)
+                        method_graph->add_edge(current_bb, lifted_blocks[block]);
                 }
             }
 
-            this->jump_target_analysis(bbs);
+            this->jump_target_analysis(bbs, method_graph);
             optimizer->fallthrough_target_analysis(method_graph);
 
             // clean android_analysis
@@ -1695,7 +1701,7 @@ namespace KUNAI
             return nullptr;
         }
 
-        void LifterAndroid::jump_target_analysis(std::vector<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>>& bbs)
+        void LifterAndroid::jump_target_analysis(std::vector<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>>& bbs, MJOLNIR::irgraph_t method_graph)
         {
             for (auto bb : bbs)
             {
@@ -1716,6 +1722,8 @@ namespace KUNAI
                     {
                         auto block = std::get<2>(next_bbs[0]);
                         jmp->set_jump_target(lifted_blocks[block]);
+
+                        method_graph->add_uniq_edge(current_bb, lifted_blocks[block]);
                     }
                 }
                 else if (auto jcc = MJOLNIR::conditional_jump_ir(last_instr))

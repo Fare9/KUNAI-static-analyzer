@@ -95,7 +95,7 @@ namespace KUNAI
          */
 
         IRUJmp::IRUJmp(uint64_t addr, irblock_t target)
-            : IRStmnt(UJMP_STMNT_T, NOP_OP_T),
+            : IRStmnt(UJMP_STMNT_T, UJMP_OP_T),
               addr(addr),
               target(target)
         {
