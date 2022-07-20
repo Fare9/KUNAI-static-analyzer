@@ -8,11 +8,11 @@ namespace KUNAI
          * IRType class.
          */
 
-        IRType::IRType(type_t type, std::string type_name, size_t type_size) : IRExpr(IRExpr::TYPE_EXPR_T),
-                                                                               type(type),
-                                                                               type_name(type_name),
-                                                                               type_size(type_size),
-                                                                               annotations("")
+        IRType::IRType(type_t type, op_type_t op_type, std::string type_name, size_t type_size) : IRExpr(IRExpr::TYPE_EXPR_T, op_type),
+                                                                                                  type(type),
+                                                                                                  type_name(type_name),
+                                                                                                  type_size(type_size),
+                                                                                                  annotations("")
         {
         }
 
@@ -141,7 +141,7 @@ namespace KUNAI
          */
 
         IRReg::IRReg(std::uint32_t reg_id, int current_arch, std::string type_name, size_t type_size)
-            : IRType(REGISTER_TYPE, type_name, type_size),
+            : IRType(REGISTER_TYPE, REGISTER_OP_T, type_name, type_size),
               id(reg_id),
               sub_id(-1),
               current_arch(current_arch)
@@ -149,7 +149,7 @@ namespace KUNAI
         }
 
         IRReg::IRReg(std::uint32_t reg_id, std::int32_t reg_sub_id, int current_arch, std::string type_name, size_t type_size)
-            : IRType(REGISTER_TYPE, type_name, type_size),
+            : IRType(REGISTER_TYPE, REGISTER_OP_T, type_name, type_size),
               id(reg_id),
               sub_id(reg_sub_id),
               current_arch(current_arch)
@@ -204,7 +204,7 @@ namespace KUNAI
          */
 
         IRTempReg::IRTempReg(std::uint32_t reg_id, std::string type_name, size_t type_size)
-            : IRType(TEMP_REGISTER_TYPE, type_name, type_size),
+            : IRType(TEMP_REGISTER_TYPE, TEMP_REGISTER_OP_T, type_name, type_size),
               id(reg_id)
         {
         }
@@ -235,7 +235,7 @@ namespace KUNAI
          */
 
         IRConstInt::IRConstInt(std::uint64_t value, bool is_signed, mem_access_t byte_order, std::string type_name, size_t type_size)
-            : IRType(CONST_INT_TYPE, type_name, type_size),
+            : IRType(CONST_INT_TYPE, CONST_INT_OP_T, type_name, type_size),
               value(value),
               is_signed(is_signed),
               byte_order(byte_order)
@@ -281,7 +281,7 @@ namespace KUNAI
             return false;
         }
 
-        IRConstInt operator+(IRConstInt& a, IRConstInt& b)
+        IRConstInt operator+(IRConstInt &a, IRConstInt &b)
         {
             if (a.is_signed)
             {
@@ -289,14 +289,14 @@ namespace KUNAI
                 IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
 
                 return res;
-            } 
+            }
             uint64_t result = a.value + a.value;
 
             IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
-        IRConstInt operator-(IRConstInt& a, IRConstInt& b)
+        IRConstInt operator-(IRConstInt &a, IRConstInt &b)
         {
             if (a.is_signed)
             {
@@ -304,14 +304,14 @@ namespace KUNAI
                 IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
 
                 return res;
-            } 
+            }
             uint64_t result = a.value - b.value;
 
             IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
-        IRConstInt operator/(IRConstInt& a, IRConstInt& b)
+        IRConstInt operator/(IRConstInt &a, IRConstInt &b)
         {
             if (a.is_signed)
             {
@@ -319,14 +319,14 @@ namespace KUNAI
                 IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
 
                 return res;
-            } 
+            }
             uint64_t result = a.value / b.value;
 
             IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
-        IRConstInt operator*(IRConstInt& a, IRConstInt& b)
+        IRConstInt operator*(IRConstInt &a, IRConstInt &b)
         {
             if (a.is_signed)
             {
@@ -334,14 +334,14 @@ namespace KUNAI
                 IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
 
                 return res;
-            } 
+            }
             uint64_t result = a.value * b.value;
 
             IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
-        IRConstInt operator%(IRConstInt& a, IRConstInt& b)
+        IRConstInt operator%(IRConstInt &a, IRConstInt &b)
         {
             if (a.is_signed)
             {
@@ -349,14 +349,14 @@ namespace KUNAI
                 IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
 
                 return res;
-            } 
+            }
             uint64_t result = a.value % b.value;
 
             IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
-        IRConstInt operator&(IRConstInt& a, IRConstInt& b)
+        IRConstInt operator&(IRConstInt &a, IRConstInt &b)
         {
             uint64_t result = a.value & b.value;
 
@@ -364,7 +364,7 @@ namespace KUNAI
             return res;
         }
 
-        IRConstInt operator|(IRConstInt& a, IRConstInt& b)
+        IRConstInt operator|(IRConstInt &a, IRConstInt &b)
         {
             uint64_t result = a.value | b.value;
 
@@ -372,7 +372,7 @@ namespace KUNAI
             return res;
         }
 
-        IRConstInt operator^(IRConstInt& a, IRConstInt& b)
+        IRConstInt operator^(IRConstInt &a, IRConstInt &b)
         {
             uint64_t result = a.value ^ b.value;
 
@@ -380,7 +380,7 @@ namespace KUNAI
             return res;
         }
 
-        IRConstInt operator<<(IRConstInt& a, IRConstInt& b)
+        IRConstInt operator<<(IRConstInt &a, IRConstInt &b)
         {
             uint64_t result = a.value << b.value;
 
@@ -388,7 +388,7 @@ namespace KUNAI
             return res;
         }
 
-        IRConstInt operator>>(IRConstInt& a, IRConstInt& b)
+        IRConstInt operator>>(IRConstInt &a, IRConstInt &b)
         {
             uint64_t result = a.value >> b.value;
 
@@ -396,7 +396,7 @@ namespace KUNAI
             return res;
         }
 
-        IRConstInt operator++(IRConstInt& a, int)
+        IRConstInt operator++(IRConstInt &a, int)
         {
             uint64_t result = a.value++;
 
@@ -404,7 +404,7 @@ namespace KUNAI
             return res;
         }
 
-        IRConstInt operator--(IRConstInt& a, int)
+        IRConstInt operator--(IRConstInt &a, int)
         {
             uint64_t result = a.value--;
 
@@ -412,7 +412,7 @@ namespace KUNAI
             return res;
         }
 
-        IRConstInt operator!(IRConstInt& a)
+        IRConstInt operator!(IRConstInt &a)
         {
             uint64_t result = !a.value;
 
@@ -420,7 +420,7 @@ namespace KUNAI
             return res;
         }
 
-        IRConstInt operator~(IRConstInt& a)
+        IRConstInt operator~(IRConstInt &a)
         {
             uint64_t result = ~a.value;
 
@@ -433,7 +433,7 @@ namespace KUNAI
          */
 
         IRMemory::IRMemory(std::uint64_t mem_address, std::int32_t offset, mem_access_t byte_order, std::string type_name, size_t type_size)
-            : IRType(MEM_TYPE, type_name, type_size),
+            : IRType(MEM_TYPE, MEM_OP_T, type_name, type_size),
               mem_address(mem_address),
               offset(offset),
               byte_order(byte_order)
@@ -487,7 +487,7 @@ namespace KUNAI
          */
 
         IRString::IRString(std::string str_value, std::string type_name, size_t type_size)
-            : IRType(STRING_TYPE, type_name, type_size),
+            : IRType(STRING_TYPE, STRING_OP_T, type_name, type_size),
               str_value(str_value)
         {
         }
@@ -518,7 +518,7 @@ namespace KUNAI
          */
 
         IRClass::IRClass(std::string class_name, std::string type_name, size_t type_size)
-            : IRType(CLASS_TYPE, type_name, type_size),
+            : IRType(CLASS_TYPE, CLASS_OP_T, type_name, type_size),
               class_name(class_name)
         {
         }
@@ -555,7 +555,7 @@ namespace KUNAI
                            std::string description,
                            std::string type_name,
                            size_t type_size)
-            : IRType(CALLEE_TYPE, type_name, type_size),
+            : IRType(CALLEE_TYPE, CALLEE_OP_T, type_name, type_size),
               addr(addr),
               name(name),
               class_name(class_name),
@@ -615,7 +615,7 @@ namespace KUNAI
                          field_t type,
                          std::string field_name,
                          std::string type_name,
-                         size_t type_size) : IRType(FIELD_TYPE, type_name, type_size),
+                         size_t type_size) : IRType(FIELD_TYPE, FIELD_OP_T, type_name, type_size),
                                              class_name(class_name),
                                              type(type),
                                              type_class(type_name),
@@ -628,7 +628,7 @@ namespace KUNAI
                          std::string field_name,
                          std::string type_name,
                          size_t type_size)
-            : IRType(FIELD_TYPE, type_name, type_size),
+            : IRType(FIELD_TYPE, FIELD_OP_T, type_name, type_size),
               class_name(class_name),
               type(CLASS_F),
               type_class(type_class_name),

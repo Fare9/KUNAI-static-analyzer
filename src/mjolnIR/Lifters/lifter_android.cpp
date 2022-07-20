@@ -1581,7 +1581,7 @@ namespace KUNAI
 
         MJOLNIR::irtype_t LifterAndroid::make_none_type()
         {
-            return std::make_shared<MJOLNIR::IRType>(MJOLNIR::IRType::NONE_TYPE, "", 0);
+            return std::make_shared<MJOLNIR::IRType>(MJOLNIR::IRType::NONE_TYPE, MJOLNIR::IRStmnt::NONE_OP_T, "", 0);
         }
 
         MJOLNIR::irconstint_t LifterAndroid::make_int(std::uint64_t value, bool is_signed, size_t type_size)
