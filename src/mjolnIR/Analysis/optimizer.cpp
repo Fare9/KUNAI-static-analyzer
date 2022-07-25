@@ -251,7 +251,7 @@ namespace KUNAI
 
                 auto last_inst = node->get_statements().back();
 
-                if (MJOLNIR::conditional_jump_ir(last_inst) || MJOLNIR::unconditional_jump_ir(last_inst) || MJOLNIR::ret_ir(last_inst))
+                if (MJOLNIR::unconditional_jump_ir(last_inst) != nullptr || MJOLNIR::ret_ir(last_inst) != nullptr)
                     continue;
 
                 for (auto aux : nodes)

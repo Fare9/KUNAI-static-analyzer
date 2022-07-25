@@ -67,7 +67,7 @@ namespace KUNAI
          * @param instr
          * @return irujmp_t or nullptr
          */
-        irujmp_t unconditional_jump_ir(irstmnt_t& instr);
+        irujmp_t unconditional_jump_ir(irstmnt_t &instr);
 
         using ircjmp_t = std::shared_ptr<IRCJmp>;
         /**
@@ -76,7 +76,7 @@ namespace KUNAI
          * @param instr
          * @return ircjmp_t or nullptr
          */
-        ircjmp_t conditional_jump_ir(irstmnt_t& instr);
+        ircjmp_t conditional_jump_ir(irstmnt_t &instr);
 
         using irret_t = std::shared_ptr<IRRet>;
         /**
@@ -85,16 +85,16 @@ namespace KUNAI
          * @param instr
          * @return irret_t or nullptr
          */
-        irret_t ret_ir(irstmnt_t& instr);
+        irret_t ret_ir(irstmnt_t &instr);
 
         using irnop_t = std::shared_ptr<IRNop>;
         /**
          * @brief Check if given statement is a NOP instruction
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irnop_t or nullptr
          */
-        irnop_t nop_ir(irstmnt_t& instr);
+        irnop_t nop_ir(irstmnt_t &instr);
 
         using irswitch_t = std::shared_ptr<IRSwitch>;
         /**
@@ -103,53 +103,53 @@ namespace KUNAI
          * @param instr
          * @return irswitch_t or nullptr
          */
-        irswitch_t switch_ir(irstmnt_t& instr);
+        irswitch_t switch_ir(irstmnt_t &instr);
 
         using irexpr_t = std::shared_ptr<IRExpr>;
         /**
          * @brief Check if given statement is an expression instruction.
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irexpr_t ornullptr
          */
-        irexpr_t expr_ir(irstmnt_t& instr);
+        irexpr_t expr_ir(irstmnt_t &instr);
 
         using irbinop_t = std::shared_ptr<IRBinOp>;
         /**
          * @brief Check if given statement is a binary operation.
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irbinop_t or nullptr
          */
-        irbinop_t bin_op_ir(irstmnt_t& instr);
+        irbinop_t bin_op_ir(irstmnt_t &instr);
 
         using irunaryop_t = std::shared_ptr<IRUnaryOp>;
         /**
          * @brief Check if given statement is a unary operation.
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irunaryop_t or nullptr
          */
-        irunaryop_t unary_op_ir(irstmnt_t& instr);
+        irunaryop_t unary_op_ir(irstmnt_t &instr);
 
         using irassign_t = std::shared_ptr<IRAssign>;
         /**
          * @brief Check if given statement is an assignment operation.
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irassign_t or nullptr
          */
-        irassign_t assign_ir(irstmnt_t& instr);
+        irassign_t assign_ir(irstmnt_t &instr);
 
         using irphi_t = std::shared_ptr<IRPhi>;
 
         /**
          * @brief Check if given statement is a phi operation.
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irphi_t or nullptr
          */
-        irphi_t phi_ir(irstmnt_t& instr);
+        irphi_t phi_ir(irstmnt_t &instr);
 
         using ircall_t = std::shared_ptr<IRCall>;
         /**
@@ -158,74 +158,72 @@ namespace KUNAI
          * @param instr
          * @return ircall_t or nullptr
          */
-        ircall_t call_ir(irstmnt_t& instr);
+        ircall_t call_ir(irstmnt_t &instr);
 
         using irload_t = std::shared_ptr<IRLoad>;
         /**
          * @brief Check if given statement is a load instruction.
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irload_t or nullptr
          */
-        irload_t load_ir(irstmnt_t& instr);
+        irload_t load_ir(irstmnt_t &instr);
 
         using irstore_t = std::shared_ptr<IRStore>;
         /**
          * @brief Check if given statement is a store instruction.
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irstore_t or nullptr
          */
-        irstore_t store_ir(irstmnt_t& instr);
+        irstore_t store_ir(irstmnt_t &instr);
 
         using irzcomp_t = std::shared_ptr<IRZComp>;
 
         /**
          * @brief Check if given statement is a zero comparison.
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irzcomp_t or nullptr
          */
-        irzcomp_t zcomp_ir(irstmnt_t& instr);
-
+        irzcomp_t zcomp_ir(irstmnt_t &instr);
 
         using irbcomp_t = std::shared_ptr<IRBComp>;
-        
+
         /**
          * @brief Check if given statement is a binary comparison.
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irbcomp_t or nullptr
          */
-        irbcomp_t bcomp_ir(irstmnt_t& instr);
+        irbcomp_t bcomp_ir(irstmnt_t &instr);
 
         /**
          * @brief Check if the given statements is one of the comparisons.
-         * 
-         * @param instr 
-         * @return true 
-         * @return false 
+         *
+         * @param instr
+         * @return true
+         * @return false
          */
-        bool is_cmp(irstmnt_t& instr);
-
+        bool is_cmp(irstmnt_t &instr);
 
         using irnew_t = std::shared_ptr<IRNew>;
         /**
          * @brief check if given statement is a new statement.
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irnew_t or nullptr
          */
-        irnew_t new_ir(irstmnt_t& instr);
+        irnew_t new_ir(irstmnt_t &instr);
 
         using irtype_t = std::shared_ptr<IRType>;
         /**
          * @brief Check if given statement is type statement.
-         * 
-         * @param instr 
+         *
+         * @param instr
          * @return irtype_t or nullptr
          */
-        irtype_t type_ir(irstmnt_t& instr);
+        irtype_t type_ir(irstmnt_t &instr);
 
         using irreg_t = std::shared_ptr<IRReg>;
         /**
@@ -235,8 +233,7 @@ namespace KUNAI
          * @param instr
          * @return irreg_t or nullptr
          */
-        irreg_t register_ir(irstmnt_t& instr);
-
+        irreg_t register_ir(irstmnt_t &instr);
 
         using irtempreg_t = std::shared_ptr<IRTempReg>;
         /**
@@ -245,8 +242,7 @@ namespace KUNAI
          * @param instr
          * @return irtempreg_t or nullptr
          */
-        irtempreg_t temp_reg_ir(irstmnt_t& instr);
-
+        irtempreg_t temp_reg_ir(irstmnt_t &instr);
 
         using irconstint_t = std::shared_ptr<IRConstInt>;
         /**
@@ -255,8 +251,7 @@ namespace KUNAI
          * @param instr
          * @return irconstint_t or nullptr
          */
-        irconstint_t const_int_ir(irstmnt_t& instr);
-
+        irconstint_t const_int_ir(irstmnt_t &instr);
 
         using irmemory_t = std::shared_ptr<IRMemory>;
         /**
@@ -265,9 +260,7 @@ namespace KUNAI
          * @param instr
          * @return irmemory_t or nullptr
          */
-        irmemory_t memory_ir(irstmnt_t& instr);
-
-
+        irmemory_t memory_ir(irstmnt_t &instr);
 
         using irstring_t = std::shared_ptr<IRString>;
         /**
@@ -276,8 +269,7 @@ namespace KUNAI
          * @param instr
          * @return irstring_t or nullptr
          */
-        irstring_t string_ir(irstmnt_t& instr);
-
+        irstring_t string_ir(irstmnt_t &instr);
 
         using irclass_t = std::shared_ptr<IRClass>;
         /**
@@ -286,9 +278,8 @@ namespace KUNAI
          * @param instr
          * @return irclass_t or nullptr
          */
-        irclass_t class_ir(irstmnt_t& instr);
-        
-        
+        irclass_t class_ir(irstmnt_t &instr);
+
         using ircallee_t = std::shared_ptr<IRCallee>;
         /**
          * @brief Check if given statement object is
@@ -297,7 +288,7 @@ namespace KUNAI
          * @param instr
          * @return ircallee_t or nullptr
          */
-        ircallee_t callee_ir(irstmnt_t& instr);
+        ircallee_t callee_ir(irstmnt_t &instr);
 
         using irfield_t = std::shared_ptr<IRField>;
         /**
@@ -306,9 +297,7 @@ namespace KUNAI
          * @param instr
          * @return irfield_t or nullptr
          */
-        irfield_t field_ir(irstmnt_t& instr);
-
-        
+        irfield_t field_ir(irstmnt_t &instr);
 
         class IRBlock
         {
@@ -462,12 +451,44 @@ namespace KUNAI
                 NONE_STMNT_T = 99 // used to finish the chain of statements
             };
 
+            enum op_type_t
+            {
+                UJMP_OP_T,
+                CJMP_OP_T,
+                RET_OP_T,
+                NOP_OP_T,
+                SWITCH_OP_T,
+                EXPR_OP_T,
+                BINOP_OP_T,
+                UNARYOP_OP_T,
+                ASSIGN_OP_T,
+                PHI_OP_T,
+                CALL_OP_T,
+                OP_T_OP_T,
+                LOAD_OP_T,
+                STORE_OP_T,
+                ZCOMP_OP_T,
+                BCOMP_OP_T,
+                NEW_OP_T,
+                TYPE_OP_T,
+                REGISTER_OP_T,
+                TEMP_REGISTER_OP_T,
+                CONST_INT_OP_T,
+                CONST_FLOAT_OP_T,
+                FIELD_OP_T,
+                MEM_OP_T,
+                STRING_OP_T,
+                CLASS_OP_T,
+                CALLEE_OP_T,
+                NONE_OP_T = 99 // used to finish the chain of statements
+            };
+
             /**
              * @brief Constructor of IRStmnt.
-             * @param stmnt_type: type of the statement.
-             * @return void
+             * @param stmnt_type type of the statement.
+             * @param op_type type of the operation
              */
-            IRStmnt(stmnt_type_t stmnt_type);
+            IRStmnt(stmnt_type_t stmnt_type, op_type_t op_type);
 
             /**
              * @brief Destroy the IRStmnt object
@@ -484,6 +505,16 @@ namespace KUNAI
             }
 
             /**
+             * @brief Return the type of the operation.
+             *
+             * @return op_type_t
+             */
+            op_type_t get_op_type()
+            {
+                return op_type;
+            }
+
+            /**
              * @brief Return correct string representation for IRStmnt.
              *
              * @return std::string
@@ -492,31 +523,31 @@ namespace KUNAI
 
             /**
              * @brief Get the use-def chain from the result object.
-             * 
-             * @return std::vector<irexpr_t&>& 
+             *
+             * @return std::vector<irexpr_t&>&
              */
-            const std::vector<irstmnt_t>& get_use_def_chain() const
+            const std::vector<irstmnt_t> &get_use_def_chain() const
             {
                 return use_def_chain;
             }
 
             /**
              * @brief Get the def-use chain of the operand1 (if exists)
-             * 
+             *
              * @return const std::unordered_map<irexpr_t, std::vector<irstmnt_t>>&
              */
-            const std::unordered_map<irexpr_t, std::vector<irstmnt_t>>& get_def_use_chains() const
+            const std::unordered_map<irexpr_t, std::vector<irstmnt_t>> &get_def_use_chains() const
             {
                 return def_use_chains;
             }
 
             /**
              * @brief Get the def use chain by value object
-             * 
-             * @param value 
-             * @return std::optional<std::vector<irexpr_t>*> 
+             *
+             * @param value
+             * @return std::optional<std::vector<irexpr_t>*>
              */
-            std::optional<std::vector<irstmnt_t>*> get_def_use_chain_by_value(irexpr_t value)
+            std::optional<std::vector<irstmnt_t> *> get_def_use_chain_by_value(irexpr_t value)
             {
                 if (def_use_chains.find(value) == def_use_chains.end())
                     return std::nullopt;
@@ -525,8 +556,8 @@ namespace KUNAI
 
             /**
              * @brief Add instruction to use_def_chain
-             * 
-             * @param instr 
+             *
+             * @param instr
              */
             void add_instr_to_use_def_chain(irstmnt_t instr)
             {
@@ -535,7 +566,7 @@ namespace KUNAI
 
             /**
              * @brief Add instruction to op1 def_use_chain
-             * 
+             *
              * @param var register, or temporal register to use in def_use_chains.
              * @param instr instruction with the definition of the value.
              */
@@ -546,13 +577,13 @@ namespace KUNAI
 
             /**
              * @brief Invalidate the use_def and def_use chains
-             * 
+             *
              */
             void invalidate_chains();
 
             /**
              * @brief Invalidate the use_def_chain clearing the vector.
-             * 
+             *
              */
             void invalidate_use_def_chain()
             {
@@ -561,7 +592,7 @@ namespace KUNAI
 
             /**
              * @brief Invalidate the def-use chains
-             * 
+             *
              */
             void invalidate_def_use_chains()
             {
@@ -571,13 +602,15 @@ namespace KUNAI
             /**
              * @brief Print the use def and def use chain
              *        for debugging purposes.
-             * 
+             *
              */
             void print_use_def_and_def_use_chain();
 
         private:
             //! Type of the statement.
             stmnt_type_t stmnt_type;
+            //! Op type
+            op_type_t op_type;
 
             //! Vectors used for use-def and def-use chains
             std::vector<irstmnt_t> use_def_chain;
@@ -879,10 +912,11 @@ namespace KUNAI
 
             /**
              * @brief Constructor of IRExpr this will be the most common type of instruction of the IR.
-             * 
-             * @param type: type of the expression (type of the instruction).
+             *
+             * @param type type of the expression (type of the instruction).
+             * @param op_type type of global operation
              */
-            IRExpr(expr_type_t type);
+            IRExpr(expr_type_t type, op_type_t op_type);
 
             /**
              * @brief Destructor of IRExpr, nothing to be done.
@@ -1204,7 +1238,6 @@ namespace KUNAI
         class IRAssign : public IRExpr
         {
         public:
-
             /**
              * @brief Constructor of IRAssign, this one will have just those from the basic types,
              *        no more information is needed, the left part and the right part.
@@ -1284,17 +1317,17 @@ namespace KUNAI
 
             /**
              * @brief Get the vector with all the parameters.
-             * 
+             *
              * @return std::unordered_map<uint32_t, irexpr_t>
              */
-            std::unordered_map<uint32_t, irexpr_t>& get_params()
+            std::unordered_map<uint32_t, irexpr_t> &get_params()
             {
                 return params;
             }
 
             /**
              * @brief Add a parameter into the Phi node.
-             * 
+             *
              * @param param parameter to include
              * @param id identifier where to insert the parameter
              */
@@ -1302,8 +1335,8 @@ namespace KUNAI
 
             /**
              * @brief Get the result register for the phi node.
-             * 
-             * @return irexpr_t 
+             *
+             * @return irexpr_t
              */
             irexpr_t get_result()
             {
@@ -1312,8 +1345,8 @@ namespace KUNAI
 
             /**
              * @brief Add the register used as result of the phi node.
-             * 
-             * @param result 
+             *
+             * @param result
              */
             void add_result(irexpr_t result)
             {
@@ -1425,11 +1458,11 @@ namespace KUNAI
             {
                 return ret_val;
             }
-            
+
             /**
              * @brief Get the call type value
-             * 
-             * @return call_type_t 
+             *
+             * @return call_type_t
              */
             call_type_t get_call_type()
             {
@@ -1616,8 +1649,8 @@ namespace KUNAI
 
             /**
              * @brief Get the index from the store instruction.
-             * 
-             * @return irexpr_t 
+             *
+             * @return irexpr_t
              */
             irexpr_t get_index()
             {
@@ -1957,11 +1990,12 @@ namespace KUNAI
             /**
              * @brief Constructor of the IRType, this will be the generic type used for the others.
              * @param type: type of the class.
+             * @param op_type: global type of operation
              * @param type_name: name used for representing the type while printing.
              * @param type_size: size of the type in bytes.
              * @return void
              */
-            IRType(type_t type, std::string type_name, size_t type_size);
+            IRType(type_t type, op_type_t op_type, std::string type_name, size_t type_size);
 
             /**
              * @brief Destructor of the IRType.
@@ -2105,7 +2139,7 @@ namespace KUNAI
 
             /**
              * @brief Get the sub ID from the register.
-             * @return std::uint32_t 
+             * @return std::uint32_t
              */
             std::uint32_t get_sub_id()
             {
@@ -2114,8 +2148,8 @@ namespace KUNAI
 
             /**
              * @brief Get the current arch value
-             * 
-             * @return int 
+             *
+             * @return int
              */
             int get_current_arch()
             {
@@ -2298,8 +2332,8 @@ namespace KUNAI
 
             /**
              * @brief Get the value unsigned object
-             * 
-             * @return uint64_t 
+             *
+             * @return uint64_t
              */
             uint64_t get_value_unsigned()
             {
@@ -2308,8 +2342,8 @@ namespace KUNAI
 
             /**
              * @brief Get the value signed object
-             * 
-             * @return int64_t 
+             *
+             * @return int64_t
              */
             int64_t get_value_signed()
             {
@@ -2339,125 +2373,126 @@ namespace KUNAI
 
             /**
              * @brief ADD operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @param b 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @param b
+             * @return IRConstInt
              */
-            friend IRConstInt operator+(IRConstInt& a, IRConstInt& b);
+            friend IRConstInt operator+(IRConstInt &a, IRConstInt &b);
 
             /**
              * @brief SUB operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @param b 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @param b
+             * @return IRConstInt
              */
-            friend IRConstInt operator-(IRConstInt& a, IRConstInt& b);
+            friend IRConstInt operator-(IRConstInt &a, IRConstInt &b);
 
             /**
              * @brief DIV operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @param b 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @param b
+             * @return IRConstInt
              */
-            friend IRConstInt operator/(IRConstInt& a, IRConstInt& b);
+            friend IRConstInt operator/(IRConstInt &a, IRConstInt &b);
 
             /**
              * @brief MUL operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @param b 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @param b
+             * @return IRConstInt
              */
-            friend IRConstInt operator*(IRConstInt& a, IRConstInt& b);
+            friend IRConstInt operator*(IRConstInt &a, IRConstInt &b);
 
             /**
              * @brief MOD operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @param b 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @param b
+             * @return IRConstInt
              */
-            friend IRConstInt operator%(IRConstInt& a, IRConstInt& b);
+            friend IRConstInt operator%(IRConstInt &a, IRConstInt &b);
 
             /**
              * @brief AND operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @param b 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @param b
+             * @return IRConstInt
              */
-            friend IRConstInt operator&(IRConstInt& a, IRConstInt& b);
+            friend IRConstInt operator&(IRConstInt &a, IRConstInt &b);
 
             /**
              * @brief OR operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @param b 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @param b
+             * @return IRConstInt
              */
-            friend IRConstInt operator|(IRConstInt& a, IRConstInt& b);
+            friend IRConstInt operator|(IRConstInt &a, IRConstInt &b);
 
             /**
              * @brief XOR operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @param b 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @param b
+             * @return IRConstInt
              */
-            friend IRConstInt operator^(IRConstInt& a, IRConstInt& b);
+            friend IRConstInt operator^(IRConstInt &a, IRConstInt &b);
 
             /**
              * @brief SHL operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @param b 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @param b
+             * @return IRConstInt
              */
-            friend IRConstInt operator<<(IRConstInt& a, IRConstInt& b);
+            friend IRConstInt operator<<(IRConstInt &a, IRConstInt &b);
 
             /**
              * @brief SHR operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @param b 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @param b
+             * @return IRConstInt
              */
-            friend IRConstInt operator>>(IRConstInt& a, IRConstInt& b);
+            friend IRConstInt operator>>(IRConstInt &a, IRConstInt &b);
 
             /**
              * @brief INC operator for IRConstInt, some checks are applied.
-             * 
+             *
              * @param a
-             * @return IRConstInt 
+             * @return IRConstInt
              */
-            friend IRConstInt operator++(IRConstInt& a, int);
+            friend IRConstInt operator++(IRConstInt &a, int);
 
             /**
              * @brief DEC operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @return IRConstInt
              */
-            friend IRConstInt operator--(IRConstInt& a, int);
+            friend IRConstInt operator--(IRConstInt &a, int);
 
             /**
              * @brief NOT operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @return IRConstInt
              */
-            friend IRConstInt operator!(IRConstInt& a);
+            friend IRConstInt operator!(IRConstInt &a);
 
             /**
              * @brief NEG operator for IRConstInt, some checks are applied.
-             * 
-             * @param a 
-             * @return IRConstInt 
+             *
+             * @param a
+             * @return IRConstInt
              */
-            friend IRConstInt operator~(IRConstInt& a);
+            friend IRConstInt operator~(IRConstInt &a);
+
         private:
             //! Value of the integer
             std::uint64_t value;

@@ -259,8 +259,9 @@ namespace KUNAI
              *        to.
              *
              * @param bbs: basic blocks from the method.
+             * @param method_graph graph we are working on
              */
-            void jump_target_analysis(std::vector<DEX::dvmbasicblock_t>& bbs);
+            void jump_target_analysis(std::vector<DEX::dvmbasicblock_t>& bbs, MJOLNIR::irgraph_t method_graph);
 
             //! lifted blocks
             std::map<DEX::DVMBasicBlock*, MJOLNIR::irblock_t> lifted_blocks;

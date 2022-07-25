@@ -8,7 +8,7 @@ namespace KUNAI
          * IRStmnt class
          */
 
-        IRStmnt::IRStmnt(stmnt_type_t stmnt_type) : stmnt_type(stmnt_type)
+        IRStmnt::IRStmnt(stmnt_type_t stmnt_type, op_type_t op_type) : stmnt_type(stmnt_type), op_type(op_type)
         {
         }
 
@@ -72,7 +72,7 @@ namespace KUNAI
             {
                 std::cout << "\tUse-Def chain:\n";
 
-                for (auto& use_def : use_def_chain)
+                for (auto &use_def : use_def_chain)
                     std::cout << "\t\t" << use_def->to_string() << "\n";
             }
 
@@ -80,11 +80,11 @@ namespace KUNAI
             {
                 std::cout << "\5Def-Use chains:\n";
 
-                for (auto& def_use : def_use_chains)
+                for (auto &def_use : def_use_chains)
                 {
-                    auto& value = def_use.first;
+                    auto &value = def_use.first;
                     std::cout << "\t\t" << value->to_string() << ": ";
-                    for (auto& def : def_use.second)
+                    for (auto &def : def_use.second)
                         std::cout << def->to_string() << "\n";
                 }
             }
@@ -95,7 +95,7 @@ namespace KUNAI
          */
 
         IRUJmp::IRUJmp(uint64_t addr, irblock_t target)
-            : IRStmnt(UJMP_STMNT_T),
+            : IRStmnt(UJMP_STMNT_T, UJMP_OP_T),
               addr(addr),
               target(target)
         {
@@ -116,7 +116,7 @@ namespace KUNAI
          */
 
         IRCJmp::IRCJmp(uint64_t addr, irstmnt_t condition, irblock_t target, irblock_t fallthrough)
-            : IRStmnt(CJMP_STMNT_T),
+            : IRStmnt(CJMP_STMNT_T, CJMP_OP_T),
               addr(addr),
               condition(condition),
               target(target),
@@ -141,7 +141,7 @@ namespace KUNAI
          */
 
         IRRet::IRRet(irstmnt_t ret_value)
-            : IRStmnt(RET_STMNT_T),
+            : IRStmnt(RET_STMNT_T, RET_OP_T),
               ret_value(ret_value)
         {
         }
@@ -163,7 +163,7 @@ namespace KUNAI
          */
 
         IRNop::IRNop()
-            : IRStmnt(NOP_STMNT_T)
+            : IRStmnt(NOP_STMNT_T, NOP_OP_T)
         {
         }
 
@@ -174,7 +174,7 @@ namespace KUNAI
         IRSwitch::IRSwitch(std::vector<int32_t> offsets,
                            irexpr_t condition,
                            std::vector<int32_t> constants_checks)
-            : IRStmnt(SWITCH_STMNT_T),
+            : IRStmnt(SWITCH_STMNT_T, SWITCH_OP_T),
               offsets(offsets),
               condition(condition),
               constants_checks(constants_checks)

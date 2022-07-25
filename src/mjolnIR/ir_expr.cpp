@@ -5,12 +5,11 @@ namespace KUNAI
     namespace MJOLNIR
     {
 
-        IRExpr::IRExpr(expr_type_t type)
-            : IRStmnt(EXPR_STMNT_T),
+        IRExpr::IRExpr(expr_type_t type, op_type_t op_type)
+            : IRStmnt(EXPR_STMNT_T, op_type),
               type(type)
         {
         }
-
 
         std::string IRExpr::to_string()
         {
@@ -121,9 +120,9 @@ namespace KUNAI
             }
             else if (ope1.type == IRExpr::PHI_EXPR_T)
             {
-                IRPhi& phi1 = reinterpret_cast<IRPhi&>(ope1);
-                IRPhi& phi2 = reinterpret_cast<IRPhi&>(ope1);
-                
+                IRPhi &phi1 = reinterpret_cast<IRPhi &>(ope1);
+                IRPhi &phi2 = reinterpret_cast<IRPhi &>(ope1);
+
                 return phi1 == phi2;
             }
             else if (ope1.type == IRExpr::CALL_EXPR_T)
@@ -187,7 +186,7 @@ namespace KUNAI
                          irexpr_t result,
                          irexpr_t op1,
                          irexpr_t op2)
-            : IRExpr(BINOP_EXPR_T),
+            : IRExpr(BINOP_EXPR_T, BINOP_OP_T),
               bin_op_type(bin_op_type),
               result(result),
               op1(op1),
@@ -271,7 +270,7 @@ namespace KUNAI
         IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type,
                              irexpr_t result,
                              irexpr_t op)
-            : IRExpr(UNARYOP_EXPR_T),
+            : IRExpr(UNARYOP_EXPR_T, UNARYOP_OP_T),
               unary_op_type(unary_op_type),
               result(result),
               op(op),
@@ -283,20 +282,19 @@ namespace KUNAI
                              cast_type_t cast_type,
                              irexpr_t result,
                              irexpr_t op)
-            : IRExpr(UNARYOP_EXPR_T),
+            : IRExpr(UNARYOP_EXPR_T, UNARYOP_OP_T),
               unary_op_type(unary_op_type),
               result(result),
               op(op)
         {
         }
 
-
         IRUnaryOp::IRUnaryOp(unary_op_t unary_op_type,
                              cast_type_t cast_type,
                              std::string class_name,
                              irexpr_t result,
                              irexpr_t op)
-            : IRExpr(UNARYOP_EXPR_T),
+            : IRExpr(UNARYOP_EXPR_T, UNARYOP_OP_T),
               unary_op_type(unary_op_type),
               result(result),
               op(op),
@@ -398,7 +396,7 @@ namespace KUNAI
          */
         IRAssign::IRAssign(irexpr_t destination,
                            irexpr_t source)
-            : IRExpr(ASSIGN_EXPR_T),
+            : IRExpr(ASSIGN_EXPR_T, ASSIGN_OP_T),
               destination(destination),
               source(source)
         {
@@ -429,7 +427,7 @@ namespace KUNAI
         /**
          * IRPhi class
          */
-        IRPhi::IRPhi() : IRExpr(PHI_EXPR_T)
+        IRPhi::IRPhi() : IRExpr(PHI_EXPR_T, PHI_OP_T)
         {
         }
 
@@ -445,7 +443,7 @@ namespace KUNAI
             str_stream << "IRPhi ";
             str_stream << "[Result: " << result->to_string() << "]";
             str_stream << "[Params: ";
-            for (auto& param : params)
+            for (auto &param : params)
                 str_stream << "[" << param.second->to_string() << "]";
             str_stream << "]";
 
@@ -477,7 +475,7 @@ namespace KUNAI
 
         IRCall::IRCall(irexpr_t callee,
                        std::vector<irexpr_t> args)
-            : IRExpr(CALL_EXPR_T),
+            : IRExpr(CALL_EXPR_T, CALL_OP_T),
               callee(callee),
               args(args),
               ret_val(nullptr),
@@ -488,7 +486,7 @@ namespace KUNAI
         IRCall::IRCall(irexpr_t callee,
                        call_type_t call_type,
                        std::vector<irexpr_t> args)
-            : IRExpr(CALL_EXPR_T),
+            : IRExpr(CALL_EXPR_T, CALL_OP_T),
               callee(callee),
               call_type(call_type),
               args(args),
@@ -545,7 +543,7 @@ namespace KUNAI
         IRLoad::IRLoad(irexpr_t destination,
                        irexpr_t source,
                        std::uint32_t size)
-            : IRExpr(LOAD_EXPR_T),
+            : IRExpr(LOAD_EXPR_T, LOAD_OP_T),
               destination(destination),
               source(source),
               index(nullptr),
@@ -557,7 +555,7 @@ namespace KUNAI
                        irexpr_t source,
                        irexpr_t index,
                        std::uint32_t size)
-            : IRExpr(LOAD_EXPR_T),
+            : IRExpr(LOAD_EXPR_T, LOAD_OP_T),
               destination(destination),
               source(source),
               index(index),
@@ -600,7 +598,7 @@ namespace KUNAI
         IRStore::IRStore(irexpr_t destination,
                          irexpr_t source,
                          std::uint32_t size)
-            : IRExpr(STORE_EXPR_T),
+            : IRExpr(STORE_EXPR_T, STORE_OP_T),
               destination(destination),
               source(source),
               index(nullptr),
@@ -612,7 +610,7 @@ namespace KUNAI
                          irexpr_t source,
                          irexpr_t index,
                          std::uint32_t size)
-            : IRExpr(STORE_EXPR_T),
+            : IRExpr(STORE_EXPR_T, STORE_OP_T),
               destination(destination),
               source(source),
               index(index),
@@ -654,9 +652,9 @@ namespace KUNAI
          */
 
         IRZComp::IRZComp(zero_comp_t comp,
-                    irexpr_t result,
-                    irexpr_t reg)
-            : IRExpr(ZCOMP_EXPR_T),
+                         irexpr_t result,
+                         irexpr_t reg)
+            : IRExpr(ZCOMP_EXPR_T, ZCOMP_OP_T),
               comp(comp),
               result(result),
               reg(reg)
@@ -715,7 +713,7 @@ namespace KUNAI
                          irexpr_t result,
                          irexpr_t reg1,
                          irexpr_t reg2)
-            : IRExpr(BCOMP_EXPR_T),
+            : IRExpr(BCOMP_EXPR_T, BCOMP_OP_T),
               comp(comp),
               result(result),
               reg1(reg1),
@@ -785,7 +783,7 @@ namespace KUNAI
 
         IRNew::IRNew(irexpr_t result,
                      irexpr_t class_instance)
-            : IRExpr(NEW_EXPR_T),
+            : IRExpr(NEW_EXPR_T, NEW_OP_T),
               result(result),
               class_instance(class_instance)
         {
