@@ -101,9 +101,6 @@ install_kunai() {
         exit 1
     fi
 
-    echo "[+] Installing other headers"
-    sudo cp ./external/chilkat-x86_64-linux-gcc/include/* /usr/include/KUNAI/
-
     if [ $? -ne 0 ]; then
         echo "[-] An error ocurred while installing..."
         exit 1

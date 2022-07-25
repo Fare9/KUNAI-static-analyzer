@@ -240,7 +240,7 @@ namespace KUNAI {
             ~ClassDef() = default;
 
             /**
-             * @brief Get the ClassDef Class* object with class data.
+             * @brief Get the ClassDef class_t object with class data.
              * @return class_t
              */
             class_t get_class_idx()
