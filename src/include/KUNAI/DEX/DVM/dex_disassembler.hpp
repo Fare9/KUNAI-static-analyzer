@@ -11,10 +11,12 @@
 
 #include <iostream>
 #include <memory>
+#include <optional>
 
 #include "KUNAI/DEX/parser/dex_parser.hpp"
 #include "KUNAI/DEX/DVM/dex_instructions.hpp"
 #include "KUNAI/DEX/DVM/dex_linear_sweep_disassembly.hpp"
+#include "KUNAI/DEX/DVM/dex_recursive_traversal_disassembly.hpp"
 
 namespace KUNAI
 {
@@ -31,10 +33,29 @@ namespace KUNAI
 
         using instruction_map_t = std::map<std::tuple<classdef_t, encodedmethod_t>, std::map<std::uint64_t, instruction_t>>;
 
+        enum disassembler_t
+        {
+            LINEAR_SWEEP_DISASSEMBLER,
+            RECURSIVE_TRAVERSAL_DISASSEMBLER
+        };
+
         class DexDisassembler
         {
         public:
+            /**
+             * @brief Construct a new Dex Disassembler object
+             *        use by default the Linear Sweep Algorithm
+             *
+             * @param parsing_correct
+             * @param dex_parser
+             * @param dalvik_opcodes
+             */
             DexDisassembler(bool parsing_correct, dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes);
+
+            /**
+             * @brief Destroy the Dex Disassembler object
+             *
+             */
             ~DexDisassembler() = default;
 
             /**
@@ -58,7 +79,17 @@ namespace KUNAI
              */
             linearsweepdisassembler_t &get_linear_sweep_disassembler()
             {
-                return dalvik_disassembler;
+                return linear_dalvik_disassembler;
+            }
+
+            /**
+             * @brief Get the recursive traversal disassembler object
+             *
+             * @return recursivetraversaldisassembler_t&
+             */
+            recursivetraversaldisassembler_t &get_recursive_traversal_disassembler()
+            {
+                return recursive_dalvik_disassembler;
             }
 
             /**
@@ -71,10 +102,41 @@ namespace KUNAI
                 return method_instructions;
             }
 
+            /**
+             * @brief We can include in one disassembler the disassembly from
+             *        many others, this will allow to disassembly more than one
+             *        DEX file as one.
+             *
+             * @param disas disassembler object to include to current one.
+             */
             void add_disassembly(dexdisassembler_t disas);
 
+            /**
+             * @brief Set the disassembler type: LINEAR_SWEEP_DISASSEMBLER, RECURSIVE_TRAVERSAL_DISASSEMBLER
+             *
+             * @param type
+             */
+            void set_disassembler_type(disassembler_t type)
+            {
+                disas_type = type;
+            }
+
+            /**
+             * @brief Write into the std::ostream the disassembly of the whole file.
+             *
+             * @param os
+             * @param entry
+             * @return std::ostream&
+             */
             friend std::ostream &operator<<(std::ostream &os, const DexDisassembler &entry);
 
+            /**
+             * @brief Operator + to join two disassemblers, this will join the two maps
+             * as well as we will & the disassembly_correct variable.
+             *
+             * @param other_disassembler
+             * @return DexDisassembler&
+             */
             friend DexDisassembler &operator+(DexDisassembler &first_disassembler, DexDisassembler &other_disassembler);
 
         private:
@@ -86,11 +148,12 @@ namespace KUNAI
 
             dexparser_t dex_parser;
             dalvikopcodes_t dalvik_opcodes;
-            linearsweepdisassembler_t dalvik_disassembler;
+            disassembler_t disas_type;
 
-            std::map<std::tuple<classdef_t, encodedmethod_t>,
-                     std::map<std::uint64_t, instruction_t>>
-                method_instructions;
+            linearsweepdisassembler_t linear_dalvik_disassembler;
+            recursivetraversaldisassembler_t recursive_dalvik_disassembler;
+
+            instruction_map_t method_instructions;
             bool parsing_correct;
             bool disassembly_correct;
         };

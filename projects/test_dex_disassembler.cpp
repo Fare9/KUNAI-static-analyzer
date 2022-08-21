@@ -52,10 +52,26 @@ main(int argc, char**argv)
     // check if it was correct
     if (!dex_disassembler->get_disassembly_correct())
     {
-        std::cerr << "[-] Disassembly was incorrect, cannot show instructions." << std::endl;
+        std::cerr << "[-] Linear Sweep Disassembly was incorrect, cannot show instructions." << std::endl;
         return 1;
     }
     
+    // print the disassembly
+    std::cout << *dex_disassembler;
+
+    // now apply the recursive traversal disassembly algorithm
+    dex_disassembler->set_disassembler_type(KUNAI::DEX::RECURSIVE_TRAVERSAL_DISASSEMBLER);
+
+    // apply the disassembly
+    dex_disassembler->disassembly_analysis();
+
+    // check if it was correct
+    if (!dex_disassembler->get_disassembly_correct())
+    {
+        std::cerr << "[-] Recursive Traversal Disassembly was incorrect, cannot show instructions." << std::endl;
+        return 1;
+    }
+
     // print the disassembly
     std::cout << *dex_disassembler;
 }

@@ -5,11 +5,13 @@ namespace KUNAI
     namespace DEX
     {
         DexDisassembler::DexDisassembler(bool parsing_correct, dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes) : parsing_correct(parsing_correct),
-                                                                                                                                                       dex_parser(dex_parser),
-                                                                                                                                                       disassembly_correct(false),
-                                                                                                                                                       dalvik_opcodes(dalvik_opcodes)
+                                                                                                                         dex_parser(dex_parser),
+                                                                                                                         disassembly_correct(false),
+                                                                                                                         dalvik_opcodes(dalvik_opcodes),
+                                                                                                                         disas_type(LINEAR_SWEEP_DISASSEMBLER)
         {
-            this->dalvik_disassembler = std::make_shared<LinearSweepDisassembler>(dalvik_opcodes);
+            linear_dalvik_disassembler = std::make_shared<LinearSweepDisassembler>(dalvik_opcodes);
+            recursive_dalvik_disassembler = std::make_shared<RecursiveTraversalDisassembler>(dalvik_opcodes);
         }
 
         void DexDisassembler::disassembly_analysis()
@@ -72,7 +74,12 @@ namespace KUNAI
                     if (!code_item_struct)
                         continue;
 
-                    auto instructions = this->dalvik_disassembler->disassembly(code_item_struct->get_all_raw_instructions());
+                    std::map<uint64_t, KUNAI::DEX::instruction_t> instructions;
+                    
+                    if (disas_type == LINEAR_SWEEP_DISASSEMBLER)
+                        instructions = this->linear_dalvik_disassembler->disassembly(code_item_struct->get_all_raw_instructions());
+                    else if (disas_type == RECURSIVE_TRAVERSAL_DISASSEMBLER)
+                        instructions = this->recursive_dalvik_disassembler->disassembly(code_item_struct->get_all_raw_instructions(), method);
 
                     for (auto instruction : instructions)
                     {
@@ -125,13 +132,6 @@ namespace KUNAI
             return os;
         }
 
-        /**
-         * @brief Operator + to join two disassemblers, this will join the two maps
-         * as well as we will & the disassembly_correct variable.
-         *
-         * @param other_disassembler
-         * @return DexDisassembler&
-         */
         DexDisassembler &operator+(DexDisassembler &first_disassembler, DexDisassembler &other_disassembler)
         {
             first_disassembler.method_instructions.insert(other_disassembler.method_instructions.begin(), other_disassembler.method_instructions.end());
