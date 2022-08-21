@@ -155,8 +155,11 @@ namespace KUNAI
                 auto idx = std::get<0>(instruction);
                 auto ins = std::get<1>(instruction);
 
-                if (dalvik_opcodes->get_instruction_operation(ins->get_OP()) ==
-                    DVMTypes::Operation::BRANCH_DVM_OPCODE)
+                auto operation = dalvik_opcodes->get_instruction_operation(ins->get_OP());
+
+                if (operation == DVMTypes::Operation::CONDITIONAL_BRANCH_DVM_OPCODE ||
+                    operation == DVMTypes::Operation::UNCONDITIONAL_BRANCH_DVM_OPCODE ||
+                    operation == DVMTypes::Operation::MULTI_BRANCH_DVM_OPCODE)
                 {
                     auto v = determine_next(ins, idx);
                     h[idx] = v;
