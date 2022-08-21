@@ -319,7 +319,7 @@ namespace KUNAI
                 irstmnt_t return_value = ret_instr->get_return_value();
 
                 if (auto reg = register_ir(return_value))
-                    return_value = create_new_ssa_reg(reg, p);
+                    return_value = get_top_or_create(reg, p);
 
                 new_instr = std::make_shared<IRRet>(std::dynamic_pointer_cast<IRExpr>(return_value));
             }
