@@ -17,6 +17,9 @@
 #include "KUNAI/mjolnIR/ir_grammar.hpp"
 #include "KUNAI/mjolnIR/Analysis/reachingDefinition.hpp"
 
+#include "KUNAI/mjolnIR/Analysis/single_instruction_optimizations.hpp"
+#include "KUNAI/mjolnIR/Analysis/single_block_optimizations.hpp"
+
 namespace KUNAI
 {
     namespace MJOLNIR
@@ -25,7 +28,8 @@ namespace KUNAI
 
         using optimizer_t = std::shared_ptr<Optimizer>;
 
-        using one_stmnt_opt_t = irstmnt_t (*)(irstmnt_t &);
+        using one_stmnt_opt_t = std::optional<irstmnt_t> (*)(irstmnt_t &);
+        using one_block_opt_t = std::optional<irblock_t> (*)(irblock_t &);
 
         class Optimizer
         {
@@ -36,6 +40,13 @@ namespace KUNAI
              * @param opt
              */
             void add_single_stmnt_pass(one_stmnt_opt_t opt);
+
+            /**
+             * @brief Add a single block optimization to the vector of optimizations
+             * 
+             * @param opt 
+             */
+            void add_single_block_pass(one_block_opt_t opt);
 
             /**
              * @brief Run all the selected optimizations.
@@ -121,27 +132,9 @@ namespace KUNAI
             void solve_def_use_use_def(irexpr_t &operand, irstmnt_t expr, regdefinitionset_t &reach_def_set, MJOLNIR::irgraph_t &ir_graph);
 
             std::vector<one_stmnt_opt_t> single_statement_optimization;
+            std::vector<one_block_opt_t> single_block_optimization;
             reachingdefinition_t reachingdefinition;
         };
-
-        /**
-         * @brief Optimizations applied directly to one statement
-         *        this in opposite to other optimizations will be
-         *        applied only to the current instruction, the others
-         *        would need to check a whole block or even whole graph.
-         */
-
-        /**
-         * @brief Apply constant folding optimization to the
-         *        given instruction, we can have different operations
-         *        where we can apply constant folding:
-         *        IRExpr <- IRConstInt IRBinOp IRConstInt
-         *        IRExpr <- IRUnaryOp IRConstInt
-         *
-         * @param instr
-         * @return irstmnt_t
-         */
-        irstmnt_t constant_folding(irstmnt_t &instr);
 
         /**
          * @brief Return a default optimizer object with all the configured passes.

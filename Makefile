@@ -40,7 +40,9 @@ DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 
 APK_OBJ_FILES = ${OBJ}apk.o
 
-IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o ${OBJ}ir_blocks.o ${OBJ}ir_graph.o ${OBJ}ir_utils.o ${OBJ}optimizer.o ${OBJ}reachingDefinition.o ${OBJ}ir_graph_ssa.o
+IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o ${OBJ}ir_blocks.o \
+				${OBJ}ir_graph.o ${OBJ}ir_utils.o ${OBJ}single_instruction_optimizations.o ${OBJ}single_block_optimizations.o \
+				${OBJ}optimizer.o ${OBJ}reachingDefinition.o ${OBJ}ir_graph_ssa.o
 IR_LIFTERS_OBJ_FILES = ${OBJ}lifter_android.o
 
 OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${APK_OBJ_FILES} ${IR_OBJ_FILES} ${IR_LIFTERS_OBJ_FILES}
