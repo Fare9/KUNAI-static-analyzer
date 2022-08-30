@@ -29,6 +29,17 @@ namespace KUNAI
          * @return std::optional<irblock_t>
          */
         std::optional<irblock_t> nop_removal(irblock_t &block);
+
+        /**
+         * @brief We can find some obfuscations that rewrite some
+         *        simple expressions in order to make them more
+         *        difficult to follow, we can go block by block
+         *        discovering them, and reducing to simplified expressions.
+         * 
+         * @param block 
+         * @return std::optional<irblock_t> 
+         */
+        std::optional<irblock_t> expression_simplifier(irblock_t &block);
     }
 }
 

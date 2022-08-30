@@ -187,6 +187,13 @@ namespace KUNAI
             return stream.str();
         }
 
+        bool IRReg::same(irreg_t reg)
+        {
+            if (id == reg->get_id() && current_arch == reg->get_current_arch())
+                return true;
+            return false;
+        }
+
         bool IRReg::equal(irreg_t reg)
         {
             return *(this) == *(reg.get());
