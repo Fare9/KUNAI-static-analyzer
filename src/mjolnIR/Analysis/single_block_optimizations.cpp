@@ -41,22 +41,61 @@ namespace KUNAI
                 new_statements.clear();
 
                 // here analyze the instructions, and apply simplifications
-                for (size_t index_instruction = 0, stmnts_size = stmnts.size(); index_instruction < stmnts_size;)
+                for (size_t i = 0, stmnts_size = stmnts.size(); i < stmnts_size;)
                 {
+                    // SimplifySubInst
                     // X - (X - Y) -> Y
-                    if (bin_op_ir(stmnts[index_instruction]) && bin_op_ir(stmnts[index_instruction])->get_bin_op_type() == IRBinOp::SUB_OP_T 
-                        && (stmnts_size - index_instruction) >= 2 && 
-                        bin_op_ir(stmnts[index_instruction + 1]) && bin_op_ir(stmnts[index_instruction + 1])->get_bin_op_type() == IRBinOp::SUB_OP_T)
+                    if (bin_op_ir(stmnts[i]) && bin_op_ir(stmnts[i])->get_bin_op_type() == IRBinOp::SUB_OP_T && (stmnts_size - i) >= 2 &&
+                        bin_op_ir(stmnts[i + 1]) && bin_op_ir(stmnts[i + 1])->get_bin_op_type() == IRBinOp::SUB_OP_T)
                     {
-                        auto first_instr = bin_op_ir(stmnts[index_instruction]);
-                        auto second_instr = bin_op_ir(stmnts[index_instruction + 1]);
+                        auto first_instr = bin_op_ir(stmnts[i]);
+                        auto second_instr = bin_op_ir(stmnts[i + 1]);
 
                         if (first_instr->get_op1()->equals(first_instr->get_op2()) &&
                             second_instr->get_op1()->equals(first_instr->get_result()))
                         {
                             irassign_t assign_inst = std::make_shared<IRAssign>(second_instr->get_result(), second_instr->get_op2());
                             new_statements.push_back(assign_inst);
-                            index_instruction += 2;
+                            i += 2;
+                            modified = true;
+                            continue;
+                        }
+                    }
+
+                    // SimplifyAddInst
+                    // (X + Y) - X -> Y
+                    if (
+                        bin_op_ir(stmnts[i]) && bin_op_ir(stmnts[i])->get_bin_op_type() == IRBinOp::ADD_OP_T && 
+                        (stmnts_size - i) >= 2
+                        && bin_op_ir(stmnts[i + 1]) && bin_op_ir(stmnts[i + 1])->get_bin_op_type() == IRBinOp::SUB_OP_T)
+                    {
+                        auto first_instr = bin_op_ir(stmnts[i]);
+                        auto second_instr = bin_op_ir(stmnts[i + 1]);
+
+                        if (first_instr->get_op1()->equals(second_instr->get_op2()) && first_instr->get_result()->equals(second_instr->get_op1()))
+                        {
+                            irassign_t assign_inst = std::make_shared<IRAssign>(second_instr->get_result(), first_instr->get_op2());
+                            new_statements.push_back(assign_inst);
+                            i += 2;
+                            modified = true;
+                            continue;
+                        }
+                    }
+                    // or (Y - X) + X -> Y
+                    if (
+                        bin_op_ir(stmnts[i]) && bin_op_ir(stmnts[i])->get_bin_op_type() == IRBinOp::SUB_OP_T 
+                        && (stmnts_size - i) >= 2 
+                        && bin_op_ir(stmnts[i + 1]) && bin_op_ir(stmnts[i + 1])->get_bin_op_type() == IRBinOp::ADD_OP_T)
+                    {
+                        auto first_instr = bin_op_ir(stmnts[i]);
+                        auto second_instr = bin_op_ir(stmnts[i + 1]);
+
+                        if (first_instr->get_op2()->equals(second_instr->get_op2()) 
+                            && first_instr->get_result()->equals(second_instr->get_op1()))
+                        {
+                            irassign_t assign_inst = std::make_shared<IRAssign>(second_instr->get_result(), first_instr->get_op1());
+                            new_statements.push_back(assign_inst);
+                            i += 2;
                             modified = true;
                             continue;
                         }
@@ -65,8 +104,8 @@ namespace KUNAI
                     // if the instruction has not been optimized,
                     // means it is not an interesting expression
                     // then push it and go ahead.
-                    new_statements.push_back(stmnts[index_instruction]);
-                    index_instruction++;
+                    new_statements.push_back(stmnts[i]);
+                    i++;
                 }
 
                 // update the statements
@@ -76,7 +115,7 @@ namespace KUNAI
                     stmnts = new_statements;
                 }
             }
-            
+
             return block;
         }
     }
