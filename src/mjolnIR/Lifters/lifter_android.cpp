@@ -392,6 +392,12 @@ namespace KUNAI
                     case MJOLNIR::IRField::CLASS_F:
                         cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg);
                         break;
+                    case MJOLNIR::IRField::VOID_F:
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_VOID, dest_reg, dest_reg);
+                        break;
+                    case MJOLNIR::IRField::ARRAY_F:
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ARRAY, dest_reg, dest_reg);
+                        break;
                     default:
                         throw exceptions::LifterException("lift_android_instruction: case DEX::DVMTypes::FIELD src->get_type() not implemented.");
                     } // src->get_type()

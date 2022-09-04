@@ -403,22 +403,27 @@ namespace KUNAI
 
             for (auto &idom : idoms)
             {
+                // check if the current analyzed node has predecessors
+                // and in that case, if it has 2 or more predecessors
                 if (predecessors.find(idom.first) == predecessors.end() || predecessors.at(idom.first).size() < 2)
                     continue;
 
                 // check if the node has more than 1 predecessor
                 // this node is a convergence node
-                for (auto runner : predecessors[idom.first])
+                for (auto predecessor : predecessors[idom.first])
                 {
                     // check if the predecessor is in the
                     // map of immediate dominators nodes.
-                    if (idoms.find(runner) == idoms.end())
+                    if (idoms.find(predecessor) == idoms.end())
                         continue;
 
-                    while (runner != idom.second)
+                    while (predecessor != idom.second)
                     {
-                        frontier[runner].insert(idom.first);
-                        runner = idoms[runner];
+                        // maybe we are in a loop?
+                        if (frontier[predecessor].find(idom.first) != frontier[predecessor].end())
+                            break;
+                        frontier[predecessor].insert(idom.first);
+                        predecessor = idoms[predecessor];
                     }
                 }
             }

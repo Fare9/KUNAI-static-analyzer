@@ -1098,6 +1098,8 @@ namespace KUNAI
                 TO_ADDR,
                 TO_BOOLEAN,
                 TO_CLASS,
+                TO_VOID,
+                TO_ARRAY,
             };
 
             /**

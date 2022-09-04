@@ -37,6 +37,11 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    // Set as disassembler the recursive traversal algorithm
+    auto dex_disassember = dex->get_dex_disassembler();
+
+    dex_disassember->set_disassembler_type(KUNAI::DEX::RECURSIVE_TRAVERSAL_DISASSEMBLER);
+
     auto dex_analysis = dex->get_dex_analysis(true);
 
     auto main_method = dex_analysis->get_method_analysis_by_name(class_name, method_name, prototype);
