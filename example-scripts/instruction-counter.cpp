@@ -6,11 +6,34 @@
 int
 main(int argc, char **argv)
 {
-    // check that 4 arguments were given
-    if (argc != 4)
+    bool use_recursive = false;
+
+    if (argc == 1 || (argc > 1 && !strcmp("-h", argv[1])))
     {
-        std::cerr << "[-] USAGE: " << argv[0] << " <dex_file> <class_name> <method_name>\n";
+        std::cerr << "[-] USAGE: " << argv[0] << " <dex_file> <class_name> <method_name> [-r]\n";
+        std::cerr << "\t-r: optional argument, use recursive disassembly algorithm\n";
         return 1;
+    }
+
+    // check that 4 arguments were given
+    if (argc < 4)
+    {
+        std::cerr << "[-] USAGE: " << argv[0] << " <dex_file> <class_name> <method_name> [-r]\n";
+        std::cerr << "\t-r: optional argument, use recursive disassembly algorithm\n";
+        return 1;
+    }
+
+    // check if one argument more was given
+    // check if it is correct
+    if (argc > 4 && strcmp("-r", argv[4]))
+    {
+        std::cerr << "The option " << argv[4] << " is not recognized...\n\n\n";
+        std::cerr << "[-] USAGE: " << argv[0] << " <dex_file> <class_name> <method_name> [-r]\n";
+        std::cerr << "\t-r: optional argument, use recursive disassembly algorithm\n";
+        return 1;
+    }else if (argc > 4 && !strcmp("-r", argv[4]))
+    {
+        use_recursive = true;
     }
 
     // watch info and error messages from Kunai
@@ -38,6 +61,11 @@ main(int argc, char **argv)
 
     // first of all obtain the disassembler object
     auto dex_disassembler = dex_object->get_dex_disassembler();
+
+    // if recursive disassembly is requested by the user
+    // use this one!
+    if (use_recursive)
+        dex_disassembler->set_disassembler_type(KUNAI::DEX::RECURSIVE_TRAVERSAL_DISASSEMBLER);
 
     // because obtaining the dex object does not apply
     // any analysis, we have to apply disassembly by
