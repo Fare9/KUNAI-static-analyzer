@@ -60,8 +60,52 @@ main()
     block1->append_statement_to_block(sub_instr4);
     block1->append_statement_to_block(add_instr2);
 
+
+    // Y = X + <INT>
+    // Z = Y + <INT>
+    // =============
+    // Z = X + (<INT> + <INT>)
+    auto reg7 = std::make_shared<KUNAI::MJOLNIR::IRReg>(7, KUNAI::MJOLNIR::dalvik_arch, "v7", 4);
+    auto reg8 = std::make_shared<KUNAI::MJOLNIR::IRReg>(8, KUNAI::MJOLNIR::dalvik_arch, "v8", 4);
+    auto reg9 = std::make_shared<KUNAI::MJOLNIR::IRReg>(9, KUNAI::MJOLNIR::dalvik_arch, "v9", 4);
+    auto const1 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(25, false, KUNAI::MJOLNIR::IRType::LE_ACCESS, "25", 4);
+    auto const2 = std::make_shared<KUNAI::MJOLNIR::IRConstInt>(100, false, KUNAI::MJOLNIR::IRType::LE_ACCESS, "100", 4);
+
+    auto add_instr3 = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::ADD_OP_T, reg8, reg7, const1);
+    auto add_instr4 = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::ADD_OP_T, reg9, reg8, const2);
+
+    block1->append_statement_to_block(add_instr3);
+    block1->append_statement_to_block(add_instr4);
+
+
+    // (A | (B ^ C)) ^ ((A ^ C) ^ B)
+    auto A = std::make_shared<KUNAI::MJOLNIR::IRReg>(20, KUNAI::MJOLNIR::dalvik_arch, "v20", 4);
+    auto B = std::make_shared<KUNAI::MJOLNIR::IRReg>(21, KUNAI::MJOLNIR::dalvik_arch, "v21", 4);
+    auto C = std::make_shared<KUNAI::MJOLNIR::IRReg>(22, KUNAI::MJOLNIR::dalvik_arch, "v22", 4);
+
+    auto t_xor1 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(30, "t30", 4);
+    auto t_or = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(31, "t31", 4);
+    auto t_xor2 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(32, "t32", 4);
+    auto t_xor3 = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(33, "t33", 4);
+    auto res = std::make_shared<KUNAI::MJOLNIR::IRTempReg>(34, "t34", 4);
+
+    auto first_xor = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::XOR_OP_T, t_xor1, B, C);
+    auto first_or = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::OR_OP_T, t_or, A, t_xor1);
+    auto second_xor = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::XOR_OP_T, t_xor2, A, C);
+    auto third_xor = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::XOR_OP_T, t_xor3, t_xor2, B);
+    auto last_xor = std::make_shared<KUNAI::MJOLNIR::IRBinOp>(KUNAI::MJOLNIR::IRBinOp::XOR_OP_T, res, t_or, t_xor3);
+
+    graph->set_last_temporal(34);
+
+    block1->append_statement_to_block(first_xor);
+    block1->append_statement_to_block(first_or);
+    block1->append_statement_to_block(second_xor);
+    block1->append_statement_to_block(third_xor);
+    block1->append_statement_to_block(last_xor);
+
+
     block1->set_start_idx(0);
-    block1->set_end_idx(12);
+    block1->set_end_idx(14);
 
     graph->add_node(block1);
 
@@ -86,6 +130,7 @@ main()
     // now go for the optimizations
     optimizer->add_single_block_pass(KUNAI::MJOLNIR::nop_removal);
     optimizer->add_single_block_pass(KUNAI::MJOLNIR::expression_simplifier);
+    optimizer->add_single_block_pass(KUNAI::MJOLNIR::instruction_combining);
 
     std::cout << "Running analysis and generating simplified graph\n";
 

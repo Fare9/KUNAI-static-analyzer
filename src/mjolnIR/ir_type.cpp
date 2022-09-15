@@ -297,7 +297,7 @@ namespace KUNAI
 
                 return res;
             }
-            uint64_t result = a.value + a.value;
+            uint64_t result = a.value + b.value;
 
             IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;

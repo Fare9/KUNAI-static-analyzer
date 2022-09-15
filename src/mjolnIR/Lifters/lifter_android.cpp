@@ -61,6 +61,8 @@ namespace KUNAI
             this->jump_target_analysis(bbs, method_graph);
             optimizer->fallthrough_target_analysis(method_graph);
 
+
+            method_graph->set_last_temporal(temp_reg_id - 1);
             // clean android_analysis
             this->android_analysis = nullptr;
 

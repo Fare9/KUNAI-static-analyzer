@@ -37,10 +37,10 @@ namespace KUNAI
                 for (size_t j = 0, stmnt_size = stmnts.size(); j < stmnt_size; j++)
                 {
                     
-                    for (auto func : single_statement_optimization)
+                    for (auto opt : single_statement_optimization)
                     {
                         irstmnt_t &final_stmnt = stmnts[j];
-                        auto result_stmnt = (*func)(final_stmnt);
+                        auto result_stmnt = (*opt)(final_stmnt);
 
                         if (result_stmnt.has_value())
                             stmnts[j] = result_stmnt.value();
@@ -51,10 +51,10 @@ namespace KUNAI
             // second the block optimizers.
             for (size_t i = 0, blk_size = blocks.size(); i < blk_size; i++)
             {
-                for (auto func : single_block_optimization)
+                for (auto opt : single_block_optimization)
                 {
                     irblock_t& block = blocks[i];
-                    auto result_block = (*func)(block);
+                    auto result_block = (*opt)(block, func);
 
                     if (result_block.has_value())
                         blocks[i] = result_block.value();
@@ -271,6 +271,8 @@ namespace KUNAI
 
             // single block optimizers
             optimizer->add_single_block_pass(KUNAI::MJOLNIR::nop_removal);
+            optimizer->add_single_block_pass(KUNAI::MJOLNIR::expression_simplifier);
+            optimizer->add_single_block_pass(KUNAI::MJOLNIR::instruction_combining);
 
             return optimizer;
         }

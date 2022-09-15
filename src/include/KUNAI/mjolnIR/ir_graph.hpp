@@ -356,7 +356,28 @@ namespace KUNAI
              */
             const std::uint64_t get_cyclomatic_complexity();
 
+            /**
+             * @brief Set the last temporal register used in the
+             *        graph.
+             * 
+             * @param last_temporal 
+             */
+            void set_last_temporal(std::uint64_t last_temporal)
+            {
+                this->last_temporal = last_temporal;
+            }
 
+            /**
+             * @brief Get the last temporal register used in the
+             *        graph, this can be modified with `set_last_temporal`.
+             * 
+             * @return std::uint64_t 
+             */
+            std::uint64_t get_last_temporal()
+            {
+                return last_temporal;
+            }
+            
         private:
             Nodes nodes;
             Edges edges;
@@ -367,7 +388,7 @@ namespace KUNAI
             void add_bbs(irblock_t r, Nodes ebb);
 
             std::uint64_t cyclomatic_complexity = -1;
-            
+            std::uint64_t last_temporal;
         };
     
         std::unique_ptr<IRGraph> get_unique_empty_graph();

@@ -29,7 +29,7 @@ namespace KUNAI
         using optimizer_t = std::shared_ptr<Optimizer>;
 
         using one_stmnt_opt_t = std::optional<irstmnt_t> (*)(irstmnt_t &);
-        using one_block_opt_t = std::optional<irblock_t> (*)(irblock_t &);
+        using one_block_opt_t = std::optional<irblock_t> (*)(irblock_t &, irgraph_t &);
 
         class Optimizer
         {

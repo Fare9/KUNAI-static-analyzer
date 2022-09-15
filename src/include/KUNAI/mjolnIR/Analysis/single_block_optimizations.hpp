@@ -12,6 +12,7 @@
 
 #include <memory>
 #include <optional>
+#include <string>
 
 #include "KUNAI/mjolnIR/ir_graph.hpp"
 #include "KUNAI/mjolnIR/ir_grammar.hpp"
@@ -26,9 +27,10 @@ namespace KUNAI
          *        NOP instructions.
          *
          * @param block
+         * @param graph
          * @return std::optional<irblock_t>
          */
-        std::optional<irblock_t> nop_removal(irblock_t &block);
+        std::optional<irblock_t> nop_removal(irblock_t &block, irgraph_t &graph);
 
         /**
          * @brief We can find some obfuscations that rewrite some
@@ -37,9 +39,20 @@ namespace KUNAI
          *        discovering them, and reducing to simplified expressions.
          * 
          * @param block 
+         * @param grap
          * @return std::optional<irblock_t> 
          */
-        std::optional<irblock_t> expression_simplifier(irblock_t &block);
+        std::optional<irblock_t> expression_simplifier(irblock_t &block, irgraph_t &graph);
+
+        /**
+         * @brief Some complex expressions can be combined in something
+         *        simpler, that make the expression simpler to understand.
+         * 
+         * @param block 
+         * @param graph
+         * @return std::optional<irblock_t> 
+         */
+        std::optional<irblock_t> instruction_combining(irblock_t &block, irgraph_t &graph);
     }
 }
 
