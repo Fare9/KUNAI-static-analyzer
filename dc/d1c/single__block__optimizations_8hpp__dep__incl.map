@@ -1,0 +1,5 @@
+<map id="src/include/KUNAI/mjolnIR/Analysis/single_block_optimizations.hpp" name="src/include/KUNAI/mjolnIR/Analysis/single_block_optimizations.hpp">
+<area shape="rect" id="node1" title="There are optimizations that can be applied to whole blocks, these will return a modified block or th..." alt="" coords="5,5,184,60"/>
+<area shape="rect" id="node2" href="$d8/d39/optimizer_8hpp.html" title="Class for applying optimization passes to IR, working in IR we will be able to create more generic op..." alt="" coords="5,108,184,148"/>
+<area shape="rect" id="node3" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="5,196,184,236"/>
+</map>

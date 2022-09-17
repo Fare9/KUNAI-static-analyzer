@@ -1,5 +1,5 @@
 <map id="src/include/KUNAI/mjolnIR/arch/ir_x86.hpp" name="src/include/KUNAI/mjolnIR/arch/ir_x86.hpp">
-<area shape="rect" id="node1" title="Values specific for x86 and x86&#45;64 for the registers this will be enums for the registers,..." alt="" coords="5,5,184,47"/>
-<area shape="rect" id="node2" title=" " alt="" coords="21,95,67,121"/>
-<area shape="rect" id="node3" title=" " alt="" coords="91,95,202,121"/>
+<area shape="rect" id="node1" title="Values specific for x86 and x86&#45;64 for the registers this will be enums for the registers,..." alt="" coords="5,5,184,45"/>
+<area shape="rect" id="node2" title=" " alt="" coords="21,93,67,119"/>
+<area shape="rect" id="node3" title=" " alt="" coords="91,93,202,119"/>
 </map>

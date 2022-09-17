@@ -16,7 +16,7 @@ var searchData=
   ['compute_5fpostdominators_13',['compute_postdominators',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#a5138a1dfd9e9f91eaaa38bbc1f93a183',1,'KUNAI::MJOLNIR::IRGraph']]],
   ['conditional_5fjump_5fir_14',['conditional_jump_ir',['../d9/d2a/ir__grammar_8hpp.html#a3244cf1abcbf6f7905c61d4aafa1ad19',1,'KUNAI::MJOLNIR']]],
   ['const_5fint_5fir_15',['const_int_ir',['../d9/d2a/ir__grammar_8hpp.html#add573deee684a25afb94eaa10d42399d',1,'KUNAI::MJOLNIR']]],
-  ['constant_5ffolding_16',['constant_folding',['../d8/d39/optimizer_8hpp.html#a3506371032bb7a1814456cca4831ac34',1,'KUNAI::MJOLNIR']]],
+  ['constant_5ffolding_16',['constant_folding',['../d3/d9f/single__instruction__optimizations_8hpp.html#addeed527d86ce8c57b7e7e849fa70e18',1,'KUNAI::MJOLNIR']]],
   ['copy_17',['copy',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#aa16f8db191d8b3741c7846575062ff4d',1,'KUNAI::MJOLNIR::IRGraph']]],
   ['create_5fxref_18',['create_xref',['../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a4813871dcd124d3d5581c634534cc35c',1,'KUNAI::DEX::Analysis']]]
 ];
