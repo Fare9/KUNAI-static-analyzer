@@ -1879,26 +1879,7 @@ namespace KUNAI
             return std::is_base_of<Base, T>::value;
         }
 
-        /**
-         * @brief Determine the next offsets inside the bytecode of an :class:`EncodedMethod`.
-         *        The offsets are calculated in number of bytes from the start of the method.
-         *        Note, that offsets inside the bytecode are denoted in 16bit units but this method returns actual bytes!
-         *
-         *        Offsets inside the opcode are counted from the beginning of the opcode.
-         *
-         *        The returned type is a list, as branching opcodes will have multiple paths.
-         *        `if` and `switch` opcodes will return more than one item in the list, while
-         *        `throw`, `return` and `goto` opcodes will always return a list with length one.
-         *
-         *        An offset of -1 indicates that the method is exited, for example by `throw` or `return`.
-         *
-         *        If the entered opcode is not branching or jumping, an empty list is returned.
-         *
-         * @param instr: instruction to calculate the next one in case this is a Goto, if, switch.
-         * @param curr_idx: current idx to calculate new idx.
-         * @param instructions: all the instructions from the method.
-         *
-         */
+
         std::vector<std::int64_t> determine_next(instruction_t instr,
                                                  std::uint64_t curr_idx)
         {
@@ -1914,6 +1895,7 @@ namespace KUNAI
                      (op_value <= DVMTypes::Opcode::OP_GOTO_32))
             {
                 std::int32_t offset;
+
                 switch (op_value)
                 {
                 case DVMTypes::Opcode::OP_GOTO:
@@ -2064,6 +2046,69 @@ namespace KUNAI
             }
 
             return exceptions;
+        }
+
+        std::optional<std::int16_t> get_conditional_jump_target(instruction_t &instruction, dalvikopcodes_t &dalvik_opcodes)
+        {
+            auto op_code = instruction->get_OP();
+
+            if (dalvik_opcodes->get_instruction_operation(op_code) != DVMTypes::Operation::CONDITIONAL_BRANCH_DVM_OPCODE)
+                return std::nullopt;
+
+            switch (op_code)
+            {
+            case DVMTypes::Opcode::OP_IF_EQ: // "if-eq"
+            case DVMTypes::Opcode::OP_IF_NE: // "if-ne"
+            case DVMTypes::Opcode::OP_IF_LT: // "if-lt"
+            case DVMTypes::Opcode::OP_IF_GE: // "if-ge"
+            case DVMTypes::Opcode::OP_IF_GT: // "if-gt"
+            case DVMTypes::Opcode::OP_IF_LE:
+            {
+                auto instruction22 = std::dynamic_pointer_cast<Instruction22t>(instruction);
+                return instruction22->get_ref();
+            }
+            case DVMTypes::Opcode::OP_IF_EQZ: // "if-eqz"
+            case DVMTypes::Opcode::OP_IF_NEZ: // "if-nez"
+            case DVMTypes::Opcode::OP_IF_LTZ: // "if-ltz"
+            case DVMTypes::Opcode::OP_IF_GEZ: // "if-gez"
+            case DVMTypes::Opcode::OP_IF_GTZ: // "if-gtz"
+            case DVMTypes::Opcode::OP_IF_LEZ:
+            {
+                auto instruction21 = std::dynamic_pointer_cast<Instruction21t>(instruction);
+                return instruction21->get_ref();
+            }
+            }
+
+            return std::nullopt;
+        }
+
+        std::optional<std::int32_t> get_unconditional_jump_target(instruction_t &instruction, dalvikopcodes_t &dalvik_opcodes)
+        {
+            auto op_code = instruction->get_OP();
+
+            if (dalvik_opcodes->get_instruction_operation(op_code) != DVMTypes::Operation::UNCONDITIONAL_BRANCH_DVM_OPCODE)
+                return std::nullopt;
+
+            switch (op_code)
+            {
+            case DVMTypes::Opcode::OP_GOTO:
+            {
+                auto goto_instr = std::dynamic_pointer_cast<Instruction10t>(instruction);
+                return goto_instr->get_offset();
+            }
+            case DVMTypes::Opcode::OP_GOTO_16:
+            {
+                auto goto16_instr = std::dynamic_pointer_cast<Instruction20t>(instruction);
+                return goto16_instr->get_offset();
+            }
+            case DVMTypes::Opcode::OP_GOTO_32:
+            {
+                auto goto32_instr = std::dynamic_pointer_cast<Instruction30t>(instruction);
+                return goto32_instr->get_offset();
+            }
+            }
+
+            return std::nullopt;
         }
 
     }

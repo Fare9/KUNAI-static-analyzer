@@ -30,7 +30,7 @@ DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 			${OBJ}dex_methods.o ${OBJ}dex_classes.o ${OBJ}dex_encoded.o\
 			${OBJ}dex_annotations.o ${OBJ}dex_parser.o\
 			${OBJ}dex_dalvik_opcodes.o ${OBJ}dex_instructions.o\
-			${OBJ}dex_linear_sweep_disassembly.o ${OBJ}dex_disassembler.o\
+			${OBJ}dex_linear_sweep_disassembly.o ${OBJ}dex_recursive_traversal_disassembly.o ${OBJ}dex_disassembler.o\
 			${OBJ}dex_external_methods.o ${OBJ}dex_external_classes.o\
 			${OBJ}dex_string_analysis.o ${OBJ}dex_dvm_basic_block.o\
 			${OBJ}dex_exception_analysis.o\
@@ -40,7 +40,9 @@ DEX_OBJ_FILES = ${OBJ}dex_header.o ${OBJ}dex_strings.o \
 
 APK_OBJ_FILES = ${OBJ}apk.o
 
-IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o ${OBJ}ir_blocks.o ${OBJ}ir_graph.o ${OBJ}ir_utils.o ${OBJ}optimizer.o ${OBJ}reachingDefinition.o ${OBJ}ir_graph_ssa.o
+IR_OBJ_FILES = ${OBJ}ir_type.o ${OBJ}ir_expr.o ${OBJ}ir_stmnt.o ${OBJ}ir_blocks.o \
+				${OBJ}ir_graph.o ${OBJ}ir_utils.o ${OBJ}single_instruction_optimizations.o ${OBJ}single_block_optimizations.o \
+				${OBJ}optimizer.o ${OBJ}reachingDefinition.o ${OBJ}ir_graph_ssa.o
 IR_LIFTERS_OBJ_FILES = ${OBJ}lifter_android.o
 
 OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${APK_OBJ_FILES} ${IR_OBJ_FILES} ${IR_LIFTERS_OBJ_FILES}
@@ -52,7 +54,7 @@ OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${APK_OBJ_FILES} ${IR_OBJ_FILES} ${IR_
 all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
 ${BIN_PROJECTS_FOLDER}test_dex_parser ${BIN_PROJECTS_FOLDER}test_dex_disassembler ${BIN_PROJECTS_FOLDER}test_ir ${BIN_PROJECTS_FOLDER}test_dex_lifter \
 ${BIN_PROJECTS_FOLDER}test_ir_graph ${BIN_PROJECTS_FOLDER}test_dominators ${BIN_PROJECTS_FOLDER}test-optimizations \
-${BIN_PROJECTS_FOLDER}test_ssa_form
+${BIN_PROJECTS_FOLDER}test-optimizations2 ${BIN_PROJECTS_FOLDER}test_ssa_form
 
 
 
@@ -102,6 +104,10 @@ ${BIN_PROJECTS_FOLDER}test_dominators: ${OBJ}test_dominators.o ${OBJ_FILES}
 	${CXX} -o $@ $^ ${LIB_ZIP}
 
 ${BIN_PROJECTS_FOLDER}test-optimizations: ${OBJ}test-optimizations.o ${OBJ_FILES}
+	@echo "Linking $< -> $@"
+	${CXX} -o $@ $^ ${LIB_ZIP}
+
+${BIN_PROJECTS_FOLDER}test-optimizations2: ${OBJ}test-optimizations2.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^ ${LIB_ZIP}
 
@@ -158,6 +164,10 @@ ${OBJ}test_apk_analysis.o: ${CODE_TEST_FOLDER}test_apk_analysis.cpp
 	${CXX} -I${INCLUDE_PATH} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
 ${OBJ}test-optimizations.o: ${CODE_TEST_FOLDER}test-optimizations.cpp
+	@echo "Compiling $< -> $@"
+	${CXX} -I${INCLUDE_PATH} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+
+${OBJ}test-optimizations2.o: ${CODE_TEST_FOLDER}test-optimizations2.cpp
 	@echo "Compiling $< -> $@"
 	${CXX} -I${INCLUDE_PATH} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 

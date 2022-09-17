@@ -187,6 +187,13 @@ namespace KUNAI
             return stream.str();
         }
 
+        bool IRReg::same(irreg_t reg)
+        {
+            if (id == reg->get_id() && current_arch == reg->get_current_arch())
+                return true;
+            return false;
+        }
+
         bool IRReg::equal(irreg_t reg)
         {
             return *(this) == *(reg.get());
@@ -290,7 +297,7 @@ namespace KUNAI
 
                 return res;
             }
-            uint64_t result = a.value + a.value;
+            uint64_t result = a.value + b.value;
 
             IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;

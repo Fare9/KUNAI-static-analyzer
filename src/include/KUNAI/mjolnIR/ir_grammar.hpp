@@ -1098,6 +1098,8 @@ namespace KUNAI
                 TO_ADDR,
                 TO_BOOLEAN,
                 TO_CLASS,
+                TO_VOID,
+                TO_ARRAY,
             };
 
             /**
@@ -2181,6 +2183,17 @@ namespace KUNAI
             std::string to_string();
 
             /**
+             * @brief Compare two IRRegs given a smart pointer
+             *        this time do not include the sub_id, just
+             *        a simple function to check this.
+             * 
+             * @param reg 
+             * @return true 
+             * @return false 
+             */
+            bool same(irreg_t reg);
+
+            /**
              * @brief Compare two IRRegs given by smart pointer.
              * @return bool
              */
@@ -2261,6 +2274,7 @@ namespace KUNAI
              * @return std::string
              */
             std::string to_string();
+            
 
             /**
              * @brief Compare two IRTempReg temporal registers.

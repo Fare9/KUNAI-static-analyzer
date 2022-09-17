@@ -95,6 +95,10 @@ namespace KUNAI
                     {
                         irstmnt_t ret_val = call_instr->get_ret_val();
 
+                        // it can be void call
+                        if (ret_val == nullptr)
+                            continue;
+
                         if (auto reg = register_ir(ret_val))
                         {
                             var_block_map[reg].insert(block);
@@ -119,6 +123,8 @@ namespace KUNAI
         void IRGraphSSA::insert_phi_node()
         {
             Nodes work_list;
+            std::list<irblock_t> seen;
+
             std::unordered_map<irblock_t, irreg_t> inserted;
             auto dominance_frontier = compute_dominance_frontier();
 
@@ -133,6 +139,7 @@ namespace KUNAI
                 {
                     auto &block = work_list.front();
                     work_list.erase(work_list.begin());
+                    seen.push_back(block);
 
                     for (auto &df_block : dominance_frontier[block])
                     {
@@ -148,9 +155,10 @@ namespace KUNAI
 
                             df_block->set_phi_node();
 
-                            // finally add the block from dominance_frontier
-                            // into the worklist
-                            work_list.push_back(df_block);
+                            if (std::find(seen.begin(), seen.end(), df_block) == seen.end())
+                                // finally add the block from dominance_frontier
+                                // into the worklist
+                                work_list.push_back(df_block);
                         }
                     }
                 }
@@ -210,7 +218,8 @@ namespace KUNAI
                         if (reg->get_sub_id() != -1)
                             reg = ssa_to_non_ssa_form[reg];
 
-                        phi_instr->get_params()[j] = S[reg].top();
+                        if (S.find(reg) != S.end() && S[reg].size() > 0)
+                            phi_instr->get_params()[j] = S[reg].top();
                     }
                 }
             }
@@ -319,7 +328,7 @@ namespace KUNAI
                 irstmnt_t return_value = ret_instr->get_return_value();
 
                 if (auto reg = register_ir(return_value))
-                    return_value = create_new_ssa_reg(reg, p);
+                    return_value = get_top_or_create(reg, p);
 
                 new_instr = std::make_shared<IRRet>(std::dynamic_pointer_cast<IRExpr>(return_value));
             }
@@ -336,11 +345,17 @@ namespace KUNAI
                     new_args.push_back(get_top_or_create(reg, p));
                 }
 
-                if (auto reg = register_ir(ret_val))
-                    ret_val = create_new_ssa_reg(reg, p);
-
                 new_instr = std::make_shared<IRCall>(call_instr->get_callee(), call_instr->get_call_type(), new_args);
-                std::dynamic_pointer_cast<IRCall>(new_instr)->set_ret_val(std::dynamic_pointer_cast<IRExpr>(ret_val));
+                
+                // maybe a return void method
+                if (ret_val != nullptr)
+                {
+                    if (auto reg = register_ir(ret_val))
+                    {
+                        ret_val = create_new_ssa_reg(reg, p);
+                        std::dynamic_pointer_cast<IRCall>(new_instr)->set_ret_val(std::dynamic_pointer_cast<IRExpr>(ret_val));
+                    }
+                }
             }
             // STORE(A) = B
             else if (auto store_instr = store_ir(instr))
@@ -430,7 +445,6 @@ namespace KUNAI
 
             return new_reg;
         }
-
 
         irreg_t IRGraphSSA::get_top_or_create(irreg_t old_reg, std::list<irreg_t> &p)
         {

@@ -99,13 +99,51 @@ namespace KUNAI
         using fillarraydata_t = std::shared_ptr<FillArrayData>;
         using dalvikincorrectinstr_t = std::shared_ptr<DalvikIncorrectInstruction>;
 
-
+        enum DexInstType_t
+        {
+            DEX_INSTRUCTION00X = 0,
+            DEX_INSTRUCTION10X,
+            DEX_INSTRUCTION12X,
+            DEX_INSTRUCTION11N,
+            DEX_INSTRUCTION11X,
+            DEX_INSTRUCTION10T,
+            DEX_INSTRUCTION20T,
+            DEX_INSTRUCTION20BC,
+            DEX_INSTRUCTION22X,
+            DEX_INSTRUCTION21T,
+            DEX_INSTRUCTION21S,
+            DEX_INSTRUCTION21H,
+            DEX_INSTRUCTION21C,
+            DEX_INSTRUCTION23X,
+            DEX_INSTRUCTION22B,
+            DEX_INSTRUCTION22T,
+            DEX_INSTRUCTION22S,
+            DEX_INSTRUCTION22C,
+            DEX_INSTRUCTION22CS,
+            DEX_INSTRUCTION30T,
+            DEX_INSTRUCTION32X,
+            DEX_INSTRUCTION31I,
+            DEX_INSTRUCTION31T,
+            DEX_INSTRUCTION31C,
+            DEX_INSTRUCTION35C,
+            DEX_INSTRUCTION3RC,
+            DEX_INSTRUCTION45CC,
+            DEX_INSTRUCTION4RCC,
+            DEX_INSTRUCTION51L,
+            DEX_PACKEDSWITCH,
+            DEX_SPARSESWITCH,
+            DEX_FILLARRAYDATA,
+            DEX_DALVIKINCORRECT,
+            DEX_NONE_OP = 99,
+        };
 
         class Instruction
         {
         public:
             Instruction(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             virtual ~Instruction() = default;
+
+            virtual DexInstType_t get_inst_type() = 0;
 
             DVMTypes::Kind get_kind()
             {
@@ -199,6 +237,11 @@ namespace KUNAI
         public:
             Instruction00x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction00x() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION00X;
+            }
         };
 
         class Instruction10x : public Instruction
@@ -215,6 +258,11 @@ namespace KUNAI
         public:
             Instruction10x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction10x() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION10X;
+            }
 
             virtual std::uint64_t get_raw()
             {
@@ -237,6 +285,11 @@ namespace KUNAI
         public:
             Instruction12x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction12x() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION12X;
+            }
 
             virtual std::string get_output()
             {
@@ -291,6 +344,11 @@ namespace KUNAI
             Instruction11n(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction11n() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION11N;
+            }
+
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vA) + ", " + std::to_string(nB);
@@ -344,6 +402,11 @@ namespace KUNAI
             Instruction11x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction11x() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION11X;
+            }
+
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vAA);
@@ -383,6 +446,11 @@ namespace KUNAI
         public:
             Instruction10t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction10t() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION10T;
+            }
 
             virtual std::string get_output()
             {
@@ -424,6 +492,11 @@ namespace KUNAI
             Instruction20t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction20t() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION20T;
+            }
+
             virtual std::string get_output()
             {
                 return std::to_string(nAAAA);
@@ -461,6 +534,11 @@ namespace KUNAI
         public:
             Instruction20bc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction20bc() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION20BC;
+            }
 
             virtual std::string get_output()
             {
@@ -515,6 +593,11 @@ namespace KUNAI
             Instruction22x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22x() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION22X;
+            }
+
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vAA) + ", " + this->get_register_correct_representation(vBBBB);
@@ -567,6 +650,11 @@ namespace KUNAI
         public:
             Instruction21t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction21t() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION21T;
+            }
 
             virtual std::string get_output()
             {
@@ -621,6 +709,11 @@ namespace KUNAI
             Instruction21s(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction21s() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION21S;
+            }
+
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vA) + ", " + std::to_string(nBBBB);
@@ -673,6 +766,11 @@ namespace KUNAI
         public:
             Instruction21h(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction21h() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION21H;
+            }
 
             virtual std::string get_output()
             {
@@ -728,7 +826,13 @@ namespace KUNAI
             Instruction21c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction21c() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION21C;
+            }
+
             virtual std::string get_output();
+
             virtual std::uint64_t get_raw()
             {
                 return (get_OP() | vAA << 8 | iBBBB << 16);
@@ -777,6 +881,11 @@ namespace KUNAI
         public:
             Instruction23x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction23x() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION23X;
+            }
 
             virtual std::string get_output()
             {
@@ -843,6 +952,11 @@ namespace KUNAI
             Instruction22b(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22b() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION22B;
+            }
+
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vAA) + ", " + this->get_register_correct_representation(vBB) + ", " + std::to_string(nCC);
@@ -906,6 +1020,11 @@ namespace KUNAI
         public:
             Instruction22t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22t() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION22T;
+            }
 
             virtual std::string get_output()
             {
@@ -972,6 +1091,11 @@ namespace KUNAI
             Instruction22s(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22s() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION22S;
+            }
+
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB) + ", " + std::to_string(nCCCC);
@@ -1037,6 +1161,11 @@ namespace KUNAI
         public:
             Instruction22c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22c() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION22C;
+            }
 
             virtual std::string get_output();
 
@@ -1107,6 +1236,11 @@ namespace KUNAI
             Instruction22cs(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction22cs() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION22CS;
+            }
+
             virtual std::string get_output();
 
             virtual std::uint64_t get_raw()
@@ -1173,6 +1307,11 @@ namespace KUNAI
             Instruction30t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction30t() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION30T;
+            }
+
             virtual std::string get_output()
             {
                 return std::to_string(nAAAAAAAA);
@@ -1214,6 +1353,11 @@ namespace KUNAI
         public:
             Instruction32x(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction32x() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION32X;
+            }
 
             virtual std::string get_output()
             {
@@ -1267,6 +1411,11 @@ namespace KUNAI
         public:
             Instruction31i(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction31i() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION31I;
+            }
 
             virtual std::string get_output()
             {
@@ -1326,6 +1475,11 @@ namespace KUNAI
 
             Instruction31t(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction31t() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION31T;
+            }
 
             virtual std::string get_output()
             {
@@ -1409,6 +1563,11 @@ namespace KUNAI
             Instruction31c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction31c() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION31C;
+            }
+
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vAA) + ", " + this->get_dalvik_opcodes()->get_dalvik_string_by_id_str(iBBBBBBBB);
@@ -1474,6 +1633,11 @@ namespace KUNAI
         public:
             Instruction35c(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction35c() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION35C;
+            }
 
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
@@ -1541,6 +1705,11 @@ namespace KUNAI
         public:
             Instruction3rc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction3rc() = default;
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION3RC;
+            }
 
             virtual std::string get_output();
 
@@ -1618,6 +1787,11 @@ namespace KUNAI
             Instruction45cc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction45cc() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION45CC;
+            }
+
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -1689,6 +1863,11 @@ namespace KUNAI
             Instruction4rcc(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction4rcc() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION4RCC;
+            }
+
             virtual std::string get_output();
             virtual std::uint64_t get_raw();
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -1758,6 +1937,11 @@ namespace KUNAI
             Instruction51l(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~Instruction51l() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_INSTRUCTION51L;
+            }
+
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBBBBBBBBBBBBBB);
@@ -1805,6 +1989,11 @@ namespace KUNAI
             PackedSwitch(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~PackedSwitch();
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_PACKEDSWITCH;
+            }
+
             virtual std::string get_output();
 
             virtual std::uint64_t get_raw()
@@ -1840,6 +2029,11 @@ namespace KUNAI
         public:
             SparseSwitch(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~SparseSwitch();
+
+            DexInstType_t get_inst_type()
+            {
+                return DEX_SPARSESWITCH;
+            }
 
             virtual std::string get_output();
 
@@ -1877,6 +2071,11 @@ namespace KUNAI
             FillArrayData(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
             ~FillArrayData();
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_FILLARRAYDATA;
+            }
+
             virtual std::string get_output();
 
             virtual std::uint64_t get_raw()
@@ -1904,8 +2103,14 @@ namespace KUNAI
             DalvikIncorrectInstruction(dalvikopcodes_t &dalvik_opcodes, std::istream &input_file, std::uint64_t size);
             ~DalvikIncorrectInstruction() = default;
 
+            DexInstType_t get_inst_type()
+            {
+                return DEX_DALVIKINCORRECT;
+            }
+
             void show_instruction();
             void give_me_instruction(std::ostream &os);
+
         private:
             std::uint64_t size;
             std::vector<std::uint8_t> opcodes;
@@ -1926,9 +2131,53 @@ namespace KUNAI
         } exceptions_data;
 
         instruction_t get_instruction_object(std::uint32_t opcode, dalvikopcodes_t &dalvik_opcodes, std::istream &input_file);
+        
+        /**
+         * @brief Determine the next offsets inside the bytecode of an :class:`EncodedMethod`.
+         *        The offsets are calculated in number of bytes from the start of the method.
+         *        Note, that offsets inside the bytecode are denoted in 16bit units but this method returns actual bytes!
+         *
+         *        Offsets inside the opcode are counted from the beginning of the opcode.
+         *
+         *        The returned type is a list, as branching opcodes will have multiple paths.
+         *        `if` and `switch` opcodes will return more than one item in the list, while
+         *        `throw`, `return` and `goto` opcodes will always return a list with length one.
+         *
+         *        An offset of -1 indicates that the method is exited, for example by `throw` or `return`.
+         *
+         *        If the entered opcode is not branching or jumping, an empty list is returned.
+         *
+         * @param instr: instruction to calculate the next one in case this is a Goto, if, switch.
+         * @param curr_idx: current idx to calculate new idx.
+         * @param instructions: all the instructions from the method.
+         *
+         */
         std::vector<std::int64_t> determine_next(instruction_t instr,
                                                  std::uint64_t curr_idx);
-        std::vector<exceptions_data> determine_exception(dalvikopcodes_t& dalvik_opcodes, encodedmethod_t& method);
+                                                 
+        std::vector<exceptions_data> determine_exception(dalvikopcodes_t &dalvik_opcodes, encodedmethod_t &method);
+
+        /**
+         * @brief Given a instruction, return in case it is a conditional jump the
+         *        target of the instruction, the fallback instruction will just be
+         *        the address of the instruction + size of instruction.
+         *
+         * @param instruction instruction to obtain its target
+         * @param dalvik_opcodes object to check the type of instruction
+         * @return std::optional<std::int16_t> target address
+         */
+        std::optional<std::int16_t> get_conditional_jump_target(instruction_t &instruction, dalvikopcodes_t &dalvik_opcodes);
+
+        /**
+         * @brief Given a instruction, return in case it is an unconditional jump the
+         *        target of the instruction.
+         *
+         * @param instruction instruction to obtain its target
+         * @param dalvik_opcodes object to check the type of instruction
+         * @return std::optional<std::int32_t> target address
+         */
+        std::optional<std::int32_t> get_unconditional_jump_target(instruction_t &instruction, dalvikopcodes_t &dalvik_opcodes);
+
     }
 }
 

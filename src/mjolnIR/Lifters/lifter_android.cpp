@@ -61,6 +61,8 @@ namespace KUNAI
             this->jump_target_analysis(bbs, method_graph);
             optimizer->fallthrough_target_analysis(method_graph);
 
+
+            method_graph->set_last_temporal(temp_reg_id - 1);
             // clean android_analysis
             this->android_analysis = nullptr;
 
@@ -391,6 +393,12 @@ namespace KUNAI
                         break;
                     case MJOLNIR::IRField::CLASS_F:
                         cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ADDR, dest_reg, dest_reg);
+                        break;
+                    case MJOLNIR::IRField::VOID_F:
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_VOID, dest_reg, dest_reg);
+                        break;
+                    case MJOLNIR::IRField::ARRAY_F:
+                        cast_instr = std::make_shared<MJOLNIR::IRUnaryOp>(MJOLNIR::IRUnaryOp::CAST_OP_T, MJOLNIR::IRUnaryOp::TO_ARRAY, dest_reg, dest_reg);
                         break;
                     default:
                         throw exceptions::LifterException("lift_android_instruction: case DEX::DVMTypes::FIELD src->get_type() not implemented.");

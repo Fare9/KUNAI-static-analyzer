@@ -58,10 +58,14 @@ namespace KUNAI
              * @brief Identify different type of operations from instructions like branching, break, write or read.
              */
             {
-                BRANCH_DVM_OPCODE = 0,      // branch instructions ["throw", "throw.", "if.", "goto", "goto.", "return", "return.", "packed-switch$", "sparse-switch$"]
-                BREAK_DVM_OPCODE = 1,       // break instructions ["invoke.", "move."]
-                FIELD_READ_DVM_OPCODE = 2,  // read a field instruction [".get"]
-                FIELD_WRITE_DVM_OPCODE = 3, // write a field instruction [".put"]
+                CONDITIONAL_BRANCH_DVM_OPCODE = 0, // conditional branch instructions ["throw", "throw.", "if."]
+                UNCONDITIONAL_BRANCH_DVM_OPCODE,   // unconditional branch instructions ["goto", "goto."]
+                RET_BRANCH_DVM_OPCODE,             // return instructions ["return", "return."]
+                MULTI_BRANCH_DVM_OPCODE,           // multi branching (switch) ["packed-switch$", "sparse-switch$"]
+                CALL_DVM_OPCODE,                   // call an external or internal method ["invoke", "invoke."]
+                DATA_MOVEMENT_DVM_OPCODE,          // move data instruction ["move", "move."]
+                FIELD_READ_DVM_OPCODE,             // read a field instruction [".get"]
+                FIELD_WRITE_DVM_OPCODE,            // write a field instruction [".put"]
                 NONE_OPCODE = 99
             };
 

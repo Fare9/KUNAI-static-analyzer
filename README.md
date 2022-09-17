@@ -60,6 +60,8 @@ The next files/folders are included in the project:
 
 ## DEX
 
+![DEX Analysis Architecture](./images/DalvikAnalysis.png)
+
 KUNAI offers several classes for the analysis of DEX files, this part of KUNAI's framework is based in [Androguards](https://github.com/androguard/androguard) code, but it follows another working flow, the DEX analysis is divided in three *main* parts:
 
 * DEX Parser
@@ -152,6 +154,8 @@ std::map<std::tuple<std::shared_ptr<ClassDef>, std::shared_ptr<EncodedMethod>>,s
 ```
 
 ## MjolnIR
+
+![MjolnIR Architecture](./images/Mjolnir.png)
 
 IR written for generic analysis of different file formats and binary architectures, this IR allows us to represent binaries in a higher language, then create Control-Flow graphs, Data-Flow graphs, etc. MjolnIR is intended to support by default three-address code and Abstract-Syntax Tree (AST).
 
