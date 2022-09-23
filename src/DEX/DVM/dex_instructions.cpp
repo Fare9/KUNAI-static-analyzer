@@ -65,6 +65,9 @@ namespace KUNAI
             if (instruction[1] != 0)
                 throw exceptions::InvalidInstruction("Instruction10x high byte should be 0", 2);
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
         }
 
@@ -78,6 +81,9 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[2]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction12x");
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->vA = (instruction[1] & 0x0F);
@@ -104,6 +110,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[2]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction11n");
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->vA = instruction[1] & 0xF;
             this->nB = (instruction[1] & 0xF0) >> 4;
@@ -128,6 +137,9 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[2]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction32x");
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
@@ -155,6 +167,9 @@ namespace KUNAI
             if (instruction[1] == 0)
                 throw exceptions::InvalidInstruction("Error reading Instruction10t offset cannot be 0", 2);
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->nAA = static_cast<std::int8_t>(instruction[1]);
         }
@@ -180,6 +195,9 @@ namespace KUNAI
 
             if (instruction[1] != 0)
                 throw exceptions::InvalidInstruction("Error reading Instruction20t padding must be 0", 4);
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->nAAAA = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
@@ -207,6 +225,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction20bc");
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->nAA = instruction[1];
             this->nBBBB = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
@@ -232,6 +253,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction22x");
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
             this->vBBBB = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
@@ -256,6 +280,9 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction21t");
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
@@ -284,6 +311,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction21s");
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->vA = instruction[1];
             this->nBBBB = *(reinterpret_cast<std::int16_t *>(&instruction[2]));
@@ -309,6 +339,9 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction21h");
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
@@ -349,6 +382,9 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction21c");
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
@@ -435,6 +471,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction23x");
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
             this->vBB = instruction[2];
@@ -463,6 +502,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction22b");
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
             this->vBB = instruction[2];
@@ -489,6 +531,9 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction22t");
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->vA = instruction[1] & 0x0F;
@@ -520,6 +565,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction22s");
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->vA = instruction[1] & 0x0F;
             this->vB = (instruction[1] & 0xF0) >> 4;
@@ -546,6 +594,9 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction22c");
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->vA = instruction[1] & 0xF;
@@ -606,6 +657,9 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[4]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction22c");
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->vA = instruction[1] & 0xF;
@@ -669,6 +723,9 @@ namespace KUNAI
 
             if (instruction[1] != 0)
                 throw exceptions::InvalidInstruction("Error reading Instruction30t padding must be 0", 6);
+            
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->nAAAAAAAA = *(reinterpret_cast<std::int32_t *>(&instruction[2]));
@@ -700,6 +757,9 @@ namespace KUNAI
             if (instruction[1] != 0)
                 throw exceptions::InvalidInstruction("Instruction32x OP code high byte should be 0", 6);
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->vAAAA = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
             this->vBBBB = *(reinterpret_cast<std::uint16_t *>(&instruction[4]));
@@ -725,6 +785,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction31i");
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
             this->nBBBBBBBB = *(reinterpret_cast<std::uint32_t *>(&instruction[2]));
@@ -749,6 +812,9 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction31t");
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
@@ -782,6 +848,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction31c");
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
             this->iBBBBBBBB = *(reinterpret_cast<std::uint32_t *>(&instruction[2]));
@@ -808,6 +877,9 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction35c");
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->array_size = (instruction[1] & 0xf0) >> 4;
@@ -851,23 +923,6 @@ namespace KUNAI
             return output;
         }
 
-        std::uint64_t Instruction35c::get_raw()
-        {
-            std::uint8_t raw[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-            std::uint8_t reg[5] = {0, 0, 0, 0, 0};
-
-            for (size_t i = 0; i < array_size; i++)
-                reg[i] = registers[i];
-
-            raw[0] = get_OP();
-            raw[1] = array_size << 4 | reg[4];
-            *reinterpret_cast<std::uint16_t *>(&raw[2]) = type_index;
-            raw[4] = reg[1] << 4 | reg[0];
-            raw[5] = reg[3] << 4 | reg[2];
-
-            return *(reinterpret_cast<std::uint64_t *>(raw));
-        }
-
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction35c::get_operands()
         {
             std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> operands;
@@ -897,6 +952,9 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint8_t[6]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction3rc");
+
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
 
             this->set_OP(instruction[0]);
             this->array_size = instruction[1];
@@ -1033,6 +1091,9 @@ namespace KUNAI
             if (this->reg_count > 5)
                 throw exceptions::InvalidInstruction("Error in reg_count from Instruction45cc cannot be greater than 5", 8);
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             if (this->reg_count > 0)
                 this->registers.push_back(regC);
             if (this->reg_count > 1)
@@ -1055,31 +1116,6 @@ namespace KUNAI
                 output += this->get_register_correct_representation(registers[i]) + ", ";
             output += method + ", " + prototype;
             return output;
-        }
-
-        std::uint64_t Instruction45cc::get_raw()
-        {
-            std::uint8_t instruction[8];
-            std::uint8_t regC = 0, regD = 0, regE = 0, regF = 0, regG = 0;
-
-            if (reg_count > 0)
-                regC = registers[0];
-            if (reg_count > 1)
-                regD = registers[1];
-            if (reg_count > 2)
-                regE = registers[2];
-            if (reg_count > 3)
-                regF = registers[3];
-            if (reg_count > 4)
-                regG = registers[4];
-
-            instruction[0] = get_OP();
-            instruction[1] = reg_count << 4 | regG;
-            *(reinterpret_cast<std::uint16_t *>(&instruction[2])) = method_reference;
-            instruction[4] = regD << 4 | regC;
-            instruction[5] = regF << 4 | regE;
-            *(reinterpret_cast<std::uint16_t *>(&instruction[6])) = proto_reference;
-            return *(reinterpret_cast<std::uint64_t *>(&instruction[0]));
         }
 
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction45cc::get_operands()
@@ -1115,6 +1151,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[8]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction4rcc");
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->reg_count = instruction[1];
             this->method_reference = *(reinterpret_cast<std::uint16_t *>(&instruction[2]));
@@ -1137,18 +1176,6 @@ namespace KUNAI
             return output;
         }
 
-        std::uint64_t Instruction4rcc::get_raw()
-        {
-            std::uint8_t instruction[8];
-
-            instruction[0] = get_OP();
-            instruction[1] = reg_count;
-            *(reinterpret_cast<std::uint16_t *>(&instruction[2])) = method_reference;
-            *(reinterpret_cast<std::uint16_t *>(&instruction[4])) = registers[0];
-            *(reinterpret_cast<std::uint16_t *>(&instruction[6])) = proto_reference;
-
-            return *(reinterpret_cast<std::uint64_t *>(&instruction[0]));
-        }
 
         std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> Instruction4rcc::get_operands()
         {
@@ -1180,6 +1207,9 @@ namespace KUNAI
             if (!KUNAI::read_data_file<std::uint8_t[10]>(instruction, this->get_length(), input_file))
                 throw exceptions::DisassemblerException("Error disassembling Instruction51l");
 
+            for(size_t i = 0, instr_size = sizeof(instruction); i < instr_size; i++)
+                op_codes.push_back(instruction[i]);
+
             this->set_OP(instruction[0]);
             this->vAA = instruction[1];
             this->nBBBBBBBBBBBBBBBB = *(reinterpret_cast<std::uint64_t *>(&instruction[2]));
@@ -1210,6 +1240,9 @@ namespace KUNAI
             this->size = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[2]));
             this->first_key = *(reinterpret_cast<std::int32_t *>(&instruction_part1[4]));
 
+            for(size_t i = 0, instr_size = sizeof(instruction_part1); i < instr_size; i++)
+                op_codes.push_back(instruction_part1[i]);
+
             this->set_OP(this->ident);
 
             buff_size = size;
@@ -1219,6 +1252,7 @@ namespace KUNAI
                 if (!KUNAI::read_data_file<std::int32_t>(aux, sizeof(std::int32_t), input_file))
                     throw exceptions::DisassemblerException("Error disassembling PackedSwitch");
                 this->targets.push_back(aux);
+                op_codes.push_back(aux);
             }
 
             this->set_length(8 + this->targets.size() * 4);
@@ -1274,6 +1308,9 @@ namespace KUNAI
             this->ident = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[0]));
             this->size = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[2]));
 
+            for(size_t i = 0, instr_size = sizeof(instruction_part1); i < instr_size; i++)
+                op_codes.push_back(instruction_part1[i]);
+
             this->set_OP(this->ident);
 
             for (size_t i = 0; i < this->size; i++)
@@ -1282,6 +1319,7 @@ namespace KUNAI
                     throw exceptions::DisassemblerException("Error disassembling SparseSwitch");
 
                 keys.push_back(aux);
+                op_codes.push_back(aux);
             }
 
             for (size_t i = 0; i < this->size; i++)
@@ -1290,6 +1328,7 @@ namespace KUNAI
                     throw exceptions::DisassemblerException("Error disassembling SparseSwitch");
 
                 targets.push_back(aux);
+                op_codes.push_back(aux);
             }
 
             for (size_t i = 0; i < this->size; i++)
@@ -1384,6 +1423,9 @@ namespace KUNAI
             this->element_width = *(reinterpret_cast<std::uint16_t *>(&instruction_part1[2]));
             this->size = *(reinterpret_cast<std::uint32_t *>(&instruction_part1[4]));
 
+            for(size_t i = 0, instr_size = sizeof(instruction_part1); i < instr_size; i++)
+                op_codes.push_back(instruction_part1[i]);
+
             this->set_OP(this->ident);
 
             buff_size = this->element_width * this->size;
@@ -1395,6 +1437,7 @@ namespace KUNAI
                 if (!KUNAI::read_data_file<std::uint8_t>(aux, 1, input_file))
                     throw exceptions::DisassemblerException("Error disassembling FillArrayData");
                 data.push_back(aux);
+                op_codes.push_back(aux);
             }
 
             this->set_length(8 + buff_size);
@@ -1450,6 +1493,7 @@ namespace KUNAI
                 if (!KUNAI::read_data_file<std::uint8_t>(invalid_opcode, 1, input_file))
                     throw exceptions::DisassemblerException("Error disassembling DalvikIncorrectInstruction");
                 opcodes.push_back(invalid_opcode);
+                op_codes.push_back(invalid_opcode);
             }
         }
 
