@@ -1,5 +1,6 @@
 // compile me with: g++ -std=c++17 instruction-counter.cpp -o instruction-counter -lkunai
 #include <iostream>
+#include <list>
 
 #include <KUNAI/DEX/dex.hpp>
 
@@ -106,6 +107,15 @@ main(int argc, char **argv)
             for (const auto& instructions : disassembly.second)
             {
                 std::cout << std::right << std::setfill('0') << std::setw(8) << std::hex << instructions.first << "  ";
+
+                auto &raw_values = instructions.second->get_raw();
+
+                for (auto value : raw_values)
+                    std::cout << std::right << std::setfill('0') << std::setw(2) << std::hex << (std::uint32_t)value << " ";
+
+                for(std::uint8_t i = 0, remaining_size = 8-raw_values.size(); i < remaining_size; i++)
+                    std::cout << "   ";
+
                 instructions.second->show_instruction();
                 std::cout << std::endl;
 
