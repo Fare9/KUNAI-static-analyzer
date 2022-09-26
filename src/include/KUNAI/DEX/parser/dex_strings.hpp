@@ -29,7 +29,7 @@
 #include <sstream>
 #include <fstream>
 #include <iomanip>
-#include <map>
+#include <unordered_map>
 #include <vector>
 
 #include "KUNAI/Exceptions/exceptions.hpp"
@@ -78,9 +78,9 @@ namespace KUNAI {
             
             /**
              * @brief Return all the strings in a vector.
-             * @return std::vector<std::string> all the list of strings.
+             * @return std::vector<std::string*> all the list of strings.
              */
-            std::vector<std::string> get_all_strings();
+            std::vector<std::string*> get_all_strings();
 
             /**
              * @brief Get number of all the DEX strings.
@@ -116,7 +116,7 @@ namespace KUNAI {
             // variables from strings
             std::uint32_t number_of_strings;
             std::uint32_t offset;
-            std::map<std::uint32_t, std::string> strings;
+            std::unordered_map<std::uint32_t, std::string> strings;
             std::vector<std::string*> ordered_strings;
         };
 
