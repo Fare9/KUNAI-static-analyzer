@@ -58,6 +58,12 @@ namespace KUNAI
         {
         public:
 #pragma pack(1)
+
+            /**
+             * @brief Structure that represents the header from a DEX file
+             *        here we have all the offsets and sizes for the other
+             *        headers.
+             */
             struct dexheader_t
             {
                 std::uint8_t magic[8];
