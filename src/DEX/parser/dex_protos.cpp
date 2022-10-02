@@ -190,7 +190,7 @@ namespace KUNAI
         {
             size_t i = 0;
             os << std::hex;
-            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Protos ===========" << std::endl;
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Protos ===========" << "\n";
             
             for(auto proto_id : entry.proto_ids)
             {
@@ -203,7 +203,7 @@ namespace KUNAI
                         os << ", ";
                 }
                 os << ")" << proto_id->get_return_idx()->get_raw();
-                os << std::endl;
+                os << "\n";
             }
 
             return os;
@@ -214,22 +214,22 @@ namespace KUNAI
             std::stringstream stream;
 
             stream << std::hex;
-            stream << std::setw(30) << std::left << std::setfill(' ') << "<protos>" << std::endl;
+            stream << std::setw(30) << std::left << std::setfill(' ') << "<protos>" << "\n";
 
             for (auto proto_id : entry.proto_ids)
             {
-                stream << std::left << std::setfill(' ') << "\t<proto>" << std::endl;
-                stream << "\t\t<arguments>" << std::endl;
+                stream << std::left << std::setfill(' ') << "\t<proto>" << "\n";
+                stream << "\t\t<arguments>" << "\n";
                 for (size_t j = 0; j < proto_id->get_number_of_parameters(); j++)
                 {
-                    stream << "\t\t\t<argument>" << proto_id->get_parameter_type_by_order(j)->get_raw() << "</argument>" << std::endl;
+                    stream << "\t\t\t<argument>" << proto_id->get_parameter_type_by_order(j)->get_raw() << "</argument>" << "\n";
                 }
-                stream << "\t\t</arguments>" << std::endl;
-                stream << "\t\t<return>" << proto_id->get_return_idx()->get_raw() << "</return>" << std::endl;
-                stream << std::left << std::setfill(' ') << "\t</proto>" << std::endl;
+                stream << "\t\t</arguments>" << "\n";
+                stream << "\t\t<return>" << proto_id->get_return_idx()->get_raw() << "</return>" << "\n";
+                stream << std::left << std::setfill(' ') << "\t</proto>" << "\n";
             }
 
-            stream << std::setw(30) << std::left << std::setfill(' ') << "</protos>" << std::endl;
+            stream << std::setw(30) << std::left << std::setfill(' ') << "</protos>" << "\n";
 
             fos.write(stream.str().c_str(), stream.str().size());
 

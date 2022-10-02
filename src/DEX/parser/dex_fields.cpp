@@ -41,7 +41,7 @@ namespace KUNAI
             os << entry.class_idx.second->get_raw() << "->";
             os << *(entry.name_idx.second);
 
-            os << std::endl;
+            os << "\n";
             return os;
         }
 
@@ -135,7 +135,7 @@ namespace KUNAI
         {
             size_t i = 0;
             os << std::hex;
-            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Fields ===========" << std::endl;
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Fields ===========" << "\n";
 
             for (auto field_id : entry.field_ids)
             {
@@ -150,16 +150,16 @@ namespace KUNAI
         {
             std::stringstream stream;
             stream << std::hex;
-            stream << std::setw(30) << std::left << std::setfill(' ') << "<fields>" << std::endl;
+            stream << std::setw(30) << std::left << std::setfill(' ') << "<fields>" << "\n";
             for (auto field_id : entry.field_ids)
             {
-                stream << "\t<field>" << std::endl;
-                stream << "\t\t<type>" << field_id->get_type_idx()->get_raw() << "</type>" << std::endl;
-                stream << "\t\t<class>" << field_id->get_class_idx()->get_raw() << "</class>" << std::endl;
-                stream << "\t\t<name>" << *field_id->get_name_idx() << "</name>" << std::endl;
-                stream << "\t</field>" << std::endl;
+                stream << "\t<field>" << "\n";
+                stream << "\t\t<type>" << field_id->get_type_idx()->get_raw() << "</type>" << "\n";
+                stream << "\t\t<class>" << field_id->get_class_idx()->get_raw() << "</class>" << "\n";
+                stream << "\t\t<name>" << *field_id->get_name_idx() << "</name>" << "\n";
+                stream << "\t</field>" << "\n";
             }
-            stream << std::setw(30) << std::left << std::setfill(' ') << "</fields>" << std::endl;
+            stream << std::setw(30) << std::left << std::setfill(' ') << "</fields>" << "\n";
 
             fos.write(stream.str().c_str(), stream.str().size());
 

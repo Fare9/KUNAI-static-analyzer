@@ -22,6 +22,7 @@
 #include <fstream>
 #include <iomanip>
 #include <vector>
+#include <utility>
 #include <map>
 
 #include "KUNAI/Exceptions/exceptions.hpp"
@@ -52,25 +53,25 @@ namespace KUNAI
 
             type_t get_method_class()
             {
-                return class_idx.begin()->second;
+                return class_idx.second;
             }
 
             protoid_t get_method_prototype()
             {
-                return proto_idx.begin()->second;
+                return proto_idx.second;
             }
 
             std::string* get_method_name()
             {
-                return name_idx.begin()->second;
+                return name_idx.second;
             }
 
             friend std::ostream &operator<<(std::ostream &os, const MethodID &entry);
 
         private:
-            std::map<std::uint16_t, type_t> class_idx;
-            std::map<std::uint16_t, protoid_t> proto_idx;
-            std::map<std::uint32_t, std::string *> name_idx;
+            std::pair<std::uint16_t, type_t> class_idx;
+            std::pair<std::uint16_t, protoid_t> proto_idx;
+            std::pair<std::uint32_t, std::string *> name_idx;
         };
 
         class DexMethods;

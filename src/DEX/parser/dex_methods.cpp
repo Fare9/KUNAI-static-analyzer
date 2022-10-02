@@ -15,23 +15,23 @@ namespace KUNAI
                            dextypes_t& dex_types,
                            dexprotos_t& dex_protos)
         {
-            this->class_idx[class_idx] = dex_types->get_type_from_order(class_idx);
-            this->proto_idx[proto_idx] = dex_protos->get_proto_by_order(proto_idx);
-            this->name_idx[name_idx] = dex_strings->get_string_from_order(name_idx);
+            this->class_idx = std::make_pair(class_idx, dex_types->get_type_from_order(class_idx));
+            this->proto_idx = std::make_pair(proto_idx, dex_protos->get_proto_by_order(proto_idx));
+            this->name_idx = std::make_pair(name_idx, dex_strings->get_string_from_order(name_idx));
         }
 
         std::ostream &operator<<(std::ostream &os, const MethodID &entry)
         {
-            os << entry.class_idx.begin()->second->get_raw() << "." << *entry.name_idx.begin()->second;
+            os << entry.class_idx.second->get_raw() << "." << *entry.name_idx.second;
             os << "(";
-            for (size_t j = 0; j < entry.proto_idx.begin()->second->get_number_of_parameters(); j++)
+            for (size_t j = 0, n_parameters = entry.proto_idx.second->get_number_of_parameters(); j < n_parameters; j++)
             {
-                os << entry.proto_idx.begin()->second->get_parameter_type_by_order(j)->get_raw();
-                if (j != entry.proto_idx.begin()->second->get_number_of_parameters() - 1)
+                os << entry.proto_idx.second->get_parameter_type_by_order(j)->get_raw();
+                if (j != n_parameters - 1)
                     os << ", ";
             }
-            os << ")" << entry.proto_idx.begin()->second->get_return_idx()->get_raw();
-            os << std::endl;
+            os << ")" << entry.proto_idx.second->get_return_idx()->get_raw();
+            os << "\n";
             return os;
         }
 
@@ -78,32 +78,36 @@ namespace KUNAI
             logger->debug("DexMethods parsing methods in offset {} and size {}", offset, number_of_methods);
             #endif
 
+            auto number_of_types = dex_types->get_number_of_types();
+            auto number_of_protos = dex_protos->get_number_of_protos();
+            auto number_of_strings = dex_strings->get_number_of_strings();
+
             for (i = 0; i < number_of_methods; i++)
             {
                 if (!KUNAI::read_data_file<std::uint16_t>(class_idx, sizeof(std::uint16_t), input_file))
                     return false;
 
-                if (class_idx >= dex_types->get_number_of_types())
+                if (class_idx >= number_of_types)
                 {
-                    logger->error("Error reading methods class_idx out of type bound ({} >= {})", class_idx, dex_types->get_number_of_types());
+                    logger->error("Error reading methods class_idx out of type bound ({} >= {})", class_idx, number_of_types);
                     throw exceptions::IncorrectTypeId("Error reading methods class_idx out of type bound");
                 }
 
                 if (!KUNAI::read_data_file<std::uint16_t>(proto_idx, sizeof(std::uint16_t), input_file))
                     return false;
 
-                if (proto_idx >= dex_protos->get_number_of_protos())
+                if (proto_idx >= number_of_protos)
                 {
-                    logger->error("Error reading methods proto_idx out of proto bound ({} >= {})", proto_idx, dex_protos->get_number_of_protos());
+                    logger->error("Error reading methods proto_idx out of proto bound ({} >= {})", proto_idx, number_of_protos);
                     throw exceptions::IncorrectProtoId("Error reading methods proto_idx out of proto bound");
                 }
 
                 if (!KUNAI::read_data_file<std::uint32_t>(name_idx, sizeof(std::uint32_t), input_file))
                     return false;
 
-                if (name_idx >= dex_strings->get_number_of_strings())
+                if (name_idx >= number_of_strings)
                 {
-                    logger->error("Error reading methods name_idx out of string bound ({} >= {})", name_idx, dex_strings->get_number_of_strings());
+                    logger->error("Error reading methods name_idx out of string bound ({} >= {})", name_idx, number_of_strings);
                     throw exceptions::IncorrectStringId("Error reading methods name_idx out of string bound");
                 }
 
@@ -128,7 +132,7 @@ namespace KUNAI
         {
             size_t i = 0;
             os << std::hex;
-            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Methods ===========" << std::endl;
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Methods ===========" << "\n";
             
             for (auto method_id : entry.method_ids)
             {

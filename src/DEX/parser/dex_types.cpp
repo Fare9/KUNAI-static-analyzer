@@ -224,10 +224,10 @@ namespace KUNAI
         {
             size_t i = 0;
             os << std::hex;
-            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Types ===========" << std::endl;
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Types ===========" << "\n";
 
             for (auto &type : entry.types)
-                os << std::left << std::setfill(' ') << "Type (" << std::dec << i++ << std::hex << "): " << type.first << "-> \"" << type.second->get_raw() << "\"" << std::endl;
+                os << std::left << std::setfill(' ') << "Type (" << std::dec << i++ << std::hex << "): " << type.first << "-> \"" << type.second->get_raw() << "\"" << "\n";
 
             return os;
         }
@@ -237,17 +237,17 @@ namespace KUNAI
             std::stringstream stream;
 
             stream << std::hex;
-            stream << "<types>" << std::endl;
+            stream << "<types>" << "\n";
 
             for (auto &type : entry.types)
             {
-                stream << "\t<type>" << std::endl;
-                stream << "\t\t<id>" << type.first << "</id>" << std::endl;
-                stream << "\t\t<value>" << type.second->get_raw() << "</value>" << std::endl;
-                stream << "\t</type>" << std::endl;
+                stream << "\t<type>" << "\n";
+                stream << "\t\t<id>" << type.first << "</id>" << "\n";
+                stream << "\t\t<value>" << type.second->get_raw() << "</value>" << "\n";
+                stream << "\t</type>" << "\n";
             }
 
-            stream << "</types>" << std::endl;
+            stream << "</types>" << "\n";
 
             fos.write(stream.str().c_str(), stream.str().size());
 

@@ -105,9 +105,9 @@ namespace KUNAI
         {
             size_t i = 0;
             os << std::hex;
-            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Strings ===========" << std::endl;
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Strings ===========" << "\n";
             for (const auto& s : entry.strings)
-                os << std::left << std::setfill(' ') << "String (" << std::dec << i++ << std::hex << "): " << s.first << "->\"" << s.second << "\"" << std::endl;
+                os << std::left << std::setfill(' ') << "String (" << std::dec << i++ << std::hex << "): " << s.first << "->\"" << s.second << "\"" << "\n";
 
             return os;
         }
@@ -117,16 +117,16 @@ namespace KUNAI
             std::stringstream stream;
 
             stream << std::hex;
-            stream << "<strings>" << std::endl;
+            stream << "<strings>" << "\n";
             for (const auto& s : entry.strings)
             {
-                stream << "\t<string>" << std::endl;
-                stream << "\t\t<offset>" << s.first << "</offset>" << std::endl;
-                stream << "\t\t<value>" << s.second << "</value>" << std::endl;
-                stream << "\t</string>" << std::endl;
+                stream << "\t<string>" << "\n";
+                stream << "\t\t<offset>" << s.first << "</offset>" << "\n";
+                stream << "\t\t<value>" << s.second << "</value>" << "\n";
+                stream << "\t</string>" << "\n";
             }
             
-            stream << "</strings>" << std::endl;
+            stream << "</strings>" << "\n";
 
             fos.write(stream.str().c_str(), stream.str().size());
 
