@@ -71,7 +71,6 @@ namespace KUNAI
         {
         }
 
-
         /***
          * Unknown class
          */
@@ -88,9 +87,9 @@ namespace KUNAI
         DexTypes::DexTypes(std::ifstream &input_file,
                            std::uint32_t number_of_types,
                            std::uint32_t types_offsets,
-                           dexstrings_t& dex_str) : number_of_types(number_of_types),
-                                                                  offset(types_offsets),
-                                                                  dex_str(dex_str)
+                           dexstrings_t &dex_str) : number_of_types(number_of_types),
+                                                    offset(types_offsets),
+                                                    dex_str(dex_str)
         {
             if (!parse_types(input_file))
                 throw exceptions::ParserReadingException("Error reading DEX types");
@@ -111,10 +110,10 @@ namespace KUNAI
         {
             size_t i = pos;
 
-            for (auto it = types.begin(); it != types.end(); it++)
+            for (auto type : types)
             {
-                if (i-- == 0)
-                    return it->second;
+                if (!i--)
+                    return type.second;
             }
 
             return nullptr;
@@ -129,39 +128,51 @@ namespace KUNAI
             auto logger = LOGGER::logger();
 
             type_t type;
-            if (name.length() == 1)
+
+            switch (name.at(0))
             {
-                if (name == "Z")
-                    type = std::make_shared<Fundamental>(Fundamental::BOOLEAN, name);
-                else if (name == "B")
-                    type = std::make_shared<Fundamental>(Fundamental::BYTE, name);
-                else if (name == "C")
-                    type = std::make_shared<Fundamental>(Fundamental::CHAR, name);
-                else if (name == "D")
-                    type = std::make_shared<Fundamental>(Fundamental::DOUBLE, name);
-                else if (name == "F")
-                    type = std::make_shared<Fundamental>(Fundamental::FLOAT, name);
-                else if (name == "I")
-                    type = std::make_shared<Fundamental>(Fundamental::INT, name);
-                else if (name == "J")
-                    type = std::make_shared<Fundamental>(Fundamental::LONG, name);
-                else if (name == "S")
-                    type = std::make_shared<Fundamental>(Fundamental::SHORT, name);
-                else if (name == "V")
-                    type = std::make_shared<Fundamental>(Fundamental::VOID, name);
-            }
-            else if (name[0] == 'L')
+            case 'Z':
+                type = std::make_shared<Fundamental>(Fundamental::BOOLEAN, name);
+                break;
+            case 'B':
+                type = std::make_shared<Fundamental>(Fundamental::BYTE, name);
+                break;
+            case 'C':
+                type = std::make_shared<Fundamental>(Fundamental::CHAR, name);
+                break;
+            case 'D':
+                type = std::make_shared<Fundamental>(Fundamental::DOUBLE, name);
+                break;
+            case 'F':
+                type = std::make_shared<Fundamental>(Fundamental::FLOAT, name);
+                break;
+            case 'I':
+                type = std::make_shared<Fundamental>(Fundamental::INT, name);
+                break;
+            case 'J':
+                type = std::make_shared<Fundamental>(Fundamental::LONG, name);
+                break;
+            case 'S':
+                type = std::make_shared<Fundamental>(Fundamental::SHORT, name);
+                break;
+            case 'V':
+                type = std::make_shared<Fundamental>(Fundamental::VOID, name);
+                break;
+            case 'L':
                 type = std::make_shared<Class>(name);
-            else if (name[0] == '[')
+                break;
+            case '[':
             {
                 std::vector<type_t> aux_vec;
                 type_t aux_type;
                 aux_type = parse_type(name.substr(1, name.length() - 1));
                 aux_vec.push_back(aux_type);
                 type = std::make_shared<Array>(aux_vec, name);
+                break;
             }
-            else
+            default:
                 type = std::make_shared<Unknown>(Type::UNKNOWN, name);
+            }
 
             return type;
         }
@@ -178,9 +189,9 @@ namespace KUNAI
             // move to offset where are the string ids
             input_file.seekg(offset);
 
-            #ifdef DEBUG
+#ifdef DEBUG
             logger->debug("DexTypes start parsing types in offset {} with size {}", offset, number_of_types);
-            #endif
+#endif
 
             for (i = 0; i < number_of_types; i++)
             {
@@ -197,9 +208,9 @@ namespace KUNAI
 
                 types.insert(std::pair<std::uint32_t, type_t>(type_id, type));
 
-                #ifdef DEBUG
+#ifdef DEBUG
                 logger->debug("parsed type number {}", i);
-                #endif
+#endif
             }
 
             input_file.seekg(current_offset);
@@ -214,10 +225,9 @@ namespace KUNAI
             size_t i = 0;
             os << std::hex;
             os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Types ===========" << std::endl;
-            for (auto it = entry.types.begin(); it != entry.types.end(); it++)
-            {
-                os << std::left << std::setfill(' ') << "Type (" << std::dec << i++ << std::hex << "): " << it->first << "-> \"" << it->second->get_raw() << "\"" << std::endl;
-            }
+
+            for (auto &type : entry.types)
+                os << std::left << std::setfill(' ') << "Type (" << std::dec << i++ << std::hex << "): " << type.first << "-> \"" << type.second->get_raw() << "\"" << std::endl;
 
             return os;
         }
@@ -228,13 +238,15 @@ namespace KUNAI
 
             stream << std::hex;
             stream << "<types>" << std::endl;
-            for (auto it = entry.types.begin(); it != entry.types.end(); it++)
+
+            for (auto &type : entry.types)
             {
                 stream << "\t<type>" << std::endl;
-                stream << "\t\t<id>" << it->first << "</id>" << std::endl;
-                stream << "\t\t<value>" << it->second->get_raw() << "</value>" << std::endl;
+                stream << "\t\t<id>" << type.first << "</id>" << std::endl;
+                stream << "\t\t<value>" << type.second->get_raw() << "</value>" << std::endl;
                 stream << "\t</type>" << std::endl;
             }
+
             stream << "</types>" << std::endl;
 
             fos.write(stream.str().c_str(), stream.str().size());
