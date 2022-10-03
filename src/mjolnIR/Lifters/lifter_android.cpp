@@ -1622,8 +1622,20 @@ namespace KUNAI
 
         MJOLNIR::irfield_t LifterAndroid::make_field(DEX::fieldid_t field)
         {
-            DEX::class_t class_idx = std::dynamic_pointer_cast<DEX::Class>(field->get_class_idx());
-            std::string class_name = class_idx->get_name();
+            std::string class_name = "";
+
+            switch(field->get_class_idx()->get_type())
+            {
+            case DEX::Type::CLASS:
+                class_name = std::dynamic_pointer_cast<DEX::Class>(field->get_class_idx())->get_name();
+                break;
+            case DEX::Type::FUNDAMENTAL:
+                class_name = std::dynamic_pointer_cast<DEX::Fundamental>(field->get_class_idx())->get_name();
+                break;
+            default:
+                class_name = field->get_class_idx()->get_raw();
+            }
+            
             MJOLNIR::IRField::field_t field_type;
             std::string field_type_class = "";
             size_t type_size;

@@ -306,7 +306,23 @@ namespace KUNAI
 
         std::string EncodedMethod::full_name()
         {
-            return std::dynamic_pointer_cast<Class>(method_id->get_method_class())->get_name() +
+            std::string class_name = "";
+
+            switch (method_id->get_method_class()->get_type())
+            {
+            case Type::FUNDAMENTAL:
+                class_name = std::dynamic_pointer_cast<Fundamental>(method_id->get_method_class())->print_fundamental_type();
+                break;
+            case Type::CLASS:
+                class_name = std::dynamic_pointer_cast<Class>(method_id->get_method_class())->get_name();
+                break;
+            default:
+                class_name = method_id->get_method_class()->get_raw();
+                break;
+            }
+
+            
+            return  class_name + "->" +
                     *method_id->get_method_name() + " " +
                     method_id->get_method_prototype()->get_proto_str();
         }
