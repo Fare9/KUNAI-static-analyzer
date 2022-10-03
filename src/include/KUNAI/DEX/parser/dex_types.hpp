@@ -28,7 +28,7 @@
 #include <fstream>
 #include <iomanip>
 #include <vector>
-#include <unordered_map>
+#include <map>
 #include <memory>
 
 #include "KUNAI/Exceptions/exceptions.hpp"
@@ -377,7 +377,7 @@ namespace KUNAI
             bool parse_types(std::ifstream &input_file);
 
             // variables from types
-            std::unordered_map<std::uint32_t, type_t> types;
+            std::map<std::uint32_t, type_t> types;
             std::uint32_t number_of_types;
             std::uint32_t offset;
             dexstrings_t& dex_str;

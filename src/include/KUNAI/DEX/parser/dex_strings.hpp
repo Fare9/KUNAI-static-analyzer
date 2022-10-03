@@ -29,7 +29,7 @@
 #include <sstream>
 #include <fstream>
 #include <iomanip>
-#include <unordered_map>
+#include <map>
 #include <vector>
 
 #include "KUNAI/Exceptions/exceptions.hpp"
@@ -116,7 +116,7 @@ namespace KUNAI {
             // variables from strings
             std::uint32_t number_of_strings;
             std::uint32_t offset;
-            std::unordered_map<std::uint32_t, std::string> strings;
+            std::map<std::uint32_t, std::string> strings;
             std::vector<std::string*> ordered_strings;
         };
 
