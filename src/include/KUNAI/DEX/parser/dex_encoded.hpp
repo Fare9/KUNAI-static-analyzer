@@ -15,6 +15,7 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include <utility>
 
 #include "KUNAI/DEX/parser/dex_fields.hpp"
 #include "KUNAI/DEX/parser/dex_methods.hpp"
@@ -46,7 +47,7 @@ namespace KUNAI
                 return array;
             }
 
-            encodedannotation_t get_annotation()
+            encodedannotation_t &get_annotation()
             {
                 return annotation;
             }
@@ -92,7 +93,7 @@ namespace KUNAI
             EncodedArrayItem(std::ifstream &input_file);
             ~EncodedArrayItem() = default;
 
-            encodedarray_t get_encoded_array()
+            encodedarray_t &get_encoded_array()
             {
                 return array;
             }
@@ -135,7 +136,7 @@ namespace KUNAI
         public:
             EncodedTypePair(std::uint64_t type_idx,
                             std::uint64_t addr,
-                            dextypes_t dex_types);
+                            dextypes_t &dex_types);
 
             ~EncodedTypePair() = default;
 
@@ -147,7 +148,7 @@ namespace KUNAI
             }
 
         private:
-            std::map<std::uint64_t, type_t> type_idx; // type of the exception to catch
+            std::pair<std::uint64_t, type_t> type_idx; // type of the exception to catch
             std::uint64_t addr;                       // bytecode address of associated exception handler
         };
 
@@ -160,7 +161,7 @@ namespace KUNAI
         public:
             EncodedCatchHandler(std::ifstream &input_file,
                                 std::uint64_t file_size,
-                                dextypes_t dex_types);
+                                dextypes_t &dex_types);
 
             ~EncodedCatchHandler();
 
@@ -186,7 +187,7 @@ namespace KUNAI
         private:
             bool parse_encoded_type_pairs(std::ifstream &input_file,
                                           std::uint64_t file_size,
-                                          dextypes_t dex_types);
+                                          dextypes_t &dex_types);
 
             std::uint64_t offset;
             std::int64_t encoded_type_pair_size;
@@ -201,13 +202,17 @@ namespace KUNAI
         class TryItem
         {
         public:
+
+            /**
+             * @brief Structure with try catch information
+             */
             struct try_item_struct_t
             {
-                std::uint32_t start_addr;  // start address of block of code covered by this entry.
-                                           // Count of 16-bit code units to start of first.
-                std::uint16_t insn_count;  // number of 16-bit code units covered by this entry.
-                std::uint16_t handler_off; // offset in bytes from starts of associated encoded_catch_handler_list to
-                                           // encoded_catch_handler for this entry.
+                std::uint32_t start_addr;  //!< start address of block of code covered by this entry.
+                                           //!< Count of 16-bit code units to start of first.
+                std::uint16_t insn_count;  //!< number of 16-bit code units covered by this entry.
+                std::uint16_t handler_off; //!< offset in bytes from starts of associated encoded_catch_handler_list to
+                                           //!< encoded_catch_handler for this entry.
             };
 
             TryItem(try_item_struct_t try_item_struct);
@@ -239,20 +244,23 @@ namespace KUNAI
         class CodeItemStruct
         {
         public:
+            /**
+             * @brief Structure with information about a method code.
+             */
             struct code_item_struct_t
             {
-                std::uint16_t registers_size; // number of registers used in the code
-                std::uint16_t ins_size;       // number of words of incoming arguments to the method
-                std::uint16_t outs_size;      // number of words of outgoing argument space required by code for method invocation.
-                std::uint16_t tries_size;     // number of try_items, it can be zero.
-                std::uint32_t debug_info_off; // offset to debug_info_item
-                std::uint32_t insns_size;     // size of instructions list, in 16-bit code units
+                std::uint16_t registers_size; //!< number of registers used in the code
+                std::uint16_t ins_size;       //!< number of words of incoming arguments to the method
+                std::uint16_t outs_size;      //!< number of words of outgoing argument space required by code for method invocation.
+                std::uint16_t tries_size;     //!< number of try_items, it can be zero.
+                std::uint32_t debug_info_off; //!< offset to debug_info_item
+                std::uint32_t insns_size;     //!< size of instructions list, in 16-bit code units
             };
 
             CodeItemStruct(std::ifstream &input_file,
                            std::uint64_t file_size,
                            code_item_struct_t code_item,
-                           dextypes_t dex_types);
+                           dextypes_t &dex_types);
 
             ~CodeItemStruct();
 
@@ -304,7 +312,7 @@ namespace KUNAI
             encodedcatchhandler_t get_encoded_catch_handler_by_pos(std::uint64_t pos);
 
         private:
-            bool parse_code_item_struct(std::ifstream &input_file, std::uint64_t file_size, dextypes_t dex_types);
+            bool parse_code_item_struct(std::ifstream &input_file, std::uint64_t file_size, dextypes_t &dex_types);
 
             code_item_struct_t code_item;
             std::vector<std::uint8_t> instructions_raw;
@@ -325,10 +333,10 @@ namespace KUNAI
                           std::uint64_t code_off,
                           std::ifstream &input_file,
                           std::uint64_t file_size,
-                          dextypes_t dex_types);
+                          dextypes_t &dex_types);
             ~EncodedMethod() = default;
 
-            methodid_t get_method() const
+            methodid_t &get_method()
             {
                 return method_id;
             }
@@ -351,7 +359,7 @@ namespace KUNAI
             std::string full_name();
 
         private:
-            bool parse_code_item(std::ifstream &input_file, std::uint64_t file_size, dextypes_t dex_types);
+            bool parse_code_item(std::ifstream &input_file, std::uint64_t file_size, dextypes_t &dex_types);
 
             methodid_t method_id;
             DVMTypes::ACCESS_FLAGS access_flags;
@@ -374,7 +382,7 @@ namespace KUNAI
                 return name_idx;
             }
 
-            encodedvalue_t get_value()
+            encodedvalue_t &get_value()
             {
                 return value;
             }
