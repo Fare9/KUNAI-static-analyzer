@@ -20,6 +20,25 @@ namespace KUNAI
             this->name_idx = std::make_pair(name_idx, dex_strings->get_string_from_order(name_idx));
         }
 
+        std::string MethodID::get_method_str()
+        {
+            std::string method_name;
+
+            method_name = class_idx.second->get_raw() + "." + *name_idx.second;
+            method_name += "(";
+
+            for (size_t j = 0, n_parameters = proto_idx.second->get_number_of_parameters(); j < n_parameters; j++)
+            {
+                method_name += proto_idx.second->get_parameter_type_by_order(j)->get_raw();
+                if (j != n_parameters - 1)
+                    method_name += ", ";
+            }
+            method_name += ")";
+            method_name += proto_idx.second->get_return_idx()->get_raw();
+
+            return method_name;
+        }
+
         std::ostream &operator<<(std::ostream &os, const MethodID &entry)
         {
             os << entry.class_idx.second->get_raw() << "." << *entry.name_idx.second;

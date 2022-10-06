@@ -66,6 +66,8 @@ namespace KUNAI
                 return name_idx.second;
             }
 
+            std::string get_method_str();
+
             friend std::ostream &operator<<(std::ostream &os, const MethodID &entry);
 
         private:

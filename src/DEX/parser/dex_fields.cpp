@@ -35,6 +35,11 @@ namespace KUNAI
             return name_idx.second;
         }
 
+        std::string FieldID::get_field_str()
+        {
+            return type_idx.second->get_raw() + " " + class_idx.second->get_raw() + "->" + *(name_idx.second);
+        }
+
         std::ostream &operator<<(std::ostream &os, const FieldID &entry)
         {
             os << entry.type_idx.second->get_raw() << " ";

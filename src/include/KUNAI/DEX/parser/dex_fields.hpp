@@ -51,6 +51,8 @@ namespace KUNAI
             type_t get_type_idx();
             std::string *get_name_idx();
 
+            std::string get_field_str();
+
             friend std::ostream &operator<<(std::ostream &os, const FieldID &entry);
 
         private:
