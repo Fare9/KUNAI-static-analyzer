@@ -279,7 +279,7 @@ namespace KUNAI
              * @param current_class: KUNAI::DEX::classdef_t class to create the xrefs.
              * @return void
              */
-            void _create_xref(KUNAI::DEX::classdef_t current_class);
+            void _create_xref(KUNAI::DEX::classdef_t &current_class);
 
             /**
              * @brief get a method by its hash, return the MethodAnalysis object.
@@ -299,7 +299,7 @@ namespace KUNAI
              * @brief map with std::string of class name
              * as key and classanalysis_t as value.
              */
-            std::map<std::string, classanalysis_t> classes;
+            std::unordered_map<std::string, classanalysis_t> classes;
 
             /**
              * @brief map with std::string as key and stringanalysis_t
