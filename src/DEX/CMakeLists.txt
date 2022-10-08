@@ -1,0 +1,7 @@
+set(KUNAI_DEX_SRC
+${CMAKE_CURRENT_LIST_DIR}/dex.cpp
+)
+
+set(KUNAI_DEX_INC_FILES
+"${CMAKE_CURRENT_SOURCE_DIR}/src/include/KUNAI/DEX/dex.hpp"
+)

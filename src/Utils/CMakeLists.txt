@@ -1,0 +1,7 @@
+set(KUNAI_UTILS_SRC
+${CMAKE_CURRENT_LIST_DIR}/utils.cpp
+)
+
+set(KUNAI_UTILS_INC_FILES
+"${CMAKE_CURRENT_SOURCE_DIR}/src/include/KUNAI/Utils/utils.hpp"
+)
