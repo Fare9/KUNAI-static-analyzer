@@ -4,7 +4,9 @@ cmake_minimum_required(VERSION 3.5)
 project(
     Kunai
     LANGUAGES CXX
-    VERSION 2.0
+    VERSION 2.0.0
+    DESCRIPTION "Tool for static analysis of DEX files with the chance to lift and analyze with an Intermediate Representation"
+    HOMEPAGE_URL https://github.com/Fare9/KUNAI-static-analyzer
     )
 
 # Specify the C++ standard required
@@ -70,9 +72,7 @@ ${KUNAI_LIB_SOURCE_FILES}
 ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 )
 
-
 set(KUNAI_LIB_INCLUDE_FILES
-"${CMAKE_CURRENT_SOURCE_DIR}/src/include/"
 ${KUNAI_APK_INC_FILES}
 ${KUNAI_DEX_INC_FILES}
 ${KUNAI_DEX_ANALYSIS_INC_FILES}
@@ -96,6 +96,10 @@ ${KUNAI_UTILS_INC_FILES}
 "${CMAKE_CURRENT_SOURCE_DIR}/src/include/KUNAI/Exceptions/lifter_exception.hpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/include/KUNAI/Exceptions/outofbound_exception.hpp"
 "${CMAKE_CURRENT_SOURCE_DIR}/src/include/KUNAI/Exceptions/parserreading_exception.hpp"
+)
+
+set(KUNAI_LIB_PUBLIC_INCLUDE_FILES
+"${CMAKE_CURRENT_SOURCE_DIR}/src/include/"
 )
 
 message(STATUS "Added all the headers")
@@ -124,7 +128,7 @@ PROPERTIES
 POSITION_INDEPENDENT_CODE 1
 )
 
-target_include_directories(kunai-objs PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
+target_include_directories(kunai-objs PRIVATE "${KUNAI_LIB_PUBLIC_INCLUDE_FILES}")
 target_link_libraries(kunai-objs spdlog zip)
 
 
@@ -137,9 +141,11 @@ spdlog
 zip
 )
 
+# target properties for shared object
 set_target_properties(kunai-shared
 PROPERTIES
-OUTPUT_NAME "kunai"
+    SOVERSION ${PROJECT_VERSION_MAJOR}
+    OUTPUT_NAME "kunai"
 )
 
 add_library(kunai-static STATIC
@@ -167,7 +173,7 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
 $<TARGET_OBJECTS:kunai-objs>
 )
 
-target_include_directories(kunai-binary PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
+target_include_directories(kunai-binary PRIVATE "${KUNAI_LIB_PUBLIC_INCLUDE_FILES}")
 target_link_libraries(kunai-binary spdlog zip)
 
 set_target_properties(kunai-binary
@@ -175,109 +181,44 @@ PROPERTIES
 OUTPUT_NAME "Kunai"
 )
 
-# test binaries
-add_executable(test_apk_analysis
-${CMAKE_CURRENT_SOURCE_DIR}/projects/test_apk_analysis.cpp
-$<TARGET_OBJECTS:kunai-objs>
+# include the CMakeLists.txt from the projects
+include(${CMAKE_CURRENT_SOURCE_DIR}/projects/CMakeLists.txt)
+
+
+# installation
+message(STATUS "Project will be installed to ${CMAKE_INSTALL_PREFIX}")
+
+# Offer the user the choice of overriding the installation directories
+set(INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR} CACHE PATH "Installation directory for libraries")
+set(INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE PATH "Installation directory for header files")
+
+# Report to user
+foreach(p LIB INCLUDE)
+file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${INSTALL_${p}DIR} _path )
+message(STATUS "Installing ${p} components to ${_path}")
+unset(_path)
+endforeach()
+
+# install the libraries
+install(
+    TARGETS
+        kunai-shared
+        kunai-static
+    ARCHIVE
+        DESTINATION ${INSTALL_LIBDIR}
+        COMPONENT lib
+    RUNTIME
+        DESTINATION ${INSTALL_BINDIR}
+        COMPONENT bin
+    LIBRARY
+        DESTINATION ${INSTALL_LIBDIR}
+        COMPONENT lib
 )
 
-target_include_directories(test_apk_analysis PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
-target_link_libraries(test_apk_analysis spdlog zip)
-
-add_executable(test_dex_analysis
-${CMAKE_CURRENT_SOURCE_DIR}/projects/test_dex_analysis.cpp
-$<TARGET_OBJECTS:kunai-objs>
+install(
+    DIRECTORY "${KUNAI_LIB_PUBLIC_INCLUDE_FILES}"
+    DESTINATION ${INSTALL_INCLUDEDIR}
+    COMPONENT headers
+    FILES_MATCHING
+    REGEX "(.*).(hpp|h|def|inc)$"
 )
-
-target_include_directories(test_dex_analysis PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
-target_link_libraries(test_dex_analysis spdlog zip)
-
-add_executable(test_dex_disassembler
-${CMAKE_CURRENT_SOURCE_DIR}/projects/test_dex_disassembler.cpp
-$<TARGET_OBJECTS:kunai-objs>
-)
-
-target_include_directories(test_dex_disassembler PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
-target_link_libraries(test_dex_disassembler spdlog zip)
-
-add_executable(test_dex_lifter
-${CMAKE_CURRENT_SOURCE_DIR}/projects/test_dex_lifter.cpp
-$<TARGET_OBJECTS:kunai-objs>
-)
-
-target_include_directories(test_dex_lifter PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
-target_link_libraries(test_dex_lifter spdlog zip)
-
-add_executable(test_dex_parser
-${CMAKE_CURRENT_SOURCE_DIR}/projects/test_dex_parser.cpp
-$<TARGET_OBJECTS:kunai-objs>
-)
-
-target_include_directories(test_dex_parser PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
-target_link_libraries(test_dex_parser spdlog zip)
-
-add_executable(test_dominators
-${CMAKE_CURRENT_SOURCE_DIR}/projects/test_dominators.cpp
-$<TARGET_OBJECTS:kunai-objs>
-)
-
-target_include_directories(test_dominators PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
-target_link_libraries(test_dominators spdlog zip)
-
-add_executable(test_ir_graph
-${CMAKE_CURRENT_SOURCE_DIR}/projects/test_ir_graph.cpp
-$<TARGET_OBJECTS:kunai-objs>
-)
-
-target_include_directories(test_ir_graph PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
-target_link_libraries(test_ir_graph spdlog zip)
-
-add_executable(test_ir
-${CMAKE_CURRENT_SOURCE_DIR}/projects/test_ir.cpp
-$<TARGET_OBJECTS:kunai-objs>
-)
-
-target_include_directories(test_ir PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
-target_link_libraries(test_ir spdlog zip)
-
-add_executable(test_ssa_form
-${CMAKE_CURRENT_SOURCE_DIR}/projects/test_ssa_form.cpp
-$<TARGET_OBJECTS:kunai-objs>
-)
-
-target_include_directories(test_ssa_form PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
-target_link_libraries(test_ssa_form spdlog zip)
-
-add_executable(test-optimizations
-${CMAKE_CURRENT_SOURCE_DIR}/projects/test-optimizations.cpp
-$<TARGET_OBJECTS:kunai-objs>
-)
-
-target_include_directories(test-optimizations PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
-target_link_libraries(test-optimizations spdlog zip)
-
-add_executable(test-optimizations2
-${CMAKE_CURRENT_SOURCE_DIR}/projects/test-optimizations2.cpp
-$<TARGET_OBJECTS:kunai-objs>
-)
-
-target_include_directories(test-optimizations2 PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
-target_link_libraries(test-optimizations2 spdlog zip)
-
-set_target_properties(test_apk_analysis
-test_dex_analysis
-test_dex_disassembler
-test_dex_lifter
-test_dex_parser
-test_dominators
-test_ir_graph
-test_ir
-test_ssa_form
-test-optimizations
-test-optimizations2
-PROPERTIES
-ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/project"
-LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/project"
-RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/project"
-)
-
