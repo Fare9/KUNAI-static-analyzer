@@ -20,5 +20,6 @@ var searchData=
   ['operator_7e_17',['operator~',['../d9/d8a/classKUNAI_1_1MJOLNIR_1_1IRConstInt.html#a90121217039398d0dfcdb7ac2270523f',1,'KUNAI::MJOLNIR::IRConstInt']]],
   ['optimizer_18',['Optimizer',['../d6/d70/classKUNAI_1_1MJOLNIR_1_1Optimizer.html',1,'KUNAI::MJOLNIR']]],
   ['optimizer_2ehpp_19',['optimizer.hpp',['../d8/d39/optimizer_8hpp.html',1,'']]],
-  ['outofboundexception_20',['OutOfBoundException',['../da/d79/classexceptions_1_1OutOfBoundException.html',1,'exceptions']]]
+  ['outofboundexception_20',['OutOfBoundException',['../da/d79/classexceptions_1_1OutOfBoundException.html',1,'exceptions']]],
+  ['outs_5fsize_21',['outs_size',['../d6/daf/structKUNAI_1_1DEX_1_1CodeItemStruct_1_1code__item__struct__t.html#ad2a5981be2b64cedc6a37b1f2e21b76c',1,'KUNAI::DEX::CodeItemStruct::code_item_struct_t']]]
 ];

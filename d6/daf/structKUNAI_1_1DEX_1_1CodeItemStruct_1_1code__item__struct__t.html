@@ -80,29 +80,42 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::CodeItemStruct::code_item_struct_t Struct Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Structure with information about a method code.  
+ <a href="../../d6/daf/structKUNAI_1_1DEX_1_1CodeItemStruct_1_1code__item__struct__t.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d1/da9/dex__encoded_8hpp_source.html">dex_encoded.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
 <tr class="memitem:af410b49b150cb4562a5e07729f5ab5ca"><td class="memItemLeft" align="right" valign="top"><a id="af410b49b150cb4562a5e07729f5ab5ca" name="af410b49b150cb4562a5e07729f5ab5ca"></a>
 std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>registers_size</b></td></tr>
+<tr class="memdesc:af410b49b150cb4562a5e07729f5ab5ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of registers used in the code <br /></td></tr>
 <tr class="separator:af410b49b150cb4562a5e07729f5ab5ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af875d97cf99f44591e0ca1d6c8a32087"><td class="memItemLeft" align="right" valign="top"><a id="af875d97cf99f44591e0ca1d6c8a32087" name="af875d97cf99f44591e0ca1d6c8a32087"></a>
 std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>ins_size</b></td></tr>
+<tr class="memdesc:af875d97cf99f44591e0ca1d6c8a32087"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of words of incoming arguments to the method <br /></td></tr>
 <tr class="separator:af875d97cf99f44591e0ca1d6c8a32087"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad2a5981be2b64cedc6a37b1f2e21b76c"><td class="memItemLeft" align="right" valign="top"><a id="ad2a5981be2b64cedc6a37b1f2e21b76c" name="ad2a5981be2b64cedc6a37b1f2e21b76c"></a>
 std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>outs_size</b></td></tr>
+<tr class="memdesc:ad2a5981be2b64cedc6a37b1f2e21b76c"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of words of outgoing argument space required by code for method invocation. <br /></td></tr>
 <tr class="separator:ad2a5981be2b64cedc6a37b1f2e21b76c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ac643739b29381aaad959bb9bc0d5c3"><td class="memItemLeft" align="right" valign="top"><a id="a3ac643739b29381aaad959bb9bc0d5c3" name="a3ac643739b29381aaad959bb9bc0d5c3"></a>
 std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>tries_size</b></td></tr>
+<tr class="memdesc:a3ac643739b29381aaad959bb9bc0d5c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of try_items, it can be zero. <br /></td></tr>
 <tr class="separator:a3ac643739b29381aaad959bb9bc0d5c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a674a2bc68219db1f3b60e5c29a018afe"><td class="memItemLeft" align="right" valign="top"><a id="a674a2bc68219db1f3b60e5c29a018afe" name="a674a2bc68219db1f3b60e5c29a018afe"></a>
 std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>debug_info_off</b></td></tr>
+<tr class="memdesc:a674a2bc68219db1f3b60e5c29a018afe"><td class="mdescLeft">&#160;</td><td class="mdescRight">offset to debug_info_item <br /></td></tr>
 <tr class="separator:a674a2bc68219db1f3b60e5c29a018afe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefde4e1202fad0924c855cf9184ba5d4"><td class="memItemLeft" align="right" valign="top"><a id="aefde4e1202fad0924c855cf9184ba5d4" name="aefde4e1202fad0924c855cf9184ba5d4"></a>
 std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>insns_size</b></td></tr>
+<tr class="memdesc:aefde4e1202fad0924c855cf9184ba5d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">size of instructions list, in 16-bit code units <br /></td></tr>
 <tr class="separator:aefde4e1202fad0924c855cf9184ba5d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Structure with information about a method code. </p>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>src/include/KUNAI/DEX/parser/<a class="el" href="../../d1/da9/dex__encoded_8hpp_source.html">dex_encoded.hpp</a></li>
 </ul>
 </div><!-- contents -->

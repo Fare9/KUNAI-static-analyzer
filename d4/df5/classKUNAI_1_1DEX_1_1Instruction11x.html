@@ -108,8 +108,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad6429eed4f4f30def5ef06ccb6f16489"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a197f5ebe1028e9f5b10f26574baa2c17"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df5/classKUNAI_1_1DEX_1_1Instruction11x.html#a197f5ebe1028e9f5b10f26574baa2c17">get_output</a> ()</td></tr>
 <tr class="separator:a197f5ebe1028e9f5b10f26574baa2c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a453c5b33737848df25bfcfb162186f68"><td class="memItemLeft" align="right" valign="top">virtual std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df5/classKUNAI_1_1DEX_1_1Instruction11x.html#a453c5b33737848df25bfcfb162186f68">get_raw</a> ()</td></tr>
-<tr class="separator:a453c5b33737848df25bfcfb162186f68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab4b70357b734fbc4f17b13f90d7389d"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::tuple&lt; <a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a7c47b39b4158b9565b9f505ef49615ad">DVMTypes::Operand</a>, std::uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df5/classKUNAI_1_1DEX_1_1Instruction11x.html#aab4b70357b734fbc4f17b13f90d7389d">get_operands</a> ()</td></tr>
 <tr class="separator:aab4b70357b734fbc4f17b13f90d7389d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a292d26df5b940c2b18215a88c4743cba"><td class="memItemLeft" align="right" valign="top"><a id="a292d26df5b940c2b18215a88c4743cba" name="a292d26df5b940c2b18215a88c4743cba"></a>
@@ -158,9 +156,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>give_me_instr
 <tr class="memitem:a1e48e56ec31b14ca3c4075ec7d5b05ef inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a1e48e56ec31b14ca3c4075ec7d5b05ef" name="a1e48e56ec31b14ca3c4075ec7d5b05ef"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_output</b> ()</td></tr>
 <tr class="separator:a1e48e56ec31b14ca3c4075ec7d5b05ef inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3cb9c3c2e1aa2434e9978ef297c5e92 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="ab3cb9c3c2e1aa2434e9978ef297c5e92" name="ab3cb9c3c2e1aa2434e9978ef297c5e92"></a>
-virtual std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_raw</b> ()</td></tr>
-<tr class="separator:ab3cb9c3c2e1aa2434e9978ef297c5e92 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aab62888f7058cad11d3b5c9684083c inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a1aab62888f7058cad11d3b5c9684083c" name="a1aab62888f7058cad11d3b5c9684083c"></a>
+virtual const std::vector&lt; std::uint8_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_raw</b> () const</td></tr>
+<tr class="separator:a1aab62888f7058cad11d3b5c9684083c inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36c241c7b94e5148aa524f2f9b33ce2f inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a36c241c7b94e5148aa524f2f9b33ce2f" name="a36c241c7b94e5148aa524f2f9b33ce2f"></a>
 virtual std::vector&lt; std::tuple&lt; <a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a7c47b39b4158b9565b9f505ef49615ad">DVMTypes::Operand</a>, std::uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_operands</b> ()</td></tr>
 <tr class="separator:a36c241c7b94e5148aa524f2f9b33ce2f inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,6 +177,13 @@ std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_number_o
 <tr class="memitem:a4306cc7258409240b93695a540bb4c97 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a4306cc7258409240b93695a540bb4c97" name="a4306cc7258409240b93695a540bb4c97"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_register_correct_representation</b> (std::uint32_t reg)</td></tr>
 <tr class="separator:a4306cc7258409240b93695a540bb4c97 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classKUNAI_1_1DEX_1_1Instruction')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">KUNAI::DEX::Instruction</a></td></tr>
+<tr class="memitem:a8af625df8224834659af6e87399d228a inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a8af625df8224834659af6e87399d228a" name="a8af625df8224834659af6e87399d228a"></a>
+std::vector&lt; std::uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>op_codes</b></td></tr>
+<tr class="separator:a8af625df8224834659af6e87399d228a inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="ad6429eed4f4f30def5ef06ccb6f16489" name="ad6429eed4f4f30def5ef06ccb6f16489"></a>
@@ -246,33 +251,6 @@ std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_register_c
       <table class="memname">
         <tr>
           <td class="memname">virtual std::string KUNAI::DEX::Instruction11x::get_output </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reimplemented from <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">KUNAI::DEX::Instruction</a>.</p>
-
-</div>
-</div>
-<a id="a453c5b33737848df25bfcfb162186f68" name="a453c5b33737848df25bfcfb162186f68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a453c5b33737848df25bfcfb162186f68">&#9670;&#160;</a></span>get_raw()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::uint64_t KUNAI::DEX::Instruction11x::get_raw </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

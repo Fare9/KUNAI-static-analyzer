@@ -76,6 +76,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="../../d5/d44/classKUNAI_1_1DEX_1_1Instruction-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">KUNAI::DEX::Instruction Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
@@ -163,9 +164,9 @@ virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>give_me_instr
 <tr class="memitem:a1e48e56ec31b14ca3c4075ec7d5b05ef"><td class="memItemLeft" align="right" valign="top"><a id="a1e48e56ec31b14ca3c4075ec7d5b05ef" name="a1e48e56ec31b14ca3c4075ec7d5b05ef"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_output</b> ()</td></tr>
 <tr class="separator:a1e48e56ec31b14ca3c4075ec7d5b05ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab3cb9c3c2e1aa2434e9978ef297c5e92"><td class="memItemLeft" align="right" valign="top"><a id="ab3cb9c3c2e1aa2434e9978ef297c5e92" name="ab3cb9c3c2e1aa2434e9978ef297c5e92"></a>
-virtual std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_raw</b> ()</td></tr>
-<tr class="separator:ab3cb9c3c2e1aa2434e9978ef297c5e92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1aab62888f7058cad11d3b5c9684083c"><td class="memItemLeft" align="right" valign="top"><a id="a1aab62888f7058cad11d3b5c9684083c" name="a1aab62888f7058cad11d3b5c9684083c"></a>
+virtual const std::vector&lt; std::uint8_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_raw</b> () const</td></tr>
+<tr class="separator:a1aab62888f7058cad11d3b5c9684083c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a36c241c7b94e5148aa524f2f9b33ce2f"><td class="memItemLeft" align="right" valign="top"><a id="a36c241c7b94e5148aa524f2f9b33ce2f" name="a36c241c7b94e5148aa524f2f9b33ce2f"></a>
 virtual std::vector&lt; std::tuple&lt; <a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a7c47b39b4158b9565b9f505ef49615ad">DVMTypes::Operand</a>, std::uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_operands</b> ()</td></tr>
 <tr class="separator:a36c241c7b94e5148aa524f2f9b33ce2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,6 +185,12 @@ std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_number_o
 <tr class="memitem:a4306cc7258409240b93695a540bb4c97"><td class="memItemLeft" align="right" valign="top"><a id="a4306cc7258409240b93695a540bb4c97" name="a4306cc7258409240b93695a540bb4c97"></a>
 std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_register_correct_representation</b> (std::uint32_t reg)</td></tr>
 <tr class="separator:a4306cc7258409240b93695a540bb4c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a8af625df8224834659af6e87399d228a"><td class="memItemLeft" align="right" valign="top"><a id="a8af625df8224834659af6e87399d228a" name="a8af625df8224834659af6e87399d228a"></a>
+std::vector&lt; std::uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>op_codes</b></td></tr>
+<tr class="separator:a8af625df8224834659af6e87399d228a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/include/KUNAI/DEX/DVM/<a class="el" href="../../d2/d2b/dex__instructions_8hpp_source.html">dex_instructions.hpp</a></li>

@@ -7,7 +7,7 @@ var searchData=
   ['get_5faccess_5fflags_4',['get_access_flags',['../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#a117e275dc5746bd39dd7fa440c9cd6a6',1,'KUNAI::DEX::ExternalMethod::get_access_flags()'],['../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a631542669386f28e4cea6593f9e6b257',1,'KUNAI::DEX::ClassDef::get_access_flags()']]],
   ['get_5faccess_5fflags_5fstring_5',['get_access_flags_string',['../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a532ff74b0ab90cbaa010a086b2eb52ed',1,'KUNAI::DEX::DalvikOpcodes']]],
   ['get_5faddr_6',['get_addr',['../d2/df3/classKUNAI_1_1MJOLNIR_1_1IRCJmp.html#aa0664cb140afc85080b1284ed83d72b3',1,'KUNAI::MJOLNIR::IRCJmp::get_addr()'],['../db/dff/classKUNAI_1_1MJOLNIR_1_1IRCallee.html#aed1f0046fcdc353bce15fb98060206c5',1,'KUNAI::MJOLNIR::IRCallee::get_addr()']]],
-  ['get_5fall_5fstrings_7',['get_all_strings',['../d2/dd6/classKUNAI_1_1DEX_1_1DexStrings.html#a3d853e46f2ada45a9a32e1c2bfc999f9',1,'KUNAI::DEX::DexStrings']]],
+  ['get_5fall_5fstrings_7',['get_all_strings',['../d2/dd6/classKUNAI_1_1DEX_1_1DexStrings.html#a63102ca2a7c1f87367258d7055e6171d',1,'KUNAI::DEX::DexStrings']]],
   ['get_5fapi_5fversion_8',['get_api_version',['../d3/d82/classKUNAI_1_1DEX_1_1DexParser.html#a125eb8cbe17915d5763e2cf2a20c4c6a',1,'KUNAI::DEX::DexParser']]],
   ['get_5fargs_9',['get_args',['../d3/d49/classKUNAI_1_1MJOLNIR_1_1IRCall.html#a0d15877dca985f650a7cc675e9e7882a',1,'KUNAI::MJOLNIR::IRCall']]],
   ['get_5farray_10',['get_array',['../db/d0f/classKUNAI_1_1DEX_1_1Array.html#ab4db313acaca72a377612ca7a48c5998',1,'KUNAI::DEX::Array']]],
