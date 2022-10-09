@@ -47,8 +47,6 @@ namespace KUNAI
             logger->debug("DexDisassembler disassembly a total of {} DEX classes", dex_classes->get_number_of_classes());
 #endif
 
-            // for (size_t i = 0, n_of_classes = static_cast<size_t>(dex_classes->get_number_of_classes()); i < n_of_classes; i++)
-
             auto class_defs = dex_classes->get_classes();
 
             for (auto class_def : class_defs)
@@ -96,7 +94,7 @@ namespace KUNAI
             }
         }
 
-        void DexDisassembler::add_disassembly(dexdisassembler_t disas)
+        void DexDisassembler::add_disassembly(dexdisassembler_t &disas)
         {
             method_instructions.insert(disas->get_instructions().begin(), disas->get_instructions().end());
             disassembly_correct &= disas->get_disassembly_correct();

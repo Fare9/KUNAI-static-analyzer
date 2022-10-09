@@ -78,9 +78,9 @@ namespace KUNAI {
             
             /**
              * @brief Return all the strings in a vector.
-             * @return std::vector<std::string> all the list of strings.
+             * @return std::vector<std::string*> all the list of strings.
              */
-            std::vector<std::string> get_all_strings();
+            std::vector<std::string*> get_all_strings();
 
             /**
              * @brief Get number of all the DEX strings.

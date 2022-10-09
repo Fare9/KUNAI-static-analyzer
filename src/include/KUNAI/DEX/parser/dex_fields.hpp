@@ -21,7 +21,8 @@
 #include <fstream>
 #include <iomanip>
 #include <memory>
-#include <map>
+#include <utility>
+#include <optional>
 
 #include "KUNAI/Exceptions/exceptions.hpp"
 #include "KUNAI/Utils/utils.hpp"
@@ -42,20 +43,22 @@ namespace KUNAI
             FieldID(std::uint16_t class_idx,
                     std::uint16_t type_idx,
                     std::uint32_t name_idx,
-                    dexstrings_t& dex_strings,
-                    dextypes_t& dex_types);
+                    dexstrings_t &dex_strings,
+                    dextypes_t &dex_types);
             ~FieldID() = default;
 
             type_t get_class_idx();
             type_t get_type_idx();
             std::string *get_name_idx();
 
+            std::string get_field_str();
+
             friend std::ostream &operator<<(std::ostream &os, const FieldID &entry);
 
         private:
-            std::map<std::uint16_t, type_t> class_idx;
-            std::map<std::uint16_t, type_t> type_idx;
-            std::map<std::uint32_t, std::string *> name_idx;
+            std::pair<std::uint16_t, type_t> class_idx;
+            std::pair<std::uint16_t, type_t> type_idx;
+            std::pair<std::uint32_t, std::string *> name_idx;
         };
 
         class DexFields;
@@ -68,8 +71,8 @@ namespace KUNAI
             DexFields(std::ifstream &input_file,
                       std::uint32_t number_of_fields,
                       std::uint32_t offset,
-                      dexstrings_t& dex_strings,
-                      dextypes_t& dex_types);
+                      dexstrings_t &dex_strings,
+                      dextypes_t &dex_types);
 
             ~DexFields() = default;
 
@@ -78,7 +81,7 @@ namespace KUNAI
                 return number_of_fields;
             }
 
-            std::vector<fieldid_t>& get_fields()
+            std::vector<fieldid_t> &get_fields()
             {
                 return field_ids;
             }
@@ -93,8 +96,8 @@ namespace KUNAI
 
             std::uint32_t number_of_fields;
             std::uint32_t offset;
-            dexstrings_t& dex_strings;
-            dextypes_t& dex_types;
+            dexstrings_t &dex_strings;
+            dextypes_t &dex_types;
 
             std::vector<fieldid_t> field_ids;
         };

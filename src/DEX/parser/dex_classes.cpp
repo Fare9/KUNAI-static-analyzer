@@ -10,9 +10,9 @@ namespace KUNAI
 
         ClassDataItem::ClassDataItem(std::ifstream &input_file,
                                      std::uint64_t file_size,
-                                     dexfields_t& dex_fields,
-                                     dexmethods_t& dex_methods,
-                                     dextypes_t& dex_types)
+                                     dexfields_t &dex_fields,
+                                     dexmethods_t &dex_methods,
+                                     dextypes_t &dex_types)
         {
             auto current_offset = input_file.tellg();
 
@@ -20,6 +20,7 @@ namespace KUNAI
                 instance_fields_size,
                 direct_methods_size,
                 virtual_methods_size;
+                
             std::uint64_t static_field = 0,
                           instance_field = 0,
                           direct_method = 0,
@@ -107,6 +108,7 @@ namespace KUNAI
                 return nullptr;
 
             auto it = static_fields.begin();
+
             while (pos-- != 0)
                 it++;
             return it->second;
@@ -137,21 +139,12 @@ namespace KUNAI
         {
             std::vector<encodedfield_t> fields;
 
-            if (!static_fields.empty())
-            {
-                for (auto it = static_fields.begin(); it != static_fields.end(); it++)
-                {
-                    fields.push_back(it->second);
-                }
-            }
+            for (auto &static_field : static_fields)
+                fields.push_back(static_field.second);
 
-            if (!instance_fields.empty())
-            {
-                for (auto it = instance_fields.begin(); it != instance_fields.end(); it++)
-                {
-                    fields.push_back(it->second);
-                }
-            }
+            for (auto &instance_field : instance_fields)
+                fields.push_back(instance_field.second);
+
             return fields;
         }
 
@@ -173,6 +166,7 @@ namespace KUNAI
             auto it = direct_methods.begin();
             while (pos-- != 0)
                 it++;
+
             return it->second;
         }
 
@@ -201,28 +195,30 @@ namespace KUNAI
          * ClassDef
          */
         ClassDef::ClassDef(classdef_t class_def,
-                           dexstrings_t& dex_str,
-                           dextypes_t& dex_types,
-                           dexfields_t& dex_fields,
-                           dexmethods_t& dex_methods,
+                           dexstrings_t &dex_str,
+                           dextypes_t &dex_types,
+                           dexfields_t &dex_fields,
+                           dexmethods_t &dex_methods,
                            std::ifstream &input_file,
                            std::uint64_t file_size)
         {
-            this->class_idx[class_def.class_idx] = std::dynamic_pointer_cast<Class>(dex_types->get_type_from_order(class_def.class_idx));
+            class_idx = std::make_pair(class_def.class_idx, std::dynamic_pointer_cast<Class>(dex_types->get_type_from_order(class_def.class_idx)));
+
             if (class_def.superclass_idx == DVMTypes::NO_INDEX)
-                this->superclass_idx[class_def.superclass_idx] = nullptr;
+                superclass_idx = std::make_pair(class_def.superclass_idx, nullptr);
             else
-                this->superclass_idx[class_def.superclass_idx] = std::dynamic_pointer_cast<Class>(dex_types->get_type_from_order(class_def.superclass_idx));
+                superclass_idx = std::make_pair(class_def.superclass_idx, std::dynamic_pointer_cast<Class>(dex_types->get_type_from_order(class_def.superclass_idx)));
 
             if (class_def.source_file_idx == DVMTypes::NO_INDEX)
-                this->source_file_idx[class_def.source_file_idx] = nullptr;
+                source_file_idx = std::make_pair(class_def.source_file_idx, nullptr);
             else
-                this->source_file_idx[class_def.source_file_idx] = dex_str->get_string_from_order(class_def.source_file_idx);
-            this->access_flag = static_cast<DVMTypes::ACCESS_FLAGS>(class_def.access_flags);
-            this->interfaces_off = class_def.interfaces_off;
-            this->annotations_off = class_def.annotations_off;
-            this->classess_off = class_def.class_data_off;
-            this->static_values_off = class_def.static_values_off;
+                source_file_idx = std::make_pair(class_def.source_file_idx, dex_str->get_string_from_order(class_def.source_file_idx));
+
+            access_flag = static_cast<DVMTypes::ACCESS_FLAGS>(class_def.access_flags);
+            interfaces_off = class_def.interfaces_off;
+            annotations_off = class_def.annotations_off;
+            classess_off = class_def.class_data_off;
+            static_values_off = class_def.static_values_off;
 
             if (!parse_class_defs(input_file, file_size, dex_str, dex_types, dex_fields, dex_methods))
                 throw exceptions::ParserReadingException("Error reading DEX ClassDef");
@@ -230,10 +226,10 @@ namespace KUNAI
 
         bool ClassDef::parse_class_defs(std::ifstream &input_file,
                                         std::uint64_t file_size,
-                                        dexstrings_t& dex_str,
-                                        dextypes_t& dex_types,
-                                        dexfields_t& dex_fields,
-                                        dexmethods_t& dex_methods)
+                                        dexstrings_t &dex_str,
+                                        dextypes_t &dex_types,
+                                        dexfields_t &dex_fields,
+                                        dexmethods_t &dex_methods)
         {
             auto logger = LOGGER::logger();
 
@@ -335,15 +331,15 @@ namespace KUNAI
                                std::uint64_t file_size,
                                std::uint32_t number_of_classes,
                                std::uint32_t offset,
-                               dexstrings_t& dex_str,
-                               dextypes_t& dex_types,
-                               dexfields_t& dex_fields,
-                               dexmethods_t& dex_methods) : number_of_classes(number_of_classes),
-                                                                          offset(offset),
-                                                                          dex_str(dex_str),
-                                                                          dex_types(dex_types),
-                                                                          dex_fields(dex_fields),
-                                                                          dex_methods(dex_methods)
+                               dexstrings_t &dex_str,
+                               dextypes_t &dex_types,
+                               dexfields_t &dex_fields,
+                               dexmethods_t &dex_methods) : number_of_classes(number_of_classes),
+                                                            offset(offset),
+                                                            dex_str(dex_str),
+                                                            dex_types(dex_types),
+                                                            dex_fields(dex_fields),
+                                                            dex_methods(dex_methods)
         {
             if (!parse_classes(input_file, file_size))
                 throw exceptions::ParserReadingException("Error reading DEX classes");
@@ -451,68 +447,87 @@ namespace KUNAI
         {
             size_t i = 0;
             os << std::hex;
-            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Classes ===========" << std::endl;
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Classes ==========="
+               << "\n";
 
             for (auto class_def : entry.class_defs)
             {
-                os << "Class (" << i++ << "):" << std::endl;
+                os << "Class (" << i++ << "):"
+                   << "\n";
                 if (class_def->get_class_idx())
-                    os << "\tClass idx: " << class_def->get_class_idx()->get_name() << std::endl;
-                os << "\tAccess Flags: " << class_def->get_access_flags() << std::endl;
+                    os << "\tClass idx: " << class_def->get_class_idx()->get_name() << "\n";
+                os << "\tAccess Flags: " << class_def->get_access_flags() << "\n";
                 if (class_def->get_superclass_idx())
-                    os << "\tSuperclass: " << class_def->get_superclass_idx()->get_name() << std::endl;
+                    os << "\tSuperclass: " << class_def->get_superclass_idx()->get_name() << "\n";
                 if (class_def->get_source_file_idx())
-                    os << "\tSource File: " << *class_def->get_source_file_idx() << std::endl;
+                    os << "\tSource File: " << *class_def->get_source_file_idx() << "\n";
 
                 if (class_def->get_number_of_interfaces() > 0)
-                    os << "\tInterfaces: " << std::endl;
-                for (size_t j = 0; j < class_def->get_number_of_interfaces(); j++)
+                    os << "\tInterfaces: "
+                       << "\n";
+                for (size_t j = 0, n_interfaces = class_def->get_number_of_interfaces(); j < n_interfaces; j++)
                 {
-                    os << "\t\tInterface(" << j << "):" << class_def->get_interface_by_pos(j)->get_name() << std::endl;
+                    os << "\t\tInterface(" << j << "):" << class_def->get_interface_by_pos(j)->get_name() << "\n";
                 }
 
                 classdataitem_t class_data_item = class_def->get_class_data();
 
                 if (class_data_item)
                 {
-                    os << "\tClassDataItem:" << std::endl;
+                    os << "\tClassDataItem:"
+                       << "\n";
 
                     if (class_data_item->get_number_of_static_fields() > 0)
-                        os << "\t\tStatic fields:" << std::endl;
-                    for (size_t j = 0; j < class_data_item->get_number_of_static_fields(); j++)
+                        os << "\t\tStatic fields:"
+                           << "\n";
+                    for (size_t j = 0, n_static_fields = class_data_item->get_number_of_static_fields(); j < n_static_fields; j++)
                     {
-                        os << "\t\t\tStatic field(" << j << "): " << std::endl;
-                        os << "\t\t\t\tAccess flags: " << class_data_item->get_static_field_by_pos(j)->get_access_flags() << std::endl;
-                        os << "\t\t\t\tField: " << *class_data_item->get_static_field_by_pos(j)->get_field();
+                        auto static_field = class_data_item->get_static_field_by_pos(j);
+                        os << "\t\t\tStatic field(" << j << "): "
+                           << "\n";
+                        os << "\t\t\t\tAccess flags: " << static_field->get_access_flags() << "\n";
+                        os << "\t\t\t\tField: " << *static_field->get_field();
                     }
 
                     if (class_data_item->get_number_of_instance_fields() > 0)
-                        os << "\t\tInstance fields:" << std::endl;
-                    for (size_t j = 0; j < class_data_item->get_number_of_instance_fields(); j++)
+                        os << "\t\tInstance fields:"
+                           << "\n";
+
+                    for (size_t j = 0, n_instance_fields = class_data_item->get_number_of_instance_fields(); j < n_instance_fields; j++)
                     {
-                        os << "\t\t\tInstance field(" << j << "): " << std::endl;
-                        os << "\t\t\t\tAccess flags: " << class_data_item->get_instance_field_by_pos(j)->get_access_flags() << std::endl;
-                        os << "\t\t\t\tField: " << *class_data_item->get_instance_field_by_pos(j)->get_field();
+                        auto instance_field = class_data_item->get_instance_field_by_pos(j);
+                        os << "\t\t\tInstance field(" << j << "): "
+                           << "\n";
+                        os << "\t\t\t\tAccess flags: " << instance_field->get_access_flags() << "\n";
+                        os << "\t\t\t\tField: " << *instance_field->get_field();
                     }
 
                     if (class_data_item->get_number_of_direct_methods() > 0)
-                        os << "\t\tDirect methods: " << std::endl;
-                    for (size_t j = 0; j < class_data_item->get_number_of_direct_methods(); j++)
+                        os << "\t\tDirect methods: "
+                           << "\n";
+                    for (size_t j = 0, n_direct_methods = class_data_item->get_number_of_direct_methods(); j < n_direct_methods; j++)
                     {
-                        os << "\t\t\tDirect method(" << j << "): " << std::endl;
-                        os << "\t\t\t\tAccess flags: " << class_data_item->get_direct_method_by_pos(j)->get_access_flags() << std::endl;
-                        os << "\t\t\t\tCode offset: " << class_data_item->get_direct_method_by_pos(j)->get_code_offset() << std::endl;
-                        os << "\t\t\t\tMethod: " << *class_data_item->get_direct_method_by_pos(j)->get_method() << std::endl;
+                        auto direct_method = class_data_item->get_direct_method_by_pos(j);
+
+                        os << "\t\t\tDirect method(" << j << "): "
+                           << "\n";
+                        os << "\t\t\t\tAccess flags: " << direct_method->get_access_flags() << "\n";
+                        os << "\t\t\t\tCode offset: " << direct_method->get_code_offset() << "\n";
+                        os << "\t\t\t\tMethod: " << *direct_method->get_method() << "\n";
                     }
 
                     if (class_data_item->get_number_of_virtual_methods() > 0)
-                        os << "\t\tVirtual methods: " << std::endl;
-                    for (size_t j = 0; j < class_data_item->get_number_of_virtual_methods(); j++)
+                        os << "\t\tVirtual methods: "
+                           << "\n";
+                    for (size_t j = 0, n_virtual_methods = class_data_item->get_number_of_virtual_methods(); j < n_virtual_methods; j++)
                     {
-                        os << "\t\t\tVirtual method(" << j << "): " << std::endl;
-                        os << "\t\t\t\tAccess flags: " << class_data_item->get_virtual_method_by_pos(j)->get_access_flags() << std::endl;
-                        os << "\t\t\t\tCode offset: " << class_data_item->get_virtual_method_by_pos(j)->get_code_offset() << std::endl;
-                        os << "\t\t\t\tMethod: " << *class_data_item->get_virtual_method_by_pos(j)->get_method() << std::endl;
+                        auto virtual_method = class_data_item->get_virtual_method_by_pos(j);
+
+                        os << "\t\t\tVirtual method(" << j << "): "
+                           << "\n";
+                        os << "\t\t\t\tAccess flags: " << virtual_method->get_access_flags() << "\n";
+                        os << "\t\t\t\tCode offset: " << virtual_method->get_code_offset() << "\n";
+                        os << "\t\t\t\tMethod: " << *virtual_method->get_method() << "\n";
                     }
                 }
             }

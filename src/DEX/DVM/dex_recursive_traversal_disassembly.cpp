@@ -18,8 +18,11 @@ namespace KUNAI
             size_t buffer_size = byte_buffer.size();
             std::uint32_t opcode;
             bool exist_switch = false;
+            std::stringstream input_buffer;
 
             auto exceptions = determine_exception(dalvik_opcodes, method);
+
+            input_buffer.write(reinterpret_cast<const char *>(byte_buffer.data()), buffer_size);
 
             // take every method start at index 0
             Q.push(0);
@@ -56,11 +59,9 @@ namespace KUNAI
                 {
                     try
                     {
-                        std::stringstream input_buffer;
+                        input_buffer.seekg(instruction_index, std::ios_base::beg);
 
                         opcode = byte_buffer[instruction_index];
-
-                        input_buffer.write(reinterpret_cast<const char *>(byte_buffer.data() + instruction_index), buffer_size - instruction_index);
 
                         instruction = get_instruction_object(opcode, this->dalvik_opcodes, input_buffer);
                         instructions[instruction_index] = instruction;

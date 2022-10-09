@@ -194,9 +194,9 @@ namespace KUNAI
                 return "";
             }
 
-            virtual std::uint64_t get_raw()
+            virtual const std::vector<std::uint8_t>& get_raw() const
             {
-                return OP;
+                return op_codes;
             }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -222,6 +222,10 @@ namespace KUNAI
             }
 
             std::string get_register_correct_representation(std::uint32_t reg);
+
+        protected:
+            // op-codes from the instruction
+            std::vector<std::uint8_t> op_codes;
 
         private:
             dalvikopcodes_t &dalvik_opcodes;
@@ -263,11 +267,6 @@ namespace KUNAI
             {
                 return DEX_INSTRUCTION10X;
             }
-
-            virtual std::uint64_t get_raw()
-            {
-                return this->get_OP();
-            }
         };
 
         class Instruction12x : public Instruction
@@ -294,11 +293,6 @@ namespace KUNAI
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB);
-            }
-
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vA << 8 | vB << 12);
             }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -354,11 +348,6 @@ namespace KUNAI
                 return this->get_register_correct_representation(vA) + ", " + std::to_string(nB);
             }
 
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vA << 8 | nB << 12);
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type()
@@ -412,11 +401,6 @@ namespace KUNAI
                 return this->get_register_correct_representation(vAA);
             }
 
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vAA << 8);
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_destination_type()
@@ -455,11 +439,6 @@ namespace KUNAI
             virtual std::string get_output()
             {
                 return std::to_string(nAA);
-            }
-
-            virtual std::uint64_t get_raw()
-            {
-                return get_OP() | nAA << 8;
             }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -502,11 +481,6 @@ namespace KUNAI
                 return std::to_string(nAAAA);
             }
 
-            virtual std::uint64_t get_raw()
-            {
-                return static_cast<std::uint64_t>(get_OP()) | static_cast<std::uint64_t>(nAAAA) << 16;
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_offset_type()
@@ -543,11 +517,6 @@ namespace KUNAI
             virtual std::string get_output()
             {
                 return std::to_string(nBBBB) + ", " + std::to_string(nAA);
-            }
-
-            virtual std::uint64_t get_raw()
-            {
-                return get_OP() | nAA << 8 | nBBBB << 16;
             }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -603,11 +572,6 @@ namespace KUNAI
                 return this->get_register_correct_representation(vAA) + ", " + this->get_register_correct_representation(vBBBB);
             }
 
-            virtual std::uint64_t get_raw()
-            {
-                return (this->get_OP() | vAA << 8 | vBBBB << 16);
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type()
@@ -659,11 +623,6 @@ namespace KUNAI
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBB);
-            }
-
-            virtual std::uint64_t get_raw()
-            {
-                return get_OP() | vAA << 8 | nBBBB << 16;
             }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -719,11 +678,6 @@ namespace KUNAI
                 return this->get_register_correct_representation(vA) + ", " + std::to_string(nBBBB);
             }
 
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vA << 8 | nBBBB << 16);
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type()
@@ -777,11 +731,6 @@ namespace KUNAI
                 return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBB);
             }
 
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vAA << 8 | nBBBB << 16);
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type()
@@ -832,11 +781,6 @@ namespace KUNAI
             }
 
             virtual std::string get_output();
-
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vAA << 8 | iBBBB << 16);
-            }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
@@ -890,11 +834,6 @@ namespace KUNAI
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vAA) + ", " + this->get_register_correct_representation(vBB) + ", " + this->get_register_correct_representation(vCC);
-            }
-
-            virtual std::uint64_t get_raw()
-            {
-                return get_OP() | vAA << 8 | vBB << 16 | vCC << 24;
             }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -962,11 +901,6 @@ namespace KUNAI
                 return this->get_register_correct_representation(vAA) + ", " + this->get_register_correct_representation(vBB) + ", " + std::to_string(nCC);
             }
 
-            virtual std::uint64_t get_raw()
-            {
-                return get_OP() | vAA << 8 | vBB << 16 | nCC << 24;
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_destination_type()
@@ -1029,11 +963,6 @@ namespace KUNAI
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB) + ", " + std::to_string(nCCCC);
-            }
-
-            virtual std::uint64_t get_raw()
-            {
-                return get_OP() | vA << 8 | vB << 12 | nCCCC << 16;
             }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -1101,11 +1030,6 @@ namespace KUNAI
                 return this->get_register_correct_representation(vA) + ", " + this->get_register_correct_representation(vB) + ", " + std::to_string(nCCCC);
             }
 
-            virtual std::uint64_t get_raw()
-            {
-                return get_OP() | vA << 8 | vB << 12 | nCCCC << 16;
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_destination_type()
@@ -1168,11 +1092,6 @@ namespace KUNAI
             }
 
             virtual std::string get_output();
-
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vA << 8 | vB << 12 | iCCCC << 16);
-            }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
@@ -1243,11 +1162,6 @@ namespace KUNAI
 
             virtual std::string get_output();
 
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vA << 8 | vB << 12 | iCCCC << 16);
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_first_operand_type()
@@ -1317,11 +1231,6 @@ namespace KUNAI
                 return std::to_string(nAAAAAAAA);
             }
 
-            virtual std::uint64_t get_raw()
-            {
-                return get_OP() | nAAAAAAAA << 16;
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_offset_type()
@@ -1362,11 +1271,6 @@ namespace KUNAI
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vAAAA) + ", " + this->get_register_correct_representation(vBBBB);
-            }
-
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vAAAA << 16 | vBBBB << 24);
             }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -1420,11 +1324,6 @@ namespace KUNAI
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBBBBBB);
-            }
-
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vAA << 8 | nBBBBBBBB << 16);
             }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -1484,11 +1383,6 @@ namespace KUNAI
             virtual std::string get_output()
             {
                 return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBBBBBB);
-            }
-
-            virtual std::uint64_t get_raw()
-            {
-                return get_OP() | vAA << 8 | nBBBBBBBB << 16;
             }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
@@ -1573,11 +1467,6 @@ namespace KUNAI
                 return this->get_register_correct_representation(vAA) + ", " + this->get_dalvik_opcodes()->get_dalvik_string_by_id_str(iBBBBBBBB);
             }
 
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vAA << 8 | iBBBBBBBB << 16);
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             DVMTypes::Operand get_source_type()
@@ -1640,7 +1529,7 @@ namespace KUNAI
             }
 
             virtual std::string get_output();
-            virtual std::uint64_t get_raw();
+            
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             std::uint8_t get_array_size()
@@ -1712,11 +1601,6 @@ namespace KUNAI
             }
 
             virtual std::string get_output();
-
-            virtual std::uint64_t get_raw()
-            {
-                return get_OP() | array_size << 8 | static_cast<std::uint64_t>(index) << 16 | static_cast<std::uint64_t>(registers[0]) << 32;
-            }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
@@ -1793,7 +1677,7 @@ namespace KUNAI
             }
 
             virtual std::string get_output();
-            virtual std::uint64_t get_raw();
+            
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             std::uint8_t get_reg_count()
@@ -1869,7 +1753,7 @@ namespace KUNAI
             }
 
             virtual std::string get_output();
-            virtual std::uint64_t get_raw();
+            
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             std::uint8_t get_reg_count()
@@ -1947,10 +1831,6 @@ namespace KUNAI
                 return this->get_register_correct_representation(vAA) + ", " + std::to_string(nBBBBBBBBBBBBBBBB);
             }
 
-            virtual std::uint64_t get_raw()
-            {
-                return (get_OP() | vAA << 8 | nBBBBBBBBBBBBBBBB << 16);
-            }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
@@ -1996,11 +1876,6 @@ namespace KUNAI
 
             virtual std::string get_output();
 
-            virtual std::uint64_t get_raw()
-            {
-                return ident | size << 16 | static_cast<std::uint64_t>(first_key) << 32;
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             std::int32_t get_first_key()
@@ -2037,13 +1912,6 @@ namespace KUNAI
 
             virtual std::string get_output();
 
-            // probably need to change get_raw for returning
-            // an array of bytes
-            virtual std::uint64_t get_raw()
-            {
-                return ident | size << 16;
-            }
-
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 
             std::int32_t get_target_by_key(std::int32_t key);
@@ -2077,11 +1945,6 @@ namespace KUNAI
             }
 
             virtual std::string get_output();
-
-            virtual std::uint64_t get_raw()
-            {
-                return ident | element_width << 16 | static_cast<std::uint64_t>(size) << 32;
-            }
 
             virtual std::vector<std::tuple<DVMTypes::Operand, std::uint64_t>> get_operands();
 

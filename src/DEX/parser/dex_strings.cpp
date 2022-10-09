@@ -23,26 +23,26 @@ namespace KUNAI
 
         std::string *DexStrings::get_string_from_offset(std::uint32_t offset)
         {
-            if (this->strings.find(offset) == this->strings.end())
+            if (strings.find(offset) == strings.end())
                 return nullptr;
 
-            return &(this->strings[offset]);
+            return &(strings[offset]);
         }
 
         std::string *DexStrings::get_string_from_order(std::uint32_t pos)
         {
-            if (pos >= this->strings.size())
+            if (pos >= strings.size())
                 return nullptr;
 
             return ordered_strings[pos];
         }
 
-        std::vector<std::string> DexStrings::get_all_strings()
+        std::vector<std::string*> DexStrings::get_all_strings()
         {
-            std::vector<std::string> all_strings;
+            std::vector<std::string*> all_strings;
 
-            for (auto it = this->strings.begin(); it != this->strings.end(); it++)
-                all_strings.push_back(it->second);
+            for (auto& s : strings)
+                all_strings.push_back(&s.second);
 
             return all_strings;
         }
@@ -62,14 +62,14 @@ namespace KUNAI
             std::string str;
 
             // move to offset where are the string ids
-            input_file.seekg(this->offset);
+            input_file.seekg(offset);
 
             #ifdef DEBUG
-            logger->debug("DexStrings parsing of header in offset {} with size {}", this->offset, this->number_of_strings);
+            logger->debug("DexStrings parsing of header in offset {} with size {}", offset, number_of_strings);
             #endif
 
             // go one by one reading offset and string
-            for (i = 0; i < this->number_of_strings; i++)
+            for (i = 0; i < number_of_strings; i++)
             {
                 if (!KUNAI::read_data_file<std::uint32_t>(str_offset, sizeof(std::uint32_t), input_file))
                     return false;
@@ -82,8 +82,8 @@ namespace KUNAI
 
                 str = KUNAI::read_dex_string(input_file, str_offset);
 
-                this->strings.insert(std::pair<std::uint32_t, std::string>(str_offset, str));
-                ordered_strings.push_back(&this->strings[str_offset]);
+                strings.insert(std::pair<std::uint32_t, std::string>(str_offset, str));
+                ordered_strings.push_back(&strings[str_offset]);
 
                 #ifdef DEBUG
                 logger->debug("parsed string number {}", i);
@@ -105,11 +105,9 @@ namespace KUNAI
         {
             size_t i = 0;
             os << std::hex;
-            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Strings ===========" << std::endl;
-            for (auto it = entry.strings.begin(); it != entry.strings.end(); it++)
-            {
-                os << std::left << std::setfill(' ') << "String (" << std::dec << i++ << std::hex << "): " << it->first << "->\"" << it->second << "\"" << std::endl;
-            }
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Strings ===========" << "\n";
+            for (const auto& s : entry.strings)
+                os << std::left << std::setfill(' ') << "String (" << std::dec << i++ << std::hex << "): " << s.first << "->\"" << s.second << "\"" << "\n";
 
             return os;
         }
@@ -119,15 +117,16 @@ namespace KUNAI
             std::stringstream stream;
 
             stream << std::hex;
-            stream << "<strings>" << std::endl;
-            for (auto it = entry.strings.begin(); it != entry.strings.end(); it++)
+            stream << "<strings>" << "\n";
+            for (const auto& s : entry.strings)
             {
-                stream << "\t<string>" << std::endl;
-                stream << "\t\t<offset>" << it->first << "</offset>" << std::endl;
-                stream << "\t\t<value>" << it->second << "</value>" << std::endl;
-                stream << "\t</string>" << std::endl;
+                stream << "\t<string>" << "\n";
+                stream << "\t\t<offset>" << s.first << "</offset>" << "\n";
+                stream << "\t\t<value>" << s.second << "</value>" << "\n";
+                stream << "\t</string>" << "\n";
             }
-            stream << "</strings>" << std::endl;
+            
+            stream << "</strings>" << "\n";
 
             fos.write(stream.str().c_str(), stream.str().size());
 

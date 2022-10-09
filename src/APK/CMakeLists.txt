@@ -1,0 +1,8 @@
+# DEX APK files
+set(KUNAI_APK_SRC
+${CMAKE_CURRENT_LIST_DIR}/apk.cpp
+)
+
+set(KUNAI_APK_INC_FILES
+"${CMAKE_CURRENT_SOURCE_DIR}/src/include/KUNAI/APK/apk.hpp"
+)

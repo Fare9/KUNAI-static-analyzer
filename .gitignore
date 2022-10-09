@@ -52,3 +52,6 @@ doc/latex/
 *.rep
 *.jobf
 *.gpr
+
+# CMake output
+build/

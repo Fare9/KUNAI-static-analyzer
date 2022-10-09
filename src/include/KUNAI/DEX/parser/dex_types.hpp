@@ -75,7 +75,7 @@ namespace KUNAI
              */
             std::string& get_raw()
             {
-                return this->raw;
+                return raw;
             }
 
         private:

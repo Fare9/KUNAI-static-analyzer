@@ -109,7 +109,7 @@ namespace KUNAI
              *
              * @param disas disassembler object to include to current one.
              */
-            void add_disassembly(dexdisassembler_t disas);
+            void add_disassembly(dexdisassembler_t &disas);
 
             /**
              * @brief Set the disassembler type: LINEAR_SWEEP_DISASSEMBLER, RECURSIVE_TRAVERSAL_DISASSEMBLER

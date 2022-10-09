@@ -21,7 +21,7 @@ main(int argc, char **argv)
 
     logger->info("Started the analysis of file {}", argv[1]);
 
-    auto apk = KUNAI::APK::get_unique_apk_object(argv[1]);
+    auto apk = KUNAI::APK::get_unique_apk_object(argv[1], false);
 
     apk->analyze_apk_file();
 

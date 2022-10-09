@@ -46,14 +46,16 @@ namespace KUNAI
             logger->debug("Reading ProtoID from offset {} and size {}", parameters_off, size);
             #endif
 
+            auto num_types = dex_types->get_number_of_types();
+
             for (i = 0; i < size; i++)
             {
                 if (!KUNAI::read_data_file<std::uint16_t>(type_id, sizeof(std::uint16_t), input_file))
                     return false;
 
-                if (type_id > dex_types->get_number_of_types())
+                if (type_id > num_types)
                 {
-                    logger->error("Error reading ProtoID parameters type_id out of type bound ({} > {})", type_id, dex_types->get_number_of_types());
+                    logger->error("Error reading ProtoID parameters type_id out of type bound ({} > {})", type_id, num_types);
                     exceptions::IncorrectTypeId("Error reading ProtoID parameters type_id out of type bound");
                 }
                 
@@ -127,28 +129,37 @@ namespace KUNAI
             logger->debug("DexProtos start parsing in offset {} with size {}", offset, number_of_protos);
             #endif
 
+            auto number_of_strings = dex_strings->get_number_of_strings();
+            auto number_of_types = dex_types->get_number_of_types();
+
             for (i = 0; i < number_of_protos; i++)
             {
                 if (!KUNAI::read_data_file<std::uint32_t>(shorty_idx, sizeof(std::uint32_t), input_file))
                     return false;
 
-                if (shorty_idx >= dex_strings->get_number_of_strings())
+                if (shorty_idx >= number_of_strings)
                 {
-                    logger->error("Error reading protos short_idx out of string bound ({} >= {})", shorty_idx, dex_strings->get_number_of_strings());
+                    logger->error("Error reading protos short_idx out of string bound ({} >= {})", shorty_idx, number_of_strings);
                     throw exceptions::IncorrectStringId("Error reading protos short_idx out of string bound");
                 }
 
                 if (!KUNAI::read_data_file<std::uint32_t>(return_type_idx, sizeof(std::uint32_t), input_file))
                     return false;
 
-                if (return_type_idx >= dex_types->get_number_of_types())
+                if (return_type_idx >= number_of_types)
                 {
-                    logger->error("Error reading protos return_type_idx out of type bound ({} >= {})", return_type_idx, dex_types->get_number_of_types());
+                    logger->error("Error reading protos return_type_idx out of type bound ({} >= {})", return_type_idx, number_of_types);
                     throw exceptions::IncorrectTypeId("Error reading protos return_type_idx out of type bound");
                 }
 
                 if (!KUNAI::read_data_file<std::uint32_t>(parameters_off, sizeof(std::uint32_t), input_file))
                     return false;
+
+                if (parameters_off > file_size)
+                {
+                    logger->error("Error reading protos parameters_off out of file bound ({} > {})", parameters_off, file_size);
+                    throw exceptions::OutOfBoundException("Error reading protos parameters_off out of file bound");
+                }
 
                 proto_id = std::make_shared<ProtoID>(shorty_idx, return_type_idx, parameters_off, input_file, dex_strings, dex_types);
 
@@ -179,7 +190,7 @@ namespace KUNAI
         {
             size_t i = 0;
             os << std::hex;
-            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Protos ===========" << std::endl;
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Protos ===========" << "\n";
             
             for(auto proto_id : entry.proto_ids)
             {
@@ -192,7 +203,7 @@ namespace KUNAI
                         os << ", ";
                 }
                 os << ")" << proto_id->get_return_idx()->get_raw();
-                os << std::endl;
+                os << "\n";
             }
 
             return os;
@@ -203,21 +214,22 @@ namespace KUNAI
             std::stringstream stream;
 
             stream << std::hex;
-            stream << std::setw(30) << std::left << std::setfill(' ') << "<protos>" << std::endl;
+            stream << std::setw(30) << std::left << std::setfill(' ') << "<protos>" << "\n";
 
             for (auto proto_id : entry.proto_ids)
             {
-                stream << std::left << std::setfill(' ') << "\t<proto>" << std::endl;
-                stream << "\t\t<arguments>" << std::endl;
+                stream << std::left << std::setfill(' ') << "\t<proto>" << "\n";
+                stream << "\t\t<arguments>" << "\n";
                 for (size_t j = 0; j < proto_id->get_number_of_parameters(); j++)
                 {
-                    stream << "\t\t\t<argument>" << proto_id->get_parameter_type_by_order(j)->get_raw() << "</argument>" << std::endl;
+                    stream << "\t\t\t<argument>" << proto_id->get_parameter_type_by_order(j)->get_raw() << "</argument>" << "\n";
                 }
-                stream << "\t\t</arguments>" << std::endl;
-                stream << "\t\t<return>" << proto_id->get_return_idx()->get_raw() << "</return>" << std::endl;
-                stream << std::left << std::setfill(' ') << "\t</proto>" << std::endl;
+                stream << "\t\t</arguments>" << "\n";
+                stream << "\t\t<return>" << proto_id->get_return_idx()->get_raw() << "</return>" << "\n";
+                stream << std::left << std::setfill(' ') << "\t</proto>" << "\n";
             }
-            stream << std::setw(30) << std::left << std::setfill(' ') << "</protos>" << std::endl;
+
+            stream << std::setw(30) << std::left << std::setfill(' ') << "</protos>" << "\n";
 
             fos.write(stream.str().c_str(), stream.str().size());
 

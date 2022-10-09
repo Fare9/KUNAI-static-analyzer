@@ -38,6 +38,8 @@
 
 #include <iostream>
 #include <map>
+#include <unordered_map>
+#include <utility>
 
 #include "KUNAI/DEX/DVM/dex_dvm_types.hpp"
 #include "KUNAI/DEX/parser/dex_types.hpp"
@@ -188,10 +190,10 @@ namespace KUNAI {
             }
         private:
             std::vector<encodedmethod_t> methods;
-            std::map<std::uint64_t, encodedfield_t> static_fields;
-            std::map<std::uint64_t, encodedfield_t> instance_fields;
-            std::map<std::uint64_t, encodedmethod_t> direct_methods;
-            std::map<std::uint64_t, encodedmethod_t> virtual_methods;
+            std::unordered_map<std::uint64_t, encodedfield_t> static_fields;
+            std::unordered_map<std::uint64_t, encodedfield_t> instance_fields;
+            std::unordered_map<std::uint64_t, encodedmethod_t> direct_methods;
+            std::unordered_map<std::uint64_t, encodedmethod_t> virtual_methods;
         };
 
         class ClassDef;
@@ -245,7 +247,7 @@ namespace KUNAI {
              */
             class_t get_class_idx()
             {
-                return class_idx.begin()->second;
+                return class_idx.second;
             }
 
             /**
@@ -263,7 +265,7 @@ namespace KUNAI {
              */
             class_t get_superclass_idx()
             {
-                return superclass_idx.begin()->second;
+                return superclass_idx.second;
             }
 
             /**
@@ -272,7 +274,7 @@ namespace KUNAI {
              */
             std::string* get_source_file_idx()
             {
-                return source_file_idx.begin()->second;
+                return source_file_idx.second;
             }
 
             /**
@@ -328,10 +330,10 @@ namespace KUNAI {
                                     dexmethods_t& dex_methods);
 
 
-            std::map<std::uint32_t, class_t> class_idx;
+            std::pair<std::uint32_t, class_t> class_idx;
             DVMTypes::ACCESS_FLAGS access_flag;
-            std::map<std::uint32_t, class_t> superclass_idx;
-            std::map<std::uint32_t, std::string*> source_file_idx;
+            std::pair<std::uint32_t, class_t> superclass_idx;
+            std::pair<std::uint32_t, std::string*> source_file_idx;
             /**
              * type_list:
              *      size - uint size of list in entries
@@ -340,7 +342,7 @@ namespace KUNAI {
              *      ushort
              */
             std::uint32_t interfaces_off;
-            std::map<std::uint16_t, class_t> interfaces;
+            std::unordered_map<std::uint16_t, class_t> interfaces;
 
             std::uint32_t annotations_off;
             annotationsdirectoryitem_t annotation_directory_item;

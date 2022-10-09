@@ -1,10 +1,10 @@
 // compile me with: g++ -std=c++17 instruction-counter.cpp -o instruction-counter -lkunai
 #include <iostream>
+#include <list>
 
 #include <KUNAI/DEX/dex.hpp>
 
-int
-main(int argc, char **argv)
+int main(int argc, char **argv)
 {
     bool use_recursive = false;
 
@@ -31,7 +31,8 @@ main(int argc, char **argv)
         std::cerr << "[-] USAGE: " << argv[0] << " <dex_file> <class_name> <method_name> [-r]\n";
         std::cerr << "\t-r: optional argument, use recursive disassembly algorithm\n";
         return 1;
-    }else if (argc > 4 && !strcmp("-r", argv[4]))
+    }
+    else if (argc > 4 && !strcmp("-r", argv[4]))
     {
         use_recursive = true;
     }
@@ -89,33 +90,64 @@ main(int argc, char **argv)
     // that appear and how many times appear.
     std::unordered_map<std::uint32_t, size_t> instruction_counter;
 
-    for (const auto& disassembly : instruction_map)
+    for (const auto &disassembly : instruction_map)
     {
 
-        auto& classdef = std::get<0>(disassembly.first);
-        auto& encoded_method = std::get<1>(disassembly.first);
+        auto &classdef = std::get<0>(disassembly.first);
+        auto &encoded_method = std::get<1>(disassembly.first);
 
         if (classdef == nullptr || encoded_method == nullptr)
             continue;
-        
+
         if (!class_name.compare(classdef->get_class_idx()->get_name()) &&
             !method_name.compare(*encoded_method->get_method()->get_method_name()))
         {
             std::cout << "Disassembly of " << class_name << "->" << method_name << "\n";
 
-            for (const auto& instructions : disassembly.second)
+            for (const auto &instructions : disassembly.second)
             {
                 std::cout << std::right << std::setfill('0') << std::setw(8) << std::hex << instructions.first << "  ";
+
+                auto &raw_values = instructions.second->get_raw();
+
+                if (raw_values.size() > 8)
+                {
+                    auto remaining = 8 - (raw_values.size() % 8);
+
+                    size_t aux = 0;
+
+                    for (auto value : raw_values)
+                    {
+                        std::cout << std::right << std::setfill('0') << std::setw(2) << std::hex << (std::uint32_t)value << " ";
+                        aux++;
+                        if (aux % 8 == 0)
+                        {
+                            std::cout << "\n"
+                                      << "          ";
+                        }
+                    }
+
+                    for (std::uint8_t i = 0; i < remaining; i++)
+                        std::cout << "   ";
+                }
+                else
+                {
+                    for (auto value : raw_values)
+                        std::cout << std::right << std::setfill('0') << std::setw(2) << std::hex << (std::uint32_t)value << " ";
+
+                    for (std::uint8_t i = 0, remaining_size = 8 - raw_values.size(); i < remaining_size; i++)
+                        std::cout << "   ";
+                }
+
                 instructions.second->show_instruction();
                 std::cout << std::endl;
 
-
-                auto& instr = instructions.second;
+                auto &instr = instructions.second;
                 auto op = instr->get_OP();
 
                 if (instruction_counter.find(op) == instruction_counter.end())
                     instruction_counter[op] = 0;
-                
+
                 instruction_counter[op] += 1;
             }
 
@@ -125,11 +157,11 @@ main(int argc, char **argv)
 
     std::cout << "\n\nInstruction counter program\n";
     std::cout << "Number of different instructions present in the method: " << instruction_counter.size() << "\n";
-    for (const auto & op_instr : instruction_counter)
+    for (const auto &op_instr : instruction_counter)
     {
         auto op_num = op_instr.first;
         auto op_str = dex_object->get_dalvik_opcode_object()->get_instruction_name(op_num);
-        
+
         std::cout << op_str << " [" << op_num << "] appears: " << op_instr.second << " times\n";
     }
 

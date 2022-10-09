@@ -14,9 +14,11 @@ OPTIMIZATION ?= -O3
 
 CODE_FOLDER=src/
 CODE_TEST_FOLDER=./projects/
+UNIT_TEST_FOLDER=./projects/unittests/
 INCLUDE_FOLDER=src/include/KUNAI/
 BIN_FOLDER=bin/
 BIN_PROJECTS_FOLDER=bin/projects/
+BIN_UNITTESTS_FOLDER=bin/unittests/
 OBJ=objs/
 BIN_NAME=Kunai
 STATIC_LIB_NAME=libkunai.a
@@ -54,7 +56,8 @@ OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${APK_OBJ_FILES} ${IR_OBJ_FILES} ${IR_
 all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
 ${BIN_PROJECTS_FOLDER}test_dex_parser ${BIN_PROJECTS_FOLDER}test_dex_disassembler ${BIN_PROJECTS_FOLDER}test_ir ${BIN_PROJECTS_FOLDER}test_dex_lifter \
 ${BIN_PROJECTS_FOLDER}test_ir_graph ${BIN_PROJECTS_FOLDER}test_dominators ${BIN_PROJECTS_FOLDER}test-optimizations \
-${BIN_PROJECTS_FOLDER}test-optimizations2 ${BIN_PROJECTS_FOLDER}test_ssa_form
+${BIN_PROJECTS_FOLDER}test-optimizations2 ${BIN_PROJECTS_FOLDER}test_ssa_form ${BIN_PROJECTS_FOLDER}test_dex_analysis \
+${BIN_UNITTESTS_FOLDER}dex_parser_unittest
 
 
 
@@ -62,6 +65,7 @@ dirs:
 	mkdir -p ${OBJ}
 	mkdir -p ${BIN_FOLDER}
 	mkdir -p ${BIN_PROJECTS_FOLDER}
+	mkdir -p ${BIN_UNITTESTS_FOLDER}
 
 ${BIN_FOLDER}${BIN_NAME}: ${OBJ}main.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
@@ -115,12 +119,25 @@ ${BIN_PROJECTS_FOLDER}test_ssa_form: ${OBJ}test_ssa_form.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^ ${LIB_ZIP}
 
-${BIN_TEST_FOLDER}test_apk_analysis: ${OBJ}test_apk_analysis.o ${OBJ_FILES}
+${BIN_PROJECTS_FOLDER}test_dex_analysis: ${OBJ}test_dex_analysis.o ${OBJ_FILES}
+	@echo "Linking $< -> $@"
+	${CXX} -o $@ $^ ${LIB_ZIP}
+
+${BIN_PROJECTS_FOLDER}test_apk_analysis: ${OBJ}test_apk_analysis.o ${OBJ_FILES}
 	@echo "Linking $< -> $@"
 	${CXX} -o $@ $^ ${LIB_ZIP}
 
 ####################################################################
 
+####################################################################
+#  				Unit Test Files
+####################################################################
+
+${BIN_UNITTESTS_FOLDER}dex_parser_unittest: ${OBJ}dex_parser_unittest.o ${OBJ_FILES}
+	@echo "Linking $< -> $@"
+	${CXX} -o $@ $^ ${LIB_ZIP}
+
+####################################################################
 
 # main
 ${OBJ}main.o: ${CODE_FOLDER}main.cpp
@@ -175,8 +192,22 @@ ${OBJ}test_ssa_form.o: ${CODE_TEST_FOLDER}test_ssa_form.cpp
 	@echo "Compiling $< -> $@"
 	${CXX} -I${INCLUDE_PATH} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
 
+${OBJ}test_dex_analysis.o: ${CODE_TEST_FOLDER}test_dex_analysis.cpp
+	@echo "Compiling $< -> $@"
+	${CXX} -I${INCLUDE_PATH} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+
 ####################################################################
-	
+
+####################################################################
+#  				Unit Test Files
+####################################################################
+
+${OBJ}dex_parser_unittest.o: ${UNIT_TEST_FOLDER}dex_parser_unittest.cpp
+	@echo "Compiling $< -> $@"
+	${CXX} -I${INCLUDE_PATH} ${INCLUDE_ZIP} -o $@ $< ${CFLAGS} $(OPTIMIZATION) $(DEBUG)
+
+####################################################################
+
 # Utils
 UTILS_MODULE=Utils/
 ${OBJ}%.o: ${CODE_FOLDER}${UTILS_MODULE}%.cpp

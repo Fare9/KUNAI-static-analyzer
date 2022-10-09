@@ -106,17 +106,15 @@ namespace KUNAI
          */
         EncodedTypePair::EncodedTypePair(std::uint64_t type_idx,
                                          std::uint64_t addr,
-                                         dextypes_t dex_types)
+                                         dextypes_t &dex_types)
         {
-            this->type_idx[type_idx] = dex_types->get_type_from_order(type_idx);
+            this->type_idx = std::make_pair(type_idx, dex_types->get_type_from_order(type_idx));
             this->addr = addr;
         }
 
         type_t EncodedTypePair::get_exception_type()
         {
-            if (type_idx.empty())
-                return nullptr;
-            return type_idx.begin()->second;
+            return type_idx.second;
         }
 
         /***
@@ -124,7 +122,7 @@ namespace KUNAI
          */
         EncodedCatchHandler::EncodedCatchHandler(std::ifstream &input_file,
                                                  std::uint64_t file_size,
-                                                 dextypes_t dex_types)
+                                                 dextypes_t &dex_types)
         {
             if (!parse_encoded_type_pairs(input_file, file_size, dex_types))
                 throw exceptions::ParserReadingException("Error reading EncodedTypePair from EncodedCatchHandler");
@@ -152,10 +150,10 @@ namespace KUNAI
 
         bool EncodedCatchHandler::parse_encoded_type_pairs(std::ifstream &input_file,
                                                            std::uint64_t file_size,
-                                                           dextypes_t dex_types)
+                                                           dextypes_t &dex_types)
         {
             auto current_offset = input_file.tellg();
-            this->offset = current_offset;
+            offset = current_offset;
             std::uint64_t type_idx, addr;
             encodedtypepair_t encoded_type_pair;
 
@@ -192,7 +190,7 @@ namespace KUNAI
         CodeItemStruct::CodeItemStruct(std::ifstream &input_file,
                                        std::uint64_t file_size,
                                        code_item_struct_t code_item,
-                                       dextypes_t dex_types) : code_item(code_item)
+                                       dextypes_t &dex_types) : code_item(code_item)
         {
             if (!parse_code_item_struct(input_file, file_size, dex_types))
                 throw exceptions::ParserReadingException("Error reading CodeItemStruct");
@@ -231,7 +229,7 @@ namespace KUNAI
 
         bool CodeItemStruct::parse_code_item_struct(std::ifstream &input_file,
                                                     std::uint64_t file_size,
-                                                    dextypes_t dex_types)
+                                                    dextypes_t &dex_types)
         {
             auto current_offset = input_file.tellg();
 
@@ -296,7 +294,7 @@ namespace KUNAI
                                      std::uint64_t code_off,
                                      std::ifstream &input_file,
                                      std::uint64_t file_size,
-                                     dextypes_t dex_types) : method_id(method_id),
+                                     dextypes_t &dex_types) : method_id(method_id),
                                                                             access_flags(static_cast<DVMTypes::ACCESS_FLAGS>(access_flags)),
                                                                             code_off(code_off)
         {
@@ -306,12 +304,28 @@ namespace KUNAI
 
         std::string EncodedMethod::full_name()
         {
-            return std::dynamic_pointer_cast<Class>(method_id->get_method_class())->get_name() +
+            std::string class_name = "";
+
+            switch (method_id->get_method_class()->get_type())
+            {
+            case Type::FUNDAMENTAL:
+                class_name = std::dynamic_pointer_cast<Fundamental>(method_id->get_method_class())->print_fundamental_type();
+                break;
+            case Type::CLASS:
+                class_name = std::dynamic_pointer_cast<Class>(method_id->get_method_class())->get_name();
+                break;
+            default:
+                class_name = method_id->get_method_class()->get_raw();
+                break;
+            }
+
+            
+            return  class_name + "->" +
                     *method_id->get_method_name() + " " +
                     method_id->get_method_prototype()->get_proto_str();
         }
 
-        bool EncodedMethod::parse_code_item(std::ifstream &input_file, std::uint64_t file_size, dextypes_t dex_types)
+        bool EncodedMethod::parse_code_item(std::ifstream &input_file, std::uint64_t file_size, dextypes_t &dex_types)
         {
             auto current_offset = input_file.tellg();
             CodeItemStruct::code_item_struct_t code_item_struct;
