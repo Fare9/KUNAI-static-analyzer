@@ -19,3 +19,20 @@ jobs:
       run: sudo apt install git
     - name: build kunai
       run: ./debian_distros_installer.sh build
+  
+  build_cmake:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: install bash
+      run: sudo apt install bash
+    - name: install cmake
+      run: sudo apt install cmake
+    - name: install git
+      run: sudo apt install git
+    - name: create build in cmake
+      run: cmake -B build -S .
+    - name: build with cmake
+      run: cmake --build build
