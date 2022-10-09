@@ -1,13 +1,14 @@
 <map id="src/include/KUNAI/mjolnIR/ir_grammar.hpp" name="src/include/KUNAI/mjolnIR/ir_grammar.hpp">
-<area shape="rect" id="node1" title="Header file which includes all the grammar of the IR, this will be used as header file by all the int..." alt="" coords="319,5,497,45"/>
+<area shape="rect" id="node1" title="Header file which includes all the grammar of the IR, this will be used as header file by all the int..." alt="" coords="355,5,533,45"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,101,77,126"/>
 <area shape="rect" id="node3" title=" " alt="" coords="101,101,171,126"/>
 <area shape="rect" id="node4" title=" " alt="" coords="195,101,261,126"/>
 <area shape="rect" id="node5" title=" " alt="" coords="286,101,354,126"/>
 <area shape="rect" id="node6" title=" " alt="" coords="379,101,437,126"/>
 <area shape="rect" id="node7" title=" " alt="" coords="461,101,499,126"/>
-<area shape="rect" id="node8" title=" " alt="" coords="485,181,595,207"/>
-<area shape="rect" id="node9" href="$d5/db7/ir__x86_8hpp.html" title="Values specific for x86 and x86&#45;64 for the registers this will be enums for the registers,..." alt="" coords="575,93,716,133"/>
-<area shape="rect" id="node11" href="$d3/d09/ir__dalvik_8hpp.html" title="All the data values for the dalvik virtual machine." alt="" coords="740,93,881,133"/>
-<area shape="rect" id="node10" title=" " alt="" coords="622,181,669,207"/>
+<area shape="rect" id="node8" title=" " alt="" coords="530,181,641,207"/>
+<area shape="rect" id="node9" title=" " alt="" coords="575,101,641,126"/>
+<area shape="rect" id="node10" href="$d5/db7/ir__x86_8hpp.html" title="Values specific for x86 and x86&#45;64 for the registers this will be enums for the registers,..." alt="" coords="665,93,807,133"/>
+<area shape="rect" id="node12" href="$d3/d09/ir__dalvik_8hpp.html" title="All the data values for the dalvik virtual machine." alt="" coords="831,93,972,133"/>
+<area shape="rect" id="node11" title=" " alt="" coords="713,181,759,207"/>
 </map>

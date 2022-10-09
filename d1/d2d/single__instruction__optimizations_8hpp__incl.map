@@ -1,23 +1,23 @@
 <map id="src/include/KUNAI/mjolnIR/Analysis/single_instruction_optimizations.hpp" name="src/include/KUNAI/mjolnIR/Analysis/single_instruction_optimizations.hpp">
-<area shape="rect" id="node1" title="All those optimizers that will be applied to only one instruction will be written in this file,..." alt="" coords="624,5,804,60"/>
+<area shape="rect" id="node1" title="All those optimizers that will be applied to only one instruction will be written in this file,..." alt="" coords="613,5,793,60"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,262,73,287"/>
-<area shape="rect" id="node3" title=" " alt="" coords="725,181,791,207"/>
-<area shape="rect" id="node4" href="$d0/d75/ir__graph_8hpp.html" title="DiGraph class from miasm implemented in C++ using the classes from MjolnIR, some of basic graph analy..." alt="" coords="873,108,1059,133"/>
-<area shape="rect" id="node14" href="$d9/d2a/ir__grammar_8hpp.html" title="Header file which includes all the grammar of the IR, this will be used as header file by all the int..." alt="" coords="473,181,678,207"/>
-<area shape="rect" id="node5" title=" " alt="" coords="807,262,879,287"/>
-<area shape="rect" id="node6" title=" " alt="" coords="1063,181,1103,207"/>
-<area shape="rect" id="node7" title=" " alt="" coords="1127,181,1202,207"/>
-<area shape="rect" id="node8" title=" " alt="" coords="475,343,521,368"/>
-<area shape="rect" id="node9" title=" " alt="" coords="1405,181,1460,207"/>
-<area shape="rect" id="node10" href="$df/d93/utils_8hpp_source.html" title=" " alt="" coords="893,181,1039,207"/>
-<area shape="rect" id="node11" title=" " alt="" coords="1063,262,1175,287"/>
-<area shape="rect" id="node12" title=" " alt="" coords="1199,255,1330,295"/>
-<area shape="rect" id="node13" title=" " alt="" coords="904,255,1039,295"/>
-<area shape="rect" id="node15" title=" " alt="" coords="541,262,610,287"/>
-<area shape="rect" id="node16" title=" " alt="" coords="634,262,701,287"/>
-<area shape="rect" id="node17" title=" " alt="" coords="725,262,783,287"/>
-<area shape="rect" id="node18" title=" " alt="" coords="97,262,136,287"/>
-<area shape="rect" id="node19" title=" " alt="" coords="337,343,448,368"/>
-<area shape="rect" id="node20" href="$d5/db7/ir__x86_8hpp.html" title="Values specific for x86 and x86&#45;64 for the registers this will be enums for the registers,..." alt="" coords="375,255,517,295"/>
-<area shape="rect" id="node21" href="$d3/d09/ir__dalvik_8hpp.html" title="All the data values for the dalvik virtual machine." alt="" coords="159,255,301,295"/>
+<area shape="rect" id="node3" title=" " alt="" coords="807,262,874,287"/>
+<area shape="rect" id="node4" href="$d0/d75/ir__graph_8hpp.html" title="DiGraph class from miasm implemented in C++ using the classes from MjolnIR, some of basic graph analy..." alt="" coords="951,108,1138,133"/>
+<area shape="rect" id="node14" href="$d9/d2a/ir__grammar_8hpp.html" title="Header file which includes all the grammar of the IR, this will be used as header file by all the int..." alt="" coords="455,181,661,207"/>
+<area shape="rect" id="node5" title=" " alt="" coords="898,262,970,287"/>
+<area shape="rect" id="node6" title=" " alt="" coords="1142,181,1182,207"/>
+<area shape="rect" id="node7" title=" " alt="" coords="1206,181,1281,207"/>
+<area shape="rect" id="node8" title=" " alt="" coords="248,343,295,368"/>
+<area shape="rect" id="node9" title=" " alt="" coords="1305,181,1360,207"/>
+<area shape="rect" id="node10" href="$df/d93/utils_8hpp_source.html" title=" " alt="" coords="971,181,1118,207"/>
+<area shape="rect" id="node11" title=" " alt="" coords="1154,262,1266,287"/>
+<area shape="rect" id="node12" title=" " alt="" coords="1290,255,1421,295"/>
+<area shape="rect" id="node13" title=" " alt="" coords="995,255,1129,295"/>
+<area shape="rect" id="node15" title=" " alt="" coords="314,262,383,287"/>
+<area shape="rect" id="node16" title=" " alt="" coords="407,262,474,287"/>
+<area shape="rect" id="node17" title=" " alt="" coords="498,262,557,287"/>
+<area shape="rect" id="node18" title=" " alt="" coords="580,262,619,287"/>
+<area shape="rect" id="node19" title=" " alt="" coords="111,343,221,368"/>
+<area shape="rect" id="node20" href="$d5/db7/ir__x86_8hpp.html" title="Values specific for x86 and x86&#45;64 for the registers this will be enums for the registers,..." alt="" coords="149,255,290,295"/>
+<area shape="rect" id="node21" href="$d3/d09/ir__dalvik_8hpp.html" title="All the data values for the dalvik virtual machine." alt="" coords="642,255,783,295"/>
 </map>
