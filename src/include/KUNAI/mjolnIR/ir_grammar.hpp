@@ -20,6 +20,7 @@
 #include <vector>
 #include <list>
 #include <unordered_map>
+#include <optional>
 
 // lifters
 #include "KUNAI/mjolnIR/arch/ir_x86.hpp"
