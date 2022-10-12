@@ -51,7 +51,7 @@ int main(int argc, char **argv)
     auto lapse = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     
     //time in microseconds
-    std::cout << lapse.count() << "\n";
+    std::cout << (double)(lapse.count()/1000000) << "\n";
 
     return 0;
 }
