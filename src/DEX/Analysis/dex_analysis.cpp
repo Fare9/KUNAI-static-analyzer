@@ -51,7 +51,7 @@ namespace KUNAI
 
                     new_class->add_method(new_method);
 
-                    method_hashes[{class_def_item->get_class_idx()->get_name(), *encoded_method->get_method()->get_method_name(), encoded_method->get_method()->get_method_prototype()->get_proto_str()}] = new_method;
+                    method_hashes[class_def_item->get_class_idx()->get_name() + *encoded_method->get_method()->get_method_name() + encoded_method->get_method()->get_method_prototype()->get_proto_str()] = new_method;
                 }
             }
 
@@ -177,7 +177,7 @@ namespace KUNAI
 
         methodanalysis_t Analysis::get_method_analysis_by_name(std::string& class_name, std::string& method_name, std::string& method_descriptor)
         {
-            std::tuple<std::string, std::string, std::string> m_hash = {class_name, method_name, method_descriptor};
+            std::string m_hash = class_name+method_name+method_descriptor;
 
             if (method_hashes.find(m_hash) == method_hashes.end())
                 return nullptr;
@@ -559,7 +559,8 @@ namespace KUNAI
 
         methodanalysis_t Analysis::_resolve_method(std::string class_name, std::string method_name, std::string method_descriptor)
         {
-            std::tuple<std::string, std::string, std::string> m_hash = {class_name, method_name, method_descriptor};
+            std::string m_hash = class_name+method_name+method_descriptor;
+            
             std::map<std::uint64_t, instruction_t> empty_instructions;
 
             if (method_hashes.find(m_hash) == method_hashes.end())

@@ -183,9 +183,9 @@ namespace KUNAI
             /**
              * @brief Get the methods with hashes object.
              * 
-             * @return const std::map<std::tuple<std::string, std::string, std::string>, methodanalysis_t>& 
+             * @return const std::unordered_map<std::string, methodanalysis_t>& 
              */
-            const std::map<std::tuple<std::string, std::string, std::string>, methodanalysis_t>& get_methods_with_hashes() const
+            const std::unordered_map<std::string, methodanalysis_t>& get_methods_with_hashes() const
             {
                 return method_hashes;
             }
@@ -316,7 +316,7 @@ namespace KUNAI
             /**
              * @brief map hash for quickly getting the Method
              */
-            std::map<std::tuple<std::string, std::string, std::string>, methodanalysis_t> method_hashes;
+            std::unordered_map<std::string, methodanalysis_t> method_hashes;
 
             dalvikopcodes_t dalvik_opcodes;
             std::map<std::tuple<classdef_t, encodedmethod_t>,

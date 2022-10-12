@@ -7,6 +7,10 @@ namespace KUNAI
 
         DalvikOpcodes::DalvikOpcodes(dexparser_t dex_parser) : dex_parser(dex_parser)
         {
+            auto fields = dex_parser->get_encoded_fields_from_classes();
+
+            for(auto f : fields)
+                field_encodedfield_map[f->get_field()] = f;
         }
 
         std::string DalvikOpcodes::get_instruction_name(std::uint32_t instruction)
@@ -41,13 +45,8 @@ namespace KUNAI
         {
             auto fields = dex_parser->get_encoded_fields_from_classes();
 
-            for (auto f : fields)
-            {
-                if (f->get_field().get() == field.get())
-                {
-                    return f;
-                }
-            }
+            if (field_encodedfield_map.find(field) != field_encodedfield_map.end())
+                return field_encodedfield_map[field];
 
             return nullptr;
         }
