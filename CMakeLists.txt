@@ -31,6 +31,7 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # for debug configuration set specific flags
 if (NOT WIN32)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -DDEBUG")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g -O0 -DNDEBUG")
 endif()
 
 message(STATUS "C++ flags, Debug configuration: ${CMAKE_CXX_FLAGS_DEBUG}")
