@@ -314,3 +314,7 @@ KUNAI has been compiled in next systems:
 ## License
 
 This project is licensed under a MIT License, please check the file [LICENSE](./LICENSE) to find more information about it.
+
+## Contact
+
+For any question, or issues about the tool you can always refer to the issues from the project, or write us to our gmail address: kunai(dot)static(dot)analysis(at)gmail(dot)com
