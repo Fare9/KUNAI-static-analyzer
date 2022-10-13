@@ -9,7 +9,7 @@ namespace KUNAI
         {
             auto fields = dex_parser->get_encoded_fields_from_classes();
 
-            for(auto f : fields)
+            for (auto f : fields)
                 field_encodedfield_map[f->get_field()] = f;
         }
 
@@ -34,7 +34,7 @@ namespace KUNAI
             return opcode_instruction_operation[instruction];
         }
 
-        std::string& DalvikOpcodes::get_instruction_type_str(std::uint32_t instruction)
+        std::string &DalvikOpcodes::get_instruction_type_str(std::uint32_t instruction)
         {
             DVMTypes::Kind kind = get_instruction_type(instruction);
 
@@ -118,48 +118,50 @@ namespace KUNAI
         {
             std::string flag = "";
 
-            if (acc_flag & DVMTypes::NONE)
-                flag += "NONE|";
-            if (acc_flag & DVMTypes::ACC_PUBLIC)
-                flag += "PUBLIC|";
-            if (acc_flag & DVMTypes::ACC_PRIVATE)
-                flag += "PRIVATE|";
-            if (acc_flag & DVMTypes::ACC_PROTECTED)
-                flag += "PROTECTED|";
-            if (acc_flag & DVMTypes::ACC_STATIC)
-                flag += "STATIC|";
-            if (acc_flag & DVMTypes::ACC_FINAL)
-                flag += "FINAL|";
-            if (acc_flag & DVMTypes::ACC_SYNCHRONIZED)
-                flag += "SYNCHRONIZED|";
-            if (acc_flag & DVMTypes::ACC_VOLATILE)
-                flag += "VOLATILE|";
-            if (acc_flag & DVMTypes::ACC_BRIDGE)
-                flag += "BRIDGE|";
-            if (acc_flag & DVMTypes::ACC_TRANSIENT)
-                flag += "TRANSIENT|";
-            if (acc_flag & DVMTypes::ACC_VARARGS)
-                flag += "VARARGS|";
-            if (acc_flag & DVMTypes::ACC_NATIVE)
-                flag += "NATIVE|";
-            if (acc_flag & DVMTypes::ACC_INTERFACE)
-                flag += "INTERFACE|";
-            if (acc_flag & DVMTypes::ACC_ABSTRACT)
-                flag += "ABSTRACT|";
-            if (acc_flag & DVMTypes::ACC_STRICT)
-                flag += "STRICT|";
-            if (acc_flag & DVMTypes::ACC_SYNTHETIC)
-                flag += "SYNTHETIC|";
-            if (acc_flag & DVMTypes::ACC_ANNOTATION)
-                flag += "ANNOTATION|";
-            if (acc_flag & DVMTypes::ACC_ENUM)
-                flag += "ENUM|";
-            if (acc_flag & DVMTypes::ACC_CONSTRUCTOR)
-                flag += "CONSTRUCTOR|";
-            if (acc_flag & DVMTypes::ACC_DECLARED_SYNCHRONIZED)
-                flag += "DECLARED_SYNCHRONIZED|";
-
-            flag.pop_back();
+            if (acc_flag == DVMTypes::NONE)
+                flag += "NONE";
+            else
+            {
+                if (acc_flag & DVMTypes::ACC_PUBLIC)
+                    flag += "PUBLIC|";
+                if (acc_flag & DVMTypes::ACC_PRIVATE)
+                    flag += "PRIVATE|";
+                if (acc_flag & DVMTypes::ACC_PROTECTED)
+                    flag += "PROTECTED|";
+                if (acc_flag & DVMTypes::ACC_STATIC)
+                    flag += "STATIC|";
+                if (acc_flag & DVMTypes::ACC_FINAL)
+                    flag += "FINAL|";
+                if (acc_flag & DVMTypes::ACC_SYNCHRONIZED)
+                    flag += "SYNCHRONIZED|";
+                if (acc_flag & DVMTypes::ACC_VOLATILE)
+                    flag += "VOLATILE|";
+                if (acc_flag & DVMTypes::ACC_BRIDGE)
+                    flag += "BRIDGE|";
+                if (acc_flag & DVMTypes::ACC_TRANSIENT)
+                    flag += "TRANSIENT|";
+                if (acc_flag & DVMTypes::ACC_VARARGS)
+                    flag += "VARARGS|";
+                if (acc_flag & DVMTypes::ACC_NATIVE)
+                    flag += "NATIVE|";
+                if (acc_flag & DVMTypes::ACC_INTERFACE)
+                    flag += "INTERFACE|";
+                if (acc_flag & DVMTypes::ACC_ABSTRACT)
+                    flag += "ABSTRACT|";
+                if (acc_flag & DVMTypes::ACC_STRICT)
+                    flag += "STRICT|";
+                if (acc_flag & DVMTypes::ACC_SYNTHETIC)
+                    flag += "SYNTHETIC|";
+                if (acc_flag & DVMTypes::ACC_ANNOTATION)
+                    flag += "ANNOTATION|";
+                if (acc_flag & DVMTypes::ACC_ENUM)
+                    flag += "ENUM|";
+                if (acc_flag & DVMTypes::ACC_CONSTRUCTOR)
+                    flag += "CONSTRUCTOR|";
+                if (acc_flag & DVMTypes::ACC_DECLARED_SYNCHRONIZED)
+                    flag += "DECLARED_SYNCHRONIZED|";
+                flag.pop_back();
+            }
 
             return flag;
         }
