@@ -4,6 +4,8 @@ Tool aimed to provide a binary analysis of different file formats through the us
 
 ## Installation
 
+### Old way (not recommended)
+
 Kunai has a couple of dependencies, one of them can be downloaded in the **external** folder, to do that just run the next command:
 
 ```console
@@ -12,28 +14,48 @@ cd KUNAI-static-analyzer
 git submodule update --init --rebase --recursive
 ```
 
-With this, you will download the **zip** external dependency that can be compiled and installed next. The library **libspdlog-dev** will be also installed for logging in its version *1:1.5.0-1*, for doing that we can use the script you'll find in the root of the folder with the next command:
+With this, you will download the **zip** external dependency that can be compiled and installed next. The library **libspdlog-dev** will be also installed for logging in its version *1:1.5.0-1*, for doing that we can use the script you'll find in the root of the folder with the next command, the script right now is only for debian based distributions, you can install the dependencies in the next way:
 
 ```console
-./make.sh dependencies
+./debian_distros_installer.sh dependencies
 ```
 
 This step is also run if you want to build Kunai using the same script with the next command:
 
 ```console
-./make.sh build
+./debian_distros_installer.sh build
 ```
 
 Or if you want to build using a debug configuration:
 
 ```console
-./make.sh debug
+./debian_distros_installer.sh debug
 ```
 
 In case you want to install dependencies, compile Kunai and finally install it, do it with the next command:
 
 ```console
-./make.sh install
+./debian_distros_installer.sh install
+```
+
+### CMake (recommended)
+
+In order to improve the experience of compilation and installation, we have moved to *CMake*, so in order to build **Kunai** you can follow the next commands, the commands must be run from the root folder of the project:
+
+```console
+cmake -B build -S .
+```
+
+Now we build the libraries and all the other binaries from **Kunai**, we can specify with *-j* the number of processes to run in parallel so the compilation goes faster:
+
+```console
+cmake --build build -j<number of processes>
+```
+
+Finally for the installation we can run the next command, for installing the library in the system the command must run as *super user*:
+
+```console
+sudo cmake --build build/ --target install
 ```
 
 ## Project Structure
