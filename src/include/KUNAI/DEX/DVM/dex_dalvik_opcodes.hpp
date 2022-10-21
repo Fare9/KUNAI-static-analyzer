@@ -181,6 +181,8 @@ namespace KUNAI
         private:
             dexparser_t dex_parser;
 
+            std::unordered_map<fieldid_t, encodedfield_t> field_encodedfield_map;
+
             /**
              * @brief Translation table from opcode to string
              */

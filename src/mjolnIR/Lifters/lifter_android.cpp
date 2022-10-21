@@ -29,9 +29,6 @@ namespace KUNAI
 
                 this->lift_android_basic_block(bb, lifted_bb);
 
-                if (lifted_bb->get_number_of_statements() == 0)
-                    continue;
-
                 lifted_blocks[bb.get()] = lifted_bb;
 
                 method_graph->add_node(lifted_bb);
@@ -48,6 +45,12 @@ namespace KUNAI
                 for (auto next_bb : next_bbs)
                 {
                     auto block = std::get<2>(next_bb);
+
+                    if (lifted_blocks.find(block) == lifted_blocks.end())
+                        continue;
+
+                    if (lifted_blocks[block]->get_number_of_statements() == 0)
+                        continue;
 
                     auto last_instr = lifted_blocks[block]->get_statements().back();
 

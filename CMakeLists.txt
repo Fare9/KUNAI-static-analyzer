@@ -31,6 +31,7 @@ message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
 # for debug configuration set specific flags
 if (NOT WIN32)
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -DDEBUG")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g -O0 -DNDEBUG")
 endif()
 
 message(STATUS "C++ flags, Debug configuration: ${CMAKE_CXX_FLAGS_DEBUG}")
@@ -204,6 +205,8 @@ install(
     TARGETS
         kunai-shared
         kunai-static
+        spdlog
+        zip
     ARCHIVE
         DESTINATION ${INSTALL_LIBDIR}
         COMPONENT lib
@@ -217,6 +220,14 @@ install(
 
 install(
     DIRECTORY "${KUNAI_LIB_PUBLIC_INCLUDE_FILES}"
+    DESTINATION ${INSTALL_INCLUDEDIR}
+    COMPONENT headers
+    FILES_MATCHING
+    REGEX "(.*).(hpp|h|def|inc)$"
+)
+
+install(
+    DIRECTORY "${spdlog_SOURCE_DIR}/include/"
     DESTINATION ${INSTALL_INCLUDEDIR}
     COMPONENT headers
     FILES_MATCHING
