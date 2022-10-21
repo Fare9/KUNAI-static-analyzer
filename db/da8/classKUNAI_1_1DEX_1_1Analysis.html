@@ -122,9 +122,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ad242fa99fbe5665a45c1405051ba4289"><td class="memItemLeft" align="right" valign="top">std::vector&lt; methodanalysis_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#ad242fa99fbe5665a45c1405051ba4289">get_methods</a> ()</td></tr>
 <tr class="memdesc:ad242fa99fbe5665a45c1405051ba4289"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> object in a vector.  <a href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#ad242fa99fbe5665a45c1405051ba4289">More...</a><br /></td></tr>
 <tr class="separator:ad242fa99fbe5665a45c1405051ba4289"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84d1aef1419f16d0ab91f542663bf1ee"><td class="memItemLeft" align="right" valign="top">const std::map&lt; std::tuple&lt; std::string, std::string, std::string &gt;, methodanalysis_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a84d1aef1419f16d0ab91f542663bf1ee">get_methods_with_hashes</a> () const</td></tr>
-<tr class="memdesc:a84d1aef1419f16d0ab91f542663bf1ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the methods with hashes object.  <a href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a84d1aef1419f16d0ab91f542663bf1ee">More...</a><br /></td></tr>
-<tr class="separator:a84d1aef1419f16d0ab91f542663bf1ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe34b71614b05163c19565b21daa7d65"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, methodanalysis_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#afe34b71614b05163c19565b21daa7d65">get_methods_with_hashes</a> () const</td></tr>
+<tr class="memdesc:afe34b71614b05163c19565b21daa7d65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the methods with hashes object.  <a href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#afe34b71614b05163c19565b21daa7d65">More...</a><br /></td></tr>
+<tr class="separator:afe34b71614b05163c19565b21daa7d65"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08ed23b5036cc23a6c43e99a4ee635dc"><td class="memItemLeft" align="right" valign="top">fieldanalysis_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a08ed23b5036cc23a6c43e99a4ee635dc">get_field_analysis</a> (encodedfield_t field)</td></tr>
 <tr class="memdesc:a08ed23b5036cc23a6c43e99a4ee635dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> given a field object.  <a href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a08ed23b5036cc23a6c43e99a4ee635dc">More...</a><br /></td></tr>
 <tr class="separator:a08ed23b5036cc23a6c43e99a4ee635dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -720,8 +720,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a84d1aef1419f16d0ab91f542663bf1ee" name="a84d1aef1419f16d0ab91f542663bf1ee"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84d1aef1419f16d0ab91f542663bf1ee">&#9670;&#160;</a></span>get_methods_with_hashes()</h2>
+<a id="afe34b71614b05163c19565b21daa7d65" name="afe34b71614b05163c19565b21daa7d65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe34b71614b05163c19565b21daa7d65">&#9670;&#160;</a></span>get_methods_with_hashes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -730,7 +730,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::map&lt; std::tuple&lt; std::string, std::string, std::string &gt;, methodanalysis_t &gt; &amp; KUNAI::DEX::Analysis::get_methods_with_hashes </td>
+          <td class="memname">const std::unordered_map&lt; std::string, methodanalysis_t &gt; &amp; KUNAI::DEX::Analysis::get_methods_with_hashes </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -744,7 +744,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the methods with hashes object. </p>
-<dl class="section return"><dt>Returns</dt><dd>const std::map&lt;std::tuple&lt;std::string, std::string, std::string&gt;, methodanalysis_t&gt;&amp; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>const std::unordered_map&lt;std::string, methodanalysis_t&gt;&amp; </dd></dl>
 
 </div>
 </div>
