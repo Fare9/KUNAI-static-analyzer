@@ -15,8 +15,6 @@ namespace KUNAI
 
         std::string DalvikOpcodes::get_instruction_name(std::uint32_t instruction)
         {
-            if (opcodes_instruction_name.find(instruction) == opcodes_instruction_name.end())
-                return "";
             return opcodes_instruction_name[instruction];
         }
 
@@ -45,10 +43,7 @@ namespace KUNAI
         {
             auto fields = dex_parser->get_encoded_fields_from_classes();
 
-            if (field_encodedfield_map.find(field) != field_encodedfield_map.end())
-                return field_encodedfield_map[field];
-
-            return nullptr;
+            return field_encodedfield_map[field];
         }
 
         std::string DalvikOpcodes::get_dalvik_static_field_by_id_str(std::uint32_t id)

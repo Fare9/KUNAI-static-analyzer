@@ -9,7 +9,7 @@ namespace KUNAI
          * ExceptionAnalysis class
          */
 
-        ExceptionAnalysis::ExceptionAnalysis(exceptions_data exception, basicblocks_t basic_blocks) : exception(exception)
+        ExceptionAnalysis::ExceptionAnalysis(exceptions_data exception, basicblocks_t &basic_blocks) : exception(exception)
         {
             for (auto &handler : exception.handler)
             {
@@ -23,16 +23,14 @@ namespace KUNAI
 
             buff << std::hex << exception.try_value_start_addr << ":" << std::hex << exception.try_value_end_addr << std::endl;
 
-            for (auto it = exception.handler.begin(); it != exception.handler.end(); it++)
+            for (auto &handler : exception.handler)
             {
-                if (it->basic_blocks.size() == 0)
-                {
-                    buff << "\t(" << std::hex << it->handler_type << " -> " << std::hex << it->handler_start_addr << ")" << std::endl;
-                }
+                if (!handler.basic_blocks.size())
+                    buff << "\t(" << std::hex << handler.handler_type << " -> " << std::hex << handler.handler_start_addr << ")" << std::endl;
                 else
                 {
-                    auto bb = std::any_cast<KUNAI::DEX::dvmbasicblock_t>(it->basic_blocks[0]);
-                    buff << "\t(" << std::hex << it->handler_type << " -> " << std::hex << it->handler_start_addr << " " << std::hex << bb->get_start() << ")" << std::endl;
+                    auto bb = std::any_cast<KUNAI::DEX::dvmbasicblock_t>(handler.basic_blocks[0]);
+                    buff << "\t(" << std::hex << handler.handler_type << " -> " << std::hex << handler.handler_start_addr << " " << std::hex << bb->get_start() << ")" << std::endl;
                 }
             }
 
@@ -45,7 +43,7 @@ namespace KUNAI
 
         Exception::Exception() {}
 
-        void Exception::add(std::vector<exceptions_data> exceptions, basicblocks_t basic_blocks)
+        void Exception::add(std::vector<exceptions_data> &exceptions, basicblocks_t basic_blocks)
         {
             for (auto &exception : exceptions)
             {
@@ -56,11 +54,14 @@ namespace KUNAI
 
         exceptionanalysis_t Exception::get_exception(std::uint64_t start_addr, std::uint64_t end_addr)
         {
-            for (auto exception : exceptions)
+            for (auto &exception : exceptions)
             {
-                if (((*exception).get().try_value_start_addr >= start_addr) && ((*exception).get().try_value_end_addr <= end_addr))
+                auto try_value_start_addr = exception->get_exception_data().try_value_start_addr;
+                auto try_end_addr = exception->get_exception_data().try_value_end_addr;
+
+                if ((try_value_start_addr >= start_addr) && (try_end_addr <= end_addr))
                     return exception;
-                else if ((end_addr <= (*exception).get().try_value_end_addr) && (start_addr >= (*exception).get().try_value_start_addr))
+                else if ((end_addr <= try_end_addr) && (start_addr >= try_value_start_addr))
                     return exception;
             }
 

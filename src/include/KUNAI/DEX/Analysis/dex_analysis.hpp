@@ -209,9 +209,9 @@ namespace KUNAI
 
             /**
              * @brief Get the map of std::string, StringAnalysis objects.
-             * @return std::map<std::string, stringanalysis_t>
+             * @return std::unordered_map<std::string, stringanalysis_t>
              */
-            const std::map<std::string, stringanalysis_t> &get_strings_analysis() const
+            const std::unordered_map<std::string, stringanalysis_t> &get_strings_analysis() const
             {
                 return strings;
             }
@@ -305,20 +305,21 @@ namespace KUNAI
              * @brief map with std::string as key and stringanalysis_t
              * as value
              */
-            std::map<std::string, stringanalysis_t> strings;
+            std::unordered_map<std::string, stringanalysis_t> strings;
 
             /**
              * @brief map with encodedmethod_t or externalmethod_t
              * as keys and methodanalysis_t as value.
              */
-            std::map<std::string, methodanalysis_t> methods;
+            std::unordered_map<std::string, methodanalysis_t> methods;
 
             /**
              * @brief map hash for quickly getting the Method
              */
             std::unordered_map<std::string, methodanalysis_t> method_hashes;
-
+            
             dalvikopcodes_t dalvik_opcodes;
+
             std::map<std::tuple<classdef_t, encodedmethod_t>,
                      std::map<std::uint64_t, instruction_t>>
                 instructions;
@@ -1210,7 +1211,7 @@ namespace KUNAI
              * @param basic_blocks: all the basic blocks where are all the instruction's basic blocks.
              * @return void
              */
-            ExceptionAnalysis(exceptions_data exception, basicblocks_t basic_blocks);
+            ExceptionAnalysis(exceptions_data exception, basicblocks_t &basic_blocks);
 
             /**
              * @brief ExceptionAnalysis destructor.
@@ -1228,14 +1229,13 @@ namespace KUNAI
              * @brief Get exception data structure.
              * @return exceptions_data
              */
-            exceptions_data &get()
+            exceptions_data &get_exception_data()
             {
                 return exception;
             }
 
         private:
             exceptions_data exception;
-            basicblocks_t basic_blocks;
         };
 
         /**
@@ -1262,7 +1262,7 @@ namespace KUNAI
              * @param basic_blocks: BasicBlocks object for the ExceptionAnalysis object.
              * @return void.
              */
-            void add(std::vector<exceptions_data> exceptions, basicblocks_t basic_blocks);
+            void add(std::vector<exceptions_data> &exceptions, basicblocks_t basic_blocks);
 
             /**
              * @brief Get a ExceptionAnalysis object get by the start and end address of the try handler.

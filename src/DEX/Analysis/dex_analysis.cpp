@@ -383,7 +383,7 @@ namespace KUNAI
 
                         auto type_info = std::dynamic_pointer_cast<Class>(const_class_new_instance->get_source_typeid())->get_name();
 
-                        // we do not going to analyze our current class name
+                        // we aren't going to analyze our current class name
                         if (type_info == current_class_name)
                             continue;
 

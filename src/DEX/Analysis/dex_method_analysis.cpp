@@ -9,13 +9,13 @@ namespace KUNAI
          */
 
         MethodAnalysis::MethodAnalysis(std::variant<encodedmethod_t, externalmethod_t> method_encoded, dalvikopcodes_t dalvik_opcodes, std::map<std::uint64_t, instruction_t> instructions) : method_encoded(method_encoded),
-                                                                                                                                                                                                          dalvik_opcodes(dalvik_opcodes),
-                                                                                                                                                                                                          instructions(instructions)
+                                                                                                                                                                                              dalvik_opcodes(dalvik_opcodes),
+                                                                                                                                                                                              instructions(instructions)
         {
-            this->is_external = method_encoded.index() == 0 ? false : true;
-            this->exceptions = std::make_shared<Exception>();
+            is_external = method_encoded.index() == 0 ? false : true;
+            exceptions = std::make_shared<Exception>();
 
-            if (this->instructions.size() > 0)
+            if (instructions.size() > 0)
                 this->create_basic_block();
         }
 
@@ -97,11 +97,14 @@ namespace KUNAI
 
         std::string MethodAnalysis::full_name()
         {
-            std::string class_name = this->class_name();
-            std::string descriptor = this->descriptor();
-            std::string name = this->name();
+            if (is_external)
+            {
+                externalmethod_t method = std::get<externalmethod_t>(method_encoded);
+                return method->full_name();
+            }
 
-            return class_name + " " + name + " " + descriptor;
+            encodedmethod_t method = std::get<encodedmethod_t>(method_encoded);
+            return method->full_name();
         }
 
         void MethodAnalysis::add_xref_read(classanalysis_t class_object, fieldanalysis_t field_object, std::uint64_t offset)
@@ -147,7 +150,6 @@ namespace KUNAI
             std::vector<std::int64_t> l;
             std::map<std::uint64_t, std::vector<std::int64_t>> h;
 
-
             logger->debug("create_basic_block: creating basic blocks for method {}.", std::get<encodedmethod_t>(method_encoded)->full_name());
 
             for (auto const &instruction : instructions)
@@ -167,9 +169,9 @@ namespace KUNAI
                 }
             }
 
-            #ifdef DEBUG
+#ifdef DEBUG
             logger->debug("create_basic_block: parsing method exceptions.");
-            #endif
+#endif
 
             auto excepts = determine_exception(dalvik_opcodes, std::get<encodedmethod_t>(method_encoded));
 
@@ -183,9 +185,9 @@ namespace KUNAI
                 }
             }
 
-            #ifdef DEBUG
+#ifdef DEBUG
             logger->debug("create_basic_block: creating the basic blocks with references.");
-            #endif
+#endif
 
             for (const auto &instruction : instructions)
             {
@@ -215,9 +217,9 @@ namespace KUNAI
                 basic_blocks->pop_basic_block();
             }
 
-            #ifdef DEBUG
+#ifdef DEBUG
             logger->debug("create_basic_blocks: setting basic blocks childs.");
-            #endif
+#endif
 
             auto bbs = basic_blocks->get_basic_blocks();
             for (auto bb : bbs)
@@ -225,10 +227,10 @@ namespace KUNAI
                 bb->set_child(h[bb->get_end() - bb->get_last_length()]);
             }
 
-            #ifdef DEBUG
+#ifdef DEBUG
             logger->debug("create_basic_blocks: creating exceptions.");
-            #endif
-            
+#endif
+
             this->exceptions->add(excepts, this->basic_blocks);
 
             for (auto bb : bbs)
