@@ -48,6 +48,7 @@ namespace KUNAI
         class IRZComp;
         class IRBComp;
         class IRNew;
+        class IRAlloca;
         class IRType;
         class IRReg;
         class IRTempReg;
@@ -216,6 +217,15 @@ namespace KUNAI
          * @return irnew_t or nullptr
          */
         irnew_t new_ir(irstmnt_t &instr);
+
+        using iralloca_t = std::shared_ptr<IRAlloca>;
+        /**
+         * @brief check if given statement is an alloca statement
+         * 
+         * @param instr 
+         * @return iralloca_t 
+         */
+        iralloca_t alloca_ir(irstmnt_t &instr);
 
         using irtype_t = std::shared_ptr<IRType>;
         /**
@@ -471,6 +481,7 @@ namespace KUNAI
                 ZCOMP_OP_T,
                 BCOMP_OP_T,
                 NEW_OP_T,
+                ALLOCA_OP_T,
                 TYPE_OP_T,
                 REGISTER_OP_T,
                 TEMP_REGISTER_OP_T,
@@ -908,6 +919,7 @@ namespace KUNAI
                 ZCOMP_EXPR_T,
                 BCOMP_EXPR_T,
                 NEW_EXPR_T,
+                ALLOCA_EXPR_T,
                 NONE_EXPR_T = 99 // used to finish the expressions
             };
 
@@ -1946,7 +1958,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool equals(irnew_t bcomp);
+            bool equals(irnew_t new_i);
 
             /**
              * @brief Operator == for IRNew instruction.
@@ -1963,6 +1975,95 @@ namespace KUNAI
             irexpr_t result;
             //! class type which will create a new instance.
             irexpr_t class_instance;
+        };
+
+        class IRAlloca : public IRExpr
+        {
+        public:
+            /**
+             * @brief Construct a new IRAlloca object,  this kind of
+             *        expression creates "allocates" memory for an array
+             *        having this class will be useful also for allocating
+             *        memory in other architectures.
+             * 
+             * @param result register or address where data will be stored
+             * @param type_instance type to create an array
+             * @param size size of the given array
+             */
+            IRAlloca(irexpr_t result,
+                     irexpr_t type_instance,
+                     irexpr_t size);
+            
+            /**
+             * @brief Destroy the IRAlloca object
+             * 
+             */
+            ~IRAlloca() = default;
+
+            /**
+             * @brief Get the destination register/variable...
+             * 
+             * @return irexpr_t 
+             */
+            irexpr_t get_result()
+            {
+                return result;
+            }
+
+            /**
+             * @brief Get the source type
+             * 
+             * @return irexpr_t 
+             */
+            irexpr_t get_source_type()
+            {
+                return type_instance;
+            }
+
+            /**
+             * @brief Get the size (this can be expressed by different
+             *        objects, it can be a register, or a constant)
+             * @return irexpr_t
+             */
+            irexpr_t get_size()
+            {
+                return size;
+            }
+
+            /**
+             * @brief Return a string representation of IRAlloca
+             * 
+             * @return std::string 
+             */
+            std::string to_string();
+
+            /**
+             * @brief Compare two IRAlloca instructions with shared_ptr
+             * 
+             * @param alloca 
+             * @return true 
+             * @return false 
+             */
+            bool equals(iralloca_t alloca);
+
+            /**
+             * @brief Operator == for IRNew instruction.
+             *
+             * @param alloca1
+             * @param alloca2
+             * @return true
+             * @return false
+             */
+            friend bool operator==(IRAlloca &, IRAlloca &);
+
+
+        private:
+            //! register or variable where result will be stored.
+            irexpr_t result;
+            //! type which it will create a new instance
+            irexpr_t type_instance;
+            //! size of the allocated space
+            irexpr_t size;
         };
 
         class IRType : public IRExpr

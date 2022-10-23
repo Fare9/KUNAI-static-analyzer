@@ -79,6 +79,12 @@ namespace KUNAI
 
                 return new_i->to_string();
             }
+            else if (type == ALLOCA_EXPR_T)
+            {
+                auto alloca = reinterpret_cast<IRAlloca*>(this);
+
+                return alloca->to_string();
+            }
             else if (type == NONE_EXPR_T)
             {
                 return "IRExpr [NONE]";
@@ -166,6 +172,13 @@ namespace KUNAI
                 IRNew &new2 = reinterpret_cast<IRNew &>(ope2);
 
                 return new1 == new2;
+            }
+            else if (ope1.type == IRExpr::ALLOCA_EXPR_T)
+            {
+                IRAlloca &alloca1 = reinterpret_cast<IRAlloca &>(ope1);
+                IRAlloca &alloca2 = reinterpret_cast<IRAlloca &>(ope2);
+
+                return alloca1 == alloca2;
             }
             else if (ope1.type == IRExpr::TYPE_EXPR_T)
             {
@@ -811,5 +824,20 @@ namespace KUNAI
             return (new1.result->equals(new2.result)) &&
                    (new1.class_instance->equals(new2.class_instance));
         }
+
+        /**
+         * IRAlloca class
+         */
+        IRAlloca::IRAlloca(irexpr_t result,
+                     irexpr_t type_instance,
+                     irexpr_t size)
+                     : IRExpr(ALLOCA_EXPR_T, ALLOCA_OP_T),
+                     result(result),
+                     type_instance(type_instance),
+                     size(size)
+        {
+        }
+
+        
     }
 }
