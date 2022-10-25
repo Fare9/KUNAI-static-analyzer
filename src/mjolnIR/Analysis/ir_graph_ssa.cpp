@@ -116,6 +116,24 @@ namespace KUNAI
                             continue;
                         }
                     }
+                    // A = Alloca(B)
+                    else if (auto alloca_instr = alloca_ir(instr))
+                    {
+                        irstmnt_t result = alloca_instr->get_result();
+                        irstmnt_t size = alloca_instr->get_size();
+
+                        if (auto reg = register_ir(result))
+                        {
+                            var_block_map[reg].insert(block);
+                        }
+
+                        if (auto reg = register_ir(size))
+                        {
+                            var_block_map[reg].insert(block);
+                        }
+
+                        continue;
+                    }
                 }
             }
         }
@@ -398,6 +416,19 @@ namespace KUNAI
                     op2 = get_top_or_create(reg, p);
 
                 new_instr = std::make_shared<IRBComp>(bcomp->get_comparison(), bcomp->get_result(), std::dynamic_pointer_cast<IRExpr>(op1), std::dynamic_pointer_cast<IRExpr>(op2));
+            }
+            else if (auto alloca = alloca_ir(instr))
+            {
+                irstmnt_t result = alloca->get_result();
+                irstmnt_t size = alloca->get_size();
+
+                if (auto reg = register_ir(result))
+                    result = get_top_or_create(reg, p);
+
+                if (auto reg = register_ir(size))
+                    size = get_top_or_create(reg, p);
+
+                new_instr = std::make_shared<IRAlloca>(std::dynamic_pointer_cast<IRExpr>(result), alloca->get_source_type(), std::dynamic_pointer_cast<IRExpr>(size));
             }
             // Phi node (only the result)
             if (auto phi_instr = phi_ir(instr))

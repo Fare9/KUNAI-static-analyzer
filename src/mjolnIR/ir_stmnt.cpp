@@ -78,7 +78,7 @@ namespace KUNAI
 
             if (!def_use_chains.empty())
             {
-                std::cout << "\5Def-Use chains:\n";
+                std::cout << "\tDef-Use chains:\n";
 
                 for (auto &def_use : def_use_chains)
                 {

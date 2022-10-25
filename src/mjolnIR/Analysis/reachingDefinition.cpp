@@ -214,6 +214,11 @@ namespace KUNAI
             {
                 reg = new_instr->get_result();
             }
+            // A = New Array
+            else if (auto alloca_instr = alloca_ir(instr))
+            {
+                reg = alloca_instr->get_result();
+            }
             // A = phi(A, A, A...)
             else if (auto phi_instr = phi_ir(instr))
             {

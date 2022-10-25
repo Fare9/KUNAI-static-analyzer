@@ -222,6 +222,17 @@ namespace KUNAI
                         if (auto reg = zcomp_instr->get_reg())
                             solve_def_use_use_def(reg, zcomp_instr, reach_def_set, ir_graph);
                     }
+                    // A = Alloca[REG]
+                    else if (auto alloca_instr = alloca_ir(instr))
+                    {
+                        alloca_instr->invalidate_chains();
+
+                        irstmnt_t size = alloca_instr->get_size();
+
+                        if (irexpr_t reg = register_ir(size))
+                            solve_def_use_use_def(reg, alloca_instr, reach_def_set, ir_graph);
+                        
+                    }
                 }
             }
         }
