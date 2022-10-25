@@ -838,6 +838,29 @@ namespace KUNAI
         {
         }
 
-        
+        std::string IRAlloca::to_string()
+        {
+            std::stringstream stream;
+
+            stream << "IRAlloca ";
+
+            stream << "[Destination: " << result->to_string() << "]";
+            stream << "[Type: " << type_instance->to_string() << "]";
+            stream << "[Size: " << size->to_string() << "]";
+
+            return stream.str();
+        }
+
+        bool IRAlloca::equals(iralloca_t alloca)
+        {
+            return (*this) == *(alloca.get());
+        }
+
+        bool operator==(IRAlloca &alloca1, IRAlloca &alloca2)
+        {
+            return (alloca1.result->equals(alloca2.result)) &&
+                   (alloca1.type_instance->equals(alloca2.type_instance)) &&
+                   (alloca1.size->equals(alloca2.size));
+        }
     }
 }

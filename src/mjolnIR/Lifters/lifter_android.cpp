@@ -1289,17 +1289,69 @@ namespace KUNAI
             case DEX::DVMTypes::Opcode::OP_NEW_INSTANCE:
             {
                 std::shared_ptr<MJOLNIR::IRStmnt> new_instr;
-                auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
                 auto instr = std::dynamic_pointer_cast<DEX::Instruction21c>(instruction);
 
                 auto dst_reg = make_android_register(instr->get_destination());
 
-                auto class_ = make_class(std::dynamic_pointer_cast<DEX::Class>(instr->get_source_typeid()));
+                auto type_id = instr->get_source_typeid();
 
-                new_instr = std::make_shared<MJOLNIR::IRNew>(dst_reg, class_);
+                MJOLNIR::irexpr_t type;
+
+                switch(type_id->get_type())
+                {
+                case DEX::Type::CLASS:
+                    type = make_class(std::dynamic_pointer_cast<DEX::Class>(type_id));
+                    break;
+                case DEX::Type::FUNDAMENTAL:
+                    type = make_fundamental(std::dynamic_pointer_cast<DEX::Fundamental>(type_id));
+                    break;
+                case DEX::Type::ARRAY:
+                    logger->error("Found OP_NEW_INSTANCE opcode for Array type, not supported yet");
+                    return false;
+                }
+
+                new_instr = std::make_shared<MJOLNIR::IRNew>(dst_reg, type);
 
                 bb->append_statement_to_block(new_instr);
+
+                break;
+            }
+            case DEX::DVMTypes::Opcode::OP_NEW_ARRAY:
+            {
+                std::shared_ptr<MJOLNIR::IRStmnt> alloca_instr;
+                
+                auto instr = std::dynamic_pointer_cast<DEX::Instruction22c>(instruction);
+
+                auto dst_reg = make_android_register(instr->get_first_operand());
+
+                auto size_reg = make_android_register(instr->get_second_operand());
+
+                auto array_type = std::dynamic_pointer_cast<DEX::Array>(instr->get_third_operand_typeId());
+                
+                auto type_id = array_type->get_array().at(0);
+
+                if (type_id == nullptr)
+                    logger->error("Found OP_NEW_ARRAY where type_id is not a type, not supported");
+
+                MJOLNIR::irexpr_t type;
+
+                switch(type_id->get_type())
+                {
+                case DEX::Type::CLASS:
+                    type = make_class(std::dynamic_pointer_cast<DEX::Class>(type_id));
+                    break;
+                case DEX::Type::FUNDAMENTAL:
+                    type = make_fundamental(std::dynamic_pointer_cast<DEX::Fundamental>(type_id));
+                    break;
+                case DEX::Type::ARRAY:
+                    logger->error("Found OP_NEW_INSTANCE opcode for Array type, not supported yet");
+                    return false;
+                }
+
+                alloca_instr = std::make_shared<MJOLNIR::IRAlloca>(dst_reg, type, size_reg);
+
+                bb->append_statement_to_block(alloca_instr);
 
                 break;
             }
@@ -1348,7 +1400,7 @@ namespace KUNAI
                 break;
             }
             default:
-                logger->error("Invalid instruction '{}'", std::to_string(op_code));
+                logger->error("Invalid instruction '{}'", op_code);
                 return false;
             }
             return true;
@@ -1621,6 +1673,42 @@ namespace KUNAI
         MJOLNIR::irclass_t LifterAndroid::make_class(DEX::class_t value)
         {
             return std::make_shared<MJOLNIR::IRClass>(value->get_name(), value->get_name(), 0);
+        }
+
+        MJOLNIR::irfundamental_t LifterAndroid::make_fundamental(DEX::fundamental_t value)
+        {
+            switch (value->get_fundamental_type())
+            {
+            case DEX::Fundamental::BOOLEAN:
+                return std::make_shared<MJOLNIR::IRFundamental>(MJOLNIR::IRFundamental::F_BOOLEAN,"BOOLEAN");
+                break;
+            case DEX::Fundamental::BYTE:
+                return std::make_shared<MJOLNIR::IRFundamental>(MJOLNIR::IRFundamental::F_BYTE,"BYTE");
+                break;
+            case DEX::Fundamental::CHAR:
+                return std::make_shared<MJOLNIR::IRFundamental>(MJOLNIR::IRFundamental::F_CHAR,"CHAR");
+                break;
+            case DEX::Fundamental::DOUBLE:
+                return std::make_shared<MJOLNIR::IRFundamental>(MJOLNIR::IRFundamental::F_DOUBLE,"DOUBLE");
+                break;
+            case DEX::Fundamental::FLOAT:
+                return std::make_shared<MJOLNIR::IRFundamental>(MJOLNIR::IRFundamental::F_FLOAT,"FLOAT");
+                break;
+            case DEX::Fundamental::INT:
+                return std::make_shared<MJOLNIR::IRFundamental>(MJOLNIR::IRFundamental::F_INT,"INT");
+                break;
+            case DEX::Fundamental::LONG:
+                return std::make_shared<MJOLNIR::IRFundamental>(MJOLNIR::IRFundamental::F_LONG,"LONG");
+                break;
+            case DEX::Fundamental::SHORT:
+                return std::make_shared<MJOLNIR::IRFundamental>(MJOLNIR::IRFundamental::F_SHORT,"SHORT");
+                break;
+            case DEX::Fundamental::VOID:
+                return std::make_shared<MJOLNIR::IRFundamental>(MJOLNIR::IRFundamental::F_VOID,"VOID");
+                break;
+            }
+
+            return nullptr;
         }
 
         MJOLNIR::irfield_t LifterAndroid::make_field(DEX::fieldid_t field)

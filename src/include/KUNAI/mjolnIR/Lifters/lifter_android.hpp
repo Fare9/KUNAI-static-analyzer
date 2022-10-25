@@ -243,6 +243,15 @@ namespace KUNAI
             MJOLNIR::irclass_t make_class(DEX::class_t value);
 
             /**
+             * @brief Generate a IRFundamental type for Android, this will be nothing more
+             *        than the name of the fundamental type
+             * 
+             * @param value fundamental_t to generate the object
+             * @return MJOLNIR::irfundamental_t 
+             */
+            MJOLNIR::irfundamental_t make_fundamental(DEX::fundamental_t value);
+
+            /**
              * @brief Generate a IRField type for Android, this has the values from the
              *        fieldid_t.
              * @param field: fieldid_t to generate the object.
