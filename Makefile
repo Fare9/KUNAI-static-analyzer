@@ -286,6 +286,8 @@ tests:
 	@echo "Compiling test-modexp"
 	cd ./tests/test-modexp && ${JAVAC} --release 8 Main.java && ${D8} Main.class && mv classes.dex Main.dex
 
+	@echo "Compiling test-news"
+	cd ./tests/test-news && ${JAVAC} --release 8 Main.java && ${D8} Main.class && mv classes.dex Main.dex
 ########################################################
 clean:
 	rm -rf ${OBJ}
