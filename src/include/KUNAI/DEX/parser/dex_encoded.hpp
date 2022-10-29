@@ -27,65 +27,92 @@ namespace KUNAI
     {
         class EncodedValue;
         class EncodedAnnotation;
+        class EncodedArray;
+        class EncodedArrayItem;
+        class EncodedField;
+        class EncodedTypePair;
+        class EncodedCatchHandler;
+        class TryItem;
+        class CodeItemStruct;
+        class EncodedMethod;
+        class AnnotationElement;
 
-        using encodedvalue_t = std::shared_ptr<EncodedValue>;
-        using encodedannotation_t = std::shared_ptr<EncodedAnnotation>;
-        
+        using encodedvalue_t = std::unique_ptr<EncodedValue>;
+        using encodedvalues_t = std::vector<encodedvalue_t>;
+
+        using encodedannotation_t = std::unique_ptr<EncodedAnnotation>;
+
+        using encodedarray_t = std::unique_ptr<EncodedArray>;
+
+        using encodedarrayitem_t = std::unique_ptr<EncodedArrayItem>;
+
+        using encodedfield_t = std::unique_ptr<EncodedField>;
+        using encodedfieldmap_t = std::unordered_map<std::uint64_t, encodedfield_t>;
+
+        using encodedtypepair_t = std::unique_ptr<EncodedTypePair>;
+        using encodedtypepairs_t = std::vector<encodedtypepair_t>;
+
+        using encodedcatchhandler_t = std::unique_ptr<EncodedCatchHandler>;
+        using encodedcatchhandlers_t = std::vector<encodedcatchhandler_t>;
+
+        using tryitem_t = std::unique_ptr<TryItem>;
+        using tryitems_t = std::vector<tryitem_t>;
+
+        using codeitemstruct_t = std::unique_ptr<CodeItemStruct>;
+
+        using encodedmethod_t = std::unique_ptr<EncodedMethod>;
+        using encodedmethodmap_t = std::unordered_map<std::uint64_t, encodedmethod_t>;
+
+        using annotationelement_t = std::unique_ptr<AnnotationElement>;
+        using annotationelements_t = std::vector<annotationelement_t>;
+
         class EncodedValue
         {
         public:
             EncodedValue(std::ifstream &input_file);
-            ~EncodedValue();
+            ~EncodedValue() = default;
 
             const std::vector<std::uint8_t> &get_values() const
             {
                 return values;
             }
 
-            const std::vector<encodedvalue_t> &get_array() const
+            const encodedvalues_t &get_array() const
             {
                 return array;
             }
 
-            encodedannotation_t &get_annotation()
+            EncodedAnnotation *get_annotation() const
             {
-                return annotation;
+                return annotation.get();
             }
 
         private:
             std::vector<std::uint8_t> values;
-            std::vector<encodedvalue_t> array;
+            encodedvalues_t array;
             encodedannotation_t annotation;
         };
-
-        class EncodedArray;
-
-        using encodedarray_t = std::shared_ptr<EncodedArray>;
 
         class EncodedArray
         {
         public:
             EncodedArray(std::ifstream &input_file);
-            ~EncodedArray();
+            ~EncodedArray() = default;
 
             std::uint64_t get_size()
             {
                 return size;
             }
 
-            const std::vector<encodedvalue_t> &get_values() const
+            const encodedvalues_t &get_values() const
             {
                 return values;
             }
 
         private:
             std::uint64_t size;
-            std::vector<encodedvalue_t> values;
+            encodedvalues_t values;
         };
-
-        class EncodedArrayItem;
-
-        using encodedarrayitem_t = std::shared_ptr<EncodedArrayItem>;
 
         class EncodedArrayItem
         {
@@ -93,26 +120,22 @@ namespace KUNAI
             EncodedArrayItem(std::ifstream &input_file);
             ~EncodedArrayItem() = default;
 
-            encodedarray_t &get_encoded_array()
+            EncodedArray *get_encoded_array() const
             {
-                return array;
+                return array.get();
             }
 
         private:
             encodedarray_t array;
         };
 
-        class EncodedField;
-
-        using encodedfield_t = std::shared_ptr<EncodedField>;
-
         class EncodedField
         {
         public:
-            EncodedField(fieldid_t field_idx, std::uint64_t access_flags);
+            EncodedField(FieldID *field_idx, std::uint64_t access_flags);
             ~EncodedField() = default;
 
-            fieldid_t get_field() const
+            FieldID *get_field() const
             {
                 return field_idx;
             }
@@ -123,24 +146,20 @@ namespace KUNAI
             }
 
         private:
-            fieldid_t field_idx;
+            FieldID *field_idx;
             DVMTypes::ACCESS_FLAGS access_flags;
         };
-
-        class EncodedTypePair;
-
-        using encodedtypepair_t = std::shared_ptr<EncodedTypePair>;
 
         class EncodedTypePair
         {
         public:
             EncodedTypePair(std::uint64_t type_idx,
                             std::uint64_t addr,
-                            dextypes_t &dex_types);
+                            DexTypes *dex_types);
 
             ~EncodedTypePair() = default;
 
-            type_t get_exception_type();
+            Type *get_exception_type();
 
             std::uint64_t get_exception_handler_addr()
             {
@@ -148,22 +167,18 @@ namespace KUNAI
             }
 
         private:
-            std::pair<std::uint64_t, type_t> type_idx; // type of the exception to catch
-            std::uint64_t addr;                       // bytecode address of associated exception handler
+            std::pair<std::uint64_t, Type *> type_idx; // type of the exception to catch
+            std::uint64_t addr;                        // bytecode address of associated exception handler
         };
-
-        class EncodedCatchHandler;
-
-        using encodedcatchhandler_t = std::shared_ptr<EncodedCatchHandler>;
 
         class EncodedCatchHandler
         {
         public:
             EncodedCatchHandler(std::ifstream &input_file,
                                 std::uint64_t file_size,
-                                dextypes_t &dex_types);
+                                DexTypes *dex_types);
 
-            ~EncodedCatchHandler();
+            ~EncodedCatchHandler() = default;
 
             bool has_explicit_typed_catches();
 
@@ -172,7 +187,7 @@ namespace KUNAI
                 return handlers.size();
             }
 
-            encodedtypepair_t get_handler_by_pos(std::uint64_t pos);
+            const EncodedTypePair *get_handler_by_pos(std::uint64_t pos) const;
 
             std::uint64_t get_catch_all_addr()
             {
@@ -187,22 +202,17 @@ namespace KUNAI
         private:
             bool parse_encoded_type_pairs(std::ifstream &input_file,
                                           std::uint64_t file_size,
-                                          dextypes_t &dex_types);
+                                          DexTypes *dex_types);
 
             std::uint64_t offset;
             std::int64_t encoded_type_pair_size;
-            std::vector<encodedtypepair_t> handlers;
+            encodedtypepairs_t handlers;
             std::uint64_t catch_all_addr;
         };
-
-        class TryItem;
-
-        using tryitem_t = std::shared_ptr<TryItem>;
 
         class TryItem
         {
         public:
-
             /**
              * @brief Structure with try catch information
              */
@@ -237,10 +247,6 @@ namespace KUNAI
             try_item_struct_t try_item_struct;
         };
 
-        class CodeItemStruct;
-
-        using codeitemstruct_t = std::shared_ptr<CodeItemStruct>;
-
         class CodeItemStruct
         {
         public:
@@ -260,9 +266,9 @@ namespace KUNAI
             CodeItemStruct(std::ifstream &input_file,
                            std::uint64_t file_size,
                            code_item_struct_t code_item,
-                           dextypes_t &dex_types);
+                           DexTypes *dex_types);
 
-            ~CodeItemStruct();
+            ~CodeItemStruct() = default;
 
             std::uint16_t get_number_of_registers_in_code()
             {
@@ -284,7 +290,12 @@ namespace KUNAI
                 return code_item.tries_size;
             }
 
-            tryitem_t get_try_item_by_pos(std::uint64_t pos);
+            TryItem *get_try_item_by_pos(std::uint64_t pos);
+
+            const tryitems_t &get_try_items() const
+            {
+                return try_items;
+            }
 
             // raw byte instructions
             std::uint16_t get_number_of_raw_instructions()
@@ -309,34 +320,35 @@ namespace KUNAI
                 return encoded_catch_handler_list.size();
             }
 
-            encodedcatchhandler_t get_encoded_catch_handler_by_pos(std::uint64_t pos);
+            EncodedCatchHandler *get_encoded_catch_handler_by_pos(std::uint64_t pos);
+
+            const encodedcatchhandlers_t &get_encoded_catch_handlers() const
+            {
+                return encoded_catch_handler_list;
+            }
 
         private:
-            bool parse_code_item_struct(std::ifstream &input_file, std::uint64_t file_size, dextypes_t &dex_types);
+            bool parse_code_item_struct(std::ifstream &input_file, std::uint64_t file_size, DexTypes *dex_types);
 
             code_item_struct_t code_item;
             std::vector<std::uint8_t> instructions_raw;
-            std::vector<tryitem_t> try_items;
+            tryitems_t try_items;
             std::uint64_t encoded_catch_handler_list_offset;
-            std::vector<encodedcatchhandler_t> encoded_catch_handler_list;
+            encodedcatchhandlers_t encoded_catch_handler_list;
         };
-
-        class EncodedMethod;
-
-        using encodedmethod_t = std::shared_ptr<EncodedMethod>;
 
         class EncodedMethod
         {
         public:
-            EncodedMethod(methodid_t method_id,
+            EncodedMethod(MethodID* method_id,
                           std::uint64_t access_flags,
                           std::uint64_t code_off,
                           std::ifstream &input_file,
                           std::uint64_t file_size,
-                          dextypes_t &dex_types);
+                          DexTypes* dex_types);
             ~EncodedMethod() = default;
 
-            methodid_t &get_method()
+            MethodID* get_method() const
             {
                 return method_id;
             }
@@ -351,30 +363,26 @@ namespace KUNAI
                 return code_off;
             }
 
-            codeitemstruct_t get_code_item()
+            CodeItemStruct *get_code_item() const
             {
-                return code_item;
+                return code_item.get();
             }
 
             std::string full_name();
 
         private:
-            bool parse_code_item(std::ifstream &input_file, std::uint64_t file_size, dextypes_t &dex_types);
+            bool parse_code_item(std::ifstream &input_file, std::uint64_t file_size, DexTypes* dex_types);
 
-            methodid_t method_id;
+            MethodID* method_id;
             DVMTypes::ACCESS_FLAGS access_flags;
             std::uint64_t code_off;
             codeitemstruct_t code_item;
         };
 
-        class AnnotationElement;
-
-        using annotationelement_t = std::shared_ptr<AnnotationElement>;
-
         class AnnotationElement
         {
         public:
-            AnnotationElement(std::ifstream& input_file);
+            AnnotationElement(std::ifstream &input_file);
             ~AnnotationElement() = default;
 
             std::uint64_t get_name_idx()
@@ -382,21 +390,21 @@ namespace KUNAI
                 return name_idx;
             }
 
-            encodedvalue_t &get_value()
+            EncodedValue *get_value() const
             {
-                return value;
+                return value.get();
             }
+
         private:
             std::uint64_t name_idx;
             encodedvalue_t value;
         };
 
-
         class EncodedAnnotation
         {
         public:
-            EncodedAnnotation(std::ifstream& input_file);
-            ~EncodedAnnotation();
+            EncodedAnnotation(std::ifstream &input_file);
+            ~EncodedAnnotation() = default;
 
             std::uint64_t get_type_idx()
             {
@@ -408,14 +416,15 @@ namespace KUNAI
                 return size;
             }
 
-            const std::vector<annotationelement_t>& get_elements() const
+            const annotationelements_t &get_elements() const
             {
                 return elements;
             }
+
         private:
             std::uint64_t type_idx;
             std::uint64_t size;
-            std::vector<annotationelement_t> elements;
+            annotationelements_t elements;
         };
     }
 }

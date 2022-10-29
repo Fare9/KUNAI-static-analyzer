@@ -12,20 +12,20 @@ namespace KUNAI
         FieldID::FieldID(std::uint16_t class_idx,
                          std::uint16_t type_idx,
                          std::uint32_t name_idx,
-                         dexstrings_t &dex_strings,
-                         dextypes_t &dex_types)
+                         DexStrings *dex_strings,
+                         DexTypes *dex_types)
         {
             this->class_idx = std::make_pair(class_idx, dex_types->get_type_from_order(class_idx));
             this->type_idx = std::make_pair(type_idx, dex_types->get_type_from_order(type_idx));
             this->name_idx = std::make_pair(name_idx, dex_strings->get_string_from_order(name_idx));
         }
 
-        type_t FieldID::get_class_idx()
+        Type *FieldID::get_class_idx()
         {
             return class_idx.second;
         }
 
-        type_t FieldID::get_type_idx()
+        Type *FieldID::get_type_idx()
         {
             return type_idx.second;
         }
@@ -56,21 +56,21 @@ namespace KUNAI
         DexFields::DexFields(std::ifstream &input_file,
                              std::uint32_t number_of_fields,
                              std::uint32_t offset,
-                             dexstrings_t &dex_strings,
-                             dextypes_t &dex_types) : number_of_fields(number_of_fields),
-                                                      offset(offset),
-                                                      dex_strings(dex_strings),
-                                                      dex_types(dex_types)
+                             DexStrings *dex_strings,
+                             DexTypes *dex_types) : number_of_fields(number_of_fields),
+                                                    offset(offset),
+                                                    dex_strings(dex_strings),
+                                                    dex_types(dex_types)
         {
             if (!parse_fields(input_file))
                 throw exceptions::ParserReadingException("Error reading DEX fields");
         }
 
-        fieldid_t DexFields::get_field_id_by_order(size_t pos)
+        FieldID * DexFields::get_field_id_by_order(size_t pos)
         {
             if (pos >= field_ids.size())
                 return nullptr;
-            return field_ids[pos];
+            return field_ids[pos].get();
         }
 
         bool DexFields::parse_fields(std::ifstream &input_file)
@@ -122,9 +122,9 @@ namespace KUNAI
                     throw exceptions::IncorrectStringId("Error reading fields name_idx out of string bound");
                 }
 
-                field_id = std::make_shared<FieldID>(class_idx, type_idx, name_idx, dex_strings, dex_types);
+                field_id = std::make_unique<FieldID>(class_idx, type_idx, name_idx, dex_strings, dex_types);
 
-                field_ids.push_back(field_id);
+                field_ids.push_back(std::move(field_id));
 
 #ifdef DEBUG
                 logger->debug("parsed field_id number {}", i);
@@ -140,9 +140,10 @@ namespace KUNAI
         {
             size_t i = 0;
             os << std::hex;
-            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Fields ===========" << "\n";
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Fields ==========="
+               << "\n";
 
-            for (auto field_id : entry.field_ids)
+            for (auto & field_id : entry.field_ids)
             {
                 os << std::left << std::setfill(' ') << "Field (" << std::dec << i++ << std::hex << "): ";
                 os << *field_id;
@@ -155,16 +156,23 @@ namespace KUNAI
         {
             std::stringstream stream;
             stream << std::hex;
-            stream << std::setw(30) << std::left << std::setfill(' ') << "<fields>" << "\n";
-            for (auto field_id : entry.field_ids)
+            stream << std::setw(30) << std::left << std::setfill(' ') << "<fields>"
+                   << "\n";
+            for (auto & field_id : entry.field_ids)
             {
-                stream << "\t<field>" << "\n";
-                stream << "\t\t<type>" << field_id->get_type_idx()->get_raw() << "</type>" << "\n";
-                stream << "\t\t<class>" << field_id->get_class_idx()->get_raw() << "</class>" << "\n";
-                stream << "\t\t<name>" << *field_id->get_name_idx() << "</name>" << "\n";
-                stream << "\t</field>" << "\n";
+                stream << "\t<field>"
+                       << "\n";
+                stream << "\t\t<type>" << field_id->get_type_idx()->get_raw() << "</type>"
+                       << "\n";
+                stream << "\t\t<class>" << field_id->get_class_idx()->get_raw() << "</class>"
+                       << "\n";
+                stream << "\t\t<name>" << *field_id->get_name_idx() << "</name>"
+                       << "\n";
+                stream << "\t</field>"
+                       << "\n";
             }
-            stream << std::setw(30) << std::left << std::setfill(' ') << "</fields>" << "\n";
+            stream << std::setw(30) << std::left << std::setfill(' ') << "</fields>"
+                   << "\n";
 
             fos.write(stream.str().c_str(), stream.str().size());
 
