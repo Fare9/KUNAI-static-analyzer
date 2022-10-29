@@ -82,7 +82,7 @@ namespace KUNAI
         using parametersannotations_t = std::vector<parameterannotation_t>;
 
         using methodannotations_t = std::unique_ptr<MethodAnnotations>;
-        using methodsannotations_t = std::vector<methodsannotations_t>;
+        using methodsannotations_t = std::vector<methodannotations_t>;
 
         using fieldannotation_t = std::unique_ptr<FieldAnnotation>;
         using fieldsannotations_t = std::vector<fieldannotation_t>;

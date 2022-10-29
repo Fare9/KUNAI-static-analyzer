@@ -219,7 +219,7 @@ namespace KUNAI
              */
             std::vector<std::string> get_string_values();
 
-            const std::vector<encodedfield_t>& get_encoded_fields_from_classes() const
+            const std::vector<EncodedField*>& get_encoded_fields_from_classes() const
             {
                 return encoded_fields;
             }
