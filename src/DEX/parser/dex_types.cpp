@@ -26,7 +26,7 @@ namespace KUNAI
 
         std::string Fundamental::print_fundamental_type()
         {
-            switch (this->f_type)
+            switch (f_type)
             {
             case BOOLEAN:
                 return "boolean";
@@ -87,7 +87,7 @@ namespace KUNAI
         DexTypes::DexTypes(std::ifstream &input_file,
                            std::uint32_t number_of_types,
                            std::uint32_t types_offsets,
-                           dexstrings_t &dex_str) : number_of_types(number_of_types),
+                           DexStrings* dex_str) : number_of_types(number_of_types),
                                                     offset(types_offsets),
                                                     dex_str(dex_str)
         {
@@ -95,25 +95,21 @@ namespace KUNAI
                 throw exceptions::ParserReadingException("Error reading DEX types");
         }
 
-        DexTypes::~DexTypes()
+        DexTypes::~DexTypes() = default;
+
+        Type* DexTypes::get_type_by_id(std::uint32_t type_id)
         {
-            if (!types.empty())
-                types.clear();
+            return types[type_id].get();
         }
 
-        type_t DexTypes::get_type_by_id(std::uint32_t type_id)
-        {
-            return types[type_id];
-        }
-
-        type_t DexTypes::get_type_from_order(std::uint32_t pos)
+        Type* DexTypes::get_type_from_order(std::uint32_t pos)
         {
             size_t i = pos;
 
-            for (auto type : types)
+            for (auto & type : types)
             {
                 if (!i--)
-                    return type.second;
+                    return type.second.get();
             }
 
             return nullptr;
@@ -132,46 +128,46 @@ namespace KUNAI
             switch (name.at(0))
             {
             case 'Z':
-                type = std::make_shared<Fundamental>(Fundamental::BOOLEAN, name);
+                type = std::make_unique<Fundamental>(Fundamental::BOOLEAN, name);
                 break;
             case 'B':
-                type = std::make_shared<Fundamental>(Fundamental::BYTE, name);
+                type = std::make_unique<Fundamental>(Fundamental::BYTE, name);
                 break;
             case 'C':
-                type = std::make_shared<Fundamental>(Fundamental::CHAR, name);
+                type = std::make_unique<Fundamental>(Fundamental::CHAR, name);
                 break;
             case 'D':
-                type = std::make_shared<Fundamental>(Fundamental::DOUBLE, name);
+                type = std::make_unique<Fundamental>(Fundamental::DOUBLE, name);
                 break;
             case 'F':
-                type = std::make_shared<Fundamental>(Fundamental::FLOAT, name);
+                type = std::make_unique<Fundamental>(Fundamental::FLOAT, name);
                 break;
             case 'I':
-                type = std::make_shared<Fundamental>(Fundamental::INT, name);
+                type = std::make_unique<Fundamental>(Fundamental::INT, name);
                 break;
             case 'J':
-                type = std::make_shared<Fundamental>(Fundamental::LONG, name);
+                type = std::make_unique<Fundamental>(Fundamental::LONG, name);
                 break;
             case 'S':
-                type = std::make_shared<Fundamental>(Fundamental::SHORT, name);
+                type = std::make_unique<Fundamental>(Fundamental::SHORT, name);
                 break;
             case 'V':
-                type = std::make_shared<Fundamental>(Fundamental::VOID, name);
+                type = std::make_unique<Fundamental>(Fundamental::VOID, name);
                 break;
             case 'L':
-                type = std::make_shared<Class>(name);
+                type = std::make_unique<Class>(name);
                 break;
             case '[':
             {
                 std::vector<type_t> aux_vec;
                 type_t aux_type;
                 aux_type = parse_type(name.substr(1, name.length() - 1));
-                aux_vec.push_back(aux_type);
-                type = std::make_shared<Array>(aux_vec, name);
+                aux_vec.push_back(std::move(aux_type));
+                type = std::make_unique<Array>(aux_vec, name);
                 break;
             }
             default:
-                type = std::make_shared<Unknown>(Type::UNKNOWN, name);
+                type = std::make_unique<Unknown>(Type::UNKNOWN, name);
             }
 
             return type;
@@ -182,6 +178,7 @@ namespace KUNAI
             auto logger = LOGGER::logger();
 
             auto current_offset = input_file.tellg();
+
             size_t i;
             std::uint32_t type_id;
             type_t type;
@@ -206,7 +203,7 @@ namespace KUNAI
 
                 type = parse_type(*dex_str->get_string_from_order(type_id));
 
-                types.insert(std::pair<std::uint32_t, type_t>(type_id, type));
+                types[type_id] = std::move(type);
 
 #ifdef DEBUG
                 logger->debug("parsed type number {}", i);

@@ -40,8 +40,21 @@ namespace KUNAI
     namespace DEX
     {
         class Type;
+        class Fundamental;
+        class Class;
+        class Array;
+        class Unknown;
+        
+        class DexTypes;
 
-        using type_t = std::shared_ptr<Type>;
+        
+        using type_t        = std::unique_ptr<Type>;
+        using fundamental_t = std::unique_ptr<Fundamental>;
+        using class_t       = std::unique_ptr<Class>;
+        using array_t       = std::unique_ptr<Array>;
+        using unknown_t     = std::unique_ptr<Unknown>;
+
+        using dextypes_t = std::unique_ptr<DexTypes>;
 
         class Type
         {
@@ -82,10 +95,6 @@ namespace KUNAI
             enum type_e type;
             std::string raw;
         };
-
-        class Fundamental;
-
-        using fundamental_t = std::shared_ptr<Fundamental>;
 
         class Fundamental : public Type
         {
@@ -163,10 +172,6 @@ namespace KUNAI
             std::string name;
         };
 
-        class Class;
-
-        using class_t = std::shared_ptr<Class>;
-
         class Class : public Type
         {
         public:
@@ -211,10 +216,6 @@ namespace KUNAI
         private:
             std::string name;
         };
-
-        class Array;
-
-        using array_t = std::shared_ptr<Array>;
 
         class Array : public Type
         {
@@ -262,10 +263,6 @@ namespace KUNAI
             std::vector<type_t> array;
         };
 
-        class Unknown;
-
-        using unknown_t = std::shared_ptr<Unknown>;
-
         class Unknown : public Type
         {
         public:
@@ -300,10 +297,6 @@ namespace KUNAI
             }
         };
 
-        class DexTypes;
-
-        using dextypes_t = std::shared_ptr<DexTypes>;
-
         class DexTypes
         {
         public:
@@ -317,7 +310,7 @@ namespace KUNAI
             DexTypes(std::ifstream &input_file,
                      std::uint32_t number_of_types,
                      std::uint32_t types_offsets,
-                     dexstrings_t& dex_str);
+                     DexStrings* dex_str);
 
             /**
              * @brief Destructor of DexTypes class, clear all the Types.
@@ -327,16 +320,16 @@ namespace KUNAI
             /**
              * @brief Get a type by a given type id as it appears in DEX.
              * @param type_id: type to retrieve by its id.
-             * @return type_t object.
+             * @return Type* object.
              */
-            type_t get_type_by_id(std::uint32_t type_id);
+            Type* get_type_by_id(std::uint32_t type_id);
 
             /**
              * @brief Get a type by a given position from the map.
              * @param pos: position of the Type in the map.
-             * @return type_t object.
+             * @return Type* object.
              */
-            type_t get_type_from_order(std::uint32_t pos);
+            Type* get_type_from_order(std::uint32_t pos);
 
             /**
              * @brief Return the number of types in map.
@@ -380,7 +373,7 @@ namespace KUNAI
             std::map<std::uint32_t, type_t> types;
             std::uint32_t number_of_types;
             std::uint32_t offset;
-            dexstrings_t& dex_str;
+            DexStrings* dex_str;
         };
     }
 }

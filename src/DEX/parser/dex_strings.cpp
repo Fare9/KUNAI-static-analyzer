@@ -15,18 +15,14 @@ namespace KUNAI
                 throw exceptions::ParserReadingException("Error reading DEX strings");
         }
 
-        DexStrings::~DexStrings()
-        {
-            if (!strings.empty())
-                strings.clear();
-        }
+        DexStrings::~DexStrings() = default;
 
         std::string *DexStrings::get_string_from_offset(std::uint32_t offset)
         {
             if (strings.find(offset) == strings.end())
                 return nullptr;
 
-            return &(strings[offset]);
+            return (strings[offset].get());
         }
 
         std::string *DexStrings::get_string_from_order(std::uint32_t pos)
@@ -35,16 +31,6 @@ namespace KUNAI
                 return nullptr;
 
             return ordered_strings[pos];
-        }
-
-        std::vector<std::string*> DexStrings::get_all_strings()
-        {
-            std::vector<std::string*> all_strings;
-
-            for (auto& s : strings)
-                all_strings.push_back(&s.second);
-
-            return all_strings;
         }
 
         /**
@@ -82,8 +68,10 @@ namespace KUNAI
 
                 str = KUNAI::read_dex_string(input_file, str_offset);
 
-                strings.insert(std::pair<std::uint32_t, std::string>(str_offset, str));
-                ordered_strings.push_back(&strings[str_offset]);
+                std::unique_ptr<std::string> p_str = std::make_unique<std::string>(str);
+                
+                strings[str_offset] = std::move(p_str);
+                ordered_strings.push_back(p_str.get());
 
                 #ifdef DEBUG
                 logger->debug("parsed string number {}", i);
@@ -122,7 +110,7 @@ namespace KUNAI
             {
                 stream << "\t<string>" << "\n";
                 stream << "\t\t<offset>" << s.first << "</offset>" << "\n";
-                stream << "\t\t<value>" << s.second << "</value>" << "\n";
+                stream << "\t\t<value>" << *s.second << "</value>" << "\n";
                 stream << "\t</string>" << "\n";
             }
             

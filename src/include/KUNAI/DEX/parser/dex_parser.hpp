@@ -62,31 +62,31 @@ namespace KUNAI
             /**
              * @brief Get the header object
              * 
-             * @return dexheader_t& 
+             * @return const DexHeader* 
              */
-            dexheader_t& get_header()
+            const DexHeader* get_header() const
             {
-                return dex_header;
+                return dex_header.get();
             }
 
             /**
              * @brief Get the strings object
              * 
-             * @return dexstrings_t& 
+             * @return const DexStrings* 
              */
-            dexstrings_t& get_strings()
+            const DexStrings* get_strings() const
             {
-                return dex_strings;
+                return dex_strings.get();
             }
 
             /**
-             * @brief Get the types object.
+             * @brief Get the types object
              * 
-             * @return dextypes_t& 
+             * @return const DexTypes* 
              */
-            dextypes_t& get_types()
+            const DexTypes* get_types() const
             {
-                return dex_types;
+                return dex_types.get();
             }
 
             /**
@@ -94,9 +94,9 @@ namespace KUNAI
              * 
              * @return dexprotos_t& 
              */
-            dexprotos_t& get_protos()
+            const DexProtos* get_protos() const
             {
-                return dex_protos;
+                return dex_protos.get();
             }
 
             /**

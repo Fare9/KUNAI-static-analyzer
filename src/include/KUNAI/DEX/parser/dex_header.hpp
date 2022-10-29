@@ -52,7 +52,7 @@ namespace KUNAI
 
         class DexHeader;
 
-        using dexheader_t = std::shared_ptr<DexHeader>;
+        using dexheader_t = std::unique_ptr<DexHeader>;
 
         class DexHeader
         {
@@ -110,7 +110,7 @@ namespace KUNAI
              * @brief Get structure variable from dex header
              * @return dexheader_t structure
              */
-            dexheader_t &get_dex_header()
+            const dexheader_t &get_dex_header() const
             {
                 return dex_struct;
             }
@@ -141,6 +141,7 @@ namespace KUNAI
             friend std::fstream &operator<<(std::fstream &fos, const DexHeader &entry);
 
         private:
+            //! structure of the dex header
             struct dexheader_t dex_struct;
         };
     }
