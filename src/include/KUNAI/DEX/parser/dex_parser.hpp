@@ -34,11 +34,11 @@ namespace KUNAI
         class DexParser;
 
         /**
-         * @brief shared_ptr type of DexParser, this is the parsing of the
+         * @brief unique_ptr type of DexParser, this is the parsing of the
          * DEX headers, different objects represent the different parts of
          * the DEX.
          */
-        using dexparser_t = std::shared_ptr<DexParser>;
+        using dexparser_t = std::unique_ptr<DexParser>;
 
         class DexParser
         {

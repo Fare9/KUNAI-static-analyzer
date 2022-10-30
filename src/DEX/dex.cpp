@@ -8,10 +8,10 @@ namespace KUNAI
         {
             try
             {
-                this->dex_parser = std::make_shared<DexParser>();
+                this->dex_parser = std::make_unique<DexParser>();
                 this->dex_parser->parse_dex_file(input_file, file_size);
                 this->dex_parsing_correct = true;
-                this->dalvik_opcodes = std::make_shared<DalvikOpcodes>(dex_parser);
+                this->dalvik_opcodes = std::make_unique<DalvikOpcodes>(dex_parser);
                 this->dex_disassembler = std::make_shared<DexDisassembler>(dex_parsing_correct, dex_parser, dalvik_opcodes);
             }
             catch (const std::exception &e)

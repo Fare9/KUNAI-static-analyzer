@@ -4,7 +4,7 @@ namespace KUNAI
 {
     namespace DEX
     {
-        DexDisassembler::DexDisassembler(bool parsing_correct, dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes) : parsing_correct(parsing_correct),
+        DexDisassembler::DexDisassembler(bool parsing_correct, DexParser* dex_parser, DalvikOpcodes* dalvik_opcodes) : parsing_correct(parsing_correct),
                                                                                                                          dex_parser(dex_parser),
                                                                                                                          disassembly_correct(false),
                                                                                                                          dalvik_opcodes(dalvik_opcodes),
@@ -49,7 +49,7 @@ namespace KUNAI
 
             auto class_defs = dex_classes->get_classes();
 
-            for (auto class_def : class_defs)
+            for (auto & class_def : class_defs)
             {
                 // get ClassDataItem
                 auto class_data_item = class_def->get_class_data();
@@ -89,7 +89,7 @@ namespace KUNAI
                             instruction.second->set_number_of_parameters(method->get_method()->get_method_prototype()->get_number_of_parameters() + 1);
                     }
 
-                    this->method_instructions[{class_def, method}] = instructions;
+                    this->method_instructions[{class_def.get(), method}] = instructions;
                 }
             }
         }
