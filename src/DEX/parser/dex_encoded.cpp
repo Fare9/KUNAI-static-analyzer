@@ -125,7 +125,7 @@ namespace KUNAI
             return false;
         }
 
-        const EncodedTypePair *EncodedCatchHandler::get_handler_by_pos(std::uint64_t pos) const
+        EncodedTypePair *EncodedCatchHandler::get_handler_by_pos(std::uint64_t pos) const
         {
             if (pos >= handlers.size())
                 return nullptr;

@@ -23,19 +23,19 @@ namespace KUNAI {
     namespace DEX {
         class LinearSweepDisassembler;
 
-        using linearsweepdisassembler_t = std::shared_ptr<LinearSweepDisassembler>;
+        using linearsweepdisassembler_t = std::unique_ptr<LinearSweepDisassembler>;
 
         class LinearSweepDisassembler
         {
         public:
-            LinearSweepDisassembler(dalvikopcodes_t dalvik_opcodes);
+            LinearSweepDisassembler(DalvikOpcodes* dalvik_opcodes);
             ~LinearSweepDisassembler() = default;
 
             std::map<std::uint64_t, instruction_t> disassembly(const std::vector<std::uint8_t>& byte_buffer);
         private:
             void assign_switch_if_any(std::map<std::uint64_t, instruction_t>& instrs);
 
-            dalvikopcodes_t dalvik_opcodes;
+            DalvikOpcodes* dalvik_opcodes;
         };
     }
 }

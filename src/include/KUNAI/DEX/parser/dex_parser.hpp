@@ -190,7 +190,7 @@ namespace KUNAI
              * 
              * @return const methods_t 
              */
-            const methods_t get_methods_id_item() const
+            const methods_t &get_methods_id_item() const
             {
                 return dex_methods->get_method_ids();
             }
@@ -200,7 +200,7 @@ namespace KUNAI
              * 
              * @return const fields_t 
              */
-            const fields_t get_fields_id_item() const
+            const fields_t &get_fields_id_item() const
             {
                 return dex_fields->get_fields();
             }

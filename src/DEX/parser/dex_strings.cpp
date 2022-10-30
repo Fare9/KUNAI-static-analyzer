@@ -95,7 +95,7 @@ namespace KUNAI
             os << std::hex;
             os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Strings ===========" << "\n";
             for (const auto& s : entry.strings)
-                os << std::left << std::setfill(' ') << "String (" << std::dec << i++ << std::hex << "): " << s.first << "->\"" << s.second << "\"" << "\n";
+                os << std::left << std::setfill(' ') << "String (" << std::dec << i++ << std::hex << "): " << s.first << "->\"" << *s.second << "\"" << "\n";
 
             return os;
         }

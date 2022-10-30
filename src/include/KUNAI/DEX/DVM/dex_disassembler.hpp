@@ -25,12 +25,15 @@ namespace KUNAI
         class DexDisassembler;
 
         /**
-         * @brief std::shared_ptr of DexDisassembler object which manages the disassembly
+         * @brief std::unique_ptr of DexDisassembler object which manages the disassembly
          * of the DEX bytecode, currently it implements a LinearSweepDisassembly which
          * will take methods and will disassemble them, it returns the instructions as a map.
          */
         using dexdisassembler_t = std::unique_ptr<DexDisassembler>;
 
+        /**
+         * @brief Type which contains the instructions of the disassembler.
+         */
         using instruction_map_t = std::map<std::tuple<ClassDef*, EncodedMethod*>, std::map<std::uint64_t, instruction_t>>;
 
         enum disassembler_t
@@ -109,7 +112,7 @@ namespace KUNAI
              *
              * @param disas disassembler object to include to current one.
              */
-            void add_disassembly(dexdisassembler_t &disas);
+            void add_disassembly(DexDisassembler *disas);
 
             /**
              * @brief Set the disassembler type: LINEAR_SWEEP_DISASSEMBLER, RECURSIVE_TRAVERSAL_DISASSEMBLER

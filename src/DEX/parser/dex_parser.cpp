@@ -44,7 +44,7 @@ namespace KUNAI
             dex_protos = std::make_unique<DexProtos>(input_file, file_size, dex_header->get_dex_header().proto_ids_size, dex_header->get_dex_header().proto_ids_off, dex_strings.get(), dex_types.get());
             dex_fields = std::make_unique<DexFields>(input_file, dex_header->get_dex_header().field_ids_size, dex_header->get_dex_header().field_ids_off, dex_strings.get(), dex_types.get());
             dex_methods = std::make_unique<DexMethods>(input_file, dex_header->get_dex_header().method_ids_size, dex_header->get_dex_header().method_ids_off, dex_strings.get(), dex_types.get(), dex_protos.get());
-            dex_classes = std::make_unique<DexClasses>(input_file, file_size, dex_header->get_dex_header().class_defs_size, dex_header->get_dex_header().class_defs_off, dex_strings, dex_types, dex_fields, dex_methods);
+            dex_classes = std::make_unique<DexClasses>(input_file, file_size, dex_header->get_dex_header().class_defs_size, dex_header->get_dex_header().class_defs_off, dex_strings.get(), dex_types.get(), dex_fields.get(), dex_methods.get());
 
             retrieve_encoded_fields_from_classes();
 
@@ -118,7 +118,7 @@ namespace KUNAI
 
         void DexParser::retrieve_encoded_fields_from_classes()
         {
-            auto classes_def = dex_classes->get_classes();
+            auto & classes_def = dex_classes->get_classes();
 
             for (auto & c : classes_def)
             {

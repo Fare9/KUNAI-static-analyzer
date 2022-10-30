@@ -225,7 +225,7 @@ namespace KUNAI
              * @param array: a std::vector with types inside of the array.
              * @param name: std::string with name of Array type.
              */
-            Array(std::vector<type_t> array, std::string raw);
+            Array(std::string raw, size_t depth, type_t &array);
 
             /**
              * @brief Destructor of Array class.
@@ -254,13 +254,19 @@ namespace KUNAI
              * @brief get the vector of the array of types.
              * @return std::vector<type_t> with all the types in the array.
              */
-            const std::vector<type_t> &get_array() const
+            Type* get_type() const
             {
-                return array;
+                return array.get();
+            }
+
+            size_t get_depth()
+            {
+                return depth;
             }
 
         private:
-            std::vector<type_t> array;
+            size_t depth;
+            type_t array;
         };
 
         class Unknown : public Type

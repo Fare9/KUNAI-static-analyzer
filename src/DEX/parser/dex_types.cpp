@@ -64,10 +64,10 @@ namespace KUNAI
          * Array class
          */
 
-        Array::Array(std::vector<type_t> array,
-                     std::string raw)
+        Array::Array(std::string raw, size_t depth, type_t &array)
             : Type(ARRAY, raw),
-              array(array)
+                depth(depth),
+                array(std::move(array))
         {
         }
 
@@ -159,11 +159,12 @@ namespace KUNAI
                 break;
             case '[':
             {
-                std::vector<type_t> aux_vec;
+                size_t depth = 0;
+                while(name.at(0) == '[')
+                    depth++;
                 type_t aux_type;
                 aux_type = parse_type(name.substr(1, name.length() - 1));
-                aux_vec.push_back(std::move(aux_type));
-                type = std::make_unique<Array>(aux_vec, name);
+                type = std::make_unique<Array>(name, depth, aux_type);
                 break;
             }
             default:

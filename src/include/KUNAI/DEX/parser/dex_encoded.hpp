@@ -187,7 +187,7 @@ namespace KUNAI
                 return handlers.size();
             }
 
-            const EncodedTypePair *get_handler_by_pos(std::uint64_t pos) const;
+            EncodedTypePair *get_handler_by_pos(std::uint64_t pos) const;
 
             std::uint64_t get_catch_all_addr()
             {
