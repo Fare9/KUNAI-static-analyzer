@@ -8,15 +8,15 @@ namespace KUNAI
          * MethodAnalysis methods
          */
 
-        MethodAnalysis::MethodAnalysis(std::variant<encodedmethod_t, externalmethod_t> method_encoded, dalvikopcodes_t dalvik_opcodes, std::map<std::uint64_t, instruction_t> instructions) : method_encoded(method_encoded),
+        MethodAnalysis::MethodAnalysis(std::variant<EncodedMethod*, ExternalMethod*> method_encoded, DalvikOpcodes* dalvik_opcodes, std::map<std::uint64_t, Instruction*> instructions) : method_encoded(method_encoded),
                                                                                                                                                                                               dalvik_opcodes(dalvik_opcodes),
                                                                                                                                                                                               instructions(instructions)
         {
             is_external = method_encoded.index() == 0 ? false : true;
-            exceptions = std::make_shared<Exception>();
+            exceptions = std::make_unique<Exception>();
 
             if (instructions.size() > 0)
-                this->create_basic_block();
+                create_basic_block();
         }
 
         bool MethodAnalysis::is_android_api()
@@ -39,11 +39,11 @@ namespace KUNAI
         {
             if (is_external)
             {
-                return std::get<externalmethod_t>(method_encoded)->get_name();
+                return std::get<ExternalMethod*>(method_encoded)->get_name();
             }
             else
             {
-                return *std::get<encodedmethod_t>(method_encoded)->get_method()->get_method_name();
+                return *std::get<EncodedMethod*>(method_encoded)->get_method()->get_method_name();
             }
         }
 
@@ -51,11 +51,11 @@ namespace KUNAI
         {
             if (is_external)
             {
-                return std::get<externalmethod_t>(method_encoded)->get_descriptor();
+                return std::get<ExternalMethod*>(method_encoded)->get_descriptor();
             }
             else
             {
-                return std::get<encodedmethod_t>(method_encoded)->get_method()->get_method_prototype()->get_proto_str();
+                return std::get<EncodedMethod*>(method_encoded)->get_method()->get_method_prototype()->get_proto_str();
             }
         }
 
@@ -65,12 +65,12 @@ namespace KUNAI
 
             if (is_external)
             {
-                externalmethod_t method = std::get<externalmethod_t>(method_encoded);
+                ExternalMethod* method = std::get<ExternalMethod*>(method_encoded);
                 access_flag = this->dalvik_opcodes->get_access_flags_string(method->get_access_flags());
             }
             else
             {
-                encodedmethod_t method = std::get<encodedmethod_t>(method_encoded);
+                EncodedMethod* method = std::get<EncodedMethod*>(method_encoded);
                 access_flag = this->dalvik_opcodes->get_access_flags_string(method->get_access_flags());
             }
 
@@ -83,12 +83,12 @@ namespace KUNAI
 
             if (is_external)
             {
-                externalmethod_t method = std::get<externalmethod_t>(method_encoded);
+                ExternalMethod* method = std::get<ExternalMethod*>(method_encoded);
                 class_name = method->get_class_name();
             }
             else
             {
-                encodedmethod_t method = std::get<encodedmethod_t>(method_encoded);
+                EncodedMethod* method = std::get<EncodedMethod*>(method_encoded);
                 class_name = method->get_method()->get_method_class()->get_raw();
             }
 
@@ -99,40 +99,40 @@ namespace KUNAI
         {
             if (is_external)
             {
-                externalmethod_t method = std::get<externalmethod_t>(method_encoded);
+                ExternalMethod* method = std::get<ExternalMethod*>(method_encoded);
                 return method->full_name();
             }
 
-            encodedmethod_t method = std::get<encodedmethod_t>(method_encoded);
+            EncodedMethod* method = std::get<EncodedMethod*>(method_encoded);
             return method->full_name();
         }
 
-        void MethodAnalysis::add_xref_read(classanalysis_t class_object, fieldanalysis_t field_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_read(ClassAnalysis* class_object, FieldAnalysis* field_object, std::uint64_t offset)
         {
             xrefread.push_back({class_object, field_object, offset});
         }
 
-        void MethodAnalysis::add_xref_write(classanalysis_t class_object, fieldanalysis_t field_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_write(ClassAnalysis* class_object, FieldAnalysis* field_object, std::uint64_t offset)
         {
             xrefwrite.push_back({class_object, field_object, offset});
         }
 
-        void MethodAnalysis::add_xref_to(classanalysis_t class_object, methodanalysis_t method_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_to(ClassAnalysis* class_object, MethodAnalysis* method_object, std::uint64_t offset)
         {
             xrefto.push_back({class_object, method_object, offset});
         }
 
-        void MethodAnalysis::add_xref_from(classanalysis_t class_object, methodanalysis_t method_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_from(ClassAnalysis* class_object, MethodAnalysis* method_object, std::uint64_t offset)
         {
             xreffrom.push_back({class_object, method_object, offset});
         }
 
-        void MethodAnalysis::add_xref_new_instance(classanalysis_t class_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_new_instance(ClassAnalysis* class_object, std::uint64_t offset)
         {
             xrefnewinstance.push_back({class_object, offset});
         }
 
-        void MethodAnalysis::add_xref_const_class(classanalysis_t class_object, std::uint64_t offset)
+        void MethodAnalysis::add_xref_const_class(ClassAnalysis* class_object, std::uint64_t offset)
         {
             xrefconstclass.push_back({class_object, offset});
         }
@@ -141,8 +141,8 @@ namespace KUNAI
         {
             auto logger = LOGGER::logger();
 
-            basic_blocks = std::make_shared<BasicBlocks>();
-            dvmbasicblock_t current_basic = std::make_shared<DVMBasicBlock>(0, dalvik_opcodes, basic_blocks, std::get<encodedmethod_t>(method_encoded), instructions);
+            basic_blocks = std::make_unique<BasicBlocks>();
+            dvmbasicblock_t current_basic = std::make_shared<DVMBasicBlock>(0, dalvik_opcodes, basic_blocks.get(), std::get<EncodedMethod*>(method_encoded), instructions);
 
             // push the first basic block
             basic_blocks->push_basic_block(current_basic);
@@ -150,7 +150,7 @@ namespace KUNAI
             std::vector<std::int64_t> l;
             std::map<std::uint64_t, std::vector<std::int64_t>> h;
 
-            logger->debug("create_basic_block: creating basic blocks for method {}.", std::get<encodedmethod_t>(method_encoded)->full_name());
+            logger->debug("create_basic_block: creating basic blocks for method {}.", std::get<EncodedMethod*>(method_encoded)->full_name());
 
             for (auto const &instruction : instructions)
             {
@@ -173,7 +173,7 @@ namespace KUNAI
             logger->debug("create_basic_block: parsing method exceptions.");
 #endif
 
-            auto excepts = determine_exception(dalvik_opcodes, std::get<encodedmethod_t>(method_encoded));
+            auto excepts = determine_exception(dalvik_opcodes, std::get<EncodedMethod*>(method_encoded));
 
             for (const auto &except : excepts)
             {
@@ -231,7 +231,7 @@ namespace KUNAI
             logger->debug("create_basic_blocks: creating exceptions.");
 #endif
 
-            this->exceptions->add(excepts, this->basic_blocks);
+            this->exceptions->add(excepts, basic_blocks.get());
 
             for (auto bb : bbs)
             {

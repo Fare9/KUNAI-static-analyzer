@@ -5,7 +5,7 @@ namespace KUNAI
     namespace DEX
     {
 
-        Analysis::Analysis(dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes, instruction_map_t instructions, bool create_xrefs) : created_xrefs(!create_xrefs),
+        Analysis::Analysis(DexParser* dex_parser, DalvikOpcodes* dalvik_opcodes, instruction_map_t instructions, bool create_xrefs) : created_xrefs(!create_xrefs),
                                                                                                                                                    dalvik_opcodes(dalvik_opcodes),
                                                                                                                                                    instructions(instructions)
         {
@@ -13,7 +13,7 @@ namespace KUNAI
                 this->add(dex_parser);
         }
 
-        void Analysis::add(dexparser_t dex_parser)
+        void Analysis::add(DexParser* dex_parser)
         {
             auto logger = LOGGER::logger();
 
@@ -26,13 +26,13 @@ namespace KUNAI
             logger->debug("Adding to the analysis {} number of classes", class_dex->get_number_of_classes());
 #endif
 
-            for (auto class_def_item : class_dex->get_classes())
+            for (auto & class_def_item : class_dex->get_classes())
             {
                 if (class_def_item == nullptr)
                     continue;
 
-                classes[class_def_item->get_class_idx()->get_name()] = std::make_shared<ClassAnalysis>(class_def_item);
-                auto new_class = classes[class_def_item->get_class_idx()->get_name()];
+                classes[class_def_item->get_class_idx()->get_name()] = std::make_unique<ClassAnalysis>(class_def_item.get());
+                auto & new_class = classes[class_def_item->get_class_idx()->get_name()];
 
                 // get class data item
                 auto class_data_item = class_def_item->get_class_data();
@@ -46,12 +46,17 @@ namespace KUNAI
                 // add the direct & virtual methods
                 for (auto encoded_method : class_data_item->get_methods())
                 {
-                    methods[encoded_method->full_name()] = std::make_shared<MethodAnalysis>(encoded_method, dalvik_opcodes, instructions[{class_def_item, encoded_method}]);
-                    auto new_method = methods[encoded_method->full_name()];
+                    std::map<std::uint64_t, Instruction*> method_instructions;
 
-                    new_class->add_method(new_method);
+                    for (auto & instr : instructions[{class_def_item.get(), encoded_method}])
+                        method_instructions[instr.first] = instr.second.get();
 
-                    method_hashes[class_def_item->get_class_idx()->get_name() + *encoded_method->get_method()->get_method_name() + encoded_method->get_method()->get_method_prototype()->get_proto_str()] = new_method;
+                    methods[encoded_method->full_name()] = std::make_unique<MethodAnalysis>(encoded_method, dalvik_opcodes, method_instructions);
+                    auto & new_method = methods[encoded_method->full_name()];
+
+                    new_class->add_method(new_method.get());
+
+                    method_hashes[class_def_item->get_class_idx()->get_name() + *encoded_method->get_method()->get_method_name() + encoded_method->get_method()->get_method_prototype()->get_proto_str()] = new_method.get();
                 }
             }
 
@@ -94,7 +99,7 @@ namespace KUNAI
                     logger->debug("Analyzing {}({}) class from {}", class_def_item->get_class_idx()->get_raw(), j++, class_dex->get_number_of_classes());
 #endif
 
-                    _create_xref(class_def_item);
+                    _create_xref(class_def_item.get());
                 }
             }
 
@@ -106,76 +111,76 @@ namespace KUNAI
             return (classes.find(class_name) == classes.end());
         }
 
-        classanalysis_t Analysis::get_class_analysis(std::string& class_name)
+        ClassAnalysis* Analysis::get_class_analysis(std::string& class_name)
         {
             if (classes.find(class_name) == classes.end())
                 return nullptr;
-            return classes[class_name];
+            return classes[class_name].get();
         }
 
-        std::vector<classanalysis_t> Analysis::get_classes()
+        std::vector<ClassAnalysis*> Analysis::get_classes()
         {
-            std::vector<classanalysis_t> classes_vector;
+            std::vector<ClassAnalysis*> classes_vector;
 
-            for (auto class_ : classes)
+            for (auto & class_ : classes)
             {
-                classes_vector.push_back(class_.second);
+                classes_vector.push_back(class_.second.get());
             }
 
             return classes_vector;
         }
 
-        std::vector<classanalysis_t> Analysis::get_external_classes()
+        std::vector<ClassAnalysis*> Analysis::get_external_classes()
         {
-            std::vector<classanalysis_t> external_classes;
+            std::vector<ClassAnalysis*> external_classes;
 
-            for (auto class_ : classes)
+            for (auto & class_ : classes)
             {
                 if (class_.second->is_class_external())
-                    external_classes.push_back(class_.second);
+                    external_classes.push_back(class_.second.get());
             }
 
             return external_classes;
         }
 
-        std::vector<classanalysis_t> Analysis::get_internal_classes()
+        std::vector<ClassAnalysis*> Analysis::get_internal_classes()
         {
-            std::vector<classanalysis_t> internal_classes;
+            std::vector<ClassAnalysis*> internal_classes;
 
-            for (auto class_ : classes)
+            for (auto & class_ : classes)
             {
                 if (!class_.second->is_class_external())
-                    internal_classes.push_back(class_.second);
+                    internal_classes.push_back(class_.second.get());
             }
 
             return internal_classes;
         }
 
-        methodanalysis_t Analysis::get_method(std::variant<encodedmethod_t, externalmethod_t> method)
+        MethodAnalysis* Analysis::get_method(std::variant<EncodedMethod*, ExternalMethod*> method)
         {
             std::string method_key;
 
             if (method.index() == 0)
-                method_key = std::get<encodedmethod_t>(method)->full_name();
+                method_key = std::get<EncodedMethod*>(method)->full_name();
             else
-                method_key = std::get<externalmethod_t>(method)->full_name();
+                method_key = std::get<ExternalMethod*>(method)->full_name();
 
             if (methods.find(method_key) != methods.end())
-                return methods[method_key];
+                return methods[method_key].get();
             return nullptr;
         }
 
-        methodid_t Analysis::get_method_by_name(std::string& class_name, std::string& method_name, std::string& method_descriptor)
+        MethodID* Analysis::get_method_by_name(std::string& class_name, std::string& method_name, std::string& method_descriptor)
         {
             auto m_a = get_method_analysis_by_name(class_name, method_name, method_descriptor);
 
             if (m_a && (!m_a->external()))
-                return std::get<encodedmethod_t>(m_a->get_method())->get_method();
+                return std::get<EncodedMethod*>(m_a->get_method())->get_method();
 
             return nullptr;
         }
 
-        methodanalysis_t Analysis::get_method_analysis_by_name(std::string& class_name, std::string& method_name, std::string& method_descriptor)
+        MethodAnalysis* Analysis::get_method_analysis_by_name(std::string& class_name, std::string& method_name, std::string& method_descriptor)
         {
             std::string m_hash = class_name+method_name+method_descriptor;
 
@@ -184,9 +189,9 @@ namespace KUNAI
             return method_hashes[m_hash];
         }
 
-        std::vector<methodanalysis_t> Analysis::get_methods()
+        std::vector<MethodAnalysis*> Analysis::get_methods()
         {
-            std::vector<methodanalysis_t> methods;
+            std::vector<MethodAnalysis*> methods;
 
             for (auto hash : method_hashes)
                 methods.push_back(hash.second);
@@ -194,9 +199,9 @@ namespace KUNAI
             return methods;
         }
 
-        fieldanalysis_t Analysis::get_field_analysis(encodedfield_t field)
+        FieldAnalysis* Analysis::get_field_analysis(EncodedField* field)
         {
-            auto class_analysis = get_class_analysis(std::dynamic_pointer_cast<Class>(field->get_field()->get_class_idx())->get_name());
+            auto class_analysis = get_class_analysis(reinterpret_cast<Class*>(field->get_field()->get_class_idx())->get_name());
 
             if (class_analysis)
                 return class_analysis->get_field_analysis(field);
@@ -204,11 +209,11 @@ namespace KUNAI
             return nullptr;
         }
 
-        std::vector<fieldanalysis_t> Analysis::get_fields()
+        std::vector<FieldAnalysis*> Analysis::get_fields()
         {
-            std::vector<fieldanalysis_t> fields;
+            std::vector<FieldAnalysis*> fields;
 
-            for (auto c : classes)
+            for (auto & c : classes)
             {
                 auto aux = c.second->get_fields();
 
@@ -218,48 +223,48 @@ namespace KUNAI
             return fields;
         }
 
-        std::vector<stringanalysis_t> Analysis::get_strings()
+        std::vector<StringAnalysis*> Analysis::get_strings()
         {
-            std::vector<stringanalysis_t> str_vector;
+            std::vector<StringAnalysis*> str_vector;
 
-            for (auto s : strings)
+            for (auto & s : strings)
             {
-                str_vector.push_back(s.second);
+                str_vector.push_back(s.second.get());
             }
 
             return str_vector;
         }
 
-        std::vector<classanalysis_t> Analysis::find_classes(std::string name = ".*", bool no_external = false)
+        std::vector<ClassAnalysis*> Analysis::find_classes(std::string name = ".*", bool no_external = false)
         {
-            std::vector<classanalysis_t> classes_vector;
+            std::vector<ClassAnalysis*> classes_vector;
             std::regex class_name_regex(name);
 
-            for (auto c : classes)
+            for (auto & c : classes)
             {
                 if (no_external && (c.second->is_class_external()))
                     continue;
                 if (std::regex_search(c.second->name(), class_name_regex))
-                    classes_vector.push_back(c.second);
+                    classes_vector.push_back(c.second.get());
             }
 
             return classes_vector;
         }
 
-        std::vector<methodanalysis_t> Analysis::find_methods(std::string class_name = ".*",
+        std::vector<MethodAnalysis*> Analysis::find_methods(std::string class_name = ".*",
                                                                             std::string method_name = ".*",
                                                                             std::string descriptor = ".*",
                                                                             std::string accessflags = ".*",
                                                                             bool no_external = false)
         {
-            std::vector<methodanalysis_t> methods_vector;
+            std::vector<MethodAnalysis*> methods_vector;
 
             std::regex class_name_regex(class_name),
                 method_name_regex(method_name),
                 descriptor_regex(descriptor),
                 accessflags_regex(accessflags);
 
-            for (auto c : classes)
+            for (auto & c : classes)
             {
                 if (std::regex_search(c.second->name(), class_name_regex))
                 {
@@ -281,21 +286,21 @@ namespace KUNAI
             return methods_vector;
         }
 
-        std::vector<stringanalysis_t> Analysis::find_strings(std::string string = ".*")
+        std::vector<StringAnalysis*> Analysis::find_strings(std::string string = ".*")
         {
-            std::vector<stringanalysis_t> strings_list;
+            std::vector<StringAnalysis*> strings_list;
             std::regex str_reg(string);
 
             for (auto it = strings.begin(); it != strings.end(); it++)
             {
                 if (std::regex_search(it->first, str_reg))
-                    strings_list.push_back(it->second);
+                    strings_list.push_back(it->second.get());
             }
 
             return strings_list;
         }
 
-        std::vector<fieldanalysis_t> Analysis::find_fields(std::string class_name = ".*",
+        std::vector<FieldAnalysis*> Analysis::find_fields(std::string class_name = ".*",
                                                                           std::string field_name = ".*",
                                                                           std::string field_type = ".*",
                                                                           std::string accessflags = ".*")
@@ -305,9 +310,9 @@ namespace KUNAI
                 field_type_regex(field_type),
                 accessflags_regex(accessflags);
 
-            std::vector<fieldanalysis_t> fields_list;
+            std::vector<FieldAnalysis*> fields_list;
 
-            for (auto c : classes)
+            for (auto & c : classes)
             {
                 if (std::regex_search(c.second->name(), class_name_regex))
                 {
@@ -327,7 +332,7 @@ namespace KUNAI
             return fields_list;
         }
 
-        void Analysis::_create_xref(KUNAI::DEX::classdef_t &current_class)
+        void Analysis::_create_xref(KUNAI::DEX::ClassDef* current_class)
         {
             auto logger = LOGGER::logger();
 
@@ -347,9 +352,9 @@ namespace KUNAI
             auto& current_methods = class_data_item->get_methods();
             auto& class_working_on = classes[current_class_name];
 
-            for (auto& current_method : current_methods)
+            for (auto current_method : current_methods)
             {
-                auto current_method_analysis = methods[current_method->full_name()];
+                auto & current_method_analysis = methods[current_method->full_name()];
 
 #ifdef DEBUG
                 static size_t j = 0;
@@ -361,8 +366,8 @@ namespace KUNAI
 
                 for (auto& offset_instr : instructions)
                 {
-                    auto& off = offset_instr.first;
-                    auto& instruction = offset_instr.second;
+                    auto off = offset_instr.first;
+                    auto instruction = offset_instr.second;
 
                     auto op_value = instruction->get_OP();
 
@@ -372,7 +377,7 @@ namespace KUNAI
                     // instructions.
                     if ((op_value == DVMTypes::Opcode::OP_CONST_CLASS) || (op_value == DVMTypes::Opcode::OP_NEW_INSTANCE))
                     {
-                        auto const_class_new_instance = std::dynamic_pointer_cast<Instruction21c>(instruction);
+                        auto const_class_new_instance = reinterpret_cast<Instruction21c*>(instruction);
 
                         // we need to check that we get a TYPE from CONST_CLASS
                         // or from NEW_INSTANCE, any other Kind (FIELD, PROTO, etc)
@@ -381,7 +386,7 @@ namespace KUNAI
                             (const_class_new_instance->get_source_typeid()->get_type() != Type::CLASS))
                             continue;
 
-                        auto type_info = std::dynamic_pointer_cast<Class>(const_class_new_instance->get_source_typeid())->get_name();
+                        auto type_info = reinterpret_cast<Class*>(const_class_new_instance->get_source_typeid())->get_name();
 
                         // we aren't going to analyze our current class name
                         if (type_info == current_class_name)
@@ -390,9 +395,9 @@ namespace KUNAI
                         // if the name of the class is not already in classes
                         // probably is an external class, add it to classes.
                         if (classes.find(type_info) == classes.end())
-                            classes[type_info] = std::make_shared<ClassAnalysis>(std::make_shared<ExternalClass>(type_info));
+                            classes[type_info] = std::make_unique<ClassAnalysis>(std::make_shared<ExternalClass>(type_info));
 
-                        auto oth_cls = classes[type_info];
+                        auto & oth_cls = classes[type_info];
 
                         /**
                          * FIXME: xref_to does not work here! current_method is wrong, as it is not the target!

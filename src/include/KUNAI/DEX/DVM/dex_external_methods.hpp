@@ -23,7 +23,7 @@ namespace KUNAI
 
         class ExternalMethod;
 
-        using externalmethod_t = std::shared_ptr<ExternalMethod>;
+        using externalmethod_t = std::unique_ptr<ExternalMethod>;
 
         class ExternalMethod
         {

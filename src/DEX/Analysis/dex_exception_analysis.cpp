@@ -9,7 +9,7 @@ namespace KUNAI
          * ExceptionAnalysis class
          */
 
-        ExceptionAnalysis::ExceptionAnalysis(exceptions_data exception, basicblocks_t &basic_blocks) : exception(exception)
+        ExceptionAnalysis::ExceptionAnalysis(exceptions_data exception, BasicBlocks *basic_blocks) : exception(exception)
         {
             for (auto &handler : exception.handler)
             {
@@ -43,16 +43,16 @@ namespace KUNAI
 
         Exception::Exception() {}
 
-        void Exception::add(std::vector<exceptions_data> &exceptions, basicblocks_t basic_blocks)
+        void Exception::add(std::vector<exceptions_data> &exceptions, BasicBlocks* basic_blocks)
         {
             for (auto &exception : exceptions)
             {
                 this->exceptions.push_back(
-                    std::make_shared<ExceptionAnalysis>(exception, basic_blocks));
+                    std::make_unique<ExceptionAnalysis>(exception, basic_blocks));
             }
         }
 
-        exceptionanalysis_t Exception::get_exception(std::uint64_t start_addr, std::uint64_t end_addr)
+        ExceptionAnalysis* Exception::get_exception(std::uint64_t start_addr, std::uint64_t end_addr) const
         {
             for (auto &exception : exceptions)
             {
@@ -60,9 +60,9 @@ namespace KUNAI
                 auto try_end_addr = exception->get_exception_data().try_value_end_addr;
 
                 if ((try_value_start_addr >= start_addr) && (try_end_addr <= end_addr))
-                    return exception;
+                    return exception.get();
                 else if ((end_addr <= try_end_addr) && (start_addr >= try_value_start_addr))
-                    return exception;
+                    return exception.get();
             }
 
             return nullptr;

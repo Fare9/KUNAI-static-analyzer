@@ -1,7 +1,7 @@
 /**
  * @file dex_external_classes.hpp
  * @author @Farenain
- * 
+ *
  * @brief Android external class used to create specific
  *        object in the analysis of the code, for calls
  *        to external classes.
@@ -16,44 +16,45 @@
 
 #include "KUNAI/DEX/DVM/dex_external_methods.hpp"
 
-namespace KUNAI {
-    namespace DEX {
+namespace KUNAI
+{
+    namespace DEX
+    {
 
         class ExternalClass;
 
-        using externalclass_t = std::shared_ptr<ExternalClass>;
-
+        using externalclass_t = std::unique_ptr<ExternalClass>;
 
         class ExternalClass
         {
         public:
             /**
-             * @brief Construct a new External Class object, 
+             * @brief Construct a new External Class object,
              *        representation of class out of DEX.
-             * 
-             * @param name 
+             *
+             * @param name
              */
             ExternalClass(std::string name);
 
             /**
              * @brief Destroy the External Class object, clear methods.
              */
-            ~ExternalClass();
+            ~ExternalClass() = default;
 
             /**
              * @brief Get Class name.
-             * 
-             * @return std::string 
+             *
+             * @return std::string
              */
-            std::string& get_name()
+            std::string &get_name()
             {
                 return name;
             }
 
             /**
              * @brief Get the number of methods in the class.
-             * 
-             * @return std::uint64_t 
+             *
+             * @return std::uint64_t
              */
             std::uint64_t get_number_of_methods()
             {
@@ -62,25 +63,25 @@ namespace KUNAI {
 
             /**
              * @brief Get the method by position.
-             * 
-             * @param pos 
-             * @return externalmethod_t 
+             *
+             * @param pos
+             * @return ExternalMethod*
              */
-            externalmethod_t get_method_by_pos(std::uint64_t pos);
+            ExternalMethod *get_method_by_pos(std::uint64_t pos);
 
             /**
              * @brief Add external method to class.
-             * 
-             * @param method 
+             *
+             * @param method
              */
-            void add_method(externalmethod_t method)
+            void add_method(ExternalMethod *method)
             {
                 methods.push_back(method);
             }
 
         private:
             std::string name;
-            std::vector<externalmethod_t> methods;
+            std::vector<ExternalMethod *> methods;
         };
     }
 }
