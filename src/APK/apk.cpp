@@ -29,14 +29,13 @@ namespace KUNAI
             auto logger = LOGGER::logger();
 
             // try opening the file with library
-            struct zip_t* zip = zip_open(path_to_apk_file.c_str(), 0, 'r');
+            struct zip_t *zip = zip_open(path_to_apk_file.c_str(), 0, 'r');
 
             if (!zip)
             {
                 logger->error("There was an error opening apk file.");
                 throw exceptions::ApkUnzipException("Exception opening apk file");
             }
-
 
             // go over each entry
             for (int i = 0, n = zip_entries_total(zip); i < n; i++)
@@ -52,7 +51,7 @@ namespace KUNAI
                     if (dex == nullptr)
                         throw exceptions::ApkUnzipException("Exception extracting dex file");
 
-                    dex_files[file_name] = dex;
+                    dex_files[file_name] = std::move(dex);
                 }
                 zip_entry_close(zip);
             }
@@ -62,7 +61,7 @@ namespace KUNAI
             logger->info("Adding disassemblers to global disassembler");
 
             // create a disassembler with all the objects
-            for (auto dex_file : dex_files)
+            for (auto &dex_file : dex_files)
             {
                 if (!global_disassembler)
                     // initialize the global disassembler with the first disassembler.
@@ -74,33 +73,32 @@ namespace KUNAI
 
             logger->info("Finished adding disassemblers to global disassembler");
 
-            global_analysis = std::make_shared<DEX::Analysis>(nullptr, 
-                dex_files.begin()->second->get_dalvik_opcode_object(), 
-                global_disassembler->get_instructions(), this->create_xrefs);
+            global_analysis = std::make_unique<DEX::Analysis>(nullptr,
+                                                              dex_files.begin()->second->get_dalvik_opcode_object(),
+                                                              global_disassembler, this->create_xrefs);
 
             logger->info("Adding DEX files to analysis object");
 
-            for (auto dex_file : dex_files)
+            for (auto &dex_file : dex_files)
                 global_analysis->add(dex_file.second->get_parser());
-            
+
             logger->info("Finished adding DEX files to analysis object");
 
-            
             logger->info("Starting xrefs analysis");
 
             global_analysis->create_xref();
-            
+
             logger->info("Finished creating analysis xrefs");
         }
 
-        DEX::dex_t APK::manage_dex_files_from_zip_entry(struct zip_t* dex_file)
+        std::unique_ptr<DEX::DEX> APK::manage_dex_files_from_zip_entry(struct zip_t *dex_file)
         {
             // get logger object
             auto logger = LOGGER::logger();
 
             std::string temporal_file_path;
             std::ifstream file;
-            const char* name = zip_entry_name(dex_file);
+            const char *name = zip_entry_name(dex_file);
 
             // create the path to it
             temporal_file_path = temporal_path +
@@ -126,7 +124,7 @@ namespace KUNAI
             file.open(temporal_file_path, std::ios::binary);
 
             // Create DEX object
-            auto dex = KUNAI::DEX::get_shared_dex_object(file, fsize);
+            auto dex = KUNAI::DEX::get_unique_dex_object(file, fsize);
 
             if (!dex->get_parsing_correct())
             {
@@ -150,13 +148,11 @@ namespace KUNAI
 
             return dex;
         }
-        
 
         std::unique_ptr<APK> get_unique_apk_object(std::string path_to_apk_file, bool create_xrefs)
         {
             return std::make_unique<APK>(path_to_apk_file, create_xrefs);
         }
-
 
         apk_t get_shared_apk_object(std::string path_to_apk_file, bool create_xrefs)
         {

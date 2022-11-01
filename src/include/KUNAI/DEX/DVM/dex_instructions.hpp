@@ -2017,7 +2017,7 @@ namespace KUNAI
         std::vector<std::int64_t> determine_next(Instruction* instr,
                                                  std::uint64_t curr_idx);
 
-        std::vector<exceptions_data> determine_exception(DalvikOpcodes *dalvik_opcodes, EncodedMethod *&method);
+        std::vector<exceptions_data> determine_exception(DalvikOpcodes *dalvik_opcodes, EncodedMethod *method);
 
         /**
          * @brief Given a instruction, return in case it is a conditional jump the

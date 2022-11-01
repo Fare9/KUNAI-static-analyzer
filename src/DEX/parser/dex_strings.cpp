@@ -70,9 +70,9 @@ namespace KUNAI
 
                 std::unique_ptr<std::string> p_str = std::make_unique<std::string>(str);
                 
-                strings[str_offset] = std::move(p_str);
                 ordered_strings.push_back(p_str.get());
-
+                strings[str_offset] = std::move(p_str);
+                
                 #ifdef DEBUG
                 logger->debug("parsed string number {}", i);
                 #endif

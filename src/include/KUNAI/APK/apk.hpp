@@ -2,7 +2,7 @@
  * @file apk.hpp
  * @author @Farenain
  * @brief Class to manage the APK file.
- * 
+ *
  * An APK file will be a union of different files,
  * there will be one or more DEX files, .SO files
  * (ELF), an XML file which represents the manifest,
@@ -36,20 +36,19 @@ namespace KUNAI
 
         /**
          * APK definition
-         * 
+         *
          * @brief An APK will be the union of different components that
          * we will work with, this will involve the use of:
          * - DEX files.
          * - SO (ELF) files (not implemented yet).
          * - XML file: for the AndroidManifest.xml.
-         * 
+         *
          */
         class APK
         {
         public:
-
             APK(std::string path_to_apk_file, bool create_xrefs);
-            
+
             ~APK();
 
             /**
@@ -64,10 +63,10 @@ namespace KUNAI
              * will contain the disassembly from all the DEX files,
              * this is necessary to create a global analysis object
              * too.
-             * 
+             *
              * @return dexdisassembler_t
              */
-            DEX::dexdisassembler_t& get_global_disassembler()
+            DEX::DexDisassembler *get_global_disassembler()
             {
                 return global_disassembler;
             }
@@ -77,71 +76,69 @@ namespace KUNAI
              * analysis object will contain all the DEXParsers and
              * the global disassembler in order to analyze the whole
              * APK.
-             * 
+             *
              * @return DEX::analysis_t
              */
-            DEX::analysis_t& get_global_analysis()
+            DEX::analysis_t &get_global_analysis()
             {
                 return global_analysis;
             }
 
             /**
              * @brief Get the map of the DEX file objects.
-             * 
-             * @return const std::map<std::string, DEX::dex_t>& 
+             *
+             * @return const std::map<std::string, DEX::dex_t>&
              */
-            const std::map<std::string, DEX::dex_t>& get_dex_files() const
+            const std::map<std::string, std::unique_ptr<DEX::DEX>> &get_dex_files() const
             {
                 return dex_files;
             }
 
             /**
              * @brief Get a dex object by name or nullptr if dex file does not exists.
-             * 
-             * @param dex_name 
+             *
+             * @param dex_name
              * @return DEX::dex_t
              */
-            DEX::dex_t get_dex_by_name(std::string dex_name)
+            DEX::DEX *get_dex_by_name(std::string dex_name)
             {
                 if (dex_files.find(dex_name) == dex_files.end())
                     return nullptr;
-                return dex_files[dex_name];
+                return dex_files[dex_name].get();
             }
 
             /**
              * @brief Get the path to apk file given.
-             * 
-             * @return std::string& 
+             *
+             * @return std::string&
              */
-            std::string& get_path_to_apk_file()
+            std::string &get_path_to_apk_file()
             {
                 return path_to_apk_file;
             }
 
             /**
              * @brief Get the path to where KUNAI will unzip the content.
-             * 
-             * @return std::string& 
+             *
+             * @return std::string&
              */
-            std::string& get_path_to_unzip_folder()
+            std::string &get_path_to_unzip_folder()
             {
                 return temporal_path;
             }
 
         private:
-            
             /**
              * @brief Extract one DEX file and create the necessary DEX object
              * with it.
-             * 
-             * @param dex_file 
+             *
+             * @param dex_file
              * @return DEX::dex_t
              */
-            DEX::dex_t manage_dex_files_from_zip_entry(struct zip_t* dex_file);
+            std::unique_ptr<DEX::DEX> manage_dex_files_from_zip_entry(struct zip_t *dex_file);
 
-
-            std::map<std::string, DEX::dex_t> dex_files;
-            DEX::dexdisassembler_t global_disassembler;
+            std::map<std::string, std::unique_ptr<DEX::DEX>> dex_files;
+            DEX::DexDisassembler *global_disassembler;
             DEX::analysis_t global_analysis;
 
             std::string path_to_apk_file;
@@ -152,19 +149,19 @@ namespace KUNAI
 
         /**
          * @brief Get the unique apk object object
-         * 
-         * @param path_to_apk_file 
+         *
+         * @param path_to_apk_file
          * @param create_xrefs
-         * @return std::unique_ptr<APK> 
+         * @return std::unique_ptr<APK>
          */
         std::unique_ptr<APK> get_unique_apk_object(std::string path_to_apk_file, bool create_xrefs);
 
         /**
          * @brief Get the shared apk object object
-         * 
-         * @param path_to_apk_file 
+         *
+         * @param path_to_apk_file
          * @param create_xrefs
-         * @return apk_t 
+         * @return apk_t
          */
         apk_t get_shared_apk_object(std::string path_to_apk_file, bool create_xrefs);
     }
