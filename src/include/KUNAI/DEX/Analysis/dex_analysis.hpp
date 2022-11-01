@@ -606,7 +606,7 @@ namespace KUNAI
         /**
          * DVMBasicBlock definition
          */
-        class DVMBasicBlock : std::enable_shared_from_this<DVMBasicBlock>
+        class DVMBasicBlock : public std::enable_shared_from_this<DVMBasicBlock>
         {
         public:
             /**

@@ -4,11 +4,11 @@ namespace KUNAI
 {
     namespace DEX
     {
-        RecursiveTraversalDisassembler::RecursiveTraversalDisassembler(DalvikOpcodes* dalvik_opcodes) : dalvik_opcodes(dalvik_opcodes)
+        RecursiveTraversalDisassembler::RecursiveTraversalDisassembler(DalvikOpcodes *dalvik_opcodes) : dalvik_opcodes(dalvik_opcodes)
         {
         }
 
-        std::map<std::uint64_t, instruction_t> RecursiveTraversalDisassembler::disassembly(const std::vector<std::uint8_t> &byte_buffer, EncodedMethod* method)
+        std::map<std::uint64_t, instruction_t> RecursiveTraversalDisassembler::disassembly(const std::vector<std::uint8_t> &byte_buffer, EncodedMethod *method)
         {
             auto logger = LOGGER::logger();
             std::map<std::uint64_t, instruction_t> instructions;
@@ -67,7 +67,9 @@ namespace KUNAI
                         instructions[instruction_index] = std::move(instruction);
                         seen[instruction_index] = true;
 
-                        auto operation = dalvik_opcodes->get_instruction_operation(instruction->get_OP());
+                        auto current_instr = instructions[instruction_index].get();
+
+                        auto operation = dalvik_opcodes->get_instruction_operation(current_instr->get_OP());
                         // conditional jump
                         if (operation == DVMTypes::Operation::CONDITIONAL_BRANCH_DVM_OPCODE ||
                             // unconditional jump
@@ -76,9 +78,9 @@ namespace KUNAI
                             operation == DVMTypes::Operation::MULTI_BRANCH_DVM_OPCODE)
                         {
                             if (operation == DVMTypes::Operation::MULTI_BRANCH_DVM_OPCODE)
-                                analyze_switch(instructions, byte_buffer, instruction.get(), instruction_index);
-                            
-                            auto next_offsets = determine_next(instruction.get(), instruction_index);
+                                analyze_switch(instructions, byte_buffer, current_instr, instruction_index);
+
+                            auto next_offsets = determine_next(current_instr, instruction_index);
 
                             for (auto next_offset : next_offsets)
                             {
@@ -88,7 +90,7 @@ namespace KUNAI
                             break;
                         }
 
-                        instruction_index += instruction->get_length();
+                        instruction_index += current_instr->get_length();
                     }
                     catch (const exceptions::InvalidInstruction &i)
                     {
@@ -115,12 +117,12 @@ namespace KUNAI
             return instructions;
         }
 
-        void RecursiveTraversalDisassembler::analyze_switch(std::map<std::uint64_t, instruction_t>& instrs, const std::vector<std::uint8_t>& byte_buffer, Instruction* instruction, std::uint64_t instruction_index)
+        void RecursiveTraversalDisassembler::analyze_switch(std::map<std::uint64_t, instruction_t> &instrs, const std::vector<std::uint8_t> &byte_buffer, Instruction *instruction, std::uint64_t instruction_index)
         {
             // get the instruction
-            auto instr31t = reinterpret_cast<Instruction31t*>(instruction);
+            auto instr31t = reinterpret_cast<Instruction31t *>(instruction);
 
-            auto switch_idx = instruction_index + (instr31t->get_offset()*2);
+            auto switch_idx = instruction_index + (instr31t->get_offset() * 2);
 
             std::stringstream input_buffer;
 
@@ -133,9 +135,9 @@ namespace KUNAI
             instrs[switch_idx] = std::move(new_instruction);
 
             if (instruction->get_OP() == DVMTypes::OP_PACKED_SWITCH)
-                instr31t->set_packed_switch(reinterpret_cast<PackedSwitch*>(new_instruction.get()));
+                instr31t->set_packed_switch(reinterpret_cast<PackedSwitch *>(instrs[switch_idx].get()));
             else if (instruction->get_OP() == DVMTypes::OP_SPARSE_SWITCH)
-                instr31t->set_sparse_switch(reinterpret_cast<SparseSwitch*>(new_instruction.get()));
+                instr31t->set_sparse_switch(reinterpret_cast<SparseSwitch *>(instrs[switch_idx].get()));
         }
 
     }

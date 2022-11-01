@@ -36,7 +36,7 @@ namespace KUNAI {
                     if (instruction)
                     {
                         instructions[instruction_index] = std::move(instruction);
-                        instruction_index += instruction->get_length();
+                        instruction_index += instructions[instruction_index]->get_length();
                     }
                 }
                 catch(const exceptions::InvalidInstruction& i)

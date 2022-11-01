@@ -91,7 +91,7 @@ namespace KUNAI
 
                     for(auto & instr : instructions)
                         this->method_instructions[{class_def.get(), method}][instr.first] = std::move(instr.second);
-                    //this->method_instructions[{class_def.get(), method}] = instructions;
+                    
                 }
             }
         }

@@ -160,10 +160,14 @@ namespace KUNAI
             case '[':
             {
                 size_t depth = 0;
-                while(name.at(0) == '[')
+                std::string name_cpy = name;
+                while(name_cpy.at(0) == '[')
+                {
                     depth++;
+                    name_cpy = name_cpy.substr(1, name_cpy.length() - 1);
+                }
                 type_t aux_type;
-                aux_type = parse_type(name.substr(1, name.length() - 1));
+                aux_type = parse_type(name_cpy);
                 type = std::make_unique<Array>(name, depth, aux_type);
                 break;
             }
