@@ -143,6 +143,21 @@ namespace KUNAI
             return os;
         }
 
+        std::map<std::uint64_t, Instruction*> DexDisassembler::get_instructions_by_class_and_method(ClassDef* class_def, EncodedMethod* encoded_method)
+        {
+            std::map<std::uint64_t, Instruction*> instructions;
+            std::tuple<ClassDef*, EncodedMethod*> key = std::make_tuple(class_def, encoded_method);
+            if (method_instructions.find(key) != method_instructions.end())
+            {
+                auto & instrs = method_instructions[key];
+
+                for (auto & instr : instrs)
+                    instructions[instr.first] = instr.second.get();
+            }
+
+            return instructions;
+        }
+
         DexDisassembler &operator+(DexDisassembler &first_disassembler, DexDisassembler &other_disassembler)
         {
             first_disassembler.add_disassembly(&other_disassembler);

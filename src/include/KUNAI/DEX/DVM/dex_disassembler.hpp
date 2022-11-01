@@ -106,6 +106,15 @@ namespace KUNAI
             }
 
             /**
+             * @brief Get the instructions by class and method object
+             * 
+             * @param class_def 
+             * @param encoded_method 
+             * @return std::map<std::uint64_t, Instruction*> 
+             */
+            std::map<std::uint64_t, Instruction*> get_instructions_by_class_and_method(ClassDef* class_def, EncodedMethod* encoded_method);
+
+            /**
              * @brief We can include in one disassembler the disassembly from
              *        many others, this will allow to disassembly more than one
              *        DEX file as one.

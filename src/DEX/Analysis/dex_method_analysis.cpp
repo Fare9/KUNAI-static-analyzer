@@ -198,7 +198,7 @@ namespace KUNAI
                 {
                     if (current_basic->get_nb_instructions() != 0)
                     {
-                        current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::get<encodedmethod_t>(method_encoded), instructions);
+                        current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks.get(), std::get<EncodedMethod*>(method_encoded), instructions);
                         basic_blocks->push_basic_block(current_basic);
                     }
                 }
@@ -207,7 +207,7 @@ namespace KUNAI
 
                 if (h.find(idx) != h.end())
                 {
-                    current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks, std::get<encodedmethod_t>(method_encoded), instructions);
+                    current_basic = std::make_shared<DVMBasicBlock>(current_basic->get_end(), dalvik_opcodes, basic_blocks.get(), std::get<EncodedMethod*>(method_encoded), instructions);
                     basic_blocks->push_basic_block(current_basic);
                 }
             }

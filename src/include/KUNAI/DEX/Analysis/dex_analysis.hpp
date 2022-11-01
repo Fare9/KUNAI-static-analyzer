@@ -57,7 +57,7 @@ namespace KUNAI
          *        * fields (FieldAnalysis object)
          *
          */
-        using analysis_t = std::shared_ptr<Analysis>;
+        using analysis_t = std::unique_ptr<Analysis>;
 
         using classanalysis_t = std::unique_ptr<ClassAnalysis>;
 
@@ -91,7 +91,7 @@ namespace KUNAI
              * @return void
              */
             Analysis(DexParser* dex_parser, DalvikOpcodes* dalvik_opcodes,
-                     instruction_map_t instructions, bool create_xrefs);
+                     DexDisassembler* disassembler, bool create_xrefs);
 
             /**
              * @brief Analysis class destructor, nothing really interesting in here.
@@ -296,7 +296,7 @@ namespace KUNAI
              * @param method_descriptor: std::string descriptor (proto) of the method.
              * @return methodanalysis_t
              */
-            methodanalysis_t _resolve_method(std::string class_name, std::string method_name, std::string method_descriptor);
+            MethodAnalysis* _resolve_method(std::string class_name, std::string method_name, std::string method_descriptor);
 
             /**
              * @brief DEXParser objects
@@ -310,6 +310,13 @@ namespace KUNAI
             std::unordered_map<std::string, classanalysis_t> classes;
 
             /**
+             * @brief map with external classes, these are
+             *        created on demand to represent those
+             *        classes which do not belong to the apk
+             */
+            std::unordered_map<std::string, externalclass_t> external_classes;
+
+            /**
              * @brief map with std::string as key and stringanalysis_t
              * as value
              */
@@ -321,6 +328,8 @@ namespace KUNAI
              */
             std::unordered_map<std::string, methodanalysis_t> methods;
 
+            std::unordered_map<std::string, externalmethod_t> external_methods;
+
             /**
              * @brief map hash for quickly getting the Method
              */
@@ -328,7 +337,7 @@ namespace KUNAI
 
             DalvikOpcodes* dalvik_opcodes;
 
-            instruction_map_t instructions;
+            DexDisassembler* disassembler;
 
             // check if xrefs were already created or not
             bool created_xrefs;

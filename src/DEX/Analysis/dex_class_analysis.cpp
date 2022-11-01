@@ -159,9 +159,9 @@ namespace KUNAI
             std::string method_key;
 
             if (method1->external())
-                method_key = std::get<externalmethod_t>(method1->get_method())->full_name();
+                method_key = std::get<ExternalMethod*>(method1->get_method())->full_name();
             else
-                method_key = std::get<encodedmethod_t>(method1->get_method())->full_name();
+                method_key = std::get<EncodedMethod*>(method1->get_method())->full_name();
 
             if (methods.find(method_key) == methods.end())
                 this->add_method(method1);
@@ -176,9 +176,9 @@ namespace KUNAI
             std::string method_key;
 
             if (method1->external())
-                method_key = std::get<externalmethod_t>(method1->get_method())->full_name();
+                method_key = std::get<ExternalMethod*>(method1->get_method())->full_name();
             else
-                method_key = std::get<encodedmethod_t>(method1->get_method())->full_name();
+                method_key = std::get<EncodedMethod*>(method1->get_method())->full_name();
 
             if (methods.find(method_key) == methods.end())
                 this->add_method(method1);

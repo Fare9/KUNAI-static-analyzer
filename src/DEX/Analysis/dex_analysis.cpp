@@ -5,9 +5,9 @@ namespace KUNAI
     namespace DEX
     {
 
-        Analysis::Analysis(DexParser* dex_parser, DalvikOpcodes* dalvik_opcodes, instruction_map_t instructions, bool create_xrefs) : created_xrefs(!create_xrefs),
+        Analysis::Analysis(DexParser* dex_parser, DalvikOpcodes* dalvik_opcodes, DexDisassembler* disassembler, bool create_xrefs) : created_xrefs(!create_xrefs),
                                                                                                                                                    dalvik_opcodes(dalvik_opcodes),
-                                                                                                                                                   instructions(instructions)
+                                                                                                                                                   disassembler(disassembler)
         {
             if (dex_parser)
                 this->add(dex_parser);
@@ -46,10 +46,7 @@ namespace KUNAI
                 // add the direct & virtual methods
                 for (auto encoded_method : class_data_item->get_methods())
                 {
-                    std::map<std::uint64_t, Instruction*> method_instructions;
-
-                    for (auto & instr : instructions[{class_def_item.get(), encoded_method}])
-                        method_instructions[instr.first] = instr.second.get();
+                    std::map<std::uint64_t, Instruction*> method_instructions = disassembler->get_instructions_by_class_and_method(class_def_item.get(), encoded_method);
 
                     methods[encoded_method->full_name()] = std::make_unique<MethodAnalysis>(encoded_method, dalvik_opcodes, method_instructions);
                     auto & new_method = methods[encoded_method->full_name()];
@@ -90,7 +87,7 @@ namespace KUNAI
 #endif
 
                 auto class_dex = dex_parser->get_classes();
-                auto class_def_items = class_dex->get_classes();
+                auto & class_def_items = class_dex->get_classes();
 
                 for (auto& class_def_item : class_def_items)
                 {
@@ -350,11 +347,11 @@ namespace KUNAI
 
             // add the methods
             auto& current_methods = class_data_item->get_methods();
-            auto& class_working_on = classes[current_class_name];
+            auto class_working_on = classes[current_class_name].get();
 
             for (auto current_method : current_methods)
             {
-                auto & current_method_analysis = methods[current_method->full_name()];
+                auto current_method_analysis = methods[current_method->full_name()].get();
 
 #ifdef DEBUG
                 static size_t j = 0;
@@ -395,9 +392,11 @@ namespace KUNAI
                         // if the name of the class is not already in classes
                         // probably is an external class, add it to classes.
                         if (classes.find(type_info) == classes.end())
-                            classes[type_info] = std::make_unique<ClassAnalysis>(std::make_shared<ExternalClass>(type_info));
-
-                        auto & oth_cls = classes[type_info];
+                        {
+                            external_classes[type_info] = std::make_unique<ExternalClass>(type_info);
+                            classes[type_info] = std::make_unique<ClassAnalysis>(external_classes[type_info].get());
+                        }
+                        auto oth_cls = classes[type_info].get();
 
                         /**
                          * FIXME: xref_to does not work here! current_method is wrong, as it is not the target!
@@ -427,7 +426,7 @@ namespace KUNAI
                     // invoke-xxx/range
                     else if ((DVMTypes::Opcode::OP_INVOKE_VIRTUAL <= op_value) && (op_value <= DVMTypes::Opcode::OP_INVOKE_INTERFACE))
                     {
-                        auto invoke_ = std::dynamic_pointer_cast<Instruction35c>(instruction);
+                        auto invoke_ = reinterpret_cast<Instruction35c*>(instruction);
 
                         // get that kind is method
                         if (invoke_->get_kind() != DVMTypes::Kind::METH)
@@ -440,12 +439,12 @@ namespace KUNAI
                             continue;
                         }
 
-                        auto class_info = std::dynamic_pointer_cast<Class>(invoke_->get_operands_kind_method()->get_method_class())->get_name();
+                        auto class_info = reinterpret_cast<Class*>(invoke_->get_operands_kind_method()->get_method_class())->get_name();
                         auto method_info = *invoke_->get_operands_kind_method()->get_method_name();
                         auto proto_info = invoke_->get_operands_kind_method()->get_method_prototype()->get_proto_str();
 
                         auto oth_meth = _resolve_method(class_info, method_info, proto_info);
-                        auto oth_cls = classes[class_info];
+                        auto oth_cls = classes[class_info].get();
 
                         class_working_on->add_method_xref_to(current_method_analysis, oth_cls, oth_meth, off);
                         oth_cls->add_method_xref_from(oth_meth, class_working_on, current_method_analysis, off);
@@ -455,18 +454,18 @@ namespace KUNAI
                     }
                     else if ((DVMTypes::Opcode::OP_INVOKE_VIRTUAL_RANGE <= op_value) && (op_value <= DVMTypes::Opcode::OP_INVOKE_INTERFACE_RANGE))
                     {
-                        auto invoke_xxx_range = std::dynamic_pointer_cast<Instruction3rc>(instruction);
+                        auto invoke_xxx_range = reinterpret_cast<Instruction3rc*>(instruction);
 
                         // get that kind is type, and it's also a class
                         if (invoke_xxx_range->get_kind() != DVMTypes::Kind::METH)
                             continue;
 
-                        auto class_info = std::dynamic_pointer_cast<Class>(invoke_xxx_range->get_operands_method()->get_method_class())->get_name();
+                        auto class_info = reinterpret_cast<Class*>(invoke_xxx_range->get_operands_method()->get_method_class())->get_name();
                         auto method_info = *invoke_xxx_range->get_operands_method()->get_method_name();
                         auto proto_info = invoke_xxx_range->get_operands_method()->get_method_prototype()->get_proto_str();
 
                         auto oth_meth = _resolve_method(class_info, method_info, proto_info);
-                        auto oth_cls = classes[class_info];
+                        auto oth_cls = classes[class_info].get();
 
                         class_working_on->add_method_xref_to(current_method_analysis, oth_cls, oth_meth, off);
                         oth_cls->add_method_xref_from(oth_meth, class_working_on, current_method_analysis, off);
@@ -479,7 +478,7 @@ namespace KUNAI
                     // const-string and const-string/jumbo
                     else if (op_value == DVMTypes::Opcode::OP_CONST_STRING)
                     {
-                        auto const_string = std::dynamic_pointer_cast<Instruction21c>(instruction);
+                        auto const_string = reinterpret_cast<Instruction21c*>(instruction);
 
                         // we want strings, only strings and much strings
                         if (const_string->get_kind() != DVMTypes::Kind::STRING)
@@ -488,7 +487,7 @@ namespace KUNAI
                         auto string_value = const_string->get_source_str();
 
                         if (strings.find(*string_value) == strings.end())
-                            strings[*string_value] = std::make_shared<StringAnalysis>(string_value);
+                            strings[*string_value] = std::make_unique<StringAnalysis>(string_value);
 
                         strings[*string_value]->add_xref_from(class_working_on, current_method_analysis, off);
                     }
@@ -498,7 +497,7 @@ namespace KUNAI
                     // then those from OP_SGET to OP_SPUT_SHORT
                     else if ((DVMTypes::Opcode::OP_IGET <= op_value) && (op_value <= DVMTypes::Opcode::OP_IPUT_SHORT))
                     {
-                        auto op_i = std::dynamic_pointer_cast<Instruction22c>(instruction);
+                        auto op_i = reinterpret_cast<Instruction22c*>(instruction);
 
                         if ((op_i->get_kind() != DVMTypes::Kind::FIELD) || (op_i->get_third_operand_kind() != DVMTypes::Kind::FIELD))
                             continue;
@@ -529,7 +528,7 @@ namespace KUNAI
                     }
                     else if ((DVMTypes::Opcode::OP_SGET <= op_value) && (op_value <= DVMTypes::Opcode::OP_SPUT_SHORT))
                     {
-                        auto op_s = std::dynamic_pointer_cast<Instruction21c>(instruction);
+                        auto op_s = reinterpret_cast<Instruction21c*>(instruction);
 
                         if ((op_s->get_kind() != DVMTypes::Kind::FIELD) || (op_s->get_source_kind() != DVMTypes::Kind::FIELD))
                             continue;
@@ -562,26 +561,28 @@ namespace KUNAI
             }
         }
 
-        methodanalysis_t Analysis::_resolve_method(std::string class_name, std::string method_name, std::string method_descriptor)
+        MethodAnalysis* Analysis::_resolve_method(std::string class_name, std::string method_name, std::string method_descriptor)
         {
             std::string m_hash = class_name+method_name+method_descriptor;
             
-            std::map<std::uint64_t, instruction_t> empty_instructions;
+            std::map<std::uint64_t, Instruction*> empty_instructions;
 
             if (method_hashes.find(m_hash) == method_hashes.end())
             {
                 // create if necessary create a class
                 if (classes.find(class_name) == classes.end())
+                {
+                    external_classes[class_name] = std::make_unique<ExternalClass>(class_name);
                     // add as external class
-                    classes[class_name] = std::make_shared<ClassAnalysis>(std::make_shared<ExternalClass>(class_name));
-
-                auto meth = std::make_shared<ExternalMethod>(class_name, method_name, method_descriptor);
-                auto meth_analysis = std::make_shared<MethodAnalysis>(meth, dalvik_opcodes, empty_instructions);
+                    classes[class_name] = std::make_unique<ClassAnalysis>(external_classes[class_name].get());
+                }
+                external_methods[m_hash] = std::make_unique<ExternalMethod>(class_name, method_name, method_descriptor);
+                auto meth_analysis = std::make_unique<MethodAnalysis>(external_methods[m_hash].get(), dalvik_opcodes, empty_instructions);
 
                 // add to all the collections we have
-                method_hashes[m_hash] = meth_analysis;
-                classes[class_name]->add_method(meth_analysis);
-                methods[meth->full_name()] = meth_analysis;
+                method_hashes[m_hash] = meth_analysis.get();
+                classes[class_name]->add_method(meth_analysis.get());
+                methods[external_methods[m_hash]->full_name()] = std::move(meth_analysis);
             }
 
             return method_hashes[m_hash];
