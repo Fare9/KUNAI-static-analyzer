@@ -747,7 +747,7 @@ namespace KUNAI
             DalvikOpcodes *dalvik_opcodes;
             BasicBlocks *context;
             EncodedMethod *method;
-            std::map<std::uint64_t, Instruction *> instructions;
+            std::map<std::uint64_t, Instruction *> & instructions;
             std::map<std::uint64_t, Instruction *> special_instructions;
             std::uint64_t last_length;
             std::uint64_t nb_instructions;
