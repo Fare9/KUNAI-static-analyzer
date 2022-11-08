@@ -68,7 +68,7 @@ int main(int argc, char **argv)
             instr->second->show_instruction();
             std::cout << std::endl;
 
-            lifter_android->lift_android_instruction(instr->second, bb);
+            lifter_android->lift_android_instruction(instr->second.get(), bb);
         }
 
         std::cout << std::endl;

@@ -90,11 +90,11 @@ int main(int argc, char **argv)
     std::cout << dex_parser->get_header_version_str() << std::endl;
 
     // do we want to print all the ClassDef?
-    auto class_defs = dex_parser->get_classes_def_item();
+    auto & class_defs = dex_parser->get_classes_def_item();
 
     std::cout << "[ClassDef] classes: " << std::endl;
     
-    for (auto class_def : class_defs)
+    for (auto & class_def : class_defs)
     {
         if (class_def->get_class_idx() == nullptr)
             continue;
@@ -108,10 +108,10 @@ int main(int argc, char **argv)
     }
 
     // Do we want to print all the MethodIDs?
-    auto method_ids = dex_parser->get_methods_id_item();
+    auto & method_ids = dex_parser->get_methods_id_item();
 
     std::cout << "[MethodId] methods: " << std::endl;
-    for (auto method : method_ids)
+    for (auto & method : method_ids)
     {
         std::cout << "\tMethod name: " << *method->get_method_name() << std::endl;
         /**
@@ -180,16 +180,16 @@ int main(int argc, char **argv)
         switch (type->get_type())
         {
         case KUNAI::DEX::Type::FUNDAMENTAL:
-            type = std::dynamic_pointer_cast<KUNAI::DEX::Fundamental>(type);
+            type = reinterpret_cast<KUNAI::DEX::Fundamental*>(type);
             break;
         case KUNAI::DEX::Type::CLASS:
-            type = std::dynamic_pointer_cast<KUNAI::DEX::Class>(type);
+            type = reinterpret_cast<KUNAI::DEX::Class*>(type);
             break;
         case KUNAI::DEX::Type::ARRAY:
-            type = std::dynamic_pointer_cast<KUNAI::DEX::Array>(type);
+            type = reinterpret_cast<KUNAI::DEX::Array*>(type);
             break;
         case KUNAI::DEX::Type::UNKNOWN:
-            type = std::dynamic_pointer_cast<KUNAI::DEX::Unknown>(type);
+            type = reinterpret_cast<KUNAI::DEX::Unknown*>(type);
             break;
         }
 
@@ -197,12 +197,12 @@ int main(int argc, char **argv)
         std::cout << "Type raw: " << type->get_raw() << std::endl;
     }
 
-    auto methods = dex_parser->get_methods_id_item();
+    auto & methods = dex_parser->get_methods_id_item();
 
     std::cout << "Methods: " << std::endl;
     for (size_t i = 0; i < methods.size(); i++)
     {
-        auto method = methods[i];
+        auto & method = methods[i];
 
         std::cout << "Class: " << method->get_method_class()->get_raw() << std::endl;
         std::cout << "Method: " << *method->get_method_name() << std::endl;

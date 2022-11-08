@@ -46,9 +46,7 @@ namespace KUNAI
                 // add the direct & virtual methods
                 for (auto encoded_method : class_data_item->get_methods())
                 {
-                    std::map<std::uint64_t, Instruction*> method_instructions = disassembler->get_instructions_by_class_and_method(class_def_item.get(), encoded_method);
-
-                    methods[encoded_method->full_name()] = std::make_unique<MethodAnalysis>(encoded_method, dalvik_opcodes, method_instructions);
+                    methods[encoded_method->full_name()] = std::make_unique<MethodAnalysis>(encoded_method, dalvik_opcodes, disassembler->get_instructions_by_class_and_method(class_def_item.get(), encoded_method));
                     auto & new_method = methods[encoded_method->full_name()];
 
                     new_class->add_method(new_method.get());

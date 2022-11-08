@@ -13,9 +13,9 @@ namespace KUNAI
             optimizer = std::make_shared<MJOLNIR::Optimizer>();
         }
 
-        MJOLNIR::irgraph_t LifterAndroid::lift_android_method(DEX::methodanalysis_t &method_analysis, DEX::analysis_t &android_analysis)
+        MJOLNIR::irgraph_t LifterAndroid::lift_android_method(DEX::MethodAnalysis* method_analysis, DEX::Analysis* android_analysis)
         {
-            auto bbs = method_analysis->get_basic_blocks()->get_basic_blocks();
+            auto & bbs = method_analysis->get_basic_blocks()->get_basic_blocks();
             size_t n_bbs = bbs.size();
             // set android_analysis
             this->android_analysis = android_analysis;
@@ -27,7 +27,7 @@ namespace KUNAI
             {
                 MJOLNIR::irblock_t lifted_bb = std::make_shared<MJOLNIR::IRBlock>();
 
-                this->lift_android_basic_block(bb, lifted_bb);
+                this->lift_android_basic_block(bb.get(), lifted_bb);
 
                 lifted_blocks[bb.get()] = lifted_bb;
 
@@ -38,13 +38,13 @@ namespace KUNAI
             // from the method blocks.
             for (auto bb : bbs)
             {
-                auto next_bbs = bb->get_next();
+                auto & next_bbs = bb->get_next();
 
                 auto current_bb = lifted_blocks[bb.get()];
 
                 for (auto next_bb : next_bbs)
                 {
-                    auto block = std::get<2>(next_bb);
+                    auto block = std::get<2>(next_bb).get();
 
                     if (lifted_blocks.find(block) == lifted_blocks.end())
                         continue;
@@ -72,7 +72,7 @@ namespace KUNAI
             return method_graph;
         }
 
-        bool LifterAndroid::lift_android_basic_block(DEX::dvmbasicblock_t &basic_block, MJOLNIR::irblock_t &bb)
+        bool LifterAndroid::lift_android_basic_block(DEX::DVMBasicBlock* basic_block, MJOLNIR::irblock_t &bb)
         {
             auto instructions = basic_block->get_instructions();
             auto next = basic_block->get_next();
@@ -94,7 +94,7 @@ namespace KUNAI
 
                     if (auto ir_call = MJOLNIR::call_ir(last_instr))
                     {
-                        auto move_result = std::dynamic_pointer_cast<DEX::Instruction11x>(instruction);
+                        auto move_result = reinterpret_cast<DEX::Instruction11x*>(instruction);
                         ir_call->set_ret_val(make_android_register(move_result->get_destination()));
                     }
 
@@ -114,7 +114,7 @@ namespace KUNAI
             return true;
         }
 
-        bool LifterAndroid::lift_android_instruction(DEX::instruction_t &instruction, MJOLNIR::irblock_t &bb)
+        bool LifterAndroid::lift_android_instruction(DEX::Instruction* instruction, MJOLNIR::irblock_t &bb)
         {
             auto logger = KUNAI::LOGGER::logger();
 
@@ -134,7 +134,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction12x>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction12x*>(instruction);
                 auto dest = instr->get_destination();
                 auto src = instr->get_source();
 
@@ -153,7 +153,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction22x>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction22x*>(instruction);
                 auto dest = instr->get_destination();
                 auto src = instr->get_source();
 
@@ -172,7 +172,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction32x>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction32x*>(instruction);
 
                 auto dest = instr->get_destination();
                 auto src = instr->get_source();
@@ -190,7 +190,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction11n>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction11n*>(instruction);
 
                 auto dest = instr->get_destination();
                 auto src = instr->get_source();
@@ -209,7 +209,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction21s>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction21s*>(instruction);
 
                 auto dest = instr->get_destination();
                 auto src = instr->get_source();
@@ -228,7 +228,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction31i>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction31i*>(instruction);
 
                 auto dest = instr->get_destination();
                 auto src = instr->get_source();
@@ -247,7 +247,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction21h>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction21h*>(instruction);
 
                 auto dest = instr->get_destination();
                 auto src = instr->get_source();
@@ -270,7 +270,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction51l>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction51l*>(instruction);
 
                 auto dest = instr->get_destination();
                 auto src = instr->get_source();
@@ -288,7 +288,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction21c>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction21c*>(instruction);
 
                 auto dest = instr->get_destination();
                 auto dest_reg = make_android_register(dest);
@@ -305,7 +305,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction21c>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction21c*>(instruction);
 
                 auto dest = instr->get_destination();
                 auto dest_reg = make_android_register(dest);
@@ -315,7 +315,7 @@ namespace KUNAI
                     // ToDo generate an exception
                     return false;
                 }
-                auto src_class = std::dynamic_pointer_cast<DEX::Class>(instr->get_source_typeid());
+                auto src_class = reinterpret_cast<DEX::Class*>(instr->get_source_typeid());
                 auto src = make_class(src_class);
 
                 assignment_instr = std::make_shared<MJOLNIR::IRAssign>(dest_reg, src);
@@ -335,7 +335,7 @@ namespace KUNAI
                 MJOLNIR::irstmnt_t assignment_instr;
                 MJOLNIR::irunaryop_t cast_instr = nullptr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction21c>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction21c*>(instruction);
 
                 auto dest = instr->get_destination();
                 auto dest_reg = make_android_register(dest);
@@ -437,7 +437,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction21c>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction21c*>(instruction);
 
                 // Instruction PUT follows the same instruction format
                 // than GET, it follows same codification, but here
@@ -459,7 +459,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction31c>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction31c*>(instruction);
 
                 auto dest = instr->get_destination();
                 auto dest_reg = make_android_register(dest);
@@ -482,7 +482,7 @@ namespace KUNAI
                 MJOLNIR::irstmnt_t assignment_instr;
                 MJOLNIR::irunaryop_t cast_instr = nullptr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction22c>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction22c*>(instruction);
 
                 auto dest_reg = make_android_register(instr->get_first_operand());
                 auto src_field = make_field(instr->get_third_operand_FieldId());
@@ -540,7 +540,7 @@ namespace KUNAI
             {
                 MJOLNIR::irstmnt_t assignment_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction22c>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction22c*>(instruction);
 
                 auto src_reg = make_android_register(instr->get_first_operand());
                 auto dst_field = make_field(instr->get_third_operand_FieldId());
@@ -973,7 +973,7 @@ namespace KUNAI
             {
                 std::shared_ptr<MJOLNIR::IRRet> ret_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction11x>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction11x*>(instruction);
 
                 auto reg = instr->get_destination();
 
@@ -1074,7 +1074,7 @@ namespace KUNAI
             {
                 std::shared_ptr<MJOLNIR::IRUJmp> ujmp;
 
-                auto jmp = std::dynamic_pointer_cast<DEX::Instruction10t>(instruction);
+                auto jmp = reinterpret_cast<DEX::Instruction10t*>(instruction);
 
                 auto addr = current_idx + (jmp->get_offset() * 2);
 
@@ -1088,7 +1088,7 @@ namespace KUNAI
             {
                 std::shared_ptr<MJOLNIR::IRUJmp> ujmp;
 
-                auto jmp = std::dynamic_pointer_cast<DEX::Instruction20t>(instruction);
+                auto jmp = reinterpret_cast<DEX::Instruction20t*>(instruction);
 
                 auto addr = current_idx + (jmp->get_offset() * 2);
 
@@ -1102,7 +1102,7 @@ namespace KUNAI
             {
                 std::shared_ptr<MJOLNIR::IRUJmp> ujmp;
 
-                auto jmp = std::dynamic_pointer_cast<DEX::Instruction30t>(instruction);
+                auto jmp = reinterpret_cast<DEX::Instruction30t*>(instruction);
 
                 auto addr = current_idx + (jmp->get_offset() * 2);
 
@@ -1125,7 +1125,7 @@ namespace KUNAI
 
                 auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
-                auto call_inst = std::dynamic_pointer_cast<DEX::Instruction35c>(instruction);
+                auto call_inst = reinterpret_cast<DEX::Instruction35c*>(instruction);
                 std::vector<std::shared_ptr<MJOLNIR::IRExpr>> parameters;
 
                 size_t p_size = call_inst->get_array_size();
@@ -1146,10 +1146,10 @@ namespace KUNAI
                 switch (type->get_type())
                 {
                 case DEX::Type::type_e::ARRAY:
-                    class_name = std::dynamic_pointer_cast<DEX::Array>(type)->get_raw();
+                    class_name = reinterpret_cast<DEX::Array*>(type)->get_raw();
                     break;
                 case DEX::Type::type_e::CLASS:
-                    class_name = std::dynamic_pointer_cast<DEX::Class>(type)->get_raw();
+                    class_name = reinterpret_cast<DEX::Class*>(type)->get_raw();
                     break;
                 default:
                     throw exceptions::LifterException("lift_android_instruction: DEX::DVMTypes::Opcode::OP_INVOKE_* type->get_type() not implemented");
@@ -1185,7 +1185,7 @@ namespace KUNAI
 
                 MJOLNIR::IRCall::call_type_t call_type = MJOLNIR::IRCall::INTERNAL_CALL_T;
 
-                auto call_inst = std::dynamic_pointer_cast<DEX::Instruction3rc>(instruction);
+                auto call_inst = reinterpret_cast<DEX::Instruction3rc*>(instruction);
                 std::vector<std::shared_ptr<MJOLNIR::IRExpr>> parameters;
 
                 size_t p_size = call_inst->get_array_size();
@@ -1196,7 +1196,7 @@ namespace KUNAI
                 auto method_called = call_inst->get_operands_method();
 
                 std::string method_name = *method_called->get_method_name();
-                std::string class_name = std::dynamic_pointer_cast<DEX::Class>(method_called->get_method_class())->get_name();
+                std::string class_name = reinterpret_cast<DEX::Class*>(method_called->get_method_class())->get_name();
                 std::string proto = method_called->get_method_prototype()->get_proto_str();
 
                 if (this->android_analysis)
@@ -1290,7 +1290,7 @@ namespace KUNAI
             {
                 std::shared_ptr<MJOLNIR::IRStmnt> new_instr;
 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction21c>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction21c*>(instruction);
 
                 auto dst_reg = make_android_register(instr->get_destination());
 
@@ -1301,10 +1301,10 @@ namespace KUNAI
                 switch(type_id->get_type())
                 {
                 case DEX::Type::CLASS:
-                    type = make_class(std::dynamic_pointer_cast<DEX::Class>(type_id));
+                    type = make_class(reinterpret_cast<DEX::Class*>(type_id));
                     break;
                 case DEX::Type::FUNDAMENTAL:
-                    type = make_fundamental(std::dynamic_pointer_cast<DEX::Fundamental>(type_id));
+                    type = make_fundamental(reinterpret_cast<DEX::Fundamental*>(type_id));
                     break;
                 case DEX::Type::ARRAY:
                     logger->error("Found OP_NEW_INSTANCE opcode for Array type, not supported yet");
@@ -1321,15 +1321,15 @@ namespace KUNAI
             {
                 std::shared_ptr<MJOLNIR::IRStmnt> alloca_instr;
                 
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction22c>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction22c*>(instruction);
 
                 auto dst_reg = make_android_register(instr->get_first_operand());
 
                 auto size_reg = make_android_register(instr->get_second_operand());
 
-                auto array_type = std::dynamic_pointer_cast<DEX::Array>(instr->get_third_operand_typeId());
+                auto array_type = reinterpret_cast<DEX::Array*>(instr->get_third_operand_typeId());
                 
-                auto type_id = array_type->get_array().at(0);
+                auto type_id = array_type->get_array_type();
 
                 if (type_id == nullptr)
                     logger->error("Found OP_NEW_ARRAY where type_id is not a type, not supported");
@@ -1339,10 +1339,10 @@ namespace KUNAI
                 switch(type_id->get_type())
                 {
                 case DEX::Type::CLASS:
-                    type = make_class(std::dynamic_pointer_cast<DEX::Class>(type_id));
+                    type = make_class(reinterpret_cast<DEX::Class*>(type_id));
                     break;
                 case DEX::Type::FUNDAMENTAL:
-                    type = make_fundamental(std::dynamic_pointer_cast<DEX::Fundamental>(type_id));
+                    type = make_fundamental(reinterpret_cast<DEX::Fundamental*>(type_id));
                     break;
                 case DEX::Type::ARRAY:
                     logger->error("Found OP_NEW_INSTANCE opcode for Array type, not supported yet");
@@ -1357,7 +1357,7 @@ namespace KUNAI
             }
             case DEX::DVMTypes::Opcode::OP_PACKED_SWITCH:
             {
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction31t>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction31t*>(instruction);
                 auto condition = make_android_register(instr->get_array_ref());
 
                 std::vector<std::int32_t> targets;
@@ -1378,7 +1378,7 @@ namespace KUNAI
             }
             case DEX::DVMTypes::Opcode::OP_SPARSE_SWITCH:
             {
-                auto instr = std::dynamic_pointer_cast<DEX::Instruction31t>(instruction);
+                auto instr = reinterpret_cast<DEX::Instruction31t*>(instruction);
                 auto condition = make_android_register(instr->get_array_ref());
 
                 std::vector<std::int32_t> targets;
@@ -1409,7 +1409,7 @@ namespace KUNAI
         /***
          * Private methods.
          */
-        void LifterAndroid::lift_instruction23x_binary_instruction(KUNAI::DEX::instruction_t &instruction,
+        void LifterAndroid::lift_instruction23x_binary_instruction(KUNAI::DEX::Instruction* instruction,
                                                                    KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
                                                                    MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                                                    MJOLNIR::irblock_t &bb)
@@ -1417,7 +1417,7 @@ namespace KUNAI
             MJOLNIR::irstmnt_t arith_logc_instr;
             MJOLNIR::irunaryop_t cast_instr;
 
-            auto instr = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
+            auto instr = reinterpret_cast<DEX::Instruction23x*>(instruction);
 
             auto dest = instr->get_destination();
             auto src1 = instr->get_first_source();
@@ -1434,7 +1434,7 @@ namespace KUNAI
             bb->append_statement_to_block(cast_instr);
         }
 
-        void LifterAndroid::lift_instruction12x_binary_instruction(KUNAI::DEX::instruction_t &instruction,
+        void LifterAndroid::lift_instruction12x_binary_instruction(KUNAI::DEX::Instruction* instruction,
                                                                    KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
                                                                    MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                                                    MJOLNIR::irblock_t &bb)
@@ -1442,7 +1442,7 @@ namespace KUNAI
             MJOLNIR::irstmnt_t arith_logc_instr;
             MJOLNIR::irunaryop_t cast_instr;
 
-            auto instr = std::dynamic_pointer_cast<DEX::Instruction12x>(instruction);
+            auto instr = reinterpret_cast<DEX::Instruction12x*>(instruction);
 
             auto dest = instr->get_destination();
             auto src = instr->get_source();
@@ -1457,7 +1457,7 @@ namespace KUNAI
             bb->append_statement_to_block(cast_instr);
         }
 
-        void LifterAndroid::lift_instruction22s_binary_instruction(KUNAI::DEX::instruction_t &instruction,
+        void LifterAndroid::lift_instruction22s_binary_instruction(KUNAI::DEX::Instruction* instruction,
                                                                    KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
                                                                    MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                                                    MJOLNIR::irblock_t &bb)
@@ -1465,7 +1465,7 @@ namespace KUNAI
             MJOLNIR::irstmnt_t arith_logc_instr;
             MJOLNIR::irunaryop_t cast_instr;
 
-            auto instr = std::dynamic_pointer_cast<DEX::Instruction22s>(instruction);
+            auto instr = reinterpret_cast<DEX::Instruction22s*>(instruction);
 
             auto dest = instr->get_destination();
             auto src1 = instr->get_source();
@@ -1482,7 +1482,7 @@ namespace KUNAI
             bb->append_statement_to_block(cast_instr);
         }
 
-        void LifterAndroid::lift_instruction22b_binary_instruction(KUNAI::DEX::instruction_t &instruction,
+        void LifterAndroid::lift_instruction22b_binary_instruction(KUNAI::DEX::Instruction* instruction,
                                                                    KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
                                                                    MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                                                    MJOLNIR::irblock_t &bb)
@@ -1490,7 +1490,7 @@ namespace KUNAI
             MJOLNIR::irstmnt_t arith_logc_instr;
             MJOLNIR::irunaryop_t cast_instr;
 
-            auto instr = std::dynamic_pointer_cast<DEX::Instruction22b>(instruction);
+            auto instr = reinterpret_cast<DEX::Instruction22b*>(instruction);
 
             auto dest = instr->get_destination();
             auto src1 = instr->get_source();
@@ -1507,7 +1507,7 @@ namespace KUNAI
             bb->append_statement_to_block(cast_instr);
         }
 
-        void LifterAndroid::lift_instruction12x_unary_instruction(KUNAI::DEX::instruction_t &instruction,
+        void LifterAndroid::lift_instruction12x_unary_instruction(KUNAI::DEX::Instruction* instruction,
                                                                   KUNAI::MJOLNIR::IRUnaryOp::unary_op_t unary_op,
                                                                   MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                                                   MJOLNIR::irblock_t &bb)
@@ -1515,7 +1515,7 @@ namespace KUNAI
             MJOLNIR::irstmnt_t arith_logc_instr;
             MJOLNIR::irunaryop_t cast_instr;
 
-            auto instr = std::dynamic_pointer_cast<DEX::Instruction12x>(instruction);
+            auto instr = reinterpret_cast<DEX::Instruction12x*>(instruction);
 
             auto dest = instr->get_destination();
             auto src = instr->get_source();
@@ -1533,7 +1533,7 @@ namespace KUNAI
             bb->append_statement_to_block(cast_instr);
         }
 
-        void LifterAndroid::lift_comparison_instruction(KUNAI::DEX::instruction_t &instruction,
+        void LifterAndroid::lift_comparison_instruction(KUNAI::DEX::Instruction* instruction,
                                                         MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                                         MJOLNIR::IRBComp::comp_t comparison,
                                                         MJOLNIR::irblock_t &bb)
@@ -1541,7 +1541,7 @@ namespace KUNAI
             std::shared_ptr<MJOLNIR::IRBComp> ir_comp;
 
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
-            auto instr = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
+            auto instr = reinterpret_cast<DEX::Instruction23x*>(instruction);
 
             auto reg1 = make_android_register(instr->get_first_source());
             auto reg2 = make_android_register(instr->get_second_source());
@@ -1557,11 +1557,11 @@ namespace KUNAI
             bb->append_statement_to_block(ir_comp);
         }
 
-        void LifterAndroid::lift_jcc_instruction22t(KUNAI::DEX::instruction_t &instruction,
+        void LifterAndroid::lift_jcc_instruction22t(KUNAI::DEX::Instruction* instruction,
                                                     MJOLNIR::IRBComp::comp_t comparison,
                                                     MJOLNIR::irblock_t &bb)
         {
-            auto instr = std::dynamic_pointer_cast<DEX::Instruction22t>(instruction);
+            auto instr = reinterpret_cast<DEX::Instruction22t*>(instruction);
 
             auto temp_reg = make_temporal_register();
 
@@ -1577,11 +1577,11 @@ namespace KUNAI
             bb->append_statement_to_block(ir_cond);
         }
 
-        void LifterAndroid::lift_jcc_instruction21t(KUNAI::DEX::instruction_t &instruction,
+        void LifterAndroid::lift_jcc_instruction21t(KUNAI::DEX::Instruction* instruction,
                                                     MJOLNIR::IRZComp::zero_comp_t comparison,
                                                     MJOLNIR::irblock_t &bb)
         {
-            auto instr = std::dynamic_pointer_cast<DEX::Instruction21t>(instruction);
+            auto instr = reinterpret_cast<DEX::Instruction21t*>(instruction);
             auto temp_reg = make_temporal_register();
             auto reg = make_android_register(instr->get_check_reg());
 
@@ -1594,13 +1594,13 @@ namespace KUNAI
             bb->append_statement_to_block(ir_cond);
         }
 
-        void LifterAndroid::lift_load_instruction(DEX::instruction_t instruction, size_t size, MJOLNIR::IRUnaryOp::cast_type_t cast_type, MJOLNIR::irblock_t bb)
+        void LifterAndroid::lift_load_instruction(DEX::Instruction* instruction, size_t size, MJOLNIR::IRUnaryOp::cast_type_t cast_type, MJOLNIR::irblock_t bb)
         {
             MJOLNIR::irexpr_t load_instr;
             MJOLNIR::irunaryop_t cast_instr;
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
-            auto inst = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
+            auto inst = reinterpret_cast<DEX::Instruction23x*>(instruction);
 
             auto dst = make_android_register(inst->get_destination());
             auto source = make_android_register(inst->get_first_source());
@@ -1616,10 +1616,10 @@ namespace KUNAI
             }
         }
 
-        void LifterAndroid::lift_store_instruction(DEX::instruction_t instruction, size_t size, MJOLNIR::irblock_t bb)
+        void LifterAndroid::lift_store_instruction(DEX::Instruction* instruction, size_t size, MJOLNIR::irblock_t bb)
         {
             std::shared_ptr<MJOLNIR::IRExpr> store_instr;
-            auto inst = std::dynamic_pointer_cast<DEX::Instruction23x>(instruction);
+            auto inst = reinterpret_cast<DEX::Instruction23x*>(instruction);
             auto op_code = static_cast<DEX::DVMTypes::Opcode>(instruction->get_OP());
 
             auto dst = make_android_register(inst->get_destination());
@@ -1670,12 +1670,12 @@ namespace KUNAI
             return std::make_shared<MJOLNIR::IRString>(value, value, value.length());
         }
 
-        MJOLNIR::irclass_t LifterAndroid::make_class(DEX::class_t value)
+        MJOLNIR::irclass_t LifterAndroid::make_class(DEX::Class* value)
         {
             return std::make_shared<MJOLNIR::IRClass>(value->get_name(), value->get_name(), 0);
         }
 
-        MJOLNIR::irfundamental_t LifterAndroid::make_fundamental(DEX::fundamental_t value)
+        MJOLNIR::irfundamental_t LifterAndroid::make_fundamental(DEX::Fundamental* value)
         {
             switch (value->get_fundamental_type())
             {
@@ -1711,17 +1711,17 @@ namespace KUNAI
             return nullptr;
         }
 
-        MJOLNIR::irfield_t LifterAndroid::make_field(DEX::fieldid_t field)
+        MJOLNIR::irfield_t LifterAndroid::make_field(DEX::FieldID* field)
         {
             std::string class_name = "";
 
             switch(field->get_class_idx()->get_type())
             {
             case DEX::Type::CLASS:
-                class_name = std::dynamic_pointer_cast<DEX::Class>(field->get_class_idx())->get_name();
+                class_name = reinterpret_cast<DEX::Class*>(field->get_class_idx())->get_name();
                 break;
             case DEX::Type::FUNDAMENTAL:
-                class_name = std::dynamic_pointer_cast<DEX::Fundamental>(field->get_class_idx())->get_name();
+                class_name = reinterpret_cast<DEX::Fundamental*>(field->get_class_idx())->get_name();
                 break;
             default:
                 class_name = field->get_class_idx()->get_raw();
@@ -1735,7 +1735,7 @@ namespace KUNAI
 
             if (field->get_type_idx()->get_type() == DEX::Type::FUNDAMENTAL)
             {
-                DEX::fundamental_t fundamental_idx = std::dynamic_pointer_cast<DEX::Fundamental>(field->get_type_idx());
+                auto fundamental_idx = reinterpret_cast<DEX::Fundamental*>(field->get_type_idx());
 
                 switch (fundamental_idx->get_fundamental_type())
                 {
@@ -1792,7 +1792,7 @@ namespace KUNAI
             }
             else if (field->get_type_idx()->get_type() == DEX::Type::CLASS)
             {
-                DEX::class_t type_idx = std::dynamic_pointer_cast<DEX::Class>(field->get_type_idx());
+                auto type_idx = reinterpret_cast<DEX::Class*>(field->get_type_idx());
                 field_type = MJOLNIR::IRField::CLASS_F;
                 field_type_class = type_idx->get_name();
                 type_size = ADDR_S;
@@ -1812,11 +1812,11 @@ namespace KUNAI
             return nullptr;
         }
 
-        void LifterAndroid::jump_target_analysis(std::vector<std::shared_ptr<KUNAI::DEX::DVMBasicBlock>>& bbs, MJOLNIR::irgraph_t method_graph)
+        void LifterAndroid::jump_target_analysis(const std::vector<KUNAI::DEX::dvmbasicblock_t> & bbs, MJOLNIR::irgraph_t method_graph)
         {
             for (auto bb : bbs)
             {
-                auto next_bbs = bb->get_next();
+                auto & next_bbs = bb->get_next();
 
                 auto current_bb = lifted_blocks[bb.get()];
 
@@ -1831,7 +1831,7 @@ namespace KUNAI
                 {
                     if (next_bbs.size() == 1)
                     {
-                        auto block = std::get<2>(next_bbs[0]);
+                        auto block = std::get<2>(next_bbs[0]).get();
                         jmp->set_jump_target(lifted_blocks[block]);
 
                         method_graph->add_uniq_edge(current_bb, lifted_blocks[block]);
@@ -1841,8 +1841,8 @@ namespace KUNAI
                 {
                     if (next_bbs.size() == 2)
                     {
-                        auto bb1 = std::get<2>(next_bbs[0]);
-                        auto bb2 = std::get<2>(next_bbs[1]);
+                        auto bb1 = std::get<2>(next_bbs[0]).get();
+                        auto bb2 = std::get<2>(next_bbs[1]).get();
 
                         if (bb1->get_start() == jcc->get_addr()) // if bb1 is target of jump
                         {

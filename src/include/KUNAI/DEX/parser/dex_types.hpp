@@ -254,7 +254,7 @@ namespace KUNAI
              * @brief get the vector of the array of types.
              * @return std::vector<type_t> with all the types in the array.
              */
-            Type* get_type() const
+            Type* get_array_type() const
             {
                 return array.get();
             }
