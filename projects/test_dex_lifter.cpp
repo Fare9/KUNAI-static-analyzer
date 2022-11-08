@@ -49,12 +49,12 @@ int main(int argc, char **argv)
 
     auto lifter_android = std::make_shared<KUNAI::LIFTER::LifterAndroid>();
 
-    auto method_instructions = dex_disassembler->get_instructions();
+    auto & method_instructions = dex_disassembler->get_instructions();
 
-    for (auto it = method_instructions.begin(); it != method_instructions.end(); it++)
+    for (auto & instructions : method_instructions)
     {
-        auto class_def = std::get<0>(it->first);
-        auto direct_method = std::get<1>(it->first);
+        auto class_def = std::get<0>(instructions.first);
+        auto direct_method = std::get<1>(instructions.first);
 
         std::shared_ptr<KUNAI::MJOLNIR::IRBlock> bb = std::make_shared<KUNAI::MJOLNIR::IRBlock>();
 
@@ -62,21 +62,21 @@ int main(int argc, char **argv)
 
         std::cout << "[!] Disassembly: " << std::endl;
 
-        for (auto instr = it->second.begin(); instr != it->second.end(); instr++)
+        for (auto & instr : instructions.second)
         {
-            std::cout << std::right << std::setfill('0') << std::setw(8) << std::hex << instr->first << "  ";
-            instr->second->show_instruction();
+            std::cout << std::right << std::setfill('0') << std::setw(8) << std::hex << instr.first << "  ";
+            instr.second->show_instruction();
             std::cout << std::endl;
 
-            lifter_android->lift_android_instruction(instr->second.get(), bb);
+            lifter_android->lift_android_instruction(instr.second.get(), bb);
         }
 
         std::cout << std::endl;
         std::cout << "[!] Lifted: " << std::endl;
 
-        auto statements = bb->get_statements();
+        auto & statements = bb->get_statements();
 
-        for (auto statement : statements)
+        for (auto & statement : statements)
         {
             std::cout << statement->to_string() << std::endl;
         }
