@@ -12,6 +12,7 @@ namespace KUNAI
             temporal_path = std::filesystem::temp_directory_path().c_str();
             temporal_path += std::filesystem::path::preferred_separator;
             temporal_path += std::filesystem::path(path_to_apk_file).stem();
+            global_disassembler = nullptr;
 
             std::filesystem::create_directory(temporal_path.c_str());
         }
@@ -63,7 +64,7 @@ namespace KUNAI
             // create a disassembler with all the objects
             for (auto &dex_file : dex_files)
             {
-                if (!global_disassembler)
+                if (global_disassembler == nullptr)
                     // initialize the global disassembler with the first disassembler.
                     global_disassembler = dex_file.second->get_dex_disassembler();
                 else
