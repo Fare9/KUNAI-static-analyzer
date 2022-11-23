@@ -15,6 +15,14 @@ $<TARGET_OBJECTS:kunai-objs>
 target_include_directories(test_dex_analysis PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
 target_link_libraries(test_dex_analysis spdlog zip)
 
+add_executable(test_dex_recursive_analysis
+${CMAKE_CURRENT_SOURCE_DIR}/projects/test_dex_recursive_analysis.cpp
+$<TARGET_OBJECTS:kunai-objs>
+)
+
+target_include_directories(test_dex_recursive_analysis PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/include/")
+target_link_libraries(test_dex_recursive_analysis spdlog zip)
+
 add_executable(test_dex_disassembler
 ${CMAKE_CURRENT_SOURCE_DIR}/projects/test_dex_disassembler.cpp
 $<TARGET_OBJECTS:kunai-objs>
@@ -89,6 +97,7 @@ target_link_libraries(test-optimizations2 spdlog zip)
 
 set_target_properties(test_apk_analysis
 test_dex_analysis
+test_dex_recursive_analysis
 test_dex_disassembler
 test_dex_lifter
 test_dex_parser
