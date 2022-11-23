@@ -70,6 +70,13 @@ namespace KUNAI
                         auto current_instr = instructions[instruction_index].get();
 
                         auto operation = dalvik_opcodes->get_instruction_operation(current_instr->get_OP());
+                        // the array data must be take in consideration in the disassembly.
+                        if (opcode == DVMTypes::Opcode::OP_FILL_ARRAY_DATA)
+                        {
+                            auto fill_array_data = reinterpret_cast<Instruction31t*>(current_instr);
+
+                            Q.push(instruction_index+(fill_array_data->get_offset()*2));
+                        }
                         // conditional jump
                         if (operation == DVMTypes::Operation::CONDITIONAL_BRANCH_DVM_OPCODE ||
                             // unconditional jump
@@ -89,6 +96,8 @@ namespace KUNAI
 
                             break;
                         }
+
+
 
                         instruction_index += current_instr->get_length();
                     }
