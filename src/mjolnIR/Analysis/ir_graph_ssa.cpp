@@ -186,18 +186,33 @@ namespace KUNAI
         void IRGraphSSA::search(const irblock_t &v)
         {
             std::list<irreg_t> p;
+            std::stack<size_t> to_remove;
 
             auto &statements = v->get_statements();
-
+            
             // process each statement of the block
             for (size_t v_size = statements.size(), i = 0; i < v_size; i++)
             {
                 auto &instr = statements[i];
 
                 auto new_instr = translate_instruction(instr, p);
+                // check if the instruction have been removed
+                if (new_instr == nullptr)
+                {
+                    to_remove.push(i);
+                    continue;
+                }
 
                 if (new_instr != instr)
                     statements[i] = new_instr;
+            }
+            // remove from vector in post order
+            while(!to_remove.empty())
+            {
+                auto index = to_remove.top();
+                to_remove.pop();
+
+                statements.erase(statements.begin() + index);
             }
             // process the phi statements from the successors
             auto &succs = get_successors(v);
@@ -447,6 +462,11 @@ namespace KUNAI
                 {
                     aux->add_param(param.second, param.first);
                 }
+
+                // not necessary a phi where we do not have
+                // more than one parameter
+                if (aux->get_params().size() < 2)
+                    return nullptr;
             }
 
             return new_instr;

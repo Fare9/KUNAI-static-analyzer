@@ -13,6 +13,7 @@
 #ifndef IR_GRAMMAR_HPP
 #define IR_GRAMMAR_HPP
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <fstream>

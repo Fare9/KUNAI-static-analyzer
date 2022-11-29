@@ -446,6 +446,14 @@ namespace KUNAI
 
         void IRPhi::add_param(irexpr_t param, uint32_t id)
         {
+            // check if param is already part of the
+            // phi instruction
+            auto it = std::find_if(std::begin(params), std::end(params),
+                           [&param](auto& p) {return p.second == param; });
+
+            if (it != std::end(params))
+                return;
+
             params[id] = param;
         }
 
