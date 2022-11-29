@@ -5,7 +5,7 @@ ${CMAKE_CURRENT_LIST_DIR}/dex_dvm_basic_block.cpp
 ${CMAKE_CURRENT_LIST_DIR}/dex_exception_analysis.cpp
 ${CMAKE_CURRENT_LIST_DIR}/dex_field_analysis.cpp
 ${CMAKE_CURRENT_LIST_DIR}/dex_method_analysis.cpp
-${CMAKE_CURRENT_LIST_DIR}/dex_string_analysis
+${CMAKE_CURRENT_LIST_DIR}/dex_string_analysis.cpp
 )
 
 set(KUNAI_DEX_ANALYSIS_INC_FILES
