@@ -1,6 +1,6 @@
 <map id="src/include/KUNAI/mjolnIR/Lifters" name="src/include/KUNAI/mjolnIR/Lifters">
-<area shape="rect" id="node1" href="dir_2791cab60a4af01a85ea65f2f5e2ceae.html" title="Analysis" alt="" coords="27,125,98,151"/>
-<area shape="rect" id="node2" href="dir_7c9db9a85b54c0b0402173eb41da4ddb.html" title="Lifters" alt="" coords="33,52,92,77"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000008_000001.html" title="1" alt="" coords="67,100,75,114"/>
-<area shape="rect" id="clust1" href="dir_6e2e27915c755b41700e7afd73baadc2.html" title="mjolnIR" alt="" coords="16,16,109,161"/>
+<area shape="rect" id="node1" href="dir_2791cab60a4af01a85ea65f2f5e2ceae.html" title="Analysis" coords="27,125,98,151"/>
+<area shape="rect" id="node2" href="dir_7c9db9a85b54c0b0402173eb41da4ddb.html" title="Lifters" coords="33,52,92,77"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000008_000001.html" title="1" coords="67,99,75,114"/>
+<area shape="rect" id="clust1" href="dir_6e2e27915c755b41700e7afd73baadc2.html" title="mjolnIR" coords="16,16,109,161"/>
 </map>

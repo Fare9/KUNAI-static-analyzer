@@ -1,6 +1,6 @@
 <map id="src/include/KUNAI/DEX/DVM/dex_external_classes.hpp" name="src/include/KUNAI/DEX/DVM/dex_external_classes.hpp">
-<area shape="rect" id="node1" title="Android external class used to create specific object in the analysis of the code,..." alt="" coords="80,5,287,45"/>
-<area shape="rect" id="node2" href="$dd/df2/dex__analysis_8hpp_source.html" title=" " alt="" coords="95,93,272,133"/>
-<area shape="rect" id="node3" href="$d8/d45/dex_8hpp_source.html" title=" " alt="" coords="5,181,167,221"/>
-<area shape="rect" id="node4" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="191,181,370,221"/>
+<area shape="rect" id="node1" title="Android external class used to create specific object in the analysis of the code,..." coords="80,5,287,45"/>
+<area shape="rect" id="node2" href="$dd/df2/dex__analysis_8hpp_source.html" title=" " coords="95,93,272,133"/>
+<area shape="rect" id="node3" href="$d8/d45/dex_8hpp_source.html" title=" " coords="5,181,167,221"/>
+<area shape="rect" id="node4" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." coords="191,181,370,221"/>
 </map>

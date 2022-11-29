@@ -1,8 +1,8 @@
 <map id="src/include/KUNAI" name="src/include/KUNAI">
-<area shape="rect" id="node2" href="dir_d28225cba58234a63bab0a2af61f4e8d.html" title="DEX" alt="" coords="312,63,360,88"/>
-<area shape="rect" id="node3" href="dir_7585cc79d68f00392928a052ac1f8723.html" title="Exceptions" alt="" coords="203,63,288,88"/>
-<area shape="rect" id="node4" href="dir_6e2e27915c755b41700e7afd73baadc2.html" title="mjolnIR" alt="" coords="112,63,179,88"/>
-<area shape="rect" id="node5" href="dir_3bfd1466c77953200b3f835f4647e4e0.html" title="Utils" alt="" coords="38,63,87,88"/>
-<area shape="rect" id="clust2" href="dir_f6632af7ef3002e7a376ef515b96d02b.html" alt="" coords="27,52,459,99"/>
-<area shape="rect" id="clust1" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html" title="include" alt="" coords="16,16,469,109"/>
+<area shape="rect" id="node2" href="dir_d28225cba58234a63bab0a2af61f4e8d.html" title="DEX" coords="312,63,360,88"/>
+<area shape="rect" id="node3" href="dir_7585cc79d68f00392928a052ac1f8723.html" title="Exceptions" coords="203,63,288,88"/>
+<area shape="rect" id="node4" href="dir_6e2e27915c755b41700e7afd73baadc2.html" title="mjolnIR" coords="112,63,179,88"/>
+<area shape="rect" id="node5" href="dir_3bfd1466c77953200b3f835f4647e4e0.html" title="Utils" coords="38,63,87,88"/>
+<area shape="rect" id="clust2" href="dir_f6632af7ef3002e7a376ef515b96d02b.html" coords="27,52,459,99"/>
+<area shape="rect" id="clust1" href="dir_b0856f6b0d80ccb263b2f415c91f9e17.html" title="include" coords="16,16,469,109"/>
 </map>

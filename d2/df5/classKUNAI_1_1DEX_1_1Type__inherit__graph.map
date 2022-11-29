@@ -1,7 +1,7 @@
 <map id="KUNAI::DEX::Type" name="KUNAI::DEX::Type">
-<area shape="rect" id="node1" title=" " alt="" coords="253,5,383,31"/>
-<area shape="rect" id="node2" href="$db/d0f/classKUNAI_1_1DEX_1_1Array.html" title=" " alt="" coords="5,79,137,104"/>
-<area shape="rect" id="node3" href="$dd/d07/classKUNAI_1_1DEX_1_1Class.html" title=" " alt="" coords="161,79,296,104"/>
-<area shape="rect" id="node4" href="$d6/dc1/classKUNAI_1_1DEX_1_1Fundamental.html" title=" " alt="" coords="320,79,497,104"/>
-<area shape="rect" id="node5" href="$d1/de3/classKUNAI_1_1DEX_1_1Unknown.html" title=" " alt="" coords="522,79,679,104"/>
+<area shape="rect" id="node1" title=" " coords="253,5,383,31"/>
+<area shape="rect" id="node2" href="$db/d0f/classKUNAI_1_1DEX_1_1Array.html" title=" " coords="5,79,137,104"/>
+<area shape="rect" id="node3" href="$dd/d07/classKUNAI_1_1DEX_1_1Class.html" title=" " coords="161,79,296,104"/>
+<area shape="rect" id="node4" href="$d6/dc1/classKUNAI_1_1DEX_1_1Fundamental.html" title=" " coords="320,79,497,104"/>
+<area shape="rect" id="node5" href="$d1/de3/classKUNAI_1_1DEX_1_1Unknown.html" title=" " coords="522,79,679,104"/>
 </map>

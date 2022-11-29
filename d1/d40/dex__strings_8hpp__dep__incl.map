@@ -1,18 +1,18 @@
 <map id="src/include/KUNAI/DEX/parser/dex_strings.hpp" name="src/include/KUNAI/DEX/parser/dex_strings.hpp">
-<area shape="rect" id="node1" title="DEX file strings, these are the offsets in the file, we will store the strings too." alt="" coords="371,5,532,45"/>
-<area shape="rect" id="node2" href="$d6/d2d/dex__fields_8hpp_source.html" title=" " alt="" coords="44,269,205,309"/>
-<area shape="rect" id="node7" href="$d2/d94/dex__parser_8hpp_source.html" title=" " alt="" coords="463,533,624,573"/>
-<area shape="rect" id="node14" href="$d0/d11/dex__methods_8hpp_source.html" title=" " alt="" coords="247,269,413,309"/>
-<area shape="rect" id="node15" href="$dd/df3/dex__protos_8hpp_source.html" title=" " alt="" coords="540,181,701,221"/>
-<area shape="rect" id="node16" href="$dc/d06/dex__types_8hpp.html" title="Serie of types which points to string values." alt="" coords="371,93,532,133"/>
-<area shape="rect" id="node3" href="$dd/df2/dex__analysis_8hpp_source.html" title=" " alt="" coords="5,988,183,1028"/>
-<area shape="rect" id="node6" href="$dc/d3b/dex__classes_8hpp_source.html" title=" " alt="" coords="174,445,337,485"/>
-<area shape="rect" id="node13" href="$d1/da9/dex__encoded_8hpp_source.html" title=" " alt="" coords="145,357,312,397"/>
-<area shape="rect" id="node4" href="$d8/d45/dex_8hpp_source.html" title=" " alt="" coords="655,1076,816,1116"/>
-<area shape="rect" id="node5" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="69,1076,247,1116"/>
-<area shape="rect" id="node8" href="$dd/d30/dex__dalvik__opcodes_8hpp_source.html" title=" " alt="" coords="443,621,643,661"/>
-<area shape="rect" id="node10" href="$df/da7/dex__disassembler_8hpp.html" title="Class to manage the disassembly process of the DEX file." alt="" coords="491,900,678,940"/>
-<area shape="rect" id="node9" href="$d2/d2b/dex__instructions_8hpp_source.html" title=" " alt="" coords="360,709,537,749"/>
-<area shape="rect" id="node11" href="$db/d9f/dex__linear__sweep__disassembly_8hpp.html" title="Linear sweep disassembly for DEX file we will create a disassembly method that users can also use to ..." alt="" coords="569,797,731,852"/>
-<area shape="rect" id="node12" href="$d0/d99/dex__recursive__traversal__disassembly_8hpp.html" title="Recursive traversal disassembly for DEX file. this in opposite to the linear sweep disassembly it wil..." alt="" coords="297,797,493,852"/>
+<area shape="rect" id="node1" title="DEX file strings, these are the offsets in the file, we will store the strings too." coords="371,5,532,45"/>
+<area shape="rect" id="node2" href="$d6/d2d/dex__fields_8hpp_source.html" title=" " coords="44,269,205,309"/>
+<area shape="rect" id="node7" href="$d2/d94/dex__parser_8hpp_source.html" title=" " coords="463,533,624,573"/>
+<area shape="rect" id="node14" href="$d0/d11/dex__methods_8hpp_source.html" title=" " coords="247,269,413,309"/>
+<area shape="rect" id="node15" href="$dd/df3/dex__protos_8hpp_source.html" title=" " coords="540,181,701,221"/>
+<area shape="rect" id="node16" href="$dc/d06/dex__types_8hpp.html" title="Serie of types which points to string values." coords="371,93,532,133"/>
+<area shape="rect" id="node3" href="$dd/df2/dex__analysis_8hpp_source.html" title=" " coords="5,988,183,1028"/>
+<area shape="rect" id="node6" href="$dc/d3b/dex__classes_8hpp_source.html" title=" " coords="174,445,337,485"/>
+<area shape="rect" id="node13" href="$d1/da9/dex__encoded_8hpp_source.html" title=" " coords="145,357,312,397"/>
+<area shape="rect" id="node4" href="$d8/d45/dex_8hpp_source.html" title=" " coords="655,1076,816,1116"/>
+<area shape="rect" id="node5" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." coords="69,1076,247,1116"/>
+<area shape="rect" id="node8" href="$dd/d30/dex__dalvik__opcodes_8hpp_source.html" title=" " coords="443,621,643,661"/>
+<area shape="rect" id="node10" href="$df/da7/dex__disassembler_8hpp.html" title="Class to manage the disassembly process of the DEX file." coords="491,900,678,940"/>
+<area shape="rect" id="node9" href="$d2/d2b/dex__instructions_8hpp_source.html" title=" " coords="360,709,537,749"/>
+<area shape="rect" id="node11" href="$db/d9f/dex__linear__sweep__disassembly_8hpp.html" title="Linear sweep disassembly for DEX file we will create a disassembly method that users can also use to ..." coords="569,797,731,852"/>
+<area shape="rect" id="node12" href="$d0/d99/dex__recursive__traversal__disassembly_8hpp.html" title="Recursive traversal disassembly for DEX file. this in opposite to the linear sweep disassembly it wil..." coords="297,797,493,852"/>
 </map>
