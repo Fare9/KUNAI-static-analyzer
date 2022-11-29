@@ -22,6 +22,14 @@ namespace KUNAI
 
             auto &first_node = get_nodes()[0];
 
+            // change also those which has not predecessors
+            // for example the blocks from exception catchers.
+            for (auto & node : get_nodes())
+            {
+                if (get_predecessors(node).size() == 0)
+                    search(node);
+            }
+
             search(first_node);
         }
 
