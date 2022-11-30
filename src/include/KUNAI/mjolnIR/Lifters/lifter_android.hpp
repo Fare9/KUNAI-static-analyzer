@@ -31,6 +31,8 @@ namespace KUNAI
 #define ADDR_S 32
 #define QWORD_S 64
 
+        class LifterAndroid;
+
         class LifterAndroid
         {
         public:
@@ -38,6 +40,8 @@ namespace KUNAI
              * @brief Constructor of lifter.
              */
             LifterAndroid();
+
+            ~LifterAndroid() = default;
 
             /**
              * @brief Lift a given method from a method_analysis object.

@@ -79,9 +79,9 @@ namespace KUNAI
              *
              * @return DEX::analysis_t
              */
-            DEX::analysis_t &get_global_analysis()
+            DEX::Analysis *get_global_analysis()
             {
-                return global_analysis;
+                return global_analysis.get();
             }
 
             /**
