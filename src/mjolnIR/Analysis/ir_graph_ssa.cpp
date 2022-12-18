@@ -26,7 +26,7 @@ namespace KUNAI
             // for example the blocks from exception catchers.
             for (auto & node : get_nodes())
             {
-                if (get_predecessors(node).size() == 0)
+                if (get_predecessors(node).size() == 0 && node != first_node)
                     search(node);
             }
 
@@ -214,6 +214,7 @@ namespace KUNAI
                 if (new_instr != instr)
                     statements[i] = new_instr;
             }
+
             // remove from vector in post order
             while(!to_remove.empty())
             {
@@ -482,7 +483,7 @@ namespace KUNAI
 
         irreg_t IRGraphSSA::create_new_ssa_reg(irreg_t old_reg, std::list<irreg_t> &p)
         {
-            irreg_t new_reg;
+            irreg_t new_reg; 
 
             if (C.find(old_reg) == C.end())
                 C[old_reg] = 0;
@@ -492,6 +493,7 @@ namespace KUNAI
                                               old_reg->get_current_arch(),
                                               old_reg->to_string() + "." + std::to_string(C[old_reg]),
                                               old_reg->get_type_size());
+
             // save last index of the register
             C[old_reg]++;
             // save all the references to new registers
