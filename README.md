@@ -215,6 +215,7 @@ IRExpr    -->   IRBinOp   |
                 IRZComp   |
                 IRBComp   |
                 IRNew     |
+                IRAlloca  |
                 IRType    
                 
 IRBinOp   -->   IRExpr <- IRExpr bin_op_t IRExpr
@@ -227,6 +228,7 @@ IRStore   -->   *IRExpr <- IRExpr
 IRZComp   -->   IRExpr zero_comp_t
 IRBComp   -->   IRExpr comp_t IRExpr
 IRNew     -->   IRExpr <- new IRExpr
+IRAlloca  -->   IRExpr <- new IRExpr[IRExpr]
 
 # kind of operations
 bin_op_t  -->   ADD_OP_T   |
@@ -267,7 +269,18 @@ IRType   -->   IRReg |
                IRString |
                IRCallee |
                IRClass  |
+               IRFundamental |
                NONE
+
+IRFundamental   --> F_BOOLEAN   |
+                    F_BYTE      |
+                    F_CHAR      |
+                    F_DOUBLE    |
+                    F_FLOAT     |
+                    F_INT       |
+                    F_LONG      |
+                    F_SHORT     |
+                    F_VOID
 ```
 
 ### Implementations on the IR
@@ -310,6 +323,7 @@ KUNAI has been compiled in next systems:
 * Arch-Linux x86-64 - g++ 11.1
 * elementary OS 6.1 Jólnir x86_64 - g++ 9.3.0
 * elementary OS 6.1 Jólnir x86_64 - clang version 10.0.0-4ubuntu1
+* elementary OS 6.1 Jólnir x86_64 - clang version 15.0.6
 
 ## License
 

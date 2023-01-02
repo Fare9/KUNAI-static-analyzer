@@ -13,6 +13,7 @@
 #ifndef IR_GRAMMAR_HPP
 #define IR_GRAMMAR_HPP
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -48,6 +49,7 @@ namespace KUNAI
         class IRZComp;
         class IRBComp;
         class IRNew;
+        class IRAlloca;
         class IRType;
         class IRReg;
         class IRTempReg;
@@ -57,6 +59,7 @@ namespace KUNAI
         class IRClass;
         class IRCallee;
         class IRField;
+        class IRFundamental;
 
         using irblock_t = std::shared_ptr<IRBlock>;
         using irstmnt_t = std::shared_ptr<IRStmnt>;
@@ -217,6 +220,15 @@ namespace KUNAI
          */
         irnew_t new_ir(irstmnt_t &instr);
 
+        using iralloca_t = std::shared_ptr<IRAlloca>;
+        /**
+         * @brief check if given statement is an alloca statement
+         *
+         * @param instr
+         * @return iralloca_t
+         */
+        iralloca_t alloca_ir(irstmnt_t &instr);
+
         using irtype_t = std::shared_ptr<IRType>;
         /**
          * @brief Check if given statement is type statement.
@@ -299,6 +311,15 @@ namespace KUNAI
          * @return irfield_t or nullptr
          */
         irfield_t field_ir(irstmnt_t &instr);
+
+        using irfundamental_t = std::shared_ptr<IRFundamental>;
+        /**
+         * @brief Check if the given statement is a IRFundamental.
+         *
+         * @param instr
+         * @return irfundamental_t or nullptr
+         */
+        irfundamental_t fundamental_ir(irstmnt_t &instr);
 
         class IRBlock
         {
@@ -471,6 +492,7 @@ namespace KUNAI
                 ZCOMP_OP_T,
                 BCOMP_OP_T,
                 NEW_OP_T,
+                ALLOCA_OP_T,
                 TYPE_OP_T,
                 REGISTER_OP_T,
                 TEMP_REGISTER_OP_T,
@@ -481,6 +503,7 @@ namespace KUNAI
                 STRING_OP_T,
                 CLASS_OP_T,
                 CALLEE_OP_T,
+                FUNDAMENTAL_OP_T,
                 NONE_OP_T = 99 // used to finish the chain of statements
             };
 
@@ -908,6 +931,7 @@ namespace KUNAI
                 ZCOMP_EXPR_T,
                 BCOMP_EXPR_T,
                 NEW_EXPR_T,
+                ALLOCA_EXPR_T,
                 NONE_EXPR_T = 99 // used to finish the expressions
             };
 
@@ -1946,7 +1970,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool equals(irnew_t bcomp);
+            bool equals(irnew_t new_i);
 
             /**
              * @brief Operator == for IRNew instruction.
@@ -1965,6 +1989,94 @@ namespace KUNAI
             irexpr_t class_instance;
         };
 
+        class IRAlloca : public IRExpr
+        {
+        public:
+            /**
+             * @brief Construct a new IRAlloca object,  this kind of
+             *        expression creates "allocates" memory for an array
+             *        having this class will be useful also for allocating
+             *        memory in other architectures.
+             *
+             * @param result register or address where data will be stored
+             * @param type_instance type to create an array
+             * @param size size of the given array
+             */
+            IRAlloca(irexpr_t result,
+                     irexpr_t type_instance,
+                     irexpr_t size);
+
+            /**
+             * @brief Destroy the IRAlloca object
+             *
+             */
+            ~IRAlloca() = default;
+
+            /**
+             * @brief Get the destination register/variable...
+             *
+             * @return irexpr_t
+             */
+            irexpr_t get_result()
+            {
+                return result;
+            }
+
+            /**
+             * @brief Get the source type
+             *
+             * @return irexpr_t
+             */
+            irexpr_t get_source_type()
+            {
+                return type_instance;
+            }
+
+            /**
+             * @brief Get the size (this can be expressed by different
+             *        objects, it can be a register, or a constant)
+             * @return irexpr_t
+             */
+            irexpr_t get_size()
+            {
+                return size;
+            }
+
+            /**
+             * @brief Return a string representation of IRAlloca
+             *
+             * @return std::string
+             */
+            std::string to_string();
+
+            /**
+             * @brief Compare two IRAlloca instructions with shared_ptr
+             *
+             * @param alloca
+             * @return true
+             * @return false
+             */
+            bool equals(iralloca_t alloca);
+
+            /**
+             * @brief Operator == for IRNew instruction.
+             *
+             * @param alloca1
+             * @param alloca2
+             * @return true
+             * @return false
+             */
+            friend bool operator==(IRAlloca &, IRAlloca &);
+
+        private:
+            //! register or variable where result will be stored.
+            irexpr_t result;
+            //! type which it will create a new instance
+            irexpr_t type_instance;
+            //! size of the allocated space
+            irexpr_t size;
+        };
+
         class IRType : public IRExpr
         {
         public:
@@ -1979,6 +2091,7 @@ namespace KUNAI
                 STRING_TYPE,
                 CLASS_TYPE,
                 CALLEE_TYPE,
+                FUNDAMENTAL_TYPE,
                 NONE_TYPE = 99
             };
 
@@ -2187,10 +2300,10 @@ namespace KUNAI
              * @brief Compare two IRRegs given a smart pointer
              *        this time do not include the sub_id, just
              *        a simple function to check this.
-             * 
-             * @param reg 
-             * @return true 
-             * @return false 
+             *
+             * @param reg
+             * @return true
+             * @return false
              */
             bool same(irreg_t reg);
 
@@ -2275,7 +2388,6 @@ namespace KUNAI
              * @return std::string
              */
             std::string to_string();
-            
 
             /**
              * @brief Compare two IRTempReg temporal registers.
@@ -2992,6 +3104,56 @@ namespace KUNAI
             //! Field name
             std::string field_name;
         };
+
+        class IRFundamental : public IRType
+        {
+        public:
+            enum fundamental_t
+            {
+                F_BOOLEAN,
+                F_BYTE,
+                F_CHAR,
+                F_DOUBLE,
+                F_FLOAT,
+                F_INT,
+                F_LONG,
+                F_SHORT,
+                F_VOID
+            };
+
+            /**
+             * @brief Construct a new IRFundamental object, this object just represents
+             *        that an specific register will hold a Fundamental object or an array
+             *        of a fundamental object.
+             *
+             * @param type type hold by the register
+             * @param type_name name of the type.
+             */
+            IRFundamental(fundamental_t type, std::string type_name);
+
+            ~IRFundamental() = default;
+
+            /**
+             * @brief Get the type of the IRFundamental type
+             *
+             * @return fundamental_t
+             */
+            fundamental_t get_type()
+            {
+                return type;
+            }
+
+            /**
+             * @brief Return the proper to_string.
+             *
+             * @return std::string
+             */
+            std::string to_string();
+
+        private:
+            fundamental_t type;
+        };
+
     }
 }
 

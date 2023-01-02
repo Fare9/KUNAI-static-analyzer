@@ -21,7 +21,7 @@ namespace KUNAI
         }
 
 
-        void Optimizer::run_analysis(irgraph_t &func)
+        void Optimizer::run_analysis(irgraph_t func)
         {
             auto logger = LOGGER::logger();
 
@@ -68,7 +68,7 @@ namespace KUNAI
             // now it's possible to apply analysis that depend on the data flow
         }
 
-        void Optimizer::fallthrough_target_analysis(MJOLNIR::irgraph_t &ir_graph)
+        void Optimizer::fallthrough_target_analysis(MJOLNIR::irgraph_t ir_graph)
         {
             auto nodes = ir_graph->get_nodes();
 
@@ -93,7 +93,7 @@ namespace KUNAI
             }
         }
 
-        void Optimizer::calculate_def_use_and_use_def_analysis(MJOLNIR::irgraph_t &ir_graph,
+        void Optimizer::calculate_def_use_and_use_def_analysis(MJOLNIR::irgraph_t ir_graph,
                                                                reachingdefinition_t &reachingdefinition)
         {
             for (auto &block : ir_graph->get_nodes())
@@ -222,6 +222,17 @@ namespace KUNAI
                         if (auto reg = zcomp_instr->get_reg())
                             solve_def_use_use_def(reg, zcomp_instr, reach_def_set, ir_graph);
                     }
+                    // A = Alloca[REG]
+                    else if (auto alloca_instr = alloca_ir(instr))
+                    {
+                        alloca_instr->invalidate_chains();
+
+                        irstmnt_t size = alloca_instr->get_size();
+
+                        if (irexpr_t reg = register_ir(size))
+                            solve_def_use_use_def(reg, alloca_instr, reach_def_set, ir_graph);
+                        
+                    }
                 }
             }
         }
@@ -229,7 +240,7 @@ namespace KUNAI
         void Optimizer::solve_def_use_use_def(irexpr_t &operand,
                                               irstmnt_t expr,
                                               regdefinitionset_t &reach_def_set,
-                                              MJOLNIR::irgraph_t &ir_graph)
+                                              MJOLNIR::irgraph_t ir_graph)
         {
             // we need to detect the operand in the reach definition
             // and in case we find it, we will create the def-use and

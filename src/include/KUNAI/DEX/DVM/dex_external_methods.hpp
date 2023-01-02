@@ -23,7 +23,7 @@ namespace KUNAI
 
         class ExternalMethod;
 
-        using externalmethod_t = std::shared_ptr<ExternalMethod>;
+        using externalmethod_t = std::unique_ptr<ExternalMethod>;
 
         class ExternalMethod
         {
@@ -73,12 +73,12 @@ namespace KUNAI
             }
 
             /**
-             * @brief return classname + name + proto separated by spaces.
+             * @brief return classname + "->" + name + " " + proto.
              * @return std::string with full name.
              */
             std::string full_name()
             {
-                return class_idx + " " + name_idx + " " + proto_idx;
+                return class_idx + "->" + name_idx + " " + proto_idx;
             }
 
             /**

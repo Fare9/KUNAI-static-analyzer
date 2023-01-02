@@ -11,13 +11,7 @@ namespace KUNAI
         {   
         }
 
-        StringAnalysis::~StringAnalysis()
-        {
-            if (!xreffrom.empty())
-                xreffrom.clear();
-        }
-
-        void StringAnalysis::add_xref_from(classanalysis_t class_object, methodanalysis_t method_object, std::uint64_t offset)
+        void StringAnalysis::add_xref_from(ClassAnalysis* class_object, MethodAnalysis* method_object, std::uint64_t offset)
         {
             xreffrom.push_back({class_object, method_object, offset});
         }

@@ -1,10 +1,10 @@
 /***
  * @file dex_classes.hpp
  * @author @Farenain
- * 
+ *
  * @brief Android classes of the java code, composed
  *        by different fields:
- * 
+ *
  * ClassDefsStruct{
  *  uint class_idx, // index into type_ids list, must be a class type not array or primitive type.
  *  uint access_flags, // access flags for class (public, final, etc)
@@ -15,12 +15,12 @@
  *  uint class_data_off, // offset from start of the file to the associated class data for this item, or 0 if no class data.
  *  uint static_values_off // offset from the start of the file to the list of initial values for static fields, or 0 if there are none.
  * }
- * 
+ *
  * interfaces_off points to:
  *  list of Class type
- * 
+ *
  * class_data_off points to:
- * 
+ *
  * ClassDataItem {
  *  uleb128 static_fields_size, // number of static fields defined in item
  *  uleb128 instance_fields_size, // number of instance fields defined in item
@@ -49,17 +49,25 @@
 #include "KUNAI/DEX/parser/dex_annotations.hpp"
 #include "KUNAI/Exceptions/exceptions.hpp"
 
-namespace KUNAI {
-    namespace DEX {
+namespace KUNAI
+{
+    namespace DEX
+    {
 
         class ClassDataItem;
+        class ClassDef;
+        class DexClasses;
 
-        using classdataitem_t = std::shared_ptr<ClassDataItem>;
-        
+        using classdataitem_t = std::unique_ptr<ClassDataItem>;
+
+        using classdef_t = std::unique_ptr<ClassDef>;
+        using classdefs_t = std::vector<classdef_t>;
+
+        using dexclasses_t = std::unique_ptr<DexClasses>;
+
         class ClassDataItem
         {
         public:
-
             /**
              * @brief Constructor of ClassDataItem here the tool will parse
              *        fields and methods.
@@ -70,11 +78,11 @@ namespace KUNAI {
              * @param dex_types: used for getting types information during parsing.
              * @return void
              */
-            ClassDataItem(std::ifstream& input_file,
-                            std::uint64_t file_size,
-                            dexfields_t& dex_fields,
-                            dexmethods_t& dex_methods,
-                            dextypes_t& dex_types);
+            ClassDataItem(std::ifstream &input_file,
+                          std::uint64_t file_size,
+                          DexFields *dex_fields,
+                          DexMethods *dex_methods,
+                          DexTypes *dex_types);
             /**
              * @brief ClassDataItem destructor
              * @return void
@@ -95,14 +103,14 @@ namespace KUNAI {
              * @param id: id of the field to retrieve.
              * @return encodedfield_t
              */
-            encodedfield_t get_static_field_by_id(std::uint64_t id);
-            
+            EncodedField *get_static_field_by_id(std::uint64_t id);
+
             /**
              * @brief Get a class static field by its position from parsing.
              * @param pos: position of static field.
              * @return encodedfield_t
              */
-            encodedfield_t get_static_field_by_pos(std::uint64_t pos);
+            EncodedField *get_static_field_by_pos(std::uint64_t pos);
 
             /**
              * @brief return the number of instance fields from the class.
@@ -118,20 +126,20 @@ namespace KUNAI {
              * @param id: id of the EncodedField.
              * @return encodedfield_t
              */
-            encodedfield_t get_instance_field_by_id(std::uint64_t id);
-            
+            EncodedField *get_instance_field_by_id(std::uint64_t id);
+
             /**
              * @brief return a instance field from a class by its position while parsing.
              * @param pos: position to retrieve.
              * @return encodedfield_t
              */
-            encodedfield_t get_instance_field_by_pos(std::uint64_t pos);
+            EncodedField *get_instance_field_by_pos(std::uint64_t pos);
 
             /**
              * @brief Get all the fields both static and instance fields.
-             * @return std::vector<encodedfield_t>
+             * @return std::vector<EncodedField*>
              */
-            std::vector<encodedfield_t> get_fields();
+            const std::vector<EncodedField *> get_fields() const;
 
             /**
              * @brief Get the number of direct methods from the class.
@@ -147,14 +155,14 @@ namespace KUNAI {
              * @param id: id of the method to retrieve.
              * @return encodedmethod_t
              */
-            encodedmethod_t get_direct_method_by_id(std::uint64_t id);
-            
+            EncodedMethod *get_direct_method_by_id(std::uint64_t id);
+
             /**
              * @brief Get a direct method by its position while parsing it.
              * @param pos: position of the method to retrieve.
              * @return encodedmethod_t
              */
-            encodedmethod_t get_direct_method_by_pos(std::uint64_t pos);
+            EncodedMethod *get_direct_method_by_pos(std::uint64_t pos);
 
             /**
              * @brief Get the number of virtual methods from the class.
@@ -170,35 +178,32 @@ namespace KUNAI {
              * @param id: id of the method to retrieve.
              * @return encodedmethod_t
              */
-            encodedmethod_t get_virtual_method_by_id(std::uint64_t id);
-            
+            EncodedMethod *get_virtual_method_by_id(std::uint64_t id);
+
             /**
              * @brief Get a method from the class by its position while parsing.
              * @param pos: position of method while parsing.
              * @return encodedmethod_t
              */
-            encodedmethod_t get_virtual_method_by_pos(std::uint64_t pos);
+            EncodedMethod *get_virtual_method_by_pos(std::uint64_t pos);
 
             /**
              * @brief Get all the methods object
-             * 
+             *
              * @return std::vector<encodedmethod_t>&
              */
-            const std::vector<encodedmethod_t>& get_methods() const
+            const std::vector<EncodedMethod *> &get_methods() const
             {
                 return methods;
             }
+
         private:
-            std::vector<encodedmethod_t> methods;
-            std::unordered_map<std::uint64_t, encodedfield_t> static_fields;
-            std::unordered_map<std::uint64_t, encodedfield_t> instance_fields;
-            std::unordered_map<std::uint64_t, encodedmethod_t> direct_methods;
-            std::unordered_map<std::uint64_t, encodedmethod_t> virtual_methods;
+            std::vector<EncodedMethod *> methods;
+            encodedfieldmap_t static_fields;
+            encodedfieldmap_t instance_fields;
+            encodedmethodmap_t direct_methods;
+            encodedmethodmap_t virtual_methods;
         };
-
-        class ClassDef;
-
-        using classdef_t = std::shared_ptr<ClassDef>;
 
         class ClassDef
         {
@@ -229,11 +234,11 @@ namespace KUNAI {
              * @return void
              */
             ClassDef(classdef_t class_def,
-                     dexstrings_t& dex_str, 
-                     dextypes_t& dex_types,
-                     dexfields_t& dex_fields,
-                     dexmethods_t& dex_methods,
-                     std::ifstream& input_file,
+                     DexStrings *dex_str,
+                     DexTypes *dex_types,
+                     DexFields *dex_fields,
+                     DexMethods *dex_methods,
+                     std::ifstream &input_file,
                      std::uint64_t file_size);
             /**
              * @brief Destructor of ClassDef.
@@ -245,7 +250,7 @@ namespace KUNAI {
              * @brief Get the ClassDef class_t object with class data.
              * @return class_t
              */
-            class_t get_class_idx()
+            Class *get_class_idx()
             {
                 return class_idx.second;
             }
@@ -263,7 +268,7 @@ namespace KUNAI {
              * @brief Get the Class* object from the super class of current class.
              * @return class_t
              */
-            class_t get_superclass_idx()
+            Class *get_superclass_idx()
             {
                 return superclass_idx.second;
             }
@@ -272,7 +277,7 @@ namespace KUNAI {
              * @brief Get the name of the file where the class is.
              * @return std::string*
              */
-            std::string* get_source_file_idx()
+            std::string *get_source_file_idx()
             {
                 return source_file_idx.second;
             }
@@ -291,22 +296,32 @@ namespace KUNAI {
              * @param id: id of the class.
              * @return class_t
              */
-            class_t get_interface_by_class_id(std::uint16_t id);
-            
+            Class *get_interface_by_class_id(std::uint16_t id);
+
             /**
              * @brief Get the Class* object from an interface by its position from parsing.
              * @param pos: position of interface from parsing.
              * @return class_t
              */
-            class_t get_interface_by_pos(std::uint64_t pos);
+            Class *get_interface_by_pos(std::uint64_t pos);
 
             /**
              * @brief Get the ClassDataItem object from the ClassDef.
              * @return classdataitem_t&
              */
-            classdataitem_t& get_class_data()
+            ClassDataItem *get_class_data() const
             {
-                return class_data_items;
+                return class_data_items.get();
+            }
+
+            /**
+             * @brief Get the annotations directory item from the ClassDef.
+             *
+             * @return const AnnotationsDirectoryItem*
+             */
+            AnnotationsDirectoryItem *get_annotations_directory_item() const
+            {
+                return annotation_directory_item.get();
             }
 
         private:
@@ -322,18 +337,17 @@ namespace KUNAI {
              * @param dex_methods: methods object used while parsing.
              * @return bool
              */
-            bool parse_class_defs(std::ifstream& input_file, 
-                                    std::uint64_t file_size, 
-                                    dexstrings_t& dex_str, 
-                                    dextypes_t& dex_types,
-                                    dexfields_t& dex_fields,
-                                    dexmethods_t& dex_methods);
+            bool parse_class_defs(std::ifstream &input_file,
+                                  std::uint64_t file_size,
+                                  DexStrings *dex_str,
+                                  DexTypes *dex_types,
+                                  DexFields *dex_fields,
+                                  DexMethods *dex_methods);
 
-
-            std::pair<std::uint32_t, class_t> class_idx;
+            std::pair<std::uint32_t, Class *> class_idx;
             DVMTypes::ACCESS_FLAGS access_flag;
-            std::pair<std::uint32_t, class_t> superclass_idx;
-            std::pair<std::uint32_t, std::string*> source_file_idx;
+            std::pair<std::uint32_t, Class *> superclass_idx;
+            std::pair<std::uint32_t, std::string *> source_file_idx;
             /**
              * type_list:
              *      size - uint size of list in entries
@@ -342,16 +356,16 @@ namespace KUNAI {
              *      ushort
              */
             std::uint32_t interfaces_off;
-            std::unordered_map<std::uint16_t, class_t> interfaces;
+            std::unordered_map<std::uint16_t, Class *> interfaces;
 
             std::uint32_t annotations_off;
             annotationsdirectoryitem_t annotation_directory_item;
             /**
              * classes def
-             * 
+             *
              * offset to different fields and
              * methods
-             * 
+             *
              * ClassDataItem:
              *  static_fields_size: uleb128
              *  instance_fields_size: uleb128
@@ -361,7 +375,7 @@ namespace KUNAI {
              *  instance_fields: EncodedField
              *  direct_methods: EncodedMethod
              *  virtual_methods: EncodedMethod
-             * 
+             *
              * EncodedField:
              *  field_id: uleb128
              *  access_flags: uleb128
@@ -375,9 +389,9 @@ namespace KUNAI {
 
             /**
              * static values
-             * 
+             *
              * offset to different static variables.
-             * 
+             *
              *  EncodedArrayItem
              *      size: uleb128
              *      values: EncodedValue[size]
@@ -385,10 +399,6 @@ namespace KUNAI {
             std::uint32_t static_values_off;
             encodedarrayitem_t static_values;
         };
-
-        class DexClasses;
-
-        using dexclasses_t = std::shared_ptr<DexClasses>;
 
         class DexClasses
         {
@@ -405,20 +415,20 @@ namespace KUNAI {
              * @param dex_methods: dex methods used while parsing.
              * @return void
              */
-            DexClasses(std::ifstream& input_file,
-                        std::uint64_t file_size,
-                        std::uint32_t number_of_classes,
-                        std::uint32_t offset,
-                        dexstrings_t& dex_str,
-                        dextypes_t& dex_types,
-                        dexfields_t& dex_fields,
-                        dexmethods_t& dex_methods);
-            
+            DexClasses(std::ifstream &input_file,
+                       std::uint64_t file_size,
+                       std::uint32_t number_of_classes,
+                       std::uint32_t offset,
+                       DexStrings *dex_str,
+                       DexTypes *dex_types,
+                       DexFields *dex_fields,
+                       DexMethods *dex_methods);
+
             /**
              * @brief DexClasses destructor.
              * @return void
              */
-            ~DexClasses();
+            ~DexClasses() = default;
 
             /**
              * @brief Get the number of classes parsed.
@@ -433,19 +443,20 @@ namespace KUNAI {
              * @brief Get the ClassDef object by its position from parsing.
              * @return classdef_t
              */
-            classdef_t get_class_by_pos(std::uint64_t pos);
+            ClassDef *get_class_by_pos(std::uint64_t pos);
 
             /**
              * @brief Get the vector reference to all the classes
-             * 
-             * @return const std::vector<classdef_t>& 
+             *
+             * @return const classdefs_t&
              */
-            const std::vector<classdef_t>& get_classes() const
+            const classdefs_t &get_classes() const
             {
                 return class_defs;
             }
 
-            friend std::ostream& operator<<(std::ostream& os, const DexClasses& entry);
+            friend std::ostream &operator<<(std::ostream &os, const DexClasses &entry);
+
         private:
             /**
              * @brief private method for pasing the ClassDef information using the classdef_t structure.
@@ -453,15 +464,15 @@ namespace KUNAI {
              * @param file_size: size of file for checks.
              * @return bool
              */
-            bool parse_classes(std::ifstream& input_file, std::uint64_t file_size);
+            bool parse_classes(std::ifstream &input_file, std::uint64_t file_size);
 
             std::uint32_t number_of_classes;
             std::uint32_t offset;
-            dexstrings_t& dex_str;
-            dextypes_t& dex_types;
-            dexfields_t& dex_fields;
-            dexmethods_t& dex_methods;
-            std::vector<classdef_t> class_defs;
+            DexStrings *dex_str;
+            DexTypes *dex_types;
+            DexFields *dex_fields;
+            DexMethods *dex_methods;
+            classdefs_t class_defs;
         };
     }
 }

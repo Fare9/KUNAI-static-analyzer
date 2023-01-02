@@ -25,13 +25,16 @@ namespace KUNAI
         class DexDisassembler;
 
         /**
-         * @brief std::shared_ptr of DexDisassembler object which manages the disassembly
+         * @brief std::unique_ptr of DexDisassembler object which manages the disassembly
          * of the DEX bytecode, currently it implements a LinearSweepDisassembly which
          * will take methods and will disassemble them, it returns the instructions as a map.
          */
-        using dexdisassembler_t = std::shared_ptr<DexDisassembler>;
+        using dexdisassembler_t = std::unique_ptr<DexDisassembler>;
 
-        using instruction_map_t = std::map<std::tuple<classdef_t, encodedmethod_t>, std::map<std::uint64_t, instruction_t>>;
+        /**
+         * @brief Type which contains the instructions of the disassembler.
+         */
+        using instruction_map_t = std::map<std::tuple<ClassDef*, EncodedMethod*>, std::map<std::uint64_t, instruction_t>>;
 
         enum disassembler_t
         {
@@ -50,7 +53,7 @@ namespace KUNAI
              * @param dex_parser
              * @param dalvik_opcodes
              */
-            DexDisassembler(bool parsing_correct, dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes);
+            DexDisassembler(bool parsing_correct, DexParser* dex_parser, DalvikOpcodes* dalvik_opcodes);
 
             /**
              * @brief Destroy the Dex Disassembler object
@@ -103,13 +106,22 @@ namespace KUNAI
             }
 
             /**
+             * @brief Get the instructions by class and method object
+             * 
+             * @param class_def 
+             * @param encoded_method 
+             * @return std::map<std::uint64_t, Instruction*> 
+             */
+            std::map<std::uint64_t, Instruction*> get_instructions_by_class_and_method(ClassDef* class_def, EncodedMethod* encoded_method);
+
+            /**
              * @brief We can include in one disassembler the disassembly from
              *        many others, this will allow to disassembly more than one
              *        DEX file as one.
              *
              * @param disas disassembler object to include to current one.
              */
-            void add_disassembly(dexdisassembler_t &disas);
+            void add_disassembly(DexDisassembler *disas);
 
             /**
              * @brief Set the disassembler type: LINEAR_SWEEP_DISASSEMBLER, RECURSIVE_TRAVERSAL_DISASSEMBLER
@@ -146,8 +158,8 @@ namespace KUNAI
              */
             void disassembly_methods();
 
-            dexparser_t dex_parser;
-            dalvikopcodes_t dalvik_opcodes;
+            DexParser* dex_parser;
+            DalvikOpcodes* dalvik_opcodes;
             disassembler_t disas_type;
 
             linearsweepdisassembler_t linear_dalvik_disassembler;

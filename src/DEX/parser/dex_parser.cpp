@@ -38,13 +38,13 @@ namespace KUNAI
 
             logger->info("Starting DEX headers parsing");
 
-            dex_header = std::make_shared<DexHeader>(input_file, file_size);
-            dex_strings = std::make_shared<DexStrings>(input_file, file_size, dex_header->get_dex_header().string_ids_size, dex_header->get_dex_header().string_ids_off);
-            dex_types = std::make_shared<DexTypes>(input_file, dex_header->get_dex_header().type_ids_size, dex_header->get_dex_header().type_ids_off, dex_strings);
-            dex_protos = std::make_shared<DexProtos>(input_file, file_size, dex_header->get_dex_header().proto_ids_size, dex_header->get_dex_header().proto_ids_off, dex_strings, dex_types);
-            dex_fields = std::make_shared<DexFields>(input_file, dex_header->get_dex_header().field_ids_size, dex_header->get_dex_header().field_ids_off, dex_strings, dex_types);
-            dex_methods = std::make_shared<DexMethods>(input_file, dex_header->get_dex_header().method_ids_size, dex_header->get_dex_header().method_ids_off, dex_strings, dex_types, dex_protos);
-            dex_classes = std::make_shared<DexClasses>(input_file, file_size, dex_header->get_dex_header().class_defs_size, dex_header->get_dex_header().class_defs_off, dex_strings, dex_types, dex_fields, dex_methods);
+            dex_header = std::make_unique<DexHeader>(input_file, file_size);
+            dex_strings = std::make_unique<DexStrings>(input_file, file_size, dex_header->get_dex_header().string_ids_size, dex_header->get_dex_header().string_ids_off);
+            dex_types = std::make_unique<DexTypes>(input_file, dex_header->get_dex_header().type_ids_size, dex_header->get_dex_header().type_ids_off, dex_strings.get());
+            dex_protos = std::make_unique<DexProtos>(input_file, file_size, dex_header->get_dex_header().proto_ids_size, dex_header->get_dex_header().proto_ids_off, dex_strings.get(), dex_types.get());
+            dex_fields = std::make_unique<DexFields>(input_file, dex_header->get_dex_header().field_ids_size, dex_header->get_dex_header().field_ids_off, dex_strings.get(), dex_types.get());
+            dex_methods = std::make_unique<DexMethods>(input_file, dex_header->get_dex_header().method_ids_size, dex_header->get_dex_header().method_ids_off, dex_strings.get(), dex_types.get(), dex_protos.get());
+            dex_classes = std::make_unique<DexClasses>(input_file, file_size, dex_header->get_dex_header().class_defs_size, dex_header->get_dex_header().class_defs_off, dex_strings.get(), dex_types.get(), dex_fields.get(), dex_methods.get());
 
             retrieve_encoded_fields_from_classes();
 
@@ -81,9 +81,9 @@ namespace KUNAI
             return version;
         }
 
-        std::vector<codeitemstruct_t> DexParser::get_codes_item()
+        std::vector<CodeItemStruct*> DexParser::get_codes_item()
         {
-            std::vector<codeitemstruct_t> codes;
+            std::vector<CodeItemStruct*> codes;
 
             for (size_t i = 0; i < dex_classes->get_number_of_classes(); i++)
             {
@@ -118,9 +118,9 @@ namespace KUNAI
 
         void DexParser::retrieve_encoded_fields_from_classes()
         {
-            auto classes_def = dex_classes->get_classes();
+            auto & classes_def = dex_classes->get_classes();
 
-            for (auto c : classes_def)
+            for (auto & c : classes_def)
             {
                 if (!c->get_class_data())
                     continue;

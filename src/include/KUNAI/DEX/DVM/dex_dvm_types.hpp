@@ -24,7 +24,7 @@ namespace KUNAI
 
         class DVMTypes;
 
-        using dvmtypes_t = std::shared_ptr<DVMTypes>;
+        using dvmtypes_t = std::unique_ptr<DVMTypes>;
 
         class DVMTypes
         {

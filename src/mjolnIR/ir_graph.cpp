@@ -353,12 +353,12 @@ namespace KUNAI
             tmp = compute_dominators(first_node);
 
             // remove itself from dominators
-            for (auto item = tmp.begin(); item != tmp.end(); item++)
+            for (auto &item : tmp)
             {
-                auto rem = std::find(item->second.begin(), item->second.end(), item->first);
+                auto rem = std::find(item.second.begin(), item.second.end(), item.first);
 
-                if (rem != item->second.end())
-                    item->second.erase(rem);
+                if (rem != item.second.end())
+                    item.second.erase(rem);
             }
 
             for (auto n : nodes)
@@ -392,6 +392,59 @@ namespace KUNAI
             return idom;
         }
 
+        std::map<irblock_t, irblock_t> IRGraph::compute_immediate_postdominators()
+        {
+            std::map<irblock_t, Nodes> tmp;
+            std::map<irblock_t, irblock_t> ipdom;
+
+            if (nodes.size() == 0)
+                return ipdom;
+
+            // compute post dominators
+            auto last_node = nodes.back();
+
+            tmp = compute_postdominators(last_node);
+
+            // remove itself from postdominators
+            for (auto &item : tmp)
+            {
+                auto rem = std::find(item.second.begin(), item.second.end(), item.first);
+
+                if (rem != item.second.end())
+                    item.second.erase(rem);
+            }
+
+            for (auto &n : nodes)
+            {
+                for (auto &s : tmp[n]) // get the post dominators
+                {
+                    for (auto &t : tmp[n]) // get again the post dominators except for s
+                    {
+                        if (t == s)
+                            continue;
+
+                        if (std::find(tmp[s].begin(), tmp[s].end(), t) != tmp[s].end())
+                        {
+                            auto rem = std::find(tmp[n].begin(), tmp[n].end(), t);
+
+                            if (rem != tmp[n].end())
+                                tmp[n].erase(rem);
+                        }
+                    }
+                }
+            }
+
+            for (auto n : nodes)
+            {
+                if (tmp[n].size() >= 1)
+                    ipdom[n] = tmp[n][tmp[n].size() - 1];
+                else
+                    ipdom[n] = nullptr;
+            }
+
+            return ipdom;
+        }
+
         std::map<irblock_t, std::set<irblock_t>> IRGraph::compute_dominance_frontier()
         {
             /*
@@ -410,6 +463,8 @@ namespace KUNAI
 
                 // check if the node has more than 1 predecessor
                 // this node is a convergence node
+                // also we will go through the predecessors, to go in
+                // postorder traversal
                 for (auto predecessor : predecessors[idom.first])
                 {
                     // check if the predecessor is in the
@@ -417,12 +472,18 @@ namespace KUNAI
                     if (idoms.find(predecessor) == idoms.end())
                         continue;
 
+                    // while its predecessor is not an immediate dominator
+                    // of the analyzed node
                     while (predecessor != idom.second)
                     {
                         // maybe we are in a loop?
                         if (frontier[predecessor].find(idom.first) != frontier[predecessor].end())
                             break;
+                        // insert in the frontier of the node
+                        // the analyzed node
                         frontier[predecessor].insert(idom.first);
+
+                        // check an immediate dominator of the predecessor
                         predecessor = idoms[predecessor];
                     }
                 }

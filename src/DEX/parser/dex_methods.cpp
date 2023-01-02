@@ -11,9 +11,9 @@ namespace KUNAI
         MethodID::MethodID(std::uint16_t class_idx,
                            std::uint16_t proto_idx,
                            std::uint32_t name_idx,
-                           dexstrings_t& dex_strings,
-                           dextypes_t& dex_types,
-                           dexprotos_t& dex_protos)
+                           DexStrings *dex_strings,
+                           DexTypes *dex_types,
+                           DexProtos *dex_protos)
         {
             this->class_idx = std::make_pair(class_idx, dex_types->get_type_from_order(class_idx));
             this->proto_idx = std::make_pair(proto_idx, dex_protos->get_proto_by_order(proto_idx));
@@ -60,24 +60,23 @@ namespace KUNAI
         DexMethods::DexMethods(std::ifstream &input_file,
                                std::uint32_t number_of_methods,
                                std::uint32_t offset,
-                               dexstrings_t& dex_strings,
-                               dextypes_t& dex_types,
-                               dexprotos_t& dex_protos) : number_of_methods(number_of_methods),
-                                                                        offset(offset),
-                                                                        dex_strings(dex_strings),
-                                                                        dex_types(dex_types),
-                                                                        dex_protos(dex_protos)
+                               DexStrings *dex_strings,
+                               DexTypes *dex_types,
+                               DexProtos *dex_protos) : number_of_methods(number_of_methods),
+                                                        offset(offset),
+                                                        dex_strings(dex_strings),
+                                                        dex_types(dex_types),
+                                                        dex_protos(dex_protos)
         {
             if (!parse_methods(input_file))
                 throw exceptions::ParserReadingException("Error reading DEX methods");
         }
 
-
-        methodid_t DexMethods::get_method_by_order(size_t pos)
+        MethodID* DexMethods::get_method_by_order(size_t pos)
         {
             if (pos >= method_ids.size())
                 return nullptr;
-            return method_ids[pos];
+            return method_ids[pos].get();
         }
 
         bool DexMethods::parse_methods(std::ifstream &input_file)
@@ -93,9 +92,9 @@ namespace KUNAI
             // set to current offset
             input_file.seekg(offset);
 
-            #ifdef DEBUG
+#ifdef DEBUG
             logger->debug("DexMethods parsing methods in offset {} and size {}", offset, number_of_methods);
-            #endif
+#endif
 
             auto number_of_types = dex_types->get_number_of_types();
             auto number_of_protos = dex_protos->get_number_of_protos();
@@ -130,13 +129,13 @@ namespace KUNAI
                     throw exceptions::IncorrectStringId("Error reading methods name_idx out of string bound");
                 }
 
-                method_id = std::make_shared<MethodID>(class_idx, proto_idx, name_idx, dex_strings, dex_types, dex_protos);
+                method_id = std::make_unique<MethodID>(class_idx, proto_idx, name_idx, dex_strings, dex_types, dex_protos);
 
-                method_ids.push_back(method_id);
+                method_ids.push_back(std::move(method_id));
 
-                #ifdef DEBUG
+#ifdef DEBUG
                 logger->debug("Added method number {}", i);
-                #endif
+#endif
             }
 
             // set to previous offset
@@ -151,9 +150,10 @@ namespace KUNAI
         {
             size_t i = 0;
             os << std::hex;
-            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Methods ===========" << "\n";
-            
-            for (auto method_id : entry.method_ids)
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Methods ==========="
+               << "\n";
+
+            for (auto & method_id : entry.method_ids)
             {
                 os << "Method (" << i++ << "): ";
                 os << *method_id;

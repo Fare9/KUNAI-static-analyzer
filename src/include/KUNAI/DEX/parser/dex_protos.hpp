@@ -50,60 +50,101 @@ namespace KUNAI
     namespace DEX
     {
         class ProtoID;
+        class DexProtos;
 
-        using protoid_t = std::shared_ptr<ProtoID>;
+        using protoid_t = std::unique_ptr<ProtoID>;
+        using protos_t = std::vector<protoid_t>;
+
+        using dexprotos_t = std::unique_ptr<DexProtos>;
 
         class ProtoID
         {
         public:
+            /**
+             * @brief Construct a new Proto ID object, this represent
+             *        a prototype of an Android method.
+             *
+             * @param shorty_idx
+             * @param return_type_idx
+             * @param parameters_off
+             * @param input_file
+             * @param dex_strings
+             * @param dex_types
+             */
             ProtoID(std::uint32_t shorty_idx,
                     std::uint32_t return_type_idx,
                     std::uint32_t parameters_off,
                     std::ifstream &input_file,
-                    dexstrings_t& dex_strings,
-                    dextypes_t& dex_types);
+                    DexStrings *dex_strings,
+                    DexTypes *dex_types);
+
             ~ProtoID() = default;
 
+            /**
+             * @brief Get the number of parameters
+             *
+             * @return size_t
+             */
             size_t get_number_of_parameters()
             {
                 return parameters.size();
             }
 
-            std::vector<type_t>& get_parameters()
+            /**
+             * @brief Get the parameters
+             *
+             * @return const std::vector<Type *>
+             */
+            const std::vector<Type *> get_parameters() const
             {
                 return parameters;
             }
 
-            
-            type_t get_parameter_type_by_order(size_t pos);
+            /**
+             * @brief Get a parameter by its position
+             *
+             * @param pos
+             * @return Type*
+             */
+            Type *get_parameter_type_by_order(size_t pos);
 
-
-            type_t get_return_idx()
+            /**
+             * @brief Get the returned type
+             *
+             * @return Type*
+             */
+            Type *get_return_idx()
             {
                 return return_type_idx;
             }
 
+            /**
+             * @brief Get the proto as a string.
+             *
+             * @return std::string*
+             */
             std::string *get_shorty_idx()
             {
                 return shorty_idx;
             }
 
+            /**
+             * @brief Get prototype string correctly represented.
+             *
+             * @return std::string
+             */
             std::string get_proto_str();
 
         private:
             bool parse_parameters(std::ifstream &input_file,
-                                  dexstrings_t& dex_strings,
-                                  dextypes_t& dex_types);
+                                  DexStrings *dex_strings,
+                                  DexTypes *dex_types);
 
             std::string *shorty_idx;
-            type_t return_type_idx;
+            Type *return_type_idx;
             std::uint32_t parameters_off;
-            std::vector<type_t> parameters;
+            std::vector<Type *> parameters;
         };
-
-        class DexProtos;
-
-        using dexprotos_t = std::shared_ptr<DexProtos>;
 
         class DexProtos
         {
@@ -112,8 +153,8 @@ namespace KUNAI
                       std::uint64_t file_size,
                       std::uint32_t number_of_protos,
                       std::uint32_t offset,
-                      dexstrings_t& dex_strings,
-                      dextypes_t& dex_types);
+                      DexStrings *dex_strings,
+                      DexTypes *dex_types);
 
             ~DexProtos() = default;
 
@@ -122,9 +163,9 @@ namespace KUNAI
                 return number_of_protos;
             }
 
-            protoid_t get_proto_by_order(size_t pos);
+            ProtoID* get_proto_by_order(size_t pos);
 
-            const std::vector<protoid_t>& get_protos() const
+            const protos_t &get_protos() const
             {
                 return proto_ids;
             }
@@ -137,10 +178,10 @@ namespace KUNAI
 
             std::uint32_t number_of_protos;
             std::uint32_t offset;
-            dexstrings_t& dex_strings;
-            dextypes_t& dex_types;
+            DexStrings *dex_strings;
+            DexTypes *dex_types;
 
-            std::vector<protoid_t> proto_ids;
+            protos_t proto_ids;
         };
     }
 }

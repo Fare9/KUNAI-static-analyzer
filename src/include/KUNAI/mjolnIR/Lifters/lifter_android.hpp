@@ -31,6 +31,8 @@ namespace KUNAI
 #define ADDR_S 32
 #define QWORD_S 64
 
+        class LifterAndroid;
+
         class LifterAndroid
         {
         public:
@@ -39,6 +41,8 @@ namespace KUNAI
              */
             LifterAndroid();
 
+            ~LifterAndroid() = default;
+
             /**
              * @brief Lift a given method from a method_analysis object.
              *
@@ -46,7 +50,7 @@ namespace KUNAI
              * @param android_analysis: analysis from Android.
              * @return MJOLNIR::irgraph_t
              */
-            MJOLNIR::irgraph_t lift_android_method(DEX::methodanalysis_t& method_analysis, DEX::analysis_t& android_analysis);
+            MJOLNIR::irgraph_t lift_android_method(DEX::MethodAnalysis* method_analysis, DEX::Analysis* android_analysis);
 
             /**
              * @brief Lift an android basic block instructions to IR instructions.
@@ -56,7 +60,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool lift_android_basic_block(DEX::dvmbasicblock_t& basic_block, MJOLNIR::irblock_t& bb);
+            bool lift_android_basic_block(DEX::DVMBasicBlock* basic_block, MJOLNIR::irblock_t& bb);
 
             /**
              * @brief
@@ -66,7 +70,7 @@ namespace KUNAI
              * @return true
              * @return false
              */
-            bool lift_android_instruction(DEX::instruction_t& instruction, MJOLNIR::irblock_t& bb);
+            bool lift_android_instruction(DEX::Instruction* instruction, MJOLNIR::irblock_t& bb);
 
         private:
             uint64_t temp_reg_id;
@@ -81,7 +85,7 @@ namespace KUNAI
              * @param cast_type: cast to correct type after instruction.
              * @param bb: basic block where to push the instructions.
              */
-            void lift_instruction23x_binary_instruction(KUNAI::DEX::instruction_t& instruction,
+            void lift_instruction23x_binary_instruction(KUNAI::DEX::Instruction* instruction,
                                                         KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
                                                         MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                                         MJOLNIR::irblock_t& bb);
@@ -94,7 +98,7 @@ namespace KUNAI
              * @param cast_type: cast to correct type after instruction.
              * @param bb: basic block where to push the instructions.
              */
-            void lift_instruction12x_binary_instruction(KUNAI::DEX::instruction_t& instruction,
+            void lift_instruction12x_binary_instruction(KUNAI::DEX::Instruction* instruction,
                                                         KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
                                                         MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                                         MJOLNIR::irblock_t& bb);
@@ -107,7 +111,7 @@ namespace KUNAI
              * @param cast_type 
              * @param bb 
              */
-            void lift_instruction22s_binary_instruction(KUNAI::DEX::instruction_t& instruction,
+            void lift_instruction22s_binary_instruction(KUNAI::DEX::Instruction* instruction,
                                                         KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
                                                         MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                                         MJOLNIR::irblock_t& bb);                
@@ -120,7 +124,7 @@ namespace KUNAI
              * @param cast_type 
              * @param bb 
              */
-            void lift_instruction22b_binary_instruction(KUNAI::DEX::instruction_t& instruction,
+            void lift_instruction22b_binary_instruction(KUNAI::DEX::Instruction* instruction,
                                                         KUNAI::MJOLNIR::IRBinOp::bin_op_t bin_op,
                                                         MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                                         MJOLNIR::irblock_t& bb);
@@ -133,7 +137,7 @@ namespace KUNAI
              * @param cast_type 
              * @param bb 
              */
-            void lift_instruction12x_unary_instruction(KUNAI::DEX::instruction_t& instruction,
+            void lift_instruction12x_unary_instruction(KUNAI::DEX::Instruction* instruction,
                                                         KUNAI::MJOLNIR::IRUnaryOp::unary_op_t unary_op,
                                                         MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                                         MJOLNIR::irblock_t& bb);
@@ -146,7 +150,7 @@ namespace KUNAI
              * @param comparison 
              * @param bb 
              */
-            void lift_comparison_instruction(KUNAI::DEX::instruction_t& instruction,
+            void lift_comparison_instruction(KUNAI::DEX::Instruction* instruction,
                                              MJOLNIR::IRUnaryOp::cast_type_t cast_type,
                                              MJOLNIR::IRBComp::comp_t comparison,
                                              MJOLNIR::irblock_t& bb);
@@ -158,7 +162,7 @@ namespace KUNAI
              * @param comparison 
              * @param bb 
              */
-            void lift_jcc_instruction22t(KUNAI::DEX::instruction_t& instruction,
+            void lift_jcc_instruction22t(KUNAI::DEX::Instruction* instruction,
                                          MJOLNIR::IRBComp::comp_t comparison,
                                          MJOLNIR::irblock_t& bb);
 
@@ -169,7 +173,7 @@ namespace KUNAI
              * @param comparison 
              * @param bb 
              */
-            void lift_jcc_instruction21t(KUNAI::DEX::instruction_t& instruction,
+            void lift_jcc_instruction21t(KUNAI::DEX::Instruction* instruction,
                                          MJOLNIR::IRZComp::zero_comp_t comparison,
                                          MJOLNIR::irblock_t& bb);
 
@@ -181,7 +185,7 @@ namespace KUNAI
              * @param cast_type
              * @param bb
              */
-            void lift_load_instruction(DEX::instruction_t instruction, size_t size, MJOLNIR::IRUnaryOp::cast_type_t cast_type, MJOLNIR::irblock_t bb);
+            void lift_load_instruction(KUNAI::DEX::Instruction* instruction, size_t size, MJOLNIR::IRUnaryOp::cast_type_t cast_type, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Generate a IRStore instruction.
@@ -190,7 +194,7 @@ namespace KUNAI
              * @param size 
              * @param bb 
              */
-            void lift_store_instruction(DEX::instruction_t instruction, size_t size, MJOLNIR::irblock_t bb);
+            void lift_store_instruction(KUNAI::DEX::Instruction* instruction, size_t size, MJOLNIR::irblock_t bb);
 
             /**
              * @brief Create a new IRReg with the id of the register,
@@ -240,7 +244,16 @@ namespace KUNAI
              * @param value: class_t to generate the object.
              * @return MJOLNIR::irclass_t
              */
-            MJOLNIR::irclass_t make_class(DEX::class_t value);
+            MJOLNIR::irclass_t make_class(DEX::Class* value);
+
+            /**
+             * @brief Generate a IRFundamental type for Android, this will be nothing more
+             *        than the name of the fundamental type
+             * 
+             * @param value fundamental_t to generate the object
+             * @return MJOLNIR::irfundamental_t 
+             */
+            MJOLNIR::irfundamental_t make_fundamental(DEX::Fundamental* value);
 
             /**
              * @brief Generate a IRField type for Android, this has the values from the
@@ -248,7 +261,7 @@ namespace KUNAI
              * @param field: fieldid_t to generate the object.
              * @return MJOLNIR::irfield_t
              */
-            MJOLNIR::irfield_t make_field(DEX::fieldid_t field);
+            MJOLNIR::irfield_t make_field(DEX::FieldID* field);
 
             // some utilities
 
@@ -261,13 +274,13 @@ namespace KUNAI
              * @param bbs: basic blocks from the method.
              * @param method_graph graph we are working on
              */
-            void jump_target_analysis(std::vector<DEX::dvmbasicblock_t>& bbs, MJOLNIR::irgraph_t method_graph);
+            void jump_target_analysis(const std::vector<KUNAI::DEX::dvmbasicblock_t> & bbs, MJOLNIR::irgraph_t method_graph);
 
             //! lifted blocks
             std::map<DEX::DVMBasicBlock*, MJOLNIR::irblock_t> lifted_blocks;
 
             //! Android analysis object to check internally
-            DEX::analysis_t android_analysis;
+            DEX::Analysis* android_analysis;
 
             //! Optimization passes
             MJOLNIR::optimizer_t optimizer;

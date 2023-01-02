@@ -58,6 +58,11 @@ namespace KUNAI
                 auto field = reinterpret_cast<IRField *>(this);
                 return field->to_string();
             }
+            else if (this->type == IRType::FUNDAMENTAL_TYPE)
+            {
+                auto fundamental = reinterpret_cast<IRFundamental *>(this);
+                return fundamental->to_string();
+            }
             else if (this->type == IRType::NONE_TYPE)
             {
                 return "IRType [NONE]";
@@ -704,5 +709,55 @@ namespace KUNAI
                     !field1.type_class.compare(field2.type_class) &&
                     !field1.field_name.compare(field2.field_name));
         }
+
+        /**
+         * IRFundamental class
+         */
+        IRFundamental::IRFundamental(fundamental_t type, std::string type_name) : IRType(FUNDAMENTAL_TYPE, FUNDAMENTAL_OP_T, type_name, 0), type(type)
+        {
+        }
+
+        std::string IRFundamental::to_string()
+        {
+            std::stringstream str_stream;
+
+            str_stream << "IRFundamental [Type: ";
+
+            switch (type)
+            {
+            case F_BOOLEAN:
+                str_stream << "BOOLEAN]";
+                break;
+            case F_BYTE:
+                str_stream << "BYTE]";
+                break;
+            case F_CHAR:
+                str_stream << "CHAR]";
+                break;
+            case F_DOUBLE:
+                str_stream << "DOUBLE]";
+                break;
+            case F_FLOAT:
+                str_stream << "FLOAT]";
+                break;
+            case F_INT:
+                str_stream << "INT]";
+                break;
+            case F_LONG:
+                str_stream << "LONG]";
+                break;
+            case F_SHORT:
+                str_stream << "SHORT]";
+                break;
+            case F_VOID:
+                str_stream << "VOID]";
+                break;
+            default:
+                break;
+            }
+
+            return str_stream.str();
+        }
+
     }
 }

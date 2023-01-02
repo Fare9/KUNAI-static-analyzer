@@ -8,11 +8,11 @@ namespace KUNAI
         {
             try
             {
-                this->dex_parser = std::make_shared<DexParser>();
+                this->dex_parser = std::make_unique<DexParser>();
                 this->dex_parser->parse_dex_file(input_file, file_size);
                 this->dex_parsing_correct = true;
-                this->dalvik_opcodes = std::make_shared<DalvikOpcodes>(dex_parser);
-                this->dex_disassembler = std::make_shared<DexDisassembler>(dex_parsing_correct, dex_parser, dalvik_opcodes);
+                this->dalvik_opcodes = std::make_unique<DalvikOpcodes>(dex_parser.get());
+                this->dex_disassembler = std::make_unique<DexDisassembler>(dex_parsing_correct, dex_parser.get(), dalvik_opcodes.get());
             }
             catch (const std::exception &e)
             {
@@ -21,7 +21,7 @@ namespace KUNAI
             }
         }
 
-        analysis_t DEX::get_dex_analysis(bool create_xrefs)
+        Analysis *DEX::get_dex_analysis(bool create_xrefs)
         {
             if (!dex_parsing_correct)
                 return nullptr;
@@ -31,9 +31,9 @@ namespace KUNAI
             if (!dex_disassembler->get_disassembly_correct())
                 return nullptr;
 
-            dex_analysis = std::make_shared<Analysis>(dex_parser, dalvik_opcodes, dex_disassembler->get_instructions(), create_xrefs);
+            dex_analysis = std::make_unique<Analysis>(dex_parser.get(), dalvik_opcodes.get(), dex_disassembler.get(), create_xrefs);
 
-            return dex_analysis;
+            return dex_analysis.get();
         }
 
         std::unique_ptr<DEX> get_unique_dex_object(std::ifstream &input_file, std::uint64_t file_size)

@@ -84,7 +84,7 @@ int main(int argc, char **argv)
     // instruction_map_t is a map that contains as key a tuple with the class and method
     // and as value a map that contains ordered the address of the instruction
     // and the instruction.
-    auto instruction_map = dex_disassembler->get_instructions();
+    auto & instruction_map = dex_disassembler->get_instructions();
 
     // let's create the variable that will hold all those instructions
     // that appear and how many times appear.

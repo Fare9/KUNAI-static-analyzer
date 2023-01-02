@@ -31,6 +31,7 @@
 #include <iomanip>
 #include <map>
 #include <vector>
+#include <iterator>
 
 #include "KUNAI/Exceptions/exceptions.hpp"
 #include "KUNAI/Utils/utils.hpp"
@@ -40,7 +41,12 @@ namespace KUNAI {
 
         class DexStrings;
 
-        using dexstrings_t = std::shared_ptr<DexStrings>;
+        using dexstrings_t = std::unique_ptr<DexStrings>;
+        
+        using offset_string_t = std::map<std::uint32_t, std::unique_ptr<std::string>>;
+
+        using ordered_strings_t = std::vector<std::string*>;
+
 
         class DexStrings
         {
@@ -78,9 +84,12 @@ namespace KUNAI {
             
             /**
              * @brief Return all the strings in a vector.
-             * @return std::vector<std::string*> all the list of strings.
+             * @return const std::vector<std::string*> const: all the list of strings.
              */
-            std::vector<std::string*> get_all_strings();
+            const ordered_strings_t &get_all_strings() const
+            {
+                return ordered_strings;
+            }
 
             /**
              * @brief Get number of all the DEX strings.
@@ -116,8 +125,8 @@ namespace KUNAI {
             // variables from strings
             std::uint32_t number_of_strings;
             std::uint32_t offset;
-            std::map<std::uint32_t, std::string> strings;
-            std::vector<std::string*> ordered_strings;
+            offset_string_t strings;
+            ordered_strings_t ordered_strings;
         };
 
     }

@@ -2,7 +2,7 @@
 
 namespace KUNAI {
     namespace DEX {
-        LinearSweepDisassembler::LinearSweepDisassembler(dalvikopcodes_t dalvik_opcodes) :
+        LinearSweepDisassembler::LinearSweepDisassembler(DalvikOpcodes* dalvik_opcodes) :
         dalvik_opcodes (dalvik_opcodes)
         {
         }
@@ -35,8 +35,8 @@ namespace KUNAI {
 
                     if (instruction)
                     {
-                        instructions[instruction_index] = instruction;
-                        instruction_index += instruction->get_length();
+                        instructions[instruction_index] = std::move(instruction);
+                        instruction_index += instructions[instruction_index]->get_length();
                     }
                 }
                 catch(const exceptions::InvalidInstruction& i)
@@ -45,10 +45,10 @@ namespace KUNAI {
                     // Create a DalvikErrorInstruction
                     std::stringstream error_buffer;
                     error_buffer.write(reinterpret_cast<const char*>(byte_buffer.data() + instruction_index), i.size());
-                    instruction = std::make_shared<DalvikIncorrectInstruction>(this->dalvik_opcodes, error_buffer, i.size());
+                    instruction = std::make_unique<DalvikIncorrectInstruction>(this->dalvik_opcodes, error_buffer, i.size());
 
                     // Set the instruction
-                    instructions[instruction_index] = instruction;
+                    instructions[instruction_index] = std::move(instruction);
 
                     // advance the index
                     instruction_index += i.size();
@@ -68,20 +68,20 @@ namespace KUNAI {
 
         void LinearSweepDisassembler::assign_switch_if_any(std::map<std::uint64_t, instruction_t>& instrs)
         {
-            for (auto instr : instrs)
+            for (auto & instr : instrs)
             {
                 if (instr.second->get_OP() == DVMTypes::OP_PACKED_SWITCH || instr.second->get_OP() == DVMTypes::OP_SPARSE_SWITCH)
                 {
-                    auto instr31t = std::dynamic_pointer_cast<Instruction31t>(instr.second);
+                    auto instr31t = reinterpret_cast<Instruction31t*>(instr.second.get());
 
                     auto switch_idx = instr.first + (instr31t->get_offset()*2);
 
                     if (instrs.find(switch_idx) != instrs.end())
                     {
                         if (instr.second->get_OP() == DVMTypes::OP_PACKED_SWITCH)
-                            instr31t->set_packed_switch(std::dynamic_pointer_cast<PackedSwitch>(instrs[switch_idx]));
+                            instr31t->set_packed_switch(reinterpret_cast<PackedSwitch*>(instrs[switch_idx].get()));
                         else if (instr.second->get_OP() == DVMTypes::OP_SPARSE_SWITCH)
-                            instr31t->set_sparse_switch(std::dynamic_pointer_cast<SparseSwitch>(instrs[switch_idx]));
+                            instr31t->set_sparse_switch(reinterpret_cast<SparseSwitch*>(instrs[switch_idx].get()));
                     }
                 }
             }

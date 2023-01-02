@@ -74,8 +74,20 @@ namespace KUNAI
     {
 
         class ParameterAnnotation;
+        class MethodAnnotations;
+        class FieldAnnotation;
+        class AnnotationsDirectoryItem;
 
-        using parameterannotation_t = std::shared_ptr<ParameterAnnotation>;
+        using parameterannotation_t = std::unique_ptr<ParameterAnnotation>;
+        using parametersannotations_t = std::vector<parameterannotation_t>;
+
+        using methodannotations_t = std::unique_ptr<MethodAnnotations>;
+        using methodsannotations_t = std::vector<methodannotations_t>;
+
+        using fieldannotation_t = std::unique_ptr<FieldAnnotation>;
+        using fieldsannotations_t = std::vector<fieldannotation_t>;
+
+        using annotationsdirectoryitem_t = std::unique_ptr<AnnotationsDirectoryItem>;
 
         class ParameterAnnotation
         {
@@ -98,10 +110,6 @@ namespace KUNAI
             std::uint32_t annotations_off;
         };
 
-        class MethodAnnotations;
-
-        using methodannotations_t = std::shared_ptr<MethodAnnotations>;
-
         class MethodAnnotations
         {
         public:
@@ -122,10 +130,6 @@ namespace KUNAI
             std::uint32_t method_idx;
             std::uint32_t annotations_off;
         };
-
-        class FieldAnnotation;
-
-        using fieldannotation_t = std::shared_ptr<FieldAnnotation>;
 
         class FieldAnnotation
         {
@@ -148,10 +152,6 @@ namespace KUNAI
             std::uint32_t annotations_off;
         };
 
-        class AnnotationsDirectoryItem;
-
-        using annotationsdirectoryitem_t = std::shared_ptr<AnnotationsDirectoryItem>;
-
         class AnnotationsDirectoryItem
         {
         public:
@@ -168,29 +168,44 @@ namespace KUNAI
                 return field_annotations.size();
             }
 
-            fieldannotation_t get_field_annotation_by_pos(std::uint64_t pos);
+            FieldAnnotation *get_field_annotation_by_pos(std::uint64_t pos);
+
+            const fieldsannotations_t &get_field_annotations() const
+            {
+                return field_annotations;
+            }
 
             std::uint64_t get_annotated_methods_size()
             {
                 return method_annotations.size();
             }
 
-            methodannotations_t get_method_annotation_by_pos(std::uint64_t pos);
+            MethodAnnotations *get_method_annotation_by_pos(std::uint64_t pos);
+
+            const methodsannotations_t &get_method_annotations() const
+            {
+                return method_annotations;
+            }
 
             std::uint64_t get_annotated_parameters_size()
             {
                 return parameter_annotations.size();
             }
 
-            parameterannotation_t get_parameter_annotation_by_pos(std::uint64_t pos);
+            ParameterAnnotation *get_parameter_annotation_by_pos(std::uint64_t pos);
+
+            const parametersannotations_t &get_parameter_annotations() const
+            {
+                return parameter_annotations;
+            }
 
         private:
             bool parse_annotations_directory_item(std::ifstream &input_file);
 
             std::uint32_t class_annotations_off;
-            std::vector<fieldannotation_t> field_annotations;
-            std::vector<methodannotations_t> method_annotations;
-            std::vector<parameterannotation_t> parameter_annotations;
+            fieldsannotations_t field_annotations;
+            methodsannotations_t method_annotations;
+            parametersannotations_t parameter_annotations;
         };
     }
 }

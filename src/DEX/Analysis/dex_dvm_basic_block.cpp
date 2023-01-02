@@ -9,10 +9,10 @@ namespace KUNAI
          * DVMBasicBlock
          */
         DVMBasicBlock::DVMBasicBlock(std::uint64_t start,
-                                     dalvikopcodes_t dalvik_opcodes,
-                                     basicblocks_t context,
-                                     encodedmethod_t method,
-                                     std::map<std::uint64_t, instruction_t> &instructions) : start(start),
+                                     DalvikOpcodes* dalvik_opcodes,
+                                     BasicBlocks* context,
+                                     EncodedMethod* method,
+                                     std::map<std::uint64_t, Instruction*> &instructions) : start(start),
                                                                                                             end(start),
                                                                                                             dalvik_opcodes(dalvik_opcodes),
                                                                                                             context(context),
@@ -28,9 +28,9 @@ namespace KUNAI
             this->name += "-BB@" + stream.str();
         }
 
-        std::vector<instruction_t> DVMBasicBlock::get_instructions()
+        std::vector<Instruction*> DVMBasicBlock::get_instructions()
         {
-            std::vector<instruction_t> bb_instructions;
+            std::vector<Instruction*> bb_instructions;
 
             for (auto instruction : instructions)
             {
@@ -41,13 +41,13 @@ namespace KUNAI
             return bb_instructions;
         }
 
-        instruction_t DVMBasicBlock::get_last()
+        Instruction* DVMBasicBlock::get_last()
         {
             auto bb = get_instructions();
             return bb[bb.size() - 1];
         }
 
-        void DVMBasicBlock::set_parent(std::tuple<std::uint64_t, std::uint64_t, DVMBasicBlock*> bb)
+        void DVMBasicBlock::set_parent(std::tuple<std::uint64_t, std::uint64_t, dvmbasicblock_t> bb)
         {
             parents.push_back(bb);
         }
@@ -58,7 +58,7 @@ namespace KUNAI
 
             if (next_block != nullptr)
             {
-                childs.push_back({end - last_length, end, next_block.get()});
+                childs.push_back({end - last_length, end, next_block});
             }
 
             for (auto child : childs)
@@ -68,7 +68,7 @@ namespace KUNAI
                 {
                     auto last_idx = std::get<1>(child);
                     auto end_idx = std::get<0>(child);
-                    child_block->set_parent({last_idx, end_idx, this});
+                    child_block->set_parent({last_idx, end_idx, shared_from_this()});
                 }
             }
         }
@@ -82,7 +82,7 @@ namespace KUNAI
                     continue;
 
                 if (const auto next_block = context->get_basic_block_by_idx(value))
-                    childs.push_back({end - last_length, value, next_block.get()});
+                    childs.push_back({end - last_length, value, next_block});
             }
 
             for (auto child : childs)
@@ -91,12 +91,12 @@ namespace KUNAI
                 {
                     auto last_idx = std::get<1>(child);
                     auto end_idx = std::get<0>(child);
-                    child_block->set_parent({last_idx, end_idx, this});
+                    child_block->set_parent({last_idx, end_idx, shared_from_this()});
                 }
             }
         }
 
-        void DVMBasicBlock::push(instruction_t instr)
+        void DVMBasicBlock::push(Instruction* instr)
         {
             nb_instructions += 1;
             std::uint64_t idx = end;
@@ -109,12 +109,12 @@ namespace KUNAI
                 (op_value == DVMTypes::Opcode::OP_PACKED_SWITCH) ||
                 (op_value == DVMTypes::Opcode::OP_SPARSE_SWITCH))
             {
-                auto i = reinterpret_cast<Instruction31t *>(instr.get());
+                auto i = reinterpret_cast<Instruction31t *>(instr);
                 special_instructions[idx] = instructions[idx + i->get_offset() * 2];
             }
         }
 
-        instruction_t DVMBasicBlock::get_special_instruction(std::uint64_t idx)
+        Instruction* DVMBasicBlock::get_special_instruction(std::uint64_t idx)
         {
             if (special_instructions.find(idx) != special_instructions.end())
                 return special_instructions[idx];

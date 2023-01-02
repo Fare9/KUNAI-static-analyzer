@@ -178,6 +178,13 @@ namespace KUNAI
             return nullptr;
         }
 
+        iralloca_t alloca_ir(irstmnt_t &instr)
+        {
+            if (instr->get_op_type() == IRStmnt::ALLOCA_OP_T)
+                return std::dynamic_pointer_cast<IRAlloca>(instr);
+            return nullptr;
+        }
+
         irtype_t type_ir(irstmnt_t &instr)
         {
             return std::dynamic_pointer_cast<IRType>(instr);

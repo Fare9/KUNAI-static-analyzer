@@ -26,17 +26,17 @@ main(int argc, char **argv)
 
     std::unique_ptr<KUNAI::DEX::DEX> dex = std::make_unique<KUNAI::DEX::DEX>(dex_file, fsize);
     
+
+
     auto dex_disassembler = dex->get_dex_disassembler();
 
     if (dex->get_parsing_correct())
         std::cout << *dex->get_parser();
-    
-    dex_disassembler->disassembly_analysis();
 
+    auto dex_analysis = dex->get_dex_analysis(true);
+    
     if (dex_disassembler->get_disassembly_correct())
         std::cout << *dex_disassembler;
-    
-    auto dex_analysis = dex->get_dex_analysis(true);
 
     dex_analysis->create_xref();
 

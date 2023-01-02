@@ -5,7 +5,7 @@ namespace KUNAI
     namespace DEX
     {
 
-        DalvikOpcodes::DalvikOpcodes(dexparser_t dex_parser) : dex_parser(dex_parser)
+        DalvikOpcodes::DalvikOpcodes(DexParser* dex_parser) : dex_parser(dex_parser)
         {
             auto fields = dex_parser->get_encoded_fields_from_classes();
 
@@ -15,8 +15,6 @@ namespace KUNAI
 
         std::string DalvikOpcodes::get_instruction_name(std::uint32_t instruction)
         {
-            if (opcodes_instruction_name.find(instruction) == opcodes_instruction_name.end())
-                return "";
             return opcodes_instruction_name[instruction];
         }
 
@@ -41,14 +39,11 @@ namespace KUNAI
             return KindString[kind];
         }
 
-        encodedfield_t DalvikOpcodes::get_dalvik_encoded_field_by_fieldid(fieldid_t field)
+        EncodedField* DalvikOpcodes::get_dalvik_encoded_field_by_fieldid(FieldID* field)
         {
             auto fields = dex_parser->get_encoded_fields_from_classes();
 
-            if (field_encodedfield_map.find(field) != field_encodedfield_map.end())
-                return field_encodedfield_map[field];
-
-            return nullptr;
+            return field_encodedfield_map[field];
         }
 
         std::string DalvikOpcodes::get_dalvik_static_field_by_id_str(std::uint32_t id)

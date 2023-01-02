@@ -14,7 +14,6 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    // Set the logging level in spdlog, we set to debug
     spdlog::set_level(spdlog::level::off);
 
     std::ifstream dex_file;
@@ -25,8 +24,6 @@ int main(int argc, char **argv)
     dex_file.seekg(0, std::ios::end);
     fsize = dex_file.tellg() - fsize;
     dex_file.seekg(0);
-
-    //std::cout << "Measuring time complete analysis (parsing+disassembly+analysis)\n";
 
     auto start = std::chrono::high_resolution_clock::now();
 
@@ -41,6 +38,11 @@ int main(int argc, char **argv)
         return 1;
     }
 
+    auto disas = dex->get_dex_disassembler();
+    
+    // set the recursive traversal disassembler
+    disas->set_disassembler_type(KUNAI::DEX::RECURSIVE_TRAVERSAL_DISASSEMBLER);
+
     auto dex_analysis = dex->get_dex_analysis(true);
 
     // now create xrefs
@@ -51,7 +53,7 @@ int main(int argc, char **argv)
     auto lapse = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     
     //time in microseconds
-    std::cout << "analysis_time:" << (static_cast<double>(lapse.count())/static_cast<double>(1000000)) << ";";
+    std::cout << (static_cast<double>(lapse.count())/static_cast<double>(1000000)) << "\n";
 
     return 0;
 }

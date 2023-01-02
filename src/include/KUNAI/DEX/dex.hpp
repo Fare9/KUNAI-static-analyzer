@@ -60,9 +60,9 @@ namespace KUNAI
              *
              * @return dexparser_t&
              */
-            dexparser_t &get_parser()
+            DexParser *get_parser()
             {
-                return dex_parser;
+                return dex_parser.get();
             }
 
             /**
@@ -71,9 +71,9 @@ namespace KUNAI
              *
              * @return dalvikopcodes_t&
              */
-            dalvikopcodes_t &get_dalvik_opcode_object()
+            DalvikOpcodes *get_dalvik_opcode_object()
             {
-                return dalvik_opcodes;
+                return dalvik_opcodes.get();
             }
 
             /**
@@ -82,9 +82,9 @@ namespace KUNAI
              *
              * @return dexdisassembler_t&
              */
-            dexdisassembler_t &get_dex_disassembler()
+            DexDisassembler *get_dex_disassembler()
             {
-                return dex_disassembler;
+                return dex_disassembler.get();
             }
 
             /**
@@ -97,7 +97,7 @@ namespace KUNAI
              * @param create_xrefs: create xrefs in the analysis, use it only if necessary.
              * @return analysis_t
              */
-            analysis_t get_dex_analysis(bool create_xrefs);
+            Analysis *get_dex_analysis(bool create_xrefs);
 
             /**
              * @brief Get if parsing was correct or not.

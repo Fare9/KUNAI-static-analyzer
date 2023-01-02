@@ -34,11 +34,11 @@ namespace KUNAI
         class DexParser;
 
         /**
-         * @brief shared_ptr type of DexParser, this is the parsing of the
+         * @brief unique_ptr type of DexParser, this is the parsing of the
          * DEX headers, different objects represent the different parts of
          * the DEX.
          */
-        using dexparser_t = std::shared_ptr<DexParser>;
+        using dexparser_t = std::unique_ptr<DexParser>;
 
         class DexParser
         {
@@ -62,31 +62,31 @@ namespace KUNAI
             /**
              * @brief Get the header object
              * 
-             * @return dexheader_t& 
+             * @return const DexHeader* 
              */
-            dexheader_t& get_header()
+            DexHeader* get_header() const
             {
-                return dex_header;
+                return dex_header.get();
             }
 
             /**
              * @brief Get the strings object
              * 
-             * @return dexstrings_t& 
+             * @return const DexStrings* 
              */
-            dexstrings_t& get_strings()
+            DexStrings* get_strings() const
             {
-                return dex_strings;
+                return dex_strings.get();
             }
 
             /**
-             * @brief Get the types object.
+             * @brief Get the types object
              * 
-             * @return dextypes_t& 
+             * @return const DexTypes* 
              */
-            dextypes_t& get_types()
+            DexTypes* get_types() const
             {
-                return dex_types;
+                return dex_types.get();
             }
 
             /**
@@ -94,39 +94,39 @@ namespace KUNAI
              * 
              * @return dexprotos_t& 
              */
-            dexprotos_t& get_protos()
+            DexProtos* get_protos() const
             {
-                return dex_protos;
+                return dex_protos.get();
             }
 
             /**
-             * @brief Get the fields object.
+             * @brief Get the fields object
              * 
-             * @return dexfields_t& 
+             * @return const DexFields* 
              */
-            dexfields_t& get_fields()
+            DexFields* get_fields() const
             {
-                return dex_fields;
+                return dex_fields.get();
             }
 
             /**
-             * @brief Get the methods object.
+             * @brief Get the methods object
              * 
-             * @return dexmethods_t& 
+             * @return const DexMethods* 
              */
-            dexmethods_t& get_methods()
+            DexMethods* get_methods() const
             {
-                return dex_methods;
+                return dex_methods.get();
             }
 
             /**
-             * @brief Get the classes object.
+             * @brief Get the classes object
              * 
-             * @return dexclasses_t& 
+             * @return DexClasses* 
              */
-            dexclasses_t& get_classes()
+            DexClasses* get_classes() const
             {
-                return dex_classes;
+                return dex_classes.get();
             }
 
             // utilities for analysts to get more specific
@@ -186,21 +186,21 @@ namespace KUNAI
             }
 
             /**
-             * @brief Get the methods id item object.
+             * @brief Get the methods id item object
              * 
-             * @return std::vector<methodid_t>& 
+             * @return const methods_t 
              */
-            std::vector<methodid_t>& get_methods_id_item() const
+            const methods_t &get_methods_id_item() const
             {
                 return dex_methods->get_method_ids();
             }
-            
+
             /**
-             * @brief Get the fields id item object.
+             * @brief Get the fields id item object
              * 
-             * @return std::vector<fieldid_t>& 
+             * @return const fields_t 
              */
-            std::vector<fieldid_t>& get_fields_id_item() const
+            const fields_t &get_fields_id_item() const
             {
                 return dex_fields->get_fields();
             }
@@ -210,7 +210,7 @@ namespace KUNAI
              * 
              * @return std::vector<codeitemstruct_t> 
              */
-            std::vector<codeitemstruct_t> get_codes_item();
+            std::vector<CodeItemStruct*> get_codes_item();
 
             /**
              * @brief Get the string values object
@@ -219,7 +219,7 @@ namespace KUNAI
              */
             std::vector<std::string> get_string_values();
 
-            const std::vector<encodedfield_t>& get_encoded_fields_from_classes() const
+            const std::vector<EncodedField*>& get_encoded_fields_from_classes() const
             {
                 return encoded_fields;
             }
@@ -246,7 +246,7 @@ namespace KUNAI
             dexmethods_t dex_methods = nullptr;
             dexclasses_t dex_classes = nullptr;
 
-            std::vector<encodedfield_t> encoded_fields;
+            std::vector<EncodedField*> encoded_fields;
         };
     }
 }

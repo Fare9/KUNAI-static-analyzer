@@ -53,7 +53,7 @@ OBJ_FILES= ${OBJ}utils.o ${DEX_OBJ_FILES} ${APK_OBJ_FILES} ${IR_OBJ_FILES} ${IR_
 .PHONY: tests
 
 
-all: dirs ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} ${BIN_FOLDER}${SHARED_LIB_NAME} \
+all: dirs ${BIN_FOLDER}${SHARED_LIB_NAME} ${BIN_FOLDER}${BIN_NAME} ${BIN_FOLDER}${STATIC_LIB_NAME} \
 ${BIN_PROJECTS_FOLDER}test_dex_parser ${BIN_PROJECTS_FOLDER}test_dex_disassembler ${BIN_PROJECTS_FOLDER}test_ir ${BIN_PROJECTS_FOLDER}test_dex_lifter \
 ${BIN_PROJECTS_FOLDER}test_ir_graph ${BIN_PROJECTS_FOLDER}test_dominators ${BIN_PROJECTS_FOLDER}test-optimizations \
 ${BIN_PROJECTS_FOLDER}test-optimizations2 ${BIN_PROJECTS_FOLDER}test_ssa_form ${BIN_PROJECTS_FOLDER}test_dex_analysis \
@@ -286,6 +286,8 @@ tests:
 	@echo "Compiling test-modexp"
 	cd ./tests/test-modexp && ${JAVAC} --release 8 Main.java && ${D8} Main.class && mv classes.dex Main.dex
 
+	@echo "Compiling test-news"
+	cd ./tests/test-news && ${JAVAC} --release 8 Main.java && ${D8} Main.class && mv classes.dex Main.dex
 ########################################################
 clean:
 	rm -rf ${OBJ}

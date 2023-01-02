@@ -22,6 +22,14 @@ namespace KUNAI
 
             auto &first_node = get_nodes()[0];
 
+            // change also those which has not predecessors
+            // for example the blocks from exception catchers.
+            for (auto & node : get_nodes())
+            {
+                if (get_predecessors(node).size() == 0 && node != first_node)
+                    search(node);
+            }
+
             search(first_node);
         }
 
@@ -116,6 +124,24 @@ namespace KUNAI
                             continue;
                         }
                     }
+                    // A = Alloca(B)
+                    else if (auto alloca_instr = alloca_ir(instr))
+                    {
+                        irstmnt_t result = alloca_instr->get_result();
+                        irstmnt_t size = alloca_instr->get_size();
+
+                        if (auto reg = register_ir(result))
+                        {
+                            var_block_map[reg].insert(block);
+                        }
+
+                        if (auto reg = register_ir(size))
+                        {
+                            var_block_map[reg].insert(block);
+                        }
+
+                        continue;
+                    }
                 }
             }
         }
@@ -168,18 +194,34 @@ namespace KUNAI
         void IRGraphSSA::search(const irblock_t &v)
         {
             std::list<irreg_t> p;
+            std::stack<size_t> to_remove;
 
             auto &statements = v->get_statements();
-
+            
             // process each statement of the block
             for (size_t v_size = statements.size(), i = 0; i < v_size; i++)
             {
                 auto &instr = statements[i];
 
                 auto new_instr = translate_instruction(instr, p);
+                // check if the instruction have been removed
+                if (new_instr == nullptr)
+                {
+                    to_remove.push(i);
+                    continue;
+                }
 
                 if (new_instr != instr)
                     statements[i] = new_instr;
+            }
+
+            // remove from vector in post order
+            while(!to_remove.empty())
+            {
+                auto index = to_remove.top();
+                to_remove.pop();
+
+                statements.erase(statements.begin() + index);
             }
             // process the phi statements from the successors
             auto &succs = get_successors(v);
@@ -399,6 +441,20 @@ namespace KUNAI
 
                 new_instr = std::make_shared<IRBComp>(bcomp->get_comparison(), bcomp->get_result(), std::dynamic_pointer_cast<IRExpr>(op1), std::dynamic_pointer_cast<IRExpr>(op2));
             }
+            // Alloca
+            else if (auto alloca = alloca_ir(instr))
+            {
+                irstmnt_t result = alloca->get_result();
+                irstmnt_t size = alloca->get_size();
+
+                if (auto reg = register_ir(result))
+                    result = get_top_or_create(reg, p);
+
+                if (auto reg = register_ir(size))
+                    size = get_top_or_create(reg, p);
+
+                new_instr = std::make_shared<IRAlloca>(std::dynamic_pointer_cast<IRExpr>(result), alloca->get_source_type(), std::dynamic_pointer_cast<IRExpr>(size));
+            }
             // Phi node (only the result)
             if (auto phi_instr = phi_ir(instr))
             {
@@ -416,6 +472,11 @@ namespace KUNAI
                 {
                     aux->add_param(param.second, param.first);
                 }
+
+                // not necessary a phi where we do not have
+                // more than one parameter
+                if (aux->get_params().size() < 2)
+                    return nullptr;
             }
 
             return new_instr;
@@ -423,7 +484,7 @@ namespace KUNAI
 
         irreg_t IRGraphSSA::create_new_ssa_reg(irreg_t old_reg, std::list<irreg_t> &p)
         {
-            irreg_t new_reg;
+            irreg_t new_reg; 
 
             if (C.find(old_reg) == C.end())
                 C[old_reg] = 0;
@@ -433,6 +494,7 @@ namespace KUNAI
                                               old_reg->get_current_arch(),
                                               old_reg->to_string() + "." + std::to_string(C[old_reg]),
                                               old_reg->get_type_size());
+
             // save last index of the register
             C[old_reg]++;
             // save all the references to new registers

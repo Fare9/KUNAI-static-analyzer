@@ -35,7 +35,7 @@
 | 0x20 | instance-of vx,vy,type id |   |
 | 0x21 | array-length vx,vy |   |
 | 0x22 | new-instance vx,type | IRNew |
-| 0x23 | new-array vx,vy,type id |   |
+| 0x23 | new-array vx,vy,type id | IRAlloca |
 | 0x24 | filled-new-array {parameters},type id |   |
 | 0x25 | filled-new-array-range {vx..vy},type id |   |
 | 0x26 | fill-array-data vx,array\_data\_offset |   |

@@ -53,7 +53,7 @@ namespace KUNAI
              *
              * @param func
              */
-            void run_analysis(irgraph_t &func);
+            void run_analysis(irgraph_t func);
 
             /**
              * @brief Analyze the basic blocks of the graph in order to create the
@@ -104,7 +104,7 @@ namespace KUNAI
              *                           +----------------+
              * @param ir_graph
              */
-            void fallthrough_target_analysis(MJOLNIR::irgraph_t &ir_graph);
+            void fallthrough_target_analysis(MJOLNIR::irgraph_t ir_graph);
 
             /**
              * @brief Calculate the def-use and use-def chains in an IRGraph
@@ -115,7 +115,7 @@ namespace KUNAI
              * @param ir_graph graph of a function in MjolnIR to calculate its def-use, use-def chains
              * @param reachingdefinition the object with the reaching definition.
              */
-            void calculate_def_use_and_use_def_analysis(MJOLNIR::irgraph_t &ir_graph,
+            void calculate_def_use_and_use_def_analysis(MJOLNIR::irgraph_t ir_graph,
                                                         reachingdefinition_t &reachingdefinition);
 
         private:
@@ -129,7 +129,7 @@ namespace KUNAI
              * @param reach_def_set
              * @param ir_graph
              */
-            void solve_def_use_use_def(irexpr_t &operand, irstmnt_t expr, regdefinitionset_t &reach_def_set, MJOLNIR::irgraph_t &ir_graph);
+            void solve_def_use_use_def(irexpr_t &operand, irstmnt_t expr, regdefinitionset_t &reach_def_set, MJOLNIR::irgraph_t ir_graph);
 
             std::vector<one_stmnt_opt_t> single_statement_optimization;
             std::vector<one_block_opt_t> single_block_optimization;

@@ -4,14 +4,14 @@ namespace KUNAI
 {
     namespace DEX
     {
-        DexDisassembler::DexDisassembler(bool parsing_correct, dexparser_t dex_parser, dalvikopcodes_t dalvik_opcodes) : parsing_correct(parsing_correct),
+        DexDisassembler::DexDisassembler(bool parsing_correct, DexParser* dex_parser, DalvikOpcodes* dalvik_opcodes) : parsing_correct(parsing_correct),
                                                                                                                          dex_parser(dex_parser),
                                                                                                                          disassembly_correct(false),
                                                                                                                          dalvik_opcodes(dalvik_opcodes),
                                                                                                                          disas_type(LINEAR_SWEEP_DISASSEMBLER)
         {
-            linear_dalvik_disassembler = std::make_shared<LinearSweepDisassembler>(dalvik_opcodes);
-            recursive_dalvik_disassembler = std::make_shared<RecursiveTraversalDisassembler>(dalvik_opcodes);
+            linear_dalvik_disassembler = std::make_unique<LinearSweepDisassembler>(dalvik_opcodes);
+            recursive_dalvik_disassembler = std::make_unique<RecursiveTraversalDisassembler>(dalvik_opcodes);
         }
 
         void DexDisassembler::disassembly_analysis()
@@ -47,9 +47,9 @@ namespace KUNAI
             logger->debug("DexDisassembler disassembly a total of {} DEX classes", dex_classes->get_number_of_classes());
 #endif
 
-            auto class_defs = dex_classes->get_classes();
+            auto & class_defs = dex_classes->get_classes();
 
-            for (auto class_def : class_defs)
+            for (auto & class_def : class_defs)
             {
                 // get ClassDataItem
                 auto class_data_item = class_def->get_class_data();
@@ -79,7 +79,7 @@ namespace KUNAI
                     else if (disas_type == RECURSIVE_TRAVERSAL_DISASSEMBLER)
                         instructions = this->recursive_dalvik_disassembler->disassembly(code_item_struct->get_all_raw_instructions(), method);
 
-                    for (auto instruction : instructions)
+                    for (auto & instruction : instructions)
                     {
                         instruction.second->set_number_of_registers(code_item_struct->get_number_of_registers_in_code());
 
@@ -89,14 +89,27 @@ namespace KUNAI
                             instruction.second->set_number_of_parameters(method->get_method()->get_method_prototype()->get_number_of_parameters() + 1);
                     }
 
-                    this->method_instructions[{class_def, method}] = instructions;
+                    for(auto & instr : instructions)
+                        this->method_instructions[{class_def.get(), method}][instr.first] = std::move(instr.second);
+                    
                 }
             }
         }
 
-        void DexDisassembler::add_disassembly(dexdisassembler_t &disas)
+        void DexDisassembler::add_disassembly(DexDisassembler* disas)
         {
-            method_instructions.insert(disas->get_instructions().begin(), disas->get_instructions().end());
+            auto & instructions = disas->get_instructions();
+
+            for (auto & it : instructions)
+            {
+                auto class_def = std::get<0>(it.first);
+                auto direct_method = std::get<1>(it.first);
+                for (auto & i : it.second)
+                {
+                    method_instructions[{class_def, direct_method}][i.first] = std::move(i.second);
+                }
+            }
+
             disassembly_correct &= disas->get_disassembly_correct();
         }
 
@@ -130,9 +143,24 @@ namespace KUNAI
             return os;
         }
 
+        std::map<std::uint64_t, Instruction*> DexDisassembler::get_instructions_by_class_and_method(ClassDef* class_def, EncodedMethod* encoded_method)
+        {
+            std::map<std::uint64_t, Instruction*> instructions;
+            std::tuple<ClassDef*, EncodedMethod*> key = std::make_tuple(class_def, encoded_method);
+            if (method_instructions.find(key) != method_instructions.end())
+            {
+                auto & instrs = method_instructions[key];
+
+                for (auto & instr : instrs)
+                    instructions[instr.first] = instr.second.get();
+            }
+
+            return instructions;
+        }
+
         DexDisassembler &operator+(DexDisassembler &first_disassembler, DexDisassembler &other_disassembler)
         {
-            first_disassembler.method_instructions.insert(other_disassembler.method_instructions.begin(), other_disassembler.method_instructions.end());
+            first_disassembler.add_disassembly(&other_disassembler);
             first_disassembler.disassembly_correct &= other_disassembler.disassembly_correct;
             first_disassembler.parsing_correct &= other_disassembler.parsing_correct;
 

@@ -237,6 +237,13 @@ namespace KUNAI
             std::map<irblock_t, irblock_t> compute_immediate_dominators();
 
             /**
+             * @brief Compute the immediate post dominators
+             * 
+             * @return std::map<irblock_t, irblock_t> 
+             */
+            std::map<irblock_t, irblock_t> compute_immediate_postdominators();
+
+            /**
              * @brief Compute the dominance frontier from the current IRGraph,
              *        the dominance frontier of a node n, DF(n) is the border of
              *        the CFG region that is dominated by n:

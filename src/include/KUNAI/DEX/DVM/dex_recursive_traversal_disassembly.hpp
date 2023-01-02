@@ -22,20 +22,20 @@ namespace KUNAI {
     namespace DEX {
         class RecursiveTraversalDisassembler;
 
-        using recursivetraversaldisassembler_t = std::shared_ptr<RecursiveTraversalDisassembler>;
+        using recursivetraversaldisassembler_t = std::unique_ptr<RecursiveTraversalDisassembler>;
 
         class RecursiveTraversalDisassembler
         {
         public:
-            RecursiveTraversalDisassembler(dalvikopcodes_t dalvik_opcodes);
+            RecursiveTraversalDisassembler(DalvikOpcodes* dalvik_opcodes);
             ~RecursiveTraversalDisassembler() = default;
 
-            std::map<std::uint64_t, instruction_t> disassembly(const std::vector<std::uint8_t>& byte_buffer, encodedmethod_t& method);
+            std::map<std::uint64_t, instruction_t> disassembly(const std::vector<std::uint8_t>& byte_buffer, EncodedMethod* method);
         private:
-            void analyze_switch(std::map<std::uint64_t, instruction_t>& instrs, const std::vector<std::uint8_t>& byte_buffer, instruction_t& instruction, std::uint64_t instruction_index);
+            void analyze_switch(std::map<std::uint64_t, instruction_t>& instrs, const std::vector<std::uint8_t>& byte_buffer, Instruction* instruction, std::uint64_t instruction_index);
 
             std::queue<std::uint64_t> Q;
-            dalvikopcodes_t dalvik_opcodes;
+            DalvikOpcodes* dalvik_opcodes;
         };
     }
 }

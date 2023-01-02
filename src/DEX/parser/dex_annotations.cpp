@@ -37,25 +37,25 @@ namespace KUNAI
                 throw exceptions::ParserReadingException("Error reading AnnotationsDirectoryItem");
         }
 
-        fieldannotation_t AnnotationsDirectoryItem::get_field_annotation_by_pos(std::uint64_t pos)
+        FieldAnnotation *AnnotationsDirectoryItem::get_field_annotation_by_pos(std::uint64_t pos)
         {
             if (pos >= field_annotations.size())
                 return nullptr;
-            return field_annotations[pos];
+            return field_annotations[pos].get();
         }
 
-        methodannotations_t AnnotationsDirectoryItem::get_method_annotation_by_pos(std::uint64_t pos)
+        MethodAnnotations *AnnotationsDirectoryItem::get_method_annotation_by_pos(std::uint64_t pos)
         {
             if (pos >= method_annotations.size())
                 return nullptr;
-            return method_annotations[pos];
+            return method_annotations[pos].get();
         }
 
-        parameterannotation_t AnnotationsDirectoryItem::get_parameter_annotation_by_pos(std::uint64_t pos)
+        ParameterAnnotation *AnnotationsDirectoryItem::get_parameter_annotation_by_pos(std::uint64_t pos)
         {
             if (pos >= parameter_annotations.size())
                 return nullptr;
-            return parameter_annotations[pos];
+            return parameter_annotations[pos].get();
         }
 
         bool AnnotationsDirectoryItem::parse_annotations_directory_item(std::ifstream &input_file)
@@ -95,8 +95,8 @@ namespace KUNAI
                 if (!KUNAI::read_data_file<std::uint32_t>(annotations_off, sizeof(std::uint32_t), input_file))
                     return false;
 
-                field_annotation = std::make_shared<FieldAnnotation>(field_idx, annotations_off);
-                field_annotations.push_back(field_annotation);
+                field_annotation = std::make_unique<FieldAnnotation>(field_idx, annotations_off);
+                field_annotations.push_back(std::move(field_annotation));
             }
 
             for (i = 0; i < annotated_methods_size; i++)
@@ -107,8 +107,8 @@ namespace KUNAI
                 if (!KUNAI::read_data_file<std::uint32_t>(annotations_off, sizeof(std::uint32_t), input_file))
                     return false;
 
-                method_annotation = std::make_shared<MethodAnnotations>(method_idx, annotations_off);
-                method_annotations.push_back(method_annotation);
+                method_annotation = std::make_unique<MethodAnnotations>(method_idx, annotations_off);
+                method_annotations.push_back(std::move(method_annotation));
             }
 
             for (i = 0; i < annotated_parameters_size; i++)
@@ -119,8 +119,8 @@ namespace KUNAI
                 if (!KUNAI::read_data_file<std::uint32_t>(annotations_off, sizeof(std::uint32_t), input_file))
                     return false;
 
-                parameter_annotation = std::make_shared<ParameterAnnotation>(method_idx, annotations_off);
-                parameter_annotations.push_back(parameter_annotation);
+                parameter_annotation = std::make_unique<ParameterAnnotation>(method_idx, annotations_off);
+                parameter_annotations.push_back(std::move(parameter_annotation));
             }
 
             input_file.seekg(current_offset);

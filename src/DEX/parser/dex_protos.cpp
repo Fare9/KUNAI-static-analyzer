@@ -12,8 +12,8 @@ namespace KUNAI
                          std::uint32_t return_type_idx,
                          std::uint32_t parameters_off,
                          std::ifstream &input_file,
-                         dexstrings_t& dex_strings,
-                         dextypes_t& dex_types) : parameters_off(parameters_off)
+                         DexStrings *dex_strings,
+                         DexTypes *dex_types) : parameters_off(parameters_off)
         {
             this->shorty_idx = dex_strings->get_string_from_order(shorty_idx);
             this->return_type_idx = dex_types->get_type_from_order(return_type_idx);
@@ -22,15 +22,15 @@ namespace KUNAI
         }
 
         bool ProtoID::parse_parameters(std::ifstream &input_file,
-                                       dexstrings_t& dex_strings,
-                                       dextypes_t& dex_types)
+                                       DexStrings *dex_strings,
+                                       DexTypes *dex_types)
         {
             auto logger = LOGGER::logger();
 
             auto current_offset = input_file.tellg();
             std::uint32_t size;
             std::uint16_t type_id;
-            type_t type;
+            Type *type;
             size_t i = 0;
 
             if (parameters_off == 0)
@@ -41,10 +41,10 @@ namespace KUNAI
 
             if (!KUNAI::read_data_file<std::uint32_t>(size, sizeof(std::uint32_t), input_file))
                 return false;
-            
-            #ifdef DEBUG
+
+#ifdef DEBUG
             logger->debug("Reading ProtoID from offset {} and size {}", parameters_off, size);
-            #endif
+#endif
 
             auto num_types = dex_types->get_number_of_types();
 
@@ -56,23 +56,23 @@ namespace KUNAI
                 if (type_id > num_types)
                 {
                     logger->error("Error reading ProtoID parameters type_id out of type bound ({} > {})", type_id, num_types);
-                    exceptions::IncorrectTypeId("Error reading ProtoID parameters type_id out of type bound");
+                    throw exceptions::IncorrectTypeId("Error reading ProtoID parameters type_id out of type bound");
                 }
-                
+
                 type = dex_types->get_type_from_order(type_id);
 
                 parameters.push_back(type);
 
-                #ifdef DEBUG
+#ifdef DEBUG
                 logger->debug("Parsed type number {}", i);
-                #endif
+#endif
             }
 
             input_file.seekg(current_offset);
             return true;
         }
 
-        type_t ProtoID::get_parameter_type_by_order(size_t pos)
+        Type *ProtoID::get_parameter_type_by_order(size_t pos)
         {
             if (pos >= parameters.size())
                 return nullptr;
@@ -103,11 +103,11 @@ namespace KUNAI
                              std::uint64_t file_size,
                              std::uint32_t number_of_protos,
                              std::uint32_t offset,
-                             dexstrings_t& dex_strings,
-                             dextypes_t& dex_types) : number_of_protos(number_of_protos),
-                                                                    offset(offset),
-                                                                    dex_strings(dex_strings),
-                                                                    dex_types(dex_types)
+                             DexStrings *dex_strings,
+                             DexTypes *dex_types) : number_of_protos(number_of_protos),
+                                                    offset(offset),
+                                                    dex_strings(dex_strings),
+                                                    dex_types(dex_types)
         {
             if (!parse_protos(input_file, file_size))
                 throw exceptions::ParserReadingException("Error reading DEX protos");
@@ -125,9 +125,9 @@ namespace KUNAI
             // set to current offset
             input_file.seekg(offset);
 
-            #ifdef DEBUG
+#ifdef DEBUG
             logger->debug("DexProtos start parsing in offset {} with size {}", offset, number_of_protos);
-            #endif
+#endif
 
             auto number_of_strings = dex_strings->get_number_of_strings();
             auto number_of_types = dex_types->get_number_of_types();
@@ -161,13 +161,13 @@ namespace KUNAI
                     throw exceptions::OutOfBoundException("Error reading protos parameters_off out of file bound");
                 }
 
-                proto_id = std::make_shared<ProtoID>(shorty_idx, return_type_idx, parameters_off, input_file, dex_strings, dex_types);
+                proto_id = std::make_unique<ProtoID>(shorty_idx, return_type_idx, parameters_off, input_file, dex_strings, dex_types);
 
-                proto_ids.push_back(proto_id);
+                proto_ids.push_back(std::move(proto_id));
 
-                #ifdef DEBUG
+#ifdef DEBUG
                 logger->debug("parsed proto id {}", i);
-                #endif
+#endif
             }
 
             // set to previous offset
@@ -178,21 +178,22 @@ namespace KUNAI
             return true;
         }
 
-        protoid_t DexProtos::get_proto_by_order(size_t pos)
+        ProtoID* DexProtos::get_proto_by_order(size_t pos)
         {
             if (pos >= proto_ids.size())
                 return nullptr;
 
-            return proto_ids[pos];
+            return proto_ids[pos].get();
         }
 
         std::ostream &operator<<(std::ostream &os, const DexProtos &entry)
         {
             size_t i = 0;
             os << std::hex;
-            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Protos ===========" << "\n";
-            
-            for(auto proto_id : entry.proto_ids)
+            os << std::setw(30) << std::left << std::setfill(' ') << "=========== DEX Protos ==========="
+               << "\n";
+
+            for (const auto & proto_id : entry.proto_ids)
             {
                 os << std::left << std::setfill(' ') << "Proto (" << std::dec << i++ << std::hex << "): ";
                 os << "(";
@@ -214,22 +215,30 @@ namespace KUNAI
             std::stringstream stream;
 
             stream << std::hex;
-            stream << std::setw(30) << std::left << std::setfill(' ') << "<protos>" << "\n";
+            stream << std::setw(30) << std::left << std::setfill(' ') << "<protos>"
+                   << "\n";
 
-            for (auto proto_id : entry.proto_ids)
+            for (const auto & proto_id : entry.proto_ids)
             {
-                stream << std::left << std::setfill(' ') << "\t<proto>" << "\n";
-                stream << "\t\t<arguments>" << "\n";
+                stream << std::left << std::setfill(' ') << "\t<proto>"
+                       << "\n";
+                stream << "\t\t<arguments>"
+                       << "\n";
                 for (size_t j = 0; j < proto_id->get_number_of_parameters(); j++)
                 {
-                    stream << "\t\t\t<argument>" << proto_id->get_parameter_type_by_order(j)->get_raw() << "</argument>" << "\n";
+                    stream << "\t\t\t<argument>" << proto_id->get_parameter_type_by_order(j)->get_raw() << "</argument>"
+                           << "\n";
                 }
-                stream << "\t\t</arguments>" << "\n";
-                stream << "\t\t<return>" << proto_id->get_return_idx()->get_raw() << "</return>" << "\n";
-                stream << std::left << std::setfill(' ') << "\t</proto>" << "\n";
+                stream << "\t\t</arguments>"
+                       << "\n";
+                stream << "\t\t<return>" << proto_id->get_return_idx()->get_raw() << "</return>"
+                       << "\n";
+                stream << std::left << std::setfill(' ') << "\t</proto>"
+                       << "\n";
             }
 
-            stream << std::setw(30) << std::left << std::setfill(' ') << "</protos>" << "\n";
+            stream << std::setw(30) << std::left << std::setfill(' ') << "</protos>"
+                   << "\n";
 
             fos.write(stream.str().c_str(), stream.str().size());
 
