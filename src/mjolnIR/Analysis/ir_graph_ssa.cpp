@@ -441,6 +441,7 @@ namespace KUNAI
 
                 new_instr = std::make_shared<IRBComp>(bcomp->get_comparison(), bcomp->get_result(), std::dynamic_pointer_cast<IRExpr>(op1), std::dynamic_pointer_cast<IRExpr>(op2));
             }
+            // Alloca
             else if (auto alloca = alloca_ir(instr))
             {
                 irstmnt_t result = alloca->get_result();
