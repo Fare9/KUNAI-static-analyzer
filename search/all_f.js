@@ -11,5 +11,5 @@ var searchData=
   ['register_5fir_8',['register_ir',['../d9/d2a/ir__grammar_8hpp.html#a8ee3bd3ae47433879a09065a9257d55e',1,'KUNAI::MJOLNIR']]],
   ['registers_5fsize_9',['registers_size',['../d6/daf/structKUNAI_1_1DEX_1_1CodeItemStruct_1_1code__item__struct__t.html#af410b49b150cb4562a5e07729f5ab5ca',1,'KUNAI::DEX::CodeItemStruct::code_item_struct_t']]],
   ['ret_5fir_10',['ret_ir',['../d9/d2a/ir__grammar_8hpp.html#a8c9420ca9d101c4bf136e80622d9613b',1,'KUNAI::MJOLNIR']]],
-  ['run_5fanalysis_11',['run_analysis',['../d6/d70/classKUNAI_1_1MJOLNIR_1_1Optimizer.html#a46eace4bc0edc52401e0d541e4af204d',1,'KUNAI::MJOLNIR::Optimizer']]]
+  ['run_5fanalysis_11',['run_analysis',['../d6/d70/classKUNAI_1_1MJOLNIR_1_1Optimizer.html#a36e60baf29168afef27aae7e8b0113b8',1,'KUNAI::MJOLNIR::Optimizer']]]
 ];

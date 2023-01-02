@@ -1,11 +1,11 @@
 <map id="src/include/KUNAI/mjolnIR/arch/ir_dalvik.hpp" name="src/include/KUNAI/mjolnIR/arch/ir_dalvik.hpp">
-<area shape="rect" id="node1" title="All the data values for the dalvik virtual machine." coords="477,5,655,45"/>
-<area shape="rect" id="node2" href="$d9/d2a/ir__grammar_8hpp.html" title="Header file which includes all the grammar of the IR, this will be used as header file by all the int..." coords="477,93,655,133"/>
-<area shape="rect" id="node3" href="$d8/d39/optimizer_8hpp.html" title="Class for applying optimization passes to IR, working in IR we will be able to create more generic op..." coords="477,372,655,412"/>
-<area shape="rect" id="node5" href="$de/da9/reachingDefinition_8hpp_source.html" title=" " coords="463,277,669,317"/>
-<area shape="rect" id="node6" href="$d7/daf/single__block__optimizations_8hpp.html" title="There are optimizations that can be applied to whole blocks, these will return a modified block or th..." coords="693,269,871,324"/>
-<area shape="rect" id="node7" href="$d3/d9f/single__instruction__optimizations_8hpp.html" title="All those optimizers that will be applied to only one instruction will be written in this file,..." coords="5,269,185,324"/>
-<area shape="rect" id="node8" href="$d0/d75/ir__graph_8hpp.html" title="DiGraph class from miasm implemented in C++ using the classes from MjolnIR, some of basic graph analy..." coords="306,181,485,221"/>
-<area shape="rect" id="node4" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." coords="477,460,655,500"/>
-<area shape="rect" id="node9" href="$de/d60/ir__graph__ssa_8hpp.html" title="This is an extension of a IRGraph class, but in this case the nodes will contain a SSA form of the gr..." coords="261,277,439,317"/>
+<area shape="rect" id="node1" title="All the data values for the dalvik virtual machine." alt="" coords="477,5,655,45"/>
+<area shape="rect" id="node2" href="$d9/d2a/ir__grammar_8hpp.html" title="Header file which includes all the grammar of the IR, this will be used as header file by all the int..." alt="" coords="477,93,655,133"/>
+<area shape="rect" id="node3" href="$d8/d39/optimizer_8hpp.html" title="Class for applying optimization passes to IR, working in IR we will be able to create more generic op..." alt="" coords="477,372,655,412"/>
+<area shape="rect" id="node5" href="$de/da9/reachingDefinition_8hpp_source.html" title=" " alt="" coords="463,277,669,317"/>
+<area shape="rect" id="node6" href="$d7/daf/single__block__optimizations_8hpp.html" title="There are optimizations that can be applied to whole blocks, these will return a modified block or th..." alt="" coords="693,269,871,324"/>
+<area shape="rect" id="node7" href="$d3/d9f/single__instruction__optimizations_8hpp.html" title="All those optimizers that will be applied to only one instruction will be written in this file,..." alt="" coords="5,269,185,324"/>
+<area shape="rect" id="node8" href="$d0/d75/ir__graph_8hpp.html" title="DiGraph class from miasm implemented in C++ using the classes from MjolnIR, some of basic graph analy..." alt="" coords="306,181,485,221"/>
+<area shape="rect" id="node4" href="$d5/db8/lifter__android_8hpp.html" title="Class for lifting the code from the Android methods/classes to mjolnIR, different analysis can be app..." alt="" coords="477,460,655,500"/>
+<area shape="rect" id="node9" href="$de/d60/ir__graph__ssa_8hpp.html" title="This is an extension of a IRGraph class, but in this case the nodes will contain a SSA form of the gr..." alt="" coords="261,277,439,317"/>
 </map>

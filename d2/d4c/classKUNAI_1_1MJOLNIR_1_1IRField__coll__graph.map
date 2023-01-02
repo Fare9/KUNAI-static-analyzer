@@ -1,6 +1,6 @@
 <map id="KUNAI::MJOLNIR::IRField" name="KUNAI::MJOLNIR::IRField">
-<area shape="rect" id="node1" title=" " coords="9,225,185,251"/>
-<area shape="rect" id="node2" href="$db/de6/classKUNAI_1_1MJOLNIR_1_1IRType.html" title=" " coords="9,152,185,177"/>
-<area shape="rect" id="node3" href="$df/d12/classKUNAI_1_1MJOLNIR_1_1IRExpr.html" title=" " coords="10,79,183,104"/>
-<area shape="rect" id="node4" href="$d0/d8d/classKUNAI_1_1MJOLNIR_1_1IRStmnt.html" title=" " coords="5,5,188,31"/>
+<area shape="rect" id="node1" title=" " alt="" coords="9,225,185,251"/>
+<area shape="rect" id="node2" href="$db/de6/classKUNAI_1_1MJOLNIR_1_1IRType.html" title=" " alt="" coords="9,152,185,177"/>
+<area shape="rect" id="node3" href="$df/d12/classKUNAI_1_1MJOLNIR_1_1IRExpr.html" title=" " alt="" coords="10,79,183,104"/>
+<area shape="rect" id="node4" href="$d0/d8d/classKUNAI_1_1MJOLNIR_1_1IRStmnt.html" title=" " alt="" coords="5,5,188,31"/>
 </map>

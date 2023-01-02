@@ -8,5 +8,5 @@ var searchData=
   ['read_5fannotations_5',['read_annotations',['../db/de6/classKUNAI_1_1MJOLNIR_1_1IRType.html#a8dd693be08b2f11e30f0bfee92c9a4c5',1,'KUNAI::MJOLNIR::IRType']]],
   ['register_5fir_6',['register_ir',['../d9/d2a/ir__grammar_8hpp.html#a8ee3bd3ae47433879a09065a9257d55e',1,'KUNAI::MJOLNIR']]],
   ['ret_5fir_7',['ret_ir',['../d9/d2a/ir__grammar_8hpp.html#a8c9420ca9d101c4bf136e80622d9613b',1,'KUNAI::MJOLNIR']]],
-  ['run_5fanalysis_8',['run_analysis',['../d6/d70/classKUNAI_1_1MJOLNIR_1_1Optimizer.html#a46eace4bc0edc52401e0d541e4af204d',1,'KUNAI::MJOLNIR::Optimizer']]]
+  ['run_5fanalysis_8',['run_analysis',['../d6/d70/classKUNAI_1_1MJOLNIR_1_1Optimizer.html#a36e60baf29168afef27aae7e8b0113b8',1,'KUNAI::MJOLNIR::Optimizer']]]
 ];

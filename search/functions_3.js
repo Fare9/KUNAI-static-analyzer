@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['dalvikopcodes_0',['DalvikOpcodes',['../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#ad05348a3670dbf2bc1166b60ea03b97c',1,'KUNAI::DEX::DalvikOpcodes']]],
+  ['dalvikopcodes_0',['DalvikOpcodes',['../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a5a8d48332912553eb2371bece142df58',1,'KUNAI::DEX::DalvikOpcodes']]],
   ['del_5fedge_1',['del_edge',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#af095f528371382d4991a1ead08be1905',1,'KUNAI::MJOLNIR::IRGraph']]],
   ['del_5fnode_2',['del_node',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#a3430534e0d0d7b2f49a16bfa8e2b5c54',1,'KUNAI::MJOLNIR::IRGraph']]],
   ['delete_5fblock_5ffrom_5fprecessors_3',['delete_block_from_precessors',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#aa67cefc0c78cfd18a74fe52b15b80789',1,'KUNAI::MJOLNIR::IRGraph']]],
@@ -9,11 +9,12 @@ var searchData=
   ['depth_5ffirst_5fsearch_6',['Depth_First_Search',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#a4c907710d2a6ea655e4bf760255cf201',1,'KUNAI::MJOLNIR::IRGraph']]],
   ['descriptor_7',['descriptor',['../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html#af61e85569e8f071a46735a8acb581411',1,'KUNAI::DEX::MethodAnalysis']]],
   ['dex_8',['DEX',['../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html#a18364029c19ce11c5e5c880c523ff38b',1,'KUNAI::DEX::DEX']]],
-  ['dexclasses_9',['DexClasses',['../d2/d5d/classKUNAI_1_1DEX_1_1DexClasses.html#a5fb4264283387d02e094e9d14dc52b49',1,'KUNAI::DEX::DexClasses']]],
-  ['dexdisassembler_10',['DexDisassembler',['../dc/db6/classKUNAI_1_1DEX_1_1DexDisassembler.html#a3a9edb55b80d0a51d5ada4c42eff9864',1,'KUNAI::DEX::DexDisassembler']]],
-  ['dexheader_11',['DexHeader',['../d8/dfa/classKUNAI_1_1DEX_1_1DexHeader.html#a50047e992bedc87eedeae52ee18c870d',1,'KUNAI::DEX::DexHeader']]],
-  ['dexstrings_12',['DexStrings',['../d2/dd6/classKUNAI_1_1DEX_1_1DexStrings.html#a559a99d5f7721ec1ca9f98ecfcee981f',1,'KUNAI::DEX::DexStrings']]],
-  ['dextypes_13',['DexTypes',['../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html#a8682bb509080e181bffd047c034da2ff',1,'KUNAI::DEX::DexTypes']]],
-  ['disassembly_5fanalysis_14',['disassembly_analysis',['../dc/db6/classKUNAI_1_1DEX_1_1DexDisassembler.html#aef86c131246723a277e46eb3d5e86359',1,'KUNAI::DEX::DexDisassembler']]],
-  ['dvmbasicblock_15',['DVMBasicBlock',['../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a2b47463324c07a1fa9068be89af58b25',1,'KUNAI::DEX::DVMBasicBlock']]]
+  ['dexclasses_9',['DexClasses',['../d2/d5d/classKUNAI_1_1DEX_1_1DexClasses.html#a4eccf262471e44399bffaba6573bcf70',1,'KUNAI::DEX::DexClasses']]],
+  ['dexdisassembler_10',['DexDisassembler',['../dc/db6/classKUNAI_1_1DEX_1_1DexDisassembler.html#ac30845b43d0a004b01772ee47448d720',1,'KUNAI::DEX::DexDisassembler']]],
+  ['dexfields_11',['DexFields',['../de/d82/classKUNAI_1_1DEX_1_1DexFields.html#a72afb446d3c1c9f5ac2809d122eb4952',1,'KUNAI::DEX::DexFields']]],
+  ['dexheader_12',['DexHeader',['../d8/dfa/classKUNAI_1_1DEX_1_1DexHeader.html#a50047e992bedc87eedeae52ee18c870d',1,'KUNAI::DEX::DexHeader']]],
+  ['dexstrings_13',['DexStrings',['../d2/dd6/classKUNAI_1_1DEX_1_1DexStrings.html#a559a99d5f7721ec1ca9f98ecfcee981f',1,'KUNAI::DEX::DexStrings']]],
+  ['dextypes_14',['DexTypes',['../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html#a2694ddb5fa894f5b03150e6710bcb82c',1,'KUNAI::DEX::DexTypes']]],
+  ['disassembly_5fanalysis_15',['disassembly_analysis',['../dc/db6/classKUNAI_1_1DEX_1_1DexDisassembler.html#aef86c131246723a277e46eb3d5e86359',1,'KUNAI::DEX::DexDisassembler']]],
+  ['dvmbasicblock_16',['DVMBasicBlock',['../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#ac7bee1f166af4105856982a0d970aec1',1,'KUNAI::DEX::DVMBasicBlock']]]
 ];
