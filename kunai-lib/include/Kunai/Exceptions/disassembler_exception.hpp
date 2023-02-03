@@ -3,8 +3,8 @@
 // @author Farenain <kunai.static.analysis@gmail.com>
 // 
 // @file disassembler_exception.hpp
-#ifndef EXCEPTIONS_DISASSEMBLER_EXCEPTION_HPP
-#define EXCEPTIONS_DISASSEMBLER_EXCEPTION_HPP
+#ifndef KUNAI_EXCEPTIONS_DISASSEMBLER_EXCEPTION_HPP
+#define KUNAI_EXCEPTIONS_DISASSEMBLER_EXCEPTION_HPP
 
 #include <iostream>
 
@@ -34,4 +34,4 @@ namespace exceptions
 } // namespace exceptions
 
 
-#endif // EXCEPTIONS_DISASSEMBLER_EXCEPTION_HPP
+#endif // KUNAI_EXCEPTIONS_DISASSEMBLER_EXCEPTION_HPP

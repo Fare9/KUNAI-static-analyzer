@@ -2,16 +2,15 @@
 // Kunai-static-analyzer: library for doing analysis of dalvik files
 // @author Farenain <kunai.static.analysis@gmail.com>
 // 
-// @file apkunzip_exception.hpp
-#ifndef EXCEPTIONS_APKUNZIP_EXCEPTION_HPP
-#define EXCEPTIONS_APKUNZIP_EXCEPTION_HPP
-
-#include <iostream>
+// @file outofbound_exception.hpp
+#ifndef KUNAI_EXCEPTIONS_OUTOFBOUND_EXCEPTION_HPP
+#define KUNAI_EXCEPTIONS_OUTOFBOUND_EXCEPTION_HPP
 
 namespace exceptions
 {
-    /// @brief Exception raised when unzipping process fails.
-    class ApkUnzipException : public std::exception
+    /// @brief Exception raised when a read is done out
+    /// of bound in case it is detected.
+    class OutOfBoundException : public std::exception
     {
         /// @brief message to show with the exception
         std::string _msg;
@@ -20,7 +19,7 @@ namespace exceptions
         
         /// @brief Constructor of exception
         /// @param msg message to show to the user
-        ApkUnzipException(const std::string &msg) : _msg(msg)
+        OutOfBoundException(const std::string &msg) : _msg(msg)
         {}
 
         /// @brief Return error message
@@ -32,6 +31,4 @@ namespace exceptions
     };
 } // namespace exceptions
 
-
-
-#endif // EXCEPTIONS_APKUNZIP_EXCEPTION_HPP
+#endif // KUNAI_EXCEPTIONS_OUTOFBOUND_EXCEPTION_HPP

@@ -2,17 +2,17 @@
 // Kunai-static-analyzer: library for doing analysis of dalvik files
 // @author Farenain <kunai.static.analysis@gmail.com>
 // 
-// @file incorrectid_exception.hpp
-#ifndef EXCEPTIONS_INCORRECTID_EXCEPTION_HPP
-#define EXCEPTIONS_INCORRECTID_EXCEPTION_HPP
+// @file incorrectdexfile_exception.hpp
+#ifndef KUNAI_EXCEPTIONS_INCORRECTDEXFILE_EXCEPTION_HPP
+#define KUNAI_EXCEPTIONS_INCORRECTDEXFILE_EXCEPTION_HPP
 
 #include <iostream>
 
 namespace exceptions
 {
-    /// @brief Exception raised when found an incorrect ID of any type
-    /// can be strings ids, type ids, method ids...
-    class IncorrectIDException : public std::exception
+    /// @brief Exception raised when found an incorrect dex 
+    /// file during the analysis.
+    class IncorrectDexFileException : public std::exception
     {
         /// @brief message to show with the exception
         std::string _msg;
@@ -21,7 +21,7 @@ namespace exceptions
         
         /// @brief Constructor of exception
         /// @param msg message to show to the user
-        IncorrectIDException(const std::string &msg) : _msg(msg)
+        IncorrectDexFileException(const std::string &msg) : _msg(msg)
         {}
 
         /// @brief Return error message
@@ -33,4 +33,4 @@ namespace exceptions
     };
 } // namespace exceptions
 
-#endif // EXCEPTIONS_INCORRECTID_EXCEPTION_HPP
+#endif // KUNAI_EXCEPTIONS_INCORRECTDEXFILE_EXCEPTION_HPP
