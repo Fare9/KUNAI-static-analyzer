@@ -6,6 +6,8 @@
 #ifndef KUNAI_EXCEPTIONS_OUTOFBOUND_EXCEPTION_HPP
 #define KUNAI_EXCEPTIONS_OUTOFBOUND_EXCEPTION_HPP
 
+#include <iostream>
+
 namespace exceptions
 {
     /// @brief Exception raised when a read is done out
