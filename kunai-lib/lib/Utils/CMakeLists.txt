@@ -1,0 +1,3 @@
+set(KUNAI_UTILS_SRC
+${CMAKE_CURRENT_LIST_DIR}/kunaistream.cpp
+)

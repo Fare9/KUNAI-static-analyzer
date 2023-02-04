@@ -1,0 +1,3 @@
+set(KUNAI_DEX_SRC
+${CMAKE_CURRENT_LIST_DIR}/dex.cpp
+)
