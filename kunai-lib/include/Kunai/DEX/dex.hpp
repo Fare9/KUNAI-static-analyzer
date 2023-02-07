@@ -58,14 +58,14 @@ namespace DEX
 
         /// @brief Was parsing process correct?
         /// @return boolean with result
-        bool parsing_correct() const
+        bool get_parsing_correct() const
         {
             return parsing_correct;
         }
 
         /// @brief Was disassembly process correct?
         /// @return boolean with result
-        bool disassembly_correct() const
+        bool get_disassembly_correct() const
         {
             return disassembly_correct;
         }
