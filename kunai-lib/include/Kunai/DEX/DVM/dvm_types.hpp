@@ -127,7 +127,7 @@ namespace KUNAI
             };
 
             /// @brief String representation for all kind enum values
-            static std::unordered_map<Kind, std::string> KindString =
+            static const std::unordered_map<Kind, std::string> KindString =
                 {
                     {Kind::METH, "METH"},
                     {Kind::STRING, "STRING"},
@@ -143,7 +143,7 @@ namespace KUNAI
                     {Kind::NONE_KIND, "NONE"}};
 
             /// @brief string representation for the access flags.
-            static std::unordered_map<access_flags, std::string> ACCESS_FLAGS_STR =
+            static const std::unordered_map<access_flags, std::string> ACCESS_FLAGS_STR =
                 {
                     {access_flags::ACC_PUBLIC, "public"},
                     {access_flags::ACC_PRIVATE, "private"},
@@ -164,7 +164,7 @@ namespace KUNAI
                     {access_flags::ACC_DECLARED_SYNCHRONIZED, "synchronized"}};
 
             /// @brief String name from a char for basic types
-            static std::unordered_map<char, std::string> type_descriptor_map =
+            static const std::unordered_map<char, std::string> type_descriptor_map =
                 {
                     {'V', "void"},
                     {'Z', "boolean"},
