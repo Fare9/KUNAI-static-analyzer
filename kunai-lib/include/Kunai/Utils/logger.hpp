@@ -32,25 +32,18 @@ namespace KUNAI
         /// @brief possible file name from user to write the logs
         static std::string log_file_name = "";
 
-        /// @brief Write the log to stderr
-        void log_to_stderr()
-        {
-            global_logger_output = TO_STDERR;
-        }
+        #ifndef LOG_TO_STDERR
+        #define LOG_TO_STDERR() KUNAI::LOGGER::global_logger_output = KUNAI::LOGGER::TO_STDERR
+        #endif
 
-        /// @brief Write the log to console
-        void log_to_console()
-        {
-            global_logger_output = TO_CONSOLE;
-        }
+        #ifndef LOG_TO_STDOUT
+        #define LOG_TO_STDOUT() KUNAI::LOGGER::global_logger_output = KUNAI::LOGGER::TO_CONSOLE
+        #endif
 
-        /// @brief Write to a file specified by user
-        /// @param file_name file where to dump the log
-        void log_to_file(std::string &file_name)
-        {
-            global_logger_output = TO_FILE;
-            log_file_name = file_name;
-        }
+        #ifndef LOG_TO_FILE
+        #define LOG_TO_FILE() KUNAI::LOGGER::global_logger_output = KUNAI::LOGGER::TO_FILE
+        #endif
+
 
         /// @brief Method to retrieve a logger object, this object
         /// will be different depending on the type of logging
