@@ -23,7 +23,7 @@ namespace KUNAI
         {
             /// @brief Identify the kind of argument inside
             /// a Dalvik Instruction
-            enum class Kind : std::uint8_t
+            enum class Kind
             {
                 METH = 0,          //! method reference
                 STRING = 1,        //! string index
@@ -43,7 +43,7 @@ namespace KUNAI
             /// @brief Identify different type of operations
             /// from instructions like branching, break, write
             /// or read.
-            enum class Operation : std::uint8_t
+            enum class Operation
             {
                 CONDITIONAL_BRANCH_DVM_OPCODE = 0, //! conditional branch instructions ["throw", "throw.", "if."]
                 UNCONDITIONAL_BRANCH_DVM_OPCODE,   //! unconditional branch instructions ["goto", "goto."]
@@ -57,7 +57,7 @@ namespace KUNAI
             };
 
             /// @brief Enumeration used for operand type of opcodes
-            enum class Operand : std::uint16_t
+            enum class Operand
             {
                 REGISTER = 0, //! register operand
                 LITERAL = 1,  //! literal value
@@ -70,7 +70,7 @@ namespace KUNAI
             /// @brief Access flags used in class_def_item,
             /// encoded_field, encoded_method and InnerClass
             /// https://source.android.com/devices/tech/dalvik/dex-format#access-flags
-            enum class access_flags : std::uint32_t
+            enum class access_flags
             {
                 NONE = 0x0,                         //! No access flags
                 ACC_PUBLIC = 0x1,                   //! public type
@@ -96,7 +96,7 @@ namespace KUNAI
             };
 
             /// @brief Enumeration used for the types.
-            enum class value_format : std::uint8_t
+            enum class value_format
             {
                 VALUE_BYTE = 0x0,           //! ubyte[1]
                 VALUE_SHORT = 0x2,          //! ubyte[size]
@@ -119,7 +119,7 @@ namespace KUNAI
             };
 
             /// @brief Opcodes from Dalvik Virtual Machine
-            enum class opcodes : std::uint16_t
+            enum class opcodes
             {
 #define OPCODE(ID, VAL) \
     ID = VAL,
