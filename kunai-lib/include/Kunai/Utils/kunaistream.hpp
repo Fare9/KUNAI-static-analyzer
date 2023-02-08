@@ -68,6 +68,14 @@ namespace KUNAI
                     throw exceptions::StreamException("read_data(): error reading input file");
             }
 
+            /// @brief Move the pointer from the input file
+            /// @param off offset where to move
+            /// @param dir directorion to move
+            void seekg(std::streamoff off, std::ios_base::seekdir dir)
+            {
+                input_file.seekg(off, dir);
+            }
+
             /// @brief Read a string as an array of char finished in a 0 byte
             /// @param offset the offset in the file where to read the string
             /// @return string read
