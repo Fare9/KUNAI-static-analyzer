@@ -65,12 +65,18 @@ namespace KUNAI
             void parse_headers(stream::KunaiStream* stream);
 
         public:
-
             /// @brief DEX header constructor
             /// @param stream stream with the dex file
             Header(stream::KunaiStream* stream)
             {
                 parse_headers(stream);
+            }
+
+            /// @brief Copy constructor of dex header
+            /// @param header reference to the header where to copy from
+            Header(Header& header)
+            {
+                memcpy(&dexheader, &header.dexheader, sizeof(dexheader_t));
             }
 
             /// @brief destructor of DEX header
