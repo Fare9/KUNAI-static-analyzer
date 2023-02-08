@@ -19,6 +19,12 @@ namespace KUNAI
         static const std::uint32_t REVERSE_ENDIAN_CONSTANT = 0x78563412;
         static const std::uint32_t NO_INDEX = 0xFFFFFFFF;
 
+        static const std::uint8_t dex_magic[] = {'d', 'e', 'x', '\n'};
+        static const std::uint8_t dex_magic_035[] = {'d', 'e', 'x', '\n', '0', '3', '5', '\0'};
+        static const std::uint8_t dex_magic_037[] = {'d', 'e', 'x', '\n', '0', '3', '7', '\0'};
+        static const std::uint8_t dex_magic_038[] = {'d', 'e', 'x', '\n', '0', '3', '8', '\0'};
+        static const std::uint8_t dex_magic_039[] = {'d', 'e', 'x', '\n', '0', '3', '9', '\0'};
+
         namespace TYPES
         {
             /// @brief Identify the kind of argument inside

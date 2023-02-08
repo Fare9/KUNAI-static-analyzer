@@ -10,8 +10,10 @@
 #ifndef KUNAI_DEX_DEX_HPP
 #define KUNAI_DEX_DEX_HPP
 
+//! utilities
 #include "Kunai/Utils/logger.hpp"
 #include "Kunai/Utils/kunaistream.hpp"
+
 #include <memory>
 
 namespace KUNAI
