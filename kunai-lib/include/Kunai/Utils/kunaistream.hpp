@@ -68,6 +68,13 @@ namespace KUNAI
                     throw exceptions::StreamException("read_data(): error reading input file");
             }
 
+            /// @brief Obtain the current pointer of the file
+            /// @return position of file
+            std::streampos tellg() const
+            {
+                return input_file.tellg();
+            }
+
             /// @brief Move the pointer from the input file
             /// @param off offset where to move
             /// @param dir directorion to move
