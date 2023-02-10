@@ -60,17 +60,13 @@ namespace KUNAI
             /// @brief Variable that will hold the structure
             struct dexheader_t dexheader;
 
+        public:
+            /// @brief DEX header constructor
+            Header() = default;
+
             /// @brief Internal function for parsing the dex headers
             /// @param stream stream with the dex file
             void parse_headers(stream::KunaiStream* stream);
-
-        public:
-            /// @brief DEX header constructor
-            /// @param stream stream with the dex file
-            Header(stream::KunaiStream* stream)
-            {
-                parse_headers(stream);
-            }
 
             /// @brief Copy constructor of dex header
             /// @param header reference to the header where to copy from
