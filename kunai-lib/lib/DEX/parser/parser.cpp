@@ -32,7 +32,11 @@ void Parser::parse_file()
     stream->seekg(0, std::ios_base::beg);
 
     // start now parsing
-    header = std::make_unique<Header>(stream);
+    header.parse_headers(stream);
+    
+    auto & dex_header = header.get_dex_header_const();
+
+    strings.parse_strings(dex_header.string_ids_off, dex_header.string_ids_size, stream);
 
     logger->debug("parser.cpp: dex file parsing correct");
 }

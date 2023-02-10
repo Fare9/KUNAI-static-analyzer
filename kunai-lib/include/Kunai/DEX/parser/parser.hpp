@@ -10,7 +10,9 @@
 #define KUNAI_DEX_PARSER_PARSER_HPP
 
 #include "Kunai/DEX/parser/header.hpp"
+#include "Kunai/DEX/parser/strings.hpp"
 #include "Kunai/Utils/kunaistream.hpp"
+
 
 namespace KUNAI
 {
@@ -21,7 +23,11 @@ namespace DEX
     {
         /// @brief Dex header class
         /// with the dex header structure
-        std::unique_ptr<Header> header;
+        Header header;
+
+        /// @brief Dex strings used
+        /// during the whole dex structures
+        Strings strings;
 
         /// @brief stream with the file
         stream::KunaiStream* stream;
@@ -39,18 +45,32 @@ namespace DEX
         /// @brief parse the dex file and obtain the different objects
         void parse_file();
 
-        /// @brief Return a const pointer from the dex header
-        /// @return const dex header pointer
-        const Header* get_header_const() const
+        /// @brief Return a const reference from the dex header
+        /// @return const dex header reference
+        const Header& get_header_const() const
         {
-            return header.get();
+            return header;
         }
 
-        /// @brief Return a pointer from the dex header
-        /// @return dex header pointer
-        Header* get_header()
+        /// @brief Return a reference from the dex header
+        /// @return dex header reference
+        Header& get_header()
         {
-            return header.get();
+            return header;
+        }
+
+        /// @brief get a reference to the strings object, reference is constant
+        /// @return constant reference to strings
+        const Strings& get_strings_const() const
+        {
+            return strings;
+        }
+
+        /// @brief get a reference to the strings object
+        /// @return reference to strings
+        Strings& get_strings()
+        {
+            return strings;
         }
     };
 } // namespace DEX
