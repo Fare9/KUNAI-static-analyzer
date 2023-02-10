@@ -109,3 +109,7 @@ PROPERTIES
     SOVERSION ${PROJECT_VERSION_MAJOR}
     OUTPUT_NAME "kunai"
 )
+
+if (UNIT_TESTING)
+    add_subdirectory(unit-tests)
+endif ()
