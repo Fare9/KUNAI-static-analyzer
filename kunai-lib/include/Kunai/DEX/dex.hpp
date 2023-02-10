@@ -13,6 +13,7 @@
 //! utilities
 #include "Kunai/Utils/logger.hpp"
 #include "Kunai/Utils/kunaistream.hpp"
+#include "Kunai/DEX/parser/parser.hpp"
 
 #include <memory>
 
@@ -24,10 +25,20 @@ namespace DEX
     /// a parser, a disassembler and an analysis object.
     class Dex
     {
+    public:
+        /// @brief Parse a given dex file, return a Dex object as a unique pointer
+        /// @param dex_file_path path to a dex file
+        /// @return unique pointer with Dex object
+        static std::unique_ptr<Dex> parse_dex_file(std::string& dex_file_path);
+    
+    private:
         /// @brief Stream to manage the DEX file with utilities
         std::unique_ptr<stream::KunaiStream> kunai_stream;
         /// @brief ifstream that will hold the dex file
         std::ifstream dex_file;
+
+        /// @brief Parser for the DEX file
+        std::unique_ptr<Parser> parser;
 
         /// @brief store if parsing process was correct
         bool parsing_correct = false;
@@ -71,13 +82,10 @@ namespace DEX
         {
             return disassembly_correct;
         }
-
-
     };
+
 } // namespace DEX
 } // namespace KUNAI
-
-
 
 
 #endif // KUNAI_DEX_DEX_HPP
