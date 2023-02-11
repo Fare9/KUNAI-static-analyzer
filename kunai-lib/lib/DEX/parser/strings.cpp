@@ -73,7 +73,7 @@ std::string *Strings::get_string_from_offset(std::uint32_t offset)
     return it->second;
 }
 
-const std::string &Strings::get_string_by_id(std::uint32_t id) const
+std::string &Strings::get_string_by_id(std::uint32_t id)
 {
     if (id >= number_of_strings)
         throw exceptions::IncorrectIDException("strings.cpp: id for string incorrect");

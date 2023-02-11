@@ -74,8 +74,8 @@ namespace DEX
 
         /// @brief Get reference to string by a given id
         /// @param id id commonly refers to position
-        /// @return const reference to string
-        const std::string& get_string_by_id(std::uint32_t id) const;
+        /// @return reference to string
+        std::string& get_string_by_id(std::uint32_t id);
         
         /// @brief Get the number of the strings stored.
         /// @return uint32_t with number of strings
