@@ -55,3 +55,6 @@ doc/latex/
 
 # CMake output
 build/
+
+# files type .inc
+*.inc
