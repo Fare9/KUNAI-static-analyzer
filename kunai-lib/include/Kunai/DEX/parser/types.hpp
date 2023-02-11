@@ -10,7 +10,9 @@
 #define KUNAI_DEX_PARSER_TYPES_HPP
 
 #include "Kunai/Utils/kunaistream.hpp"
+#include "Kunai/DEX/parser/strings.hpp"
 
+#include <vector>
 #include <unordered_map>
 #include <memory>
 
@@ -66,6 +68,8 @@ namespace DEX
         }
     };
 
+    using dvmtype_t = std::unique_ptr<DVMType>;
+
     /// @brief Fundamental types from the DVM, these are the
     /// common from many other languages
     class DVMFundamental : public DVMType
@@ -116,14 +120,14 @@ namespace DEX
 
         /// @brief get the type of the object
         /// @return return FUNDAMENTAL type
-        type_e get_type() const
+        type_e get_type() const override
         {
             return FUNDAMENTAL;
         }
 
         /// @brief Return a string with the name of the type
         /// @return string with the type
-        std::string print_type() const
+        std::string print_type() const override
         {
             return "Fundamental";
         }
@@ -168,27 +172,25 @@ namespace DEX
 
         /// @brief get type_e enum value for Class object.
         /// @return type_e with value CLASS.
-        type_e get_type() const
+        type_e get_type() const override
         {
             return CLASS;
         }
 
         /// @brief get the type in string format
         /// @return type in string format
-        std::string print_type() const
+        std::string print_type() const override
         {
             return "Class";
         }
 
         /// @brief Get the name of the class
         /// @return name of the class
-        std::string& get_name()
+        const std::string& get_name() const
         {
             return name;
         }
     };
-
-    using dvmtype_t = std::unique_ptr<DVMType>;
 
     /// @brief Class that represent the array types
     class DVMArray : public DVMType
@@ -200,11 +202,156 @@ namespace DEX
         /// @brief type of the array
         dvmtype_t array_type;
     public:
+        /// @brief Constructor of DVMArray
+        /// @param raw array type in raw
+        /// @param depth how many depth the array contains
+        /// @param array type of the array as a std::unique_ptr
         DVMArray(std::string raw, size_t depth, dvmtype_t& array) :
             DVMType(ARRAY, raw), depth(depth), array_type(std::move(array))
         {}
 
-        
+        /// @brief Destructor of DVMArray
+        ~DVMArray() = default;
+
+        /// @brief Return the type in this case an Array type
+        /// @return ARRAY value from type_e enum
+        type_e get_type() const override
+        {
+            return ARRAY;
+        }
+
+        /// @brief Return the string representation of the type
+        /// @return ARRAY as a string
+        std::string print_type() const override
+        {
+            return "Array";
+        }
+
+        /// @brief Return a pointer to the type of the array
+        /// @return type of the array
+        const DVMType* get_array_type() const
+        {
+            return array_type.get();
+        }
+
+        /// @brief Get the depth of the array specified as [[
+        /// @return depth of the array
+        size_t get_depth() const
+        {
+            return depth;
+        }
+    };
+
+    /// @brief In case something unknown is found, we categorize it
+    class Unknown : public DVMType
+    {
+    public:
+        /// @brief Constructor of unknown type
+        /// @param type type to be stored in parent class
+        /// @param raw raw
+        Unknown(std::string raw) :
+            DVMType(UNKNOWN, raw)
+        {}
+
+        /// @brief Destructor of unknown type
+        ~Unknown() = default;
+
+        /// @brief Get Unkown type
+        /// @return UNKNOWN value
+        type_e get_type() const override
+        {
+            return UNKNOWN;
+        }
+
+        /// @brief Get Unkown type as a string
+        /// @return UNKNOWN value as string
+        std::string print_type() const override
+        {
+            return "Unknown";
+        }
+    };
+
+    class Types
+    {
+        /// @brief types in the order they are parsed
+        std::vector<dvmtype_t> ordered_types;
+        /// @brief types by the id of the type
+        std::unordered_map<std::uint32_t, DVMType*> types_by_id;
+        //! @brief number of types according to header
+        std::uint32_t number_of_types;
+        //! @brief The offset where the types are
+        std::uint32_t offset;
+    public:
+        /// @brief Constructor of the Types object, nothing for initialization
+        Types() = default;
+        /// @brief Destructor of Types
+        ~Types() = default;
+
+        /// @brief Parse the types and store them in the class
+        /// @param stream stream with the DEX file
+        /// @param strings strings to retrieve the type
+        /// @param number_of_types number of types to retrieve
+        /// @param types_offset offset where to read the types
+        void parse_types(
+            stream::KunaiStream* stream,
+            Strings* strings,
+            std::uint32_t number_of_types,
+            std::uint32_t types_offset
+        );
+
+        /// @brief Get a reference to the vector with all the types
+        /// @return constant reference to vector
+        const std::vector<dvmtype_t>& get_ordered_types() const
+        {
+            return ordered_types;
+        }
+
+        /// @brief Get the types with the map of string id - type
+        /// @return constant reference to map
+        const std::unordered_map<std::uint32_t, DVMType*>& get_types_by_id() const
+        {
+            return types_by_id;
+        }
+
+        /// @brief Get a type given its string ID
+        /// @param type_id ID of the type
+        /// @return pointer to the type
+        DVMType* get_type_by_id(std::uint32_t type_id);
+
+        /// @brief Get a type given position
+        /// @param pos position of the Type
+        /// @return pointer to the type
+        DVMType* get_type_from_order(std::uint32_t pos);
+
+        /// @brief Get the number of types stored
+        /// @return number of types
+        std::uint32_t get_number_of_types() const
+        {
+            return number_of_types;
+        }
+
+        /// @brief Get the offset where types are stored
+        /// @return offset where types are
+        std::uint32_t get_offset() const
+        {
+            return offset;
+        }
+
+        /// @brief Pretty printer for Types
+        /// @param os stream where to print it
+        /// @param entry entry to print
+        /// @return 
+        friend std::ostream &operator<<(std::ostream &os, const Types &entry);
+
+        /// @brief Dump the types to an xml file
+        /// @param xml_file file where to dump content
+        void to_xml(std::ofstream& xml_file);
+    private:
+        /// @brief Parse the given name in order to find what
+        /// DEX type is
+        /// @param name type from DEX
+        /// @return object with the type
+        dvmtype_t parse_type(std::string& name);
     };
 } // namespace DEX
 } // namespace KUNAI
