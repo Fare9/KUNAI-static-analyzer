@@ -111,5 +111,8 @@ PROPERTIES
 )
 
 if (UNIT_TESTING)
+    set(KUNAI_TEST_FOLDERS
+        "${CMAKE_CURRENT_SOURCE_DIR}/tests"
+    )
     add_subdirectory(unit-tests)
 endif ()
