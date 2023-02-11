@@ -10,12 +10,6 @@ Kunai uses *CMake* to control compilation proces, so you can use this building s
 cmake -B build -S .
 ```
 
-Or in the case you also want to compile the *unit test* folder:
-
-```console
-cmake -S . -B build -D CMAKE_BUILD_TYPE=Release -D UNIT_TESTING=ON
-```
-
 Also we can change the build type, by default this will be *Release*, but *Debug* is recommended if you are testing and developing Kunai:
 
 ```console
@@ -23,6 +17,12 @@ Also we can change the build type, by default this will be *Release*, but *Debug
 cmake -S . -B build -D CMAKE_BUILD_TYPE=Release
 # for Debuc compilation
 cmake -S . -B build -D CMAKE_BUILD_TYPE=Debug
+```
+
+Or in the case you also want to compile the *unit test* folder:
+
+```console
+cmake -S . -B build -D CMAKE_BUILD_TYPE=DEBUG -D UNIT_TESTING=ON
 ```
 
 Now we build the libraries and all the other binaries from Kunai, we can specify with *-j* the number of processes to run in parallel so the compilation goes faster:
