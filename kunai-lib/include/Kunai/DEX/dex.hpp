@@ -82,6 +82,13 @@ namespace DEX
         {
             return disassembly_correct;
         }
+
+        /// @brief get a pointer to the DEX parser with all the headers
+        /// @return dex parser
+        Parser * get_parser()
+        {
+            return parser.get();
+        }
     };
 
 } // namespace DEX

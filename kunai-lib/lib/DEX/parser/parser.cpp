@@ -37,6 +37,7 @@ void Parser::parse_file()
     auto & dex_header = header.get_dex_header_const();
 
     strings.parse_strings(dex_header.string_ids_off, dex_header.string_ids_size, stream);
+    types.parse_types(stream, &strings, dex_header.type_ids_size, dex_header.type_ids_off);
 
     logger->debug("parser.cpp: dex file parsing correct");
 }

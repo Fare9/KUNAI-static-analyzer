@@ -11,6 +11,7 @@
 
 #include "Kunai/DEX/parser/header.hpp"
 #include "Kunai/DEX/parser/strings.hpp"
+#include "Kunai/DEX/parser/types.hpp"
 #include "Kunai/Utils/kunaistream.hpp"
 
 
@@ -28,6 +29,9 @@ namespace DEX
         /// @brief Dex strings used
         /// during the whole dex structures
         Strings strings;
+
+        /// @brief Types of the DEX file
+        Types types;
 
         /// @brief stream with the file
         stream::KunaiStream* stream;
@@ -71,6 +75,20 @@ namespace DEX
         Strings& get_strings()
         {
             return strings;
+        }
+
+        /// @brief get a constant reference to the types
+        /// @return constant reference to types
+        const Types& get_types_const() const
+        {
+            return types;
+        }
+
+        /// @brief get a reference to the types object
+        /// @return reference to types
+        Types& get_types()
+        {
+            return types;
         }
     };
 } // namespace DEX
