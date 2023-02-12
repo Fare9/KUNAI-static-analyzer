@@ -12,6 +12,7 @@
 #include "Kunai/DEX/parser/header.hpp"
 #include "Kunai/DEX/parser/strings.hpp"
 #include "Kunai/DEX/parser/types.hpp"
+#include "Kunai/DEX/parser/protos.hpp"
 #include "Kunai/Utils/kunaistream.hpp"
 
 
@@ -32,6 +33,9 @@ namespace DEX
 
         /// @brief Types of the DEX file
         Types types;
+
+        /// @brief Protos of the methods from DEX file
+        Protos protos;
 
         /// @brief stream with the file
         stream::KunaiStream* stream;
@@ -89,6 +93,20 @@ namespace DEX
         Types& get_types()
         {
             return types;
+        }
+
+        /// @brief get a constant reference to the prototypes
+        /// @return constant reference to protos
+        const Protos& get_protos_const() const
+        {
+            return protos;
+        }
+
+        /// @brief get a reference to the prototypes
+        /// @return reference to protos
+        Protos& get_protos()
+        {
+            return protos;
         }
     };
 } // namespace DEX
