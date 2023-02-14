@@ -164,7 +164,7 @@ namespace DEX
         /// @brief constructor of DVM class with the name of the class
         /// @param name name of the class
         DVMClass(std::string name) :
-            DVMType(CLASS, name), name(name)
+            DVMType(CLASS, name), name(name.substr(1, name.size()-2))
         {}
 
         /// @brief default destructor of DVMClass
@@ -187,6 +187,13 @@ namespace DEX
         /// @brief Get the name of the class
         /// @return name of the class
         const std::string& get_name() const
+        {
+            return name;
+        }
+        
+        /// @brief Return a reference to the name
+        /// @return name of the class
+        std::string& get_name()
         {
             return name;
         }
