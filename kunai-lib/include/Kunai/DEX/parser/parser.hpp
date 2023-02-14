@@ -13,6 +13,7 @@
 #include "Kunai/DEX/parser/strings.hpp"
 #include "Kunai/DEX/parser/types.hpp"
 #include "Kunai/DEX/parser/protos.hpp"
+#include "Kunai/DEX/parser/fields.hpp"
 #include "Kunai/Utils/kunaistream.hpp"
 
 
@@ -36,6 +37,9 @@ namespace DEX
 
         /// @brief Protos of the methods from DEX file
         Protos protos;
+
+        /// @brief Fields from all the DEX file
+        Fields fields;
 
         /// @brief stream with the file
         stream::KunaiStream* stream;
@@ -107,6 +111,13 @@ namespace DEX
         Protos& get_protos()
         {
             return protos;
+        }
+
+        /// @brief get a reference to the fields
+        /// @return reference to fields
+        Fields& get_fields()
+        {
+            return fields;
         }
     };
 } // namespace DEX
