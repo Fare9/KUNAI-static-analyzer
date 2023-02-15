@@ -45,6 +45,10 @@ elseif (CMAKE_BUILD_TYPE STREQUAL "MinSizeRel")
 message(STATUS "C++ flags, minimal Release configuration: ${CMAKE_CXX_FLAGS_MINSIZEREL}")
 endif()
 
+# options to have variable and message
+option(UNIT_TESTING         "Compile the binaries for unit tests"               OFF)
+
+
 # include the externals
 add_subdirectory(externals)
 
@@ -57,6 +61,11 @@ message(STATUS "${KUNAI_DEX_SRC}")
 set(KUNAI_LIB_SOURCE_FILES
 ${KUNAI_UTILS_SRC}
 ${KUNAI_DEX_SRC}
+)
+
+# Kunai inlcude Definition
+set(KUNAI_LIB_PUBLIC_INCLUDE_FILES
+"${CMAKE_CURRENT_SOURCE_DIR}/include/"
 )
 
 message(STATUS "Generating Kunai shared library")
@@ -109,6 +118,58 @@ PROPERTIES
     SOVERSION ${PROJECT_VERSION_MAJOR}
     OUTPUT_NAME "kunai"
 )
+
+
+#######################################################################
+# installation
+message(STATUS "Project will be installed to ${CMAKE_INSTALL_PREFIX}")
+
+# Offer the user the choice of overriding the installation directories
+set(INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR} CACHE PATH "Installation directory for libraries")
+set(INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE PATH "Installation directory for header files")
+
+# Report to user
+foreach(p LIB INCLUDE)
+file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${INSTALL_${p}DIR} _path )
+message(STATUS "Installing ${p} components to ${_path}")
+unset(_path)
+endforeach()
+
+# install the libraries
+install(
+    TARGETS
+        kunai-shared
+        spdlog
+        zip
+    ARCHIVE
+        DESTINATION ${INSTALL_LIBDIR}
+        COMPONENT lib
+    RUNTIME
+        DESTINATION ${INSTALL_BINDIR}
+        COMPONENT bin 
+    LIBRARY
+        DESTINATION ${INSTALL_LIBDIR} 
+        COMPONENT lib  
+)
+
+install(
+    DIRECTORY "${KUNAI_LIB_PUBLIC_INCLUDE_FILES}"
+    DESTINATION ${INSTALL_INCLUDEDIR}
+    COMPONENT headers
+    FILES_MATCHING
+    REGEX "(.*).(hpp|h|def|inc)$"
+)
+
+install(
+    DIRECTORY "${spdlog_SOURCE_DIR}/include/"
+    DESTINATION ${INSTALL_INCLUDEDIR}
+    COMPONENT headers
+    FILES_MATCHING
+    REGEX "(.*).(hpp|h|def|inc)$"
+)
+
+#######################################################################
+
 
 if (UNIT_TESTING)
     set(KUNAI_TEST_FOLDERS
