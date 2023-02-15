@@ -6,6 +6,7 @@
 
 #include "test-parser.inc"
 #include "Kunai/DEX/dex.hpp"
+#include "Kunai/Utils/logger.hpp"
 #include <assert.h>
 
 void check_header_struct(const KUNAI::DEX::Header::dexheader_t &header_struct)
@@ -118,6 +119,10 @@ void check_header_struct(const KUNAI::DEX::Header::dexheader_t &header_struct)
 int main()
 {
     std::string dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test-assignment-arith-logic/Main.dex";
+
+    auto logger = KUNAI::LOGGER::logger();
+
+    logger->set_level(spdlog::level::debug);
 
     auto dex = KUNAI::DEX::Dex::parse_dex_file(dex_file_path);
 
