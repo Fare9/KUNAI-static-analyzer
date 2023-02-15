@@ -66,6 +66,13 @@ namespace DEX
         {
             return raw_type;
         }
+
+        /// @brief Pretty print the name of the type
+        /// @return pretty print version of the name
+        virtual const std::string& pretty_print()
+        {
+            return raw_type;
+        }
     };
 
     using dvmtype_t = std::unique_ptr<DVMType>;
@@ -153,6 +160,13 @@ namespace DEX
         {
             return name;
         }
+
+        /// @brief Get a pretty printed version of the name
+        /// @return pretty printed name
+        const std::string& pretty_print() override
+        {
+            return fundamental_s.at(f_type);
+        }
     };
 
     /// @brief Classes of the DVM
@@ -160,11 +174,14 @@ namespace DEX
     {
         /// @brief name of the class
         std::string name;
+        /// @brief Name printed with pretty_print
+        std::string pretty_name;
+
     public:
         /// @brief constructor of DVM class with the name of the class
         /// @param name name of the class
         DVMClass(std::string name) :
-            DVMType(CLASS, name), name(name.substr(1, name.size()-2))
+            DVMType(CLASS, name), name(name)
         {}
 
         /// @brief default destructor of DVMClass
@@ -197,6 +214,8 @@ namespace DEX
         {
             return name;
         }
+
+        const std::string& pretty_print() override;
     };
 
     /// @brief Class that represent the array types
@@ -208,6 +227,8 @@ namespace DEX
         size_t depth;
         /// @brief type of the array
         dvmtype_t array_type;
+        /// @brief pretty name of array
+        std::string pretty_name;
     public:
         /// @brief Constructor of DVMArray
         /// @param raw array type in raw
@@ -247,6 +268,8 @@ namespace DEX
         {
             return depth;
         }
+
+        const std::string& pretty_print() override;
     };
 
     /// @brief In case something unknown is found, we categorize it

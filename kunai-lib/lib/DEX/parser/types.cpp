@@ -30,6 +30,26 @@ DVMType *Types::get_type_from_order(std::uint32_t pos)
     return ordered_types[pos].get();
 }
 
+const std::string& DVMClass::pretty_print()
+{
+    if (!pretty_name.empty())
+        return pretty_name;
+
+    pretty_name = name.substr(1, name.size() - 2);
+    std::replace(std::begin(pretty_name), std::end(pretty_name), '/', '.');
+    return pretty_name;
+}
+
+const std::string& DVMArray::pretty_print()
+{
+    if (!pretty_name.empty())
+        return pretty_name;
+    pretty_name = array_type->pretty_print();
+    for (size_t I = 0; I < depth; ++I)
+        pretty_name += "[]";
+    return pretty_name;
+}
+
 dvmtype_t Types::parse_type(std::string &name)
 {
     switch (name.at(0))
@@ -108,7 +128,6 @@ void Types::parse_types(
     logger->debug("finished parsing types");
 }
 
-
 std::ostream &operator<<(std::ostream &os, const Types &entry)
 {
     const auto & types = entry.get_ordered_types();
@@ -116,11 +135,10 @@ std::ostream &operator<<(std::ostream &os, const Types &entry)
     os << std::setw(30) << std::left << std::setfill(' ') << "DEX Types:\n";
 
     for (size_t I = 0; I < types.size(); ++I)
-        os << std::left << std::setfill(' ') << "Type (" << I << ") -> \"" << types[I]->get_raw() << "\"\n";
+        os << std::left << std::setfill(' ') << "Type (" << I << ") -> \"" << types[I]->pretty_print() << "\"\n";
     
     return os;
 }
-
 
 void Types::to_xml(std::ofstream& xml_file)
 {
