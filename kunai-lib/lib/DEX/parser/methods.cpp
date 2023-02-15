@@ -11,6 +11,27 @@
 using namespace KUNAI::DEX;
 
 
+std::string& MethodID::pretty_method()
+{
+    if (!pretty_name.empty())
+        return pretty_name;
+    
+    pretty_name = proto_->get_return_type()->pretty_print();
+    pretty_name += class_->pretty_print() + "->";
+    pretty_name += name_ + "(";
+
+    auto & params = proto_->get_parameters();
+    for (size_t I = 0, S = params.size(), L = S-1; I < S; ++I)
+    {
+        pretty_name += params.at(I)->pretty_print();
+        if (I != (L))
+            pretty_name += ",";
+    }
+    pretty_name += ")";
+
+    return pretty_name;
+}
+
 void Methods::parse_methods(
     stream::KunaiStream *stream,
     Types *types,
