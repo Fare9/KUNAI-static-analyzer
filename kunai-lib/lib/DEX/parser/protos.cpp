@@ -6,6 +6,7 @@
 // @file protos.cpp
 
 #include "Kunai/DEX/parser/protos.hpp"
+#include "Kunai/Exceptions/incorrectid_exception.hpp"
 #include "Kunai/Utils/logger.hpp"
 
 #include <iomanip>
@@ -72,6 +73,14 @@ void Protos::parse_protos(stream::KunaiStream *stream,
     }
 
     stream->seekg(offset, std::ios_base::beg);
+}
+
+
+ProtoID* Protos::get_proto_by_order(std::uint32_t pos)
+{
+    if (pos >= proto_ids.size())
+        throw exceptions::IncorrectIDException("protos.cpp: position incorrect for the proto");
+    return proto_ids[pos].get();
 }
 
 std::ostream &operator<<(std::ostream &os, const Protos &entry)

@@ -180,6 +180,11 @@ namespace DEX
             return number_of_protos;
         }
 
+        /// @brief Given a position in the vector of protos, return a ProtoID
+        /// @param pos position to obtain the ProtoID
+        /// @return pointer to a ProtoID*
+        ProtoID* get_proto_by_order(std::uint32_t pos);
+
         /// @brief Return a pretty printed version of the proto_ids
         /// @param os stream where to print it
         /// @param entry entry to print
