@@ -53,10 +53,12 @@ void Protos::parse_protos(stream::KunaiStream *stream,
         return_type_idx = 0,      //! id for type of return
         parameters_off = 0;       //! offset of parameters
 
+    logger->debug("protos.cpp: started parsing protos");
+
     // set to current offset
     stream->seekg(offset, std::ios_base::beg);
 
-    for (size_t I; I < number_of_protos; ++I)
+    for (size_t I = 0; I < number_of_protos; ++I)
     {
         stream->read_data<std::uint32_t>(shorty_idx, sizeof(std::uint32_t));
 
@@ -71,6 +73,8 @@ void Protos::parse_protos(stream::KunaiStream *stream,
                                             parameters_off);
         proto_ids.push_back(std::move(protoid));
     }
+
+    logger->debug("protos.cpp: finished parsing protos");
 
     stream->seekg(offset, std::ios_base::beg);
 }

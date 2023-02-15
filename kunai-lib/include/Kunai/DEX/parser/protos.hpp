@@ -81,7 +81,7 @@ namespace DEX
             std::uint32_t return_type_idx,
             std::uint32_t parameters_off)
             : shorty_idx(shorty_idx),
-              return_type(types->get_type_by_id(return_type_idx))
+              return_type(types->get_type_from_order(return_type_idx))
         {
             parse_parameters(stream, types, parameters_off);
         }
