@@ -40,6 +40,7 @@ void Parser::parse_file()
     types.parse_types(stream, &strings, dex_header.type_ids_size, dex_header.type_ids_off);
     protos.parse_protos(stream, dex_header.proto_ids_size, dex_header.proto_ids_off, &strings, &types);
     fields.parse_fields(stream, &types, &strings, dex_header.field_ids_off, dex_header.field_ids_size);
+    methods.parse_methods(stream, &types, &protos, &strings, dex_header.method_ids_off, dex_header.method_ids_size);
 
     logger->debug("parser.cpp: dex file parsing correct");
 }
