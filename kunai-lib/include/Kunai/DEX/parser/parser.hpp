@@ -10,6 +10,7 @@
 #define KUNAI_DEX_PARSER_PARSER_HPP
 
 #include "Kunai/DEX/parser/header.hpp"
+#include "Kunai/DEX/parser/map_item.hpp"
 #include "Kunai/DEX/parser/strings.hpp"
 #include "Kunai/DEX/parser/types.hpp"
 #include "Kunai/DEX/parser/protos.hpp"
@@ -28,6 +29,11 @@ namespace DEX
         /// @brief Dex header class
         /// with the dex header structure
         Header header;
+
+        /// @brief Dex map list with information
+        /// about the DEX, it looks different to
+        /// the one of the header
+        MapList maplist;
 
         /// @brief Dex strings used
         /// during the whole dex structures
@@ -73,6 +79,20 @@ namespace DEX
         Header& get_header()
         {
             return header;
+        }
+
+        /// @brief Return a constant reference to the maplist with the map items
+        /// @return constant reference to maplist
+        const MapList& get_maplist_const() const
+        {
+            return maplist;
+        }
+
+        /// @brief Return a reference to the maplist with the map items
+        /// @return reference to maplist
+        MapList& get_maplist()
+        {
+            return maplist;
         }
 
         /// @brief get a reference to the strings object, reference is constant
