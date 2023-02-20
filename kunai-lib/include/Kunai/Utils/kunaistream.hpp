@@ -80,6 +80,8 @@ namespace KUNAI
             /// @param dir directorion to move
             void seekg(std::streamoff off, std::ios_base::seekdir dir)
             {
+                if (off >= file_size)
+                    throw exceptions::StreamException("seekg(): offset provided is out of bound");
                 input_file.seekg(off, dir);
             }
 
