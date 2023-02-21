@@ -16,6 +16,7 @@
 #include "Kunai/DEX/parser/protos.hpp"
 #include "Kunai/DEX/parser/fields.hpp"
 #include "Kunai/DEX/parser/methods.hpp"
+#include "Kunai/DEX/parser/classes.hpp"
 #include "Kunai/Utils/kunaistream.hpp"
 
 
@@ -50,6 +51,9 @@ namespace DEX
 
         /// @brief Methods from the DEX file
         Methods methods;
+
+        /// @brief Classes from the DEX file
+        Classes classes;
 
         /// @brief stream with the file
         stream::KunaiStream* stream;
@@ -149,6 +153,13 @@ namespace DEX
         Methods& get_methods()
         {
             return methods;
+        }
+
+        /// @brief Get a reference to the classes
+        /// @return reference to classes
+        Classes& get_classes()
+        {
+            return classes;
         }
     };
 } // namespace DEX

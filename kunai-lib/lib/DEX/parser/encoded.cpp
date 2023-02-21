@@ -96,7 +96,7 @@ void EncodedAnnotation::parse_encoded_annotation(
         // create the AnnotationElement
         annotation_element = std::make_unique<AnnotationElement>(
             strings->get_string_by_id(name_idx),
-            encoded_value);
+            std::move(encoded_value));
 
         // push it into the elements vector
         elements.push_back(std::move(annotation_element));
@@ -153,7 +153,7 @@ void CodeItemStruct::parse_code_item_struct(
     Types *types)
 {
     // the instructions are read in chunks of 16 bits
-    std::uint16_t instruction;
+    std::uint8_t instruction[2];
     size_t I;
     tryitem_t try_item;
     encodedcatchhandler_t encoded_catch_handler;
@@ -167,10 +167,10 @@ void CodeItemStruct::parse_code_item_struct(
     for (I = 0; I < code_item.insns_size; ++I)
     {
         // read the instruction
-        stream->read_data<std::uint16_t>(instruction, sizeof(std::uint16_t));
+        stream->read_data<std::uint16_t>(reinterpret_cast<std::uint16_t&>(instruction), sizeof(std::uint16_t));
 
-        instructions_raw.push_back(instruction & 0xFF);
-        instructions_raw.push_back((instruction >> 8) & 0xFF);
+        instructions_raw.push_back(instruction[0]);
+        instructions_raw.push_back(instruction[1]);
     }
 
     if ((code_item.tries_size > 0) && // padding present in case tries_size > 0

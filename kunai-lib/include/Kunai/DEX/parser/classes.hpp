@@ -25,6 +25,7 @@ namespace KUNAI
 namespace DEX
 {
     /// @brief Class that contains the fields and methods from a class
+    /// in a DEX file
     class ClassDataItem
     {
         /// @brief Static fields from the class
@@ -167,6 +168,173 @@ namespace DEX
     private:
         /// @brief Structure with the definition of the class
         classdefstruct_t classdefstruct;
+        /// @brief DVMClass for the current class
+        DVMClass* class_idx;
+        /// @brief DVMClass for the parent/super class
+        DVMClass* superclass_idx;
+        /// @brief String with the source file
+        std::string source_file;
+
+        /// @brief vector with the interfaces implemented
+        std::vector<DVMClass*> interfaces;
+
+        /// @brief Annotations of the class (Not Implemented Yet)
+        
+
+        /// @brief ClassDataItem value of the current class
+        ClassDataItem class_data_item;
+
+        /// @brief Array of initial values for static fields.
+        std::vector<encodedarray_t> static_values;
+    public:
+        /// @brief Constructor of ClassDef
+        ClassDef() = default;
+        /// @brief Destructor of ClassDef
+        ~ClassDef() = default;
+
+        /// @brief Parse the current ClassDef for that we will parse the
+        /// classdef_t structure, and then all the other fields.
+        /// @param stream stream with DEX file currently parsed
+        /// @param strings strings of the DEX file
+        /// @param types types of the DEX file
+        /// @param fields fields of the DEX file
+        /// @param methods methods of the DEX file
+        void parse_class_def(stream::KunaiStream* stream,
+                             Strings* strings,
+                             Types* types,
+                             Fields* fields,
+                             Methods* methods);
+
+        /// @brief Get a constant reference to the classdefstruct_t
+        /// of the class, this structure contains information about
+        /// the class
+        /// @return constant reference to classdefstruct_t structure
+        const classdefstruct_t& get_class_def_struct() const
+        {
+            return classdefstruct;
+        }
+
+        /// @brief Get a reference to the classdefstruct_t
+        /// of the class, this structure contains information about
+        /// the class
+        /// @return reference to classdefstruct_t structure
+        classdefstruct_t& get_class_def_struct()
+        {
+            return classdefstruct;
+        }
+
+        /// @brief Get a pointer to the DVMClass of the current class
+        /// @return pointer to DVMClass of current class
+        DVMClass * get_class_idx()
+        {
+            return class_idx;
+        }
+
+        /// @brief Get the access flags of the current class
+        /// @return 
+        TYPES::access_flags get_access_flags() const
+        {
+            return static_cast<TYPES::access_flags>(classdefstruct.access_flags);
+        }
+
+        /// @brief Get a pointer to the DVMClass of the super class of the current one
+        /// @return pointer to DVMClass of the super class
+        DVMClass * get_superclass()
+        {
+            return superclass_idx;
+        }
+
+        /// @brief Get a constant reference to the string with the source file
+        /// @return constant reference to source file string
+        const std::string& get_source_file() const
+        {
+            return source_file;
+        }
+
+        /// @brief Get a constant reference to the vector with the interfaces implemented
+        /// @return constant reference to interfaces
+        const std::vector<DVMClass*>& get_interfaces() const
+        {
+            return interfaces;
+        }
+
+        /// @brief Get a reference to the vector with the interfaces implemented
+        /// @return reference to interfaces
+        std::vector<DVMClass*>& get_interfaces()
+        {
+            return interfaces;
+        }
+
+        /// @brief Get a constant reference to the class data item
+        /// @return constant reference to the class data item
+        const ClassDataItem& get_class_data_item() const
+        {
+            return class_data_item;
+        }
+
+        /// @brief Get a reference to the class data item
+        /// @return reference to the class data item
+        ClassDataItem& get_class_data_item()
+        {
+            return class_data_item;
+        }
+    
+
+    };
+
+    using classdef_t = std::unique_ptr<ClassDef>;
+
+    /// @brief All classes from the DEX files
+    class Classes
+    {
+        /// @brief All the class_defs from the DEX, one
+        /// for each class
+        std::vector<classdef_t> class_defs;
+        /// @brief Number of classes
+        std::uint32_t number_of_classes;
+    public:
+        /// @brief Constructor from Classes
+        Classes() = default;
+        /// @brief Destructor from Classes
+        ~Classes() = default;
+        /// @brief Parse all the classes from the DEX files
+        /// @param stream stream with the DEX file
+        /// @param number_of_classes number of classes from the DEX
+        /// @param offset offset to parse the classes
+        /// @param strings strings from the DEX file
+        /// @param types types from the DEX file
+        /// @param fields fields from the DEX file
+        /// @param methods methods from the DEX file
+        void parse_classes(
+            stream::KunaiStream* stream,
+            std::uint32_t number_of_classes,
+            std::uint32_t offset,
+            Strings* strings,
+            Types* types,
+            Fields* fields,
+            Methods* methods 
+        );
+
+        /// @brief Get the number of the classes from the DEX file
+        /// @return number of classes of DEX file
+        std::uint32_t get_number_of_classes() const
+        {
+            return number_of_classes;
+        }
+
+        /// @brief Get a constant reference to all the class defs from the DEX
+        /// @return constant reference to vector with class_defs
+        const std::vector<classdef_t>& get_classdefs() const
+        {
+            return class_defs;
+        }
+
+        /// @brief Get a reference to all the class defs from the DEX
+        /// @return reference to vector with class_defs
+        std::vector<classdef_t>& get_classdefs()
+        {
+            return class_defs;
+        }
     };
 } // namespace DEX
 } // namespace KUNAI

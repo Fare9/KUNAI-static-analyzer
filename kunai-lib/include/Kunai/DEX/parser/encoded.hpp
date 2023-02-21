@@ -25,103 +25,10 @@ namespace KUNAI
 {
 namespace DEX
 {
-
+    /// @brief Forward declaration of EncodedValue for allowing its usage
+    /// in EncodedArray and AnnotationElement
     class EncodedValue;
     using encodedvalue_t = std::unique_ptr<EncodedValue>;
-
-    class EncodedAnnotation;
-    using encodedannotation_t = std::unique_ptr<EncodedAnnotation>;
-
-    class EncodedArray;
-    using encodedarray_t = std::unique_ptr<EncodedArray>;
-
-    /// @brief encoded piece of (nearly) arbitrary hierarchically structured data.
-    class EncodedValue
-    {
-        /// @brief type of value
-        TYPES::value_format value_type;
-        /// @brief number of values
-        std::uint8_t value_args;
-        /// @brief save the value in an array of bytes
-        /// the value can have different format
-        std::vector<std::uint8_t> values;
-        /// @brief In case the value is an array
-        /// store an array
-        EncodedArray array_data;
-        /// @brief In case it is an annotation, store
-        /// an encoded annotation
-        EncodedAnnotation annotation;
-    
-    public:
-        /// @brief Constructor of EncodedValue
-        EncodedValue() = default;
-        /// @brief Destructor of EncodedValue
-        ~EncodedValue() = default;
-
-        /// @brief Parse the encoded value
-        /// @param stream stream to read data
-        /// @param types object with types for parsing encoded values
-        /// @param strings object with strings for parsing encoded values
-        void parse_encoded_value(stream::KunaiStream* stream,
-                                Types* types,
-                                Strings* strings);
-
-        /// @brief Get the enum with the value type
-        /// @return value_format of the encoded value
-        TYPES::value_format get_value_type() const
-        {
-            return value_type;
-        }
-
-        /// @brief Return the size of the value
-        /// @return size of the value
-        std::uint8_t size_of_value() const
-        {
-            return value_args;
-        }
-
-        /// @brief Get a constant reference to the values
-        /// @return constant reference to values
-        const std::vector<std::uint8_t>& get_values() const
-        {
-            return values;
-        }
-
-        /// @brief Get a reference to the values
-        /// @return reference to the values
-        std::vector<std::uint8_t>& get_values()
-        {
-            return values;
-        }
-
-        /// @brief in case the value is an array return it
-        /// @return reference to encoded array
-        const EncodedArray& get_array() const
-        {
-            return array_data;
-        }
-
-        /// @brief get a reference to the array in case value is an array
-        /// @return reference to encoded array
-        EncodedArray& get_array()
-        {
-            return array_data;
-        }
-
-        /// @brief get a reference to annotation in case it is annotation
-        /// @return reference to encoded annotation
-        const EncodedAnnotation& get_annotation() const
-        {
-            return annotation;
-        }
-
-        /// @brief get a reference to annotation in case it is annotation
-        /// @return reference to encoded annotation
-        EncodedAnnotation& get_annotation()
-        {
-            return annotation;
-        }
-    };
 
     /// @brief Information of an array with encoded values
     class EncodedArray
@@ -165,6 +72,8 @@ namespace DEX
             return values;
         }
     };
+
+    using encodedarray_t = std::unique_ptr<EncodedArray>;
 
     /// @brief Annotation element with value and a name
     /// this is contained in the EncodedAnnotation class
@@ -263,6 +172,94 @@ namespace DEX
         AnnotationElement* get_annotation_by_pos(std::uint32_t pos);
     };
 
+    /// @brief encoded piece of (nearly) arbitrary hierarchically structured data.
+    class EncodedValue
+    {
+        /// @brief type of value
+        TYPES::value_format value_type;
+        /// @brief number of values
+        std::uint8_t value_args;
+        /// @brief save the value in an array of bytes
+        /// the value can have different format
+        std::vector<std::uint8_t> values;
+        /// @brief In case the value is an array
+        /// store an array
+        EncodedArray array_data;
+        /// @brief In case it is an annotation, store
+        /// an encoded annotation
+        EncodedAnnotation annotation;
+    
+    public:
+        /// @brief Constructor of EncodedValue
+        EncodedValue() = default;
+        /// @brief Destructor of EncodedValue
+        ~EncodedValue() = default;
+
+        /// @brief Parse the encoded value
+        /// @param stream stream to read data
+        /// @param types object with types for parsing encoded values
+        /// @param strings object with strings for parsing encoded values
+        void parse_encoded_value(stream::KunaiStream* stream,
+                                Types* types,
+                                Strings* strings);
+
+        /// @brief Get the enum with the value type
+        /// @return value_format of the encoded value
+        TYPES::value_format get_value_type() const
+        {
+            return value_type;
+        }
+
+        /// @brief Return the size of the value
+        /// @return size of the value
+        std::uint8_t size_of_value() const
+        {
+            return value_args;
+        }
+
+        /// @brief Get a constant reference to the values
+        /// @return constant reference to values
+        const std::vector<std::uint8_t>& get_values() const
+        {
+            return values;
+        }
+
+        /// @brief Get a reference to the values
+        /// @return reference to the values
+        std::vector<std::uint8_t>& get_values()
+        {
+            return values;
+        }
+
+        /// @brief in case the value is an array return it
+        /// @return reference to encoded array
+        const EncodedArray& get_array() const
+        {
+            return array_data;
+        }
+
+        /// @brief get a reference to the array in case value is an array
+        /// @return reference to encoded array
+        EncodedArray& get_array()
+        {
+            return array_data;
+        }
+
+        /// @brief get a reference to annotation in case it is annotation
+        /// @return reference to encoded annotation
+        const EncodedAnnotation& get_annotation() const
+        {
+            return annotation;
+        }
+
+        /// @brief get a reference to annotation in case it is annotation
+        /// @return reference to encoded annotation
+        EncodedAnnotation& get_annotation()
+        {
+            return annotation;
+        }
+    };
+
     /// @brief Class that represent field information
     /// it contains a FieldID and also the access flags.
     class EncodedField
@@ -271,6 +268,8 @@ namespace DEX
         FieldID * field_idx;
         /// @brief access flags for the field
         TYPES::access_flags flags;
+        /// @brief Initial Value
+        EncodedArray* initial_value;
     public:
         /// @brief Constructor of an encoded field
         /// @param field_idx FieldID for the encoded field
@@ -302,6 +301,18 @@ namespace DEX
         TYPES::access_flags  get_access_flags() const
         {
             return flags;
+        }
+
+        /// @brief Those fields that are static contains an initial value
+        /// @param initial_value 
+        void set_initial_value(EncodedArray* initial_value)
+        {
+            this->initial_value = initial_value;
+        }
+
+        EncodedArray* get_initial_value()
+        {
+            return initial_value;
         }
     };
 
