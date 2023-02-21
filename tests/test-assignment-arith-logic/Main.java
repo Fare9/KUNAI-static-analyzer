@@ -3,6 +3,7 @@ import java.util.*;
 public class Main {
     static int field_int;
     static boolean field_boolean = true;
+    static int[] field_int_array = {1,2,3,4,5,6,7,8,9};
     public static void main(String[] args) throws Exception {
         // Your code here!
         Scanner reader = new Scanner(System.in);
