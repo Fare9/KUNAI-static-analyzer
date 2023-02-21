@@ -16,18 +16,18 @@ void check_header_struct(const KUNAI::DEX::Header::dexheader_t &header_struct)
         "dex magic not correct");
 
     assert(
-        header_struct.checksum == 0x123ff4f7 &&
+        header_struct.checksum == 0x8df011a &&
         "dex checksum not correct");
 
     assert(
-        (header_struct.signature[0] == 0x7c &&
-         header_struct.signature[1] == 0xda &&
-         header_struct.signature[18] == 0x84 &&
-         header_struct.signature[19] == 0xa6) &&
+        (header_struct.signature[0] == 0x36 &&
+         header_struct.signature[1] == 0x65 &&
+         header_struct.signature[18] == 0x60 &&
+         header_struct.signature[19] == 0xad) &&
         "dex signature not correct");
 
     assert(
-        header_struct.file_size == 1768 &&
+        header_struct.file_size == 1876 &&
         "dex file size not correct");
 
     assert(
@@ -46,7 +46,7 @@ void check_header_struct(const KUNAI::DEX::Header::dexheader_t &header_struct)
     );
 
     assert(
-        header_struct.string_ids_size == 39 &&
+        header_struct.string_ids_size == 41 &&
         "dex string ids size not correct"
     );
 
@@ -56,12 +56,12 @@ void check_header_struct(const KUNAI::DEX::Header::dexheader_t &header_struct)
     );
 
     assert(
-        header_struct.type_ids_size == 15 &&
+        header_struct.type_ids_size == 16 &&
         "dex type ids size not correct"
     );
 
     assert(
-        header_struct.type_ids_off == 268 &&
+        header_struct.type_ids_off == 276 &&
         "dex type offset not correct"
     );
 
@@ -71,17 +71,17 @@ void check_header_struct(const KUNAI::DEX::Header::dexheader_t &header_struct)
     );
 
     assert(
-        header_struct.proto_ids_off == 328 &&
+        header_struct.proto_ids_off == 340 &&
         "dex proto_ids_off not correct"
     );
 
     assert(
-        header_struct.field_ids_size == 4 &&
+        header_struct.field_ids_size == 5 &&
         "dex field_ids_size not correct"
     );
 
     assert(
-        header_struct.field_ids_off == 436 &&
+        header_struct.field_ids_off == 448 &&
         "dex field_ids_off not correct"
     );
 
@@ -91,7 +91,7 @@ void check_header_struct(const KUNAI::DEX::Header::dexheader_t &header_struct)
     );
 
     assert(
-        header_struct.method_ids_off == 468 &&
+        header_struct.method_ids_off == 488 &&
         "dex method_ids_off not correct"
     );
 
@@ -101,17 +101,17 @@ void check_header_struct(const KUNAI::DEX::Header::dexheader_t &header_struct)
     );
 
     assert(
-        header_struct.class_defs_off == 564 &&
+        header_struct.class_defs_off == 584 &&
         "dex class_defs_off not correct"
     );
 
     assert(
-        header_struct.data_size == 1172 &&
+        header_struct.data_size == 1260 &&
         "dex data_size not correct"
     );
 
     assert(
-        header_struct.data_off == 596 &&
+        header_struct.data_off == 616 &&
         "dex data_off not correct"
     );
 }
