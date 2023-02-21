@@ -15,6 +15,7 @@
 #define KUNAI_DEX_PARSER_CLASSES_HPP
 
 #include "Kunai/DEX/parser/encoded.hpp"
+#include "Kunai/DEX/parser/annotations.hpp"
 
 #include <iostream>
 #include <vector>
@@ -178,8 +179,8 @@ namespace DEX
         /// @brief vector with the interfaces implemented
         std::vector<DVMClass*> interfaces;
 
-        /// @brief Annotations of the class (Not Implemented Yet)
-        
+        /// @brief Annotations of the class
+        AnnotationDirectoryItem annotation_directory;
 
         /// @brief ClassDataItem value of the current class
         ClassDataItem class_data_item;

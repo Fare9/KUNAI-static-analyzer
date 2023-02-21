@@ -231,7 +231,9 @@ void ClassDef::parse_class_def(stream::KunaiStream *stream,
 
     if (classdefstruct.annotations_off)
     {
-        // Implement parsing of annotations
+        stream->seekg(classdefstruct.annotations_off, std::ios_base::beg);
+
+        annotation_directory.parse_annotation_directory_item(stream);
     }
 
     if (classdefstruct.class_data_off)
