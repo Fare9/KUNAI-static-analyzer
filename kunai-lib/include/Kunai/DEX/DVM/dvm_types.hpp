@@ -76,7 +76,7 @@ namespace KUNAI
             /// @brief Access flags used in class_def_item,
             /// encoded_field, encoded_method and InnerClass
             /// https://source.android.com/devices/tech/dalvik/dex-format#access-flags
-            enum class access_flags
+            enum access_flags
             {
                 NONE = 0x0,                         //! No access flags
                 ACC_PUBLIC = 0x1,                   //! public type
