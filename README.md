@@ -332,3 +332,13 @@ This project is licensed under a MIT License, please check the file [LICENSE](./
 ## Contact
 
 For any question, or issues about the tool you can always refer to the issues from the project, or write us to our gmail address: kunai(dot)static(dot)analysis(at)gmail(dot)com
+
+## Cite this project
+
+@MISC {KUNAI,
+  author       = "Eduardo Blazquez",
+  title        = "Kunai-Static-Analyzer",
+  howpublished = "https://github.com/Fare9/KUNAI-static-analyzer",
+  month        = "may",
+  year         = "2021"
+}
