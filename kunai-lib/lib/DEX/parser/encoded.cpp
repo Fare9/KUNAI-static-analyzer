@@ -164,10 +164,12 @@ void CodeItemStruct::parse_code_item_struct(
     // now we can work with the values
 
     // first read the instructions for the CodeItem
+    instructions_raw.reserve(code_item.insns_size*2);
+    
     for (I = 0; I < code_item.insns_size; ++I)
     {
         // read the instruction
-        stream->read_data<std::uint16_t>(reinterpret_cast<std::uint16_t&>(instruction), sizeof(std::uint16_t));
+        stream->read_data<std::uint8_t[2]>(instruction, sizeof(std::uint8_t[2]));
 
         instructions_raw.push_back(instruction[0]);
         instructions_raw.push_back(instruction[1]);
