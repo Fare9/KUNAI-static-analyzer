@@ -335,6 +335,7 @@ For any question, or issues about the tool you can always refer to the issues fr
 
 ## Cite this project
 
+```
 @MISC {KUNAI,
   author       = "Eduardo Blazquez",
   title        = "Kunai-Static-Analyzer",
@@ -342,3 +343,4 @@ For any question, or issues about the tool you can always refer to the issues fr
   month        = "may",
   year         = "2021"
 }
+```
