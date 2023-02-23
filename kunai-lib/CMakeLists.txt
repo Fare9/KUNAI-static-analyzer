@@ -10,9 +10,9 @@ project(
     )
 
 # Specify the standard required
-# we will use C++17 to use things
+# we will use C++20 to use things
 # like std::optional, std::variant...
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # information about the compiler loaded
