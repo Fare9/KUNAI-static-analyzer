@@ -125,7 +125,7 @@ namespace KUNAI
             };
 
             /// @brief Opcodes from Dalvik Virtual Machine
-            enum class opcodes
+            enum opcodes
             {
 #define OPCODE(ID, VAL) \
     ID = VAL,
