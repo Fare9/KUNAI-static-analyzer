@@ -10,6 +10,7 @@
 #define KUNAI_DEX_DVM_DALVIK_INSTRUCTIONS_HPP
 
 #include "Kunai/Utils/kunaistream.hpp"
+#include "Kunai/DEX/parser/parser.hpp"
 #include "Kunai/DEX/DVM/dvm_types.hpp"
 #include "Kunai/DEX/DVM/dalvik_opcodes.hpp"
 
@@ -467,6 +468,474 @@ namespace DEX
         {
             os << DalvikOpcodes::get_instruction_name(op) + " " +
                     std::to_string(nAA) + ", kind@" + std::to_string(nBBBB);
+        }
+    };
+
+    /// @brief Move the contents of one non-object register to another.
+    /// an instruction like move/from16 vAA, vBBBB where vAA is 8 bits,
+    /// and vBBBB is 16 bits
+    class Instruction22x : public Instruction
+    {
+        /// @brief destination register (8 bits)
+        std::uint8_t vAA;
+        /// @brief source register (16 bits)
+        std::uint16_t vBBBB;
+    public:
+        Instruction22x(std::vector<uint8_t>& bytecode, std::size_t index);
+
+        /// @brief Get index of the register of destination
+        /// @return index of destination register
+        std::uint8_t get_destination() const
+        {
+            return vAA;
+        }
+
+        /// @brief Get the type of operand from the destination
+        /// @return operand type of destination
+        TYPES::Operand get_destination_type() const
+        {
+            return TYPES::Operand::REGISTER;
+        }
+
+        /// @brief Get the index of the register of the source
+        /// @return index of source register
+        std::uint16_t get_source() const
+        {
+            return vBBBB;
+        }
+
+        /// @brief Get the type of operand from the source
+        /// @return operand type of source
+        TYPES::Operand get_source_type() const
+        {
+            return TYPES::Operand::REGISTER;
+        }
+
+        /// @brief Return a string with the representation of the instruction
+        /// @return string with instruction
+        virtual std::string print_instruction()
+        {
+            return DalvikOpcodes::get_instruction_name(op) + " " +
+                    "v" + std::to_string(vAA) + ", " + 
+                    std::to_string(vBBBB);
+        }
+
+        /// @brief Print the instruction on a given stream
+        /// @param os stream where to print the instruction
+        virtual void print_instruction(std::ostream& os)
+        {
+            os << DalvikOpcodes::get_instruction_name(op) + " " +
+                    "v" + std::to_string(vAA) + ", " + 
+                    std::to_string(vBBBB);
+        }
+    };
+
+    /// @brief Branch to the given destination if the given
+    /// register's value compares with 0 as specified.
+    /// Example: if-testz vAA, +BBBB where vAA is the register
+    /// to test (8 bits) and +BBBB the offset (16 bits)
+    class Instruction21t : public Instruction
+    {
+        /// @brief Register to check against zero
+        std::uint8_t vAA;
+        /// @brief Offset where to jump if-zero
+        std::int16_t nBBBB;
+    public:
+        Instruction21t(std::vector<uint8_t>& bytecode, std::size_t index);
+
+        /// @brief Get the register used for the check in the jump
+        /// @return register checked
+        std::uint8_t get_check_reg() const
+        {
+            return vAA;
+        }
+
+        /// @brief Get the type of the checked register
+        /// @return type register
+        TYPES::Operand get_check_reg_type() const
+        {
+            return TYPES::Operand::REGISTER;
+        }
+
+        /// @brief Get the offset of the jump
+        /// @return offset of jump
+        std::int16_t get_jump_offset() const
+        {
+            return nBBBB;
+        }
+
+        /// @brief Get the type of the offset of the jump
+        /// @return type of offset
+        TYPES::Operand get_offset_type() const
+        {
+            return TYPES::Operand::OFFSET;
+        }
+
+        /// @brief Return a string with the representation of the instruction
+        /// @return string with instruction
+        virtual std::string print_instruction()
+        {
+            return DalvikOpcodes::get_instruction_name(op) + " v" +
+                    std::to_string(vAA) + ", " +
+                    std::to_string(nBBBB);
+        }
+
+        /// @brief Print the instruction on a given stream
+        /// @param os stream where to print the instruction
+        virtual void print_instruction(std::ostream& os)
+        {
+            os << DalvikOpcodes::get_instruction_name(op) + " v" +
+                    std::to_string(vAA) + ", " +
+                    std::to_string(nBBBB);
+        }
+    };
+
+    /// @brief Move given literal value into specified register.
+    /// Example of instruction: const/16 vAA, #+BBBB. Where
+    /// vAA is the destination register and #+BBBB is the literal
+    /// moved
+    class Instruction21s : public Instruction
+    {
+        /// @brief destination register
+        std::uint8_t vAA;
+        /// @brief literal value
+        std::int16_t nBBBB;
+    public:
+        Instruction21s(std::vector<uint8_t>& bytecode, std::size_t index);
+
+        /// @brief Get the index of the destination register
+        /// @return index of destination register
+        std::uint8_t get_destination() const
+        {
+            return vAA;
+        }
+
+        /// @brief Get the destination type of the instruction
+        /// @return destination type
+        TYPES::Operand get_destination_type() const
+        {
+            return TYPES::Operand::REGISTER;
+        }
+        
+        /// @brief Get the source value of the instruction
+        /// @return source value
+        std::int16_t get_source() const
+        {
+            return nBBBB;
+        }
+
+        /// @brief Get the source type of the instruction
+        /// @return source type
+        TYPES::Operand get_source_type() const
+        {
+            return TYPES::Operand::LITERAL;
+        }
+
+        /// @brief Return a string with the representation of the instruction
+        /// @return string with instruction
+        virtual std::string print_instruction()
+        {
+            return DalvikOpcodes::get_instruction_name(op) + " v" +
+                    std::to_string(vAA) + ", " +
+                    std::to_string(nBBBB);
+        }
+
+        /// @brief Print the instruction on a given stream
+        /// @param os stream where to print the instruction
+        virtual void print_instruction(std::ostream& os)
+        {
+            os << DalvikOpcodes::get_instruction_name(op) + " v" +
+                    std::to_string(vAA) + ", " +
+                    std::to_string(nBBBB);
+        }
+    };
+
+    /// @brief Move given literal value into specified register.
+    /// Example: const/high16 vAA, #+BBBB0000 where vAA is the
+    /// destination register (8 bits) and  #+BBBB0000: signed int (16 bits)
+    class Instruction21h : public Instruction
+    {
+        /// @brief Destination register
+        std::uint8_t vAA;
+        /// @brief source value
+        std::int64_t nBBBB;
+    public:
+        Instruction21h(std::vector<uint8_t>& bytecode, std::size_t index);
+
+        /// @brief Get the index of the destination register
+        /// @return index of destination register
+        std::uint8_t get_destination() const
+        {
+            return vAA;
+        }
+
+        /// @brief Get the destination type of the instruction
+        /// @return destination type
+        TYPES::Operand get_destination_type() const
+        {
+            return TYPES::Operand::REGISTER;
+        }
+        
+        /// @brief Get the source value of the instruction
+        /// @return source value
+        std::int64_t get_source() const
+        {
+            return nBBBB;
+        }
+
+        /// @brief Get the source type of the instruction
+        /// @return source type
+        TYPES::Operand get_source_type() const
+        {
+            return TYPES::Operand::LITERAL;
+        }
+
+        /// @brief Return a string with the representation of the instruction
+        /// @return string with instruction
+        virtual std::string print_instruction()
+        {
+            return DalvikOpcodes::get_instruction_name(op) + " v" +
+                    std::to_string(vAA) + ", " +
+                    std::to_string(nBBBB);
+        }
+
+        /// @brief Print the instruction on a given stream
+        /// @param os stream where to print the instruction
+        virtual void print_instruction(std::ostream& os)
+        {
+            os << DalvikOpcodes::get_instruction_name(op) + " v" +
+                    std::to_string(vAA) + ", " +
+                    std::to_string(nBBBB);
+        }
+    };
+
+    /// @brief Move a reference to a register from a string, type, etc
+    /// example instruction: const-string vAA, string@BBBB
+    class Instruction21c : public Instruction
+    {
+        /// @brief Is the value a string?
+        bool is_str = false;
+        /// @brief Is the value a type?
+        bool is_type = false;
+        /// @brief In case of type, what kind of type
+        bool is_fundamental = false;
+        bool is_array = false;
+        bool is_class = false;
+        bool is_unknown = false;
+
+        /// @brief is a field?
+        bool is_field = false;
+        /// @brief is a method?
+        bool is_method = false;
+        /// @brief is a proto?
+        bool is_proto = false;
+
+        /// @brief destination register (8 bits)
+        std::uint8_t vAA;
+        /// @brief source id, this can be a string, type, etc (16 bits)
+        std::uint16_t iBBBB;
+        /// @brief Source representation of the source
+        std::string source_str;
+
+        /// @brief pointer to DEX parser to access some of the information
+        Parser* parser;
+    public:
+        Instruction21c(std::vector<uint8_t>& bytecode, std::size_t index, Parser* parser);
+
+        /// @brief Get the index of the register for destination
+        /// @return index of register
+        std::uint8_t get_destination() const
+        {
+            return vAA;
+        }
+
+        /// @brief Get the type of the destination
+        /// @return return register operand type
+        TYPES::Operand get_destination_type() const
+        {
+            return TYPES::Operand::REGISTER;
+        }
+
+        /// @brief Get the index used as source operand,
+        /// this is an index to a string, type, etc...
+        /// @return value of index
+        std::uint16_t get_source() const
+        {
+            return iBBBB;
+        }
+        /// @brief Get the type of the source, this time is a KIND
+        /// the KIND can be various things
+        /// @return return KIND type
+        TYPES::Operand get_source_type() const
+        {
+            return TYPES::Operand::KIND;
+        }
+
+        /// @brief Print a string version of the source
+        /// @return constant reference to string of source
+        const std::string& pretty_print_source() const
+        {
+            return source_str;
+        }
+
+        /// @brief Check if source is a DVMType and return a pointer
+        /// @return pointer to DVMType or nullptr
+        DVMType* get_source_dvmtype() const
+        {
+            if (is_type)
+                return parser->get_types().get_type_from_order(iBBBB);
+            return nullptr;
+        }
+
+        /// @brief Check if source is a DVMFundamental and return a pointer
+        /// @return pointer to DVMFundamental or nullptr
+        DVMFundamental* get_source_dvmfundamental() const
+        {
+            if (is_fundamental)
+                return reinterpret_cast<DVMFundamental*>(
+                    parser->get_types().get_type_from_order(iBBBB));
+            return nullptr;
+        }
+
+        /// @brief check if source is a DVMClass and return a pointer
+        /// @return pointer to DVMClass or nullptr
+        DVMClass* get_source_dvmclass() const
+        {
+            if (is_class)
+                return reinterpret_cast<DVMClass*>(
+                    parser->get_types().get_type_from_order(iBBBB));
+            return nullptr;
+        }
+
+        /// @brief check if source is a DVMArray and return a pointer
+        /// @return pointer to DVMArray or nullptr
+        DVMArray* get_source_dvmarray() const
+        {
+            if (is_array)
+                return reinterpret_cast<DVMArray*>(
+                    parser->get_types().get_type_from_order(iBBBB));
+            return nullptr;
+        }
+        
+        /// @brief check if source is a FieldID and return a pointer
+        /// @return pointer to FieldID or nullptr
+        FieldID* get_source_field() const
+        {
+            if (is_field)
+                return parser->get_fields().get_field(iBBBB);
+            return nullptr;
+        }
+
+        /// @brief Check if source is a ProtoID and return a pointer
+        /// @return pointer to ProtoID or nullptr
+        ProtoID* get_source_proto() const
+        {
+            if (is_proto)
+                return parser->get_protos().get_proto_by_order(iBBBB);
+            return nullptr;
+        }
+
+        /// @brief check if source is a MethodID and return a pointer
+        /// @return pointer to MethodID or nullptr
+        MethodID* get_source_method() const
+        {
+            if (is_method)
+                return parser->get_methods().get_method(iBBBB);
+            return nullptr;
+        }
+
+        /// @brief Return a string with the representation of the instruction
+        /// @return string with instruction
+        virtual std::string print_instruction()
+        {
+            return DalvikOpcodes::get_instruction_name(op) + " v" +
+                    std::to_string(vAA) + ", " +
+                    source_str + "(" + std::to_string(iBBBB) + ")";
+        }
+
+        /// @brief Print the instruction on a given stream
+        /// @param os stream where to print the instruction
+        virtual void print_instruction(std::ostream& os)
+        {
+            os << DalvikOpcodes::get_instruction_name(op) + " v" +
+                    std::to_string(vAA) + ", " +
+                    source_str + "(" + std::to_string(iBBBB) + ")";
+        }
+    };
+
+    /// @brief Perform indicated floating point or long comparison
+    /// Example: cmpkind vAA, vBB, vCC
+    class Instruction23x : public Instruction
+    {
+        /// @brief destination register (8 bits).
+        std::uint8_t vAA;
+        /// @brief first source register or pair (8 bits).
+        std::uint8_t vBB;
+        /// @brief second source register or pair (8 bits).
+        std::uint8_t vCC;
+    public:
+        Instruction23x(std::vector<uint8_t>& bytecode, std::size_t index);
+
+        /// @brief Get the register for the destination
+        /// @return destination register
+        std::uint8_t get_destination() const
+        {
+            return vAA;
+        }
+
+        /// @brief Get the type of the destination
+        /// @return get REGISTER operand
+        TYPES::Operand get_destination_type() const
+        {
+            return TYPES::Operand::REGISTER;
+        }
+
+        /// @brief Get the register for the first source
+        /// @return first source register
+        std::uint8_t get_first_source() const
+        {
+            return vBB;
+        }
+
+        /// @brief Get the type of the first source
+        /// @return get REGISTER operand
+        TYPES::Operand get_first_source_type() const
+        {
+            return TYPES::Operand::REGISTER;
+        }
+
+        /// @brief Get the register for the second source
+        /// @return second source register
+        std::uint8_t get_second_source() const
+        {
+            return vCC;
+        }
+
+        /// @brief Get the type of the second source
+        /// @return get REGISTER operand
+        TYPES::Operand get_second_source_type() const
+        {
+            return TYPES::Operand::REGISTER;
+        }
+    
+        /// @brief Return a string with the representation of the instruction
+        /// @return string with instruction
+        virtual std::string print_instruction()
+        {
+            return DalvikOpcodes::get_instruction_name(op) + " v" +
+                    std::to_string(vAA) + ", v" +
+                    std::to_string(vBB) + ", v" +
+                    std::to_string(vCC);
+        }
+
+        /// @brief Print the instruction on a given stream
+        /// @param os stream where to print the instruction
+        virtual void print_instruction(std::ostream& os)
+        {
+            os << DalvikOpcodes::get_instruction_name(op) + " v" +
+                    std::to_string(vAA) + ", v" +
+                    std::to_string(vBB) + ", v" +
+                    std::to_string(vCC);
         }
     };
 } // namespace DEX
