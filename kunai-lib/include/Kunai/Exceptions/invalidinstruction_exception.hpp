@@ -16,12 +16,15 @@ namespace exceptions
     {
         /// @brief message to show with the exception
         std::string _msg;
-
+        /// @brief Instruction size for disassembler
+        std::uint32_t _inst_size;
     public:
         
         /// @brief Constructor of exception
         /// @param msg message to show to the user
-        InvalidInstructionException(const std::string &msg) : _msg(msg)
+        /// @param inst_Size size of the instruction to skip that size
+        InvalidInstructionException(const std::string &msg, std::uint32_t inst_size) 
+            : _msg(msg), _inst_size(inst_size)
         {}
 
         /// @brief Return error message
@@ -29,6 +32,13 @@ namespace exceptions
         virtual const char* what() const noexcept override
         {
             return _msg.c_str();
+        }
+
+        /// @brief Get the value of
+        /// @return 
+        std::uint32_t get_inst_size() const
+        {
+            return _inst_size;
         }
     };
 } // namespace exceptions
