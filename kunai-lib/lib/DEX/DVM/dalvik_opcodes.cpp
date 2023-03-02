@@ -14,21 +14,21 @@ static const std::unordered_map<TYPES::opcodes, std::string>
     opcodes_instruction_name =
         {
 #define INST_NAME(OP, NAME) {OP, NAME},
-#include "Kunai/DEX/DVM/dvm_inst_names.def"
+#include "Kunai/DEX/DVM/definitions/dvm_inst_names.def"
 };
 
 static const std::unordered_map<TYPES::opcodes, TYPES::Kind>
     opcodes_instruction_kind =
         {
 #define INST_KIND(OP, VAL) {OP, VAL},
-#include "Kunai/DEX/DVM/dvm_inst_kind.def"
+#include "Kunai/DEX/DVM/definitions/dvm_inst_kind.def"
 };
 
 static const std::unordered_map<TYPES::opcodes, TYPES::Operation>
     opcodes_instruction_operation =
         {
 #define INST_OP(OP, VAL) {OP, VAL},
-#include "Kunai/DEX/DVM/dvm_inst_operation.def"
+#include "Kunai/DEX/DVM/definitions/dvm_inst_operation.def"
 };
 
 namespace

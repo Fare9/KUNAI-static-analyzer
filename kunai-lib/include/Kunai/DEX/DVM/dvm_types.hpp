@@ -129,7 +129,7 @@ namespace KUNAI
             {
 #define OPCODE(ID, VAL) \
     ID = VAL,
-#include "Kunai/DEX/DVM/dvm_types.def"
+#include "Kunai/DEX/DVM/definitions/dvm_types.def"
             };
 
             /// @brief String representation for all kind enum values
