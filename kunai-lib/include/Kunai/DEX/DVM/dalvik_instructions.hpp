@@ -158,7 +158,7 @@ namespace DEX
         /// @brief Constructor of Instruction00x this instruction does nothing
         /// @param bytecode bytecode with the opcodes
         /// @param index
-        Instruction00x(std::vector<uint8_t> &bytecode, std::size_t index) : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION00X)
+        Instruction00x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser) : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION00X)
         {
         }
     };
@@ -168,7 +168,7 @@ namespace DEX
     class Instruction10x : public Instruction
     {
     public:
-        Instruction10x(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction10x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Return a string with the representation of the instruction
         /// @return string with instruction
@@ -196,7 +196,7 @@ namespace DEX
         std::uint8_t vB;
 
     public:
-        Instruction12x(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction12x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the index of the destination register
         /// @return index of destination register
@@ -256,7 +256,7 @@ namespace DEX
         std::int8_t nB;
 
     public:
-        Instruction11n(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction11n(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         std::uint8_t get_destination() const
         {
@@ -306,7 +306,7 @@ namespace DEX
         std::uint8_t vAA;
 
     public:
-        Instruction11x(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction11x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get destination register index of the operation
         /// @return index of register
@@ -347,7 +347,7 @@ namespace DEX
         std::int8_t nAA;
 
     public:
-        Instruction10t(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction10t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get offset of the jump
         /// @return offset of jump instruction
@@ -388,7 +388,7 @@ namespace DEX
         std::int16_t nAAAA;
 
     public:
-        Instruction20t(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction20t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the offset where to jump with an unconditional jump
         /// @return offset of the jump
@@ -431,7 +431,7 @@ namespace DEX
         std::uint16_t nBBBB;
 
     public:
-        Instruction20bc(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction20bc(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the index of the type of error
         /// @return index of error
@@ -487,7 +487,7 @@ namespace DEX
         std::uint16_t vBBBB;
 
     public:
-        Instruction22x(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction22x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get index of the register of destination
         /// @return index of destination register
@@ -548,7 +548,7 @@ namespace DEX
         std::int16_t nBBBB;
 
     public:
-        Instruction21t(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction21t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the register used for the check in the jump
         /// @return register checked
@@ -609,7 +609,7 @@ namespace DEX
         std::int16_t nBBBB;
 
     public:
-        Instruction21s(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction21s(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the index of the destination register
         /// @return index of destination register
@@ -669,7 +669,7 @@ namespace DEX
         std::int64_t nBBBB;
 
     public:
-        Instruction21h(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction21h(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the index of the destination register
         /// @return index of destination register
@@ -885,7 +885,7 @@ namespace DEX
         std::uint8_t vCC;
 
     public:
-        Instruction23x(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction23x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the register for the destination
         /// @return destination register
@@ -964,7 +964,7 @@ namespace DEX
         std::int8_t nCC;
 
     public:
-        Instruction22b(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction22b(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the index value of the destination register
         /// @return register index
@@ -1041,7 +1041,7 @@ namespace DEX
         std::int16_t nCCCC;
 
     public:
-        Instruction22t(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction22t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the first operand of the check
         /// @return index of register
@@ -1120,7 +1120,7 @@ namespace DEX
         std::int16_t nCCCC;
 
     public:
-        Instruction22s(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction22s(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the destination of the operation
         /// @return index of the destination register
@@ -1402,7 +1402,7 @@ namespace DEX
         std::int32_t nAAAAAAAA;
 
     public:
-        Instruction30t(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction30t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the offset of the jump
         /// @return offset of unconditional jump
@@ -1442,7 +1442,7 @@ namespace DEX
         /// @brief Source register (16 bits)
         std::uint16_t vBBBB;
     public:
-        Instruction32x(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction32x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the destination operand of the instruction
         /// @return index of register destination
@@ -1499,7 +1499,7 @@ namespace DEX
         /// @brief source value (32 bits)
         std::uint32_t nBBBBBBBB;
     public:
-        Instruction31i(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction31i(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief Get the destination operand of the instruction
         /// @return index of destination register
@@ -1579,7 +1579,7 @@ namespace DEX
         /// @brief pointer to SparseSwitch in case is this
         SparseSwitch * sparse_switch = nullptr;
     public:
-        Instruction31t(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction31t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         /// @brief get the register used as reference for switch/array
         /// @return index of register for reference
@@ -2136,7 +2136,7 @@ namespace DEX
         /// @brief wide value (64 bits)
         std::int64_t nBBBBBBBBBBBBBBBB;
     public:
-        Instruction51l(std::vector<uint8_t> &bytecode, std::size_t index);
+        Instruction51l(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         std::uint8_t get_first_register() const
         {
@@ -2196,7 +2196,7 @@ namespace DEX
         /// @brief targets where the program can jump
         std::vector<std::int32_t> targets;
     public:
-        PackedSwitch(std::vector<uint8_t> &bytecode, std::size_t index);
+        PackedSwitch(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         std::uint16_t get_number_of_targets() const
         {
@@ -2264,7 +2264,7 @@ namespace DEX
         /// @brief keys checked and targets
         std::vector<std::tuple<std::int32_t, std::int32_t>> keys_targets;
     public:
-        SparseSwitch(std::vector<uint8_t> &bytecode, std::size_t index);
+        SparseSwitch(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
         
         std::uint16_t get_size_of_targets() const
         {
@@ -2351,7 +2351,7 @@ namespace DEX
         std::uint32_t size;
         std::vector<std::uint8_t> data;
     public:
-        FillArrayData(std::vector<uint8_t> &bytecode, std::size_t index);
+        FillArrayData(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser);
 
         std::uint16_t get_element_width() const
         {

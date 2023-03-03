@@ -10,7 +10,7 @@
 
 using namespace KUNAI::DEX;
 
-Instruction10x::Instruction10x(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction10x::Instruction10x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION10X, 2)
 {
     if (op_codes[1] != 0)
@@ -19,7 +19,7 @@ Instruction10x::Instruction10x(std::vector<uint8_t> &bytecode, std::size_t index
     op = op_codes[0];
 }
 
-Instruction12x::Instruction12x(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction12x::Instruction12x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION12X, 2)
 {
     op = op_codes[0];
@@ -27,7 +27,7 @@ Instruction12x::Instruction12x(std::vector<uint8_t> &bytecode, std::size_t index
     vB = (op_codes[1] & 0xF0) >> 4;
 }
 
-Instruction11n::Instruction11n(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction11n::Instruction11n(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION11N, 2)
 {
     op = op_codes[0];
@@ -35,21 +35,21 @@ Instruction11n::Instruction11n(std::vector<uint8_t> &bytecode, std::size_t index
     nB = static_cast<std::int8_t>((op_codes[1] & 0xF0) >> 4);
 }
 
-Instruction11x::Instruction11x(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction11x::Instruction11x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION11X, 2)
 {
     op = op_codes[0];
     vAA = op_codes[1];
 }
 
-Instruction10t::Instruction10t(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction10t::Instruction10t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION10T, 2)
 {
     op = op_codes[0];
     nAA = static_cast<std::int8_t>(op_codes[1]);
 }
 
-Instruction20t::Instruction20t(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction20t::Instruction20t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION20T, 4)
 {
     if (op_codes[1] != 0)
@@ -58,7 +58,7 @@ Instruction20t::Instruction20t(std::vector<uint8_t> &bytecode, std::size_t index
     nAAAA = *(reinterpret_cast<std::uint16_t *>(&op_codes[2]));
 }
 
-Instruction20bc::Instruction20bc(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction20bc::Instruction20bc(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION20BC, 4)
 {
     op = op_codes[0];
@@ -66,7 +66,7 @@ Instruction20bc::Instruction20bc(std::vector<uint8_t> &bytecode, std::size_t ind
     nBBBB = *(reinterpret_cast<std::uint16_t *>(&op_codes[2]));
 }
 
-Instruction22x::Instruction22x(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction22x::Instruction22x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION22X, 4)
 {
     op = op_codes[0];
@@ -74,7 +74,7 @@ Instruction22x::Instruction22x(std::vector<uint8_t> &bytecode, std::size_t index
     vBBBB = *(reinterpret_cast<std::uint16_t *>(&op_codes[2]));
 }
 
-Instruction21t::Instruction21t(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction21t::Instruction21t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION21T, 4)
 {
     op = op_codes[0];
@@ -85,7 +85,15 @@ Instruction21t::Instruction21t(std::vector<uint8_t> &bytecode, std::size_t index
         throw exceptions::InvalidInstructionException("Error reading Instruction21t offset cannot be 0", 4);
 }
 
-Instruction21h::Instruction21h(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction21s::Instruction21s(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+    : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION21S, 4)
+{
+    op = op_codes[0];
+    vAA = op_codes[1];
+    nBBBB = *(reinterpret_cast<std::int16_t*>(&op_codes[2]));
+}
+
+Instruction21h::Instruction21h(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION21H, 4)
 {
     op = op_codes[0];
@@ -152,7 +160,7 @@ Instruction21c::Instruction21c(std::vector<uint8_t> &bytecode, std::size_t index
     }
 }
 
-Instruction23x::Instruction23x(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction23x::Instruction23x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION23X, 4)
 {
     op = op_codes[0];
@@ -161,7 +169,7 @@ Instruction23x::Instruction23x(std::vector<uint8_t> &bytecode, std::size_t index
     vCC = op_codes[3];
 }
 
-Instruction22b::Instruction22b(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction22b::Instruction22b(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION22B, 4)
 {
     op = op_codes[0];
@@ -170,7 +178,7 @@ Instruction22b::Instruction22b(std::vector<uint8_t> &bytecode, std::size_t index
     nCC = static_cast<std::int8_t>(op_codes[3]);
 }
 
-Instruction22t::Instruction22t(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction22t::Instruction22t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION22T, 4)
 {
     op = op_codes[0];
@@ -182,7 +190,7 @@ Instruction22t::Instruction22t(std::vector<uint8_t> &bytecode, std::size_t index
         throw exceptions::InvalidInstructionException("Error reading Instruction22t offset cannot be 0", 4);
 }
 
-Instruction22s::Instruction22s(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction22s::Instruction22s(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION22S, 4)
 {
     op = op_codes[0];
@@ -236,7 +244,7 @@ Instruction22cs::Instruction22cs(std::vector<uint8_t> &bytecode, std::size_t ind
     }
 }
 
-Instruction30t::Instruction30t(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction30t::Instruction30t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION30T, 6)
 {
     if (op_codes[1] != 0)
@@ -249,7 +257,7 @@ Instruction30t::Instruction30t(std::vector<uint8_t> &bytecode, std::size_t index
         throw exceptions::InvalidInstructionException("Error reading Instruction30t offset cannot be 0", 6);
 }
 
-Instruction32x::Instruction32x(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction32x::Instruction32x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION32X, 6)
 {
     if (op_codes[1] != 0)
@@ -260,7 +268,7 @@ Instruction32x::Instruction32x(std::vector<uint8_t> &bytecode, std::size_t index
     vBBBB = *(reinterpret_cast<std::uint16_t *>(&op_codes[4]));
 }
 
-Instruction31i::Instruction31i(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction31i::Instruction31i(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION31I, 6)
 {
     op = op_codes[0];
@@ -268,7 +276,7 @@ Instruction31i::Instruction31i(std::vector<uint8_t> &bytecode, std::size_t index
     nBBBBBBBB = *(reinterpret_cast<std::uint32_t *>(&op_codes[2]));
 }
 
-Instruction31t::Instruction31t(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction31t::Instruction31t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION31T, 6)
 {
     op = op_codes[0];
@@ -432,7 +440,7 @@ Instruction4rcc::Instruction4rcc(std::vector<uint8_t> &bytecode, std::size_t ind
     prototype_id = parser->get_protos().get_proto_by_order(prototype_reference);
 }
 
-Instruction51l::Instruction51l(std::vector<uint8_t> &bytecode, std::size_t index)
+Instruction51l::Instruction51l(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION51L, 10)
 {
     op = op_codes[0];
@@ -440,7 +448,7 @@ Instruction51l::Instruction51l(std::vector<uint8_t> &bytecode, std::size_t index
     nBBBBBBBBBBBBBBBB = *(reinterpret_cast<std::int64_t*>(&op_codes[2]));
 }
 
-PackedSwitch::PackedSwitch(std::vector<uint8_t> &bytecode, std::size_t index)
+PackedSwitch::PackedSwitch(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_PACKEDSWITCH, 8)
 {
     std::int32_t aux;
@@ -465,7 +473,7 @@ PackedSwitch::PackedSwitch(std::vector<uint8_t> &bytecode, std::size_t index)
     }
 }
 
-SparseSwitch::SparseSwitch(std::vector<uint8_t> &bytecode, std::size_t index)
+SparseSwitch::SparseSwitch(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_SPARSESWITCH, 4)
 {
     std::int32_t aux_key, aux_target;
@@ -492,7 +500,7 @@ SparseSwitch::SparseSwitch(std::vector<uint8_t> &bytecode, std::size_t index)
     }
 }
 
-FillArrayData::FillArrayData(std::vector<uint8_t> &bytecode, std::size_t index)
+FillArrayData::FillArrayData(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_FILLARRAYDATA, 8)
 {
     std::uint8_t aux;
