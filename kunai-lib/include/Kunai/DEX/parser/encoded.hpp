@@ -372,7 +372,9 @@ namespace DEX
         /// @brief bytecode of the catch all-handler.
         /// This element is only present if size is non-positive. 
         std::uint64_t catch_all_addr = 0;
-    
+        /// @brief Offset where the encoded catch handler is
+        /// in the file
+        std::uint64_t offset;
     public:
         /// @brief Constructor of EncodedCatchHandler
         EncodedCatchHandler() = default;
@@ -421,6 +423,13 @@ namespace DEX
         std::vector<encodedtypepair_t>& get_handlers()
         {
             return handlers;
+        }
+
+        /// @brief Get the offset where encoded catch handler is
+        /// @return offset of encoded catch handler
+        std::uint64_t get_offset() const
+        {
+            return offset;
         }
 
         EncodedTypePair *get_handler_by_pos(std::uint64_t pos);
@@ -506,6 +515,9 @@ namespace DEX
         std::vector<std::uint8_t> instructions_raw;
         /// @brief Vector of try_item
         std::vector<tryitem_t> try_items;
+        /// @brief encoded catch handler offset for exception
+        /// calculation
+        std::uint64_t encoded_catch_handler_list_offset;
         /// @brief encoded catch handler size
         std::uint64_t encoded_catch_handler_size;
         /// @brief encoded_catch_handler list
@@ -592,7 +604,14 @@ namespace DEX
         {
             return try_items;
         }
-    
+
+        /// @brief Return the offset where encoded catch handler is read
+        /// @return offset to encoded catch handler list
+        std::uint64_t get_encoded_catch_handler_offset()
+        {
+            return encoded_catch_handler_list_offset;
+        }
+
         /// @brief Get a constant reference to the catch handlers vector
         /// @return constant reference catch handlers of the method
         const std::vector<encodedcatchhandler_t>& get_encoded_catch_handlers() const

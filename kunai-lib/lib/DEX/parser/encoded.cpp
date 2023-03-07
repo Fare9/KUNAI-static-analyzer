@@ -117,6 +117,8 @@ void EncodedCatchHandler::parse_encoded_catch_handler(
     std::uint64_t type_idx, addr;
     encodedtypepair_t encoded_type_pair;
 
+    offset = static_cast<std::uint64_t>(stream->tellg());
+
     size = stream->read_sleb128();
 
     for (size_t I = 0, S = std::abs(size); I < S; ++I)
@@ -191,6 +193,10 @@ void CodeItemStruct::parse_code_item_struct(
             try_item->parse_try_item(stream);
             try_items.push_back(std::move(try_item));
         }
+
+        encoded_catch_handler_list_offset = 
+            static_cast<std::uint64_t>(stream->tellg());
+
         // now get the number of catch handlers
         encoded_catch_handler_size = stream->read_uleb128();
 
