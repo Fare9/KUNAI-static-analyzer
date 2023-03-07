@@ -33,9 +33,9 @@ namespace DEX
         /// start address of it and basic blocks
         typedef struct _handler_data
         {
-            std::string             handler_type;
+            DVMType*                handler_type;
             std::uint64_t           handler_start_addr;
-            std::vector<std::any>   basic_blocks;
+            //std::vector<std::any>   basic_blocks;
         } handler_data;
 
         /// @brief Information for the exceptions in the
@@ -68,6 +68,9 @@ namespace DEX
         /// @brief pointer to the last instruction generated
         /// by the Disassembler
         Instruction * last_instr;
+        /// @brief In case there are no handlers, create a throwable one
+        DVMClass throwable_class{"Ljava/lang/Throwable;"};
+        
     public:
 
         /// @brief Constructor of the internal Disassembler for Dalvik
@@ -124,6 +127,12 @@ namespace DEX
         /// @param instr instruction to retrieve the target of the jump
         /// @return target of an unconditional jump
         std::int32_t get_unconditional_jump_target(Instruction * instr);
+
+        /// @brief Retrieve information from possible exception code inside
+        /// of a method
+        /// @param method method to extract exception data
+        /// @return exception data in a vector
+        std::vector<exceptions_data> determine_exception(EncodedMethod * method);
     };
 } // namespace DEX
 } // namespace KUNAI

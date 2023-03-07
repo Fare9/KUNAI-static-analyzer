@@ -555,3 +555,71 @@ std::int32_t Disassembler::get_unconditional_jump_target(Instruction *instr)
 
     return 0;
 }
+
+std::vector<Disassembler::exceptions_data> Disassembler::determine_exception(EncodedMethod *method)
+{
+    /// pair of TryItem and EncodedCatchHandlers
+    using try_encoded = std::pair<TryItem *, EncodedCatchHandler *>;
+    /// vector of pairs
+    using vector_try_encoded = std::vector<try_encoded>;
+
+    std::unordered_map<std::uint64_t,
+                       vector_try_encoded>
+        h_off;
+
+    std::vector<Disassembler::exceptions_data> exceptions;
+
+    if (!method || !method->get_code_item().get_number_try_items())
+        return {};
+
+    auto &code_item = method->get_code_item();
+
+    // retrieve all the try items with the handler
+    // of the offset
+    for (auto &try_item : code_item.get_try_items())
+    {
+        auto offset_handler = try_item->get_handler_off() +
+                              code_item.get_encoded_catch_handler_offset();
+        h_off[offset_handler].push_back({try_item.get(), nullptr});
+    }
+
+    // add the encoded catch handlers to the structure
+    for (auto &encoded_catch_handler : code_item.get_encoded_catch_handlers())
+    {
+        auto it = h_off.find(encoded_catch_handler->get_offset());
+
+        if (it == h_off.end())
+            continue;
+
+        for (auto &v : it->second)
+            v.second = encoded_catch_handler.get();
+    }
+
+    // now create the exceptions structure
+    for (auto &off_values : h_off)
+    {
+        for (auto &values : off_values.second)
+        {
+            auto try_value = values.first;
+            auto handler_catch = values.second;
+
+            Disassembler::exceptions_data z;
+
+            z.try_value_start_addr = try_value->get_start_addr() * 2;
+            z.try_value_end_addr = (try_value->get_start_addr() * 2) +
+                                   (try_value->get_insn_count() * 2) - 1;
+
+            for (auto &catch_type_pair : handler_catch->get_handlers())
+            {
+                z.handler.push_back({catch_type_pair->get_exception_type(), catch_type_pair->get_addr() * 2});
+            }
+
+            if (handler_catch->get_size() <= 0)
+                z.handler.push_back({&throwable_class, handler_catch->get_catch_all_addr() * 2});
+
+            exceptions.push_back(z);
+        }
+    }
+
+    return exceptions;
+}
