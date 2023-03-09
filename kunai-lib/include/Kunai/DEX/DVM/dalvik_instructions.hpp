@@ -77,6 +77,8 @@ namespace DEX
         std::uint32_t length;
         /// @brief op code from the instruction
         std::uint32_t op;
+        /// @brief address of the instruction
+        std::uint64_t address;
 
     public:
         /// @brief Constructor of the Instruction, here is applied
@@ -126,6 +128,20 @@ namespace DEX
         virtual std::uint32_t get_instruction_opcode() const
         {
             return op;
+        }
+
+        /// @brief Set the address of the instruction
+        /// @param address new address of the instruction
+        virtual void set_address(std::uint64_t address)
+        {
+            this->address = address;
+        }
+
+        /// @brief Get the address of the instruction
+        /// @return address of the instruction
+        virtual std::uint64_t get_address() const
+        {
+            return address;
         }
 
         /// @brief Return a string with the representation of the instruction
