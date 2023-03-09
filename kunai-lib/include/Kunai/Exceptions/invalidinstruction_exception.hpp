@@ -36,7 +36,7 @@ namespace exceptions
 
         /// @brief Get the value of
         /// @return 
-        std::uint32_t get_inst_size() const
+        std::uint32_t size() const
         {
             return _inst_size;
         }
