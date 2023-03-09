@@ -47,13 +47,6 @@ namespace DEX
             std::vector<handler_data>   handler;
         } exceptions_data;
 
-        /// @brief Obtain the instructions sorted by their
-        /// idx in the code, since we use a map, searching
-        /// data here could take time
-        using ordered_instructions_t = std::unordered_map
-                                        <std::pair<ClassDef*, EncodedMethod*>,
-                                         std::map<std::uint64_t, Instruction*>>;
-
         /// @brief For those who just want the full set of instructions
         /// it is possible to retrieve a vector with all the instructions
         /// from the method, it is not needed that these are sorted in any
