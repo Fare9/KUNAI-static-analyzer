@@ -29,8 +29,10 @@ namespace DEX
 
         /// @brief If there's any switch in code, we will assign to some instructions
         /// the PackedSwitch or the SparswSwitch value
-        /// @param ordered_instructions pointer to a map where the instructions are
-        /// stored sorted by idx, here is mandatory.
+        /// @param instructions buffer with all the instructions
+        /// @param cache_instrs cache of the instructions for quickly look for instructions
+        /// by address
+        /// @param buffer_bytes buffer with the bytes from the method
         void analyze_switch(
             std::vector<std::unique_ptr<Instruction>> &instructions,
             std::unordered_map<std::uint64_t, Instruction *> &cache_instrs,

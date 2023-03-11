@@ -21,6 +21,7 @@ void Dex::initialization(std::string& dex_file_path)
     {
         parser->parse_file();
         parsing_correct = true;
+        dex_disassembler = std::make_unique<DexDisassembler>(parser.get());
     }
     catch(const std::exception& e)
     {

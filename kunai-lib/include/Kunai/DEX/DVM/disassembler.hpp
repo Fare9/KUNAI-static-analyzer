@@ -52,7 +52,7 @@ namespace DEX
         /// from the method, it is not needed that these are sorted in any
         /// way                                         
         using instructions_t = std::unordered_map
-                                <std::pair<ClassDef*, EncodedMethod*>,
+                                <EncodedMethod*,
                                 std::vector<std::unique_ptr<Instruction>>>;
 
     private:

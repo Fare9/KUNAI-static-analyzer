@@ -14,6 +14,7 @@
 #include "Kunai/Utils/logger.hpp"
 #include "Kunai/Utils/kunaistream.hpp"
 #include "Kunai/DEX/parser/parser.hpp"
+#include "Kunai/DEX/DVM/dex_disassembler.hpp"
 
 #include <memory>
 
@@ -40,11 +41,11 @@ namespace DEX
         /// @brief Parser for the DEX file
         std::unique_ptr<Parser> parser;
 
+        /// @brief Disassembler for DEX file
+        std::unique_ptr<DexDisassembler> dex_disassembler;
+
         /// @brief store if parsing process was correct
         bool parsing_correct = false;
-
-        /// @brief store if disassembly process was correct
-        bool disassembly_correct = false;
 
         /// @brief Method to initialize structures from the DEX
         /// or open files, etc
@@ -76,18 +77,18 @@ namespace DEX
             return parsing_correct;
         }
 
-        /// @brief Was disassembly process correct?
-        /// @return boolean with result
-        bool get_disassembly_correct() const
-        {
-            return disassembly_correct;
-        }
-
         /// @brief get a pointer to the DEX parser with all the headers
         /// @return dex parser
         Parser * get_parser()
         {
             return parser.get();
+        }
+
+        /// @brief Get the disassembler of the DEX file
+        /// @return pointer to DexDisassembler
+        DexDisassembler * get_dex_disassembler()
+        {
+            return dex_disassembler.get();
         }
     };
 

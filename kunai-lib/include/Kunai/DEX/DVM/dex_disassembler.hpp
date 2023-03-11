@@ -15,6 +15,8 @@
 #include "Kunai/DEX/parser/methods.hpp"
 #include "Kunai/DEX/parser/classes.hpp"
 #include "Kunai/DEX/DVM/disassembler.hpp"
+#include "Kunai/DEX/DVM/linear_sweep_disassembler.hpp"
+#include "Kunai/DEX/DVM/recursive_traversal_disassembler.hpp"
 
 namespace KUNAI
 {
@@ -42,21 +44,34 @@ namespace DEX
         /// functionalities of a DEX disassembler.
         Disassembler disassembler;
 
-        /// @brief An object containing all the instructions from the
-        /// dex file ordered by idx
-        Disassembler::ordered_instructions_t dex_ordered_instructions;
+        /// @brief Pointer to the parser in order to apply
+        /// disassembly to all dex file
+        Parser * parser;
+
+        /// @brief Obtain if disassembly was correct
+        bool disassembly_correct = false;
+
         /// @brief An object containing all the instructions from the
         /// dex file
         Disassembler::instructions_t dex_instructions;
+
+        /// @brief Linear sweep disassembler
+        LinearSweepDisassembler linear_sweep;
+
+        /// @brief Recursive Traversal Disassembler
+        RecursiveTraversalDisassembler recursive_traversal;
     public:
 
         /// @brief Constructor of the DexDisassembler, this should be called
         /// only if the parsing was correct
         /// @param parser parser for the internal disassembler, this is used
         /// in some of the instructions
-        DexDisassembler(Parser * parser)
+        DexDisassembler(Parser * parser) :
+            parser(parser)
         {
             disassembler.set_parser(parser);
+            linear_sweep.set_internal_disassembler(&disassembler);
+            recursive_traversal.set_internal_disassembler(&disassembler);
         }
 
         /// @brief Set the disassembly algorithm to use in the next calls to
@@ -67,25 +82,25 @@ namespace DEX
             this->algorithm = algorithm;
         }
 
-        /// @brief Get access to all the ordered instructions
-        /// @return constant reference to ordered instructions
-        const Disassembler::ordered_instructions_t& get_dex_ordered_instructions() const
-        {
-            return dex_ordered_instructions;
-        }
-
-        /// @brief Get access to all the ordered instructions
-        /// @return reference to ordered instructions
-        Disassembler::ordered_instructions_t& get_dex_ordered_instructions()
-        {
-            return dex_ordered_instructions;
-        }
-
         /// @brief Get access to all the instructions from a dex
         /// @return constant reference to instructions
         const Disassembler::instructions_t& get_dex_instructions() const
         {
             return dex_instructions;
+        }
+
+        /// @brief Get access to all the instructions from a dex
+        /// @return reference to instructions
+        Disassembler::instructions_t& get_dex_instructions()
+        {
+            return dex_instructions;
+        }
+
+        /// @brief Get if the disassembly process was correct or not
+        /// @return boolean value that says if disassembly was correct
+        bool correct_disassembly() const
+        {
+            return disassembly_correct;
         }
 
         /// @brief This is the most important function from the
