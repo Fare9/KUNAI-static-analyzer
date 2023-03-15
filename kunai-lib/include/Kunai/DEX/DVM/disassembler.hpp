@@ -25,6 +25,7 @@ namespace KUNAI
 {
 namespace DEX
 {
+
     class Disassembler
     {
     public:
@@ -35,7 +36,6 @@ namespace DEX
         {
             DVMType*                handler_type;
             std::uint64_t           handler_start_addr;
-            //std::vector<std::any>   basic_blocks;
         } handler_data;
 
         /// @brief Information for the exceptions in the
