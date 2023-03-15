@@ -164,6 +164,20 @@ namespace DEX
         {
             return op_codes;
         }
+
+        /// @brief Check if the instruction is a terminator (branch, ret, multibranch)
+        /// @return true if instruction is a terminator instruction
+        virtual bool is_terminator()
+        {
+            auto operation = DalvikOpcodes::get_instruction_operation(op);
+
+            if (operation == TYPES::Operation::CONDITIONAL_BRANCH_DVM_OPCODE ||
+                operation == TYPES::Operation::UNCONDITIONAL_BRANCH_DVM_OPCODE ||
+                operation == TYPES::Operation::RET_BRANCH_DVM_OPCODE ||
+                operation == TYPES::Operation::MULTI_BRANCH_DVM_OPCODE)
+                return true;
+            return false;
+        }
     };
 
     /// @brief Useless instruction with opcode of 00
