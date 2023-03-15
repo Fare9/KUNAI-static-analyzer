@@ -103,6 +103,11 @@ namespace DEX
             return disassembly_correct;
         }
 
+        /// @brief Add the instructions from another disassembler to the
+        /// current one, this invalidate the previous one.
+        /// @param other other dex disassembler
+        void add_disassembly(DexDisassembler& other);
+
         /// @brief This is the most important function from the
         /// disassembler, this function takes the given parser
         /// object and calls one of the internal disassemblers
@@ -115,6 +120,8 @@ namespace DEX
         /// @return vector with disassembled instructions
         std::vector<std::unique_ptr<Instruction>>
             disassembly_buffer(std::vector<std::uint8_t>& buffer);
+
+        DexDisassembler& operator+=(DexDisassembler& other);
     };
 } // namespace DEX
 } // namespace KUNAI

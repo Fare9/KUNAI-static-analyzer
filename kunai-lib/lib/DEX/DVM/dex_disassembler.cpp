@@ -69,3 +69,19 @@ DexDisassembler::disassembly_buffer(std::vector<std::uint8_t> &buffer)
 
     return instructions;
 }
+
+
+void DexDisassembler::add_disassembly(DexDisassembler& other)
+{
+    for (auto & methods_instrs : other.dex_instructions)
+    {
+        dex_instructions[methods_instrs.first] = std::move(methods_instrs.second);
+    }
+}
+
+
+DexDisassembler& DexDisassembler::operator+=(DexDisassembler& other)
+{
+    this->add_disassembly(other);
+    return *this;
+}
