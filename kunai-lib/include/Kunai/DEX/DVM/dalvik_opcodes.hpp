@@ -52,7 +52,10 @@ namespace DEX
         /// @param method field to retrieve its access flags
         /// @return string representation of access flags
         static std::string get_field_access_flags(EncodedField* field);
-        
+        /// @brief Get a string representation of any access flags
+        /// @param access_flags access flags value
+        /// @return string representation of access flags
+        static std::string get_access_flags_str(TYPES::access_flags flags);
     };
 } // namespace DEX
 } // namespace KUNAI

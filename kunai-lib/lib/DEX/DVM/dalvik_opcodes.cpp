@@ -148,3 +148,7 @@ std::string DalvikOpcodes::get_field_access_flags(EncodedField* field)
     return ::access_flags_to_str(field_access_flags);
 }
 
+static std::string get_access_flags_str(TYPES::access_flags flags)
+{
+    return ::access_flags_to_str(flags);
+}
