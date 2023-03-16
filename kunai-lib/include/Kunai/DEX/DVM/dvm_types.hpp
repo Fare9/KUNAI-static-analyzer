@@ -27,6 +27,24 @@ namespace KUNAI
 
         namespace TYPES
         {
+            /// @brief References used in the xrefs of the classes,
+            /// to store the type of references
+            enum REF_TYPE
+            {
+                REF_NEW_INSTANCE = 0x22,
+                REF_CLASS_USAGE = 0x1c,
+                INVOKE_VIRTUAL = 0x6e,
+                INVOKE_SUPER = 0x6f,
+                INVOKE_DIRECT = 0x70,
+                INVOKE_STATIC = 0x71,
+                INVOKE_INTERFACE = 0x72,
+                INVOKE_VIRTUAL_RANGE = 0x74,
+                INVOKE_SUPER_RANGE = 0x75,
+                INVOKE_DIRECT_RANGE = 0x76,
+                INVOKE_STATIC_RANGE = 0x77,
+                INVOKE_INTERFACE_RANGE = 0x78
+            };
+
             /// @brief Identify the kind of argument inside
             /// a Dalvik Instruction
             enum class Kind
