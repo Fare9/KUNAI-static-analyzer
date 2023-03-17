@@ -818,6 +818,21 @@ namespace DEX
             return source_str;
         }
 
+        /// @brief Check if source is a string
+        /// @return true in case source is a string
+        bool is_source_string() const
+        {
+            return is_str;
+        }
+
+        /// @brief get reference of the string this should be
+        /// called only if is_str == true
+        /// @return string reference
+        std::string &get_source_str()
+        {
+            return source_str;
+        }
+
         /// @brief Check if source is a DVMType and return a pointer
         /// @return pointer to DVMType or nullptr
         DVMType *get_source_dvmtype() const
