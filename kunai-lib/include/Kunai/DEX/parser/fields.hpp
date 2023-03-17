@@ -19,6 +19,9 @@ namespace KUNAI
 {
 namespace DEX
 {
+    /// forward declaration to keep a pointer to EncodedField in the FieldID
+    class EncodedField;
+
     /// @brief FieldID represent one of the fields from the
     /// DEX file.
     class FieldID
@@ -31,6 +34,8 @@ namespace DEX
         std::string& name_;
         /// @brief pretty name with all the information
         std::string pretty_name;
+        /// @brief parent EncodedField
+        EncodedField * encoded_field;
     public:
 
         /// @brief Constructor of the FieldID
@@ -40,6 +45,16 @@ namespace DEX
         FieldID(DVMType* class_, DVMType* type_, std::string& name_)
             : class_(class_), type_(type_), name_(name_)
         {
+        }
+
+        void set_encoded_field(EncodedField * encoded_field)
+        {
+            this->encoded_field = encoded_field;
+        }
+
+        EncodedField* get_encoded_field()
+        {
+            return encoded_field;
         }
 
         /// @brief Destructor of the FieldID

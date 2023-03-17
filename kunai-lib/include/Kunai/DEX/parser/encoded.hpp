@@ -277,6 +277,7 @@ namespace DEX
         EncodedField(FieldID * field_idx, TYPES::access_flags flags)
             : field_idx(field_idx), flags(flags)
         {
+            this->field_idx->set_encoded_field(this);
         }
 
         /// @brief Destructor of Encoded Field
