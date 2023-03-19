@@ -19,7 +19,7 @@ cmake -S . -B build -D CMAKE_BUILD_TYPE=Release
 cmake -S . -B build -D CMAKE_BUILD_TYPE=Debug
 ```
 
-Or in the case you also want to compile the *unit test* folder:
+Or in the case you also want to compile the *unit-tests* folder:
 
 ```console
 cmake -S . -B build -D CMAKE_BUILD_TYPE=DEBUG -D UNIT_TESTING=ON
@@ -40,12 +40,14 @@ The project follows a structure on its folders in order to make easier writing n
     * DEX/: code for analysis of DEX files.
         * parser/: parser of DEX format.
         * DVM/: different enums and utilities for managing the Dalvik types.
+        * analysis/: sources of the different analysis for DEX format.
 * include/: all the .hpp and .def files.
     * Kunai/: headers of Kunai library.
         * Utils/: different header of utilities.
         * DEX/: headers for DEX analysis.
             * parser/
             * DVM/
+            * analysis/
 * unit-tests: code for doing unit testing.
 * externals: dependencies from Kunai library.
 
