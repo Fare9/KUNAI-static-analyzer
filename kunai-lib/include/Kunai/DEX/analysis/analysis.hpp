@@ -415,7 +415,7 @@ namespace KUNAI
 
             /// @brief descriptor of the method
             mutable std::string descriptor;
-            
+
             /// @brief access flags of the method
             /// in string format
             mutable std::string access_flag;
@@ -425,7 +425,6 @@ namespace KUNAI
 
             /// @brief full name of the method
             mutable std::string full_name;
-
 
             /// @brief Instructions of the current method
             std::vector<std::unique_ptr<Instruction>> instructions;
@@ -447,9 +446,9 @@ namespace KUNAI
             std::vector<std::tuple<ClassAnalysis *, MethodAnalysis *, std::uint64_t>> xreffrom;
 
             /// @brief new instance of the method
-            std::vector<std::tuple<ClassAnalysis *, std::uint64_t>> xrefnewinstance;
+            std::vector<std::pair<ClassAnalysis *, std::uint64_t>> xrefnewinstance;
             /// @brief use of const class
-            std::vector<std::tuple<ClassAnalysis *, std::uint64_t>> xrefconstclass;
+            std::vector<std::pair<ClassAnalysis *, std::uint64_t>> xrefconstclass;
 
             /// @brief Some kind of magic function that will take all
             /// the instructions from the method, and after some wololo
@@ -488,7 +487,12 @@ namespace KUNAI
 
             const std::string &get_full_name() const;
 
-            std::variant<EncodedMethod *,ExternalMethod *> get_encoded_method() const
+            std::vector<std::unique_ptr<Instruction>>& get_instructions()
+            {
+                return instructions;
+            }
+
+            std::variant<EncodedMethod *, ExternalMethod *> get_encoded_method() const
             {
                 return method_encoded;
             }
@@ -541,25 +545,25 @@ namespace KUNAI
                 return xreffrom;
             }
 
-            const std::vector<std::tuple<ClassAnalysis *, std::uint64_t>> &
+            const std::vector<std::pair<ClassAnalysis *, std::uint64_t>> &
             get_xrefnewinstance() const
             {
                 return xrefnewinstance;
             }
 
-            std::vector<std::tuple<ClassAnalysis *, std::uint64_t>> &
+            std::vector<std::pair<ClassAnalysis *, std::uint64_t>> &
             get_xrefnewinstance()
             {
                 return xrefnewinstance;
             }
 
-            const std::vector<std::tuple<ClassAnalysis *, std::uint64_t>> &
+            const std::vector<std::pair<ClassAnalysis *, std::uint64_t>> &
             get_xrefconstclass() const
             {
                 return xrefconstclass;
             }
 
-            std::vector<std::tuple<ClassAnalysis *, std::uint64_t>> &
+            std::vector<std::pair<ClassAnalysis *, std::uint64_t>> &
             get_xrefconstclass()
             {
                 return xrefconstclass;
@@ -587,12 +591,12 @@ namespace KUNAI
 
             void add_xrefnewinstance(ClassAnalysis *c, std::uint64_t offset)
             {
-                xrefnewinstance.push_back(std::make_tuple(c, offset));
+                xrefnewinstance.push_back(std::make_pair(c, offset));
             }
 
             void add_xrefconstclass(ClassAnalysis *c, std::uint64_t offset)
             {
-                xrefconstclass.push_back(std::make_tuple(c, offset));
+                xrefconstclass.push_back(std::make_pair(c, offset));
             }
         };
 
@@ -600,14 +604,238 @@ namespace KUNAI
         /// fields, strings, methods...
         class ClassAnalysis
         {
+        public:
+            using classxref = std::unordered_map<ClassAnalysis *,
+                                                 std::set<std::tuple<TYPES::REF_TYPE, MethodAnalysis *, std::uint64_t>>>;
+
+        private:
             /// @brief definition of the class, it can be a class
             /// from the dex or an external class
-            std::variant<ClassDef*, ExternalClass*> class_def;
+            std::variant<ClassDef *, ExternalClass *> class_def;
+
+            /// @brief is an external class
+            bool is_external;
+
+            /// @brief name of the class that it extends
+            mutable std::string extends_;
+
+            /// @brief name of the class
+            mutable std::string name_;
 
             /// @brief map for mapping method by name with MethodAnalysis
-            std::unordered_map<std::string, MethodAnalysis*> methods;
+            std::unordered_map<std::string, MethodAnalysis *> methods;
             /// @brief map for mapping EncodedField and FieldAnalysis
-            std::unordered_map<EncodedField*, std::unique_ptr<FieldAnalysis>> fields;
+            std::unordered_map<EncodedField *, std::unique_ptr<FieldAnalysis>> fields;
+
+            /// @brief Classes that this class calls
+            classxref xrefto;
+            /// @brief Classes that call this class
+            classxref xreffrom;
+
+            /// @brief New instances of this class
+            std::vector<std::pair<MethodAnalysis *, std::uint64_t>> xrefnewinstance;
+
+            /// @brief use of const class of this class
+            std::vector<std::pair<MethodAnalysis *, std::uint64_t>> xrefconstclass;
+
+        public:
+            ClassAnalysis(std::variant<ClassDef *, ExternalClass *> class_def) : class_def(class_def)
+            {
+                is_external = class_def.index() == 0 ? false : true;
+            }
+
+            /// @brief add a method to the current class
+            /// @param method_analysis method to include in the class
+            void add_method(MethodAnalysis *method_analysis);
+
+            size_t get_nb_methods() const
+            {
+                return methods.size();
+            }
+
+            size_t get_nb_fields() const
+            {
+                return fields.size();
+            }
+
+            /// @brief Get the class definition object
+            /// @return ClassDef* or ExternalClass* object
+            std::variant<ClassDef *, ExternalClass *> get_class_definition() const
+            {
+                return class_def;
+            }
+
+            /// @brief Is the current class an external class?
+            /// @return class is external
+            bool is_class_external() const
+            {
+                return is_external;
+            }
+
+            std::string& extends() const;
+
+            std::string& name() const;
+
+            /// @brief Return a vector of implemented interfaces, in
+            /// the case of external class raise exception
+            /// @return implemented interfaces
+            std::vector<DVMClass *> &implements();
+
+            /// @brief get a constant reference to the methods
+            /// @return constant reference to methods
+            const std::unordered_map<std::string, MethodAnalysis *> &
+            get_methods() const
+            {
+                return methods;
+            }
+
+            /// @brief get a reference to the methods
+            /// @returns reference to methods
+            std::unordered_map<std::string, MethodAnalysis *> &
+            get_methods()
+            {
+                return methods;
+            }
+
+            const std::unordered_map<EncodedField *, std::unique_ptr<FieldAnalysis>> &
+            get_fields() const
+            {
+                return fields;
+            }
+
+            std::unordered_map<EncodedField *, std::unique_ptr<FieldAnalysis>> &
+            get_fields()
+            {
+                return fields;
+            }
+
+            /// @brief Given an Encoded or ExternalMethod returns a MethodAnalysis pointer
+            /// @param method method to look for
+            /// @return MethodAnalysis pointer
+            MethodAnalysis *get_method_analysis(std::variant<EncodedMethod *, ExternalMethod *> method);
+
+            /// @brief Given an encoded field return a FieldAnalysis pointer
+            /// @param field field to look for
+            /// @return FieldAnalysis pointer
+            FieldAnalysis *get_field_analysis(EncodedField *field);
+
+            void add_field_xref_read(MethodAnalysis *method,
+                                     ClassAnalysis *classobj,
+                                     EncodedField *field,
+                                     std::uint64_t off)
+            {
+                if (fields.find(field) == fields.end())
+                    fields[field] = std::make_unique<FieldAnalysis>(field);
+                fields[field]->add_xrefread(classobj, method, off);
+            }
+
+            void add_field_xref_write(MethodAnalysis *method,
+                                      ClassAnalysis *classobj,
+                                      EncodedField *field,
+                                      std::uint64_t off)
+            {
+                if (fields.find(field) == fields.end())
+                    fields[field] = std::make_unique<FieldAnalysis>(field);
+                fields[field]->add_xrefwrite(classobj, method, off);
+            }
+
+            void add_method_xref_to(MethodAnalysis *method1,
+                                    ClassAnalysis *classobj,
+                                    MethodAnalysis *method2,
+                                    std::uint64_t off)
+            {
+                auto method_key = method1->get_full_name();
+
+                if (methods.find(method_key) == methods.end())
+                    add_method(method1);
+                methods[method_key]->add_xrefto(classobj, method2, off);
+            }
+
+            void add_method_xref_from(MethodAnalysis *method1,
+                                      ClassAnalysis *classobj,
+                                      MethodAnalysis *method2,
+                                      std::uint64_t off)
+            {
+                auto method_key = method1->get_full_name();
+
+                if (methods.find(method_key) == methods.end())
+                    add_method(method1);
+                methods[method_key]->add_xreffrom(classobj, method2, off);
+            }
+
+            void add_xref_to(TYPES::REF_TYPE ref_kind,
+                             ClassAnalysis *classobj,
+                             MethodAnalysis *methodobj,
+                             std::uint64_t offset)
+            {
+                xrefto[classobj].insert(std::make_tuple(ref_kind, methodobj, offset));
+            }
+
+            void add_xref_from(TYPES::REF_TYPE ref_kind,
+                               ClassAnalysis *classobj,
+                               MethodAnalysis *methodobj,
+                               std::uint64_t offset)
+            {
+                xreffrom[classobj].insert(std::make_tuple(ref_kind, methodobj, offset));
+            }
+
+            void add_xref_new_instance(MethodAnalysis *methodobj, std::uint64_t offset)
+            {
+                xrefnewinstance.push_back(std::make_pair(methodobj, offset));
+            }
+
+            void add_xref_const_class(MethodAnalysis *methodobj, std::uint64_t offset)
+            {
+                xrefconstclass.push_back(std::make_pair(methodobj, offset));
+            }
+
+            const classxref &
+            get_xrefto() const
+            {
+                return xrefto;
+            }
+
+            classxref &
+            get_xrefto()
+            {
+                return xrefto;
+            }
+
+            const classxref &
+            get_xreffrom() const
+            {
+                return xreffrom;
+            }
+
+            classxref &
+            get_xreffrom()
+            {
+                return xreffrom;
+            }
+
+            const std::vector<std::pair<MethodAnalysis *, std::uint64_t>>
+            get_xrefnewinstance() const
+            {
+                return xrefnewinstance;
+            }
+
+            std::vector<std::pair<MethodAnalysis *, std::uint64_t>>
+            get_xrefnewinstance()
+            {
+                return xrefnewinstance;
+            }
+
+            const std::vector<std::pair<MethodAnalysis *, std::uint64_t>>
+            get_xrefconstclass() const
+            {
+                return xrefconstclass;
+            }
+
+            std::vector<std::pair<MethodAnalysis *, std::uint64_t>>
+            get_xrefconstclass()
+            {
+                return xrefconstclass;
+            }
         };
     } // namespace DEX
 } // namespace KUNAI
