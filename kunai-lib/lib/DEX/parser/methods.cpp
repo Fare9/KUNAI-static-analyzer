@@ -17,7 +17,7 @@ std::string& MethodID::pretty_method()
         return pretty_name;
     
     pretty_name = proto_->get_return_type()->pretty_print();
-    pretty_name += class_->pretty_print() + "->";
+    pretty_name += " " + class_->pretty_print() + "->";
     pretty_name += name_ + "(";
 
     auto & params = proto_->get_parameters();
