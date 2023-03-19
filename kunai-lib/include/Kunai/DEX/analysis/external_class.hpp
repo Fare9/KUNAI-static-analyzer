@@ -22,9 +22,11 @@ namespace DEX
     class ExternalClass
     {
         /// @brief name of the external class
-        std::string& name;
+        std::string name;
         /// @brief Vector with all the external methods from the current class
         std::vector<ExternalMethod*> methods;
+        /// @brief Vector of EncodedFields created through FieldID
+        std::vector<encodedfield_t> fields;
     public:
         ExternalClass(std::string& name) : name(name)
         {}
@@ -55,6 +57,28 @@ namespace DEX
         void add_external_method(ExternalMethod* method)
         {
             methods.push_back(method);
+        }
+
+        /// @brief Add a new EncodedField to the class, we do not know if this
+        /// is static or any other kind of field
+        /// @param field FieldID object used to create the EncodedField
+        void add_external_field(FieldID* field)
+        {
+            fields.push_back(std::make_unique<EncodedField>(field, TYPES::access_flags::NONE));
+        }
+
+        /// @brief Get a constant reference to the fields of this class
+        /// @return constant reference to fields
+        const std::vector<std::unique_ptr<EncodedField>>& get_fields() const
+        {
+            return fields;
+        }
+
+        /// @brief Get a reference to the fields of this class
+        /// @return reference to fields
+        std::vector<std::unique_ptr<EncodedField>>& get_fields()
+        {
+            return fields;
         }
     };
 } // namespace DEX
