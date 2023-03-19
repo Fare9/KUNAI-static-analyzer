@@ -30,6 +30,21 @@ void Dex::initialization(std::string& dex_file_path)
     }
 }
 
+Analysis * Dex::get_analysis(bool create_xrefs)
+{
+    if (!parsing_correct)
+        return nullptr;
+    /// disassembly the dex file
+    dex_disassembler->disassembly_dex();
+    /// check if disassembly was correct
+    if (!dex_disassembler->correct_disassembly())
+        return nullptr;
+    
+    analysis = std::make_unique<Analysis>(parser.get(), dex_disassembler.get(), create_xrefs);
+
+    return analysis.get();
+}
+
 
 std::unique_ptr<Dex> Dex::parse_dex_file(std::string& dex_file_path)
 {

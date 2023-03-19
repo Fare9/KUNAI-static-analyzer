@@ -15,6 +15,7 @@
 #include "Kunai/Utils/kunaistream.hpp"
 #include "Kunai/DEX/parser/parser.hpp"
 #include "Kunai/DEX/DVM/dex_disassembler.hpp"
+#include "Kunai/DEX/analysis/dex_analysis.hpp"
 
 #include <memory>
 
@@ -43,6 +44,9 @@ namespace DEX
 
         /// @brief Disassembler for DEX file
         std::unique_ptr<DexDisassembler> dex_disassembler;
+
+        /// @brief Analysis object for DEX file
+        std::unique_ptr<Analysis> analysis;
 
         /// @brief store if parsing process was correct
         bool parsing_correct = false;
@@ -90,6 +94,15 @@ namespace DEX
         {
             return dex_disassembler.get();
         }
+        
+        /// @brief Get the analysis object this needs the
+        /// disassembly and the parser, the dex will be
+        /// disassembled in case this function is called
+        /// @param create_xrefs create all the xrefs for the
+        /// class, this can take a long time
+        /// @return pointer to Analysis object or nullptr
+        /// in case of error
+        Analysis * get_analysis(bool create_xrefs);
     };
 
 } // namespace DEX
