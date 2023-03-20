@@ -1,4 +1,4 @@
-name: Cling CI
+name: Kunai CI
 
 on:
   push:
