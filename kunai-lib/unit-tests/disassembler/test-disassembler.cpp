@@ -24,9 +24,9 @@ std::vector<std::uint8_t> raw_buffer = {
 std::vector<std::string> expected_result = {
     "const/4 v0, 1",
     "aget-object v0, v6, v0",
-    "invoke-static {v0}, java.lang.Integerjava.lang.Integer->valueOf(java.lang.String)",
+    "invoke-static {v0}, java.lang.Integer java.lang.Integer->valueOf(java.lang.String)",
     "move-result-object v0",
-    "invoke-virtual {v0}, intjava.lang.Integer->intValue()",
+    "invoke-virtual {v0}, int java.lang.Integer->intValue()",
     "move-result v0",
     "const-wide/high16 v2, 4611686018427387904",
     "const-string v1, this is a test(25)",
@@ -34,7 +34,7 @@ std::vector<std::string> expected_result = {
     "add-int/2addr v4, v0",
     "const-wide/high16 v4, 4607182418800017408",
     "div-double/2addr v4, v2",
-    "invoke-static {v1, v0, v2, v3}, voidMain->test(java.lang.String,int,double)",
+    "invoke-static {v1, v0, v2, v3}, void Main->test(java.lang.String,int,double)",
     "return-void"
 };
 

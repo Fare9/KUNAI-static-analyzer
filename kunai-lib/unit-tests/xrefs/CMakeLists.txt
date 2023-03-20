@@ -9,3 +9,6 @@ $<TARGET_OBJECTS:kunai-objs>
 )
 
 target_link_libraries(test-xrefs spdlog zip)
+
+add_test(NAME test-xrefs
+         COMMAND test-xrefs)

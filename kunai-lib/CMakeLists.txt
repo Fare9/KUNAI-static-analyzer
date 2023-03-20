@@ -172,6 +172,10 @@ install(
 
 
 if (UNIT_TESTING)
+    include(CTest)
+
+    enable_testing()
+    
     set(KUNAI_TEST_FOLDERS
         "${CMAKE_CURRENT_SOURCE_DIR}/tests"
     )

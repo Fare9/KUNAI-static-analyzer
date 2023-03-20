@@ -9,3 +9,6 @@ $<TARGET_OBJECTS:kunai-objs>
 )
 
 target_link_libraries(test-disassembler spdlog zip)
+
+add_test(NAME test-disassembler
+         COMMAND test-disassembler)

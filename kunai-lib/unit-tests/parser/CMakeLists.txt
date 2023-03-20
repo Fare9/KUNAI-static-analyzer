@@ -9,3 +9,6 @@ $<TARGET_OBJECTS:kunai-objs>
 )
 
 target_link_libraries(test-parser spdlog zip)
+
+add_test(NAME test-parser
+         COMMAND test-parser)
