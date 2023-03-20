@@ -1,0 +1,67 @@
+name: Kunai CI
+
+on:
+  push:
+    branches:
+      - main
+      - refactoring
+  pull_request:
+    branches:
+      - main
+      - refactoring
+  
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+
+        include:
+
+          - name: ubuntu-18.04-gcc-compile
+            os: ubuntu-18.04
+            compiler: gcc
+
+          - name: ubuntu-18.04-clang-compile
+            os: ubuntu-18.04
+            compiler: clang
+
+          - name: ubuntu-20.04-gcc-compile
+            os: ubuntu-20.04
+            compiler: gcc
+
+          - name: ubuntu-20.04-clang-compile
+            os: ubuntu-20.04
+            compiler: clang
+
+  steps:
+    - uses: actions/checkout@v3
+    - name: Setup compiler on Linux
+      run: |
+        sudo apt-get update
+        if [ "${{ matrix.compiler }}" = "gcc" ]; then
+          echo "CC=gcc" >> $GITHUB_ENV
+          echo "CXX=g++" >> $GITHUB_ENV
+        else
+          sudo apt-get install -y clang
+          echo "CC=clang" >> $GITHUB_ENV
+          echo "CXX=clang++" >> $GITHUB_ENV
+        fi
+      if: runner.os == 'Linux'
+      shell: bash
+    - name: Display compiler version
+      run: |
+        $CC --version
+        $CXX --version
+    - name: Install cmake
+      run: sudo apt-get install cmake
+    - name: Install git
+      run: sudo apt install git
+    - name: Create build in CMake
+      run: cmake -S . -B build -D CMAKE_BUILD_TYPE=DEBUG -D UNIT_TESTING=ON
+    - name: Build with cmake
+      run: cmake --build build -j
+    - name: Run testing
+      run: ctest --test-dir build/ --output-on-failure
