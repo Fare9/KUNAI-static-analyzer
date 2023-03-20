@@ -37,31 +37,31 @@ jobs:
             compiler: clang
 
   steps:
-    - uses: actions/checkout@v3
-    - name: Setup compiler on Linux
-      run: |
-        sudo apt-get update
-        if [ "${{ matrix.compiler }}" = "gcc" ]; then
-          echo "CC=gcc" >> $GITHUB_ENV
-          echo "CXX=g++" >> $GITHUB_ENV
-        else
-          sudo apt-get install -y clang
-          echo "CC=clang" >> $GITHUB_ENV
-          echo "CXX=clang++" >> $GITHUB_ENV
-        fi
-      if: runner.os == 'Linux'
-      shell: bash
-    - name: Display compiler version
-      run: |
-        $CC --version
-        $CXX --version
-    - name: Install cmake
-      run: sudo apt-get install cmake
-    - name: Install git
-      run: sudo apt install git
-    - name: Create build in CMake
-      run: cmake -S . -B build -D CMAKE_BUILD_TYPE=DEBUG -D UNIT_TESTING=ON
-    - name: Build with cmake
-      run: cmake --build build -j
-    - name: Run testing
-      run: ctest --test-dir build/ --output-on-failure
+  - uses: actions/checkout@v2
+  - name: Setup compiler on Linux
+    run: |
+      sudo apt-get update
+      if [ "${{ matrix.compiler }}" = "gcc" ]; then
+        echo "CC=gcc" >> $GITHUB_ENV
+        echo "CXX=g++" >> $GITHUB_ENV
+      else
+        sudo apt-get install -y clang
+        echo "CC=clang" >> $GITHUB_ENV
+        echo "CXX=clang++" >> $GITHUB_ENV
+      fi
+    if: runner.os == 'Linux'
+    shell: bash
+  - name: Display compiler version
+    run: |
+      $CC --version
+      $CXX --version
+  - name: Install cmake
+    run: sudo apt-get install cmake
+  - name: Install git
+    run: sudo apt install git
+  - name: Create build in CMake
+    run: cmake -S kunai-lib/ -B build -D CMAKE_BUILD_TYPE=DEBUG -D UNIT_TESTING=ON
+  - name: Build with cmake
+    run: cmake --build build -j
+  - name: Run testing
+    run: ctest --test-dir build/ --output-on-failure
