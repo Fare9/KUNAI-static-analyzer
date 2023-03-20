@@ -17,6 +17,11 @@ else()
     set(FETCHCONTENT_FULLY_DISCONNECTED OFF)
 endif()
 
+if (GITHUB_ACTION)
+    message(WARNING "Running as a github action, download fetch the content")
+    set(FETCHCONTENT_FULLY_DISCONNECTED OFF)
+endif ()
+
 # ------------------------------------
 # Download the Logging utility from spdlog
 # repo

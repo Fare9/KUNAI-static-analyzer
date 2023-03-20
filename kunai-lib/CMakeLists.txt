@@ -47,7 +47,7 @@ endif()
 
 # options to have variable and message
 option(UNIT_TESTING         "Compile the binaries for unit tests"               OFF)
-
+option(GITHUB_ACTION        "Compilation is done into github action"            OFF)
 
 # include the externals
 add_subdirectory(externals)
