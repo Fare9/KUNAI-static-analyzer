@@ -17,10 +17,6 @@ jobs:
       matrix:
 
         include:
-          - name: ubuntu-16.04-gcc-compile
-            os: ubuntu-16.04
-            compiler: gcc
-
           - name: ubuntu-18.04-gcc-compile
             os: ubuntu-18.04
             compiler: gcc
