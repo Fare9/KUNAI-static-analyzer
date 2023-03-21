@@ -8,6 +8,8 @@
 #include "Kunai/DEX/analysis/dex_analysis.hpp"
 #include "Kunai/Utils/logger.hpp"
 
+#include <regex>
+
 using namespace KUNAI::DEX;
 
 void Analysis::add(Parser *parser)
@@ -20,7 +22,9 @@ void Analysis::add(Parser *parser)
 
     logger->debug("Addind to the analysis {} number of classes", class_dex.get_number_of_classes());
 
-    for (auto & class_def_item : class_dex.get_classdefs())
+    auto & all_methods_instructions = disassembler->get_dex_instructions();
+
+    for (auto &class_def_item : class_dex.get_classdefs())
     {
         /// save the class with the name
         auto name = class_def_item->get_class_idx()->get_name();
@@ -37,7 +41,8 @@ void Analysis::add(Parser *parser)
             auto method_id = encoded_method->getMethodID();
             /// now create a method analysis
             auto method_name = method_id->pretty_method();
-            methods[method_name] = std::make_unique<MethodAnalysis>(encoded_method, disassembler->get_dex_instructions()[encoded_method]);
+
+            methods[method_name] = std::make_unique<MethodAnalysis>(encoded_method, all_methods_instructions[encoded_method]);
             auto new_method = methods[method_name].get();
 
             new_class->add_method(new_method);
@@ -336,14 +341,14 @@ void Analysis::_create_xrefs(ClassDef *current_class)
 MethodAnalysis *Analysis::_resolve_method(std::string &class_name,
                                           std::string &method_name, std::string &method_descriptor)
 {
-    std::string m_hash = class_name+method_name+method_descriptor;
+    std::string m_hash = class_name + method_name + method_descriptor;
     std::vector<std::unique_ptr<Instruction>> empty_instructions;
 
     auto it = method_hashes.find(m_hash);
 
     if (it != method_hashes.end())
         return it->second;
-    
+
     // create if necessary a class
     if (classes.find(class_name) == classes.end())
     {
@@ -356,9 +361,115 @@ MethodAnalysis *Analysis::_resolve_method(std::string &class_name,
     auto meth_analysis = std::make_unique<MethodAnalysis>(external_methods[m_hash].get(), empty_instructions);
     auto meth_analysis_p_ = meth_analysis.get();
     // add to all the collections we have
-    method_hashes[m_hash] = meth_analysis_p_;    
+    method_hashes[m_hash] = meth_analysis_p_;
     classes[class_name]->add_method(meth_analysis_p_);
     methods[external_methods[m_hash]->pretty_method_name()] = std::move(meth_analysis);
 
     return method_hashes[m_hash];
+}
+
+std::vector<FieldAnalysis *> &Analysis::get_fields()
+{
+    if (!all_fields.empty())
+        return all_fields;
+
+    for (const auto &c : classes)
+    {
+        auto &aux = c.second->get_fields();
+
+        for (const auto &f : aux)
+            all_fields.push_back(f.second.get());
+    }
+
+    return all_fields;
+}
+
+std::vector<ClassAnalysis *> Analysis::find_classes(std::string &name, bool no_external = false)
+{
+    std::vector<ClassAnalysis *> found_classes;
+    std::regex class_name_regex(name);
+
+    for (const auto &c : classes)
+    {
+        if (no_external && c.second->is_class_external())
+            continue;
+        if (std::regex_search(c.second->name(), class_name_regex))
+            found_classes.push_back(c.second.get());
+    }
+
+    return found_classes;
+}
+
+std::vector<MethodAnalysis *> Analysis::find_methods(std::string &class_name,
+                                                     std::string &method_name,
+                                                     std::string &descriptor,
+                                                     std::string &accessflags,
+                                                     bool no_external)
+{
+    std::vector<MethodAnalysis *> methods_vector;
+
+    std::regex class_name_regex(class_name),
+        method_name_regex(method_name),
+        descriptor_regex(descriptor),
+        accessflags_regex(accessflags);
+
+    for (const auto &m : methods)
+    {
+        const auto &method = m.second;
+
+        if (no_external && method->external())
+            continue;
+
+        if (std::regex_search(method->get_class_name(), class_name_regex) &&
+            std::regex_search(method->get_name(), method_name_regex) &&
+            std::regex_search(method->get_access_flags(), accessflags_regex))
+            methods_vector.push_back(method.get());
+    }
+
+    return methods_vector;
+}
+
+std::vector<StringAnalysis *> Analysis::find_strings(std::string &str)
+{
+    std::vector<StringAnalysis *> strings_list;
+    std::regex str_reg(str);
+
+    for (const auto &s : strings)
+    {
+        if (std::regex_search(s.first, str_reg))
+            strings_list.push_back(s.second.get());
+    }
+
+    return strings_list;
+}
+
+std::vector<FieldAnalysis *> Analysis::find_fields(std::string &class_name,
+                                                   std::string &field_name,
+                                                   std::string &field_type,
+                                                   std::string &accessflags)
+{
+    std::regex class_name_regex(class_name),
+        field_name_regex(field_name),
+        field_type_regex(field_type),
+        accessflags_regex(accessflags);
+
+    std::vector<FieldAnalysis *> fields_list;
+
+    for (const auto &c : classes)
+    {
+        if (!std::regex_search(c.second->name(), class_name_regex))
+            continue;
+
+        for (const auto &f : c.second->get_fields())
+        {
+            auto access_flags_str = DalvikOpcodes::get_access_flags_str(f.second->get_field()->get_access_flags());
+
+            if (std::regex_search(f.second->get_name(), field_name_regex) &&
+                std::regex_search(f.second->get_field()->get_field()->get_type()->get_raw(), field_type_regex) &&
+                std::regex_search(access_flags_str, accessflags_regex))
+                fields_list.push_back(f.second.get());
+        }
+    }
+
+    return fields_list;
 }
