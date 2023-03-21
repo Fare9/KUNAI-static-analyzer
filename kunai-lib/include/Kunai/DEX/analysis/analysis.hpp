@@ -212,12 +212,26 @@ namespace KUNAI
                 return nodes.size();
             }
 
+            /// @brief Get all predecessors from all the blocks
+            /// @return reference to predecessors
+            connected_blocks_t& get_predecessors()
+            {
+                return predecessors;
+            }
+
             /// @brief Add a node to the list of predecessors of another
             /// @param node node to add predecessor
             /// @param pred predecessor node
             void add_predecessor(DVMBasicBlock *node, DVMBasicBlock *pred)
             {
                 predecessors[node].insert(pred);
+            }
+
+            /// @brief Get all sucessors from all the blocks
+            /// @return reference to sucessors
+            connected_blocks_t& get_sucessors()
+            {
+                return sucessors;
             }
 
             /// @brief Add a node to the list of sucessors of another
@@ -276,6 +290,20 @@ namespace KUNAI
             /// @param idx address of the block to retrieve
             /// @return block that contains an instruction in that address
             DVMBasicBlock *get_basic_block_by_idx(std::uint64_t idx);
+
+            /// @brief Get a constant reference to the nodes of the graph
+            /// @return constant reference to basic blocks
+            const std::vector<DVMBasicBlock *>& get_nodes() const
+            {
+                return nodes;
+            }
+
+            /// @brief Get a reference to the nodes of the graph
+            /// @return reference to basic blocks
+            std::vector<DVMBasicBlock *>& get_nodes()
+            {
+                return nodes;
+            }
         };
 
         /// @brief specification of a field analysis
@@ -462,7 +490,7 @@ namespace KUNAI
             {
                 is_external = method_encoded.index() == 0 ? false : true;
 
-                if (instructions.size() > 0)
+                if (this->instructions.size() > 0)
                     create_basic_blocks();
             }
 
@@ -471,6 +499,16 @@ namespace KUNAI
             bool external() const
             {
                 return is_external;
+            }
+
+            const BasicBlocks& get_basic_blocks() const
+            {
+                return basic_blocks;
+            }
+
+            BasicBlocks& get_basic_blocks()
+            {
+                return basic_blocks;
             }
 
             /// @brief Check if current method is an android api
