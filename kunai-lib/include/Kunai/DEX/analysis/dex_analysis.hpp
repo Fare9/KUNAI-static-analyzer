@@ -54,6 +54,8 @@ namespace DEX
         /// @brief map hash for quickly getting the methods (maybe will be deleted)
         std::unordered_map<std::string,
             MethodAnalysis*> method_hashes;
+
+        std::vector<FieldAnalysis*> all_fields;
         
         /// @brief Pointer to a disassembler for obtaining the instructions
         DexDisassembler * disassembler;
@@ -234,6 +236,78 @@ namespace DEX
         {
             return external_methods;
         }
+
+        /// @brief Get a field given an encoded field
+        /// @param field field to obtain the FieldAnalysis
+        /// @return FieldAnalysis object
+        FieldAnalysis* get_field_analysis(EncodedField* field)
+        {
+            auto class_analysis = get_class_analysis(reinterpret_cast<DVMClass*>(field->get_field()->get_class())->get_name());
+
+            if (class_analysis)
+                return class_analysis->get_field_analysis(field);
+            
+            return nullptr;
+        }
+
+        /// @brief Get all the fields from all the classes
+        /// @return reference to vector with all the fields
+        std::vector<FieldAnalysis*>& get_fields();
+
+        /// @brief Get a constant reference to the StringAnalysis objects
+        /// @return constant reference to StringAnalysis map
+        const std::unordered_map<std::string,
+            std::unique_ptr<StringAnalysis>>& get_string_analysis() const
+        {
+            return strings;
+        }
+
+        /// @brief Get a reference to the StringAnalysis map
+        /// @return reference to StringAnalysis map
+        std::unordered_map<std::string,
+            std::unique_ptr<StringAnalysis>>& get_string_analysis()
+        {
+            return strings;
+        }
+
+        /// @brief Find classes by name with regular expression,
+        /// the method returns a list of ClassAnalysis object that
+        /// match the regex.
+        /// @param name regex of name class to find
+        /// @param no_external want external classes too?
+        /// @return vector with all ClassAnalysis objects
+        std::vector<ClassAnalysis*> find_classes(std::string& name, bool no_external);
+
+        /// @brief Find MethodAnalysis object by name with regular expression.
+        /// This time is necessary to specify more values for the method.
+        /// @param class_name name of the class to retrieve
+        /// @param method_name name of the method to retrieve
+        /// @param descriptor descriptor of this method
+        /// @param accessflags 
+        /// @param no_external 
+        /// @return 
+        std::vector<MethodAnalysis*> find_methods(std::string& class_name, 
+            std::string& method_name, 
+            std::string& descriptor, 
+            std::string& accessflags,
+            bool no_external);
+
+        /// @brief Find the strings that match a provided regular expression
+        /// @param str regular expression to find as string
+        /// @return vector of StringAnalysis objects
+        std::vector<StringAnalysis*> find_strings(std::string& str);
+
+        /// @brief Find FieldAnalysis objects using regular expressions
+        /// find those that are in classes.
+        /// @param class_name name of the class where field is
+        /// @param field_name name of the field
+        /// @param field_type type of the field
+        /// @param accessflags access flags of the field
+        /// @return vector with all the fields that match the regex
+        std::vector<FieldAnalysis*> find_fields(std::string& class_name, 
+            std::string& field_name, 
+            std::string& field_type,
+            std::string& accessflags);
     };
 } // namespace DEX
 } // namespace KUNAI
