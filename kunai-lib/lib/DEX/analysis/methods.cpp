@@ -137,7 +137,7 @@ void MethodAnalysis::create_basic_blocks()
 
             auto v = disassembler.determine_next(ins, idx);
             targets_jumps[idx] = std::move(v);
-            entry_points.insert(entry_points.begin(), targets_jumps[idx].begin(), targets_jumps[idx].end());
+            entry_points.insert(entry_points.end(), targets_jumps[idx].begin(), targets_jumps[idx].end());
         }
     }
 
@@ -169,6 +169,7 @@ void MethodAnalysis::create_basic_blocks()
         current->add_instruction(ins);
     }
 
+    // check it is not a start
     if (current->get_nb_instructions() == 0)
         basic_blocks.remove_node(current);
     
@@ -197,6 +198,28 @@ void MethodAnalysis::create_basic_blocks()
             auto catch_bb = basic_blocks.get_basic_block_by_idx(handler.handler_start_addr);
             catch_bb->set_catch_block(true);
         }
+    }
+
+    // we always finish with an ending block
+    DVMBasicBlock *end = new DVMBasicBlock();
+    
+    end->set_end_block(true);
+    basic_blocks.add_node(end);
+
+    for (auto & node : basic_blocks.get_nodes())
+    {
+        if (node->is_start_block() || node->is_end_block())
+            continue;
+        
+        /// if the node has not predecessors, add start
+        /// node as its predecessor
+        if (basic_blocks.get_predecessors()[node].size() == 0)
+            basic_blocks.add_edge(start, node);
+        
+        /// if the node has not sucessors, add end node
+        /// as its sucessor 
+        if (basic_blocks.get_sucessors()[node].size() == 0)
+            basic_blocks.add_edge(node, end);
     }
 
 }

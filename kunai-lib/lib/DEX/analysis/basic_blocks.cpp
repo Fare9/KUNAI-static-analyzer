@@ -124,6 +124,8 @@ DVMBasicBlock *BasicBlocks::get_basic_block_by_idx(std::uint64_t idx)
 {
     for (const auto node : nodes)
     {
+        if (node->is_start_block() || node->is_end_block())
+            continue;
         if (idx >= node->get_first_address() && idx <= node->get_last_address())
             return node;
     }
