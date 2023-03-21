@@ -19,7 +19,7 @@ bool MethodAnalysis::is_android_api() const
 {
     if (!is_external)
         return false;
-    
+
     auto class_name = this->get_class_name();
 
     for (const auto &known_api : known_apis)
@@ -48,12 +48,12 @@ const std::string &MethodAnalysis::get_descriptor() const
 {
     if (!descriptor.empty())
         return descriptor;
-    
+
     if (is_external)
-        descriptor = std::get<ExternalMethod*>(method_encoded)->get_proto_idx();
+        descriptor = std::get<ExternalMethod *>(method_encoded)->get_proto_idx();
     else
-        descriptor = std::get<EncodedMethod*>(method_encoded)->getMethodID()->get_proto()->get_shorty_idx();
-    
+        descriptor = std::get<EncodedMethod *>(method_encoded)->getMethodID()->get_proto()->get_shorty_idx();
+
     return descriptor;
 }
 
@@ -61,12 +61,12 @@ const std::string &MethodAnalysis::get_access_flags() const
 {
     if (!access_flag.empty())
         return access_flag;
-    
+
     if (is_external)
-        access_flag = DalvikOpcodes::get_access_flags_str(std::get<ExternalMethod*>(method_encoded)->get_access_flags());
+        access_flag = DalvikOpcodes::get_access_flags_str(std::get<ExternalMethod *>(method_encoded)->get_access_flags());
     else
-        access_flag = DalvikOpcodes::get_method_access_flags(std::get<EncodedMethod*>(method_encoded));
-    
+        access_flag = DalvikOpcodes::get_method_access_flags(std::get<EncodedMethod *>(method_encoded));
+
     return access_flag;
 }
 
@@ -74,12 +74,12 @@ const std::string &MethodAnalysis::get_class_name() const
 {
     if (!class_name.empty())
         return class_name;
-    
+
     if (is_external)
-        class_name = std::get<ExternalMethod*>(method_encoded)->get_class_idx();
+        class_name = std::get<ExternalMethod *>(method_encoded)->get_class_idx();
     else
-        class_name = std::get<EncodedMethod*>(method_encoded)->getMethodID()->get_class()->get_raw();
-    
+        class_name = std::get<EncodedMethod *>(method_encoded)->getMethodID()->get_class()->get_raw();
+
     return class_name;
 }
 
@@ -87,12 +87,12 @@ const std::string &MethodAnalysis::get_full_name() const
 {
     if (!full_name.empty())
         return full_name;
-    
+
     if (is_external)
-        full_name = std::get<ExternalMethod*>(method_encoded)->pretty_method_name();
+        full_name = std::get<ExternalMethod *>(method_encoded)->pretty_method_name();
     else
-        full_name = std::get<EncodedMethod*>(method_encoded)->getMethodID()->pretty_method();
-        
+        full_name = std::get<EncodedMethod *>(method_encoded)->getMethodID()->pretty_method();
+
     return full_name;
 }
 
@@ -108,14 +108,13 @@ void MethodAnalysis::create_basic_blocks()
     // some useful variables
     auto logger = LOGGER::logger();
     auto method = std::get<EncodedMethod *>(method_encoded);
-    
 
-    logger->debug("create_basic_blocks: started creating the basic blocks for method {}", 
-        method->getMethodID()->pretty_method());
+    logger->debug("create_basic_blocks: started creating the basic blocks for method {}",
+                  method->getMethodID()->pretty_method());
 
     // we always have an start block
     DVMBasicBlock *start = new DVMBasicBlock();
-    
+
     start->set_start_block(true);
     basic_blocks.add_node(start);
 
@@ -144,16 +143,18 @@ void MethodAnalysis::create_basic_blocks()
     // now analyze the exceptions and obtain the entry point addresses
     exceptions = disassembler.determine_exception(method);
 
-    for (const auto & except : exceptions)
+    for (const auto &except : exceptions)
     {
-        entry_points.push_back(except.try_value_start_addr);
-        for (const auto & handler : except.handler)
+        /// entry point of try values can start in the middle
+        /// of a block
+        /// entry_points.push_back(except.try_value_start_addr);
+        for (const auto &handler : except.handler)
         {
             entry_points.push_back(handler.handler_start_addr);
         }
     }
 
-    for (const auto & instruction : instructions)
+    for (const auto &instruction : instructions)
     {
         auto idx = instruction->get_address();
         auto ins = instruction.get();
@@ -162,8 +163,17 @@ void MethodAnalysis::create_basic_blocks()
         if (std::find(entry_points.begin(), entry_points.end(), static_cast<std::int64_t>(idx)) != entry_points.end() &&
             current->get_nb_instructions() != 0)
         {
+            auto prev = current;
             current = new DVMBasicBlock();
-            basic_blocks.add_node(current);
+            /// if last instruction is not a terminator
+            /// we must create an edge because it comes
+            /// from a fallthrough block
+            if (!prev->get_terminator())
+                basic_blocks.add_edge(prev, current);
+            /// in other case, just add the node, and later
+            /// will be added the edge
+            else
+                basic_blocks.add_node(current);
         }
 
         current->add_instruction(ins);
@@ -172,9 +182,9 @@ void MethodAnalysis::create_basic_blocks()
     // check it is not a start
     if (current->get_nb_instructions() == 0)
         basic_blocks.remove_node(current);
-    
+
     /// add the jump targets
-    for (const auto & jump_target : targets_jumps)
+    for (const auto &jump_target : targets_jumps)
     {
         auto src_idx = jump_target.first;
         auto src = basic_blocks.get_basic_block_by_idx(src_idx);
@@ -188,12 +198,12 @@ void MethodAnalysis::create_basic_blocks()
     }
 
     /// now set the exceptions
-    for (const auto & except : exceptions)
+    for (const auto &except : exceptions)
     {
         auto try_bb = basic_blocks.get_basic_block_by_idx(except.try_value_start_addr);
         try_bb->set_try_block(true);
 
-        for (const auto & handler : except.handler)
+        for (const auto &handler : except.handler)
         {
             auto catch_bb = basic_blocks.get_basic_block_by_idx(handler.handler_start_addr);
             catch_bb->set_catch_block(true);
@@ -202,24 +212,23 @@ void MethodAnalysis::create_basic_blocks()
 
     // we always finish with an ending block
     DVMBasicBlock *end = new DVMBasicBlock();
-    
+
     end->set_end_block(true);
     basic_blocks.add_node(end);
 
-    for (auto & node : basic_blocks.get_nodes())
+    for (auto &node : basic_blocks.get_nodes())
     {
         if (node->is_start_block() || node->is_end_block())
             continue;
-        
+
         /// if the node has not predecessors, add start
         /// node as its predecessor
         if (basic_blocks.get_predecessors()[node].size() == 0)
             basic_blocks.add_edge(start, node);
-        
+
         /// if the node has not sucessors, add end node
-        /// as its sucessor 
+        /// as its sucessor
         if (basic_blocks.get_sucessors()[node].size() == 0)
             basic_blocks.add_edge(node, end);
     }
-
 }

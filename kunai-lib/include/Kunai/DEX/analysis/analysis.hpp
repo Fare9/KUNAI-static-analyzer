@@ -213,6 +213,13 @@ namespace KUNAI
             }
 
             /// @brief Get all predecessors from all the blocks
+            /// @return constant reference to predecessors
+            const connected_blocks_t& get_predecessors() const
+            {
+                return predecessors;
+            }
+
+            /// @brief Get all predecessors from all the blocks
             /// @return reference to predecessors
             connected_blocks_t& get_predecessors()
             {
@@ -225,6 +232,13 @@ namespace KUNAI
             void add_predecessor(DVMBasicBlock *node, DVMBasicBlock *pred)
             {
                 predecessors[node].insert(pred);
+            }
+
+            /// @brief Get all sucessors from all the blocks
+            /// @return constant reference to sucessors
+            const connected_blocks_t& get_sucessors() const
+            {
+                return sucessors;
             }
 
             /// @brief Get all sucessors from all the blocks
@@ -265,6 +279,20 @@ namespace KUNAI
                 /// now add the sucessors and predecessors
                 add_sucessor(src, dst);
                 add_predecessor(dst, src);
+            }
+
+            /// @brief Get a constant reference to the edges of the graph
+            /// @return constant reference to the edges
+            const edges_t& get_edges() const
+            {
+                return edges;
+            }
+
+            /// @brief Get a reference to the edges of the graph
+            /// @return reference to the edges
+            edges_t& get_edges()
+            {
+                return edges;
             }
 
             /// @brief Get the node type between JOIN_NODE, BRANCH_NODE or REGULAR_NODE
