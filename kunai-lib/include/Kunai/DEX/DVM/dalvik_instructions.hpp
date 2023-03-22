@@ -398,7 +398,7 @@ namespace DEX
         virtual std::string print_instruction()
         {
             return DalvikOpcodes::get_instruction_name(op) + " " +
-                    std::to_string(nAA);
+                    std::to_string((nAA*2) + static_cast<std::int64_t>(address));
         }
 
         /// @brief Print the instruction on a given stream
@@ -406,7 +406,7 @@ namespace DEX
         virtual void print_instruction(std::ostream &os)
         {
             os << DalvikOpcodes::get_instruction_name(op) + " " +
-                        std::to_string(nAA);
+                        std::to_string((nAA*2) + static_cast<std::int64_t>(address));
         }
     };
 
@@ -439,7 +439,7 @@ namespace DEX
         virtual std::string print_instruction()
         {
             return DalvikOpcodes::get_instruction_name(op) + " " +
-                    std::to_string(nAAAA);
+                    std::to_string((nAAAA*2) + static_cast<std::int64_t>(address));
         }
 
         /// @brief Print the instruction on a given stream
@@ -447,7 +447,7 @@ namespace DEX
         virtual void print_instruction(std::ostream &os)
         {
             os << DalvikOpcodes::get_instruction_name(op) + " " +
-                        std::to_string(nAAAA);
+                        std::to_string((nAAAA*2) + static_cast<std::int64_t>(address));
         }
     };
 
@@ -1467,14 +1467,14 @@ namespace DEX
         /// @return string with instruction
         virtual std::string print_instruction()
         {
-            return DalvikOpcodes::get_instruction_name(op) + std::to_string(nAAAAAAAA);
+            return DalvikOpcodes::get_instruction_name(op) + std::to_string((nAAAAAAAA*2) + static_cast<std::int64_t>(address));
         }
 
         /// @brief Print the instruction on a given stream
         /// @param os stream where to print the instruction
         virtual void print_instruction(std::ostream &os)
         {
-            os << DalvikOpcodes::get_instruction_name(op) + std::to_string(nAAAAAAAA);
+            os << DalvikOpcodes::get_instruction_name(op) + std::to_string((nAAAAAAAA*2) + static_cast<std::int64_t>(address));
         }
     };
 

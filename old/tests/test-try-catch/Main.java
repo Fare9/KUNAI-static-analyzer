@@ -8,6 +8,15 @@ public class Main {
         int b = 3;
         int c = 0;
 
+        if (a == 0)
+        {
+            System.out.println("You gave me value 0...");
+        }
+        else
+        {
+            System.out.println("Not a bad value :D...");
+        }
+
         try {
             c = b / a;    
             System.out.println(c);

@@ -11,14 +11,14 @@
 
 std::unordered_map<std::uint64_t, std::unordered_map<std::uint64_t, std::string>> expected_result = {
     {0, {{0, "new-instance v3, java.util.Scanner (10)"}, {4, "sget-object v0, Ljava/lang/System;->in Ljava/io/InputStream; (0)"}, {8, "invoke-direct {v3, v0}, void java.util.Scanner-><init>(java.io.InputStream)"}, {14, "invoke-virtual {v3}, int java.util.Scanner->nextInt()"}, {20, "move-result v0"}, {22, "nop"}, {24, "nop"}, {26, "if-nez v0, 10"}}},
-    {30, {{30, "sget-object v1, Ljava/lang/System;->out Ljava/io/PrintStream; (1)"}, {34, "const-string v2, \"You gave me value 0...\" (18)"}, {38, "invoke-virtual {v1, v2}, void java.io.PrintStream->println(java.lang.String)"}, {44, "goto 8"}}},
+    {30, {{30, "sget-object v1, Ljava/lang/System;->out Ljava/io/PrintStream; (1)"}, {34, "const-string v2, \"You gave me value 0...\" (18)"}, {38, "invoke-virtual {v1, v2}, void java.io.PrintStream->println(java.lang.String)"}, {44, "goto 60"}}},
     {46, {{46, "sget-object v1, Ljava/lang/System;->out Ljava/io/PrintStream; (1)"}, {50, "const-string v2, \"Not a bad value :D...\" (14)"}, {54, "invoke-virtual {v1, v2}, void java.io.PrintStream->println(java.lang.String)"}}},
     {60, {
              {60, "const/4 v1, 3"},
              {62, "div-int/2addr v1, v0"},
              {64, "sget-object v0, Ljava/lang/System;->out Ljava/io/PrintStream; (1)"},
              {68, "invoke-virtual {v0, v1}, void java.io.PrintStream->println(int)"},
-             {74, "goto 9"},
+             {74, "goto 92"},
          }},
     {76, {
              {76, "move-exception v0"},
