@@ -19,14 +19,6 @@ jobs:
       matrix:
 
         include:
-          - name: ubuntu-18.04-gcc-compile
-            os: ubuntu-18.04
-            compiler: gcc
-
-          - name: ubuntu-18.04-clang-compile
-            os: ubuntu-18.04
-            compiler: clang
-
           - name: ubuntu-20.04-gcc-compile
             os: ubuntu-20.04
             compiler: gcc
