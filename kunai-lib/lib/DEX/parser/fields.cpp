@@ -12,10 +12,10 @@ using namespace KUNAI::DEX;
 
 std::string& FieldID::pretty_field()
 {
-    if (pretty_name.empty())
+    if (!pretty_name.empty())
         return pretty_name;
 
-    pretty_name = class_->get_raw() + name_ + ":" + type_->get_raw();
+    pretty_name = class_->get_raw() + "->" + name_ + " " + type_->get_raw();
     return pretty_name;
 }
 

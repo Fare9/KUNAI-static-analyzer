@@ -128,7 +128,7 @@ Instruction21c::Instruction21c(std::vector<uint8_t> &bytecode, std::size_t index
     {
     case TYPES::Kind::STRING:
         is_str = true;
-        source_str = parser->get_strings().get_string_by_id(iBBBB);
+        source_str = "\"" + parser->get_strings().get_string_by_id(iBBBB) + "\"";
         break;
     case TYPES::Kind::TYPE:
     {

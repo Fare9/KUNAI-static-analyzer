@@ -261,8 +261,8 @@ namespace DEX
         virtual std::string print_instruction()
         {
             return DalvikOpcodes::get_instruction_name(op) + " " +
-                    "v" + std::to_string(vB) + ", " +
-                    "v" + std::to_string(vA);
+                    "v" + std::to_string(vA) + ", " +
+                    "v" + std::to_string(vB);
         }
 
         /// @brief Print the instruction on a given stream
@@ -270,8 +270,8 @@ namespace DEX
         virtual void print_instruction(std::ostream &os)
         {
             os << DalvikOpcodes::get_instruction_name(op) + " " +
-                        "v" + std::to_string(vB) + ", " +
-                        "v" + std::to_string(vA);
+                        "v" + std::to_string(vA) + ", " +
+                        "v" + std::to_string(vB);
         }
     };
 
@@ -552,7 +552,7 @@ namespace DEX
         virtual std::string print_instruction()
         {
             return DalvikOpcodes::get_instruction_name(op) + " " +
-                    "v" + std::to_string(vAA) + ", " +
+                    "v" + std::to_string(vAA) + ", v" +
                     std::to_string(vBBBB);
         }
 
@@ -561,7 +561,7 @@ namespace DEX
         virtual void print_instruction(std::ostream &os)
         {
             os << DalvikOpcodes::get_instruction_name(op) + " " +
-                        "v" + std::to_string(vAA) + ", " +
+                        "v" + std::to_string(vAA) + ", v" +
                         std::to_string(vBBBB);
         }
     };
@@ -905,7 +905,7 @@ namespace DEX
         {
             return DalvikOpcodes::get_instruction_name(op) + " v" +
                     std::to_string(vAA) + ", " +
-                    source_str + "(" + std::to_string(iBBBB) + ")";
+                    source_str + " (" + std::to_string(iBBBB) + ")";
         }
 
         /// @brief Print the instruction on a given stream
@@ -914,7 +914,7 @@ namespace DEX
         {
             os << DalvikOpcodes::get_instruction_name(op) + " v" +
                         std::to_string(vAA) + ", " +
-                        source_str + "(" + std::to_string(iBBBB) + ")";
+                        source_str + " (" + std::to_string(iBBBB) + ")";
         }
     };
 
@@ -1328,7 +1328,7 @@ namespace DEX
         {
             return DalvikOpcodes::get_instruction_name(op) + " v" +
                     std::to_string(vA) + ", v" + std::to_string(vB) + ", " +
-                    iCCCC_str + "(" + std::to_string(iCCCC) + ")";
+                    iCCCC_str + " (" + std::to_string(iCCCC) + ")";
         }
 
         /// @brief Print the instruction on a given stream
@@ -1337,7 +1337,7 @@ namespace DEX
         {
             os << DalvikOpcodes::get_instruction_name(op) + " v" +
                         std::to_string(vA) + ", v" + std::to_string(vB) + ", " +
-                        iCCCC_str + "(" + std::to_string(iCCCC) + ")";
+                        iCCCC_str + " (" + std::to_string(iCCCC) + ")";
         }
     };
 
@@ -1426,7 +1426,7 @@ namespace DEX
         {
             return DalvikOpcodes::get_instruction_name(op) + " v" +
                     std::to_string(vA) + ", v" + std::to_string(vB) + ", " +
-                    iCCCC_str + "(" + std::to_string(iCCCC) + ")";
+                    iCCCC_str + " (" + std::to_string(iCCCC) + ")";
         }
 
         /// @brief Print the instruction on a given stream
@@ -1435,7 +1435,7 @@ namespace DEX
         {
             os << DalvikOpcodes::get_instruction_name(op) + " v" +
                         std::to_string(vA) + ", v" + std::to_string(vB) + ", " +
-                        iCCCC_str + "(" + std::to_string(iCCCC) + ")";
+                        iCCCC_str + " (" + std::to_string(iCCCC) + ")";
         }
     };
 
@@ -1761,7 +1761,7 @@ namespace DEX
         virtual std::string print_instruction()
         {
             return DalvikOpcodes::get_instruction_name(op) + " v" + 
-                    std::to_string(vAA) + ", " + str_value + "(" + std::to_string(iBBBBBBBB) + ")";
+                    std::to_string(vAA) + ", \"" + str_value + "\" (" + std::to_string(iBBBBBBBB) + ")";
         }
 
         /// @brief Print the instruction on a given stream
@@ -1769,7 +1769,7 @@ namespace DEX
         virtual void print_instruction(std::ostream &os)
         {
             os << DalvikOpcodes::get_instruction_name(op) + " v" + 
-                    std::to_string(vAA) + ", " + str_value + "(" + std::to_string(iBBBBBBBB) + ")";
+                    std::to_string(vAA) + ", " + str_value + " (" + std::to_string(iBBBBBBBB) + ")";
         }
     };
     
