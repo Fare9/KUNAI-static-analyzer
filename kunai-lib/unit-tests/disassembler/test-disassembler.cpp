@@ -13,13 +13,12 @@
 #include "test-disassembler.inc"
 
 std::vector<std::uint8_t> raw_buffer = {
-    0x12,0x10,0x46,0x0,0x6,0x0,0x71,0x10,
-    0x5,0x0,0x0,0x0,0xc,0x0,0x6e,0x10,0x4,
-    0x0,0x0,0x0,0xa,0x0,0x19,0x2,0x0,0x40,
-    0x1a,0x1,0x19,0x0,0x13,0x4,0xa,0x0,0xb0,
-    0x40,0x19,0x4,0xf0,0x3f,0xce,0x42,0x71,
-    0x40,0x2,0x0,0x1,0x32,0xe,0x0
-};
+    0x12, 0x10, 0x46, 0x0, 0x6, 0x0, 0x71, 0x10,
+    0x5, 0x0, 0x0, 0x0, 0xc, 0x0, 0x6e, 0x10, 0x4,
+    0x0, 0x0, 0x0, 0xa, 0x0, 0x19, 0x2, 0x0, 0x40,
+    0x1a, 0x1, 0x19, 0x0, 0x13, 0x4, 0xa, 0x0, 0xb0,
+    0x40, 0x19, 0x4, 0xf0, 0x3f, 0xce, 0x42, 0x71,
+    0x40, 0x2, 0x0, 0x1, 0x32, 0xe, 0x0};
 
 std::vector<std::string> expected_result = {
     "const/4 v0, 1",
@@ -29,11 +28,11 @@ std::vector<std::string> expected_result = {
     "invoke-virtual {v0}, int java.lang.Integer->intValue()",
     "move-result v0",
     "const-wide/high16 v2, 4611686018427387904",
-    "const-string v1, this is a test(25)",
+    "const-string v1, \"this is a test\" (25)",
     "const/16 v4, 10",
-    "add-int/2addr v4, v0",
+    "add-int/2addr v0, v4",
     "const-wide/high16 v4, 4607182418800017408",
-    "div-double/2addr v4, v2",
+    "div-double/2addr v2, v4",
     "invoke-static {v1, v0, v2, v3}, void Main->test(java.lang.String,int,double)",
     "return-void"
 };
@@ -75,14 +74,13 @@ int main()
             const auto &instrs = method_instrs.second;
 
             assert(instrs.size() == expected_result.size() &&
-                    "Instructions size mismatch with expected result");
+                   "Instructions size mismatch with expected result");
 
             for (size_t I = 0, E = instrs.size(); I < E; ++I)
-            {
+            {                
                 assert(instrs[I]->print_instruction() == expected_result[I]  &&
                         "Instruction doesn't match expected result");
             }
-
         }
     }
 
@@ -90,8 +88,8 @@ int main()
 
     for (size_t I = 0, E = disassembled_instructions.size(); I < E; ++I)
     {
-        assert(disassembled_instructions[I]->print_instruction() == expected_result[I]  &&
-                        "Instruction doesn't match expected result");
+        assert(disassembled_instructions[I]->print_instruction() == expected_result[I] &&
+               "Instruction doesn't match expected result");
     }
 
     logger->info("test-disassembler passed correctly");
