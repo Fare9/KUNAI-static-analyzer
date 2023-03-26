@@ -98,7 +98,7 @@ Instruction21h::Instruction21h(std::vector<uint8_t> &bytecode, std::size_t index
 {
     op = op_codes[0];
     vAA = op_codes[1];
-    std::int16_t nBBBB_aux = *(reinterpret_cast<std::int16_t *>(&op_codes[2]));
+    std::int16_t const nBBBB_aux = *(reinterpret_cast<std::int16_t *>(&op_codes[2]));
 
     switch (op)
     {

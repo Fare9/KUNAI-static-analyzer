@@ -13,7 +13,8 @@ using namespace KUNAI::DEX;
 void BasicBlocks::remove_node(DVMBasicBlock *node)
 {
     // with this we provide RAII
-    std::unique_ptr<DVMBasicBlock> node_ (node);
+    // TODO: Remove unused variable
+    std::unique_ptr<DVMBasicBlock> const node_ (node);
 
     if (std::find(nodes.begin(), nodes.end(), node) == nodes.end())
         throw exceptions::AnalysisException("remove_mode: given node does not exist in graph");
