@@ -32,6 +32,10 @@ namespace DEX
         /// @param dex_file_path path to a dex file
         /// @return unique pointer with Dex object
         static std::unique_ptr<Dex> parse_dex_file(std::string& dex_file_path);
+
+        static std::unique_ptr<Dex> parse_dex_file(char * dex_file_path);
+
+        static std::unique_ptr<Dex> parse_dex_file(const char * dex_file_path);
     
     private:
         /// @brief Stream to manage the DEX file with utilities

@@ -50,3 +50,17 @@ std::unique_ptr<Dex> Dex::parse_dex_file(std::string& dex_file_path)
 {
     return std::make_unique<Dex>(dex_file_path);
 }
+
+std::unique_ptr<Dex> Dex::parse_dex_file(char * dex_file_path)
+{
+    std::string dex_path(dex_file_path);
+
+    return std::make_unique<Dex>(dex_path);
+}
+
+std::unique_ptr<Dex> Dex::parse_dex_file(const char * dex_file_path)
+{
+    std::string dex_path(dex_file_path);
+
+    return std::make_unique<Dex>(dex_path);
+}
