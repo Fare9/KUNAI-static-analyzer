@@ -99,11 +99,11 @@ namespace KUNAI
         void DVMBasicBlock::push(Instruction* instr)
         {
             nb_instructions += 1;
-            std::uint64_t idx = end;
+            std::uint64_t const idx = end;
             last_length = instr->get_length();
             end += last_length;
 
-            std::uint32_t op_value = instr->get_OP();
+            std::uint32_t const op_value = instr->get_OP();
 
             if ((op_value == DVMTypes::Opcode::OP_FILL_ARRAY_DATA) ||
                 (op_value == DVMTypes::Opcode::OP_PACKED_SWITCH) ||

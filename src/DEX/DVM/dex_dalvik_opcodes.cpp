@@ -34,7 +34,7 @@ namespace KUNAI
 
         std::string &DalvikOpcodes::get_instruction_type_str(std::uint32_t instruction)
         {
-            DVMTypes::Kind kind = get_instruction_type(instruction);
+            DVMTypes::Kind const kind = get_instruction_type(instruction);
 
             return KindString[kind];
         }
@@ -69,7 +69,7 @@ namespace KUNAI
 
             method += "(";
 
-            size_t n_params = dex_parser->get_methods()->get_method_by_order(id)->get_method_prototype()->get_number_of_parameters();
+            size_t const n_params = dex_parser->get_methods()->get_method_by_order(id)->get_method_prototype()->get_number_of_parameters();
 
             for (size_t i = 0; i < n_params; i++)
             {
@@ -90,7 +90,7 @@ namespace KUNAI
         {
             std::string proto;
 
-            size_t n_params = dex_parser->get_protos()->get_proto_by_order(id)->get_number_of_parameters();
+            size_t const n_params = dex_parser->get_protos()->get_proto_by_order(id)->get_number_of_parameters();
 
             proto = "(";
 

@@ -13,7 +13,7 @@ namespace KUNAI {
             std::map<std::uint64_t, instruction_t> instructions;
             std::uint64_t instruction_index = 0;
             instruction_t instruction;
-            size_t buffer_size = byte_buffer.size();
+            size_t const buffer_size = byte_buffer.size();
             std::uint32_t opcode;
             bool exist_switch = false;
 

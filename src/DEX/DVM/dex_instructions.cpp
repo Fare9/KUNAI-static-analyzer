@@ -1109,8 +1109,8 @@ namespace KUNAI
         std::string Instruction45cc::get_output()
         {
             std::string output = "";
-            std::string method = get_dalvik_opcodes()->get_dalvik_method_by_id_str(method_reference);
-            std::string prototype = get_dalvik_opcodes()->get_dalvik_proto_by_id_str(proto_reference);
+            std::string const method = get_dalvik_opcodes()->get_dalvik_method_by_id_str(method_reference);
+            std::string const prototype = get_dalvik_opcodes()->get_dalvik_proto_by_id_str(proto_reference);
 
             for (size_t i = 0; i < reg_count; i++)
                 output += this->get_register_correct_representation(registers[i]) + ", ";
@@ -1167,8 +1167,8 @@ namespace KUNAI
         std::string Instruction4rcc::get_output()
         {
             std::string output = "";
-            std::string method = get_dalvik_opcodes()->get_dalvik_method_by_id_str(method_reference);
-            std::string prototype = get_dalvik_opcodes()->get_dalvik_proto_by_id_str(proto_reference);
+            std::string const method = get_dalvik_opcodes()->get_dalvik_method_by_id_str(method_reference);
+            std::string const prototype = get_dalvik_opcodes()->get_dalvik_proto_by_id_str(proto_reference);
 
             for (size_t i = 0; i < reg_count; i++)
                 output = this->get_register_correct_representation(registers[i]) + ", ";
@@ -1909,7 +1909,7 @@ namespace KUNAI
                 instruction = std::make_unique<Instruction21c>(dalvik_opcodes, input_file); // 'const-method-type' # Dalvik 039
                 break;
             default:
-                std::string msg = "Invalid Instruction '" + std::to_string(opcode) + "'";
+                std::string const msg = "Invalid Instruction '" + std::to_string(opcode) + "'";
                 throw exceptions::InvalidInstruction(msg, 1);
             }
 

@@ -4,7 +4,7 @@ namespace KUNAI {
 
 std::string read_ansii_string(std::istream& input_file, std::uint64_t offset)
 {
-    std::uint64_t current_offset = input_file.tellg();
+    std::uint64_t const current_offset = input_file.tellg();
     std::string new_str;
     std::uint8_t character = -1;
 
@@ -33,7 +33,7 @@ std::string read_ansii_string(std::istream& input_file, std::uint64_t offset)
 
 std::string read_dex_string(std::istream& input_file, std::uint64_t offset)
 {
-    std::uint64_t current_offset = input_file.tellg();
+    std::uint64_t const current_offset = input_file.tellg();
     std::string new_str;
     std::uint8_t character = -1;
     std::uint64_t utf16_size;

@@ -297,14 +297,14 @@ namespace KUNAI
         {
             if (a.is_signed)
             {
-                int64_t result = static_cast<int64_t>(a.value) + static_cast<int64_t>(b.value);
-                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+                int64_t const result = static_cast<int64_t>(a.value) + static_cast<int64_t>(b.value);
+                IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
 
                 return res;
             }
-            uint64_t result = a.value + b.value;
+            uint64_t const result = a.value + b.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
@@ -312,14 +312,14 @@ namespace KUNAI
         {
             if (a.is_signed)
             {
-                int64_t result = static_cast<int64_t>(a.value) - static_cast<int64_t>(b.value);
-                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+                int64_t const result = static_cast<int64_t>(a.value) - static_cast<int64_t>(b.value);
+                IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
 
                 return res;
             }
-            uint64_t result = a.value - b.value;
+            uint64_t const result = a.value - b.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
@@ -327,14 +327,14 @@ namespace KUNAI
         {
             if (a.is_signed)
             {
-                int64_t result = static_cast<int64_t>(a.value) / static_cast<int64_t>(b.value);
-                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+                int64_t const result = static_cast<int64_t>(a.value) / static_cast<int64_t>(b.value);
+                IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
 
                 return res;
             }
-            uint64_t result = a.value / b.value;
+            uint64_t const result = a.value / b.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
@@ -342,14 +342,14 @@ namespace KUNAI
         {
             if (a.is_signed)
             {
-                int64_t result = static_cast<int64_t>(a.value) * static_cast<int64_t>(b.value);
-                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+                int64_t const result = static_cast<int64_t>(a.value) * static_cast<int64_t>(b.value);
+                IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
 
                 return res;
             }
-            uint64_t result = a.value * b.value;
+            uint64_t const result = a.value * b.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
@@ -357,86 +357,86 @@ namespace KUNAI
         {
             if (a.is_signed)
             {
-                int64_t result = static_cast<int64_t>(a.value) % static_cast<int64_t>(b.value);
-                IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+                int64_t const result = static_cast<int64_t>(a.value) % static_cast<int64_t>(b.value);
+                IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
 
                 return res;
             }
-            uint64_t result = a.value % b.value;
+            uint64_t const result = a.value % b.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
         IRConstInt operator&(IRConstInt &a, IRConstInt &b)
         {
-            uint64_t result = a.value & b.value;
+            uint64_t const result = a.value & b.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
         IRConstInt operator|(IRConstInt &a, IRConstInt &b)
         {
-            uint64_t result = a.value | b.value;
+            uint64_t const result = a.value | b.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
         IRConstInt operator^(IRConstInt &a, IRConstInt &b)
         {
-            uint64_t result = a.value ^ b.value;
+            uint64_t const result = a.value ^ b.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
         IRConstInt operator<<(IRConstInt &a, IRConstInt &b)
         {
-            uint64_t result = a.value << b.value;
+            uint64_t const result = a.value << b.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
         IRConstInt operator>>(IRConstInt &a, IRConstInt &b)
         {
-            uint64_t result = a.value >> b.value;
+            uint64_t const result = a.value >> b.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
         IRConstInt operator++(IRConstInt &a, int)
         {
-            uint64_t result = a.value++;
+            uint64_t const result = a.value++;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
         IRConstInt operator--(IRConstInt &a, int)
         {
-            uint64_t result = a.value--;
+            uint64_t const result = a.value--;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
         IRConstInt operator!(IRConstInt &a)
         {
-            uint64_t result = !a.value;
+            uint64_t const result = !a.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
         IRConstInt operator~(IRConstInt &a)
         {
-            uint64_t result = ~a.value;
+            uint64_t const result = ~a.value;
 
-            IRConstInt res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
+            IRConstInt const res(result, a.is_signed, a.byte_order, a.get_type_name(), a.get_type_size());
             return res;
         }
 
@@ -612,8 +612,8 @@ namespace KUNAI
             if (type1.addr != 0 && (type1.addr == type2.addr))
                 return true;
             // check for whole method
-            std::string callee1 = type1.class_name + type1.name + type1.description;
-            std::string callee2 = type2.class_name + type2.name + type2.description;
+            std::string const callee1 = type1.class_name + type1.name + type1.description;
+            std::string const callee2 = type2.class_name + type2.name + type2.description;
             if (!(callee1.compare(callee2)))
                 return true;
             return false;

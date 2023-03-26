@@ -65,7 +65,7 @@ namespace KUNAI
             if (!is_external)
                 return false;
 
-            std::string class_name = this->name();
+            std::string const class_name = this->name();
 
             for (auto known_api : known_apis)
             {

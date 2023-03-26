@@ -177,7 +177,7 @@ namespace KUNAI
 
         MethodAnalysis* Analysis::get_method_analysis_by_name(std::string& class_name, std::string& method_name, std::string& method_descriptor)
         {
-            std::string m_hash = class_name+method_name+method_descriptor;
+            std::string const m_hash = class_name+method_name+method_descriptor;
 
             if (method_hashes.find(m_hash) == method_hashes.end())
                 return nullptr;
@@ -233,7 +233,7 @@ namespace KUNAI
         std::vector<ClassAnalysis*> Analysis::find_classes(std::string name = ".*", bool no_external = false)
         {
             std::vector<ClassAnalysis*> classes_vector;
-            std::regex class_name_regex(name);
+            std::regex const class_name_regex(name);
 
             for (auto & c : classes)
             {
@@ -284,7 +284,7 @@ namespace KUNAI
         std::vector<StringAnalysis*> Analysis::find_strings(std::string string = ".*")
         {
             std::vector<StringAnalysis*> strings_list;
-            std::regex str_reg(string);
+            std::regex const str_reg(string);
 
             for (auto it = strings.begin(); it != strings.end(); it++)
             {
@@ -561,9 +561,9 @@ namespace KUNAI
 
         MethodAnalysis* Analysis::_resolve_method(std::string class_name, std::string method_name, std::string method_descriptor)
         {
-            std::string m_hash = class_name+method_name+method_descriptor;
+            std::string const m_hash = class_name+method_name+method_descriptor;
             
-            std::map<std::uint64_t, Instruction*> empty_instructions;
+            std::map<std::uint64_t, Instruction*> const empty_instructions;
 
             if (method_hashes.find(m_hash) == method_hashes.end())
             {

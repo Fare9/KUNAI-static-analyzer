@@ -28,14 +28,14 @@ namespace KUNAI
                     {
                     case IRBinOp::ADD_OP_T:
                     {
-                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int + *op2_int);
+                        irconstint_t const const_int = std::make_shared<IRConstInt>(*op1_int + *op2_int);
 
                         assign = std::make_shared<IRAssign>(dest, const_int);
                         break;
                     }
                     case IRBinOp::SUB_OP_T:
                     {
-                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int - *op2_int);
+                        irconstint_t const const_int = std::make_shared<IRConstInt>(*op1_int - *op2_int);
 
                         assign = std::make_shared<IRAssign>(dest, const_int);
                         break;
@@ -43,7 +43,7 @@ namespace KUNAI
                     case IRBinOp::S_MUL_OP_T:
                     case IRBinOp::U_MUL_OP_T:
                     {
-                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int * *op2_int);
+                        irconstint_t const const_int = std::make_shared<IRConstInt>(*op1_int * *op2_int);
 
                         assign = std::make_shared<IRAssign>(dest, const_int);
                         break;
@@ -51,42 +51,42 @@ namespace KUNAI
                     case IRBinOp::S_DIV_OP_T:
                     case IRBinOp::U_DIV_OP_T:
                     {
-                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int / *op2_int);
+                        irconstint_t const const_int = std::make_shared<IRConstInt>(*op1_int / *op2_int);
 
                         assign = std::make_shared<IRAssign>(dest, const_int);
                         break;
                     }
                     case IRBinOp::MOD_OP_T:
                     {
-                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int % *op2_int);
+                        irconstint_t const const_int = std::make_shared<IRConstInt>(*op1_int % *op2_int);
 
                         assign = std::make_shared<IRAssign>(dest, const_int);
                         break;
                     }
                     case IRBinOp::AND_OP_T:
                     {
-                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int & *op2_int);
+                        irconstint_t const const_int = std::make_shared<IRConstInt>(*op1_int & *op2_int);
 
                         assign = std::make_shared<IRAssign>(dest, const_int);
                         break;
                     }
                     case IRBinOp::OR_OP_T:
                     {
-                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int | *op2_int);
+                        irconstint_t const const_int = std::make_shared<IRConstInt>(*op1_int | *op2_int);
 
                         assign = std::make_shared<IRAssign>(dest, const_int);
                         break;
                     }
                     case IRBinOp::XOR_OP_T:
                     {
-                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int ^ *op2_int);
+                        irconstint_t const const_int = std::make_shared<IRConstInt>(*op1_int ^ *op2_int);
 
                         assign = std::make_shared<IRAssign>(dest, const_int);
                         break;
                     }
                     case IRBinOp::SHL_OP_T:
                     {
-                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int << *op2_int);
+                        irconstint_t const const_int = std::make_shared<IRConstInt>(*op1_int << *op2_int);
 
                         assign = std::make_shared<IRAssign>(dest, const_int);
                         break;
@@ -94,7 +94,7 @@ namespace KUNAI
                     case IRBinOp::SHR_OP_T:
                     case IRBinOp::USHR_OP_T:
                     {
-                        irconstint_t const_int = std::make_shared<IRConstInt>(*op1_int >> *op2_int);
+                        irconstint_t const const_int = std::make_shared<IRConstInt>(*op1_int >> *op2_int);
 
                         assign = std::make_shared<IRAssign>(dest, const_int);
                         break;
@@ -173,25 +173,25 @@ namespace KUNAI
                 {
                 case IRUnaryOp::INC_OP_T:
                 {
-                    irconstint_t const_int = std::make_shared<IRConstInt>((*op1_int)++);
+                    irconstint_t const const_int = std::make_shared<IRConstInt>((*op1_int)++);
                     assign = std::make_shared<IRAssign>(dest, const_int);
                     break;
                 }
                 case IRUnaryOp::DEC_OP_T:
                 {
-                    irconstint_t const_int = std::make_shared<IRConstInt>((*op1_int)--);
+                    irconstint_t const const_int = std::make_shared<IRConstInt>((*op1_int)--);
                     assign = std::make_shared<IRAssign>(dest, const_int);
                     break;
                 }
                 case IRUnaryOp::NOT_OP_T:
                 {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(!(*op1_int));
+                    irconstint_t const const_int = std::make_shared<IRConstInt>(!(*op1_int));
                     assign = std::make_shared<IRAssign>(dest, const_int);
                     break;
                 }
                 case IRUnaryOp::NEG_OP_T:
                 {
-                    irconstint_t const_int = std::make_shared<IRConstInt>(~(*op1_int));
+                    irconstint_t const const_int = std::make_shared<IRConstInt>(~(*op1_int));
                     assign = std::make_shared<IRAssign>(dest, const_int);
                     break;
                 }

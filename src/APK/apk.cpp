@@ -42,7 +42,7 @@ namespace KUNAI
             for (int i = 0, n = zip_entries_total(zip); i < n; i++)
             {
                 zip_entry_openbyindex(zip, i);
-                std::string file_name = zip_entry_name(zip);
+                std::string const file_name = zip_entry_name(zip);
 
                 // in case it contains .dex, work with it
                 if (file_name.find(".dex") != std::string::npos && file_name.find("classes") != std::string::npos)

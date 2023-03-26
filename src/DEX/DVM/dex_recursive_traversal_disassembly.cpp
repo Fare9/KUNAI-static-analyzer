@@ -15,9 +15,9 @@ namespace KUNAI
             std::map<std::uint64_t, bool> seen;
             std::uint64_t instruction_index;
             instruction_t instruction;
-            size_t buffer_size = byte_buffer.size();
+            size_t const buffer_size = byte_buffer.size();
             std::uint32_t opcode;
-            bool exist_switch = false;
+            bool const exist_switch = false;
             std::stringstream input_buffer;
 
             auto exceptions = determine_exception(dalvik_opcodes, method);

@@ -54,7 +54,7 @@ namespace KUNAI
                         if (first_instr->get_op1()->equals(first_instr->get_op2()) &&
                             second_instr->get_op1()->equals(first_instr->get_result()))
                         {
-                            irassign_t assign_inst = std::make_shared<IRAssign>(second_instr->get_result(), second_instr->get_op2());
+                            irassign_t const assign_inst = std::make_shared<IRAssign>(second_instr->get_result(), second_instr->get_op2());
                             new_statements.push_back(assign_inst);
                             i += 2;
                             modified = true;
@@ -74,7 +74,7 @@ namespace KUNAI
 
                         if (first_instr->get_op1()->equals(second_instr->get_op2()) && first_instr->get_result()->equals(second_instr->get_op1()))
                         {
-                            irassign_t assign_inst = std::make_shared<IRAssign>(second_instr->get_result(), first_instr->get_op2());
+                            irassign_t const assign_inst = std::make_shared<IRAssign>(second_instr->get_result(), first_instr->get_op2());
                             new_statements.push_back(assign_inst);
                             i += 2;
                             modified = true;
@@ -93,7 +93,7 @@ namespace KUNAI
                         if (first_instr->get_op2()->equals(second_instr->get_op2()) 
                             && first_instr->get_result()->equals(second_instr->get_op1()))
                         {
-                            irassign_t assign_inst = std::make_shared<IRAssign>(second_instr->get_result(), first_instr->get_op1());
+                            irassign_t const assign_inst = std::make_shared<IRAssign>(second_instr->get_result(), first_instr->get_op1());
                             new_statements.push_back(assign_inst);
                             i += 2;
                             modified = true;
@@ -161,7 +161,7 @@ namespace KUNAI
 
                             auto result = std::make_shared<IRConstInt>(*int1 + *int2);
 
-                            irbinop_t bin_op = std::make_shared<IRBinOp>(IRBinOp::ADD_OP_T, op2->get_result(), op1->get_op1(), result);
+                            irbinop_t const bin_op = std::make_shared<IRBinOp>(IRBinOp::ADD_OP_T, op2->get_result(), op1->get_op1(), result);
                             new_statements.push_back(bin_op);
                             i += 2;
                             modified = true;
@@ -202,7 +202,7 @@ namespace KUNAI
                             auto new_temporal = graph->get_last_temporal() + 1;
                             graph->set_last_temporal(new_temporal);
                             
-                            std::string temp_name = "t" + new_temporal;
+                            std::string const temp_name = "t" + new_temporal;
 
                             auto temp_reg = std::make_shared<IRTempReg>(new_temporal,temp_name, 4);
 

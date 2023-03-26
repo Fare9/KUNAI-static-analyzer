@@ -16,7 +16,7 @@ namespace KUNAI
         MJOLNIR::irgraph_t LifterAndroid::lift_android_method(DEX::MethodAnalysis* method_analysis, DEX::Analysis* android_analysis)
         {
             auto & bbs = method_analysis->get_basic_blocks()->get_basic_blocks();
-            size_t n_bbs = bbs.size();
+            size_t const n_bbs = bbs.size();
             // set android_analysis
             this->android_analysis = android_analysis;
             // graph returnedd by
@@ -124,7 +124,7 @@ namespace KUNAI
             {
             case DEX::DVMTypes::Opcode::OP_NOP:
             {
-                MJOLNIR::irstmnt_t nop = std::make_shared<MJOLNIR::IRNop>();
+                MJOLNIR::irstmnt_t const nop = std::make_shared<MJOLNIR::IRNop>();
                 bb->append_statement_to_block(nop);
                 break;
             }
@@ -1128,7 +1128,7 @@ namespace KUNAI
                 auto call_inst = reinterpret_cast<DEX::Instruction35c*>(instruction);
                 std::vector<std::shared_ptr<MJOLNIR::IRExpr>> parameters;
 
-                size_t p_size = call_inst->get_array_size();
+                size_t const p_size = call_inst->get_array_size();
 
                 for (size_t i = 0; i < p_size; i++)
                     parameters.push_back(make_android_register(call_inst->get_operand_register(i)));
@@ -1188,7 +1188,7 @@ namespace KUNAI
                 auto call_inst = reinterpret_cast<DEX::Instruction3rc*>(instruction);
                 std::vector<std::shared_ptr<MJOLNIR::IRExpr>> parameters;
 
-                size_t p_size = call_inst->get_array_size();
+                size_t const p_size = call_inst->get_array_size();
 
                 for (size_t i = 0; i < p_size; i++)
                     parameters.push_back(make_android_register(call_inst->get_operand_register(i)));
@@ -1361,7 +1361,7 @@ namespace KUNAI
                 auto condition = make_android_register(instr->get_array_ref());
 
                 std::vector<std::int32_t> targets;
-                std::vector<std::int32_t> checks;
+                std::vector<std::int32_t> const checks;
 
                 auto packed_switch = instr->get_packed_switch();
                 auto switch_targets = packed_switch->get_targets();
@@ -1568,7 +1568,7 @@ namespace KUNAI
             auto reg1 = make_android_register(instr->get_first_check_reg());
             auto reg2 = make_android_register(instr->get_second_check_reg());
 
-            uint64_t target = current_idx + (instr->get_ref() * 2);
+            uint64_t const target = current_idx + (instr->get_ref() * 2);
 
             auto bcomp = std::make_shared<MJOLNIR::IRBComp>(comparison, temp_reg, reg1, reg2);
             auto ir_cond = std::make_shared<MJOLNIR::IRCJmp>(target, temp_reg, nullptr, nullptr);
@@ -1585,7 +1585,7 @@ namespace KUNAI
             auto temp_reg = make_temporal_register();
             auto reg = make_android_register(instr->get_check_reg());
 
-            uint64_t target = current_idx + (instr->get_ref() * 2);
+            uint64_t const target = current_idx + (instr->get_ref() * 2);
 
             auto zcomp = std::make_shared<MJOLNIR::IRZComp>(comparison, temp_reg, reg);
             auto ir_cond = std::make_shared<MJOLNIR::IRCJmp>(target, temp_reg, nullptr, nullptr);
@@ -1731,7 +1731,7 @@ namespace KUNAI
             std::string field_type_class = "";
             size_t type_size;
             std::stringstream type_name;
-            std::string field_name = *field->get_name_idx();
+            std::string const field_name = *field->get_name_idx();
 
             if (field->get_type_idx()->get_type() == DEX::Type::FUNDAMENTAL)
             {

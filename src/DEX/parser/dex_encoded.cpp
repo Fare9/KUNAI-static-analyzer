@@ -40,7 +40,7 @@ namespace KUNAI
             }
             case DVMTypes::VALUE_ARRAY:
             {
-                std::uint64_t size = KUNAI::read_uleb128(input_file);
+                std::uint64_t const size = KUNAI::read_uleb128(input_file);
                 encodedvalue_t aux;
                 for (size_t i = 0; i < size; i++)
                 {
