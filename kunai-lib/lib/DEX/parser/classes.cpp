@@ -28,10 +28,10 @@ void ClassDataItem::parse_class_data_item(
     std::uint64_t code_offset;  // offset for parsing
 
     // read the sizes of the different variables
-    std::uint64_t static_fields_size = stream->read_uleb128();
-    std::uint64_t instance_fields_size = stream->read_uleb128();
-    std::uint64_t direct_methods_size = stream->read_uleb128();
-    std::uint64_t virtual_methods_size = stream->read_uleb128();
+    std::uint64_t const static_fields_size = stream->read_uleb128();
+    std::uint64_t const instance_fields_size = stream->read_uleb128();
+    std::uint64_t const direct_methods_size = stream->read_uleb128();
+    std::uint64_t const virtual_methods_size = stream->read_uleb128();
 
     for (I = 0; I < static_fields_size; ++I)
     {

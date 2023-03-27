@@ -341,7 +341,7 @@ void Analysis::_create_xrefs(ClassDef *current_class)
 MethodAnalysis *Analysis::_resolve_method(std::string &class_name,
                                           std::string &method_name, std::string &method_descriptor)
 {
-    std::string m_hash = class_name + method_name + method_descriptor;
+    std::string const m_hash = class_name + method_name + method_descriptor;
     std::vector<std::unique_ptr<Instruction>> empty_instructions;
 
     auto it = method_hashes.find(m_hash);
@@ -387,7 +387,7 @@ std::vector<FieldAnalysis *> &Analysis::get_fields()
 std::vector<ClassAnalysis *> Analysis::find_classes(std::string &name, bool no_external = false)
 {
     std::vector<ClassAnalysis *> found_classes;
-    std::regex class_name_regex(name);
+    std::regex const class_name_regex(name);
 
     for (const auto &c : classes)
     {
@@ -432,7 +432,7 @@ std::vector<MethodAnalysis *> Analysis::find_methods(std::string &class_name,
 std::vector<StringAnalysis *> Analysis::find_strings(std::string &str)
 {
     std::vector<StringAnalysis *> strings_list;
-    std::regex str_reg(str);
+    std::regex const str_reg(str);
 
     for (const auto &s : strings)
     {

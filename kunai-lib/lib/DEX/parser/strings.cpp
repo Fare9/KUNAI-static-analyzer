@@ -40,7 +40,6 @@ void Strings::parse_strings(std::uint32_t strings_offset,
 
     // values
     std::uint32_t str_offset;
-    std::string str;
 
     // move to the offset where are the strings ids
     stream->seekg(strings_offset, std::ios_base::beg);

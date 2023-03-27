@@ -39,8 +39,6 @@ void RecursiveTraversalDisassembler::disassembly(std::vector<std::uint8_t> &buff
     auto buffer_size = buffer_bytes.size();
     // opcode
     std::uint32_t opcode;
-    // check if the method contains a switch
-    bool exist_switch = false;
 
     auto exceptions = disassembler->determine_exception(method);
 
