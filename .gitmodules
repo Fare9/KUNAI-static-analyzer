@@ -1,3 +1,3 @@
-[submodule "external/zip"]
-	path = external/zip
+[submodule "old/external/zip"]
+	path = old/external/zip
 	url = https://github.com/kuba--/zip.git
