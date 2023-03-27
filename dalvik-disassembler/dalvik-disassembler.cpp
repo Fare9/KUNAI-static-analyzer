@@ -11,6 +11,7 @@ void show_help(char **argv)
     std::cerr << "\t<method_name>: name of the method to extract\n";
     std::cerr << "\t[-r]: optional argument, use recursive disassembly algorithm\n";
     std::cerr << "\t[-b]: show the instructions as basic blocks\n";
+    std::cerr << "\t[-p]: show a plot with the blocks in .dot format\n";
 }
 
 void show_instruction(KUNAI::DEX::Instruction *instr)
@@ -56,6 +57,7 @@ int main(int argc, char **argv)
     /// use the recursive disassembler?
     bool use_recursive = false;
     bool show_blocks = false;
+    bool show_plot = false;
 
     if (argc == 1 || (argc > 1 && !strcmp("-h", argv[1])))
     {
@@ -82,6 +84,8 @@ int main(int argc, char **argv)
                 use_recursive = true;
             if (val == "-b")
                 show_blocks = true;
+            if (val == "-p")
+                show_plot = true;
         }
     }
 
@@ -109,7 +113,7 @@ int main(int argc, char **argv)
     if (use_recursive)
         dex_disassembler->set_disassembly_algorithm(KUNAI::DEX::DexDisassembler::disassembly_algorithm::RECURSIVE_TRAVERSAL_ALGORITHM);
 
-    if (show_blocks)
+    if (show_blocks || show_plot)
     {
         auto analysis = dex_file->get_analysis(false);
 
@@ -120,7 +124,7 @@ int main(int argc, char **argv)
             if (method.second->external())
                 continue;
 
-            auto encoded_method = std::get<KUNAI::DEX::EncodedMethod*>(method.second->get_encoded_method());
+            auto encoded_method = std::get<KUNAI::DEX::EncodedMethod *>(method.second->get_encoded_method());
             auto cls_ = reinterpret_cast<KUNAI::DEX::DVMClass *>(encoded_method->getMethodID()->get_class());
 
             if (cls_ == nullptr)
@@ -130,25 +134,33 @@ int main(int argc, char **argv)
                 encoded_method->getMethodID()->get_name() != method_name)
                 continue;
 
-            const auto &blocks = method.second->get_basic_blocks();
-
-            for (const auto block : blocks.get_nodes())
+            if (show_blocks)
             {
-                if (block->is_start_block())
-                    std::cout << "BB-Start Block\n";
-                else if (block->is_end_block())
-                    std::cout << "BB-End Block\n";
-                else if (block->is_try_block())
-                    std::cout << "BB-" << block->get_first_address() << " (try block)"
-                              << "\n";
-                else if (block->is_catch_block())
-                    std::cout << "BB-" << block->get_first_address() << " (catch block)"
-                              << "\n";
-                else
-                    std::cout << "BB-" << block->get_first_address() << "\n";
+                const auto &blocks = method.second->get_basic_blocks();
 
-                for (auto &instr : block->get_instructions())
-                    show_instruction(instr);
+                for (const auto block : blocks.get_nodes())
+                {
+                    if (block->is_start_block())
+                        std::cout << "BB-Start Block\n";
+                    else if (block->is_end_block())
+                        std::cout << "BB-End Block\n";
+                    else if (block->is_try_block())
+                        std::cout << "BB-" << block->get_first_address() << " (try block)"
+                                  << "\n";
+                    else if (block->is_catch_block())
+                        std::cout << "BB-" << block->get_first_address() << " (catch block)"
+                                  << "\n";
+                    else
+                        std::cout << "BB-" << block->get_first_address() << "\n";
+
+                    for (auto &instr : block->get_instructions())
+                        show_instruction(instr);
+                }
+            }
+            else if (show_plot)
+            {
+                std::string file_name = class_name + "." + method_name + ".dot";
+                method.second->dump_dot_file(file_name);
             }
         }
     }
