@@ -232,3 +232,96 @@ void MethodAnalysis::create_basic_blocks()
             basic_blocks.add_edge(node, end);
     }
 }
+
+void MethodAnalysis::dump_instruction_dot(std::ofstream &dot_file, Instruction *instr)
+{
+
+    dot_file << "<tr><td align=\"left\">";
+
+    dot_file << std::right << std::setfill('0') << std::setw(8) << std::hex << instr->get_address() << "  ";
+
+    const auto &opcodes = instr->get_opcodes();
+
+    if (opcodes.size() > 8)
+    {
+        auto remaining = 8 - (opcodes.size() % 8);
+
+        size_t aux = 0;
+
+        for (const auto opcode : opcodes)
+        {
+            dot_file << std::right << std::setfill('0') << std::setw(2) << std::hex << (std::uint32_t)opcode << " ";
+            aux++;
+            if (aux % 8 == 0)
+            {
+                dot_file << "\\l"
+                         << "          ";
+            }
+        }
+
+        for (std::uint8_t i = 0; i < remaining; i++)
+            dot_file << "   ";
+    }
+    else
+    {
+        for (const auto opcode : opcodes)
+            dot_file << std::right << std::setfill('0') << std::setw(2) << std::hex << (std::uint32_t)opcode << " ";
+
+        for (std::uint8_t i = 0, remaining_size = 8 - opcodes.size(); i < remaining_size; ++i)
+            dot_file << "   ";
+    }
+
+    auto content = instr->print_instruction();
+
+    while (content.find("\"") != content.npos)
+        content.replace(content.find("\""), 1, "'", 1);
+
+    while (content.find("<") != content.npos)
+        content.replace(content.find("<"), 1, "&lt;", 4);
+    
+    while (content.find(">") != content.npos)
+        content.replace(content.find(">"), 1, "&gt;", 4);
+    
+
+    dot_file << content << "</td></tr>\n";
+}
+
+void MethodAnalysis::dump_block_dot(std::ofstream &dot_file, DVMBasicBlock *bb)
+{
+    dot_file << "\"" << bb->get_name() << "\""
+             << "[label=<<table border=\"0\" cellborder=\"0\" cellspacing=\"0\">\n";
+
+    dot_file << "<tr><td colspan=\"2\" align=\"left\"><b>[" << bb->get_name() << "]</b></td></tr>\n";
+    if (bb->is_try_block())
+        dot_file << "<tr><td colspan=\"2\" align=\"left\"><b>try_:</b></td></tr>\n";
+    else if (bb->is_catch_block())
+        dot_file << "<tr><td colspan=\"2\" align=\"left\"><b>catch_:</b></td></tr>\n";
+
+    for (auto instr : bb->get_instructions())
+        dump_instruction_dot(dot_file, instr);
+
+    dot_file << "</table>>];\n\n";
+}
+
+void MethodAnalysis::dump_method_dot(std::ofstream &dot_file)
+{
+    if (full_name.empty())
+        get_full_name();
+
+    // first dump the headers of the dot file
+    dot_file << "digraph \"" << full_name << "\"{\n";
+    dot_file << "style=\"dashed\";\n";
+    dot_file << "color=\"black\";\n";
+    dot_file << "label=\"" << full_name << "\";\n";
+    dot_file << "node [shape=box, style=filled, fillcolor=lightgrey, fontname=\"Courier\", fontsize=\"10\"];\n";
+    dot_file << "edge [color=black, arrowhead=open];\n";
+
+    for (auto bb : basic_blocks.get_nodes())
+        dump_block_dot(dot_file, bb);
+
+    for (const auto &edge : basic_blocks.get_edges())
+        dot_file << "\"" << edge.first->get_name() << "\" -> "
+                 << "\"" << edge.second->get_name() << "\" [style=\"solid,bold\",color=black,weight=10,constraint=true];\n";
+
+    dot_file << "}";
+}

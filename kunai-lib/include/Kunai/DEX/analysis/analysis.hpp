@@ -45,6 +45,9 @@ namespace KUNAI
             /// @brief is end block? (empty block)
             bool end_block = false;
 
+            /// @brief name of the block composed by
+            /// first and last address
+            std::string name;
         public:
             DVMBasicBlock() = default;
 
@@ -101,6 +104,27 @@ namespace KUNAI
                 if (instructions.size() > 0)
                     return instructions.back()->get_address();
                 throw exceptions::AnalysisException("get_last_address(): basic block has no instructions");
+            }
+
+            std::string& get_name()
+            {
+                if (!name.empty())
+                    return name;
+
+                std::stringstream s;
+
+                if (start_block)
+                    name = "BB.(start block)";
+                else if (end_block)
+                    name = "BB.(end block)";
+                else
+                {
+                    s << "BB." << get_first_address()
+                        << "-" << get_last_address();
+                    name = s.str();
+                }
+
+                return name;
             }
 
             /// @brief Is the current block a try-block?
@@ -506,6 +530,21 @@ namespace KUNAI
             /// @brief use of const class
             std::vector<std::pair<ClassAnalysis *, std::uint64_t>> xrefconstclass;
 
+            /// @brief Pretty print an instruction and its opcodes in a dot format to an output dot file
+            /// @param dot_file file where to dump the instruction
+            /// @param instr instruction to dump to dot file
+            void dump_instruction_dot(std::ofstream& dot_file, Instruction* instr);
+
+            /// @brief Pretty print a basic block in a dot graph
+            /// @param dot_file file where to dump the basic block
+            /// @param bb basic block to dump to dot file
+            void dump_block_dot(std::ofstream& dot_file, DVMBasicBlock* bb);
+
+            /// @brief Pretty print a method in a dot graph
+            /// @param dot_file file where to dump the basic block
+            /// @param name name of the dot file
+            void dump_method_dot(std::ofstream& dot_file);
+
             /// @brief Some kind of magic function that will take all
             /// the instructions from the method, and after some wololo
             /// will generate the basic blocks.
@@ -520,6 +559,19 @@ namespace KUNAI
 
                 if (this->instructions.size() > 0)
                     create_basic_blocks();
+            }
+
+            /// @brief Dump the method as a dot file into
+            /// the current path
+            /// @param file_path reference to a path where
+            /// to dump the content
+            void dump_dot_file(std::string& file_path)
+            {
+                std::ofstream dot_file;
+
+                dot_file.open(file_path);
+
+                dump_method_dot(dot_file);
             }
 
             /// @brief Check if the method is external
