@@ -278,10 +278,9 @@ void MethodAnalysis::dump_instruction_dot(std::ofstream &dot_file, Instruction *
 
     while (content.find("<") != content.npos)
         content.replace(content.find("<"), 1, "&lt;", 4);
-    
+
     while (content.find(">") != content.npos)
         content.replace(content.find(">"), 1, "&gt;", 4);
-    
 
     dot_file << content << "</td></tr>\n";
 }
@@ -305,6 +304,8 @@ void MethodAnalysis::dump_block_dot(std::ofstream &dot_file, DVMBasicBlock *bb)
 
 void MethodAnalysis::dump_method_dot(std::ofstream &dot_file)
 {
+    Disassembler d;
+
     if (full_name.empty())
         get_full_name();
 
@@ -320,8 +321,34 @@ void MethodAnalysis::dump_method_dot(std::ofstream &dot_file)
         dump_block_dot(dot_file, bb);
 
     for (const auto &edge : basic_blocks.get_edges())
-        dot_file << "\"" << edge.first->get_name() << "\" -> "
-                 << "\"" << edge.second->get_name() << "\" [style=\"solid,bold\",color=black,weight=10,constraint=true];\n";
+    {
+        auto terminator_instr = edge.first->get_terminator();
+
+        if (terminator_instr &&
+            DalvikOpcodes::get_instruction_operation(terminator_instr->get_instruction_opcode()) ==
+                TYPES::Operation::CONDITIONAL_BRANCH_DVM_OPCODE)
+        {
+            auto second_block_addr = edge.second->get_first_address();
+
+            if (second_block_addr ==
+                (terminator_instr->get_address() + terminator_instr->get_instruction_length())) // falthrough branch
+                dot_file << "\"" << edge.first->get_name() << "\" -> "
+                         << "\"" << edge.second->get_name() << "\" [style=\"solid,bold\",color=red,weight=10,constraint=true];\n";
+            else
+                dot_file << "\"" << edge.first->get_name() << "\" -> "
+                         << "\"" << edge.second->get_name() << "\" [style=\"solid,bold\",color=green,weight=10,constraint=true];\n";
+        }
+        else  if (terminator_instr &&
+            DalvikOpcodes::get_instruction_operation(terminator_instr->get_instruction_opcode()) ==
+                TYPES::Operation::UNCONDITIONAL_BRANCH_DVM_OPCODE)
+        {
+            dot_file << "\"" << edge.first->get_name() << "\" -> "
+                     << "\"" << edge.second->get_name() << "\" [style=\"solid,bold\",color=blue,weight=10,constraint=true];\n";
+        }
+        else
+            dot_file << "\"" << edge.first->get_name() << "\" -> "
+                     << "\"" << edge.second->get_name() << "\" [style=\"solid,bold\",color=black,weight=10,constraint=true];\n";
+    }
 
     dot_file << "}";
 }
