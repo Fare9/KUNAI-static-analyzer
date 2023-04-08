@@ -108,17 +108,43 @@ set_target_properties(kunai-objs
 # #########################################
 # In case use MjolnIR with MLIR
 if(USE_MJOLNIR)
-    find_package(LLVM CONFIG REQUIRED)
-    message("Using LLVM_CONFIG: ${LLVM_CONFIG} and DIR ${LLVM_DIR}")
-    find_package(MLIR CONFIG REQUIRED)
-    message("Using MLIR_CONFIG: ${MLIR_CONFIG} and DIR ${MLIR_DIR}")
+    add_library(lifter-objs
+        OBJECT
+    )
 
-    list(APPEND CMAKE_MODULE_PATH "${LLVM_DIR}")
-    list(APPEND CMAKE_MODULE_PATH "${MLIR_DIR}")
+    set_target_properties(lifter-objs
+        PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+    )
 
-    include(AddLLVM)
+    find_package(MLIR REQUIRED CONFIG)
+
+    message(STATUS "Using MLIRConfig.cmake in: ${MLIR_DIR}")
+    message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
+
+    set(LLVM_RUNTIME_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/bin)
+    set(LLVM_LIBRARY_OUTPUT_INTDIR ${CMAKE_BINARY_DIR}/lib)
+    set(MLIR_BINARY_DIR ${CMAKE_BINARY_DIR})
+
+    list(APPEND CMAKE_MODULE_PATH "${MLIR_CMAKE_DIR}")
+    list(APPEND CMAKE_MODULE_PATH "${LLVM_CMAKE_DIR}")
+
     include(TableGen)
+    include(AddLLVM)
     include(AddMLIR)
+
+    message(STATUS "Including: ${LLVM_INCLUDE_DIRS}")
+    message(STATUS "Including: ${MLIR_INCLUDE_DIRS}")
+    message(STATUS "Including: ${PROJECT_BINARY_DIR}")
+    message(STATUS "Including: ${CMAKE_CURRENT_LIST_DIR}/include/")
+
+    include_directories(${LLVM_INCLUDE_DIRS})
+    include_directories(${MLIR_INCLUDE_DIRS})
+    include_directories(${PROJECT_SOURCE_DIR}/MjolnIR/include)
+    include_directories(${PROJECT_BINARY_DIR}/MjolnIR/include)
+    include_directories(${CMAKE_CURRENT_LIST_DIR}/MjolnIR/include/)
+    link_directories(${LLVM_BUILD_LIBRARY_DIR})
+    add_definitions(${LLVM_DEFINITIONS})
 
     add_subdirectory(MjolnIR)
 endif()
