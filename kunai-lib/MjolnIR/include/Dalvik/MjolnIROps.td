@@ -59,6 +59,8 @@ class MjolnIR_BinaryOpBase<string mnemonic, list<Trait> traits = []> :
     );
 }
 
+def MjolnIR_Nop : MjolnIR_Op<"nop", [Pure]>;
+
 // define unary operations
 def MjolnIR_MoveOp : MjolnIR_UnaryOpBase<"move">;
 def MjolnIR_CastOp : MjolnIR_UnaryOpBase<"cast">;

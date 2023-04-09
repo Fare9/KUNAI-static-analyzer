@@ -43,21 +43,30 @@ namespace KUNAI
             mlir::DialectRegistry registry;
 
             /// @brief ScopedHashTable for registers
-            llvm::ScopedHashTable<std::uint32_t, std::pair<mlir::Value, KUNAI::DEX::EncodedMethod*>>
+            llvm::ScopedHashTable<std::uint32_t, std::pair<mlir::Value, KUNAI::DEX::EncodedMethod *>>
                 registerTable;
 
-            using RegisterTableScopeT = 
-                llvm::ScopedHashTable<std::uint32_t, std::pair<mlir::Value, KUNAI::DEX::EncodedMethod*>>;
+            using RegisterTableScopeT =
+                llvm::ScopedHashTable<std::uint32_t, std::pair<mlir::Value, KUNAI::DEX::EncodedMethod *>>;
 
             /// @brief A mapping for the functions that have been code generated to MLIR.
             llvm::StringMap<mlir::KUNAI::MjolnIR::MethodOp> methodMap;
+
+            /// @brief File name for location
+            llvm::StringRef file_name;
 
             /// @brief Declare a register in an scope for the SSA
             /// @param reg register to declare in the scope
             /// @param MA encoded method to set the scope
             /// @param value value of the register
             /// @return failure or success
-            mlir::LogicalResult declareReg(std::uint32_t reg, KUNAI::DEX::EncodedMethod* EM, mlir::Value value);
+            mlir::LogicalResult declareReg(std::uint32_t reg, KUNAI::DEX::EncodedMethod *EM, mlir::Value value);
+
+            /// @brief Update a register value to keep the SSA form of the IR
+            /// @param reg register to update
+            /// @param value new value
+            /// @return failure or success
+            mlir::LogicalResult updateReg(std::uint32_t reg, mlir::Value value);
 
             /// @brief Return an mlir::Type from a Fundamental type of Dalvik
             /// @param fundamental fundamental type of Dalvik
@@ -80,13 +89,44 @@ namespace KUNAI
             /// @return method operation from Dalvik
             ::mlir::KUNAI::MjolnIR::MethodOp get_method(KUNAI::DEX::EncodedMethod *encoded_method);
 
+            //===----------------------------------------------------------------------===//
+            // Lifting instructions, these class functions will be specialized for the
+            // different function types.
+            //===----------------------------------------------------------------------===//
+
+            /// @brief Lift an instruction of the type Instruction23x
+            /// @param instr instruction to lift
+            void gen_instruction(KUNAI::DEX::Instruction23x *instr);
+
+            /// @brief Lift an instruction of the type Instruction12x
+            /// @param instr instruction to lift
+            void gen_instruction(KUNAI::DEX::Instruction12x *instr);
+
+            void gen_instruction(KUNAI::DEX::Instruction22s *instr);
+
+            void gen_instruction(KUNAI::DEX::Instruction22b *instr);
+
+            void gen_instruction(KUNAI::DEX::Instruction22t *instr);
+
+            void gen_instruction(KUNAI::DEX::Instruction21t *instr);
+
             /// @brief Generate the IR from an instruction
             /// @param instr instruction from Dalvik to generate the IR
-            void gen_instruction(KUNAI::DEX::Instruction * instr);
+            void gen_instruction(KUNAI::DEX::Instruction *instr);
+
+            /// @brief generate all the instructions from a block
+            /// @param bb
+            void gen_block(KUNAI::DEX::DVMBasicBlock *bb);
+
+            /// @brief Bool indicating if generate exception or
+            /// just create a Nop instruction
+            bool gen_exception;
 
         public:
             /// @brief Constructor of MjolnIRLifter
-            MjolnIRLifter(mlir::MLIRContext &context) : context(context), builder(&context)
+            MjolnIRLifter(mlir::MLIRContext &context, bool gen_exception) : context(context),
+                                                                            builder(&context),
+                                                                            gen_exception(gen_exception)
             {
                 registry.insert<::mlir::KUNAI::MjolnIR::MjolnIRDialect>();
             }
