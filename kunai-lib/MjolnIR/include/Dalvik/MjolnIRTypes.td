@@ -18,49 +18,43 @@ class MjolnIRType<string typeName, string typeMnemonic, list<Trait> traits = []>
   let mnemonic = typeMnemonic;
 }
 
-class MjolnIRBuiltIntType<string typeName, list<Trait> traits = []>
-  : TypeDef<MjolnIR_Dialect, typeName, traits>
-{
-  let mnemonic = ?;
-}
-
 //===----------------------------------------------------------------------===//
 // Basic Types
 //===----------------------------------------------------------------------===//
 
-def DVMVoid : MjolnIRBuiltIntType<"DVMVoid"> {
+def DVMVoid : MjolnIRType<"DVMVoid", "dvmvoid"> {
   let summary = "Void type from Dalvik, returns nothing";
 }
 
-def DVMByte : MjolnIRBuiltIntType<"DVMByte"> {
+def DVMByte : MjolnIRType<"DVMByte", "dvmbyte"> {
   let summary = "Bool type from Dalvik";
 }
 
-def DVMBool : MjolnIRBuiltIntType<"DVMBool"> {
+def DVMBool : MjolnIRType<"DVMBool", "dvmbool"> {
   let summary = "Bool type from Dalvik";
 }
 
-def DVMChar : MjolnIRBuiltIntType<"DVMChar"> {
+def DVMChar : MjolnIRType<"DVMChar", "dvmchar"> {
   let summary = "Char type from Dalvik";
 }
 
-def DVMShort : MjolnIRBuiltIntType<"DVMShort"> {
+def DVMShort : MjolnIRType<"DVMShort", "dvmshort"> {
   let summary = "Short type from Dalvik";
 }
 
-def DVMInt : MjolnIRBuiltIntType<"DVMInt"> {
+def DVMInt : MjolnIRType<"DVMInt", "dvmint"> {
   let summary = "Integer type from Dalvik";
 }
 
-def DVMLong : MjolnIRBuiltIntType<"DVMLong"> {
+def DVMLong : MjolnIRType<"DVMLong", "dvmlong"> {
   let summary = "Long type from Dalvik";
 }
 
-def DVMFloat : MjolnIRBuiltIntType<"DVMFloat"> {
+def DVMFloat : MjolnIRType<"DVMFloat", "dvmfloat"> {
   let summary = "Float type from Dalvik";
 }
 
-def DVMDouble : MjolnIRBuiltIntType<"DVMDouble"> {
+def DVMDouble : MjolnIRType<"DVMDouble", "dvmdouble"> {
   let summary = "Double type from Dalvik";
 }
 
