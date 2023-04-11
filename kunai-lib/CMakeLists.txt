@@ -53,17 +53,6 @@ option(USE_MJOLNIR "Compile Kunai's IR with LLVM (you must have LLVM installed)"
 # include the externals
 add_subdirectory(externals)
 
-message(STATUS "Adding the source files")
-
-message(STATUS "${KUNAI_UTILS_SRC}")
-message(STATUS "${KUNAI_DEX_SRC}")
-
-# Kunai Source Definition
-set(KUNAI_LIB_SOURCE_FILES
-    ${KUNAI_UTILS_SRC}
-    ${KUNAI_DEX_SRC}
-)
-
 # Kunai inlcude Definition
 set(KUNAI_LIB_PUBLIC_INCLUDE_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/include/"
@@ -105,18 +94,16 @@ set_target_properties(kunai-objs
     POSITION_INDEPENDENT_CODE 1
 )
 
+set(TARGET_INCLUDE_LIBS
+    spdlog
+    zip
+)
+
+set(TARGET_LINK_DIRECTORIES)
+
 # #########################################
 # In case use MjolnIR with MLIR
 if(USE_MJOLNIR)
-    add_library(lifter-objs
-        OBJECT
-    )
-
-    set_target_properties(lifter-objs
-        PROPERTIES
-        POSITION_INDEPENDENT_CODE 1
-    )
-
     find_package(MLIR REQUIRED CONFIG)
 
     message(STATUS "Using MLIRConfig.cmake in: ${MLIR_DIR}")
@@ -133,30 +120,46 @@ if(USE_MJOLNIR)
     include(AddLLVM)
     include(AddMLIR)
 
-    message(STATUS "Including: ${LLVM_INCLUDE_DIRS}")
-    message(STATUS "Including: ${MLIR_INCLUDE_DIRS}")
-    message(STATUS "Including: ${PROJECT_BINARY_DIR}")
-    message(STATUS "Including: ${CMAKE_CURRENT_LIST_DIR}/include/")
-
     include_directories(${LLVM_INCLUDE_DIRS})
     include_directories(${MLIR_INCLUDE_DIRS})
-    include_directories(${PROJECT_SOURCE_DIR}/MjolnIR/include)
     include_directories(${PROJECT_BINARY_DIR}/MjolnIR/include)
     include_directories(${CMAKE_CURRENT_LIST_DIR}/MjolnIR/include/)
+    include_directories(${CMAKE_CURRENT_LIST_DIR}/MjolnIR/lib/Dalvik/)
     link_directories(${LLVM_BUILD_LIBRARY_DIR})
     add_definitions(${LLVM_DEFINITIONS})
 
     add_subdirectory(MjolnIR)
+
+    set_target_properties(Lifter
+        PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+    )
+
+    # include TARGET_LINK_DIRECTORIES in case
+    list(APPEND TARGET_LINK_DIRECTORIES
+        ${PROJECT_BINARY_DIR}/lib/
+        ${PROJECT_BINARY_DIR}/MjolnIR/lib/Lifter/
+    )
+
+    # include TARGET_INCLUDE_LIBS the Lifter and MjolnIR dialect
+    list(APPEND TARGET_INCLUDE_LIBS
+        MjolnIR
+        Lifter
+    )
 endif()
 
-# compile the shared library
 add_library(KUNAI SHARED
     $<TARGET_OBJECTS:kunai-objs>
 )
 
+target_link_directories(KUNAI
+    PUBLIC
+    ${TARGET_LINK_DIRECTORIES}
+)
+
 target_link_libraries(KUNAI
-    spdlog
-    zip
+    PUBLIC
+    ${TARGET_INCLUDE_LIBS}
 )
 
 # target properties for shared object
@@ -166,90 +169,92 @@ set_target_properties(KUNAI
     OUTPUT_NAME "kunai"
 )
 
-# ######################################################################
-# installation
-message(STATUS "Project will be installed to ${CMAKE_INSTALL_PREFIX}")
+if(USE_MJOLNIR EQUAL OFF)
+    # ######################################################################
+    # installation
+    message(STATUS "Project will be installed to ${CMAKE_INSTALL_PREFIX}")
 
-# Offer the user the choice of overriding the installation directories
-set(INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR} CACHE PATH "Installation directory for libraries")
-set(INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE PATH "Installation directory for header files")
+    # Offer the user the choice of overriding the installation directories
+    set(INSTALL_LIBDIR ${CMAKE_INSTALL_LIBDIR} CACHE PATH "Installation directory for libraries")
+    set(INSTALL_INCLUDEDIR ${CMAKE_INSTALL_INCLUDEDIR} CACHE PATH "Installation directory for header files")
 
-# Report to user
-foreach(p LIB INCLUDE)
-    file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${INSTALL_${p}DIR} _path)
-    message(STATUS "Installing ${p} components to ${_path}")
-    unset(_path)
-endforeach()
+    # Report to user
+    foreach(p LIB INCLUDE)
+        file(TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${INSTALL_${p}DIR} _path)
+        message(STATUS "Installing ${p} components to ${_path}")
+        unset(_path)
+    endforeach()
 
-# install the libraries
-install(
-    TARGETS KUNAI spdlog zip
-    EXPORT KUNAITargets
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries
-    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
+    # install the libraries
+    install(
+        TARGETS KUNAI spdlog zip
+        EXPORT KUNAITargets
+        ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_LIBDIR} COMPONENT libraries
+        INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
 
-install(
-    DIRECTORY "${KUNAI_LIB_PUBLIC_INCLUDE_FILES}"
-    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-    COMPONENT headers
-    FILES_MATCHING
-    REGEX "(.*).(hpp|h|def|inc)$"
-)
+    install(
+        DIRECTORY "${KUNAI_LIB_PUBLIC_INCLUDE_FILES}"
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        COMPONENT headers
+        FILES_MATCHING
+        REGEX "(.*).(hpp|h|def|inc)$"
+    )
 
-install(
-    FILES ${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfig.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfigVersion.cmake
-    DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/KUNAI/cmake
-    COMPONENT config
-)
+    install(
+        FILES ${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/KUNAI/cmake
+        COMPONENT config
+    )
 
-target_include_directories(KUNAI
-    INTERFACE
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<INSTALL_INTERFACE:include>
-)
+    target_include_directories(KUNAI
+        INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+        $<INSTALL_INTERFACE:include>
+    )
 
-install(
-    EXPORT KUNAITargets
-    FILE KUNAITargets.cmake
-    DESTINATION lib/cmake/KUNAI
-)
+    install(
+        EXPORT KUNAITargets
+        FILE KUNAITargets.cmake
+        DESTINATION lib/cmake/KUNAI
+    )
 
-# Generate a package configuration file for other projects to use
-include(CMakePackageConfigHelpers)
+    # Generate a package configuration file for other projects to use
+    include(CMakePackageConfigHelpers)
 
-set(KUNAI_LIBRARY_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
-set(KUNAI_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
+    set(KUNAI_LIBRARY_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
+    set(KUNAI_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_INCLUDEDIR})
 
-message(STATUS "Exporting ${KUNAI_LIBRARY_DIR} and ${KUNAI_INCLUDE_DIR}")
+    message(STATUS "Exporting ${KUNAI_LIBRARY_DIR} and ${KUNAI_INCLUDE_DIR}")
 
-configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/KUNAIConfig.cmake.in
-    "${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfig.cmake"
-    INSTALL_DESTINATION "lib/cmake/KUNAI"
-    NO_SET_AND_CHECK_MACRO
-    NO_CHECK_REQUIRED_COMPONENTS_MACRO
-)
+    configure_package_config_file(${CMAKE_CURRENT_SOURCE_DIR}/KUNAIConfig.cmake.in
+        "${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfig.cmake"
+        INSTALL_DESTINATION "lib/cmake/KUNAI"
+        NO_SET_AND_CHECK_MACRO
+        NO_CHECK_REQUIRED_COMPONENTS_MACRO
+    )
 
-write_basic_package_version_file(
-    "${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfigVersion.cmake"
-    VERSION "${KUNAI_VERSION_MAJOR}.${KUNAI_VERSION_MINOR}"
-    COMPATIBILITY AnyNewerVersion
-)
+    write_basic_package_version_file(
+        "${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfigVersion.cmake"
+        VERSION "${KUNAI_VERSION_MAJOR}.${KUNAI_VERSION_MINOR}"
+        COMPATIBILITY AnyNewerVersion
+    )
 
-install(FILES
-    ${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfig.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfigVersion.cmake
-    DESTINATION lib/cmake/KUNAI
-)
+    install(FILES
+        ${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfig.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfigVersion.cmake
+        DESTINATION lib/cmake/KUNAI
+    )
 
-export(EXPORT KUNAITargets
-    FILE "${CMAKE_CURRENT_BINARY_DIR}/KUNAITargets.cmake"
-)
+    export(EXPORT KUNAITargets
+        FILE "${CMAKE_CURRENT_BINARY_DIR}/KUNAITargets.cmake"
+    )
 
-export(PACKAGE KUNAI)
+    export(PACKAGE KUNAI)
+endif()
 
 # ######################################################################
 if(UNIT_TESTING)

@@ -1,3 +1,7 @@
-target_sources(lifter-objs PRIVATE
-    ${CMAKE_CURRENT_LIST_DIR}/mjolnir_lifter.cpp
+add_library(Lifter
+mjolnir_lifter.cpp
+)
+
+target_link_libraries(Lifter PUBLIC
+  MjolnIR
 )

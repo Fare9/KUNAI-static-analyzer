@@ -1,7 +1,5 @@
 add_mlir_dialect_library(MjolnIR
     MjolnIRDialect.cpp
-    #MjolnIRTypes.cpp
-    #MjolnIROps.cpp
 
     ADDITIONAL_HEADER_DIRS
     ${PROJECT_BINARY_DIR}/MjolnIR/include/
@@ -9,5 +7,4 @@ add_mlir_dialect_library(MjolnIR
 
 	LINK_LIBS PUBLIC
 	MLIRIR
-    MLIRInferTypeOpInterface
 )
