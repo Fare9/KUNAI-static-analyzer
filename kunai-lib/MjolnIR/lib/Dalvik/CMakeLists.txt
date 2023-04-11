@@ -5,6 +5,9 @@ add_mlir_dialect_library(MjolnIR
     ${PROJECT_BINARY_DIR}/MjolnIR/include/
     ${PROJECT_BINARY_DIR}/MjolnIR/include/Dalvik
 
+    DEPENDS
+    MLIRMjolnIROpsIncGen
+
 	LINK_LIBS PUBLIC
 	MLIRIR
 )

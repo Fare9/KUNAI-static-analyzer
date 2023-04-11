@@ -36,7 +36,14 @@ void MjolnIRDialect::initialize()
     registerTypes();
 }
 
+mlir::ArrayAttr MethodOp::getCallableArgAttrs() { 
+return mlir::ArrayAttr(); }
 
+mlir::ArrayAttr MethodOp::getCallableResAttrs() { 
+    return mlir::ArrayAttr(); }
+
+#define GET_TYPEDEF_CLASSES
+#include "Dalvik/MjolnIROpsTypes.cpp.inc"
 
 void MjolnIRDialect::registerTypes()
 {
