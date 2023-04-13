@@ -42,6 +42,8 @@ int main()
         KUNAI::MjolnIR::MjolnIRLifter lifter(context, false);
 
         auto module_op = lifter.mlirGen(method.second.get());
+
+        module_op->dump();
         
         break;
     }
