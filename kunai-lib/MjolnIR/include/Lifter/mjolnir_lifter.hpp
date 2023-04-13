@@ -107,13 +107,25 @@ namespace KUNAI
             /// @param instr instruction to lift
             void gen_instruction(KUNAI::DEX::Instruction12x *instr);
 
+            /// @brief Lift an instruction of type Instruction22s
+            /// @param instr instruction to lift
             void gen_instruction(KUNAI::DEX::Instruction22s *instr);
 
+            /// @brief Lift an instruction of type Instruction22b
+            /// @param instr instruction to lift
             void gen_instruction(KUNAI::DEX::Instruction22b *instr);
 
+            /// @brief Lift an instruction of type Instruction22t
+            /// @param instr instruction to lift
             void gen_instruction(KUNAI::DEX::Instruction22t *instr);
 
+            /// @brief Lift an instruction of type Instruction21t
+            /// @param instr instruction to lift
             void gen_instruction(KUNAI::DEX::Instruction21t *instr);
+
+            /// @brief Lift an instruction of type Instruction11x
+            /// @param instr instruction to lift
+            void gen_instruction(KUNAI::DEX::Instruction11x * instr);
 
             /// @brief Generate the IR from an instruction
             /// @param instr instruction from Dalvik to generate the IR

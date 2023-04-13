@@ -27,7 +27,9 @@ mlir::LogicalResult MjolnIRLifter::updateReg(std::uint32_t reg, mlir::Value valu
 {
     if (!registerTable.count(reg))
         return mlir::failure();
-    registerTable.lookup(reg).first = value;
+    auto EM = registerTable.lookup(reg).second;
+
+    registerTable.insert(reg, {value, EM});
     return mlir::success();
 }
 
@@ -383,6 +385,34 @@ void MjolnIRLifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
     }
 }
 
+void MjolnIRLifter::gen_instruction(KUNAI::DEX::Instruction11x *instr)
+{
+    auto op_code = instr->get_instruction_opcode();
+
+    auto location = mlir::FileLineColLoc::get(&context, file_name, instr->get_address(), 0);
+
+    auto dest = instr->get_destination();
+
+    switch (op_code)
+    {
+    case KUNAI::DEX::TYPES::OP_RETURN:
+    case KUNAI::DEX::TYPES::OP_RETURN_WIDE:
+    case KUNAI::DEX::TYPES::OP_RETURN_OBJECT:
+    {
+        auto reg_value = registerTable.lookup(dest).first;
+
+        builder.create<::mlir::KUNAI::MjolnIR::ReturnOp>(
+            location,
+            reg_value);
+    }
+    break;
+
+    default:
+        throw exceptions::LifterException("MjolnIRLifter::gen_instruction: Instruction11x not supported");
+        break;
+    }
+}
+
 void MjolnIRLifter::gen_instruction(KUNAI::DEX::Instruction12x *instr)
 {
     auto op_code = instr->get_instruction_opcode();
@@ -628,6 +658,9 @@ void MjolnIRLifter::gen_instruction(KUNAI::DEX::Instruction *instr)
     case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION12X:
         gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction12x *>(instr));
         break;
+    case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION11X:
+        gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction11x *>(instr));
+        break;
     default:
         throw exceptions::LifterException("MjolnIRLifter::gen_instruction: InstructionType not implemented");
     }
@@ -676,7 +709,7 @@ mlir::OwningOpRef<mlir::ModuleOp> MjolnIRLifter::mlirGen(KUNAI::DEX::MethodAnaly
     if (file_name.empty())
         file_name = methodAnalysis->get_class_name();
 
-    auto & bbs = methodAnalysis->get_basic_blocks();
+    auto &bbs = methodAnalysis->get_basic_blocks();
 
     for (auto bb : bbs.get_nodes())
         gen_block(bb);
