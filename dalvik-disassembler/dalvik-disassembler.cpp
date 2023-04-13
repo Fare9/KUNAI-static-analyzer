@@ -138,6 +138,8 @@ int main(int argc, char **argv)
             {
                 const auto &blocks = method.second->get_basic_blocks();
 
+                std::cout << encoded_method->getMethodID()->pretty_method() << "\n";
+
                 for (const auto block : blocks.get_nodes())
                 {
                     if (block->is_start_block())
@@ -195,6 +197,8 @@ int main(int argc, char **argv)
             if (cls_->get_name() != class_name ||
                 encoded_method->getMethodID()->get_name() != method_name)
                 continue;
+
+            std::cout << encoded_method->getMethodID()->pretty_method() << "\n";
 
             for (const auto &instr : instrs)
             {
