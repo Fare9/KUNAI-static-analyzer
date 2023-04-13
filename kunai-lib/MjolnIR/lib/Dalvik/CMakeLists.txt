@@ -1,5 +1,7 @@
 add_mlir_dialect_library(MjolnIR
+    MjolnIRTypes.cpp
     MjolnIRDialect.cpp
+    MjolnIROps.cpp
 
     ADDITIONAL_HEADER_DIRS
     ${PROJECT_BINARY_DIR}/MjolnIR/include/
@@ -8,6 +10,6 @@ add_mlir_dialect_library(MjolnIR
     DEPENDS
     MLIRMjolnIROpsIncGen
 
-	LINK_LIBS PUBLIC
-	MLIRIR
+    LINK_LIBS PUBLIC
+    MLIRIR
 )
