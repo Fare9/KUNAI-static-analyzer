@@ -9,16 +9,24 @@
 #ifndef LIFTER_MJOLNIR_LIFTER_HPP
 #define LIFTER_MJOLNIR_LIFTER_HPP
 
+/// MjolnIR Includes
 #include "Dalvik/MjolnIRDialect.hpp"
+#include "Dalvik/MjolnIRTypes.hpp"
+#include "Dalvik/MjolnIROps.hpp"
 
+/// KUNAI includes
 #include "Kunai/DEX/analysis/analysis.hpp"
 
+/// MLIR includes
 #include <mlir/IR/Builders.h>
 #include <mlir/IR/BuiltinOps.h>
 #include <mlir/IR/Dialect.h>
 #include <mlir/IR/MLIRContext.h>
+
+/// LLVM includes
 #include <llvm/ADT/SmallVector.h>
 #include <llvm/ADT/ScopedHashTable.h>
+
 
 #include <utility>
 
@@ -39,15 +47,12 @@ namespace KUNAI
             /// the next operations will be introduced.
             mlir::OpBuilder builder;
 
-            /// @brief DialectRegistry
-            mlir::DialectRegistry registry;
-
             /// @brief ScopedHashTable for registers
             llvm::ScopedHashTable<std::uint32_t, std::pair<mlir::Value, KUNAI::DEX::EncodedMethod *>>
                 registerTable;
 
             using RegisterTableScopeT =
-                llvm::ScopedHashTable<std::uint32_t, std::pair<mlir::Value, KUNAI::DEX::EncodedMethod *>>;
+                llvm::ScopedHashTableScope<std::uint32_t, std::pair<mlir::Value, KUNAI::DEX::EncodedMethod *>>;
 
             /// @brief A mapping for the functions that have been code generated to MLIR.
             llvm::StringMap<mlir::KUNAI::MjolnIR::MethodOp> methodMap;
@@ -128,7 +133,8 @@ namespace KUNAI
                                                                             builder(&context),
                                                                             gen_exception(gen_exception)
             {
-                registry.insert<::mlir::KUNAI::MjolnIR::MjolnIRDialect>();
+                // Load our Dialect in this MLIR Context
+                context.getOrLoadDialect<::mlir::KUNAI::MjolnIR::MjolnIRDialect>();
             }
 
             /// @brief Generate a ModuleOp with the lifted instructions from a MethodAnalysis
