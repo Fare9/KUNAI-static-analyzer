@@ -1,8 +1,20 @@
 public class Simple {
+
+    private short test_field = 2;
+
     public int my_add(int a, int b)
     {
         int c = a + b;
-        return c;
+        
+        int d = c * a;
+
+        int e = d / b;
+
+        short f = test_field;
+        
+        test_field = f;
+
+        return e;
     }
 
     public static void main(String[] args) throws Exception {
