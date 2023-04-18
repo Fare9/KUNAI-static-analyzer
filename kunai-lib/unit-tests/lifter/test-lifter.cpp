@@ -7,7 +7,7 @@
 #include "test-lifter.inc"
 #include "Kunai/DEX/dex.hpp"
 #include "Kunai/Utils/logger.hpp"
-#include "Lifter/mjolnir_lifter.hpp"
+#include "Lifter/MjolnIRLifter.hpp"
 #include <memory>
 
 int main()
@@ -39,7 +39,7 @@ int main()
         mlir::MLIRContext context;
         context.loadAllAvailableDialects();
 
-        KUNAI::MjolnIR::MjolnIRLifter lifter(context, false);
+        KUNAI::MjolnIR::Lifter lifter(context, false);
 
         auto module_op = lifter.mlirGen(method.second.get());
 
