@@ -44,6 +44,8 @@ namespace KUNAI
             bool start_block = false;
             /// @brief is end block? (empty block)
             bool end_block = false;
+            /// @brief Handler type
+            DVMType * handler_type;
 
             /// @brief name of the block composed by
             /// first and last address
@@ -153,6 +155,20 @@ namespace KUNAI
             void set_catch_block(bool catch_block)
             {
                 this->catch_block = catch_block;
+            }
+
+            /// @brief Get the type of handler in case is a catch block
+            /// @return handler type
+            DVMType * get_handler_type()
+            {
+                return handler_type;
+            }
+
+            /// @brief Set a handler type
+            /// @param handler handler type
+            void set_handler_type(DVMType * handler)
+            {
+                handler_type = handler;
             }
 
             /// @brief Get if current block is a starting block
@@ -506,6 +522,12 @@ namespace KUNAI
             /// @brief full name of the method
             mutable std::string full_name;
 
+            /// @brief number of registers from the method
+            std::uint16_t regs_from_method;
+
+            /// @brief number of parameters
+            std::uint16_t num_of_params;
+
             /// @brief Instructions of the current method
             std::vector<std::unique_ptr<Instruction>> instructions;
 
@@ -557,6 +579,15 @@ namespace KUNAI
             {
                 is_external = method_encoded.index() == 0 ? false : true;
 
+                if (!is_external)
+                {
+                    auto em = std::get<EncodedMethod*>(method_encoded);
+
+                    regs_from_method = em->get_code_item().get_registers_size();
+
+                    num_of_params = em->getMethodID()->get_proto()->get_parameters().size();
+                }
+
                 if (this->instructions.size() > 0)
                     create_basic_blocks();
             }
@@ -589,6 +620,16 @@ namespace KUNAI
             BasicBlocks& get_basic_blocks()
             {
                 return basic_blocks;
+            }
+
+            std::uint32_t get_number_of_registers() const
+            {
+                return regs_from_method;
+            }
+
+            std::uint32_t get_number_of_parameters() const
+            {
+                return num_of_params;
             }
 
             /// @brief Check if current method is an android api

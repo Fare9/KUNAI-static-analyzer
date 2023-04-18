@@ -207,6 +207,7 @@ void MethodAnalysis::create_basic_blocks()
         {
             auto catch_bb = basic_blocks.get_basic_block_by_idx(handler.handler_start_addr);
             catch_bb->set_catch_block(true);
+            catch_bb->set_handler_type(handler.handler_type);
         }
     }
 
