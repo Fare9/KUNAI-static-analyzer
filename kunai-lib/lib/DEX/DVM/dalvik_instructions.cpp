@@ -10,7 +10,146 @@
 
 using namespace KUNAI::DEX;
 
-Instruction10x::Instruction10x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+/// @brief Opcodes that has some kind of side effect
+const std::vector<std::uint32_t> side_effects_opcodes =
+    {
+        KUNAI::DEX::TYPES::OP_RETURN_VOID,
+        KUNAI::DEX::TYPES::OP_RETURN,
+        KUNAI::DEX::TYPES::OP_RETURN_WIDE,
+        KUNAI::DEX::TYPES::OP_RETURN_OBJECT,
+        KUNAI::DEX::TYPES::OP_MONITOR_ENTER,
+        KUNAI::DEX::TYPES::OP_MONITOR_EXIT,
+        KUNAI::DEX::TYPES::OP_FILL_ARRAY_DATA,
+        KUNAI::DEX::TYPES::OP_THROW,
+        KUNAI::DEX::TYPES::OP_GOTO,
+        KUNAI::DEX::TYPES::OP_SPARSE_SWITCH,
+        KUNAI::DEX::TYPES::OP_PACKED_SWITCH,
+        KUNAI::DEX::TYPES::OP_IF_EQ,
+        KUNAI::DEX::TYPES::OP_IF_NE,
+        KUNAI::DEX::TYPES::OP_IF_LT,
+        KUNAI::DEX::TYPES::OP_IF_GE,
+        KUNAI::DEX::TYPES::OP_IF_GT,
+        KUNAI::DEX::TYPES::OP_IF_LE,
+        KUNAI::DEX::TYPES::OP_IF_EQZ,
+        KUNAI::DEX::TYPES::OP_IF_NEZ,
+        KUNAI::DEX::TYPES::OP_IF_LTZ,
+        KUNAI::DEX::TYPES::OP_IF_GEZ,
+        KUNAI::DEX::TYPES::OP_IF_GTZ,
+        KUNAI::DEX::TYPES::OP_IF_LEZ,
+        KUNAI::DEX::TYPES::OP_APUT,
+        KUNAI::DEX::TYPES::OP_APUT_WIDE,
+        KUNAI::DEX::TYPES::OP_APUT_OBJECT,
+        KUNAI::DEX::TYPES::OP_APUT_BOOLEAN,
+        KUNAI::DEX::TYPES::OP_APUT_BYTE,
+        KUNAI::DEX::TYPES::OP_APUT_CHAR,
+        KUNAI::DEX::TYPES::OP_APUT_SHORT,
+        KUNAI::DEX::TYPES::OP_IPUT,
+        KUNAI::DEX::TYPES::OP_IPUT_WIDE,
+        KUNAI::DEX::TYPES::OP_IPUT_OBJECT,
+        KUNAI::DEX::TYPES::OP_IPUT_BOOLEAN,
+        KUNAI::DEX::TYPES::OP_IPUT_BYTE,
+        KUNAI::DEX::TYPES::OP_IPUT_CHAR,
+        KUNAI::DEX::TYPES::OP_IPUT_SHORT,
+        KUNAI::DEX::TYPES::OP_SPUT,
+        KUNAI::DEX::TYPES::OP_SPUT_WIDE,
+        KUNAI::DEX::TYPES::OP_SPUT_OBJECT,
+        KUNAI::DEX::TYPES::OP_SPUT_BOOLEAN,
+        KUNAI::DEX::TYPES::OP_SPUT_BYTE,
+        KUNAI::DEX::TYPES::OP_SPUT_CHAR,
+        KUNAI::DEX::TYPES::OP_SPUT_SHORT,
+        KUNAI::DEX::TYPES::OP_INVOKE_VIRTUAL,
+        KUNAI::DEX::TYPES::OP_INVOKE_SUPER,
+        KUNAI::DEX::TYPES::OP_INVOKE_DIRECT,
+        KUNAI::DEX::TYPES::OP_INVOKE_STATIC,
+        KUNAI::DEX::TYPES::OP_INVOKE_INTERFACE,
+};
+
+/// @brief Opcodes that may throw an exception
+const std::vector<std::uint32_t> may_throw_opcodes =
+    {
+        KUNAI::DEX::TYPES::OP_CONST_STRING,
+        KUNAI::DEX::TYPES::OP_CONST_CLASS,
+        KUNAI::DEX::TYPES::OP_MONITOR_ENTER,
+        KUNAI::DEX::TYPES::OP_MONITOR_EXIT,
+        KUNAI::DEX::TYPES::OP_CHECK_CAST,
+        KUNAI::DEX::TYPES::OP_INSTANCE_OF,
+        KUNAI::DEX::TYPES::OP_ARRAY_LENGTH,
+        KUNAI::DEX::TYPES::OP_NEW_INSTANCE,
+        KUNAI::DEX::TYPES::OP_NEW_ARRAY,
+        KUNAI::DEX::TYPES::OP_FILLED_NEW_ARRAY,
+        KUNAI::DEX::TYPES::OP_AGET,
+        KUNAI::DEX::TYPES::OP_AGET_WIDE,
+        KUNAI::DEX::TYPES::OP_AGET_OBJECT,
+        KUNAI::DEX::TYPES::OP_AGET_BOOLEAN,
+        KUNAI::DEX::TYPES::OP_AGET_BYTE,
+        KUNAI::DEX::TYPES::OP_AGET_CHAR,
+        KUNAI::DEX::TYPES::OP_AGET_SHORT,
+        KUNAI::DEX::TYPES::OP_APUT,
+        KUNAI::DEX::TYPES::OP_APUT_WIDE,
+        KUNAI::DEX::TYPES::OP_APUT_OBJECT,
+        KUNAI::DEX::TYPES::OP_APUT_BOOLEAN,
+        KUNAI::DEX::TYPES::OP_APUT_BYTE,
+        KUNAI::DEX::TYPES::OP_APUT_CHAR,
+        KUNAI::DEX::TYPES::OP_APUT_SHORT,
+        KUNAI::DEX::TYPES::OP_IGET,
+        KUNAI::DEX::TYPES::OP_IGET_WIDE,
+        KUNAI::DEX::TYPES::OP_IGET_OBJECT,
+        KUNAI::DEX::TYPES::OP_IGET_BOOLEAN,
+        KUNAI::DEX::TYPES::OP_IGET_BYTE,
+        KUNAI::DEX::TYPES::OP_IGET_CHAR,
+        KUNAI::DEX::TYPES::OP_IGET_SHORT,
+        KUNAI::DEX::TYPES::OP_IPUT,
+        KUNAI::DEX::TYPES::OP_IPUT_WIDE,
+        KUNAI::DEX::TYPES::OP_IPUT_OBJECT,
+        KUNAI::DEX::TYPES::OP_IPUT_BOOLEAN,
+        KUNAI::DEX::TYPES::OP_IPUT_BYTE,
+        KUNAI::DEX::TYPES::OP_IPUT_CHAR,
+        KUNAI::DEX::TYPES::OP_IPUT_SHORT,
+        KUNAI::DEX::TYPES::OP_SGET,
+        KUNAI::DEX::TYPES::OP_SGET_WIDE,
+        KUNAI::DEX::TYPES::OP_SGET_OBJECT,
+        KUNAI::DEX::TYPES::OP_SGET_BOOLEAN,
+        KUNAI::DEX::TYPES::OP_SGET_BYTE,
+        KUNAI::DEX::TYPES::OP_SGET_CHAR,
+        KUNAI::DEX::TYPES::OP_SGET_SHORT,
+        KUNAI::DEX::TYPES::OP_SPUT,
+        KUNAI::DEX::TYPES::OP_SPUT_WIDE,
+        KUNAI::DEX::TYPES::OP_SPUT_OBJECT,
+        KUNAI::DEX::TYPES::OP_SPUT_BOOLEAN,
+        KUNAI::DEX::TYPES::OP_SPUT_BYTE,
+        KUNAI::DEX::TYPES::OP_SPUT_CHAR,
+        KUNAI::DEX::TYPES::OP_SPUT_SHORT,
+        KUNAI::DEX::TYPES::OP_INVOKE_VIRTUAL,
+        KUNAI::DEX::TYPES::OP_INVOKE_SUPER,
+        KUNAI::DEX::TYPES::OP_INVOKE_DIRECT,
+        KUNAI::DEX::TYPES::OP_INVOKE_STATIC,
+        KUNAI::DEX::TYPES::OP_INVOKE_INTERFACE,
+        KUNAI::DEX::TYPES::OP_DIV_INT,
+        KUNAI::DEX::TYPES::OP_REM_INT,
+        KUNAI::DEX::TYPES::OP_DIV_LONG,
+        KUNAI::DEX::TYPES::OP_REM_LONG,
+        KUNAI::DEX::TYPES::OP_DIV_INT_LIT16,
+        KUNAI::DEX::TYPES::OP_REM_INT_LIT16,
+        KUNAI::DEX::TYPES::OP_DIV_INT_LIT8,
+        KUNAI::DEX::TYPES::OP_REM_INT_LIT8,
+};
+
+
+bool Instruction::has_side_effects() const
+{
+    if (std::find(side_effects_opcodes.begin(), side_effects_opcodes.end(), op) != side_effects_opcodes.end())
+        return true;
+    return false;
+}
+
+bool Instruction::may_throw() const
+{
+    if (std::find(may_throw_opcodes.begin(), may_throw_opcodes.end(), op) != may_throw_opcodes.end())
+        return true;
+    return false;
+}
+
+Instruction10x::Instruction10x(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION10X, 2)
 {
     if (op_codes[1] != 0)
@@ -19,7 +158,7 @@ Instruction10x::Instruction10x(std::vector<uint8_t> &bytecode, std::size_t index
     op = op_codes[0];
 }
 
-Instruction12x::Instruction12x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction12x::Instruction12x(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION12X, 2)
 {
     op = op_codes[0];
@@ -27,7 +166,7 @@ Instruction12x::Instruction12x(std::vector<uint8_t> &bytecode, std::size_t index
     vB = (op_codes[1] & 0xF0) >> 4;
 }
 
-Instruction11n::Instruction11n(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction11n::Instruction11n(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION11N, 2)
 {
     op = op_codes[0];
@@ -35,21 +174,21 @@ Instruction11n::Instruction11n(std::vector<uint8_t> &bytecode, std::size_t index
     nB = static_cast<std::int8_t>((op_codes[1] & 0xF0) >> 4);
 }
 
-Instruction11x::Instruction11x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction11x::Instruction11x(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION11X, 2)
 {
     op = op_codes[0];
     vAA = op_codes[1];
 }
 
-Instruction10t::Instruction10t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction10t::Instruction10t(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION10T, 2)
 {
     op = op_codes[0];
     nAA = static_cast<std::int8_t>(op_codes[1]);
 }
 
-Instruction20t::Instruction20t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction20t::Instruction20t(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION20T, 4)
 {
     if (op_codes[1] != 0)
@@ -58,7 +197,7 @@ Instruction20t::Instruction20t(std::vector<uint8_t> &bytecode, std::size_t index
     nAAAA = *(reinterpret_cast<std::uint16_t *>(&op_codes[2]));
 }
 
-Instruction20bc::Instruction20bc(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction20bc::Instruction20bc(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION20BC, 4)
 {
     op = op_codes[0];
@@ -66,7 +205,7 @@ Instruction20bc::Instruction20bc(std::vector<uint8_t> &bytecode, std::size_t ind
     nBBBB = *(reinterpret_cast<std::uint16_t *>(&op_codes[2]));
 }
 
-Instruction22x::Instruction22x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction22x::Instruction22x(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION22X, 4)
 {
     op = op_codes[0];
@@ -74,7 +213,7 @@ Instruction22x::Instruction22x(std::vector<uint8_t> &bytecode, std::size_t index
     vBBBB = *(reinterpret_cast<std::uint16_t *>(&op_codes[2]));
 }
 
-Instruction21t::Instruction21t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction21t::Instruction21t(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION21T, 4)
 {
     op = op_codes[0];
@@ -85,15 +224,15 @@ Instruction21t::Instruction21t(std::vector<uint8_t> &bytecode, std::size_t index
         throw exceptions::InvalidInstructionException("Error reading Instruction21t offset cannot be 0", 4);
 }
 
-Instruction21s::Instruction21s(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction21s::Instruction21s(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION21S, 4)
 {
     op = op_codes[0];
     vAA = op_codes[1];
-    nBBBB = *(reinterpret_cast<std::int16_t*>(&op_codes[2]));
+    nBBBB = *(reinterpret_cast<std::int16_t *>(&op_codes[2]));
 }
 
-Instruction21h::Instruction21h(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction21h::Instruction21h(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION21H, 4)
 {
     op = op_codes[0];
@@ -160,7 +299,7 @@ Instruction21c::Instruction21c(std::vector<uint8_t> &bytecode, std::size_t index
     }
 }
 
-Instruction23x::Instruction23x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction23x::Instruction23x(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION23X, 4)
 {
     op = op_codes[0];
@@ -169,7 +308,7 @@ Instruction23x::Instruction23x(std::vector<uint8_t> &bytecode, std::size_t index
     vCC = op_codes[3];
 }
 
-Instruction22b::Instruction22b(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction22b::Instruction22b(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION22B, 4)
 {
     op = op_codes[0];
@@ -178,7 +317,7 @@ Instruction22b::Instruction22b(std::vector<uint8_t> &bytecode, std::size_t index
     nCC = static_cast<std::int8_t>(op_codes[3]);
 }
 
-Instruction22t::Instruction22t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction22t::Instruction22t(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION22T, 4)
 {
     op = op_codes[0];
@@ -190,7 +329,7 @@ Instruction22t::Instruction22t(std::vector<uint8_t> &bytecode, std::size_t index
         throw exceptions::InvalidInstructionException("Error reading Instruction22t offset cannot be 0", 4);
 }
 
-Instruction22s::Instruction22s(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction22s::Instruction22s(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION22S, 4)
 {
     op = op_codes[0];
@@ -244,7 +383,7 @@ Instruction22cs::Instruction22cs(std::vector<uint8_t> &bytecode, std::size_t ind
     }
 }
 
-Instruction30t::Instruction30t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction30t::Instruction30t(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION30T, 6)
 {
     if (op_codes[1] != 0)
@@ -257,7 +396,7 @@ Instruction30t::Instruction30t(std::vector<uint8_t> &bytecode, std::size_t index
         throw exceptions::InvalidInstructionException("Error reading Instruction30t offset cannot be 0", 6);
 }
 
-Instruction32x::Instruction32x(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction32x::Instruction32x(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION32X, 6)
 {
     if (op_codes[1] != 0)
@@ -268,7 +407,7 @@ Instruction32x::Instruction32x(std::vector<uint8_t> &bytecode, std::size_t index
     vBBBB = *(reinterpret_cast<std::uint16_t *>(&op_codes[4]));
 }
 
-Instruction31i::Instruction31i(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction31i::Instruction31i(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION31I, 6)
 {
     op = op_codes[0];
@@ -276,7 +415,7 @@ Instruction31i::Instruction31i(std::vector<uint8_t> &bytecode, std::size_t index
     nBBBBBBBB = *(reinterpret_cast<std::uint32_t *>(&op_codes[2]));
 }
 
-Instruction31t::Instruction31t(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction31t::Instruction31t(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION31T, 6)
 {
     op = op_codes[0];
@@ -411,12 +550,12 @@ Instruction45cc::Instruction45cc(std::vector<uint8_t> &bytecode, std::size_t ind
         registers.push_back(regF);
     if (reg_count > 4)
         registers.push_back(regG);
-    
+
     method_id = parser->get_methods().get_method(method_reference);
     proto_id = parser->get_protos().get_proto_by_order(prototype_reference);
 }
 
-Instruction4rcc::Instruction4rcc(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction4rcc::Instruction4rcc(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION4RCC, 8)
 {
     std::uint16_t vCCCC;
@@ -432,35 +571,35 @@ Instruction4rcc::Instruction4rcc(std::vector<uint8_t> &bytecode, std::size_t ind
 
     if (prototype_reference >= parser->get_protos().get_number_of_protos())
         throw exceptions::InvalidInstructionException("Error prototype reference out of bound in Instruction4rcc", 8);
-    
-    for (std::uint16_t I = vCCCC, E = vCCCC+reg_count; I < E; ++I)
+
+    for (std::uint16_t I = vCCCC, E = vCCCC + reg_count; I < E; ++I)
         registers.push_back(I);
 
     method_id = parser->get_methods().get_method(method_reference);
     prototype_id = parser->get_protos().get_proto_by_order(prototype_reference);
 }
 
-Instruction51l::Instruction51l(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+Instruction51l::Instruction51l(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_INSTRUCTION51L, 10)
 {
     op = op_codes[0];
     vAA = op_codes[1];
-    nBBBBBBBBBBBBBBBB = *(reinterpret_cast<std::int64_t*>(&op_codes[2]));
+    nBBBBBBBBBBBBBBBB = *(reinterpret_cast<std::int64_t *>(&op_codes[2]));
 }
 
-PackedSwitch::PackedSwitch(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+PackedSwitch::PackedSwitch(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_PACKEDSWITCH, 8)
 {
     std::int32_t aux;
 
-    op = *(reinterpret_cast<std::uint16_t*>(&op_codes[0]));
-    size = *(reinterpret_cast<std::uint16_t*>(&op_codes[2]));
-    first_key = *(reinterpret_cast<std::int32_t*>(&op_codes[4]));
+    op = *(reinterpret_cast<std::uint16_t *>(&op_codes[0]));
+    size = *(reinterpret_cast<std::uint16_t *>(&op_codes[2]));
+    first_key = *(reinterpret_cast<std::int32_t *>(&op_codes[4]));
 
-    // because the instruction is larger, we have to 
+    // because the instruction is larger, we have to
     // re-accomodate the op_codes span and the length
-    // we have to increment it 
-    length += (size*4);
+    // we have to increment it
+    length += (size * 4);
 
     op_codes = {bytecode.begin() + index, bytecode.begin() + index + length};
 
@@ -468,24 +607,24 @@ PackedSwitch::PackedSwitch(std::vector<uint8_t> &bytecode, std::size_t index, Pa
     auto multiplier = sizeof(std::int32_t);
     for (size_t I = 0; I < size; ++I)
     {
-        aux = *(reinterpret_cast<std::int32_t*>(&op_codes[8+(I*multiplier)]));
+        aux = *(reinterpret_cast<std::int32_t *>(&op_codes[8 + (I * multiplier)]));
         targets.push_back(aux);
     }
 }
 
-SparseSwitch::SparseSwitch(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+SparseSwitch::SparseSwitch(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_SPARSESWITCH, 4)
 {
     std::int32_t aux_key, aux_target;
 
-    op = *(reinterpret_cast<std::uint16_t*>(&op_codes[0]));
-    size = *(reinterpret_cast<std::uint16_t*>(&op_codes[2]));
+    op = *(reinterpret_cast<std::uint16_t *>(&op_codes[0]));
+    size = *(reinterpret_cast<std::uint16_t *>(&op_codes[2]));
 
     // now we have to do as before, we have to set the appropiate
     // length and also fix the span object
     // the length is the number of keys and targets multiplied by
     // the size of each one
-    length += (sizeof(std::int32_t) * size)*2;
+    length += (sizeof(std::int32_t) * size) * 2;
     op_codes = {bytecode.begin() + index, bytecode.begin() + index + length};
 
     auto base_targets = 4 + sizeof(std::int32_t) * size;
@@ -493,32 +632,32 @@ SparseSwitch::SparseSwitch(std::vector<uint8_t> &bytecode, std::size_t index, Pa
 
     for (size_t I = 0; I < size; ++I)
     {
-        aux_key = *(reinterpret_cast<std::int32_t*>(&op_codes[4 + I*multiplier]));
-        aux_target = *(reinterpret_cast<std::int32_t*>(&op_codes[base_targets + I*multiplier]));
+        aux_key = *(reinterpret_cast<std::int32_t *>(&op_codes[4 + I * multiplier]));
+        aux_target = *(reinterpret_cast<std::int32_t *>(&op_codes[base_targets + I * multiplier]));
 
         keys_targets.push_back({aux_key, aux_target});
     }
 }
 
-FillArrayData::FillArrayData(std::vector<uint8_t> &bytecode, std::size_t index, Parser * parser)
+FillArrayData::FillArrayData(std::vector<uint8_t> &bytecode, std::size_t index, Parser *parser)
     : Instruction(bytecode, index, dexinsttype_t::DEX_FILLARRAYDATA, 8)
 {
     std::uint8_t aux;
 
-    op = *(reinterpret_cast<std::uint16_t*>(&op_codes[0]));
-    element_width =  *(reinterpret_cast<std::uint16_t*>(&op_codes[2]));
-    size = *(reinterpret_cast<std::uint32_t*>(&op_codes[4]));
+    op = *(reinterpret_cast<std::uint16_t *>(&op_codes[0]));
+    element_width = *(reinterpret_cast<std::uint16_t *>(&op_codes[2]));
+    size = *(reinterpret_cast<std::uint32_t *>(&op_codes[4]));
 
     // again we have to fix the length of the instruction
     // and also the opcodes
-    auto buff_size = (size*element_width);
+    auto buff_size = (size * element_width);
     length += buff_size;
     if (buff_size % 2 != 0)
         length += 1;
     op_codes = {bytecode.begin() + index, bytecode.begin() + index + length};
-    
+
     for (size_t I = 0; I < buff_size; ++I)
     {
-        data.push_back(op_codes[8+I]);
+        data.push_back(op_codes[8 + I]);
     }
 }

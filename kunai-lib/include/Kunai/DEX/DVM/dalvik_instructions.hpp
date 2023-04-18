@@ -178,6 +178,14 @@ namespace DEX
                 return true;
             return false;
         }
+
+        /// @brief Instruction has or can have some side effect.
+        /// @return boolean indicating if a side effect exists
+        virtual bool has_side_effects() const;
+
+        /// @brief May throw an exception 
+        /// @return boolean indicating if instruction can throw an exception
+        virtual bool may_throw() const;
     };
 
     /// @brief Useless instruction with opcode of 00
