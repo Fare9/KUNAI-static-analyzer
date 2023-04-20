@@ -28,7 +28,7 @@
 
 #include <unordered_map>
 #include <utility>
-#include <set>
+#include <vector>
 
 namespace KUNAI
 {
@@ -37,12 +37,19 @@ namespace MjolnIR
     class Lifter
     {
     public:
+        using edge_t = std::pair<KUNAI::DEX::DVMBasicBlock*, KUNAI::DEX::DVMBasicBlock*>;
+
         struct BasicBlockDef
         {
             /// Map a register to its definition in IR
             mlir::DenseMap<std::uint32_t, mlir::Value> Defs;
 
             std::set<std::uint32_t> required;
+
+            mlir::DenseMap<
+                edge_t,
+                mlir::SmallVector<mlir::Value,4>> jmpParameters;
+            
 
             /// Block is sealed, means no more predecessors will be
             /// added nor analyzed.
@@ -153,6 +160,11 @@ namespace MjolnIR
         // different function types.
         //===----------------------------------------------------------------------===//
 
+        void gen_instruction(KUNAI::DEX::Instruction10t *instr);
+
+        void gen_instruction(KUNAI::DEX::Instruction20t *instr);
+
+        void gen_instruction(KUNAI::DEX::Instruction30t *instr);
         /// @brief Lift an instruction of the type Instruction23x
         /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction23x *instr);
@@ -193,6 +205,8 @@ namespace MjolnIR
         /// @param bb DVMBasicBlock to lift
         /// @param method method where the basic block is
         void gen_block(KUNAI::DEX::DVMBasicBlock* bb);
+
+        void gen_terminators(KUNAI::DEX::DVMBasicBlock * bb);
 
         /// @brief Generate a MethodOp from a MethodAnalysis
         /// @param method MethodAnalysis object to lift

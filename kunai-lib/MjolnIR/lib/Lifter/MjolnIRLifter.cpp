@@ -149,17 +149,7 @@ mlir::Value Lifter::readLocalVariableRecursive(KUNAI::DEX::DVMBasicBlock *BB,
             CurrentDef[BB].required.erase(Reg);
         }
 
-        /// in the predecessor we have to set the value as one of the operands
-        auto last_instr = map_blocks[pred]->getTerminator();
-
-        if (llvm::isa<::mlir::cf::CondBranchOp>(last_instr))
-        {
-            /// set in the jump the needed value
-        }
-        else if (auto jmp = llvm::dyn_cast<::mlir::cf::BranchOp>(last_instr))
-        {
-            auto size_operands = jmp.getOperands().size();
-        }
+        CurrentDef[pred].jmpParameters[std::make_pair(pred, BB)].push_back(Val);
     }
 
     return new_value;
@@ -197,6 +187,14 @@ void Lifter::gen_method(KUNAI::DEX::MethodAnalysis *method)
 
         gen_block(bb);
     }
+
+    for (auto bb : bbs.get_nodes())
+    {
+        if (bb->is_start_block() || bb->is_end_block())
+            continue;
+
+        gen_terminators(bb);
+    }
 }
 
 void Lifter::gen_block(KUNAI::DEX::DVMBasicBlock *bb)
@@ -208,6 +206,11 @@ void Lifter::gen_block(KUNAI::DEX::DVMBasicBlock *bb)
     {
         try
         {
+            auto operation = KUNAI::DEX::DalvikOpcodes::get_instruction_operation(instr->get_instruction_opcode());
+            /// we will generate terminators later
+            if (instr->is_terminator() &&
+                operation != KUNAI::DEX::TYPES::Operation::RET_BRANCH_DVM_OPCODE)
+                continue;
             /// generate the instruction
             gen_instruction(instr);
         }
@@ -221,9 +224,50 @@ void Lifter::gen_block(KUNAI::DEX::DVMBasicBlock *bb)
             builder.create<::mlir::KUNAI::MjolnIR::Nop>(Loc);
         }
     }
+
+    CurrentDef[bb].Analyzed = 1;
 }
 
-mlir::OwningOpRef<mlir::ModuleOp> Lifter::mlirGen(KUNAI::DEX::MethodAnalysis* methodAnalysis)
+void Lifter::gen_terminators(KUNAI::DEX::DVMBasicBlock *bb)
+{
+    current_basic_block = bb;
+
+    auto last_instr = bb->get_instructions().back();
+
+    builder.setInsertionPointToEnd(map_blocks[bb]);
+    try
+    {
+        auto operation = KUNAI::DEX::DalvikOpcodes::get_instruction_operation(last_instr->get_instruction_opcode());
+        
+        if (operation == KUNAI::DEX::TYPES::Operation::RET_BRANCH_DVM_OPCODE)
+            return;
+        if (last_instr->is_terminator())
+            gen_instruction(last_instr);
+        else
+        {
+            auto next_block = current_method->get_basic_blocks().get_basic_block_by_idx(
+                last_instr->get_address() + last_instr->get_instruction_length());
+
+            auto loc = mlir::FileLineColLoc::get(&context, module_name, last_instr->get_address(), 1);
+
+            builder.create<::mlir::KUNAI::MjolnIR::FallthroughOp>(
+                loc,
+                map_blocks[next_block],
+                CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, next_block)]);
+        }
+    }
+    catch (const exceptions::LifterException &e)
+    {
+        /// if user wants to generate exception
+        if (gen_exception)
+            throw e;
+        /// if not just create a Nop instruction
+        auto Loc = mlir::FileLineColLoc::get(&context, module_name, last_instr->get_address(), 0);
+        builder.create<::mlir::KUNAI::MjolnIR::Nop>(Loc);
+    }
+}
+
+mlir::OwningOpRef<mlir::ModuleOp> Lifter::mlirGen(KUNAI::DEX::MethodAnalysis *methodAnalysis)
 {
     /// create a Module
     Module = mlir::ModuleOp::create(builder.getUnknownLoc());

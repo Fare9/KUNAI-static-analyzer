@@ -5,6 +5,7 @@
 // @file InstructionLifter.cpp
 #include "Lifter/MjolnIRLifter.hpp"
 #include "Kunai/Exceptions/lifter_exception.hpp"
+#include <mlir/IR/OpDefinition.h>
 
 using namespace KUNAI::MjolnIR;
 
@@ -23,6 +24,18 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction *instr)
         break;
     case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION22C:
         gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction22c *>(instr));
+        break;
+    case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION22T:
+        gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction22t *>(instr));
+        break;
+    case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION10T:
+        gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction10t *>(instr));
+        break;
+    case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION20T:
+        gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction20t *>(instr));
+        break;
+    case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION30T:
+        gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction30t *>(instr));
         break;
     default:
         throw exceptions::LifterException("MjolnIRLifter::gen_instruction: InstructionType not implemented");
@@ -346,6 +359,20 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction12x *instr)
 
     switch (op_code)
     {
+    case KUNAI::DEX::TYPES::OP_MOVE:
+    case KUNAI::DEX::TYPES::OP_MOVE_WIDE:
+    case KUNAI::DEX::TYPES::OP_MOVE_OBJECT:
+    {
+        auto src_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src);
+
+        auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::MoveOp>(
+            location,
+            src_value.getType(),
+            src_value);
+
+        writeLocalVariable(current_basic_block, dest, gen_value);
+    }
+    break;
     case KUNAI::DEX::TYPES::OP_ADD_INT_2ADDR:
         if (!dest_type)
             dest_type = ::mlir::KUNAI::MjolnIR::DVMIntType::get(&context);
@@ -629,12 +656,14 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
             auto field = instr->get_checked_field();
             auto field_ref = instr->get_checked_id();
 
-            std::string &field_name = field->pretty_field();
+            std::string &field_name = field->get_name();
+            std::string &field_class = field->get_class()->get_raw();
 
             auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::LoadFieldOp>(
                 location,
                 destination_type,
                 field_name,
+                field_class,
                 field_ref);
 
             writeLocalVariable(current_basic_block, reg, generated_value);
@@ -648,7 +677,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
         auto field = instr->get_checked_field();
         auto field_ref = instr->get_checked_id();
 
-        std::string &field_name = field->pretty_field();
+        std::string &field_name = field->get_name();
+        std::string &field_class = field->get_class()->get_raw();
 
         auto reg_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), reg);
 
@@ -656,11 +686,200 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
             location,
             reg_value,
             field_name,
+            field_class,
             field_ref);
     }
     break;
     default:
         throw exceptions::LifterException("MjolnIRLifter::gen_instruction: Instruction22c not implemented yet");
+        break;
+    }
+}
+
+void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
+{
+    auto op_code = instr->get_instruction_opcode();
+
+    auto location = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 0);
+
+    auto v1 = instr->get_first_operand();
+    auto v2 = instr->get_second_operand();
+
+    mlir::Value cmp_value;
+
+    mlir::Type I1 = ::mlir::IntegerType::get(&context, 1);
+
+    switch (op_code)
+    {
+    case KUNAI::DEX::TYPES::OP_IF_EQ:
+    {
+        if (!cmp_value)
+        {
+            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpEq>(
+                location,
+                I1,
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+        }
+    }
+    case KUNAI::DEX::TYPES::OP_IF_NE:
+    {
+        if (!cmp_value)
+        {
+            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpNEq>(
+                location,
+                I1,
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+        }
+    }
+    case KUNAI::DEX::TYPES::OP_IF_LT:
+    {
+        if (!cmp_value)
+        {
+            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpLt>(
+                location,
+                I1,
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+        }
+    }
+    case KUNAI::DEX::TYPES::OP_IF_GE:
+    {
+        if (!cmp_value)
+        {
+            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpGe>(
+                location,
+                I1,
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+        }
+    }
+    case KUNAI::DEX::TYPES::OP_IF_GT:
+    {
+        if (!cmp_value)
+        {
+            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpGt>(
+                location,
+                I1,
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+        }
+    }
+    case KUNAI::DEX::TYPES::OP_IF_LE:
+    {
+        if (!cmp_value)
+        {
+            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpLe>(
+                location,
+                I1,
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
+                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+        }
+
+        auto location_jcc = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 1);
+        /// get the addresses from the blocks
+        auto true_idx = instr->get_address() + (instr->get_offset() * 2);
+        auto false_idx = instr->get_address() + instr->get_instruction_length();
+        /// get the blocks:
+        ///     - current_block: for obtaining the required arguments.
+        ///     - true_block: for generating branch to `true` block
+        ///     - false_block: for generating fallthrough to `false` block.
+        auto true_block = current_method->get_basic_blocks().get_basic_block_by_idx(true_idx);
+        auto false_block = current_method->get_basic_blocks().get_basic_block_by_idx(false_idx);
+        /// create the conditional branch
+        builder.create<::mlir::cf::CondBranchOp>(
+            location_jcc,
+            cmp_value,
+            map_blocks[true_block],
+            CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, true_block)],
+            map_blocks[false_block],
+            CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, false_block)]);
+    }
+    break;
+    default:
+        throw exceptions::LifterException("Lifter::gen_instruction: Error Instruction22t not supported");
+    }
+}
+
+void Lifter::gen_instruction(KUNAI::DEX::Instruction10t *instr)
+{
+    auto op_code = instr->get_instruction_opcode();
+
+    auto location = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 0);
+
+    switch (op_code)
+    {
+    case KUNAI::DEX::TYPES::OP_GOTO:
+    {
+        auto offset = instr->get_jump_offset();
+        auto target_idx = instr->get_address() + (offset * 2);
+
+        auto target_block = current_method->get_basic_blocks().get_basic_block_by_idx(target_idx);
+
+        builder.create<::mlir::cf::BranchOp>(
+            location,
+            map_blocks[target_block],
+            CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, target_block)]);
+    }
+    break;
+
+    default:
+        throw exceptions::LifterException("Lifter::gen_instruction: Instruction10t not supported or not recognized.");
+        break;
+    }
+}
+
+void Lifter::gen_instruction(KUNAI::DEX::Instruction20t *instr)
+{
+    auto op_code = instr->get_instruction_opcode();
+
+    auto location = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 0);
+
+    switch (op_code)
+    {
+    case KUNAI::DEX::TYPES::OP_GOTO_16:
+    {
+        auto offset = instr->get_offset();
+        auto target_idx = instr->get_address() + (offset * 2);
+
+        auto target_block = current_method->get_basic_blocks().get_basic_block_by_idx(target_idx);
+
+        builder.create<::mlir::cf::BranchOp>(
+            location,
+            map_blocks[target_block],
+            CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, target_block)]);
+    }
+    break;
+
+    default:
+        break;
+    }
+}
+
+void Lifter::gen_instruction(KUNAI::DEX::Instruction30t *instr)
+{
+    auto op_code = instr->get_instruction_opcode();
+
+    auto location = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 0);
+
+    switch (op_code)
+    {
+    case KUNAI::DEX::TYPES::OP_GOTO_32:
+    {
+        auto offset = instr->get_offset();
+        auto target_idx = instr->get_address() + (offset * 2);
+
+        auto target_block = current_method->get_basic_blocks().get_basic_block_by_idx(target_idx);
+
+        builder.create<::mlir::cf::BranchOp>(
+            location,
+            map_blocks[target_block],
+            CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, target_block)]);
+    }
+    break;
+
+    default:
         break;
     }
 }
