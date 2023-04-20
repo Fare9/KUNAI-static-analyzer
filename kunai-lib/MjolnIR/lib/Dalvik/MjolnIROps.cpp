@@ -15,16 +15,15 @@
 #include <mlir/IR/FunctionImplementation.h>
 #include <mlir/IR/OpImplementation.h>
 #include <mlir/Transforms/InliningUtils.h>
+#include <mlir/Interfaces/ControlFlowInterfaces.h>
 // include from LLVM
 #include <llvm/ADT/TypeSwitch.h>
 
 #define GET_OP_CLASSES
 #include "Dalvik/MjolnIROps.cpp.inc"
 
-
 using namespace mlir;
 using namespace ::mlir::KUNAI::MjolnIR;
-
 
 /***
  * Following the example from the Toy language from MLIR webpage
@@ -165,3 +164,10 @@ CallInterfaceCallable InvokeOp::getCallableForCallee()
 /// Get the argument operands to the called function, this is required by the
 /// call interface.
 Operation::operand_range InvokeOp::getArgOperands() { return getInputs(); }
+
+//===----------------------------------------------------------------------===//
+// FallthroughOp
+//===----------------------------------------------------------------------===//
+void FallthroughOp::setDest(Block *block) { return setSuccessor(block); }
+
+void FallthroughOp::eraseOperand(unsigned index) { (*this)->eraseOperand(index); }

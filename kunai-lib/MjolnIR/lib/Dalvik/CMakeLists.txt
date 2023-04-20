@@ -11,5 +11,8 @@ add_mlir_dialect_library(MjolnIR
     MLIRMjolnIROpsIncGen
 
     LINK_LIBS PUBLIC
+    MLIRArithDialect
+    MLIRControlFlowInterfaces
     MLIRIR
+    MLIRSideEffectInterfaces
 )
