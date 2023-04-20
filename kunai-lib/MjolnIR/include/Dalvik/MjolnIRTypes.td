@@ -58,6 +58,18 @@ def DVMDouble : MjolnIRType<"DVMDouble", "dvmdouble"> {
   let summary = "Double type from Dalvik";
 }
 
+def DVMObject : MjolnIRType<"DVMObject", "object"> {
+  let summary = "An object from any Java class";
+
+  let parameters = (ins
+    StringRefParameter<"the name of the class">:$value
+  );
+
+  let assemblyFormat = [{
+    `<` $value `>`
+  }];
+}
+
 def DVM_BasicType : AnyTypeOf<[DVMBool, DVMChar, DVMShort, DVMInt, DVMLong, DVMFloat, DVMDouble]>;
 
 

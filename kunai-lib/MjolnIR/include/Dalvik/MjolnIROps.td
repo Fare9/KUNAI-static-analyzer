@@ -16,7 +16,7 @@ include "mlir/IR/SymbolInterfaces.td"
 include "mlir/Interfaces/CallInterfaces.td"
 include "mlir/Interfaces/CastInterfaces.td"
 include "mlir/Interfaces/SideEffectInterfaces.td"
-
+include "mlir/Interfaces/ControlFlowInterfaces.td"
 
 
 
@@ -69,7 +69,6 @@ class MjolnIR_ComparisonOpBase<string mnemonic, list<Trait> traits = []> :
     let results = (outs
         I1:$res
     );
-
 }
 
 def MjolnIR_Nop : MjolnIR_Op<"nop", [Pure]>;
@@ -278,6 +277,7 @@ def LoadFieldOp : MjolnIR_Op<"loadfield",
 
     let arguments = (ins
         FlatSymbolRefAttr:$fieldName, // name of Field
+        FlatSymbolRefAttr:$fieldClass, // class of Field
         UI32Attr: $fieldRef // reference to Field in Dalvik code
     );
 
@@ -285,7 +285,7 @@ def LoadFieldOp : MjolnIR_Op<"loadfield",
         DVM_BasicType               // any of the DVM Basic Types
     );
 
-    let assemblyFormat = "attr-dict $fieldName `(` $fieldRef `)` `:` type(results)";
+    let assemblyFormat = "attr-dict $fieldClass`->`$fieldName `(` $fieldRef `)` `:` type(results)";
 }
 
 //===----------------------------------------------------------------------===//
@@ -309,10 +309,11 @@ def StoreFieldOp : MjolnIR_Op<"storefield", []>
     let arguments = (ins
         DVM_BasicType:$value,   // value to store in the Field
         FlatSymbolRefAttr:$fieldName, // name of Field
+        FlatSymbolRefAttr:$fieldClass, // class of Field
         UI32Attr: $fieldRef // reference to Field in Dalvik code
     );
 
-    let assemblyFormat = "attr-dict $value`:`type($value)`,` $fieldName `(`$fieldRef`)`";
+    let assemblyFormat = "attr-dict $value`:`type($value)`,` $fieldClass`->`$fieldName `(`$fieldRef`)`";
 }
 
 
@@ -436,6 +437,52 @@ def ReturnOp : MjolnIR_Op<"return", [
     let extraClassDeclaration = [{
         bool hasOperand() { return getNumOperands() != 0; }
     }];
+}
+
+//===----------------------------------------------------------------------===//
+// FallthroughOp
+//===----------------------------------------------------------------------===//
+
+def FallthroughOp : MjolnIR_Op<"fallthrough", [
+    Pure, Terminator
+  ]> {
+  let summary = "FallThrough jump";
+  let description = [{
+    Fallthrough instruction is used as a fake jump for implementing the logic
+    of control flow graph, two blocks must be connected by a terminator
+    instruction, and a fallthrough in the dalvik graph is not any kind of jump.
+    For this we need to add a fallthrough as an unconditional jump.
+
+    Example:
+
+    ```mlir
+    ^bb2:
+      %2 = call @someFn()
+      MjolnIR.fallthrough ^bb3(%2 : tensor<*xf32>)
+    ^bb3(%3: tensor<*xf32>):
+    ```
+  }];
+
+  let arguments = (ins Variadic<AnyType>:$destOperands);
+  let successors = (successor AnySuccessor:$dest);
+
+  let builders = [
+    OpBuilder<(ins "Block *":$dest,
+                   CArg<"ValueRange", "{}">:$destOperands), [{
+      $_state.addSuccessors(dest);
+      $_state.addOperands(destOperands);
+    }]>];
+
+  let extraClassDeclaration = [{
+    void setDest(Block *block);
+
+    /// Erase the operand at 'index' from the operand list.
+    void eraseOperand(unsigned index);
+  }];
+
+  let assemblyFormat = [{
+    $dest (`(` $destOperands^ `:` type($destOperands) `)`)? attr-dict
+  }];
 }
 
 #endif // DALVIK_MJOLNIROPS_TD
