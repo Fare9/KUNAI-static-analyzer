@@ -14,6 +14,15 @@ public class Simple {
         
         test_field = f;
 
+        int x = a;
+
+        if (c == e)
+            x = c;
+        else
+            x = e;
+
+        e = x;
+
         return e;
     }
 
