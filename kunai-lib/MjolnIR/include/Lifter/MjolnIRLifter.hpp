@@ -139,6 +139,11 @@ namespace MjolnIR
         /// @return different type depending on input
         mlir::Type get_type(KUNAI::DEX::DVMFundamental *fundamental);
 
+        /// @brief Return an mlir::Type from a class type of Dalvik
+        /// @param cls class type of Dalvik
+        /// @return a mlir::Type which contains as attribute the name of the class
+        mlir::Type get_type(KUNAI::DEX::DVMClass *cls);
+
         /// @brief Generic generator method for all DVMType
         /// @param type type to obtain the mlir::Type
         /// @return an mlir::Type from the dalvik type
@@ -159,6 +164,15 @@ namespace MjolnIR
         // Lifting instructions, these class functions will be specialized for the
         // different function types.
         //===----------------------------------------------------------------------===//
+        void gen_instruction(KUNAI::DEX::Instruction51l *instr);
+
+        void gen_instruction(KUNAI::DEX::Instruction21h *instr);
+
+        void gen_instruction(KUNAI::DEX::Instruction21s *instr);
+
+        void gen_instruction(KUNAI::DEX::Instruction11n *instr);
+
+        void gen_instruction(KUNAI::DEX::Instruction10x *instr);
 
         void gen_instruction(KUNAI::DEX::Instruction10t *instr);
 

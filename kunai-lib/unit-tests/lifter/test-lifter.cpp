@@ -10,9 +10,21 @@
 #include "Lifter/MjolnIRLifter.hpp"
 #include <memory>
 
-int main()
+int main(int argc, char ** argv)
 {
-    std::string dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test-very-simple/classes.dex";
+    std::string dex_file_path;
+    std::string method_name;
+
+    if (argc == 1)
+    {
+        dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test-very-simple/classes.dex";
+        method_name = "my_add";
+    }
+    else if (argc == 3)
+    {
+        dex_file_path = argv[1];
+        method_name = argv[2];
+    }
 
     auto logger = KUNAI::LOGGER::logger();
 
@@ -29,7 +41,7 @@ int main()
 
     for (const auto & method : methods)
     {
-        if (method.second->get_name() != "my_add")
+        if (method.second->get_name() != method_name)
             continue;
 
         mlir::DialectRegistry registry;

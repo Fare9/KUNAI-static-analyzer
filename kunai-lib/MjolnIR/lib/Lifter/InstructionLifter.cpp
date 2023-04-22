@@ -37,6 +37,21 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction *instr)
     case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION30T:
         gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction30t *>(instr));
         break;
+    case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION10X:
+        gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction10x *>(instr));
+        break;
+    case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION11N:
+        gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction11n *>(instr));
+        break;
+    case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION21S:
+        gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction21s *>(instr));
+        break;
+    case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION21H:
+        gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction21h *>(instr));
+        break;
+    case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION51L:
+        gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction51l *>(instr));
+        break;
     default:
         throw exceptions::LifterException("MjolnIRLifter::gen_instruction: InstructionType not implemented");
     }
@@ -623,6 +638,87 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction12x *instr)
         }
         break;
 
+    case KUNAI::DEX::TYPES::OP_NEG_INT:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMIntType::get(&context);
+    case KUNAI::DEX::TYPES::OP_NEG_LONG:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMLongType::get(&context);
+    case KUNAI::DEX::TYPES::OP_NEG_FLOAT:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMFloatType::get(&context);
+    case KUNAI::DEX::TYPES::OP_NEG_DOUBLE:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMDoubleType::get(&context);
+        {
+            auto src_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src);
+
+            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::Neg>(
+                location,
+                dest_type,
+                src_value);
+
+            writeLocalVariable(current_basic_block, dest, generated_value);
+        }
+        break;
+    case KUNAI::DEX::TYPES::OP_NOT_INT:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMIntType::get(&context);
+    case KUNAI::DEX::TYPES::OP_NOT_LONG:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMLongType::get(&context);
+        {
+            auto src_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src);
+
+            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::Not>(
+                location,
+                dest_type,
+                src_value);
+
+            writeLocalVariable(current_basic_block, dest, generated_value);
+        }
+        break;
+    /// casts
+    case KUNAI::DEX::TYPES::OP_INT_TO_LONG:
+    case KUNAI::DEX::TYPES::OP_FLOAT_TO_LONG:
+    case KUNAI::DEX::TYPES::OP_DOUBLE_TO_LONG:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMLongType::get(&context);
+    case KUNAI::DEX::TYPES::OP_INT_TO_FLOAT:
+    case KUNAI::DEX::TYPES::OP_LONG_TO_FLOAT:
+    case KUNAI::DEX::TYPES::OP_DOUBLE_TO_FLOAT:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMFloatType::get(&context);
+    case KUNAI::DEX::TYPES::OP_INT_TO_DOUBLE:
+    case KUNAI::DEX::TYPES::OP_LONG_TO_DOUBLE:
+    case KUNAI::DEX::TYPES::OP_FLOAT_TO_DOUBLE:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMDoubleType::get(&context);
+    case KUNAI::DEX::TYPES::OP_LONG_TO_INT:
+    case KUNAI::DEX::TYPES::OP_FLOAT_TO_INT:
+    case KUNAI::DEX::TYPES::OP_DOUBLE_TO_INT:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMIntType::get(&context);
+    case KUNAI::DEX::TYPES::OP_INT_TO_BYTE:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMByteType::get(&context);
+    case KUNAI::DEX::TYPES::OP_INT_TO_CHAR:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMCharType::get(&context);
+    case KUNAI::DEX::TYPES::OP_INT_TO_SHORT:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMShortType::get(&context);
+        {
+            auto src_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src);
+
+            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::CastOp>(
+                location,
+                dest_type,
+                src_value);
+
+            writeLocalVariable(current_basic_block, dest, generated_value);
+        }
+        break;
     default:
         throw exceptions::LifterException("MjolnIRLifter::gen_instruction: Instruction12x not supported");
     }
@@ -640,6 +736,15 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
 
     switch (op_code)
     {
+    case KUNAI::DEX::TYPES::OP_IGET:
+    case KUNAI::DEX::TYPES::OP_IGET_WIDE:
+    {
+        if (!destination_type)
+        {
+            auto field = instr->get_checked_field();
+            destination_type = get_type(field->get_type());
+        }
+    }
     case KUNAI::DEX::TYPES::OP_IGET_BOOLEAN:
         if (!destination_type)
             destination_type = ::mlir::KUNAI::MjolnIR::DVMBoolType::get(&context);
@@ -669,6 +774,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
             writeLocalVariable(current_basic_block, reg, generated_value);
         }
         break;
+    case KUNAI::DEX::TYPES::OP_IPUT:
+    case KUNAI::DEX::TYPES::OP_IPUT_WIDE:
     case KUNAI::DEX::TYPES::OP_IPUT_BOOLEAN:
     case KUNAI::DEX::TYPES::OP_IPUT_BYTE:
     case KUNAI::DEX::TYPES::OP_IPUT_CHAR:
@@ -878,6 +985,157 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction30t *instr)
             CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, target_block)]);
     }
     break;
+
+    default:
+        break;
+    }
+}
+
+void Lifter::gen_instruction(KUNAI::DEX::Instruction10x *instr)
+{
+    auto op_code = instr->get_instruction_opcode();
+
+    auto location = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 0);
+
+    switch (op_code)
+    {
+    case KUNAI::DEX::TYPES::OP_RETURN_VOID:
+        builder.create<::mlir::KUNAI::MjolnIR::ReturnOp>(
+            location);
+        break;
+    case KUNAI::DEX::TYPES::OP_NOP:
+        builder.create<::mlir::KUNAI::MjolnIR::Nop>(
+            location);
+        break;
+    default:
+        throw exceptions::LifterException("Lifter::gen_instruction: Instruction10x not supported");
+        break;
+    }
+}
+
+void Lifter::gen_instruction(KUNAI::DEX::Instruction11n *instr)
+{
+    auto op_code = instr->get_instruction_opcode();
+
+    auto location = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 0);
+
+    auto dest = instr->get_destination();
+
+    switch (op_code)
+    {
+    case KUNAI::DEX::TYPES::OP_CONST_4:
+    {
+        auto value = instr->get_source();
+
+        auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadValue>(
+            location,
+            ::mlir::KUNAI::MjolnIR::DVMByteType::get(&context),
+            value);
+
+        writeLocalVariable(current_basic_block, dest, gen_value);
+    }
+    break;
+
+    default:
+        throw exceptions::LifterException("Lifter::gen_instruction: Instruction11n not supported");
+        break;
+    }
+}
+
+void Lifter::gen_instruction(KUNAI::DEX::Instruction21s *instr)
+{
+    auto op_code = instr->get_instruction_opcode();
+
+    auto location = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 0);
+
+    auto dest = instr->get_destination();
+
+    mlir::Type dest_type;
+
+    switch (op_code)
+    {
+    case KUNAI::DEX::TYPES::opcodes::OP_CONST_16:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMIntType::get(&context);
+    case KUNAI::DEX::TYPES::opcodes::OP_CONST_WIDE_16:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMLongType::get(&context);
+        {
+            auto value = static_cast<std::int64_t>(instr->get_source());
+
+            auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadValue>(
+                location,
+                dest_type,
+                value);
+            writeLocalVariable(current_basic_block, dest, gen_value);
+        }
+        break;
+    default:
+        throw exceptions::LifterException("Lifter::gen_instruction: Instruction21s not supported");
+        break;
+    }
+}
+
+void Lifter::gen_instruction(KUNAI::DEX::Instruction21h *instr)
+{
+    auto op_code = instr->get_instruction_opcode();
+
+    auto location = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 0);
+
+    auto dest = instr->get_destination();
+
+    mlir::Type dest_type;
+
+    switch (op_code)
+    {
+    case KUNAI::DEX::TYPES::opcodes::OP_CONST_HIGH16:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMFloatType::get(&context);
+        {
+            auto value = static_cast<std::int64_t>(instr->get_source());
+
+            auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadValue>(
+                location,
+                dest_type,
+                value);
+
+            writeLocalVariable(current_basic_block, dest, gen_value);
+        }
+        break;
+    default:
+        throw exceptions::LifterException("Lifter::gen_instruction: Instruction21h not supported");
+        break;
+    }
+}
+
+void Lifter::gen_instruction(KUNAI::DEX::Instruction51l *instr)
+{
+    auto op_code = instr->get_instruction_opcode();
+
+    auto location = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 0);
+
+    /// we will take the registers as big enough
+    /// for storing a 64-bit value
+    auto dest_reg = instr->get_first_register();
+
+    mlir::Type dest_type;
+
+    switch (op_code)
+    {
+    case KUNAI::DEX::TYPES::OP_CONST_WIDE:
+        if (!dest_type)
+            dest_type = ::mlir::KUNAI::MjolnIR::DVMDoubleType::get(&context);
+        {
+            auto value = static_cast<std::int64_t>(instr->get_wide_value());
+
+            auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadValue>(
+                location,
+                dest_type,
+                value);
+
+            writeLocalVariable(current_basic_block, dest_reg, gen_value);
+        }
+        break;
 
     default:
         break;

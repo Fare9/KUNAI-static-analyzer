@@ -46,12 +46,17 @@ mlir::Type Lifter::get_type(KUNAI::DEX::DVMFundamental *fundamental)
     return current_type;
 }
 
+mlir::Type Lifter::get_type(KUNAI::DEX::DVMClass *cls)
+{
+    return ::mlir::KUNAI::MjolnIR::DVMObjectType::get(&context, cls->get_name());
+}
+
 mlir::Type Lifter::get_type(KUNAI::DEX::DVMType *type)
 {
     if (type->get_type() == KUNAI::DEX::DVMType::FUNDAMENTAL)
         return get_type(reinterpret_cast<KUNAI::DEX::DVMFundamental *>(type));
     else if (type->get_type() == KUNAI::DEX::DVMType::CLASS)
-        throw exceptions::LifterException("MjolnIRLifter::get_type: type CLASS not implemented yet...");
+        return get_type(reinterpret_cast<KUNAI::DEX::DVMClass*>(type));
     else if (type->get_type() == KUNAI::DEX::DVMType::ARRAY)
         throw exceptions::LifterException("MjolnIRLIfter::get_type: type ARRAY not implemented yet...");
     else
