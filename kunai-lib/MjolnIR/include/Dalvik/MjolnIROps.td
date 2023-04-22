@@ -104,7 +104,7 @@ def MjolnIR_LoadValue : MjolnIR_Op<"load-value", [Pure, ConstantLike]>
     }];
 
     let arguments = (ins
-    AnyAttr:$value
+        SI64Attr:$value
     );
 
     let results = (outs
@@ -112,21 +112,6 @@ def MjolnIR_LoadValue : MjolnIR_Op<"load-value", [Pure, ConstantLike]>
     );
 
     let assemblyFormat = "`(` $value `)` attr-dict `:` type($res)";
-
-    let builders = [
-        OpBuilder<(ins "Type":$type, "int64_t":$value), [{
-            build($_builder, $_state, type, $_builder.getIntegerAttr(type, value));
-        }]>,
-        OpBuilder<(ins "Type":$type, "const APInt &":$value), [{
-            build($_builder, $_state, type, $_builder.getIntegerAttr(type, value));
-        }]>,
-        OpBuilder<(ins "Type":$type, "const APFloat &":$value), [{
-            build($_builder, $_state, type, $_builder.getFloatAttr(type, value));
-        }]>,
-        OpBuilder<(ins "TypedAttr":$value), [{
-            build($_builder, $_state, value.getType(), value);
-        }]>
-    ];
 }
 
 //===----------------------------------------------------------------------===//
