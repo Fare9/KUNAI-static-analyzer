@@ -169,7 +169,7 @@ set_target_properties(KUNAI
     OUTPUT_NAME "kunai"
 )
 
-if(USE_MJOLNIR EQUAL OFF)
+if(USE_MJOLNIR STREQUAL "OFF")
     # ######################################################################
     # installation
     message(STATUS "Project will be installed to ${CMAKE_INSTALL_PREFIX}")
