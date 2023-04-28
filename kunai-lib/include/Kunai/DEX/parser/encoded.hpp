@@ -645,7 +645,9 @@ namespace DEX
         /// @param access_flags access flags of access of the method
         EncodedMethod(MethodID* method_id, TYPES::access_flags access_flags)
             : method_id(method_id), access_flags(access_flags)
-        {}
+        {
+            this->method_id->set_encoded_method(this);
+        }
 
         /// @brief Destructor of Encoded method
         ~EncodedMethod() = default;

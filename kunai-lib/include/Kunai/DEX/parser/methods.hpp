@@ -20,6 +20,9 @@ namespace KUNAI
 {
     namespace DEX
     {
+        /// @brief forward declaration to keep a pointer on it
+        class EncodedMethod;
+
         /// @brief MethodID represents a single method from DEX file
         class MethodID 
         {
@@ -31,6 +34,8 @@ namespace KUNAI
             std::string& name_;
             /// @brief pretty name with all the information
             std::string pretty_name;
+            /// @brief pointer to the encoded method
+            EncodedMethod * encoded_method;
         public:
             
             /// @brief Constructor of the MethodID
@@ -44,6 +49,20 @@ namespace KUNAI
 
             /// @brief Destructor of the MethodID
             ~MethodID() = default;
+
+            /// @brief get the encoded method set in this MethodID*
+            /// @return the encoded method from this method
+            EncodedMethod * get_encoded_method()
+            {
+                return encoded_method;
+            }
+
+            /// @brief Set the encoded method from this MethodID
+            /// @param encoded_method proper encoded method
+            void set_encoded_method(EncodedMethod * e)
+            {
+                encoded_method = e;
+            }
 
             /// @brief Get a constant pointer to the class where method is
             /// @return constant pointer to class_
