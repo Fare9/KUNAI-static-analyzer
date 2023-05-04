@@ -298,7 +298,7 @@ namespace
         {TYPES::opcodes::OP_APUT_SHORT, &get_instruction<Instruction23x>},
         // Instruction22s
         {TYPES::opcodes::OP_ADD_INT_LIT16, &get_instruction<Instruction22s>},
-        {TYPES::opcodes::OP_RSUB_INT, &get_instruction<Instruction22s>},
+        {TYPES::opcodes::OP_SUB_INT_LIT16, &get_instruction<Instruction22s>},
         {TYPES::opcodes::OP_MUL_INT_LIT16, &get_instruction<Instruction22s>},
         {TYPES::opcodes::OP_DIV_INT_LIT16, &get_instruction<Instruction22s>},
         {TYPES::opcodes::OP_REM_INT_LIT16, &get_instruction<Instruction22s>},
@@ -307,7 +307,7 @@ namespace
         {TYPES::opcodes::OP_XOR_INT_LIT16, &get_instruction<Instruction22s>},
         // Instruction22b
         {TYPES::opcodes::OP_ADD_INT_LIT8, &get_instruction<Instruction22b>},
-        {TYPES::opcodes::OP_RSUB_INT_LIT8, &get_instruction<Instruction22b>},
+        {TYPES::opcodes::OP_SUB_INT_LIT8, &get_instruction<Instruction22b>},
         {TYPES::opcodes::OP_MUL_INT_LIT8, &get_instruction<Instruction22b>},
         {TYPES::opcodes::OP_DIV_INT_LIT8, &get_instruction<Instruction22b>},
         {TYPES::opcodes::OP_REM_INT_LIT8, &get_instruction<Instruction22b>},
