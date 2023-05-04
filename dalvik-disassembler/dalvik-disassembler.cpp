@@ -1,5 +1,6 @@
 /// Compile clang++ -std=c++20 dalvik-disassembler.cpp -o dalvik-disassembler -lkunai
 #include <iostream>
+#include <utility>      // std::pair, std::get
 
 #include <Kunai/DEX/dex.hpp>
 
@@ -157,6 +158,15 @@ int main(int argc, char **argv)
 
                     for (auto &instr : block->get_instructions())
                         show_instruction(instr);
+                }
+
+                std::cout << "Edges: ";
+                for (const auto & edge : blocks.get_edges())
+                {
+                    if (std::get<0>(edge)->is_start_block() || std::get<1>(edge)->is_end_block())
+                        continue;
+                    std::cout << "BB-" << std::get<0>(edge)->get_first_address() 
+                        << " -> BB-" << std::get<1>(edge)->get_first_address() << "\n";
                 }
             }
             else if (show_plot)
