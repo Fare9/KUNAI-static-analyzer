@@ -71,7 +71,10 @@ class MjolnIR_ComparisonOpBase<string mnemonic, list<Trait> traits = []> :
     );
 }
 
-def MjolnIR_Nop : MjolnIR_Op<"nop", [Pure]>;
+def MjolnIR_Nop : MjolnIR_Op<"nop", [Pure]>
+{
+    let assemblyFormat = "attr-dict";
+}
 
 //===----------------------------------------------------------------------===//
 // Unary Operations
@@ -112,6 +115,36 @@ def MjolnIR_LoadValue : MjolnIR_Op<"load-value", [Pure, ConstantLike]>
     );
 
     let assemblyFormat = "`(` $value `)` attr-dict `:` type($res)";
+}
+
+//===----------------------------------------------------------------------===//
+// Load string operations
+//===----------------------------------------------------------------------===//
+def MjolnIR_LoadString : MjolnIR_Op<"load-string", [Pure, ConstantLike]>
+{
+    let summary = "Load a String into a String object";
+
+    let description = [{
+        In order to generate a SSA value from a loaded String, we have to create
+        an instruction which attribute will be the loaded string, and the return
+        will be a DVMObject with the attribute 'java/lang/String'.
+
+        Examples:
+
+        ```mlir
+        %0 = MjolnIR.load-string("ExampleString" : string) : dvmobject
+        ```
+    }];
+
+    let arguments = (ins
+        FlatSymbolRefAttr:$string
+    );
+
+    let results = (outs
+        DVM_BasicType:$res
+    );
+
+    let assemblyFormat = "`(` $string `)` attr-dict `:` type($res)";
 }
 
 //===----------------------------------------------------------------------===//
@@ -226,12 +259,12 @@ def MjolnIR_CmpGez : MjolnIR_ComparisonOpBase<"cmp-gez">
     let summary = "Compare a value is greater or equal to zero";
 }
 
-def MjolnIR_Gtz : MjolnIR_ComparisonOpBase<"cmp-gtz">
+def MjolnIR_CmpGtz : MjolnIR_ComparisonOpBase<"cmp-gtz">
 {
     let summary = "Compare a value is greater than zero";
 }
 
-def MjolnIR_Lez : MjolnIR_ComparisonOpBase<"cmp-lez">
+def MjolnIR_CmpLez : MjolnIR_ComparisonOpBase<"cmp-lez">
 {
     let summary = "Compare a value is lower or equal to zero";
 }
@@ -366,6 +399,8 @@ def InvokeOp : MjolnIR_Op<"invoke", [
 
     let arguments = (ins
         FlatSymbolRefAttr:$callee, // called method
+        UI32Attr:$methodRef,
+        UI32Attr:$isStatic,
         Variadic<DVM_BasicType>: $inputs // the inputs that must be the same
                                          // of those from the callee
     );
@@ -373,7 +408,7 @@ def InvokeOp : MjolnIR_Op<"invoke", [
     // The return type must also be the same than the returned type
     // from the callee
     let results = (outs
-        Variadic<DVM_BasicType>
+        Optional<DVM_BasicType>
     );
 
     let assemblyFormat = [{
@@ -381,7 +416,22 @@ def InvokeOp : MjolnIR_Op<"invoke", [
     }];
 
     let builders = [
-        OpBuilder<(ins "StringRef":$callee, "ArrayRef<Value>":$arguments, "MethodOp& ":$method)>
+        OpBuilder<(ins "StringRef":$callee, "ArrayRef<Value>":$arguments, "MethodOp& ":$method)>,
+        OpBuilder<(ins "MethodOp":$callee, "IntegerAttr":$methodRef, "IntegerAttr":$isStatic, CArg<"ValueRange", "{}">:$operands), [{
+            $_state.addOperands(operands);
+            $_state.addAttribute("callee", SymbolRefAttr::get(callee));
+            $_state.addAttribute("methodRef", methodRef);
+            $_state.addAttribute("isStatic", isStatic);
+            $_state.addTypes(callee.getFunctionType().getResults());
+        }]>,
+        OpBuilder<(ins "Type":$result, "StringAttr":$callee, "IntegerAttr":$methodRef, "IntegerAttr":$isStatic, CArg<"ValueRange", "{}">:$operands), [{
+            $_state.addOperands(operands);
+            $_state.addAttribute("callee", SymbolRefAttr::get(callee));
+            $_state.addAttribute("methodRef", methodRef);
+            $_state.addAttribute("isStatic", isStatic);
+            if (!mlir::isa<::mlir::KUNAI::MjolnIR::DVMVoidType>(result))
+                $_state.addTypes(result);
+        }]>,
     ];
 }
 
@@ -468,6 +518,24 @@ def FallthroughOp : MjolnIR_Op<"fallthrough", [
   let assemblyFormat = [{
     $dest (`(` $destOperands^ `:` type($destOperands) `)`)? attr-dict
   }];
+}
+
+//===----------------------------------------------------------------------===//
+// New operation
+//===----------------------------------------------------------------------===//
+def NewOp : MjolnIR_Op<"new">
+{
+    let summary = "Create a new object";
+
+    let description = [{
+        This instruction creates a SSA Value for an object
+        the object will have as one of its parameter the
+        name of the class.
+    }];
+
+    let results = (outs
+        AnyType // object created with new
+    );
 }
 
 #endif // DALVIK_MJOLNIROPS_TD

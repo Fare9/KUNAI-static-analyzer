@@ -25,6 +25,7 @@
 #include <mlir/IR/MLIRContext.h>
 #include <mlir/Dialect/ControlFlow/IR/ControlFlow.h>
 #include <mlir/Dialect/ControlFlow/IR/ControlFlowOps.h>
+#include <mlir/Dialect/Arith/IR/Arith.h>
 
 #include <unordered_map>
 #include <utility>
@@ -127,8 +128,21 @@ namespace MjolnIR
         KUNAI::DEX::MethodAnalysis * current_method;
         /// @brief Basic block currently analyzed, must be updated for each basic block analyzed
         KUNAI::DEX::DVMBasicBlock * current_basic_block;
-
+        /// @brief name of the module where we will write all the methods
         std::string module_name;
+
+        // types from DVM for not generating it many times
+        ::mlir::KUNAI::MjolnIR::DVMVoidType voidType;
+        ::mlir::KUNAI::MjolnIR::DVMByteType byteType;
+        ::mlir::KUNAI::MjolnIR::DVMBoolType boolType;
+        ::mlir::KUNAI::MjolnIR::DVMCharType charType;
+        ::mlir::KUNAI::MjolnIR::DVMShortType shortType;
+        ::mlir::KUNAI::MjolnIR::DVMIntType intType;
+        ::mlir::KUNAI::MjolnIR::DVMLongType longType;
+        ::mlir::KUNAI::MjolnIR::DVMFloatType floatType;
+        ::mlir::KUNAI::MjolnIR::DVMDoubleType doubleType;
+        ::mlir::KUNAI::MjolnIR::DVMObjectType strObjectType;
+
 
         //===----------------------------------------------------------------------===//
         // Some generators methods
@@ -164,6 +178,18 @@ namespace MjolnIR
         // Lifting instructions, these class functions will be specialized for the
         // different function types.
         //===----------------------------------------------------------------------===//
+        void gen_instruction(KUNAI::DEX::Instruction31c *instr);
+
+        void gen_instruction(KUNAI::DEX::Instruction31i *instr);
+        
+        void gen_instruction(KUNAI::DEX::Instruction32x *instr);
+
+        void gen_instruction(KUNAI::DEX::Instruction22x *instr);
+        
+        void gen_instruction(KUNAI::DEX::Instruction21c *instr);
+        
+        void gen_instruction(KUNAI::DEX::Instruction35c *instr);
+        
         void gen_instruction(KUNAI::DEX::Instruction51l *instr);
 
         void gen_instruction(KUNAI::DEX::Instruction21h *instr);
@@ -225,6 +251,9 @@ namespace MjolnIR
         /// @brief Generate a MethodOp from a MethodAnalysis
         /// @param method MethodAnalysis object to lift
         void gen_method(KUNAI::DEX::MethodAnalysis* method);
+
+        /// @brief Initialize possible used types and other necessary stuff
+        void init();
     
     public:
 
@@ -234,8 +263,7 @@ namespace MjolnIR
         Lifter(mlir::MLIRContext & context, bool gen_exception)
             : context(context), builder(&context), gen_exception(gen_exception)
         {
-            context.getOrLoadDialect<::mlir::KUNAI::MjolnIR::MjolnIRDialect>();
-            context.getOrLoadDialect<::mlir::cf::ControlFlowDialect>();
+            init();
         }
 
         /// @brief Generate a ModuleOp with the lifted instructions from a MethodAnalysis

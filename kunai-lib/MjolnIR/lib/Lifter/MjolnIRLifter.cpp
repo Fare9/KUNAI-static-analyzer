@@ -8,42 +8,47 @@
 
 using namespace KUNAI::MjolnIR;
 
+void Lifter::init()
+{
+    context.getOrLoadDialect<::mlir::KUNAI::MjolnIR::MjolnIRDialect>();
+    context.getOrLoadDialect<::mlir::cf::ControlFlowDialect>();
+    context.getOrLoadDialect<::mlir::arith::ArithDialect>();
+
+    voidType = ::mlir::KUNAI::MjolnIR::DVMVoidType::get(&context);
+    byteType = ::mlir::KUNAI::MjolnIR::DVMByteType::get(&context);
+    boolType = ::mlir::KUNAI::MjolnIR::DVMBoolType::get(&context);
+    charType = ::mlir::KUNAI::MjolnIR::DVMCharType::get(&context);
+    shortType = ::mlir::KUNAI::MjolnIR::DVMShortType::get(&context);
+    intType = ::mlir::KUNAI::MjolnIR::DVMIntType::get(&context);
+    longType = ::mlir::KUNAI::MjolnIR::DVMLongType::get(&context);
+    floatType = ::mlir::KUNAI::MjolnIR::DVMFloatType::get(&context);
+    doubleType = ::mlir::KUNAI::MjolnIR::DVMDoubleType::get(&context);
+    strObjectType = ::mlir::KUNAI::MjolnIR::DVMObjectType::get(&context, "Ljava/lang/String;");
+}
+
 mlir::Type Lifter::get_type(KUNAI::DEX::DVMFundamental *fundamental)
 {
-    mlir::Type current_type;
-
     switch (fundamental->get_fundamental_type())
     {
     case KUNAI::DEX::DVMFundamental::BOOLEAN:
-        current_type = ::mlir::KUNAI::MjolnIR::DVMBoolType::get(&context);
-        break;
+        return boolType;
     case KUNAI::DEX::DVMFundamental::BYTE:
-        current_type = ::mlir::KUNAI::MjolnIR::DVMByteType::get(&context);
-        break;
+        return byteType;
     case KUNAI::DEX::DVMFundamental::CHAR:
-        current_type = ::mlir::KUNAI::MjolnIR::DVMCharType::get(&context);
-        break;
+        return charType;
     case KUNAI::DEX::DVMFundamental::DOUBLE:
-        current_type = ::mlir::KUNAI::MjolnIR::DVMDoubleType::get(&context);
-        break;
+        return doubleType;
     case KUNAI::DEX::DVMFundamental::FLOAT:
-        current_type = ::mlir::KUNAI::MjolnIR::DVMFloatType::get(&context);
-        break;
+        return floatType;
     case KUNAI::DEX::DVMFundamental::INT:
-        current_type = ::mlir::KUNAI::MjolnIR::DVMIntType::get(&context);
-        break;
+        return intType;
     case KUNAI::DEX::DVMFundamental::LONG:
-        current_type = ::mlir::KUNAI::MjolnIR::DVMLongType::get(&context);
-        break;
+        return longType;
     case KUNAI::DEX::DVMFundamental::SHORT:
-        current_type = ::mlir::KUNAI::MjolnIR::DVMShortType::get(&context);
-        break;
-    case KUNAI::DEX::DVMFundamental::VOID:
-        current_type = ::mlir::KUNAI::MjolnIR::DVMVoidType::get(&context);
-        break;
+        return shortType;
+    default:
+        return voidType;
     }
-
-    return current_type;
 }
 
 mlir::Type Lifter::get_type(KUNAI::DEX::DVMClass *cls)
@@ -56,7 +61,7 @@ mlir::Type Lifter::get_type(KUNAI::DEX::DVMType *type)
     if (type->get_type() == KUNAI::DEX::DVMType::FUNDAMENTAL)
         return get_type(reinterpret_cast<KUNAI::DEX::DVMFundamental *>(type));
     else if (type->get_type() == KUNAI::DEX::DVMType::CLASS)
-        return get_type(reinterpret_cast<KUNAI::DEX::DVMClass*>(type));
+        return get_type(reinterpret_cast<KUNAI::DEX::DVMClass *>(type));
     else if (type->get_type() == KUNAI::DEX::DVMType::ARRAY)
         throw exceptions::LifterException("MjolnIRLIfter::get_type: type ARRAY not implemented yet...");
     else
@@ -243,7 +248,7 @@ void Lifter::gen_terminators(KUNAI::DEX::DVMBasicBlock *bb)
     try
     {
         auto operation = KUNAI::DEX::DalvikOpcodes::get_instruction_operation(last_instr->get_instruction_opcode());
-        
+
         if (operation == KUNAI::DEX::TYPES::Operation::RET_BRANCH_DVM_OPCODE)
             return;
         if (last_instr->is_terminator())
