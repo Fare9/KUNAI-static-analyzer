@@ -21,13 +21,13 @@ public class Main {
 
     public void test(float a, int b, short c)
     {
-	assignment_double = 69.0;
-	assignment_float = 69.0f;
-	assignment_long = 69;
-	assignment_int = 69;
-	assignment_short = 69;
-	assignment_char = 'E';
-	assignment_byte = 69;
+        assignment_double = 69.0;
+        assignment_float = 69.0f;
+        assignment_long = 69;
+        assignment_int = 69;
+        assignment_short = 69;
+        assignment_char = 'E';
+        assignment_byte = 69;
 
         int pi_int = (int)pi;
 
@@ -45,16 +45,20 @@ public class Main {
 
         a_int_neg_field = a_int_neg;
 
-	double test_double = example_double;
+        double test_double = example_double;
 
-	test_double = test_double + 1;
+        test_double = test_double + 1;
 
-	example_double = test_double;
+        example_double = test_double;
 
-	long test_long = example_long;
+        long test_long = example_long;
 
-	test_long = test_long + 1;
+        test_long = test_long + 1;
 
-	example_long = test_long;
+        example_long = test_long;
+
+        Integer int_obj = new Integer(pi_int);
+
+        pi_int = int_obj.intValue();
     }
 }
