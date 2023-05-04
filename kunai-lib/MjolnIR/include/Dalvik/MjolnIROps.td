@@ -137,7 +137,8 @@ def MjolnIR_LoadString : MjolnIR_Op<"load-string", [Pure, ConstantLike]>
     }];
 
     let arguments = (ins
-        FlatSymbolRefAttr:$string
+        FlatSymbolRefAttr:$string,
+        UI32Attr:$stringRef
     );
 
     let results = (outs

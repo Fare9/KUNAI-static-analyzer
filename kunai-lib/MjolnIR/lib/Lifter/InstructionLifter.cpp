@@ -1405,11 +1405,13 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction21c *instr)
     case KUNAI::DEX::TYPES::OP_CONST_STRING:
     {
         auto str_value = instr->get_source_str();
+        auto str_ref = instr->get_source();
 
         auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadString>(
             location,
             strObjectType,
-            str_value);
+            str_value,
+            str_ref);
 
         writeLocalVariable(current_basic_block, dest, gen_value);
     }
@@ -1561,11 +1563,13 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction31c *instr)
     case KUNAI::DEX::TYPES::OP_CONST_STRING_JUMBO:
     {
         auto str_value = instr->get_string_value();
+        auto str_ref = instr->get_string_idx();
 
         auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadString>(
             location,
             strObjectType,
-            str_value);
+            str_value,
+            str_ref);
 
         writeLocalVariable(current_basic_block, dest, gen_value);
     }
