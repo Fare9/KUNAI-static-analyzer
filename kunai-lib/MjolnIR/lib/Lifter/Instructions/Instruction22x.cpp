@@ -1,0 +1,37 @@
+#include "Lifter/MjolnIRLifter.hpp"
+#include "Kunai/Exceptions/lifter_exception.hpp"
+#include <mlir/IR/OpDefinition.h>
+
+using namespace KUNAI::MjolnIR;
+
+void Lifter::gen_instruction(KUNAI::DEX::Instruction22x *instr)
+{
+    auto op_code = instr->get_instruction_opcode();
+
+    auto location = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 0);
+
+    auto dest = instr->get_destination();
+    auto src = instr->get_source();
+
+    switch (op_code)
+    {
+    case KUNAI::DEX::TYPES::OP_MOVE_FROM16:
+    case KUNAI::DEX::TYPES::OP_MOVE_WIDE_FROM16:
+    case KUNAI::DEX::TYPES::OP_MOVE_OBJECT_FROM16:
+    {
+        auto src_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src);
+
+        auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::MoveOp>(
+            location,
+            src_value.getType(),
+            src_value);
+
+        writeLocalVariable(current_basic_block, dest, gen_value);
+    }
+    break;
+
+    default:
+        throw exceptions::LifterException("Lifter::gen_instruction: Instruction22x not supported");
+        break;
+    }
+}
