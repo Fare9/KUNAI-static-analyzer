@@ -204,6 +204,14 @@ if(USE_MJOLNIR STREQUAL "OFF")
     )
 
     install(
+        DIRECTORY "${spdlog_SOURCE_DIR}/include/"
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+        COMPONENT headers
+        FILES_MATCHING
+        REGEX "(.*).(hpp|h|def|inc)$"
+    )
+
+    install(
         FILES ${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfig.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/KUNAIConfigVersion.cmake
         DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/KUNAI/cmake
