@@ -136,6 +136,15 @@ abstract = {This paper describes Kunai, a C++ library that offers static analysi
 }
 ```
 
+## Possible issues
+
+Kunai depends on C++-20, so maybe you will need to install newer C++ libraries:
+
+```console
+sudo apt install libstdc++-10-dev
+```
+
+Also we recommend you using clang++ as compiler (version 16 and newer version 17 tested).
 
 ## Authors of Kunai
 
