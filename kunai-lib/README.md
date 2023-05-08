@@ -54,11 +54,11 @@ $ cmake -G Ninja ../llvm \
    -DLLVM_BUILD_EXAMPLES=ON \
    -DLLVM_TARGETS_TO_BUILD="Native;NVPTX;AMDGPU" \
    -DCMAKE_BUILD_TYPE=Release \
-   -DLLVM_ENABLE_ASSERTIONS=ON
+   -DLLVM_ENABLE_ASSERTIONS=ON \
    # I highly recommend using CLANG and LLD
    -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DLLVM_ENABLE_LLD=ON
    # CCache can drastically speed up further rebuilds, try adding:
-   -DLLVM_CCACHE_BUILD=ON
+   # -DLLVM_CCACHE_BUILD=ON
    # Please for the moment do not use ASAN as Kunai is not compiled with it
    # and it generated many crashes...
 $ cmake --build . --target check-mlir
@@ -141,10 +141,17 @@ abstract = {This paper describes Kunai, a C++ library that offers static analysi
 Kunai depends on C++-20, so maybe you will need to install newer C++ libraries:
 
 ```console
-sudo apt install libstdc++-10-dev
+sudo apt install libstdc++-dev
 ```
 
 Also we recommend you using clang++ as compiler (version 16 and newer version 17 tested).
+
+If you compile *MLIR* for the first time without compiling anything else from *LLVM* project, during the installation you can run in a problem where the library *libLLVMTableGenCommon.a* wasn't found, you must include clang project as one of the projects to compile:
+
+```console
+-DLLVM_ENABLE_PROJECTS="mlir;clang" \
+```
+
 
 ## Authors of Kunai
 
