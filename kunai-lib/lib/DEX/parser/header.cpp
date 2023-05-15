@@ -45,55 +45,6 @@ void Header::parse_headers(stream::KunaiStream *stream)
     logger->debug("header.cpp: dex header correctly parsed");
 }
 
-std::ostream &operator<<(std::ostream &os, const Header &entry)
-{
-    size_t i = 0;
-
-    auto &dex_struct = entry.get_dex_header_const();
-
-    os << std::setw(30) << std::left << std::setfill(' ') << "DEX Header\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Magic: ";
-
-    for (i = 0; i < 8; ++i)
-    {
-        os << static_cast<int>(dex_struct.magic[i]);
-        if (dex_struct.magic[i] == 0xA)
-            os << "(\\n)";
-        else if (isprint(dex_struct.magic[i]))
-            os << "(" << static_cast<char>(dex_struct.magic[i]) << ")";
-        os << " ";
-    }
-    os << "\n";
-
-    os << std::setw(30) << std::left << std::setfill(' ') << "Checksum: " << dex_struct.checksum << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Signature: ";
-    for (i = 0; i < 20; ++i)
-        os << static_cast<int>(dex_struct.signature[i]) << " ";
-    os << "\n";
-
-    os << std::setw(30) << std::left << std::setfill(' ') << "File Size: " << dex_struct.file_size << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Header Size: " << dex_struct.header_size << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Endian Tag: " << dex_struct.endian_tag << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Link Size: " << dex_struct.link_size << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Link Offset: " << dex_struct.link_off << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Map Offset: " << dex_struct.map_off << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "String Ids Size: " << dex_struct.string_ids_size << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "String Ids Offset: " << dex_struct.string_ids_off << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Type Ids Size: " << dex_struct.type_ids_size << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Type Ids Offset: " << dex_struct.type_ids_off << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Proto Ids Size: " << dex_struct.proto_ids_size << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Proto Ids Offset: " << dex_struct.proto_ids_off << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Field Ids Size: " << dex_struct.field_ids_size << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Field Ids Offset: " << dex_struct.field_ids_off << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Method Ids Size: " << dex_struct.method_ids_size << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Method Ids Offset: " << dex_struct.method_ids_off << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Class Defs Size: " << dex_struct.class_defs_size << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Class Defs Offset: " << dex_struct.class_defs_off << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Data Size: " << dex_struct.data_size << "\n";
-    os << std::setw(30) << std::left << std::setfill(' ') << "Data Offset: " << dex_struct.data_off << "\n";
-    return os;
-}
-
 void Header::to_xml(std::ofstream &fos)
 {
     size_t i;
@@ -129,4 +80,59 @@ void Header::to_xml(std::ofstream &fos)
     fos << "\t<class_defs_offset>" << dexheader.class_defs_off << "</class_defs_offset>\n";
     fos << "\t<data_size>" << dexheader.data_size << "</data_size>\n";
     fos << "\t<data_offset>" << dexheader.data_off << "</data_offset>\n";
+}
+
+namespace KUNAI
+{
+namespace DEX
+{
+    std::ostream &operator<<(std::ostream &os, const Header &entry)
+    {
+        size_t i = 0;
+
+        auto &dex_struct = entry.get_dex_header_const();
+
+        os << std::setw(30) << std::left << std::setfill(' ') << "DEX Header\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Magic: ";
+
+        for (i = 0; i < 8; ++i)
+        {
+            os << static_cast<int>(dex_struct.magic[i]);
+            if (dex_struct.magic[i] == 0xA)
+                os << "(\\n)";
+            else if (isprint(dex_struct.magic[i]))
+                os << "(" << static_cast<char>(dex_struct.magic[i]) << ")";
+            os << " ";
+        }
+        os << "\n";
+
+        os << std::setw(30) << std::left << std::setfill(' ') << "Checksum: " << dex_struct.checksum << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Signature: ";
+        for (i = 0; i < 20; ++i)
+            os << static_cast<int>(dex_struct.signature[i]) << " ";
+        os << "\n";
+
+        os << std::setw(30) << std::left << std::setfill(' ') << "File Size: " << dex_struct.file_size << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Header Size: " << dex_struct.header_size << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Endian Tag: " << dex_struct.endian_tag << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Link Size: " << dex_struct.link_size << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Link Offset: " << dex_struct.link_off << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Map Offset: " << dex_struct.map_off << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "String Ids Size: " << dex_struct.string_ids_size << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "String Ids Offset: " << dex_struct.string_ids_off << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Type Ids Size: " << dex_struct.type_ids_size << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Type Ids Offset: " << dex_struct.type_ids_off << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Proto Ids Size: " << dex_struct.proto_ids_size << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Proto Ids Offset: " << dex_struct.proto_ids_off << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Field Ids Size: " << dex_struct.field_ids_size << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Field Ids Offset: " << dex_struct.field_ids_off << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Method Ids Size: " << dex_struct.method_ids_size << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Method Ids Offset: " << dex_struct.method_ids_off << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Class Defs Size: " << dex_struct.class_defs_size << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Class Defs Offset: " << dex_struct.class_defs_off << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Data Size: " << dex_struct.data_size << "\n";
+        os << std::setw(30) << std::left << std::setfill(' ') << "Data Offset: " << dex_struct.data_off << "\n";
+        return os;
+    }
+}
 }
