@@ -60,6 +60,11 @@ namespace DEX
             std::uint32_t number_of_strings, 
             stream::KunaiStream* stream);
 
+        const ordered_strings_t& get_ordered_strings() const
+        {
+            return ordered_strings;
+        }
+
         /// @brief Return the offset strings map as constant
         /// @return offset-strings map
         const offset_string_t& get_offset_strings() const

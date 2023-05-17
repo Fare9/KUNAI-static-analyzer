@@ -16,21 +16,27 @@ using namespace KUNAI::DEX;
 
 Strings::Strings(Strings &str)
 {
+    std::vector<std::uint32_t> str_offsets;
+
     for (auto val : str.offset_strings)
     {
         auto offset = val.first;
         auto ptr_str = val.second;
 
+        str_offsets.push_back(offset);
         ordered_strings.push_back(*ptr_str);
-
-        offset_strings[offset] = &ordered_strings.back();
     }
+
+    for (size_t I = 0; I < ordered_strings.size(); ++I)
+        offset_strings[str_offsets[I]] = &ordered_strings[I];
 }
 
 void Strings::parse_strings(std::uint32_t strings_offset,
                             std::uint32_t number_of_strings,
                             stream::KunaiStream *stream)
 {
+    std::vector<std::uint32_t> str_offsets;
+
     // utilities
     size_t I;
     auto logger = LOGGER::logger();
@@ -54,9 +60,12 @@ void Strings::parse_strings(std::uint32_t strings_offset,
             throw exceptions::OutOfBoundException("strings.cpp: string offset out of bound");
 
         // read the strings from the offset and store it
+        str_offsets.push_back(str_offset); // keep the offset for later
         ordered_strings.push_back(stream->read_dex_string(str_offset));
-        offset_strings[str_offset] = &ordered_strings.back();
     }
+    /// store the offsets and the strings
+    for (I = 0; I < ordered_strings.size(); ++I)
+        offset_strings[str_offsets[I]] = &ordered_strings[I];
 
     // return to the stored offset
     stream->seekg(current_offset, std::ios_base::beg);
@@ -79,17 +88,6 @@ std::string &Strings::get_string_by_id(std::uint32_t id)
     return ordered_strings[id];
 }
 
-std::ostream &operator<<(std::ostream &os, const Strings &entry)
-{
-    size_t I = 0;
-    auto &offset_strings = entry.get_offset_strings();
-    os << std::hex;
-    os << std::setw(30) << std::left << std::setfill(' ') << "Dex Strings\n";
-    for (const auto s : offset_strings)
-        os << std::left << std::setfill(' ') << "String (" << std::dec << I++ << "): " << s.first << "->\"" << *s.second << "\"\n";
-    return os;
-}
-
 void Strings::to_xml(std::ofstream &fos)
 {
     fos << std::hex;
@@ -102,4 +100,22 @@ void Strings::to_xml(std::ofstream &fos)
         fos << "\t</string>\n";
     }
     fos << "</strings>\n";
+}
+
+namespace KUNAI
+{
+namespace DEX
+{
+    std::ostream &operator<<(std::ostream &os, const Strings &entry)
+    {
+        size_t I = 0;
+        auto &ordered_strings = entry.get_ordered_strings();
+        auto &offset_strings = entry.get_offset_strings();
+        os << std::hex;
+        os << "Dex Strings\n";
+        for (const auto s : offset_strings)
+            os << std::left << std::setfill(' ') << "String (" << std::dec << I++ << "): " << s.first << "->\"" << *s.second << "\"\n";
+        return os;
+    }
+}
 }
