@@ -62,21 +62,6 @@ FieldID *Fields::get_field(std::uint32_t pos)
     return fields[pos].get();
 }
 
-std::ostream &operator<<(std::ostream &os, const Fields &entry)
-{
-    size_t I = 0;
-    const auto &fields = entry.get_fields();
-
-    os << "DEX Fields:\n";
-
-    for (auto &field : fields)
-    {
-        os << "Field(" << I++ << "): " << field->pretty_field() << "\n";
-    }
-
-    return os;
-}
-
 void Fields::to_xml(std::ofstream &fos)
 {
     fos << "<fields>\n";
@@ -89,4 +74,24 @@ void Fields::to_xml(std::ofstream &fos)
         fos << "\t</field>\n";
     }
     fos << "</fields>\n";
+}
+
+namespace KUNAI
+{
+namespace DEX
+{
+    std::ostream &operator<<(std::ostream &os, const Fields &entry)
+    {
+        size_t I = 0;
+        const auto &fields = entry.get_fields();
+
+        os << "DEX Fields:\n";
+
+        for (auto &field : fields)
+            os << "Field(" << I++ << "): " << field->pretty_field() << "\n";
+        
+
+        return os;
+    }
+}
 }

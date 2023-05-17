@@ -6,6 +6,8 @@
 // @file methods.cpp
 
 #include "Kunai/DEX/parser/methods.hpp"
+#include "Kunai/DEX/parser/encoded.hpp"
+#include "Kunai/DEX/DVM/dalvik_opcodes.hpp"
 #include "Kunai/Exceptions/incorrectid_exception.hpp"
 
 using namespace KUNAI::DEX;
@@ -78,21 +80,6 @@ MethodID *Methods::get_method(std::uint32_t pos)
     return methods[pos].get();
 }
 
-std::ostream &operator<<(std::ostream &os, const Methods &entry)
-{
-    size_t I = 0;
-    const auto &methods = entry.get_methods();
-
-    os << "DEX Methods:\n";
-
-    for (auto &method : methods)
-    {
-        os << "Method(" << I++ << "): " << method->pretty_method() << "\n";
-    }
-
-    return os;
-}
-
 void Methods::to_xml(std::ofstream &fos)
 {
     fos << "<methods>\n";
@@ -105,4 +92,35 @@ void Methods::to_xml(std::ofstream &fos)
         fos << "\t</method>\n";
     }
     fos << "</methods>\n";
+}
+
+namespace KUNAI
+{
+namespace DEX
+{
+    std::ostream &operator<<(std::ostream &os, const Methods &entry)
+    {
+        size_t I = 0;
+        const auto &methods = entry.get_methods();
+
+        os << "DEX Methods:\n";
+
+        for (auto &method : methods)
+        {
+            os << "Method(" << I++ << "): " << method->pretty_method() << ", Access Flags: ";
+
+            auto encoded_method = method->get_encoded_method();
+
+            if (!encoded_method)
+            {
+                os << "<External Method> \n";
+                continue;
+            }
+
+            os << DalvikOpcodes::get_method_access_flags(encoded_method) << "\n";
+        }
+
+        return os;
+    }
+}
 }

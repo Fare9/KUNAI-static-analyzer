@@ -79,27 +79,11 @@ void Protos::parse_protos(stream::KunaiStream *stream,
     stream->seekg(offset, std::ios_base::beg);
 }
 
-
-ProtoID* Protos::get_proto_by_order(std::uint32_t pos)
+ProtoID *Protos::get_proto_by_order(std::uint32_t pos)
 {
     if (pos >= proto_ids.size())
         throw exceptions::IncorrectIDException("protos.cpp: position incorrect for the proto");
     return proto_ids[pos].get();
-}
-
-std::ostream &operator<<(std::ostream &os, const Protos &entry)
-{
-    size_t I = 0;
-    const auto &protoids = entry.get_proto_ids();
-
-    os << std::setw(30) << std::left << std::setfill(' ') << "DEX Protos:\n";
-
-    for (const auto &protoid : protoids)
-    {
-        os << std::left << std::setfill(' ') << "Proto (" << I++ << "): " << protoid->get_shorty_idx() << "\n";
-    }
-
-    return os;
 }
 
 void Protos::to_xml(std::ofstream &xml_file)
@@ -129,4 +113,24 @@ void Protos::to_xml(std::ofstream &xml_file)
     }
 
     xml_file << "</protos>\n";
+}
+
+namespace KUNAI
+{
+namespace DEX
+{
+    std::ostream &operator<<(std::ostream &os, const Protos &entry)
+    {
+        size_t I = 0;
+        const auto &protoids = entry.get_proto_ids();
+
+        os << "DEX Protos:\n";
+
+        for (const auto &protoid : protoids)
+            os << std::left << std::setfill(' ') << "Proto (" << I++
+                << "): " << protoid->get_shorty_idx() << "\n";
+
+        return os;
+    }
+}
 }

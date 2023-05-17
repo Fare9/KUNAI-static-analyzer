@@ -7,6 +7,7 @@
 
 #include "Kunai/Utils/logger.hpp"
 #include "Kunai/DEX/parser/classes.hpp"
+#include "Kunai/DEX/DVM/dalvik_opcodes.hpp"
 #include "Kunai/Exceptions/incorrectid_exception.hpp"
 
 using namespace KUNAI::DEX;
@@ -298,4 +299,27 @@ void Classes::parse_classes(
     logger->debug("classes.cpp: finished parsing classes");
 
     stream->seekg(current_offset, std::ios_base::beg);
+}
+
+namespace KUNAI
+{
+namespace DEX
+{
+    std::ostream& operator<<(std::ostream& os, const Classes& entry)
+    {
+        size_t I = 0;
+        const auto & class_defs = entry.get_classdefs();
+
+        os << "DEX Classes:\n";
+
+        for (const auto & class_def : class_defs)
+            os << "Class(" << I++ << "): " << class_def->get_class_idx()->pretty_print()
+                << ", Superclass: " << class_def->get_superclass()->pretty_print()
+                << ", Source file: " << class_def->get_source_file()
+                << ", Access flags: " << DalvikOpcodes::get_access_flags_str(class_def->get_access_flags())
+                << "\n";
+        
+        return os;
+    }
+}
 }

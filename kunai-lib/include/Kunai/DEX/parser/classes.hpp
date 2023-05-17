@@ -336,6 +336,8 @@ namespace DEX
         {
             return class_defs;
         }
+
+        friend std::ostream& operator<<(std::ostream& os, const Classes& entry);
     };
 } // namespace DEX
 } // namespace KUNAI

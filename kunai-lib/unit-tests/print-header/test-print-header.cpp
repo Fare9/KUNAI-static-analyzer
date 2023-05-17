@@ -31,5 +31,21 @@ int main()
 
     std::cout << types << "\n\n";
 
+    auto& protos = parser->get_protos();
+
+    std::cout << protos << "\n\n";
+
+    auto& fields = parser->get_fields();
+
+    std::cout << fields << "\n\n";
+
+    auto& methods = parser->get_methods();
+
+    std::cout << methods << "\n\n";
+
+    auto& classes = parser->get_classes();
+
+    std::cout << classes << "\n\n";
+
     return 0;
 }
