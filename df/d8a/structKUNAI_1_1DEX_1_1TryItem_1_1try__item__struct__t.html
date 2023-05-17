@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../db/ddb/classKUNAI_1_1DEX_1_1TryItem.html">TryItem</a></li><li class="navelem"><a class="el" href="../../df/d8a/structKUNAI_1_1DEX_1_1TryItem_1_1try__item__struct__t.html">try_item_struct_t</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../db/ddb/classKUNAI_1_1DEX_1_1TryItem.html">TryItem</a></li><li class="navelem"><a class="el" href="../../df/d8a/structKUNAI_1_1DEX_1_1TryItem_1_1try__item__struct__t.html">try_item_struct_t</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -81,48 +81,34 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Structure with try catch information.  
+<p>Structure with the information from a Try code.  
  <a href="../../df/d8a/structKUNAI_1_1DEX_1_1TryItem_1_1try__item__struct__t.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="../../d1/da9/dex__encoded_8hpp_source.html">dex_encoded.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a035d0f07f0d48f08e04428b351b5e57f"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d8a/structKUNAI_1_1DEX_1_1TryItem_1_1try__item__struct__t.html#a035d0f07f0d48f08e04428b351b5e57f">start_addr</a></td></tr>
+<tr class="memitem:a035d0f07f0d48f08e04428b351b5e57f"><td class="memItemLeft" align="right" valign="top"><a id="a035d0f07f0d48f08e04428b351b5e57f" name="a035d0f07f0d48f08e04428b351b5e57f"></a>
+std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>start_addr</b></td></tr>
 <tr class="separator:a035d0f07f0d48f08e04428b351b5e57f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93104990b8176597d90fb92cb6788a41"><td class="memItemLeft" align="right" valign="top"><a id="a93104990b8176597d90fb92cb6788a41" name="a93104990b8176597d90fb92cb6788a41"></a>
-std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>insn_count</b></td></tr>
-<tr class="memdesc:a93104990b8176597d90fb92cb6788a41"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of 16-bit code units covered by this entry. <br /></td></tr>
+<tr class="memitem:a93104990b8176597d90fb92cb6788a41"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d8a/structKUNAI_1_1DEX_1_1TryItem_1_1try__item__struct__t.html#a93104990b8176597d90fb92cb6788a41">insn_count</a></td></tr>
 <tr class="separator:a93104990b8176597d90fb92cb6788a41"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a914cc059628d2abec8cf3e79577782c8"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d8a/structKUNAI_1_1DEX_1_1TryItem_1_1try__item__struct__t.html#a914cc059628d2abec8cf3e79577782c8">handler_off</a></td></tr>
+<tr class="memitem:a914cc059628d2abec8cf3e79577782c8"><td class="memItemLeft" align="right" valign="top"><a id="a914cc059628d2abec8cf3e79577782c8" name="a914cc059628d2abec8cf3e79577782c8"></a>
+std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>handler_off</b></td></tr>
+<tr class="memdesc:a914cc059628d2abec8cf3e79577782c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of 16-bit code units covered by this entry. <br /></td></tr>
 <tr class="separator:a914cc059628d2abec8cf3e79577782c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Structure with try catch information. </p>
+<div class="textblock"><p>Structure with the information from a Try code. </p>
 </div><h2 class="groupheader">Member Data Documentation</h2>
-<a id="a914cc059628d2abec8cf3e79577782c8" name="a914cc059628d2abec8cf3e79577782c8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a914cc059628d2abec8cf3e79577782c8">&#9670;&#160;</a></span>handler_off</h2>
+<a id="a93104990b8176597d90fb92cb6788a41" name="a93104990b8176597d90fb92cb6788a41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93104990b8176597d90fb92cb6788a41">&#9670;&#160;</a></span>insn_count</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::uint16_t KUNAI::DEX::TryItem::try_item_struct_t::handler_off</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>offset in bytes from starts of associated encoded_catch_handler_list to encoded_catch_handler for this entry. </p>
-
-</div>
-</div>
-<a id="a035d0f07f0d48f08e04428b351b5e57f" name="a035d0f07f0d48f08e04428b351b5e57f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a035d0f07f0d48f08e04428b351b5e57f">&#9670;&#160;</a></span>start_addr</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint32_t KUNAI::DEX::TryItem::try_item_struct_t::start_addr</td>
+          <td class="memname">std::uint16_t KUNAI::DEX::TryItem::try_item_struct_t::insn_count</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -131,7 +117,7 @@ std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>insn_count</
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../d1/da9/dex__encoded_8hpp_source.html">dex_encoded.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

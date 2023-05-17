@@ -1,4 +1,4 @@
 <map id="KUNAI::DEX::Unknown" name="KUNAI::DEX::Unknown">
-<area shape="rect" id="node1" title=" " alt="" coords="5,79,162,105"/>
-<area shape="rect" id="node2" href="$de/d54/classKUNAI_1_1DEX_1_1Type.html" title=" " alt="" coords="19,5,148,31"/>
+<area shape="rect" id="node1" title="In case something unknown is found, we categorize it." alt="" coords="6,79,163,105"/>
+<area shape="rect" id="node2" href="$dd/db3/classKUNAI_1_1DEX_1_1DVMType.html" title="Represents the base class of a Type in the DVM we have different types." alt="" coords="5,5,164,31"/>
 </map>

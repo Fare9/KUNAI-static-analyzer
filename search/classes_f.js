@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['unknown_0',['Unknown',['../d1/de3/classKUNAI_1_1DEX_1_1Unknown.html',1,'KUNAI::DEX']]]
+  ['recursivetraversaldisassembler_0',['RecursiveTraversalDisassembler',['../d5/d59/classKUNAI_1_1DEX_1_1RecursiveTraversalDisassembler.html',1,'KUNAI::DEX']]]
 ];

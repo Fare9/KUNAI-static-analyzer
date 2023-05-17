@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,21 +80,208 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::EncodedField Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Class that represent field information it contains a <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a> and also the access flags.  
+ <a href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af6e0dc2d37cc22eceb50a57b6cef6847"><td class="memItemLeft" align="right" valign="top"><a id="af6e0dc2d37cc22eceb50a57b6cef6847" name="af6e0dc2d37cc22eceb50a57b6cef6847"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>EncodedField</b> (<a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *field_idx, std::uint64_t access_flags)</td></tr>
-<tr class="separator:af6e0dc2d37cc22eceb50a57b6cef6847"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abdb7e4c8896a060036f07d1046339300"><td class="memItemLeft" align="right" valign="top"><a id="abdb7e4c8896a060036f07d1046339300" name="abdb7e4c8896a060036f07d1046339300"></a>
-<a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_field</b> () const</td></tr>
-<tr class="separator:abdb7e4c8896a060036f07d1046339300"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6367edc5aaa011b3506edcf451c63c5"><td class="memItemLeft" align="right" valign="top"><a id="ab6367edc5aaa011b3506edcf451c63c5" name="ab6367edc5aaa011b3506edcf451c63c5"></a>
-DVMTypes::ACCESS_FLAGS&#160;</td><td class="memItemRight" valign="bottom"><b>get_access_flags</b> ()</td></tr>
-<tr class="separator:ab6367edc5aaa011b3506edcf451c63c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bd323e431e7dd25c204dc7234635b65"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html#a6bd323e431e7dd25c204dc7234635b65">EncodedField</a> (<a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *field_idx, TYPES::access_flags flags)</td></tr>
+<tr class="memdesc:a6bd323e431e7dd25c204dc7234635b65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of an encoded field.  <br /></td></tr>
+<tr class="separator:a6bd323e431e7dd25c204dc7234635b65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eedbe29b723e6c728395f86be8a1563"><td class="memItemLeft" align="right" valign="top"><a id="a0eedbe29b723e6c728395f86be8a1563" name="a0eedbe29b723e6c728395f86be8a1563"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~EncodedField</b> ()=default</td></tr>
+<tr class="memdesc:a0eedbe29b723e6c728395f86be8a1563"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of Encoded Field. <br /></td></tr>
+<tr class="separator:a0eedbe29b723e6c728395f86be8a1563"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43e9cb4d2fda7483c88a303e7f2efe12"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html#a43e9cb4d2fda7483c88a303e7f2efe12">get_field</a> () const</td></tr>
+<tr class="memdesc:a43e9cb4d2fda7483c88a303e7f2efe12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant pointer to the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>.  <br /></td></tr>
+<tr class="separator:a43e9cb4d2fda7483c88a303e7f2efe12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98d51eed77bcf2fd7c9392cc0173e69b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html#a98d51eed77bcf2fd7c9392cc0173e69b">get_field</a> ()</td></tr>
+<tr class="memdesc:a98d51eed77bcf2fd7c9392cc0173e69b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pointer to the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>.  <br /></td></tr>
+<tr class="separator:a98d51eed77bcf2fd7c9392cc0173e69b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a365f56b9fb2e322e2e02dd7a2e7f15bb"><td class="memItemLeft" align="right" valign="top">TYPES::access_flags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html#a365f56b9fb2e322e2e02dd7a2e7f15bb">get_access_flags</a> () const</td></tr>
+<tr class="memdesc:a365f56b9fb2e322e2e02dd7a2e7f15bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the access flags from the Field.  <br /></td></tr>
+<tr class="separator:a365f56b9fb2e322e2e02dd7a2e7f15bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9dfc8465924af39a8feb13f12f2d1fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html#ae9dfc8465924af39a8feb13f12f2d1fb">set_initial_value</a> (<a class="el" href="../../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html">EncodedArray</a> *initial_value)</td></tr>
+<tr class="memdesc:ae9dfc8465924af39a8feb13f12f2d1fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Those fields that are static contains an initial value.  <br /></td></tr>
+<tr class="separator:ae9dfc8465924af39a8feb13f12f2d1fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae943f40eb545b68a9a4e1f28d1b4ea74"><td class="memItemLeft" align="right" valign="top"><a id="ae943f40eb545b68a9a4e1f28d1b4ea74" name="ae943f40eb545b68a9a4e1f28d1b4ea74"></a>
+<a class="el" href="../../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html">EncodedArray</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_initial_value</b> ()</td></tr>
+<tr class="separator:ae943f40eb545b68a9a4e1f28d1b4ea74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class that represent field information it contains a <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a> and also the access flags. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a6bd323e431e7dd25c204dc7234635b65" name="a6bd323e431e7dd25c204dc7234635b65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bd323e431e7dd25c204dc7234635b65">&#9670;&#160;</a></span>EncodedField()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">KUNAI::DEX::EncodedField::EncodedField </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *&#160;</td>
+          <td class="paramname"><em>field_idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TYPES::access_flags&#160;</td>
+          <td class="paramname"><em>flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor of an encoded field. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">field_idx</td><td><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a> for the encoded field </td></tr>
+    <tr><td class="paramname">flags</td><td><br  />
+ </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a365f56b9fb2e322e2e02dd7a2e7f15bb" name="a365f56b9fb2e322e2e02dd7a2e7f15bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a365f56b9fb2e322e2e02dd7a2e7f15bb">&#9670;&#160;</a></span>get_access_flags()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TYPES::access_flags KUNAI::DEX::EncodedField::get_access_flags </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the access flags from the Field. </p>
+<dl class="section return"><dt>Returns</dt><dd>access flags </dd></dl>
+
+</div>
+</div>
+<a id="a98d51eed77bcf2fd7c9392cc0173e69b" name="a98d51eed77bcf2fd7c9392cc0173e69b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98d51eed77bcf2fd7c9392cc0173e69b">&#9670;&#160;</a></span>get_field() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> * KUNAI::DEX::EncodedField::get_field </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a pointer to the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>pointer to the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a> </dd></dl>
+
+</div>
+</div>
+<a id="a43e9cb4d2fda7483c88a303e7f2efe12" name="a43e9cb4d2fda7483c88a303e7f2efe12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a43e9cb4d2fda7483c88a303e7f2efe12">&#9670;&#160;</a></span>get_field() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> * KUNAI::DEX::EncodedField::get_field </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant pointer to the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant pointer to the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a> </dd></dl>
+
+</div>
+</div>
+<a id="ae9dfc8465924af39a8feb13f12f2d1fb" name="ae9dfc8465924af39a8feb13f12f2d1fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9dfc8465924af39a8feb13f12f2d1fb">&#9670;&#160;</a></span>set_initial_value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::EncodedField::set_initial_value </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html">EncodedArray</a> *&#160;</td>
+          <td class="paramname"><em>initial_value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Those fields that are static contains an initial value. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">initial_value</td><td><br  />
+ </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../d1/da9/dex__encoded_8hpp_source.html">dex_encoded.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

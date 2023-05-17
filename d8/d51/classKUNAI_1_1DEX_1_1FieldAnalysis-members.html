@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,15 +80,15 @@ $(function() {
 
 <p>This is the complete list of members for <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#a0b98e1c267f2a949fa5ec06656ebd0bd">add_xref_read</a>(ClassAnalysis *class_object, MethodAnalysis *method_object, std::uint64_t offset)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#a8d2978468261e04cafb4036beb5b4db8">add_xref_write</a>(ClassAnalysis *class_object, MethodAnalysis *method_object, std::uint64_t offset)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#a7c6e5675c97a0391ae714b65b426b508">FieldAnalysis</a>(EncodedField *field)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#abea2987406ec71bd3e38c24f44ad9f2d">get_field</a>()</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#afc2ccec0eebe60f2c9ce5cc237118e93">get_xref_read</a>() const</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#ae0fbc2f30e75617264c08a0d4e45e5d1">get_xref_write</a>() const</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#a1b57a5248293fc4d088615639bc4d487">name</a>()</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>operator&lt;&lt;</b> (defined in <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a>)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#af92621263abedb946c672827510cbb3d">~FieldAnalysis</a>()=default</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#acfd126317f3da069611882dfb31c94b4">add_xrefread</a>(ClassAnalysis *c, MethodAnalysis *m, std::uint64_t offset)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#a699f07cecf8984c12d607a00040f9395">add_xrefwrite</a>(ClassAnalysis *c, MethodAnalysis *m, std::uint64_t offset)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>FieldAnalysis</b>(EncodedField *field) (defined in <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a>)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>get_field</b>() (defined in <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a>)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>get_name</b>() (defined in <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a>)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>get_xrefread</b>() const (defined in <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a>)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>get_xrefread</b>() (defined in <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a>)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>get_xrefwrite</b>() const (defined in <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a>)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>get_xrefwrite</b>() (defined in <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a>)</td><td class="entry"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">KUNAI::DEX::FieldAnalysis</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -1,0 +1,4 @@
+<map id="exceptions::IncorrectIDException" name="exceptions::IncorrectIDException">
+<area shape="rect" id="node1" title="Exception raised when found an incorrect ID of any type can be strings ids, type ids,..." alt="" coords="5,79,215,105"/>
+<area shape="rect" id="node2" title=" " alt="" coords="60,5,160,31"/>
+</map>

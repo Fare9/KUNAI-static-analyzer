@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -80,12 +80,17 @@ $(function() {
   <div class="headertitle"><div class="title">exceptions::ApkUnzipException Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Exception raised when unzipping process fails.  
+ <a href="../../d0/d34/classexceptions_1_1ApkUnzipException.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d5/d70/apkunzip__exception_8hpp_source.html">apkunzip_exception.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for exceptions::ApkUnzipException:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d3/dc3/classexceptions_1_1ApkUnzipException__inherit__graph.png" border="0" usemap="#aexceptions_1_1ApkUnzipException_inherit__map" alt="Inheritance graph"/></div>
 <map name="aexceptions_1_1ApkUnzipException_inherit__map" id="aexceptions_1_1ApkUnzipException_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,79,207,105"/>
+<area shape="rect" title="Exception raised when unzipping process fails." alt="" coords="5,79,207,105"/>
 <area shape="rect" title=" " alt="" coords="56,5,156,31"/>
 </map>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
@@ -94,22 +99,88 @@ Collaboration diagram for exceptions::ApkUnzipException:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../df/dd9/classexceptions_1_1ApkUnzipException__coll__graph.png" border="0" usemap="#aexceptions_1_1ApkUnzipException_coll__map" alt="Collaboration graph"/></div>
 <map name="aexceptions_1_1ApkUnzipException_coll__map" id="aexceptions_1_1ApkUnzipException_coll__map">
-<area shape="rect" title=" " alt="" coords="5,79,207,105"/>
+<area shape="rect" title="Exception raised when unzipping process fails." alt="" coords="5,79,207,105"/>
 <area shape="rect" title=" " alt="" coords="56,5,156,31"/>
 </map>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a251e8853e7310241d649d960ac25bbd7"><td class="memItemLeft" align="right" valign="top"><a id="a251e8853e7310241d649d960ac25bbd7" name="a251e8853e7310241d649d960ac25bbd7"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ApkUnzipException</b> (const std::string &amp;msg)</td></tr>
+<tr class="memitem:a251e8853e7310241d649d960ac25bbd7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d34/classexceptions_1_1ApkUnzipException.html#a251e8853e7310241d649d960ac25bbd7">ApkUnzipException</a> (const std::string &amp;msg)</td></tr>
+<tr class="memdesc:a251e8853e7310241d649d960ac25bbd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of exception.  <br /></td></tr>
 <tr class="separator:a251e8853e7310241d649d960ac25bbd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aabab96b47d59c32654fcf1b9b8fa30e1"><td class="memItemLeft" align="right" valign="top"><a id="aabab96b47d59c32654fcf1b9b8fa30e1" name="aabab96b47d59c32654fcf1b9b8fa30e1"></a>
-virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><b>what</b> () const noexcept override</td></tr>
+<tr class="memitem:aabab96b47d59c32654fcf1b9b8fa30e1"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d34/classexceptions_1_1ApkUnzipException.html#aabab96b47d59c32654fcf1b9b8fa30e1">what</a> () const noexcept override</td></tr>
+<tr class="memdesc:aabab96b47d59c32654fcf1b9b8fa30e1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return error message.  <br /></td></tr>
 <tr class="separator:aabab96b47d59c32654fcf1b9b8fa30e1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Exception raised when unzipping process fails. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a251e8853e7310241d649d960ac25bbd7" name="a251e8853e7310241d649d960ac25bbd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a251e8853e7310241d649d960ac25bbd7">&#9670;&#160;</a></span>ApkUnzipException()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">exceptions::ApkUnzipException::ApkUnzipException </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor of exception. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msg</td><td>message to show to the user </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="aabab96b47d59c32654fcf1b9b8fa30e1" name="aabab96b47d59c32654fcf1b9b8fa30e1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabab96b47d59c32654fcf1b9b8fa30e1">&#9670;&#160;</a></span>what()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const char * exceptions::ApkUnzipException::what </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return error message. </p>
+<dl class="section return"><dt>Returns</dt><dd>error message in a c string style </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/Exceptions/<a class="el" href="../../d5/d70/apkunzip__exception_8hpp_source.html">apkunzip_exception.hpp</a></li>
+<li>kunai-lib/include/Kunai/Exceptions/<a class="el" href="../../d5/d70/apkunzip__exception_8hpp_source.html">apkunzip_exception.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

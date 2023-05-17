@@ -1,0 +1,4 @@
+<map id="KUNAI::DEX::Disassembler::_handler_data" name="KUNAI::DEX::Disassembler::_handler_data">
+<area shape="rect" id="node1" title="Information for the handler of exceptions, handler type, the start address of it and basic blocks." alt="" coords="5,94,186,135"/>
+<area shape="rect" id="node2" href="$dd/db3/classKUNAI_1_1DEX_1_1DVMType.html" title="Represents the base class of a Type in the DVM we have different types." alt="" coords="16,5,175,31"/>
+</map>

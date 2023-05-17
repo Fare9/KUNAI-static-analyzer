@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dexdisassembler_5ft_0',['dexdisassembler_t',['../df/da7/dex__disassembler_8hpp.html#af6508365d2bdfe5997683d1bbb156d0e',1,'KUNAI::DEX']]]
+  ['connected_5fblocks_5ft_0',['connected_blocks_t',['../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a2d5af210d53012149dfe496847078af7',1,'KUNAI::DEX::BasicBlocks']]]
 ];

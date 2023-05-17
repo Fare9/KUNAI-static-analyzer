@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,77 +70,100 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html">BasicBlocks</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html">BasicBlocks</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="../../dc/d74/classKUNAI_1_1DEX_1_1BasicBlocks-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">KUNAI::DEX::BasicBlocks Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="../../dd/df2/dex__analysis_8hpp_source.html">dex_analysis.hpp</a>&gt;</code></p>
+<p>Class to keep all the Dalvik Basic Blocks from a method.  
+ <a href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../dc/dea/analysis_8hpp_source.html">analysis.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a939ce693624dfee9c2367e0e592048ba"><td class="memItemLeft" align="right" valign="top"><a id="a939ce693624dfee9c2367e0e592048ba" name="a939ce693624dfee9c2367e0e592048ba"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a939ce693624dfee9c2367e0e592048ba">node_type_t</a> { <b>JOIN_NODE</b> = 0
+, <b>BRANCH_NODE</b>
+, <b>REGULAR_NODE</b>
+ }</td></tr>
+<tr class="memdesc:a939ce693624dfee9c2367e0e592048ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type of a node. <br /></td></tr>
+<tr class="separator:a939ce693624dfee9c2367e0e592048ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d5af210d53012149dfe496847078af7"><td class="memItemLeft" align="right" valign="top"><a id="a2d5af210d53012149dfe496847078af7" name="a2d5af210d53012149dfe496847078af7"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>connected_blocks_t</b> = std::unordered_map&lt; <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *, std::set&lt; <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> * &gt; &gt;</td></tr>
+<tr class="memdesc:a2d5af210d53012149dfe496847078af7"><td class="mdescLeft">&#160;</td><td class="mdescRight">blocks that are connected with others <br /></td></tr>
+<tr class="separator:a2d5af210d53012149dfe496847078af7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48843e4163901d2f3dc609b6629ba8c0"><td class="memItemLeft" align="right" valign="top"><a id="a48843e4163901d2f3dc609b6629ba8c0" name="a48843e4163901d2f3dc609b6629ba8c0"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>edges_t</b> = std::vector&lt; std::pair&lt; <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *, <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> * &gt; &gt;</td></tr>
+<tr class="memdesc:a48843e4163901d2f3dc609b6629ba8c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">edges between nodes <br /></td></tr>
+<tr class="separator:a48843e4163901d2f3dc609b6629ba8c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a00f9c66d9e1b4fcc818d13ed8f125f07"><td class="memItemLeft" align="right" valign="top"><a id="a00f9c66d9e1b4fcc818d13ed8f125f07" name="a00f9c66d9e1b4fcc818d13ed8f125f07"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BasicBlocks</b> ()</td></tr>
-<tr class="memdesc:a00f9c66d9e1b4fcc818d13ed8f125f07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Basic Blocks object. <br /></td></tr>
-<tr class="separator:a00f9c66d9e1b4fcc818d13ed8f125f07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34cc5be90f914c5ed49999f74896e7b1"><td class="memItemLeft" align="right" valign="top"><a id="a34cc5be90f914c5ed49999f74896e7b1" name="a34cc5be90f914c5ed49999f74896e7b1"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>~BasicBlocks</b> ()</td></tr>
-<tr class="memdesc:a34cc5be90f914c5ed49999f74896e7b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the Basic Blocks object. <br /></td></tr>
+<tr class="memdesc:a34cc5be90f914c5ed49999f74896e7b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of the <a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html" title="Class to keep all the Dalvik Basic Blocks from a method.">BasicBlocks</a>, we need to free the memory. <br /></td></tr>
 <tr class="separator:a34cc5be90f914c5ed49999f74896e7b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeddfba939e3c92a821d2563f1a62e32c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#aeddfba939e3c92a821d2563f1a62e32c">push_basic_block</a> (dvmbasicblock_t basic_block)</td></tr>
-<tr class="memdesc:aeddfba939e3c92a821d2563f1a62e32c"><td class="mdescLeft">&#160;</td><td class="mdescRight">push a given <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> into the vector.  <br /></td></tr>
-<tr class="separator:aeddfba939e3c92a821d2563f1a62e32c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0712e2bd77604957dc9fbc5384cf4a38"><td class="memItemLeft" align="right" valign="top">dvmbasicblock_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a0712e2bd77604957dc9fbc5384cf4a38">pop_basic_block</a> ()</td></tr>
-<tr class="memdesc:a0712e2bd77604957dc9fbc5384cf4a38"><td class="mdescLeft">&#160;</td><td class="mdescRight">pop the last basic block from the vector, pop operation remove it from the vector.  <br /></td></tr>
-<tr class="separator:a0712e2bd77604957dc9fbc5384cf4a38"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad13c538a4961016fb4c017b6d46c3582"><td class="memItemLeft" align="right" valign="top">dvmbasicblock_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#ad13c538a4961016fb4c017b6d46c3582">get_basic_block_by_idx</a> (std::uint64_t idx)</td></tr>
-<tr class="memdesc:ad13c538a4961016fb4c017b6d46c3582"><td class="mdescLeft">&#160;</td><td class="mdescRight">get one basic block by the idx of the instruction.  <br /></td></tr>
-<tr class="separator:ad13c538a4961016fb4c017b6d46c3582"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac87d5738187458f1cc26f581ff9530fd"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#ac87d5738187458f1cc26f581ff9530fd">get_number_of_basic_blocks</a> ()</td></tr>
-<tr class="memdesc:ac87d5738187458f1cc26f581ff9530fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the numbers of basic blocks.  <br /></td></tr>
-<tr class="separator:ac87d5738187458f1cc26f581ff9530fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a194815a07c692f594ae65ed38cd6e852"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; dvmbasicblock_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a194815a07c692f594ae65ed38cd6e852">get_basic_blocks</a> () const</td></tr>
-<tr class="memdesc:a194815a07c692f594ae65ed38cd6e852"><td class="mdescLeft">&#160;</td><td class="mdescRight">get all the basic blocks.  <br /></td></tr>
-<tr class="separator:a194815a07c692f594ae65ed38cd6e852"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a700a862f9e0f52859972c8e0b50ff4db"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a700a862f9e0f52859972c8e0b50ff4db">get_number_of_basic_blocks</a> () const</td></tr>
+<tr class="memdesc:a700a862f9e0f52859972c8e0b50ff4db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the number of basic blocks in the graph.  <br /></td></tr>
+<tr class="separator:a700a862f9e0f52859972c8e0b50ff4db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab420bd596089b8e0b9054fb5c4c8bbf8"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a2d5af210d53012149dfe496847078af7">connected_blocks_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#ab420bd596089b8e0b9054fb5c4c8bbf8">get_predecessors</a> () const</td></tr>
+<tr class="memdesc:ab420bd596089b8e0b9054fb5c4c8bbf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all predecessors from all the blocks.  <br /></td></tr>
+<tr class="separator:ab420bd596089b8e0b9054fb5c4c8bbf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a685ebb7413d771669f98eba44e343a7e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a2d5af210d53012149dfe496847078af7">connected_blocks_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a685ebb7413d771669f98eba44e343a7e">get_predecessors</a> ()</td></tr>
+<tr class="memdesc:a685ebb7413d771669f98eba44e343a7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all predecessors from all the blocks.  <br /></td></tr>
+<tr class="separator:a685ebb7413d771669f98eba44e343a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b6dd45c32bc1c654f7254114acee281"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a5b6dd45c32bc1c654f7254114acee281">add_predecessor</a> (<a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *node, <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *pred)</td></tr>
+<tr class="memdesc:a5b6dd45c32bc1c654f7254114acee281"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a node to the list of predecessors of another.  <br /></td></tr>
+<tr class="separator:a5b6dd45c32bc1c654f7254114acee281"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbc7c000e7fa8dac7f36e5a7b0bf3287"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a2d5af210d53012149dfe496847078af7">connected_blocks_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#adbc7c000e7fa8dac7f36e5a7b0bf3287">get_sucessors</a> () const</td></tr>
+<tr class="memdesc:adbc7c000e7fa8dac7f36e5a7b0bf3287"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all sucessors from all the blocks.  <br /></td></tr>
+<tr class="separator:adbc7c000e7fa8dac7f36e5a7b0bf3287"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9a5764b1e4486046d5df537b379ce68"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a2d5af210d53012149dfe496847078af7">connected_blocks_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#ae9a5764b1e4486046d5df537b379ce68">get_sucessors</a> ()</td></tr>
+<tr class="memdesc:ae9a5764b1e4486046d5df537b379ce68"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all sucessors from all the blocks.  <br /></td></tr>
+<tr class="separator:ae9a5764b1e4486046d5df537b379ce68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f6cba998cf5dfbed339fbe71b072f9d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a3f6cba998cf5dfbed339fbe71b072f9d">add_sucessor</a> (<a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *node, <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *suc)</td></tr>
+<tr class="memdesc:a3f6cba998cf5dfbed339fbe71b072f9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a node to the list of sucessors of another.  <br /></td></tr>
+<tr class="separator:a3f6cba998cf5dfbed339fbe71b072f9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a453a781baa37f98055d099cd73aa7b2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a453a781baa37f98055d099cd73aa7b2a">add_node</a> (<a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *node)</td></tr>
+<tr class="memdesc:a453a781baa37f98055d099cd73aa7b2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a node to the vector of nodes, we will transfer the ownership.  <br /></td></tr>
+<tr class="separator:a453a781baa37f98055d099cd73aa7b2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7dcc289f70cf43afac62504ad10f8d1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#ad7dcc289f70cf43afac62504ad10f8d1">add_edge</a> (<a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *src, <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *dst)</td></tr>
+<tr class="memdesc:ad7dcc289f70cf43afac62504ad10f8d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an edge to the basic blocks.  <br /></td></tr>
+<tr class="separator:ad7dcc289f70cf43afac62504ad10f8d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad17944aed8a88df20127f205d95f4272"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a48843e4163901d2f3dc609b6629ba8c0">edges_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#ad17944aed8a88df20127f205d95f4272">get_edges</a> () const</td></tr>
+<tr class="memdesc:ad17944aed8a88df20127f205d95f4272"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the edges of the graph.  <br /></td></tr>
+<tr class="separator:ad17944aed8a88df20127f205d95f4272"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff94b442e9877810a15c64c269c9c5ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a48843e4163901d2f3dc609b6629ba8c0">edges_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#aff94b442e9877810a15c64c269c9c5ce">get_edges</a> ()</td></tr>
+<tr class="memdesc:aff94b442e9877810a15c64c269c9c5ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the edges of the graph.  <br /></td></tr>
+<tr class="separator:aff94b442e9877810a15c64c269c9c5ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a080936b07a755615c01be73ebd074971"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a939ce693624dfee9c2367e0e592048ba">node_type_t</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a080936b07a755615c01be73ebd074971">get_node_type</a> (<a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *node)</td></tr>
+<tr class="memdesc:a080936b07a755615c01be73ebd074971"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the node type between JOIN_NODE, BRANCH_NODE or REGULAR_NODE.  <br /></td></tr>
+<tr class="separator:a080936b07a755615c01be73ebd074971"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a211ffd8f31e1bfe1d8387158fa966d25"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a211ffd8f31e1bfe1d8387158fa966d25">remove_node</a> (<a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *node)</td></tr>
+<tr class="memdesc:a211ffd8f31e1bfe1d8387158fa966d25"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a node from the graph, this operation can be expensive on time.  <br /></td></tr>
+<tr class="separator:a211ffd8f31e1bfe1d8387158fa966d25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdce1149e05711848536a1285622e8fe"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#abdce1149e05711848536a1285622e8fe">get_basic_block_by_idx</a> (std::uint64_t idx)</td></tr>
+<tr class="memdesc:abdce1149e05711848536a1285622e8fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a basic block given an idx, the idx can be one address from the first to the last address of the block.  <br /></td></tr>
+<tr class="separator:abdce1149e05711848536a1285622e8fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af31c9e919baddc6c696be9618b7ab62b"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#af31c9e919baddc6c696be9618b7ab62b">get_nodes</a> () const</td></tr>
+<tr class="memdesc:af31c9e919baddc6c696be9618b7ab62b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the nodes of the graph.  <br /></td></tr>
+<tr class="separator:af31c9e919baddc6c696be9618b7ab62b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32e89e884875da3698f807988a296730"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a32e89e884875da3698f807988a296730">get_nodes</a> ()</td></tr>
+<tr class="memdesc:a32e89e884875da3698f807988a296730"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the nodes of the graph.  <br /></td></tr>
+<tr class="separator:a32e89e884875da3698f807988a296730"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html">BasicBlocks</a> definition </p>
+<div class="textblock"><p>Class to keep all the Dalvik Basic Blocks from a method. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="ad13c538a4961016fb4c017b6d46c3582" name="ad13c538a4961016fb4c017b6d46c3582"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad13c538a4961016fb4c017b6d46c3582">&#9670;&#160;</a></span>get_basic_block_by_idx()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">dvmbasicblock_t KUNAI::DEX::BasicBlocks::get_basic_block_by_idx </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>idx</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>get one basic block by the idx of the instruction. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">idx</td><td>index of the instruction to retrieve its basic block. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>dvmbasicblock_t </dd></dl>
-
-</div>
-</div>
-<a id="a194815a07c692f594ae65ed38cd6e852" name="a194815a07c692f594ae65ed38cd6e852"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a194815a07c692f594ae65ed38cd6e852">&#9670;&#160;</a></span>get_basic_blocks()</h2>
+<a id="ad7dcc289f70cf43afac62504ad10f8d1" name="ad7dcc289f70cf43afac62504ad10f8d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7dcc289f70cf43afac62504ad10f8d1">&#9670;&#160;</a></span>add_edge()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -149,7 +172,232 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt; dvmbasicblock_t &gt; &amp; KUNAI::DEX::BasicBlocks::get_basic_blocks </td>
+          <td class="memname">void KUNAI::DEX::BasicBlocks::add_edge </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *&#160;</td>
+          <td class="paramname"><em>dst</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add an edge to the basic blocks. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>source node </td></tr>
+    <tr><td class="paramname">dst</td><td>edge node </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>now add the sucessors and predecessors</p>
+
+</div>
+</div>
+<a id="a453a781baa37f98055d099cd73aa7b2a" name="a453a781baa37f98055d099cd73aa7b2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a453a781baa37f98055d099cd73aa7b2a">&#9670;&#160;</a></span>add_node()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::BasicBlocks::add_node </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add a node to the vector of nodes, we will transfer the ownership. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>node to push into our vector </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a5b6dd45c32bc1c654f7254114acee281" name="a5b6dd45c32bc1c654f7254114acee281"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b6dd45c32bc1c654f7254114acee281">&#9670;&#160;</a></span>add_predecessor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::BasicBlocks::add_predecessor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *&#160;</td>
+          <td class="paramname"><em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *&#160;</td>
+          <td class="paramname"><em>pred</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add a node to the list of predecessors of another. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>node to add predecessor </td></tr>
+    <tr><td class="paramname">pred</td><td>predecessor node </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3f6cba998cf5dfbed339fbe71b072f9d" name="a3f6cba998cf5dfbed339fbe71b072f9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f6cba998cf5dfbed339fbe71b072f9d">&#9670;&#160;</a></span>add_sucessor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::BasicBlocks::add_sucessor </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *&#160;</td>
+          <td class="paramname"><em>node</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *&#160;</td>
+          <td class="paramname"><em>suc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add a node to the list of sucessors of another. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>node to add sucessor </td></tr>
+    <tr><td class="paramname">suc</td><td>sucessor node </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abdce1149e05711848536a1285622e8fe" name="abdce1149e05711848536a1285622e8fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdce1149e05711848536a1285622e8fe">&#9670;&#160;</a></span>get_basic_block_by_idx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> * KUNAI::DEX::BasicBlocks::get_basic_block_by_idx </td>
+          <td>(</td>
+          <td class="paramtype">std::uint64_t&#160;</td>
+          <td class="paramname"><em>idx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a basic block given an idx, the idx can be one address from the first to the last address of the block. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">idx</td><td>address of the block to retrieve </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>block that contains an instruction in that address </dd></dl>
+
+</div>
+</div>
+<a id="aff94b442e9877810a15c64c269c9c5ce" name="aff94b442e9877810a15c64c269c9c5ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff94b442e9877810a15c64c269c9c5ce">&#9670;&#160;</a></span>get_edges() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a48843e4163901d2f3dc609b6629ba8c0">edges_t</a> &amp; KUNAI::DEX::BasicBlocks::get_edges </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to the edges of the graph. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to the edges </dd></dl>
+
+</div>
+</div>
+<a id="ad17944aed8a88df20127f205d95f4272" name="ad17944aed8a88df20127f205d95f4272"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad17944aed8a88df20127f205d95f4272">&#9670;&#160;</a></span>get_edges() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a48843e4163901d2f3dc609b6629ba8c0">edges_t</a> &amp; KUNAI::DEX::BasicBlocks::get_edges </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -162,13 +410,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>get all the basic blocks. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;dvmbasicblock_t&gt; </dd></dl>
+<p>Get a constant reference to the edges of the graph. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to the edges </dd></dl>
 
 </div>
 </div>
-<a id="ac87d5738187458f1cc26f581ff9530fd" name="ac87d5738187458f1cc26f581ff9530fd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac87d5738187458f1cc26f581ff9530fd">&#9670;&#160;</a></span>get_number_of_basic_blocks()</h2>
+<a id="a080936b07a755615c01be73ebd074971" name="a080936b07a755615c01be73ebd074971"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a080936b07a755615c01be73ebd074971">&#9670;&#160;</a></span>get_node_type()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -177,7 +425,42 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t KUNAI::DEX::BasicBlocks::get_number_of_basic_blocks </td>
+          <td class="memname"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a939ce693624dfee9c2367e0e592048ba">node_type_t</a> KUNAI::DEX::BasicBlocks::get_node_type </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the node type between JOIN_NODE, BRANCH_NODE or REGULAR_NODE. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">node</td><td>node to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>type of node </dd></dl>
+
+</div>
+</div>
+<a id="a32e89e884875da3698f807988a296730" name="a32e89e884875da3698f807988a296730"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32e89e884875da3698f807988a296730">&#9670;&#160;</a></span>get_nodes() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> * &gt; &amp; KUNAI::DEX::BasicBlocks::get_nodes </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -190,60 +473,207 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>get the numbers of basic blocks. </p>
-<dl class="section return"><dt>Returns</dt><dd>size_t </dd></dl>
+<p>Get a reference to the nodes of the graph. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to basic blocks </dd></dl>
 
 </div>
 </div>
-<a id="a0712e2bd77604957dc9fbc5384cf4a38" name="a0712e2bd77604957dc9fbc5384cf4a38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0712e2bd77604957dc9fbc5384cf4a38">&#9670;&#160;</a></span>pop_basic_block()</h2>
+<a id="af31c9e919baddc6c696be9618b7ab62b" name="af31c9e919baddc6c696be9618b7ab62b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af31c9e919baddc6c696be9618b7ab62b">&#9670;&#160;</a></span>get_nodes() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">dvmbasicblock_t KUNAI::DEX::BasicBlocks::pop_basic_block </td>
+          <td class="memname">const std::vector&lt; <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> * &gt; &amp; KUNAI::DEX::BasicBlocks::get_nodes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the nodes of the graph. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to basic blocks </dd></dl>
+
+</div>
+</div>
+<a id="a700a862f9e0f52859972c8e0b50ff4db" name="a700a862f9e0f52859972c8e0b50ff4db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a700a862f9e0f52859972c8e0b50ff4db">&#9670;&#160;</a></span>get_number_of_basic_blocks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t KUNAI::DEX::BasicBlocks::get_number_of_basic_blocks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the number of basic blocks in the graph. </p>
+<dl class="section return"><dt>Returns</dt><dd>number of basic blocks </dd></dl>
+
+</div>
+</div>
+<a id="a685ebb7413d771669f98eba44e343a7e" name="a685ebb7413d771669f98eba44e343a7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a685ebb7413d771669f98eba44e343a7e">&#9670;&#160;</a></span>get_predecessors() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a2d5af210d53012149dfe496847078af7">connected_blocks_t</a> &amp; KUNAI::DEX::BasicBlocks::get_predecessors </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>pop the last basic block from the vector, pop operation remove it from the vector. </p>
-<dl class="section return"><dt>Returns</dt><dd>dvmbasicblock_t </dd></dl>
+<p>Get all predecessors from all the blocks. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to predecessors </dd></dl>
 
 </div>
 </div>
-<a id="aeddfba939e3c92a821d2563f1a62e32c" name="aeddfba939e3c92a821d2563f1a62e32c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeddfba939e3c92a821d2563f1a62e32c">&#9670;&#160;</a></span>push_basic_block()</h2>
+<a id="ab420bd596089b8e0b9054fb5c4c8bbf8" name="ab420bd596089b8e0b9054fb5c4c8bbf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab420bd596089b8e0b9054fb5c4c8bbf8">&#9670;&#160;</a></span>get_predecessors() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a2d5af210d53012149dfe496847078af7">connected_blocks_t</a> &amp; KUNAI::DEX::BasicBlocks::get_predecessors </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get all predecessors from all the blocks. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to predecessors </dd></dl>
+
+</div>
+</div>
+<a id="ae9a5764b1e4486046d5df537b379ce68" name="ae9a5764b1e4486046d5df537b379ce68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9a5764b1e4486046d5df537b379ce68">&#9670;&#160;</a></span>get_sucessors() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a2d5af210d53012149dfe496847078af7">connected_blocks_t</a> &amp; KUNAI::DEX::BasicBlocks::get_sucessors </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get all sucessors from all the blocks. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to sucessors </dd></dl>
+
+</div>
+</div>
+<a id="adbc7c000e7fa8dac7f36e5a7b0bf3287" name="adbc7c000e7fa8dac7f36e5a7b0bf3287"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbc7c000e7fa8dac7f36e5a7b0bf3287">&#9670;&#160;</a></span>get_sucessors() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a2d5af210d53012149dfe496847078af7">connected_blocks_t</a> &amp; KUNAI::DEX::BasicBlocks::get_sucessors </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get all sucessors from all the blocks. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to sucessors </dd></dl>
+
+</div>
+</div>
+<a id="a211ffd8f31e1bfe1d8387158fa966d25" name="a211ffd8f31e1bfe1d8387158fa966d25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a211ffd8f31e1bfe1d8387158fa966d25">&#9670;&#160;</a></span>remove_node()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void KUNAI::DEX::BasicBlocks::push_basic_block </td>
+          <td class="memname">void KUNAI::DEX::BasicBlocks::remove_node </td>
           <td>(</td>
-          <td class="paramtype">dvmbasicblock_t&#160;</td>
-          <td class="paramname"><em>basic_block</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> *&#160;</td>
+          <td class="paramname"><em>node</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>push a given <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> into the vector. </p>
+<p>Remove a node from the graph, this operation can be expensive on time. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">basic_block</td><td><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> object. </td></tr>
+    <tr><td class="paramname">node</td><td>node to remove </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/Analysis/<a class="el" href="../../dd/df2/dex__analysis_8hpp_source.html">dex_analysis.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/analysis/<a class="el" href="../../dc/dea/analysis_8hpp_source.html">analysis.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

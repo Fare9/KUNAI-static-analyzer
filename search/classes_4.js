@@ -1,16 +1,15 @@
 var searchData=
 [
-  ['encodedannotation_0',['EncodedAnnotation',['../d9/d0c/classKUNAI_1_1DEX_1_1EncodedAnnotation.html',1,'KUNAI::DEX']]],
-  ['encodedarray_1',['EncodedArray',['../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html',1,'KUNAI::DEX']]],
-  ['encodedarrayitem_2',['EncodedArrayItem',['../d7/d59/classKUNAI_1_1DEX_1_1EncodedArrayItem.html',1,'KUNAI::DEX']]],
-  ['encodedcatchhandler_3',['EncodedCatchHandler',['../d4/dac/classKUNAI_1_1DEX_1_1EncodedCatchHandler.html',1,'KUNAI::DEX']]],
-  ['encodedfield_4',['EncodedField',['../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html',1,'KUNAI::DEX']]],
-  ['encodedmethod_5',['EncodedMethod',['../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html',1,'KUNAI::DEX']]],
-  ['encodedtypepair_6',['EncodedTypePair',['../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html',1,'KUNAI::DEX']]],
-  ['encodedvalue_7',['EncodedValue',['../d2/d8b/classKUNAI_1_1DEX_1_1EncodedValue.html',1,'KUNAI::DEX']]],
-  ['exception_8',['Exception',['../d1/d80/classKUNAI_1_1DEX_1_1Exception.html',1,'KUNAI::DEX']]],
-  ['exceptionanalysis_9',['ExceptionAnalysis',['../d3/dd5/classKUNAI_1_1DEX_1_1ExceptionAnalysis.html',1,'KUNAI::DEX']]],
-  ['exceptions_5fdata_5f_10',['exceptions_data_',['../d7/d27/structKUNAI_1_1DEX_1_1exceptions__data__.html',1,'KUNAI::DEX']]],
-  ['externalclass_11',['ExternalClass',['../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html',1,'KUNAI::DEX']]],
-  ['externalmethod_12',['ExternalMethod',['../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html',1,'KUNAI::DEX']]]
+  ['dalvikincorrectinstruction_0',['DalvikIncorrectInstruction',['../d7/d71/classKUNAI_1_1DEX_1_1DalvikIncorrectInstruction.html',1,'KUNAI::DEX']]],
+  ['dalvikopcodes_1',['DalvikOpcodes',['../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html',1,'KUNAI::DEX']]],
+  ['dex_2',['Dex',['../d1/d47/classKUNAI_1_1DEX_1_1Dex.html',1,'KUNAI::DEX']]],
+  ['dexdisassembler_3',['DexDisassembler',['../dc/db6/classKUNAI_1_1DEX_1_1DexDisassembler.html',1,'KUNAI::DEX']]],
+  ['dexheader_5ft_4',['dexheader_t',['../d4/dc8/structKUNAI_1_1DEX_1_1Header_1_1dexheader__t.html',1,'KUNAI::DEX::Header']]],
+  ['disassembler_5',['Disassembler',['../d1/d61/classKUNAI_1_1DEX_1_1Disassembler.html',1,'KUNAI::DEX']]],
+  ['disassemblerexception_6',['DisassemblerException',['../dc/dc8/classexceptions_1_1DisassemblerException.html',1,'exceptions']]],
+  ['dvmarray_7',['DVMArray',['../dc/df9/classKUNAI_1_1DEX_1_1DVMArray.html',1,'KUNAI::DEX']]],
+  ['dvmbasicblock_8',['DVMBasicBlock',['../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html',1,'KUNAI::DEX']]],
+  ['dvmclass_9',['DVMClass',['../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html',1,'KUNAI::DEX']]],
+  ['dvmfundamental_10',['DVMFundamental',['../d7/d15/classKUNAI_1_1DEX_1_1DVMFundamental.html',1,'KUNAI::DEX']]],
+  ['dvmtype_11',['DVMType',['../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html',1,'KUNAI::DEX']]]
 ];

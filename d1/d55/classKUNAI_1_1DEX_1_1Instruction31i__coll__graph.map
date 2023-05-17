@@ -1,4 +1,4 @@
 <map id="KUNAI::DEX::Instruction31i" name="KUNAI::DEX::Instruction31i">
-<area shape="rect" id="node1" title=" " alt="" coords="5,79,185,105"/>
-<area shape="rect" id="node2" href="$d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title=" " alt="" coords="14,5,176,31"/>
+<area shape="rect" id="node1" title="Instructions between a register and a literal value of 32 bits. Example: const vAA,..." alt="" coords="5,79,185,105"/>
+<area shape="rect" id="node2" href="$d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode." alt="" coords="14,5,176,31"/>
 </map>

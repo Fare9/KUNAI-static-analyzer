@@ -1,4 +1,4 @@
 <map id="exceptions::LifterException" name="exceptions::LifterException">
-<area shape="rect" id="node1" title=" " alt="" coords="5,79,181,105"/>
+<area shape="rect" id="node1" title="Exception raised in the analysis of dalvik." alt="" coords="5,79,181,105"/>
 <area shape="rect" id="node2" title=" " alt="" coords="43,5,143,31"/>
 </map>

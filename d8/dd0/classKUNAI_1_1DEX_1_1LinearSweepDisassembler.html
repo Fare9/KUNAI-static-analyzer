@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d8/dd0/classKUNAI_1_1DEX_1_1LinearSweepDisassembler.html">LinearSweepDisassembler</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d8/dd0/classKUNAI_1_1DEX_1_1LinearSweepDisassembler.html">LinearSweepDisassembler</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,18 +80,63 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::LinearSweepDisassembler Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="../../d8/dd0/classKUNAI_1_1DEX_1_1LinearSweepDisassembler.html" title="LinearSweepDisassembler is one of the DEX disassembly algorithms implemented by Kunai,...">LinearSweepDisassembler</a> is one of the DEX disassembly algorithms implemented by Kunai, this algorithm will go from the first byte of a buffer to the last one disassemblying all the found instructions.  
+ <a href="../../d8/dd0/classKUNAI_1_1DEX_1_1LinearSweepDisassembler.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../dd/d17/linear__sweep__disassembler_8hpp_source.html">linear_sweep_disassembler.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a331d23ec377719f5967c0fc952ab99c2"><td class="memItemLeft" align="right" valign="top"><a id="a331d23ec377719f5967c0fc952ab99c2" name="a331d23ec377719f5967c0fc952ab99c2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>LinearSweepDisassembler</b> (<a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> *dalvik_opcodes)</td></tr>
-<tr class="separator:a331d23ec377719f5967c0fc952ab99c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5453a5b2e2ac6ff1cf802e1f8b3ad7ce"><td class="memItemLeft" align="right" valign="top"><a id="a5453a5b2e2ac6ff1cf802e1f8b3ad7ce" name="a5453a5b2e2ac6ff1cf802e1f8b3ad7ce"></a>
-std::map&lt; std::uint64_t, instruction_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>disassembly</b> (const std::vector&lt; std::uint8_t &gt; &amp;byte_buffer)</td></tr>
-<tr class="separator:a5453a5b2e2ac6ff1cf802e1f8b3ad7ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a481f9b90171f499181d8b4873011b9bf"><td class="memItemLeft" align="right" valign="top"><a id="a481f9b90171f499181d8b4873011b9bf" name="a481f9b90171f499181d8b4873011b9bf"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_internal_disassembler</b> (<a class="el" href="../../d1/d61/classKUNAI_1_1DEX_1_1Disassembler.html">Disassembler</a> *disassembler)</td></tr>
+<tr class="separator:a481f9b90171f499181d8b4873011b9bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfa79407ccb41b1b84cd8920b5b6754c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dd0/classKUNAI_1_1DEX_1_1LinearSweepDisassembler.html#abfa79407ccb41b1b84cd8920b5b6754c">disassembly</a> (std::vector&lt; std::uint8_t &gt; &amp;buffer_bytes, std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> &gt; &gt; &amp;instructions)</td></tr>
+<tr class="memdesc:abfa79407ccb41b1b84cd8920b5b6754c"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements the algorithm of disassembly of linear sweep, the function receives a buffer of bytes and the buffer is traversed in a linear way disassembling each byte.  <br /></td></tr>
+<tr class="separator:abfa79407ccb41b1b84cd8920b5b6754c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="../../d8/dd0/classKUNAI_1_1DEX_1_1LinearSweepDisassembler.html" title="LinearSweepDisassembler is one of the DEX disassembly algorithms implemented by Kunai,...">LinearSweepDisassembler</a> is one of the DEX disassembly algorithms implemented by Kunai, this algorithm will go from the first byte of a buffer to the last one disassemblying all the found instructions. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="abfa79407ccb41b1b84cd8920b5b6754c" name="abfa79407ccb41b1b84cd8920b5b6754c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfa79407ccb41b1b84cd8920b5b6754c">&#9670;&#160;</a></span>disassembly()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::LinearSweepDisassembler::disassembly </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::uint8_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buffer_bytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>instructions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function implements the algorithm of disassembly of linear sweep, the function receives a buffer of bytes and the buffer is traversed in a linear way disassembling each byte. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer_bytes</td><td>bytes to disassembly </td></tr>
+    <tr><td class="paramname">instructions</td><td>vector where to store the instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/DVM/<a class="el" href="../../db/d9f/dex__linear__sweep__disassembly_8hpp_source.html">dex_linear_sweep_disassembly.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/DVM/<a class="el" href="../../dd/d17/linear__sweep__disassembler_8hpp_source.html">linear_sweep_disassembler.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

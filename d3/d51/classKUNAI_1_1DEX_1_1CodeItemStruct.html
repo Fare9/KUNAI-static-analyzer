@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html">CodeItemStruct</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html">CodeItemStruct</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -81,6 +81,11 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::CodeItemStruct Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Save the information of the code from a Method.  
+ <a href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -90,51 +95,463 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:addfe263c4a73b3030eb3c61219838ab6"><td class="memItemLeft" align="right" valign="top"><a id="addfe263c4a73b3030eb3c61219838ab6" name="addfe263c4a73b3030eb3c61219838ab6"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>CodeItemStruct</b> (std::ifstream &amp;input_file, std::uint64_t file_size, <a class="el" href="../../d6/daf/structKUNAI_1_1DEX_1_1CodeItemStruct_1_1code__item__struct__t.html">code_item_struct_t</a> code_item, <a class="el" href="../../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html">DexTypes</a> *dex_types)</td></tr>
-<tr class="separator:addfe263c4a73b3030eb3c61219838ab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa92e39081c73f5cb235a0949694ae811"><td class="memItemLeft" align="right" valign="top"><a id="aa92e39081c73f5cb235a0949694ae811" name="aa92e39081c73f5cb235a0949694ae811"></a>
-std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_number_of_registers_in_code</b> ()</td></tr>
-<tr class="separator:aa92e39081c73f5cb235a0949694ae811"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea4c02c05e9a98ec4dbba663f46390d4"><td class="memItemLeft" align="right" valign="top"><a id="aea4c02c05e9a98ec4dbba663f46390d4" name="aea4c02c05e9a98ec4dbba663f46390d4"></a>
-std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_number_of_incoming_arguments</b> ()</td></tr>
-<tr class="separator:aea4c02c05e9a98ec4dbba663f46390d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae9b8dd6bb557ff871373bda9a3d78ca6"><td class="memItemLeft" align="right" valign="top"><a id="ae9b8dd6bb557ff871373bda9a3d78ca6" name="ae9b8dd6bb557ff871373bda9a3d78ca6"></a>
-std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_number_of_outgoing_arguments</b> ()</td></tr>
-<tr class="separator:ae9b8dd6bb557ff871373bda9a3d78ca6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a941b9008ac789ef6494391fcfa052386"><td class="memItemLeft" align="right" valign="top"><a id="a941b9008ac789ef6494391fcfa052386" name="a941b9008ac789ef6494391fcfa052386"></a>
-std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_number_of_try_items</b> ()</td></tr>
-<tr class="separator:a941b9008ac789ef6494391fcfa052386"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04975e7c73af49081db46892e4fc6264"><td class="memItemLeft" align="right" valign="top"><a id="a04975e7c73af49081db46892e4fc6264" name="a04975e7c73af49081db46892e4fc6264"></a>
-<a class="el" href="../../db/ddb/classKUNAI_1_1DEX_1_1TryItem.html">TryItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_try_item_by_pos</b> (std::uint64_t pos)</td></tr>
-<tr class="separator:a04975e7c73af49081db46892e4fc6264"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1153051471c1dd8aed006b1686f0b7f7"><td class="memItemLeft" align="right" valign="top"><a id="a1153051471c1dd8aed006b1686f0b7f7" name="a1153051471c1dd8aed006b1686f0b7f7"></a>
-const tryitems_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_try_items</b> () const</td></tr>
-<tr class="separator:a1153051471c1dd8aed006b1686f0b7f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a549696c1382386f0f0090ba0ea04c971"><td class="memItemLeft" align="right" valign="top"><a id="a549696c1382386f0f0090ba0ea04c971" name="a549696c1382386f0f0090ba0ea04c971"></a>
-std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_number_of_raw_instructions</b> ()</td></tr>
-<tr class="separator:a549696c1382386f0f0090ba0ea04c971"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8f2b9ca5b3f4a185fd1eab8f13cf4b9c"><td class="memItemLeft" align="right" valign="top"><a id="a8f2b9ca5b3f4a185fd1eab8f13cf4b9c" name="a8f2b9ca5b3f4a185fd1eab8f13cf4b9c"></a>
-std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_raw_instruction_by_pos</b> (std::uint16_t pos)</td></tr>
-<tr class="separator:a8f2b9ca5b3f4a185fd1eab8f13cf4b9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb35b146aefa8d8bf816d49afc005113"><td class="memItemLeft" align="right" valign="top"><a id="abb35b146aefa8d8bf816d49afc005113" name="abb35b146aefa8d8bf816d49afc005113"></a>
-std::vector&lt; std::uint8_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_all_raw_instructions</b> ()</td></tr>
-<tr class="separator:abb35b146aefa8d8bf816d49afc005113"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03354097d1dccd5bff3aeeda09bee7b1"><td class="memItemLeft" align="right" valign="top"><a id="a03354097d1dccd5bff3aeeda09bee7b1" name="a03354097d1dccd5bff3aeeda09bee7b1"></a>
-std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_encoded_catch_handler_offset</b> ()</td></tr>
+<tr class="memitem:a596d9587b8d3c004d7ad4ae71c581a9d"><td class="memItemLeft" align="right" valign="top"><a id="a596d9587b8d3c004d7ad4ae71c581a9d" name="a596d9587b8d3c004d7ad4ae71c581a9d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>CodeItemStruct</b> ()=default</td></tr>
+<tr class="memdesc:a596d9587b8d3c004d7ad4ae71c581a9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of <a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html" title="Save the information of the code from a Method.">CodeItemStruct</a>. <br /></td></tr>
+<tr class="separator:a596d9587b8d3c004d7ad4ae71c581a9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7ca0fa2b88f172cc89096244367f454"><td class="memItemLeft" align="right" valign="top"><a id="aa7ca0fa2b88f172cc89096244367f454" name="aa7ca0fa2b88f172cc89096244367f454"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~CodeItemStruct</b> ()=default</td></tr>
+<tr class="memdesc:aa7ca0fa2b88f172cc89096244367f454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of <a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html" title="Save the information of the code from a Method.">CodeItemStruct</a>. <br /></td></tr>
+<tr class="separator:aa7ca0fa2b88f172cc89096244367f454"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a55c01f49e427db17a1c9b5f30d36c0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#a5a55c01f49e427db17a1c9b5f30d36c0">parse_code_item_struct</a> (<a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *stream, <a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *types)</td></tr>
+<tr class="memdesc:a5a55c01f49e427db17a1c9b5f30d36c0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d8/dc9/classKUNAI_1_1DEX_1_1Parser.html">Parser</a> for the <a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html" title="Save the information of the code from a Method.">CodeItemStruct</a>.  <br /></td></tr>
+<tr class="separator:a5a55c01f49e427db17a1c9b5f30d36c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b531811d4f37654ee69f83bbec319de"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#a4b531811d4f37654ee69f83bbec319de">get_registers_size</a> () const</td></tr>
+<tr class="memdesc:a4b531811d4f37654ee69f83bbec319de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of registers used in a method.  <br /></td></tr>
+<tr class="separator:a4b531811d4f37654ee69f83bbec319de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dc1cbd9906f0207f7202c507ea570b1"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#a9dc1cbd9906f0207f7202c507ea570b1">get_incomings_args</a> () const</td></tr>
+<tr class="memdesc:a9dc1cbd9906f0207f7202c507ea570b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of words incoming arguments to the method.  <br /></td></tr>
+<tr class="separator:a9dc1cbd9906f0207f7202c507ea570b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad53319e883503e8fc5be821279a52f36"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#ad53319e883503e8fc5be821279a52f36">get_outgoing_args</a> () const</td></tr>
+<tr class="memdesc:ad53319e883503e8fc5be821279a52f36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of words outgoing argument space required by the code.  <br /></td></tr>
+<tr class="separator:ad53319e883503e8fc5be821279a52f36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2df31d090f1e99340e8e5f3e4c3749cd"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#a2df31d090f1e99340e8e5f3e4c3749cd">get_number_try_items</a> () const</td></tr>
+<tr class="memdesc:a2df31d090f1e99340e8e5f3e4c3749cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of try items in the method.  <br /></td></tr>
+<tr class="separator:a2df31d090f1e99340e8e5f3e4c3749cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41654e781d7e121c21620d6503e3e7b4"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#a41654e781d7e121c21620d6503e3e7b4">get_offset_to_debug_info</a> () const</td></tr>
+<tr class="memdesc:a41654e781d7e121c21620d6503e3e7b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the offset to the debug information.  <br /></td></tr>
+<tr class="separator:a41654e781d7e121c21620d6503e3e7b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8575a6fb9c5804746c44f91b49426e22"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#a8575a6fb9c5804746c44f91b49426e22">get_instructions_size</a> () const</td></tr>
+<tr class="memdesc:a8575a6fb9c5804746c44f91b49426e22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get size of the dalvik instructions (number of opcodes)  <br /></td></tr>
+<tr class="separator:a8575a6fb9c5804746c44f91b49426e22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab581b9f6bacb5f1dccfec28f665c0d2a"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::uint8_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#ab581b9f6bacb5f1dccfec28f665c0d2a">get_bytecode</a> () const</td></tr>
+<tr class="memdesc:ab581b9f6bacb5f1dccfec28f665c0d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the vector with the bytecode.  <br /></td></tr>
+<tr class="separator:ab581b9f6bacb5f1dccfec28f665c0d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0412fc7f44e0f0307364186bf2b4fa0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::uint8_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#aa0412fc7f44e0f0307364186bf2b4fa0">get_bytecode</a> ()</td></tr>
+<tr class="memdesc:aa0412fc7f44e0f0307364186bf2b4fa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the vector with the bytecode.  <br /></td></tr>
+<tr class="separator:aa0412fc7f44e0f0307364186bf2b4fa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a9c4b88f42cae54c9f76b8288fc935c"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; tryitem_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#a5a9c4b88f42cae54c9f76b8288fc935c">get_try_items</a> () const</td></tr>
+<tr class="memdesc:a5a9c4b88f42cae54c9f76b8288fc935c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the vector of Try Items.  <br /></td></tr>
+<tr class="separator:a5a9c4b88f42cae54c9f76b8288fc935c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a094f8298628e9da8c997df4c3a9eb93d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; tryitem_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#a094f8298628e9da8c997df4c3a9eb93d">get_try_items</a> ()</td></tr>
+<tr class="memdesc:a094f8298628e9da8c997df4c3a9eb93d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the vector of Try Items.  <br /></td></tr>
+<tr class="separator:a094f8298628e9da8c997df4c3a9eb93d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03354097d1dccd5bff3aeeda09bee7b1"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#a03354097d1dccd5bff3aeeda09bee7b1">get_encoded_catch_handler_offset</a> ()</td></tr>
+<tr class="memdesc:a03354097d1dccd5bff3aeeda09bee7b1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the offset where encoded catch handler is read.  <br /></td></tr>
 <tr class="separator:a03354097d1dccd5bff3aeeda09bee7b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbe534d8d99f409864024d5a09d4e957"><td class="memItemLeft" align="right" valign="top"><a id="adbe534d8d99f409864024d5a09d4e957" name="adbe534d8d99f409864024d5a09d4e957"></a>
-std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_encoded_catch_handler_list_size</b> ()</td></tr>
-<tr class="separator:adbe534d8d99f409864024d5a09d4e957"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a235a8f4c2b54baa1f756808ede19872f"><td class="memItemLeft" align="right" valign="top"><a id="a235a8f4c2b54baa1f756808ede19872f" name="a235a8f4c2b54baa1f756808ede19872f"></a>
-<a class="el" href="../../d4/dac/classKUNAI_1_1DEX_1_1EncodedCatchHandler.html">EncodedCatchHandler</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_encoded_catch_handler_by_pos</b> (std::uint64_t pos)</td></tr>
-<tr class="separator:a235a8f4c2b54baa1f756808ede19872f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a892511b83e06cea3d7d88b0be74a8a4b"><td class="memItemLeft" align="right" valign="top"><a id="a892511b83e06cea3d7d88b0be74a8a4b" name="a892511b83e06cea3d7d88b0be74a8a4b"></a>
-const encodedcatchhandlers_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_encoded_catch_handlers</b> () const</td></tr>
-<tr class="separator:a892511b83e06cea3d7d88b0be74a8a4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49c5caee4a1647285a20e480bc81efdd"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; encodedcatchhandler_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#a49c5caee4a1647285a20e480bc81efdd">get_encoded_catch_handlers</a> () const</td></tr>
+<tr class="memdesc:a49c5caee4a1647285a20e480bc81efdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the catch handlers vector.  <br /></td></tr>
+<tr class="separator:a49c5caee4a1647285a20e480bc81efdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf0fddc62d952fefd06b3e65d2dc1cb9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; encodedcatchhandler_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html#aaf0fddc62d952fefd06b3e65d2dc1cb9">get_encoded_catch_handlers</a> ()</td></tr>
+<tr class="memdesc:aaf0fddc62d952fefd06b3e65d2dc1cb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the catch handlers vector.  <br /></td></tr>
+<tr class="separator:aaf0fddc62d952fefd06b3e65d2dc1cb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Save the information of the code from a Method. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa0412fc7f44e0f0307364186bf2b4fa0" name="aa0412fc7f44e0f0307364186bf2b4fa0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0412fc7f44e0f0307364186bf2b4fa0">&#9670;&#160;</a></span>get_bytecode() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::uint8_t &gt; &amp; KUNAI::DEX::CodeItemStruct::get_bytecode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to the vector with the bytecode. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to bytecode of the method </dd></dl>
+
+</div>
+</div>
+<a id="ab581b9f6bacb5f1dccfec28f665c0d2a" name="ab581b9f6bacb5f1dccfec28f665c0d2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab581b9f6bacb5f1dccfec28f665c0d2a">&#9670;&#160;</a></span>get_bytecode() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::uint8_t &gt; &amp; KUNAI::DEX::CodeItemStruct::get_bytecode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the vector with the bytecode. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to the bytecode of the method </dd></dl>
+
+</div>
+</div>
+<a id="a03354097d1dccd5bff3aeeda09bee7b1" name="a03354097d1dccd5bff3aeeda09bee7b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03354097d1dccd5bff3aeeda09bee7b1">&#9670;&#160;</a></span>get_encoded_catch_handler_offset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t KUNAI::DEX::CodeItemStruct::get_encoded_catch_handler_offset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the offset where encoded catch handler is read. </p>
+<dl class="section return"><dt>Returns</dt><dd>offset to encoded catch handler list </dd></dl>
+
+</div>
+</div>
+<a id="aaf0fddc62d952fefd06b3e65d2dc1cb9" name="aaf0fddc62d952fefd06b3e65d2dc1cb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf0fddc62d952fefd06b3e65d2dc1cb9">&#9670;&#160;</a></span>get_encoded_catch_handlers() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; encodedcatchhandler_t &gt; &amp; KUNAI::DEX::CodeItemStruct::get_encoded_catch_handlers </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to the catch handlers vector. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to catch handlers of the method </dd></dl>
+
+</div>
+</div>
+<a id="a49c5caee4a1647285a20e480bc81efdd" name="a49c5caee4a1647285a20e480bc81efdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49c5caee4a1647285a20e480bc81efdd">&#9670;&#160;</a></span>get_encoded_catch_handlers() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; encodedcatchhandler_t &gt; &amp; KUNAI::DEX::CodeItemStruct::get_encoded_catch_handlers </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the catch handlers vector. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference catch handlers of the method </dd></dl>
+
+</div>
+</div>
+<a id="a9dc1cbd9906f0207f7202c507ea570b1" name="a9dc1cbd9906f0207f7202c507ea570b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9dc1cbd9906f0207f7202c507ea570b1">&#9670;&#160;</a></span>get_incomings_args()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint16_t KUNAI::DEX::CodeItemStruct::get_incomings_args </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of words incoming arguments to the method. </p>
+<dl class="section return"><dt>Returns</dt><dd>number of words incoming arguments </dd></dl>
+
+</div>
+</div>
+<a id="a8575a6fb9c5804746c44f91b49426e22" name="a8575a6fb9c5804746c44f91b49426e22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8575a6fb9c5804746c44f91b49426e22">&#9670;&#160;</a></span>get_instructions_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint16_t KUNAI::DEX::CodeItemStruct::get_instructions_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get size of the dalvik instructions (number of opcodes) </p>
+<dl class="section return"><dt>Returns</dt><dd>size of dalvik instructions </dd></dl>
+
+</div>
+</div>
+<a id="a2df31d090f1e99340e8e5f3e4c3749cd" name="a2df31d090f1e99340e8e5f3e4c3749cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2df31d090f1e99340e8e5f3e4c3749cd">&#9670;&#160;</a></span>get_number_try_items()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint16_t KUNAI::DEX::CodeItemStruct::get_number_try_items </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of try items in the method. </p>
+<dl class="section return"><dt>Returns</dt><dd>number of try items </dd></dl>
+
+</div>
+</div>
+<a id="a41654e781d7e121c21620d6503e3e7b4" name="a41654e781d7e121c21620d6503e3e7b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41654e781d7e121c21620d6503e3e7b4">&#9670;&#160;</a></span>get_offset_to_debug_info()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint16_t KUNAI::DEX::CodeItemStruct::get_offset_to_debug_info </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the offset to the debug information. </p>
+<dl class="section return"><dt>Returns</dt><dd>offset to debug information </dd></dl>
+
+</div>
+</div>
+<a id="ad53319e883503e8fc5be821279a52f36" name="ad53319e883503e8fc5be821279a52f36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad53319e883503e8fc5be821279a52f36">&#9670;&#160;</a></span>get_outgoing_args()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint16_t KUNAI::DEX::CodeItemStruct::get_outgoing_args </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of words outgoing argument space required by the code. </p>
+<dl class="section return"><dt>Returns</dt><dd>number of words outgoing argument space </dd></dl>
+
+</div>
+</div>
+<a id="a4b531811d4f37654ee69f83bbec319de" name="a4b531811d4f37654ee69f83bbec319de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b531811d4f37654ee69f83bbec319de">&#9670;&#160;</a></span>get_registers_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint16_t KUNAI::DEX::CodeItemStruct::get_registers_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of registers used in a method. </p>
+<dl class="section return"><dt>Returns</dt><dd>number of registers </dd></dl>
+
+</div>
+</div>
+<a id="a094f8298628e9da8c997df4c3a9eb93d" name="a094f8298628e9da8c997df4c3a9eb93d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a094f8298628e9da8c997df4c3a9eb93d">&#9670;&#160;</a></span>get_try_items() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; tryitem_t &gt; &amp; KUNAI::DEX::CodeItemStruct::get_try_items </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to the vector of Try Items. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to all try items </dd></dl>
+
+</div>
+</div>
+<a id="a5a9c4b88f42cae54c9f76b8288fc935c" name="a5a9c4b88f42cae54c9f76b8288fc935c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a9c4b88f42cae54c9f76b8288fc935c">&#9670;&#160;</a></span>get_try_items() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; tryitem_t &gt; &amp; KUNAI::DEX::CodeItemStruct::get_try_items </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the vector of Try Items. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to all try items </dd></dl>
+
+</div>
+</div>
+<a id="a5a55c01f49e427db17a1c9b5f30d36c0" name="a5a55c01f49e427db17a1c9b5f30d36c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a55c01f49e427db17a1c9b5f30d36c0">&#9670;&#160;</a></span>parse_code_item_struct()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::CodeItemStruct::parse_code_item_struct </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *&#160;</td>
+          <td class="paramname"><em>types</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p><a class="el" href="../../d8/dc9/classKUNAI_1_1DEX_1_1Parser.html">Parser</a> for the <a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html" title="Save the information of the code from a Method.">CodeItemStruct</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>DEX file where to read data </td></tr>
+    <tr><td class="paramname">types</td><td>types of the DEX </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../d1/da9/dex__encoded_8hpp_source.html">dex_encoded.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

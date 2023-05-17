@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d5/d59/classKUNAI_1_1DEX_1_1RecursiveTraversalDisassembler.html">RecursiveTraversalDisassembler</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d5/d59/classKUNAI_1_1DEX_1_1RecursiveTraversalDisassembler.html">RecursiveTraversalDisassembler</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,18 +80,70 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::RecursiveTraversalDisassembler Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="../../d5/d59/classKUNAI_1_1DEX_1_1RecursiveTraversalDisassembler.html" title="RecursiveTraversalDisassembler is one of the DEX disassembly algorithms implemented by Kunai,...">RecursiveTraversalDisassembler</a> is one of the DEX disassembly algorithms implemented by Kunai, this algorithm will follow the control flow to disassemble the bytecode.  
+ <a href="../../d5/d59/classKUNAI_1_1DEX_1_1RecursiveTraversalDisassembler.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../df/dfe/recursive__traversal__disassembler_8hpp_source.html">recursive_traversal_disassembler.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a544038191888aa8c8056a63fec6fd463"><td class="memItemLeft" align="right" valign="top"><a id="a544038191888aa8c8056a63fec6fd463" name="a544038191888aa8c8056a63fec6fd463"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>RecursiveTraversalDisassembler</b> (<a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> *dalvik_opcodes)</td></tr>
-<tr class="separator:a544038191888aa8c8056a63fec6fd463"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa461b053ac2097bfa986ec2bbbb53796"><td class="memItemLeft" align="right" valign="top"><a id="aa461b053ac2097bfa986ec2bbbb53796" name="aa461b053ac2097bfa986ec2bbbb53796"></a>
-std::map&lt; std::uint64_t, instruction_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>disassembly</b> (const std::vector&lt; std::uint8_t &gt; &amp;byte_buffer, <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *method)</td></tr>
-<tr class="separator:aa461b053ac2097bfa986ec2bbbb53796"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40a27c3739132977b9897a214e6fbd11"><td class="memItemLeft" align="right" valign="top"><a id="a40a27c3739132977b9897a214e6fbd11" name="a40a27c3739132977b9897a214e6fbd11"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_internal_disassembler</b> (<a class="el" href="../../d1/d61/classKUNAI_1_1DEX_1_1Disassembler.html">Disassembler</a> *disassembler)</td></tr>
+<tr class="separator:a40a27c3739132977b9897a214e6fbd11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae30b7b84e6be7a321ecb21249c824b45"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d59/classKUNAI_1_1DEX_1_1RecursiveTraversalDisassembler.html#ae30b7b84e6be7a321ecb21249c824b45">disassembly</a> (std::vector&lt; std::uint8_t &gt; &amp;buffer_bytes, <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *method, std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> &gt; &gt; &amp;instructions)</td></tr>
+<tr class="memdesc:ae30b7b84e6be7a321ecb21249c824b45"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function implements the algorithm of disassembly of linear sweep, the function receives a buffer of bytes and the buffer is traversed in a linear way disassembling each byte.  <br /></td></tr>
+<tr class="separator:ae30b7b84e6be7a321ecb21249c824b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="../../d5/d59/classKUNAI_1_1DEX_1_1RecursiveTraversalDisassembler.html" title="RecursiveTraversalDisassembler is one of the DEX disassembly algorithms implemented by Kunai,...">RecursiveTraversalDisassembler</a> is one of the DEX disassembly algorithms implemented by Kunai, this algorithm will follow the control flow to disassemble the bytecode. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ae30b7b84e6be7a321ecb21249c824b45" name="ae30b7b84e6be7a321ecb21249c824b45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae30b7b84e6be7a321ecb21249c824b45">&#9670;&#160;</a></span>disassembly()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::RecursiveTraversalDisassembler::disassembly </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::uint8_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buffer_bytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *&#160;</td>
+          <td class="paramname"><em>method</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> &gt; &gt; &amp;&#160;</td>
+          <td class="paramname"><em>instructions</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>This function implements the algorithm of disassembly of linear sweep, the function receives a buffer of bytes and the buffer is traversed in a linear way disassembling each byte. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">buffer_bytes</td><td>bytes to disassembly </td></tr>
+    <tr><td class="paramname">method</td><td>the method to determine the exceptions </td></tr>
+    <tr><td class="paramname">instructions</td><td>vector where to store the instructions </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/DVM/<a class="el" href="../../d0/d99/dex__recursive__traversal__disassembly_8hpp_source.html">dex_recursive_traversal_disassembly.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/DVM/<a class="el" href="../../df/dfe/recursive__traversal__disassembler_8hpp_source.html">recursive_traversal_disassembler.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

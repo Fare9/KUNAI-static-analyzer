@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -81,96 +81,381 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::ClassDef Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Definition of class with all the ids and offsets for all the other data.  
+ <a href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d3/d36/classes_8hpp_source.html">classes.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/dad/structKUNAI_1_1DEX_1_1ClassDef_1_1classdef__t.html">classdef_t</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html">classdefstruct_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Definition of offsets and IDs.  <a href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab43640946ad03ae2ae05499ba745bce4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#ab43640946ad03ae2ae05499ba745bce4">ClassDef</a> (<a class="el" href="../../d8/dad/structKUNAI_1_1DEX_1_1ClassDef_1_1classdef__t.html">classdef_t</a> class_def, <a class="el" href="../../d2/dd6/classKUNAI_1_1DEX_1_1DexStrings.html">DexStrings</a> *dex_str, <a class="el" href="../../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html">DexTypes</a> *dex_types, <a class="el" href="../../de/d82/classKUNAI_1_1DEX_1_1DexFields.html">DexFields</a> *dex_fields, <a class="el" href="../../da/dcf/classKUNAI_1_1DEX_1_1DexMethods.html">DexMethods</a> *dex_methods, std::ifstream &amp;input_file, std::uint64_t file_size)</td></tr>
-<tr class="memdesc:ab43640946ad03ae2ae05499ba745bce4"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a> constructor, parse class def by the structure <a class="el" href="../../d8/dad/structKUNAI_1_1DEX_1_1ClassDef_1_1classdef__t.html">classdef_t</a>.  <br /></td></tr>
-<tr class="separator:ab43640946ad03ae2ae05499ba745bce4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4df949ab05ec8504aa45db0f0185a4ef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a4df949ab05ec8504aa45db0f0185a4ef">~ClassDef</a> ()=default</td></tr>
-<tr class="memdesc:a4df949ab05ec8504aa45db0f0185a4ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a>.  <br /></td></tr>
+<tr class="memitem:ab347b18b542e5ea3ba6dbb828177bd48"><td class="memItemLeft" align="right" valign="top"><a id="ab347b18b542e5ea3ba6dbb828177bd48" name="ab347b18b542e5ea3ba6dbb828177bd48"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ClassDef</b> ()=default</td></tr>
+<tr class="memdesc:ab347b18b542e5ea3ba6dbb828177bd48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html" title="Definition of class with all the ids and offsets for all the other data.">ClassDef</a>. <br /></td></tr>
+<tr class="separator:ab347b18b542e5ea3ba6dbb828177bd48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4df949ab05ec8504aa45db0f0185a4ef"><td class="memItemLeft" align="right" valign="top"><a id="a4df949ab05ec8504aa45db0f0185a4ef" name="a4df949ab05ec8504aa45db0f0185a4ef"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~ClassDef</b> ()=default</td></tr>
+<tr class="memdesc:a4df949ab05ec8504aa45db0f0185a4ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html" title="Definition of class with all the ids and offsets for all the other data.">ClassDef</a>. <br /></td></tr>
 <tr class="separator:a4df949ab05ec8504aa45db0f0185a4ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8ef56934ac6afc752392536ae94e340"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#ab8ef56934ac6afc752392536ae94e340">get_class_idx</a> ()</td></tr>
-<tr class="memdesc:ab8ef56934ac6afc752392536ae94e340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a> class_t object with class data.  <br /></td></tr>
-<tr class="separator:ab8ef56934ac6afc752392536ae94e340"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a631542669386f28e4cea6593f9e6b257"><td class="memItemLeft" align="right" valign="top">DVMTypes::ACCESS_FLAGS&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a631542669386f28e4cea6593f9e6b257">get_access_flags</a> ()</td></tr>
-<tr class="memdesc:a631542669386f28e4cea6593f9e6b257"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the access flags from the class.  <br /></td></tr>
-<tr class="separator:a631542669386f28e4cea6593f9e6b257"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1e29f48f8a53856733d203b13b7db40"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#ac1e29f48f8a53856733d203b13b7db40">get_superclass_idx</a> ()</td></tr>
-<tr class="memdesc:ac1e29f48f8a53856733d203b13b7db40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Class* object from the super class of current class.  <br /></td></tr>
-<tr class="separator:ac1e29f48f8a53856733d203b13b7db40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b026bae81d9e9ac9c632d734457a8c1"><td class="memItemLeft" align="right" valign="top">std::string *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a7b026bae81d9e9ac9c632d734457a8c1">get_source_file_idx</a> ()</td></tr>
-<tr class="memdesc:a7b026bae81d9e9ac9c632d734457a8c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the file where the class is.  <br /></td></tr>
-<tr class="separator:a7b026bae81d9e9ac9c632d734457a8c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9241157f063a97f758186f9f9670eebc"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a9241157f063a97f758186f9f9670eebc">get_number_of_interfaces</a> ()</td></tr>
-<tr class="memdesc:a9241157f063a97f758186f9f9670eebc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of interfaces this class implements.  <br /></td></tr>
-<tr class="separator:a9241157f063a97f758186f9f9670eebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12318d1d4e3055dc7638c569639546ca"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a12318d1d4e3055dc7638c569639546ca">get_interface_by_class_id</a> (std::uint16_t id)</td></tr>
-<tr class="memdesc:a12318d1d4e3055dc7638c569639546ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Class* object from an interface by the class id.  <br /></td></tr>
-<tr class="separator:a12318d1d4e3055dc7638c569639546ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8e755087ff970fbe6ef018107dba78de"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a8e755087ff970fbe6ef018107dba78de">get_interface_by_pos</a> (std::uint64_t pos)</td></tr>
-<tr class="memdesc:a8e755087ff970fbe6ef018107dba78de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the Class* object from an interface by its position from parsing.  <br /></td></tr>
-<tr class="separator:a8e755087ff970fbe6ef018107dba78de"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad33108f2d816078f914432f6a9dc1e2c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#ad33108f2d816078f914432f6a9dc1e2c">get_class_data</a> () const</td></tr>
-<tr class="memdesc:ad33108f2d816078f914432f6a9dc1e2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the <a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> object from the <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a>.  <br /></td></tr>
-<tr class="separator:ad33108f2d816078f914432f6a9dc1e2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9340f7bc8d9f208b29021bc20a7ae67b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/dc9/classKUNAI_1_1DEX_1_1AnnotationsDirectoryItem.html">AnnotationsDirectoryItem</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a9340f7bc8d9f208b29021bc20a7ae67b">get_annotations_directory_item</a> () const</td></tr>
-<tr class="memdesc:a9340f7bc8d9f208b29021bc20a7ae67b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the annotations directory item from the <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a>.  <br /></td></tr>
-<tr class="separator:a9340f7bc8d9f208b29021bc20a7ae67b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34862b6e27fda976e9758a2c4d76e75b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a34862b6e27fda976e9758a2c4d76e75b">parse_class_def</a> (<a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *stream, <a class="el" href="../../d7/d35/classKUNAI_1_1DEX_1_1Strings.html">Strings</a> *strings, <a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *types, <a class="el" href="../../d7/d0b/classKUNAI_1_1DEX_1_1Fields.html">Fields</a> *fields, <a class="el" href="../../dd/dd5/classKUNAI_1_1DEX_1_1Methods.html">Methods</a> *methods)</td></tr>
+<tr class="memdesc:a34862b6e27fda976e9758a2c4d76e75b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the current <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html" title="Definition of class with all the ids and offsets for all the other data.">ClassDef</a> for that we will parse the classdef_t structure, and then all the other fields.  <br /></td></tr>
+<tr class="separator:a34862b6e27fda976e9758a2c4d76e75b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28f2082a04dbdf8bf6308f6f431806d3"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html">classdefstruct_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a28f2082a04dbdf8bf6308f6f431806d3">get_class_def_struct</a> () const</td></tr>
+<tr class="memdesc:a28f2082a04dbdf8bf6308f6f431806d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the <a class="el" href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html" title="Definition of offsets and IDs.">classdefstruct_t</a> of the class, this structure contains information about the class.  <br /></td></tr>
+<tr class="separator:a28f2082a04dbdf8bf6308f6f431806d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ed0051fc28e32edddc1370aa3e85e9f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html">classdefstruct_t</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a6ed0051fc28e32edddc1370aa3e85e9f">get_class_def_struct</a> ()</td></tr>
+<tr class="memdesc:a6ed0051fc28e32edddc1370aa3e85e9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the <a class="el" href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html" title="Definition of offsets and IDs.">classdefstruct_t</a> of the class, this structure contains information about the class.  <br /></td></tr>
+<tr class="separator:a6ed0051fc28e32edddc1370aa3e85e9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfb558d7f5440001031b00fc3d72a897"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html">DVMClass</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#abfb558d7f5440001031b00fc3d72a897">get_class_idx</a> ()</td></tr>
+<tr class="memdesc:abfb558d7f5440001031b00fc3d72a897"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pointer to the <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html" title="Classes of the DVM.">DVMClass</a> of the current class.  <br /></td></tr>
+<tr class="separator:abfb558d7f5440001031b00fc3d72a897"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0be2bb1e6f07c944cc6cbf21ff39171"><td class="memItemLeft" align="right" valign="top">TYPES::access_flags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#ab0be2bb1e6f07c944cc6cbf21ff39171">get_access_flags</a> () const</td></tr>
+<tr class="memdesc:ab0be2bb1e6f07c944cc6cbf21ff39171"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the access flags of the current class.  <br /></td></tr>
+<tr class="separator:ab0be2bb1e6f07c944cc6cbf21ff39171"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e5e27bacc1d8447eb442350ffe3eab7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html">DVMClass</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a6e5e27bacc1d8447eb442350ffe3eab7">get_superclass</a> ()</td></tr>
+<tr class="memdesc:a6e5e27bacc1d8447eb442350ffe3eab7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pointer to the <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html" title="Classes of the DVM.">DVMClass</a> of the super class of the current one.  <br /></td></tr>
+<tr class="separator:a6e5e27bacc1d8447eb442350ffe3eab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f6999e1197f517d8e2129fd02c0aa82"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a4f6999e1197f517d8e2129fd02c0aa82">get_source_file</a> () const</td></tr>
+<tr class="memdesc:a4f6999e1197f517d8e2129fd02c0aa82"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the string with the source file.  <br /></td></tr>
+<tr class="separator:a4f6999e1197f517d8e2129fd02c0aa82"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acacaa17a4b2b34d8e3d6329af015beb7"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html">DVMClass</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#acacaa17a4b2b34d8e3d6329af015beb7">get_interfaces</a> () const</td></tr>
+<tr class="memdesc:acacaa17a4b2b34d8e3d6329af015beb7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the vector with the interfaces implemented.  <br /></td></tr>
+<tr class="separator:acacaa17a4b2b34d8e3d6329af015beb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e18e6ffb22f7e17303e4c5845d459d4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html">DVMClass</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a3e18e6ffb22f7e17303e4c5845d459d4">get_interfaces</a> ()</td></tr>
+<tr class="memdesc:a3e18e6ffb22f7e17303e4c5845d459d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the vector with the interfaces implemented.  <br /></td></tr>
+<tr class="separator:a3e18e6ffb22f7e17303e4c5845d459d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae784080ef51b7e5f0206f731a90fafb1"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#ae784080ef51b7e5f0206f731a90fafb1">get_class_data_item</a> () const</td></tr>
+<tr class="memdesc:ae784080ef51b7e5f0206f731a90fafb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the class data item.  <br /></td></tr>
+<tr class="separator:ae784080ef51b7e5f0206f731a90fafb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9af7734ddaee11d954669d6bf321b698"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html#a9af7734ddaee11d954669d6bf321b698">get_class_data_item</a> ()</td></tr>
+<tr class="memdesc:a9af7734ddaee11d954669d6bf321b698"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the class data item.  <br /></td></tr>
+<tr class="separator:a9af7734ddaee11d954669d6bf321b698"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab43640946ad03ae2ae05499ba745bce4" name="ab43640946ad03ae2ae05499ba745bce4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab43640946ad03ae2ae05499ba745bce4">&#9670;&#160;</a></span>ClassDef()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Definition of class with all the ids and offsets for all the other data. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab0be2bb1e6f07c944cc6cbf21ff39171" name="ab0be2bb1e6f07c944cc6cbf21ff39171"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0be2bb1e6f07c944cc6cbf21ff39171">&#9670;&#160;</a></span>get_access_flags()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TYPES::access_flags KUNAI::DEX::ClassDef::get_access_flags </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the access flags of the current class. </p>
+<dl class="section return"><dt>Returns</dt><dd><br  />
+ </dd></dl>
+
+</div>
+</div>
+<a id="a9af7734ddaee11d954669d6bf321b698" name="a9af7734ddaee11d954669d6bf321b698"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9af7734ddaee11d954669d6bf321b698">&#9670;&#160;</a></span>get_class_data_item() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> &amp; KUNAI::DEX::ClassDef::get_class_data_item </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to the class data item. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to the class data item </dd></dl>
+
+</div>
+</div>
+<a id="ae784080ef51b7e5f0206f731a90fafb1" name="ae784080ef51b7e5f0206f731a90fafb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae784080ef51b7e5f0206f731a90fafb1">&#9670;&#160;</a></span>get_class_data_item() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> &amp; KUNAI::DEX::ClassDef::get_class_data_item </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the class data item. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to the class data item </dd></dl>
+
+</div>
+</div>
+<a id="a6ed0051fc28e32edddc1370aa3e85e9f" name="a6ed0051fc28e32edddc1370aa3e85e9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ed0051fc28e32edddc1370aa3e85e9f">&#9670;&#160;</a></span>get_class_def_struct() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html">classdefstruct_t</a> &amp; KUNAI::DEX::ClassDef::get_class_def_struct </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to the <a class="el" href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html" title="Definition of offsets and IDs.">classdefstruct_t</a> of the class, this structure contains information about the class. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to <a class="el" href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html" title="Definition of offsets and IDs.">classdefstruct_t</a> structure </dd></dl>
+
+</div>
+</div>
+<a id="a28f2082a04dbdf8bf6308f6f431806d3" name="a28f2082a04dbdf8bf6308f6f431806d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28f2082a04dbdf8bf6308f6f431806d3">&#9670;&#160;</a></span>get_class_def_struct() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html">classdefstruct_t</a> &amp; KUNAI::DEX::ClassDef::get_class_def_struct </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the <a class="el" href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html" title="Definition of offsets and IDs.">classdefstruct_t</a> of the class, this structure contains information about the class. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to <a class="el" href="../../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html" title="Definition of offsets and IDs.">classdefstruct_t</a> structure </dd></dl>
+
+</div>
+</div>
+<a id="abfb558d7f5440001031b00fc3d72a897" name="abfb558d7f5440001031b00fc3d72a897"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfb558d7f5440001031b00fc3d72a897">&#9670;&#160;</a></span>get_class_idx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html">DVMClass</a> * KUNAI::DEX::ClassDef::get_class_idx </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a pointer to the <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html" title="Classes of the DVM.">DVMClass</a> of the current class. </p>
+<dl class="section return"><dt>Returns</dt><dd>pointer to <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html" title="Classes of the DVM.">DVMClass</a> of current class </dd></dl>
+
+</div>
+</div>
+<a id="a3e18e6ffb22f7e17303e4c5845d459d4" name="a3e18e6ffb22f7e17303e4c5845d459d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e18e6ffb22f7e17303e4c5845d459d4">&#9670;&#160;</a></span>get_interfaces() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html">DVMClass</a> * &gt; &amp; KUNAI::DEX::ClassDef::get_interfaces </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to the vector with the interfaces implemented. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to interfaces </dd></dl>
+
+</div>
+</div>
+<a id="acacaa17a4b2b34d8e3d6329af015beb7" name="acacaa17a4b2b34d8e3d6329af015beb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acacaa17a4b2b34d8e3d6329af015beb7">&#9670;&#160;</a></span>get_interfaces() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html">DVMClass</a> * &gt; &amp; KUNAI::DEX::ClassDef::get_interfaces </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the vector with the interfaces implemented. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to interfaces </dd></dl>
+
+</div>
+</div>
+<a id="a4f6999e1197f517d8e2129fd02c0aa82" name="a4f6999e1197f517d8e2129fd02c0aa82"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f6999e1197f517d8e2129fd02c0aa82">&#9670;&#160;</a></span>get_source_file()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; KUNAI::DEX::ClassDef::get_source_file </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the string with the source file. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to source file string </dd></dl>
+
+</div>
+</div>
+<a id="a6e5e27bacc1d8447eb442350ffe3eab7" name="a6e5e27bacc1d8447eb442350ffe3eab7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e5e27bacc1d8447eb442350ffe3eab7">&#9670;&#160;</a></span>get_superclass()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html">DVMClass</a> * KUNAI::DEX::ClassDef::get_superclass </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a pointer to the <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html" title="Classes of the DVM.">DVMClass</a> of the super class of the current one. </p>
+<dl class="section return"><dt>Returns</dt><dd>pointer to <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html" title="Classes of the DVM.">DVMClass</a> of the super class </dd></dl>
+
+</div>
+</div>
+<a id="a34862b6e27fda976e9758a2c4d76e75b" name="a34862b6e27fda976e9758a2c4d76e75b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34862b6e27fda976e9758a2c4d76e75b">&#9670;&#160;</a></span>parse_class_def()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">KUNAI::DEX::ClassDef::ClassDef </td>
+          <td class="memname">void KUNAI::DEX::ClassDef::parse_class_def </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d8/dad/structKUNAI_1_1DEX_1_1ClassDef_1_1classdef__t.html">classdef_t</a>&#160;</td>
-          <td class="paramname"><em>class_def</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d2/dd6/classKUNAI_1_1DEX_1_1DexStrings.html">DexStrings</a> *&#160;</td>
-          <td class="paramname"><em>dex_str</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d7/d35/classKUNAI_1_1DEX_1_1Strings.html">Strings</a> *&#160;</td>
+          <td class="paramname"><em>strings</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html">DexTypes</a> *&#160;</td>
-          <td class="paramname"><em>dex_types</em>, </td>
+          <td class="paramtype"><a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *&#160;</td>
+          <td class="paramname"><em>types</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../de/d82/classKUNAI_1_1DEX_1_1DexFields.html">DexFields</a> *&#160;</td>
-          <td class="paramname"><em>dex_fields</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d7/d0b/classKUNAI_1_1DEX_1_1Fields.html">Fields</a> *&#160;</td>
+          <td class="paramname"><em>fields</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../da/dcf/classKUNAI_1_1DEX_1_1DexMethods.html">DexMethods</a> *&#160;</td>
-          <td class="paramname"><em>dex_methods</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::ifstream &amp;&#160;</td>
-          <td class="paramname"><em>input_file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>file_size</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../dd/dd5/classKUNAI_1_1DEX_1_1Methods.html">Methods</a> *&#160;</td>
+          <td class="paramname"><em>methods</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -180,304 +465,22 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a> constructor, parse class def by the structure <a class="el" href="../../d8/dad/structKUNAI_1_1DEX_1_1ClassDef_1_1classdef__t.html">classdef_t</a>. </p>
+<p>Parse the current <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html" title="Definition of class with all the ids and offsets for all the other data.">ClassDef</a> for that we will parse the classdef_t structure, and then all the other fields. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">class_def</td><td>structure used to parse the class definition. </td></tr>
-    <tr><td class="paramname">dex_str</td><td>strings object used while parsing. </td></tr>
-    <tr><td class="paramname">dex_types</td><td>types object used while parsing. </td></tr>
-    <tr><td class="paramname">dex_fields</td><td>fields object used while parsing. </td></tr>
-    <tr><td class="paramname">dex_methods</td><td>methods object used while parsing. </td></tr>
-    <tr><td class="paramname">input_file</td><td><a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a> file where to read data. </td></tr>
-    <tr><td class="paramname">file_size</td><td>size of the file for checks. </td></tr>
+    <tr><td class="paramname">stream</td><td>stream with DEX file currently parsed </td></tr>
+    <tr><td class="paramname">strings</td><td>strings of the DEX file </td></tr>
+    <tr><td class="paramname">types</td><td>types of the DEX file </td></tr>
+    <tr><td class="paramname">fields</td><td>fields of the DEX file </td></tr>
+    <tr><td class="paramname">methods</td><td>methods of the DEX file </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a4df949ab05ec8504aa45db0f0185a4ef" name="a4df949ab05ec8504aa45db0f0185a4ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4df949ab05ec8504aa45db0f0185a4ef">&#9670;&#160;</a></span>~ClassDef()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">KUNAI::DEX::ClassDef::~ClassDef </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Destructor of <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a631542669386f28e4cea6593f9e6b257" name="a631542669386f28e4cea6593f9e6b257"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a631542669386f28e4cea6593f9e6b257">&#9670;&#160;</a></span>get_access_flags()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">DVMTypes::ACCESS_FLAGS KUNAI::DEX::ClassDef::get_access_flags </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>return the access flags from the class. </p>
-<dl class="section return"><dt>Returns</dt><dd>DVMTypes::ACCESS_FLAGS </dd></dl>
-
-</div>
-</div>
-<a id="a9340f7bc8d9f208b29021bc20a7ae67b" name="a9340f7bc8d9f208b29021bc20a7ae67b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9340f7bc8d9f208b29021bc20a7ae67b">&#9670;&#160;</a></span>get_annotations_directory_item()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dc/dc9/classKUNAI_1_1DEX_1_1AnnotationsDirectoryItem.html">AnnotationsDirectoryItem</a> * KUNAI::DEX::ClassDef::get_annotations_directory_item </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the annotations directory item from the <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>const AnnotationsDirectoryItem* </dd></dl>
-
-</div>
-</div>
-<a id="ad33108f2d816078f914432f6a9dc1e2c" name="ad33108f2d816078f914432f6a9dc1e2c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad33108f2d816078f914432f6a9dc1e2c">&#9670;&#160;</a></span>get_class_data()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> * KUNAI::DEX::ClassDef::get_class_data </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the <a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> object from the <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>classdataitem_t&amp; </dd></dl>
-
-</div>
-</div>
-<a id="ab8ef56934ac6afc752392536ae94e340" name="ab8ef56934ac6afc752392536ae94e340"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab8ef56934ac6afc752392536ae94e340">&#9670;&#160;</a></span>get_class_idx()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> * KUNAI::DEX::ClassDef::get_class_idx </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a> class_t object with class data. </p>
-<dl class="section return"><dt>Returns</dt><dd>class_t </dd></dl>
-
-</div>
-</div>
-<a id="a12318d1d4e3055dc7638c569639546ca" name="a12318d1d4e3055dc7638c569639546ca"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a12318d1d4e3055dc7638c569639546ca">&#9670;&#160;</a></span>get_interface_by_class_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> * KUNAI::DEX::ClassDef::get_interface_by_class_id </td>
-          <td>(</td>
-          <td class="paramtype">std::uint16_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the Class* object from an interface by the class id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>id of the class. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>class_t </dd></dl>
-
-</div>
-</div>
-<a id="a8e755087ff970fbe6ef018107dba78de" name="a8e755087ff970fbe6ef018107dba78de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8e755087ff970fbe6ef018107dba78de">&#9670;&#160;</a></span>get_interface_by_pos()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> * KUNAI::DEX::ClassDef::get_interface_by_pos </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the Class* object from an interface by its position from parsing. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pos</td><td>position of interface from parsing. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>class_t </dd></dl>
-
-</div>
-</div>
-<a id="a9241157f063a97f758186f9f9670eebc" name="a9241157f063a97f758186f9f9670eebc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9241157f063a97f758186f9f9670eebc">&#9670;&#160;</a></span>get_number_of_interfaces()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t KUNAI::DEX::ClassDef::get_number_of_interfaces </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the number of interfaces this class implements. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::uint64_t </dd></dl>
-
-</div>
-</div>
-<a id="a7b026bae81d9e9ac9c632d734457a8c1" name="a7b026bae81d9e9ac9c632d734457a8c1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b026bae81d9e9ac9c632d734457a8c1">&#9670;&#160;</a></span>get_source_file_idx()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string * KUNAI::DEX::ClassDef::get_source_file_idx </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the name of the file where the class is. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string* </dd></dl>
-
-</div>
-</div>
-<a id="ac1e29f48f8a53856733d203b13b7db40" name="ac1e29f48f8a53856733d203b13b7db40"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1e29f48f8a53856733d203b13b7db40">&#9670;&#160;</a></span>get_superclass_idx()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> * KUNAI::DEX::ClassDef::get_superclass_idx </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the Class* object from the super class of current class. </p>
-<dl class="section return"><dt>Returns</dt><dd>class_t </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../dc/d3b/dex__classes_8hpp_source.html">dex_classes.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../d3/d36/classes_8hpp_source.html">classes.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

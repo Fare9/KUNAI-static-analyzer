@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['instruction_5fmap_5ft_0',['instruction_map_t',['../df/da7/dex__disassembler_8hpp.html#a3ae40577599b5dd637f41a6d8b4fe3aa',1,'KUNAI::DEX']]]
+  ['edges_5ft_0',['edges_t',['../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a48843e4163901d2f3dc609b6629ba8c0',1,'KUNAI::DEX::BasicBlocks']]],
+  ['exceptions_5fdata_1',['exceptions_data',['../d1/d61/classKUNAI_1_1DEX_1_1Disassembler.html#a46eded476e64716622d45e9d7bc4e441',1,'KUNAI::DEX::Disassembler']]]
 ];

@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html">Instruction22cs</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html">Instruction22cs</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,13 +80,18 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::Instruction22cs Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Format suggested for statically linked field access instructions or <a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a>. Example: op vA, vB, fieldoff@CCCC *-QUICK methods.  
+ <a href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d8/dce/dalvik__instructions_8hpp_source.html">dalvik_instructions.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for KUNAI::DEX::Instruction22cs:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d5/db5/classKUNAI_1_1DEX_1_1Instruction22cs__inherit__graph.png" border="0" usemap="#aKUNAI_1_1DEX_1_1Instruction22cs_inherit__map" alt="Inheritance graph"/></div>
 <map name="aKUNAI_1_1DEX_1_1Instruction22cs_inherit__map" id="aKUNAI_1_1DEX_1_1Instruction22cs_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,79,196,105"/>
-<area shape="rect" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title=" " alt="" coords="19,5,182,31"/>
+<area shape="rect" title="Format suggested for statically linked field access instructions or Types. Example: op vA,..." alt="" coords="5,79,196,105"/>
+<area shape="rect" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode." alt="" coords="19,5,182,31"/>
 </map>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -94,121 +99,118 @@ Collaboration diagram for KUNAI::DEX::Instruction22cs:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d5/d0b/classKUNAI_1_1DEX_1_1Instruction22cs__coll__graph.png" border="0" usemap="#aKUNAI_1_1DEX_1_1Instruction22cs_coll__map" alt="Collaboration graph"/></div>
 <map name="aKUNAI_1_1DEX_1_1Instruction22cs_coll__map" id="aKUNAI_1_1DEX_1_1Instruction22cs_coll__map">
-<area shape="rect" title=" " alt="" coords="5,79,196,105"/>
-<area shape="rect" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title=" " alt="" coords="19,5,182,31"/>
+<area shape="rect" title="Format suggested for statically linked field access instructions or Types. Example: op vA,..." alt="" coords="5,79,196,105"/>
+<area shape="rect" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode." alt="" coords="19,5,182,31"/>
 </map>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad6fe39ba5206061213aa3820ff5d9048"><td class="memItemLeft" align="right" valign="top"><a id="ad6fe39ba5206061213aa3820ff5d9048" name="ad6fe39ba5206061213aa3820ff5d9048"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Instruction22cs</b> (<a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> *dalvik_opcodes, std::istream &amp;input_file)</td></tr>
-<tr class="separator:ad6fe39ba5206061213aa3820ff5d9048"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a84929f9f18e6ebf7e2a8766f3ddb964d"><td class="memItemLeft" align="right" valign="top">DexInstType_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#a84929f9f18e6ebf7e2a8766f3ddb964d">get_inst_type</a> ()</td></tr>
-<tr class="separator:a84929f9f18e6ebf7e2a8766f3ddb964d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a309ae606c43a598b67578bd0668907a3"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#a309ae606c43a598b67578bd0668907a3">get_output</a> ()</td></tr>
-<tr class="separator:a309ae606c43a598b67578bd0668907a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae06ce226ee4aac2b594e59c577aaa771"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; std::tuple&lt; <a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a7c47b39b4158b9565b9f505ef49615ad">DVMTypes::Operand</a>, std::uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#ae06ce226ee4aac2b594e59c577aaa771">get_operands</a> ()</td></tr>
-<tr class="separator:ae06ce226ee4aac2b594e59c577aaa771"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2782c329a8908b42b5712f67a92a7e16"><td class="memItemLeft" align="right" valign="top"><a id="a2782c329a8908b42b5712f67a92a7e16" name="a2782c329a8908b42b5712f67a92a7e16"></a>
-<a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a7c47b39b4158b9565b9f505ef49615ad">DVMTypes::Operand</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_first_operand_type</b> ()</td></tr>
-<tr class="separator:a2782c329a8908b42b5712f67a92a7e16"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab676f1a516e872a9712c70afb7e0118d"><td class="memItemLeft" align="right" valign="top"><a id="ab676f1a516e872a9712c70afb7e0118d" name="ab676f1a516e872a9712c70afb7e0118d"></a>
-std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_first_operand</b> ()</td></tr>
-<tr class="separator:ab676f1a516e872a9712c70afb7e0118d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a79c3d6ecb1a3bd22dde2e2d18191785c"><td class="memItemLeft" align="right" valign="top"><a id="a79c3d6ecb1a3bd22dde2e2d18191785c" name="a79c3d6ecb1a3bd22dde2e2d18191785c"></a>
-<a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a7c47b39b4158b9565b9f505ef49615ad">DVMTypes::Operand</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_second_operand_type</b> ()</td></tr>
-<tr class="separator:a79c3d6ecb1a3bd22dde2e2d18191785c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c072570bab71ad2238a30fc8f489e5d"><td class="memItemLeft" align="right" valign="top"><a id="a8c072570bab71ad2238a30fc8f489e5d" name="a8c072570bab71ad2238a30fc8f489e5d"></a>
-std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_second_operand</b> ()</td></tr>
-<tr class="separator:a8c072570bab71ad2238a30fc8f489e5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a503b8d28bd53e8c6a1712302090c5b"><td class="memItemLeft" align="right" valign="top"><a id="a9a503b8d28bd53e8c6a1712302090c5b" name="a9a503b8d28bd53e8c6a1712302090c5b"></a>
-<a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a7c47b39b4158b9565b9f505ef49615ad">DVMTypes::Operand</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_third_operand_type</b> ()</td></tr>
-<tr class="separator:a9a503b8d28bd53e8c6a1712302090c5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d5193a583441b74ceae92945b9836a9"><td class="memItemLeft" align="right" valign="top"><a id="a1d5193a583441b74ceae92945b9836a9" name="a1d5193a583441b74ceae92945b9836a9"></a>
-std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_third_operand</b> ()</td></tr>
-<tr class="separator:a1d5193a583441b74ceae92945b9836a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a466b55ac7cdcd518bc78acfe7d4c545d"><td class="memItemLeft" align="right" valign="top"><a id="a466b55ac7cdcd518bc78acfe7d4c545d" name="a466b55ac7cdcd518bc78acfe7d4c545d"></a>
-<a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad34d1d3d2a524055a447dcc49d3b4c12">DVMTypes::Kind</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_third_operand_kind</b> ()</td></tr>
-<tr class="separator:a466b55ac7cdcd518bc78acfe7d4c545d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9e2270bf9bf0dbdd4fef5b6095efbe4e"><td class="memItemLeft" align="right" valign="top"><a id="a9e2270bf9bf0dbdd4fef5b6095efbe4e" name="a9e2270bf9bf0dbdd4fef5b6095efbe4e"></a>
-<a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_third_operand_typeId</b> ()</td></tr>
-<tr class="separator:a9e2270bf9bf0dbdd4fef5b6095efbe4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a51f4b242ed3621d80821ae449f0c2a3c"><td class="memItemLeft" align="right" valign="top"><a id="a51f4b242ed3621d80821ae449f0c2a3c" name="a51f4b242ed3621d80821ae449f0c2a3c"></a>
-<a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_third_operand_FieldId</b> ()</td></tr>
-<tr class="separator:a51f4b242ed3621d80821ae449f0c2a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a020b40dfb2885473c5963c4fa593a2fd"><td class="memItemLeft" align="right" valign="top"><a id="a020b40dfb2885473c5963c4fa593a2fd" name="a020b40dfb2885473c5963c4fa593a2fd"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Instruction22cs</b> (std::vector&lt; uint8_t &gt; &amp;bytecode, std::size_t index, <a class="el" href="../../d8/dc9/classKUNAI_1_1DEX_1_1Parser.html">Parser</a> *parser)</td></tr>
+<tr class="separator:a020b40dfb2885473c5963c4fa593a2fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaecd491e200f22d8f288f4b6a52bb794"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#aaecd491e200f22d8f288f4b6a52bb794">get_register_A</a> () const</td></tr>
+<tr class="memdesc:aaecd491e200f22d8f288f4b6a52bb794"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the index of the first register used in the instruction.  <br /></td></tr>
+<tr class="separator:aaecd491e200f22d8f288f4b6a52bb794"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c686834d04b9d9d5ed93cf7c4b37b16"><td class="memItemLeft" align="right" valign="top">TYPES::Operand&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#a8c686834d04b9d9d5ed93cf7c4b37b16">get_register_A_type</a> () const</td></tr>
+<tr class="memdesc:a8c686834d04b9d9d5ed93cf7c4b37b16"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the type for the register A.  <br /></td></tr>
+<tr class="separator:a8c686834d04b9d9d5ed93cf7c4b37b16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1e63e581c2ef86fa7aa72a56e6b792b"><td class="memItemLeft" align="right" valign="top">std::uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#ac1e63e581c2ef86fa7aa72a56e6b792b">get_register_B</a> () const</td></tr>
+<tr class="memdesc:ac1e63e581c2ef86fa7aa72a56e6b792b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the index of the second register used in the instruction.  <br /></td></tr>
+<tr class="separator:ac1e63e581c2ef86fa7aa72a56e6b792b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15dc83ed5bce7edf86790dd426602409"><td class="memItemLeft" align="right" valign="top">TYPES::Operand&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#a15dc83ed5bce7edf86790dd426602409">get_register_B_type</a> () const</td></tr>
+<tr class="memdesc:a15dc83ed5bce7edf86790dd426602409"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the type for the register B.  <br /></td></tr>
+<tr class="separator:a15dc83ed5bce7edf86790dd426602409"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e7c8a8428441a101c1101389a23ffa8"><td class="memItemLeft" align="right" valign="top">std::uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#a6e7c8a8428441a101c1101389a23ffa8">get_field_offset</a> () const</td></tr>
+<tr class="memdesc:a6e7c8a8428441a101c1101389a23ffa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the offset for the field.  <br /></td></tr>
+<tr class="separator:a6e7c8a8428441a101c1101389a23ffa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab14195259c67e5fa2c83d0f08d7d01a0"><td class="memItemLeft" align="right" valign="top">TYPES::Operand&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#ab14195259c67e5fa2c83d0f08d7d01a0">get_field_offset_type</a> () const</td></tr>
+<tr class="memdesc:ab14195259c67e5fa2c83d0f08d7d01a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the type for the offset, probably KIND.  <br /></td></tr>
+<tr class="separator:ab14195259c67e5fa2c83d0f08d7d01a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a856fae346e85e34ce5da90d93f2ede63"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#a856fae346e85e34ce5da90d93f2ede63">get_field_string</a> () const</td></tr>
+<tr class="memdesc:a856fae346e85e34ce5da90d93f2ede63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a string representation of the Field.  <br /></td></tr>
+<tr class="separator:a856fae346e85e34ce5da90d93f2ede63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b4a55cb5d450899ed4a948cda9fe38c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#a7b4a55cb5d450899ed4a948cda9fe38c">get_field</a> () const</td></tr>
+<tr class="memdesc:a7b4a55cb5d450899ed4a948cda9fe38c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the idx is from a field and return a <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>.  <br /></td></tr>
+<tr class="separator:a7b4a55cb5d450899ed4a948cda9fe38c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb404fe2e1dba9cf715b706e578055d2"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#afb404fe2e1dba9cf715b706e578055d2">print_instruction</a> ()</td></tr>
+<tr class="memdesc:afb404fe2e1dba9cf715b706e578055d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a string with the representation of the instruction.  <br /></td></tr>
+<tr class="separator:afb404fe2e1dba9cf715b706e578055d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe15149a49c204f4cf48e670e4013b48"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#afe15149a49c204f4cf48e670e4013b48">print_instruction</a> (std::ostream &amp;os)</td></tr>
+<tr class="memdesc:afe15149a49c204f4cf48e670e4013b48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the instruction on a given stream.  <br /></td></tr>
+<tr class="separator:afe15149a49c204f4cf48e670e4013b48"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classKUNAI_1_1DEX_1_1Instruction')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">KUNAI::DEX::Instruction</a></td></tr>
-<tr class="memitem:a2e7f6a38f7d1dff5ef3e9cb7cf5c7e69 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a2e7f6a38f7d1dff5ef3e9cb7cf5c7e69" name="a2e7f6a38f7d1dff5ef3e9cb7cf5c7e69"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Instruction</b> (<a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> *dalvik_opcodes, std::istream &amp;input_file)</td></tr>
-<tr class="separator:a2e7f6a38f7d1dff5ef3e9cb7cf5c7e69 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a688dbaa279aed01fc67c308064c410c1 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a688dbaa279aed01fc67c308064c410c1" name="a688dbaa279aed01fc67c308064c410c1"></a>
-virtual DexInstType_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_inst_type</b> ()=0</td></tr>
-<tr class="separator:a688dbaa279aed01fc67c308064c410c1 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93c3385fa6ab0c63358b769aab4a958c inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a93c3385fa6ab0c63358b769aab4a958c" name="a93c3385fa6ab0c63358b769aab4a958c"></a>
-<a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad34d1d3d2a524055a447dcc49d3b4c12">DVMTypes::Kind</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_kind</b> ()</td></tr>
-<tr class="separator:a93c3385fa6ab0c63358b769aab4a958c inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcbf6f51abd84e99b63b09512cd9eb97 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="abcbf6f51abd84e99b63b09512cd9eb97" name="abcbf6f51abd84e99b63b09512cd9eb97"></a>
-std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_translated_kind</b> ()</td></tr>
-<tr class="separator:abcbf6f51abd84e99b63b09512cd9eb97 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a822ddec8ab0f34f47de05b0822691d26 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a822ddec8ab0f34f47de05b0822691d26" name="a822ddec8ab0f34f47de05b0822691d26"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_name</b> ()</td></tr>
-<tr class="separator:a822ddec8ab0f34f47de05b0822691d26 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a029a902d80c36f28fc7878697f102150 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a029a902d80c36f28fc7878697f102150" name="a029a902d80c36f28fc7878697f102150"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_length</b> ()</td></tr>
-<tr class="separator:a029a902d80c36f28fc7878697f102150 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0eaf3a91803fe4a7ab0552e13c7f0e0 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="aa0eaf3a91803fe4a7ab0552e13c7f0e0" name="aa0eaf3a91803fe4a7ab0552e13c7f0e0"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_OP</b> ()</td></tr>
-<tr class="separator:aa0eaf3a91803fe4a7ab0552e13c7f0e0 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d11ceafe47fc129b7c84fd0135f1acf inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a0d11ceafe47fc129b7c84fd0135f1acf" name="a0d11ceafe47fc129b7c84fd0135f1acf"></a>
-<a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_dalvik_opcodes</b> ()</td></tr>
-<tr class="separator:a0d11ceafe47fc129b7c84fd0135f1acf inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46193481bf400c7ea5b0238a99c07237 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a46193481bf400c7ea5b0238a99c07237" name="a46193481bf400c7ea5b0238a99c07237"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_length</b> (std::uint32_t length)</td></tr>
-<tr class="separator:a46193481bf400c7ea5b0238a99c07237 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad519f8394eea7b4935d7047b677a5e09 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="ad519f8394eea7b4935d7047b677a5e09" name="ad519f8394eea7b4935d7047b677a5e09"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_OP</b> (std::uint32_t OP)</td></tr>
-<tr class="separator:ad519f8394eea7b4935d7047b677a5e09 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98c82eb1efab67abcfe55670b9ca6175 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a98c82eb1efab67abcfe55670b9ca6175" name="a98c82eb1efab67abcfe55670b9ca6175"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>show_instruction</b> ()</td></tr>
-<tr class="separator:a98c82eb1efab67abcfe55670b9ca6175 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab78e90508f825ce4c40462496581c0af inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="ab78e90508f825ce4c40462496581c0af" name="ab78e90508f825ce4c40462496581c0af"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>give_me_instruction</b> (std::ostream &amp;os)</td></tr>
-<tr class="separator:ab78e90508f825ce4c40462496581c0af inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e48e56ec31b14ca3c4075ec7d5b05ef inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a1e48e56ec31b14ca3c4075ec7d5b05ef" name="a1e48e56ec31b14ca3c4075ec7d5b05ef"></a>
-virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_output</b> ()</td></tr>
-<tr class="separator:a1e48e56ec31b14ca3c4075ec7d5b05ef inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1aab62888f7058cad11d3b5c9684083c inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a1aab62888f7058cad11d3b5c9684083c" name="a1aab62888f7058cad11d3b5c9684083c"></a>
-virtual const std::vector&lt; std::uint8_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_raw</b> () const</td></tr>
-<tr class="separator:a1aab62888f7058cad11d3b5c9684083c inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36c241c7b94e5148aa524f2f9b33ce2f inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a36c241c7b94e5148aa524f2f9b33ce2f" name="a36c241c7b94e5148aa524f2f9b33ce2f"></a>
-virtual std::vector&lt; std::tuple&lt; <a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a7c47b39b4158b9565b9f505ef49615ad">DVMTypes::Operand</a>, std::uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_operands</b> ()</td></tr>
-<tr class="separator:a36c241c7b94e5148aa524f2f9b33ce2f inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af65b90189d187b994c80080f99dec9d7 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="af65b90189d187b994c80080f99dec9d7" name="af65b90189d187b994c80080f99dec9d7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_number_of_registers</b> (std::uint32_t number_of_registers)</td></tr>
-<tr class="separator:af65b90189d187b994c80080f99dec9d7 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a454a6c830811e768b3554f5f8ecd3ffb inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a454a6c830811e768b3554f5f8ecd3ffb" name="a454a6c830811e768b3554f5f8ecd3ffb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_number_of_parameters</b> (std::uint32_t number_of_parameters)</td></tr>
-<tr class="separator:a454a6c830811e768b3554f5f8ecd3ffb inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff7403874e65ad742fbc005d8584305f inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="aff7403874e65ad742fbc005d8584305f" name="aff7403874e65ad742fbc005d8584305f"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_number_of_registers</b> ()</td></tr>
-<tr class="separator:aff7403874e65ad742fbc005d8584305f inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ac5d336b702d0ceb13b991351bc27c7 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a0ac5d336b702d0ceb13b991351bc27c7" name="a0ac5d336b702d0ceb13b991351bc27c7"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_number_of_parameters</b> ()</td></tr>
-<tr class="separator:a0ac5d336b702d0ceb13b991351bc27c7 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4306cc7258409240b93695a540bb4c97 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a4306cc7258409240b93695a540bb4c97" name="a4306cc7258409240b93695a540bb4c97"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_register_correct_representation</b> (std::uint32_t reg)</td></tr>
-<tr class="separator:a4306cc7258409240b93695a540bb4c97 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c11bacc65bf8f98c461ccc087613675 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a5c11bacc65bf8f98c461ccc087613675">Instruction</a> (std::vector&lt; uint8_t &gt; &amp;bytecode, std::size_t index, dexinsttype_t instruction_type)</td></tr>
+<tr class="memdesc:a5c11bacc65bf8f98c461ccc087613675 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of the <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode.">Instruction</a>, here is applied the parsing of the opcodes.  <br /></td></tr>
+<tr class="separator:a5c11bacc65bf8f98c461ccc087613675 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4fefb886bc871b23b568010ebb1a479 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#aa4fefb886bc871b23b568010ebb1a479">Instruction</a> (std::vector&lt; uint8_t &gt; &amp;bytecode, std::size_t index, dexinsttype_t instruction_type, std::uint32_t <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a96b475217d4adbc1dabfbb31b25bccb6">length</a>)</td></tr>
+<tr class="separator:aa4fefb886bc871b23b568010ebb1a479 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a006b95f5a8fe59218cc42678fc0582db inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a006b95f5a8fe59218cc42678fc0582db" name="a006b95f5a8fe59218cc42678fc0582db"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Instruction</b> ()=default</td></tr>
+<tr class="memdesc:a006b95f5a8fe59218cc42678fc0582db inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of the instruction. <br /></td></tr>
+<tr class="separator:a006b95f5a8fe59218cc42678fc0582db inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a472c657c9fa34d4e01d386e6eefe1964 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual TYPES::Kind&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a472c657c9fa34d4e01d386e6eefe1964">get_kind</a> () const</td></tr>
+<tr class="memdesc:a472c657c9fa34d4e01d386e6eefe1964 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the kind of instruction, use a <a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html" title="Class with static functions to manage information about the dalvik opcodes.">DalvikOpcodes</a> function.  <br /></td></tr>
+<tr class="separator:a472c657c9fa34d4e01d386e6eefe1964 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45e0692a98ace99be05f35a0bf69db81 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual dexinsttype_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a45e0692a98ace99be05f35a0bf69db81">get_instruction_type</a> () const</td></tr>
+<tr class="memdesc:a45e0692a98ace99be05f35a0bf69db81 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the instruction type from the enum.  <br /></td></tr>
+<tr class="separator:a45e0692a98ace99be05f35a0bf69db81 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d480484604e26f2eb44e36861d7882d inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a0d480484604e26f2eb44e36861d7882d">get_instruction_length</a> () const</td></tr>
+<tr class="memdesc:a0d480484604e26f2eb44e36861d7882d inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the length of the instruction.  <br /></td></tr>
+<tr class="separator:a0d480484604e26f2eb44e36861d7882d inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64661757f727130a7d01ed99ebde240e inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a64661757f727130a7d01ed99ebde240e">get_instruction_opcode</a> () const</td></tr>
+<tr class="memdesc:a64661757f727130a7d01ed99ebde240e inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the opcode of the instruction.  <br /></td></tr>
+<tr class="separator:a64661757f727130a7d01ed99ebde240e inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aa2ef888ff1320391408a158e669101 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a9aa2ef888ff1320391408a158e669101">set_address</a> (std::uint64_t <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a8ec4cab94f903644338ac54e410c62b7">address</a>)</td></tr>
+<tr class="memdesc:a9aa2ef888ff1320391408a158e669101 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the address of the instruction.  <br /></td></tr>
+<tr class="separator:a9aa2ef888ff1320391408a158e669101 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14bdfe1df81a2dfa26170caee14dcddd inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a14bdfe1df81a2dfa26170caee14dcddd">get_address</a> () const</td></tr>
+<tr class="memdesc:a14bdfe1df81a2dfa26170caee14dcddd inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the address of the instruction.  <br /></td></tr>
+<tr class="separator:a14bdfe1df81a2dfa26170caee14dcddd inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6977c5a59b8e9981c52c9446b48582 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#adb6977c5a59b8e9981c52c9446b48582">print_instruction</a> ()</td></tr>
+<tr class="memdesc:adb6977c5a59b8e9981c52c9446b48582 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a string with the representation of the instruction.  <br /></td></tr>
+<tr class="separator:adb6977c5a59b8e9981c52c9446b48582 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a841369271d9ab6e6410f6c5f2a6d1e9e inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a841369271d9ab6e6410f6c5f2a6d1e9e">print_instruction</a> (std::ostream &amp;os)</td></tr>
+<tr class="memdesc:a841369271d9ab6e6410f6c5f2a6d1e9e inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the instruction on a given stream.  <br /></td></tr>
+<tr class="separator:a841369271d9ab6e6410f6c5f2a6d1e9e inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6fc52ee7333cd7a5d4e2be0ec52abde inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual const std::span&lt; std::uint8_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#ad6fc52ee7333cd7a5d4e2be0ec52abde">get_opcodes</a> ()</td></tr>
+<tr class="memdesc:ad6fc52ee7333cd7a5d4e2be0ec52abde inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the op codes in raw from the instruction.  <br /></td></tr>
+<tr class="separator:ad6fc52ee7333cd7a5d4e2be0ec52abde inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad155323eddc3b63c32a6e6ee803b173c inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#ad155323eddc3b63c32a6e6ee803b173c">is_terminator</a> ()</td></tr>
+<tr class="memdesc:ad155323eddc3b63c32a6e6ee803b173c inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the instruction is a terminator (branch, ret, multibranch)  <br /></td></tr>
+<tr class="separator:ad155323eddc3b63c32a6e6ee803b173c inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cd8ed205abd5a19e4fe9b36d1aaa8f6 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a7cd8ed205abd5a19e4fe9b36d1aaa8f6">has_side_effects</a> () const</td></tr>
+<tr class="memdesc:a7cd8ed205abd5a19e4fe9b36d1aaa8f6 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode.">Instruction</a> has or can have some side effect.  <br /></td></tr>
+<tr class="separator:a7cd8ed205abd5a19e4fe9b36d1aaa8f6 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbafe54e7aeed582b3ba9515f8f12816 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#acbafe54e7aeed582b3ba9515f8f12816">may_throw</a> () const</td></tr>
+<tr class="memdesc:acbafe54e7aeed582b3ba9515f8f12816 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">May throw an exception.  <br /></td></tr>
+<tr class="separator:acbafe54e7aeed582b3ba9515f8f12816 inherit pub_methods_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classKUNAI_1_1DEX_1_1Instruction')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">KUNAI::DEX::Instruction</a></td></tr>
-<tr class="memitem:a8af625df8224834659af6e87399d228a inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a8af625df8224834659af6e87399d228a" name="a8af625df8224834659af6e87399d228a"></a>
-std::vector&lt; std::uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>op_codes</b></td></tr>
-<tr class="separator:a8af625df8224834659af6e87399d228a inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4ff19d5d81395a8d71a126efdcb891c inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="af4ff19d5d81395a8d71a126efdcb891c" name="af4ff19d5d81395a8d71a126efdcb891c"></a>
+std::span&lt; std::uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>op_codes</b></td></tr>
+<tr class="memdesc:af4ff19d5d81395a8d71a126efdcb891c inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opcodes of the instruction. <br /></td></tr>
+<tr class="separator:af4ff19d5d81395a8d71a126efdcb891c inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96b475217d4adbc1dabfbb31b25bccb6 inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a96b475217d4adbc1dabfbb31b25bccb6" name="a96b475217d4adbc1dabfbb31b25bccb6"></a>
+std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>length</b></td></tr>
+<tr class="memdesc:a96b475217d4adbc1dabfbb31b25bccb6 inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of the instruction. <br /></td></tr>
+<tr class="separator:a96b475217d4adbc1dabfbb31b25bccb6 inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bffaaca246106d3ca54a53bdd9a9b16 inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a8bffaaca246106d3ca54a53bdd9a9b16" name="a8bffaaca246106d3ca54a53bdd9a9b16"></a>
+std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>op</b></td></tr>
+<tr class="memdesc:a8bffaaca246106d3ca54a53bdd9a9b16 inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">op code from the instruction <br /></td></tr>
+<tr class="separator:a8bffaaca246106d3ca54a53bdd9a9b16 inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ec4cab94f903644338ac54e410c62b7 inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memItemLeft" align="right" valign="top"><a id="a8ec4cab94f903644338ac54e410c62b7" name="a8ec4cab94f903644338ac54e410c62b7"></a>
+std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>address</b></td></tr>
+<tr class="memdesc:a8ec4cab94f903644338ac54e410c62b7 inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="mdescLeft">&#160;</td><td class="mdescRight">address of the instruction <br /></td></tr>
+<tr class="separator:a8ec4cab94f903644338ac54e410c62b7 inherit pro_attribs_classKUNAI_1_1DEX_1_1Instruction"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a84929f9f18e6ebf7e2a8766f3ddb964d" name="a84929f9f18e6ebf7e2a8766f3ddb964d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a84929f9f18e6ebf7e2a8766f3ddb964d">&#9670;&#160;</a></span>get_inst_type()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Format suggested for statically linked field access instructions or <a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a>. Example: op vA, vB, fieldoff@CCCC *-QUICK methods. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a7b4a55cb5d450899ed4a948cda9fe38c" name="a7b4a55cb5d450899ed4a948cda9fe38c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b4a55cb5d450899ed4a948cda9fe38c">&#9670;&#160;</a></span>get_field()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -217,7 +219,231 @@ std::vector&lt; std::uint8_t &gt;&#160;</td><td class="memItemRight" valign="bot
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">DexInstType_t KUNAI::DEX::Instruction22cs::get_inst_type </td>
+          <td class="memname"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> * KUNAI::DEX::Instruction22cs::get_field </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check if the idx is from a field and return a <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>. </p>
+<dl class="section return"><dt>Returns</dt><dd>pointer to <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a> or nullptr </dd></dl>
+
+</div>
+</div>
+<a id="a6e7c8a8428441a101c1101389a23ffa8" name="a6e7c8a8428441a101c1101389a23ffa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e7c8a8428441a101c1101389a23ffa8">&#9670;&#160;</a></span>get_field_offset()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint16_t KUNAI::DEX::Instruction22cs::get_field_offset </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the offset for the field. </p>
+<dl class="section return"><dt>Returns</dt><dd>int value with field for offset </dd></dl>
+
+</div>
+</div>
+<a id="ab14195259c67e5fa2c83d0f08d7d01a0" name="ab14195259c67e5fa2c83d0f08d7d01a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab14195259c67e5fa2c83d0f08d7d01a0">&#9670;&#160;</a></span>get_field_offset_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TYPES::Operand KUNAI::DEX::Instruction22cs::get_field_offset_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the type for the offset, probably KIND. </p>
+<dl class="section return"><dt>Returns</dt><dd>return KIND type (I think is that one...) </dd></dl>
+
+</div>
+</div>
+<a id="a856fae346e85e34ce5da90d93f2ede63" name="a856fae346e85e34ce5da90d93f2ede63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a856fae346e85e34ce5da90d93f2ede63">&#9670;&#160;</a></span>get_field_string()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; KUNAI::DEX::Instruction22cs::get_field_string </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a string representation of the Field. </p>
+<dl class="section return"><dt>Returns</dt><dd>string representation of field </dd></dl>
+
+</div>
+</div>
+<a id="aaecd491e200f22d8f288f4b6a52bb794" name="aaecd491e200f22d8f288f4b6a52bb794"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaecd491e200f22d8f288f4b6a52bb794">&#9670;&#160;</a></span>get_register_A()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint8_t KUNAI::DEX::Instruction22cs::get_register_A </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the index of the first register used in the instruction. </p>
+<dl class="section return"><dt>Returns</dt><dd>value of register A </dd></dl>
+
+</div>
+</div>
+<a id="a8c686834d04b9d9d5ed93cf7c4b37b16" name="a8c686834d04b9d9d5ed93cf7c4b37b16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c686834d04b9d9d5ed93cf7c4b37b16">&#9670;&#160;</a></span>get_register_A_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TYPES::Operand KUNAI::DEX::Instruction22cs::get_register_A_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the type for the register A. </p>
+<dl class="section return"><dt>Returns</dt><dd>return REGISTER type </dd></dl>
+
+</div>
+</div>
+<a id="ac1e63e581c2ef86fa7aa72a56e6b792b" name="ac1e63e581c2ef86fa7aa72a56e6b792b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac1e63e581c2ef86fa7aa72a56e6b792b">&#9670;&#160;</a></span>get_register_B()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint8_t KUNAI::DEX::Instruction22cs::get_register_B </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the index of the second register used in the instruction. </p>
+<dl class="section return"><dt>Returns</dt><dd>value of register B </dd></dl>
+
+</div>
+</div>
+<a id="a15dc83ed5bce7edf86790dd426602409" name="a15dc83ed5bce7edf86790dd426602409"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15dc83ed5bce7edf86790dd426602409">&#9670;&#160;</a></span>get_register_B_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TYPES::Operand KUNAI::DEX::Instruction22cs::get_register_B_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the type for the register B. </p>
+<dl class="section return"><dt>Returns</dt><dd>return REGISTER type </dd></dl>
+
+</div>
+</div>
+<a id="afb404fe2e1dba9cf715b706e578055d2" name="afb404fe2e1dba9cf715b706e578055d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb404fe2e1dba9cf715b706e578055d2">&#9670;&#160;</a></span>print_instruction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string KUNAI::DEX::Instruction22cs::print_instruction </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -230,12 +456,15 @@ std::vector&lt; std::uint8_t &gt;&#160;</td><td class="memItemRight" valign="bot
 </table>
 </div><div class="memdoc">
 
-<p>Implements <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">KUNAI::DEX::Instruction</a>.</p>
+<p>Return a string with the representation of the instruction. </p>
+<dl class="section return"><dt>Returns</dt><dd>string with instruction </dd></dl>
+
+<p>Reimplemented from <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#adb6977c5a59b8e9981c52c9446b48582">KUNAI::DEX::Instruction</a>.</p>
 
 </div>
 </div>
-<a id="ae06ce226ee4aac2b594e59c577aaa771" name="ae06ce226ee4aac2b594e59c577aaa771"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae06ce226ee4aac2b594e59c577aaa771">&#9670;&#160;</a></span>get_operands()</h2>
+<a id="afe15149a49c204f4cf48e670e4013b48" name="afe15149a49c204f4cf48e670e4013b48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe15149a49c204f4cf48e670e4013b48">&#9670;&#160;</a></span>print_instruction() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -244,52 +473,34 @@ std::vector&lt; std::uint8_t &gt;&#160;</td><td class="memItemRight" valign="bot
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual std::vector&lt; std::tuple&lt; <a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a7c47b39b4158b9565b9f505ef49615ad">DVMTypes::Operand</a>, std::uint64_t &gt; &gt; KUNAI::DEX::Instruction22cs::get_operands </td>
+          <td class="memname">virtual void KUNAI::DEX::Instruction22cs::print_instruction </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented from <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">KUNAI::DEX::Instruction</a>.</p>
+<p>Print the instruction on a given stream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">os</td><td>stream where to print the instruction </td></tr>
+  </table>
+  </dd>
+</dl>
 
-</div>
-</div>
-<a id="a309ae606c43a598b67578bd0668907a3" name="a309ae606c43a598b67578bd0668907a3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a309ae606c43a598b67578bd0668907a3">&#9670;&#160;</a></span>get_output()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual std::string KUNAI::DEX::Instruction22cs::get_output </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Reimplemented from <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">KUNAI::DEX::Instruction</a>.</p>
+<p>Reimplemented from <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a841369271d9ab6e6410f6c5f2a6d1e9e">KUNAI::DEX::Instruction</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/DVM/<a class="el" href="../../d2/d2b/dex__instructions_8hpp_source.html">dex_instructions.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/DVM/<a class="el" href="../../d8/dce/dalvik__instructions_8hpp_source.html">dalvik_instructions.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

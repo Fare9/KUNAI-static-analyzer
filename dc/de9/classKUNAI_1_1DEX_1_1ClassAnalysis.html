@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,263 +70,128 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="../../db/d3d/classKUNAI_1_1DEX_1_1ClassAnalysis-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">KUNAI::DEX::ClassAnalysis Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="../../dd/df2/dex__analysis_8hpp_source.html">dex_analysis.hpp</a>&gt;</code></p>
+<p>Specification of the class analysis, this class contains fields, strings, methods...  
+ <a href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../dc/dea/analysis_8hpp_source.html">analysis.hpp</a>&gt;</code></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:aa2c367e313affe6b8a004c0587ec186d"><td class="memItemLeft" align="right" valign="top"><a id="aa2c367e313affe6b8a004c0587ec186d" name="aa2c367e313affe6b8a004c0587ec186d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>classxref</b> = std::unordered_map&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *, std::set&lt; std::tuple&lt; TYPES::REF_TYPE, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *, std::uint64_t &gt; &gt; &gt;</td></tr>
+<tr class="separator:aa2c367e313affe6b8a004c0587ec186d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a551d56540ebc4b1e1aba55525a8d5735"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a551d56540ebc4b1e1aba55525a8d5735">ClassAnalysis</a> (std::variant&lt; <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a> *, <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a> * &gt; class_def)</td></tr>
-<tr class="memdesc:a551d56540ebc4b1e1aba55525a8d5735"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructor of <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> class.  <br /></td></tr>
+<tr class="memitem:a551d56540ebc4b1e1aba55525a8d5735"><td class="memItemLeft" align="right" valign="top"><a id="a551d56540ebc4b1e1aba55525a8d5735" name="a551d56540ebc4b1e1aba55525a8d5735"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ClassAnalysis</b> (std::variant&lt; <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a> *, <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a> * &gt; class_def)</td></tr>
 <tr class="separator:a551d56540ebc4b1e1aba55525a8d5735"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a449f0dfe5473335f98cfd6c1030a552d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a449f0dfe5473335f98cfd6c1030a552d">~ClassAnalysis</a> ()=default</td></tr>
-<tr class="memdesc:a449f0dfe5473335f98cfd6c1030a552d"><td class="mdescLeft">&#160;</td><td class="mdescRight">destructor of <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> class.  <br /></td></tr>
-<tr class="separator:a449f0dfe5473335f98cfd6c1030a552d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a97e5dc88934aac8beac956e7febd079a"><td class="memItemLeft" align="right" valign="top">std::variant&lt; <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a> *, <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a97e5dc88934aac8beac956e7febd079a">get_class_definition</a> ()</td></tr>
-<tr class="memdesc:a97e5dc88934aac8beac956e7febd079a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the class definition object.  <br /></td></tr>
-<tr class="separator:a97e5dc88934aac8beac956e7febd079a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a807931af3273e94cb071a75d422f192e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a807931af3273e94cb071a75d422f192e">is_class_external</a> ()</td></tr>
-<tr class="memdesc:a807931af3273e94cb071a75d422f192e"><td class="mdescLeft">&#160;</td><td class="mdescRight">return if the analyzed class is external or not.  <br /></td></tr>
-<tr class="separator:a807931af3273e94cb071a75d422f192e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af05c464ed1e3c3bf9861f709a5ef0f8f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#af05c464ed1e3c3bf9861f709a5ef0f8f">add_method</a> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method_analysis)</td></tr>
-<tr class="memdesc:af05c464ed1e3c3bf9861f709a5ef0f8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">add a method to the class, in case of being external add the external method object to the class.  <br /></td></tr>
+<tr class="memdesc:af05c464ed1e3c3bf9861f709a5ef0f8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">add a method to the current class  <br /></td></tr>
 <tr class="separator:af05c464ed1e3c3bf9861f709a5ef0f8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5330969eab24905bd2f82032c781020e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a5330969eab24905bd2f82032c781020e">implements</a> ()</td></tr>
-<tr class="memdesc:a5330969eab24905bd2f82032c781020e"><td class="mdescLeft">&#160;</td><td class="mdescRight">get a list of interfaces that the class implements, in the case of <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a>, none.  <br /></td></tr>
-<tr class="separator:a5330969eab24905bd2f82032c781020e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9e57c04b7bcfe4655f219237132772e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#af9e57c04b7bcfe4655f219237132772e">extends</a> ()</td></tr>
-<tr class="memdesc:af9e57c04b7bcfe4655f219237132772e"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the name of the class from which current class extends.  <br /></td></tr>
-<tr class="separator:af9e57c04b7bcfe4655f219237132772e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66ea97b1eda499e77799b0d2e32d0089"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a66ea97b1eda499e77799b0d2e32d0089">name</a> ()</td></tr>
-<tr class="memdesc:a66ea97b1eda499e77799b0d2e32d0089"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the name of the class.  <br /></td></tr>
-<tr class="separator:a66ea97b1eda499e77799b0d2e32d0089"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f6b404e78da9f71f56044a9a5ee9dc5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a5f6b404e78da9f71f56044a9a5ee9dc5">is_android_api</a> ()</td></tr>
-<tr class="memdesc:a5f6b404e78da9f71f56044a9a5ee9dc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">check if the current class is an Android API.  <br /></td></tr>
-<tr class="separator:a5f6b404e78da9f71f56044a9a5ee9dc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5757eada70575f0ef045ff8298916330"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a5757eada70575f0ef045ff8298916330">get_methods</a> ()</td></tr>
-<tr class="memdesc:a5757eada70575f0ef045ff8298916330"><td class="mdescLeft">&#160;</td><td class="mdescRight">return a vector with all the <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> objects.  <br /></td></tr>
-<tr class="separator:a5757eada70575f0ef045ff8298916330"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98b4b014a4d82ba1b1ed21071b546985"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a98b4b014a4d82ba1b1ed21071b546985">get_fields</a> ()</td></tr>
-<tr class="memdesc:a98b4b014a4d82ba1b1ed21071b546985"><td class="mdescLeft">&#160;</td><td class="mdescRight">return a vector with all the <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> objects.  <br /></td></tr>
-<tr class="separator:a98b4b014a4d82ba1b1ed21071b546985"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a584297593503cdf824963cc99010ba"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a9a584297593503cdf824963cc99010ba">get_nb_methods</a> ()</td></tr>
-<tr class="memdesc:a9a584297593503cdf824963cc99010ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of stored methods.  <br /></td></tr>
-<tr class="separator:a9a584297593503cdf824963cc99010ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9efa3f409a21e2e5003a2f4696bb987"><td class="memItemLeft" align="right" valign="top"><a id="ae9efa3f409a21e2e5003a2f4696bb987" name="ae9efa3f409a21e2e5003a2f4696bb987"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_nb_methods</b> () const</td></tr>
+<tr class="separator:ae9efa3f409a21e2e5003a2f4696bb987"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a536f63fff672dd0b0bc69880c657d697"><td class="memItemLeft" align="right" valign="top"><a id="a536f63fff672dd0b0bc69880c657d697" name="a536f63fff672dd0b0bc69880c657d697"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_nb_fields</b> () const</td></tr>
+<tr class="separator:a536f63fff672dd0b0bc69880c657d697"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0454a241674414a05939035879b264d2"><td class="memItemLeft" align="right" valign="top">std::variant&lt; <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a> *, <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a0454a241674414a05939035879b264d2">get_class_definition</a> () const</td></tr>
+<tr class="memdesc:a0454a241674414a05939035879b264d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the class definition object.  <br /></td></tr>
+<tr class="separator:a0454a241674414a05939035879b264d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace5bfa809c7645f91c588407c86194d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#ace5bfa809c7645f91c588407c86194d4">is_class_external</a> () const</td></tr>
+<tr class="memdesc:ace5bfa809c7645f91c588407c86194d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the current class an external class?  <br /></td></tr>
+<tr class="separator:ace5bfa809c7645f91c588407c86194d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb53b014c2e9c3aab52de036ffeb8950"><td class="memItemLeft" align="right" valign="top"><a id="afb53b014c2e9c3aab52de036ffeb8950" name="afb53b014c2e9c3aab52de036ffeb8950"></a>
+std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>extends</b> () const</td></tr>
+<tr class="separator:afb53b014c2e9c3aab52de036ffeb8950"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13ac738e98f0a5825cb5c1924710fa05"><td class="memItemLeft" align="right" valign="top"><a id="a13ac738e98f0a5825cb5c1924710fa05" name="a13ac738e98f0a5825cb5c1924710fa05"></a>
+std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>name</b> () const</td></tr>
+<tr class="separator:a13ac738e98f0a5825cb5c1924710fa05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b0e05a754fadded978ff88a930f0472"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html">DVMClass</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a8b0e05a754fadded978ff88a930f0472">implements</a> ()</td></tr>
+<tr class="memdesc:a8b0e05a754fadded978ff88a930f0472"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a vector of implemented interfaces, in the case of external class raise exception.  <br /></td></tr>
+<tr class="separator:a8b0e05a754fadded978ff88a930f0472"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee16672824bbb3af4dba0b555aed1971"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#aee16672824bbb3af4dba0b555aed1971">get_methods</a> () const</td></tr>
+<tr class="memdesc:aee16672824bbb3af4dba0b555aed1971"><td class="mdescLeft">&#160;</td><td class="mdescRight">get a constant reference to the methods  <br /></td></tr>
+<tr class="separator:aee16672824bbb3af4dba0b555aed1971"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d59300b16b7f26e7447a3951a7d22ec"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a3d59300b16b7f26e7447a3951a7d22ec">get_methods</a> ()</td></tr>
+<tr class="memdesc:a3d59300b16b7f26e7447a3951a7d22ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">get a reference to the methods  <br /></td></tr>
+<tr class="separator:a3d59300b16b7f26e7447a3951a7d22ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8435cec25d9097f64ce9ba4a4452a3e9"><td class="memItemLeft" align="right" valign="top"><a id="a8435cec25d9097f64ce9ba4a4452a3e9" name="a8435cec25d9097f64ce9ba4a4452a3e9"></a>
+const std::unordered_map&lt; <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *, std::unique_ptr&lt; <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_fields</b> () const</td></tr>
+<tr class="separator:a8435cec25d9097f64ce9ba4a4452a3e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad88fa0c82a30661db4589da5123c6ee5"><td class="memItemLeft" align="right" valign="top"><a id="ad88fa0c82a30661db4589da5123c6ee5" name="ad88fa0c82a30661db4589da5123c6ee5"></a>
+std::unordered_map&lt; <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *, std::unique_ptr&lt; <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_fields</b> ()</td></tr>
+<tr class="separator:ad88fa0c82a30661db4589da5123c6ee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afe6c2f2b79fba50e039dea0c8c4869dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#afe6c2f2b79fba50e039dea0c8c4869dd">get_method_analysis</a> (std::variant&lt; <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *, <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> * &gt; method)</td></tr>
-<tr class="memdesc:afe6c2f2b79fba50e039dea0c8c4869dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get one of the <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> object by given <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> or <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a>.  <br /></td></tr>
+<tr class="memdesc:afe6c2f2b79fba50e039dea0c8c4869dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an Encoded or <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> returns a <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html" title="Specification of the method analysis, a method contains instructions, exceptions data,...">MethodAnalysis</a> pointer.  <br /></td></tr>
 <tr class="separator:afe6c2f2b79fba50e039dea0c8c4869dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4b3bf5337653cc8ba82b86289dd58d33"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a4b3bf5337653cc8ba82b86289dd58d33">get_field_analysis</a> (<a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *field)</td></tr>
-<tr class="memdesc:a4b3bf5337653cc8ba82b86289dd58d33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get one of the <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> object by given encodedfield_t.  <br /></td></tr>
+<tr class="memdesc:a4b3bf5337653cc8ba82b86289dd58d33"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given an encoded field return a <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html" title="specification of a field analysis">FieldAnalysis</a> pointer.  <br /></td></tr>
 <tr class="separator:a4b3bf5337653cc8ba82b86289dd58d33"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9941537f502c70822eb74c14185fe31e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a9941537f502c70822eb74c14185fe31e">add_field_xref_read</a> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *field, std::uint64_t off)</td></tr>
-<tr class="memdesc:a9941537f502c70822eb74c14185fe31e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a fieldanalysis_t object and add a read xref.  <br /></td></tr>
+<tr class="memitem:a9941537f502c70822eb74c14185fe31e"><td class="memItemLeft" align="right" valign="top"><a id="a9941537f502c70822eb74c14185fe31e" name="a9941537f502c70822eb74c14185fe31e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add_field_xref_read</b> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *field, std::uint64_t off)</td></tr>
 <tr class="separator:a9941537f502c70822eb74c14185fe31e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a66482a814e9714ed92160a81f2daf72a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a66482a814e9714ed92160a81f2daf72a">add_field_xref_write</a> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *field, std::uint64_t off)</td></tr>
-<tr class="memdesc:a66482a814e9714ed92160a81f2daf72a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a fieldanalysis_t object and add a write xref.  <br /></td></tr>
+<tr class="memitem:a66482a814e9714ed92160a81f2daf72a"><td class="memItemLeft" align="right" valign="top"><a id="a66482a814e9714ed92160a81f2daf72a" name="a66482a814e9714ed92160a81f2daf72a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add_field_xref_write</b> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *field, std::uint64_t off)</td></tr>
 <tr class="separator:a66482a814e9714ed92160a81f2daf72a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af11462b0a84d14c7037f1ba1723dc4bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#af11462b0a84d14c7037f1ba1723dc4bd">add_method_xref_to</a> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method1, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method2, std::uint64_t off)</td></tr>
-<tr class="memdesc:af11462b0a84d14c7037f1ba1723dc4bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a std::shared&lt;MethodAnalysis&gt; object and add a to xref.  <br /></td></tr>
+<tr class="memitem:af11462b0a84d14c7037f1ba1723dc4bd"><td class="memItemLeft" align="right" valign="top"><a id="af11462b0a84d14c7037f1ba1723dc4bd" name="af11462b0a84d14c7037f1ba1723dc4bd"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add_method_xref_to</b> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method1, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method2, std::uint64_t off)</td></tr>
 <tr class="separator:af11462b0a84d14c7037f1ba1723dc4bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9dce027928a435f72a829a03422c1c70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a9dce027928a435f72a829a03422c1c70">add_method_xref_from</a> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method1, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method2, std::uint64_t off)</td></tr>
-<tr class="memdesc:a9dce027928a435f72a829a03422c1c70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a std::shared&lt;MethodAnalysis&gt; object and add a from xref.  <br /></td></tr>
+<tr class="memitem:a9dce027928a435f72a829a03422c1c70"><td class="memItemLeft" align="right" valign="top"><a id="a9dce027928a435f72a829a03422c1c70" name="a9dce027928a435f72a829a03422c1c70"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add_method_xref_from</b> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method1, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *method2, std::uint64_t off)</td></tr>
 <tr class="separator:a9dce027928a435f72a829a03422c1c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1cc47982791724c28d71b7591c3a5859"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a1cc47982791724c28d71b7591c3a5859">add_xref_to</a> (<a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad27c9e4a3df9ffb1119d6cf6cedf6bfc">DVMTypes::REF_TYPE</a> ref_kind, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *methodobj, std::uint64_t offset)</td></tr>
-<tr class="memdesc:a1cc47982791724c28d71b7591c3a5859"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a cross reference to another class. XrefTo means, that the current class calls another class. The current class should also be contained in another class' XrefFrom list.  <br /></td></tr>
-<tr class="separator:a1cc47982791724c28d71b7591c3a5859"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4eb53dc1c44d7bd94592177bdb53e3bd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a4eb53dc1c44d7bd94592177bdb53e3bd">add_xref_from</a> (<a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad27c9e4a3df9ffb1119d6cf6cedf6bfc">DVMTypes::REF_TYPE</a> ref_kind, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *methodobj, std::uint64_t offset)</td></tr>
-<tr class="memdesc:a4eb53dc1c44d7bd94592177bdb53e3bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a cross reference from this class. XrefFrom means, that current class is called by another class.  <br /></td></tr>
-<tr class="separator:a4eb53dc1c44d7bd94592177bdb53e3bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20162015cfc0ef43744d8950e8919e70"><td class="memItemLeft" align="right" valign="top">const class_xref &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a20162015cfc0ef43744d8950e8919e70">get_xref_to</a> () const</td></tr>
-<tr class="memdesc:a20162015cfc0ef43744d8950e8919e70"><td class="mdescLeft">&#160;</td><td class="mdescRight">return all the references to other classes called by this class.  <br /></td></tr>
-<tr class="separator:a20162015cfc0ef43744d8950e8919e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc8e2303af6ebd3102c9465fdbfc5b49"><td class="memItemLeft" align="right" valign="top">const class_xref &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#abc8e2303af6ebd3102c9465fdbfc5b49">get_xref_from</a> () const</td></tr>
-<tr class="memdesc:abc8e2303af6ebd3102c9465fdbfc5b49"><td class="mdescLeft">&#160;</td><td class="mdescRight">return all the classes that call this class.  <br /></td></tr>
-<tr class="separator:abc8e2303af6ebd3102c9465fdbfc5b49"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf4cb1eb392dbb48ab5bdf7852410887"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#aaf4cb1eb392dbb48ab5bdf7852410887">add_xref_new_instance</a> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *methodobj, std::uint64_t offset)</td></tr>
-<tr class="memdesc:aaf4cb1eb392dbb48ab5bdf7852410887"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new reference to a method where the class is instantiated.  <br /></td></tr>
+<tr class="memitem:a75c4b226fc3a49dc5e419463f9f0b0f4"><td class="memItemLeft" align="right" valign="top"><a id="a75c4b226fc3a49dc5e419463f9f0b0f4" name="a75c4b226fc3a49dc5e419463f9f0b0f4"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add_xref_to</b> (TYPES::REF_TYPE ref_kind, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *methodobj, std::uint64_t offset)</td></tr>
+<tr class="separator:a75c4b226fc3a49dc5e419463f9f0b0f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a1e6148ee2f27cc2450b16dfa3091ea"><td class="memItemLeft" align="right" valign="top"><a id="a8a1e6148ee2f27cc2450b16dfa3091ea" name="a8a1e6148ee2f27cc2450b16dfa3091ea"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add_xref_from</b> (TYPES::REF_TYPE ref_kind, <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *classobj, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *methodobj, std::uint64_t offset)</td></tr>
+<tr class="separator:a8a1e6148ee2f27cc2450b16dfa3091ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf4cb1eb392dbb48ab5bdf7852410887"><td class="memItemLeft" align="right" valign="top"><a id="aaf4cb1eb392dbb48ab5bdf7852410887" name="aaf4cb1eb392dbb48ab5bdf7852410887"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add_xref_new_instance</b> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *methodobj, std::uint64_t offset)</td></tr>
 <tr class="separator:aaf4cb1eb392dbb48ab5bdf7852410887"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1449091050f1fb5c3adc2e485fa9e0b2"><td class="memItemLeft" align="right" valign="top">const xref_method_idx &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a1449091050f1fb5c3adc2e485fa9e0b2">get_xref_new_instance</a> () const</td></tr>
-<tr class="memdesc:a1449091050f1fb5c3adc2e485fa9e0b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return all the references where the call is instantiated.  <br /></td></tr>
-<tr class="separator:a1449091050f1fb5c3adc2e485fa9e0b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a691f9973024a22bd89f493fc32bb715f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a691f9973024a22bd89f493fc32bb715f">add_xref_const_class</a> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *methodobj, std::uint64_t offset)</td></tr>
-<tr class="memdesc:a691f9973024a22bd89f493fc32bb715f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a crossreference to a method referencing this classtype.  <br /></td></tr>
+<tr class="memitem:a691f9973024a22bd89f493fc32bb715f"><td class="memItemLeft" align="right" valign="top"><a id="a691f9973024a22bd89f493fc32bb715f" name="a691f9973024a22bd89f493fc32bb715f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>add_xref_const_class</b> (<a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *methodobj, std::uint64_t offset)</td></tr>
 <tr class="separator:a691f9973024a22bd89f493fc32bb715f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbd24fe12a687cecd3976d2ba983ae6a"><td class="memItemLeft" align="right" valign="top">const xref_method_idx &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#acbd24fe12a687cecd3976d2ba983ae6a">get_xref_const_class</a> () const</td></tr>
-<tr class="memdesc:acbd24fe12a687cecd3976d2ba983ae6a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return all the methods where this class is referenced.  <br /></td></tr>
-<tr class="separator:acbd24fe12a687cecd3976d2ba983ae6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeca70d64b46a3519730f1856bc78872b"><td class="memItemLeft" align="right" valign="top"><a id="aeca70d64b46a3519730f1856bc78872b" name="aeca70d64b46a3519730f1856bc78872b"></a>
+const classxref &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_xrefto</b> () const</td></tr>
+<tr class="separator:aeca70d64b46a3519730f1856bc78872b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a826c0d33b011e3a1fff4497ee33bfacc"><td class="memItemLeft" align="right" valign="top"><a id="a826c0d33b011e3a1fff4497ee33bfacc" name="a826c0d33b011e3a1fff4497ee33bfacc"></a>
+classxref &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_xrefto</b> ()</td></tr>
+<tr class="separator:a826c0d33b011e3a1fff4497ee33bfacc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8670a4e8de2a0504cc32e4fdc47a540"><td class="memItemLeft" align="right" valign="top"><a id="ac8670a4e8de2a0504cc32e4fdc47a540" name="ac8670a4e8de2a0504cc32e4fdc47a540"></a>
+const classxref &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_xreffrom</b> () const</td></tr>
+<tr class="separator:ac8670a4e8de2a0504cc32e4fdc47a540"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4fd338811fa0356783331d0d2872b113"><td class="memItemLeft" align="right" valign="top"><a id="a4fd338811fa0356783331d0d2872b113" name="a4fd338811fa0356783331d0d2872b113"></a>
+classxref &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_xreffrom</b> ()</td></tr>
+<tr class="separator:a4fd338811fa0356783331d0d2872b113"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfde86dd774be034016ef5d53496b08e"><td class="memItemLeft" align="right" valign="top"><a id="abfde86dd774be034016ef5d53496b08e" name="abfde86dd774be034016ef5d53496b08e"></a>
+const std::vector&lt; std::pair&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *, std::uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_xrefnewinstance</b> () const</td></tr>
+<tr class="separator:abfde86dd774be034016ef5d53496b08e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9263804c4c4dcb30c595c8423d660f9c"><td class="memItemLeft" align="right" valign="top"><a id="a9263804c4c4dcb30c595c8423d660f9c" name="a9263804c4c4dcb30c595c8423d660f9c"></a>
+std::vector&lt; std::pair&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *, std::uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_xrefnewinstance</b> ()</td></tr>
+<tr class="separator:a9263804c4c4dcb30c595c8423d660f9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdddf94008e2af9ecb8877879c3fc5a2"><td class="memItemLeft" align="right" valign="top"><a id="afdddf94008e2af9ecb8877879c3fc5a2" name="afdddf94008e2af9ecb8877879c3fc5a2"></a>
+const std::vector&lt; std::pair&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *, std::uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_xrefconstclass</b> () const</td></tr>
+<tr class="separator:afdddf94008e2af9ecb8877879c3fc5a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a352266496a0b3421c1102ca01c12b115"><td class="memItemLeft" align="right" valign="top"><a id="a352266496a0b3421c1102ca01c12b115" name="a352266496a0b3421c1102ca01c12b115"></a>
+std::vector&lt; std::pair&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *, std::uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_xrefconstclass</b> ()</td></tr>
+<tr class="separator:a352266496a0b3421c1102ca01c12b115"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> definition </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a551d56540ebc4b1e1aba55525a8d5735" name="a551d56540ebc4b1e1aba55525a8d5735"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a551d56540ebc4b1e1aba55525a8d5735">&#9670;&#160;</a></span>ClassAnalysis()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">KUNAI::DEX::ClassAnalysis::ClassAnalysis </td>
-          <td>(</td>
-          <td class="paramtype">std::variant&lt; <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a> *, <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a> * &gt;&#160;</td>
-          <td class="paramname"><em>class_def</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>constructor of <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> class. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">class_def</td><td>std::variant&lt;ClassDef*, ExternalClass*&gt; </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a449f0dfe5473335f98cfd6c1030a552d" name="a449f0dfe5473335f98cfd6c1030a552d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a449f0dfe5473335f98cfd6c1030a552d">&#9670;&#160;</a></span>~ClassAnalysis()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">KUNAI::DEX::ClassAnalysis::~ClassAnalysis </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>destructor of <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> class. </p>
-<dl class="section return"><dt>Returns</dt><dd>void. </dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a9941537f502c70822eb74c14185fe31e" name="a9941537f502c70822eb74c14185fe31e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9941537f502c70822eb74c14185fe31e">&#9670;&#160;</a></span>add_field_xref_read()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::ClassAnalysis::add_field_xref_read </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>method</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>classobj</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>off</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Create a fieldanalysis_t object and add a read xref. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">method</td><td>methodanalysis_t to add in xref. </td></tr>
-    <tr><td class="paramname">classobj</td><td>classanalysis_t to add in xref. </td></tr>
-    <tr><td class="paramname">field</td><td>encodedfield_t object to create <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> object. </td></tr>
-    <tr><td class="paramname">off</td><td>std::uint64_t to add in xref. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a66482a814e9714ed92160a81f2daf72a" name="a66482a814e9714ed92160a81f2daf72a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66482a814e9714ed92160a81f2daf72a">&#9670;&#160;</a></span>add_field_xref_write()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::ClassAnalysis::add_field_xref_write </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>method</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>classobj</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td>
-          <td class="paramname"><em>field</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>off</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Create a fieldanalysis_t object and add a write xref. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">method</td><td>methodanalysis_t to add in xref. </td></tr>
-    <tr><td class="paramname">classobj</td><td>classanalysis_t to add in xref. </td></tr>
-    <tr><td class="paramname">field</td><td>encodedfield_t object to create <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> object. </td></tr>
-    <tr><td class="paramname">off</td><td>std::uint64_t to add in xref. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
+<div class="textblock"><p>Specification of the class analysis, this class contains fields, strings, methods... </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="af05c464ed1e3c3bf9861f709a5ef0f8f" name="af05c464ed1e3c3bf9861f709a5ef0f8f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af05c464ed1e3c3bf9861f709a5ef0f8f">&#9670;&#160;</a></span>add_method()</h2>
 
@@ -343,321 +208,18 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>add a method to the class, in case of being external add the external method object to the class. </p>
+<p>add a method to the current class </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">method_analysis</td><td>methodanalysis_t object part of the class. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void. </dd></dl>
-
-</div>
-</div>
-<a id="a9dce027928a435f72a829a03422c1c70" name="a9dce027928a435f72a829a03422c1c70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9dce027928a435f72a829a03422c1c70">&#9670;&#160;</a></span>add_method_xref_from()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::ClassAnalysis::add_method_xref_from </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>method1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>classobj</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>method2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>off</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Create a std::shared&lt;MethodAnalysis&gt; object and add a from xref. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">method1</td><td>methodanalysis_t method to add to class and add xref from. </td></tr>
-    <tr><td class="paramname">classobj</td><td>classanalysis_t class to add to xref. </td></tr>
-    <tr><td class="paramname">method2</td><td>methodanalysis_t method to add to xref. </td></tr>
-    <tr><td class="paramname">off</td><td>std::uint64_t offset to add to xref. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="af11462b0a84d14c7037f1ba1723dc4bd" name="af11462b0a84d14c7037f1ba1723dc4bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af11462b0a84d14c7037f1ba1723dc4bd">&#9670;&#160;</a></span>add_method_xref_to()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::ClassAnalysis::add_method_xref_to </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>method1</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>classobj</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>method2</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>off</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Create a std::shared&lt;MethodAnalysis&gt; object and add a to xref. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">method1</td><td>methodanalysis_t method to add to class and add xref to. </td></tr>
-    <tr><td class="paramname">classobj</td><td>classanalysis_t class to add to xref. </td></tr>
-    <tr><td class="paramname">method2</td><td>methodanalysis_t method to add to xref. </td></tr>
-    <tr><td class="paramname">off</td><td>std::uint64_t offset to add to xref. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a691f9973024a22bd89f493fc32bb715f" name="a691f9973024a22bd89f493fc32bb715f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a691f9973024a22bd89f493fc32bb715f">&#9670;&#160;</a></span>add_xref_const_class()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::ClassAnalysis::add_xref_const_class </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>methodobj</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Add a crossreference to a method referencing this classtype. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">methodobj</td><td>methodanalysis_t method where class is referenced. </td></tr>
-    <tr><td class="paramname">offset</td><td>offset where class is referenced. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a4eb53dc1c44d7bd94592177bdb53e3bd" name="a4eb53dc1c44d7bd94592177bdb53e3bd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4eb53dc1c44d7bd94592177bdb53e3bd">&#9670;&#160;</a></span>add_xref_from()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::ClassAnalysis::add_xref_from </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad27c9e4a3df9ffb1119d6cf6cedf6bfc">DVMTypes::REF_TYPE</a>&#160;</td>
-          <td class="paramname"><em>ref_kind</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>classobj</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>methodobj</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Create a cross reference from this class. XrefFrom means, that current class is called by another class. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ref_kind</td><td><a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad27c9e4a3df9ffb1119d6cf6cedf6bfc" title="Reference used in the cross ref of the classes, to store the type of reference to the class.">DVMTypes::REF_TYPE</a> type of call done by another class. </td></tr>
-    <tr><td class="paramname">classobj</td><td>classanalysis_t class called. </td></tr>
-    <tr><td class="paramname">methodobj</td><td>methodanalysis_t method from class that calls the other. </td></tr>
-    <tr><td class="paramname">offset</td><td>std::uint64_t offset where the call is done. </td></tr>
+    <tr><td class="paramname">method_analysis</td><td>method to include in the class </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="aaf4cb1eb392dbb48ab5bdf7852410887" name="aaf4cb1eb392dbb48ab5bdf7852410887"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf4cb1eb392dbb48ab5bdf7852410887">&#9670;&#160;</a></span>add_xref_new_instance()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::ClassAnalysis::add_xref_new_instance </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>methodobj</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Add a new reference to a method where the class is instantiated. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">methodobj</td><td>methodanalysis_t method where class is instantiated. </td></tr>
-    <tr><td class="paramname">offset</td><td>offset where class is instantiated. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a1cc47982791724c28d71b7591c3a5859" name="a1cc47982791724c28d71b7591c3a5859"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1cc47982791724c28d71b7591c3a5859">&#9670;&#160;</a></span>add_xref_to()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::ClassAnalysis::add_xref_to </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad27c9e4a3df9ffb1119d6cf6cedf6bfc">DVMTypes::REF_TYPE</a>&#160;</td>
-          <td class="paramname"><em>ref_kind</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>classobj</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>methodobj</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>offset</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Create a cross reference to another class. XrefTo means, that the current class calls another class. The current class should also be contained in another class' XrefFrom list. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">ref_kind</td><td><a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad27c9e4a3df9ffb1119d6cf6cedf6bfc" title="Reference used in the cross ref of the classes, to store the type of reference to the class.">DVMTypes::REF_TYPE</a> type of call done to the other class. </td></tr>
-    <tr><td class="paramname">classobj</td><td>classanalysis_t </td></tr>
-    <tr><td class="paramname">methodobj</td><td>methodanalysis_t methods from which other class is called. </td></tr>
-    <tr><td class="paramname">offset</td><td>std::uint64_t offset where the call is done. </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a id="af9e57c04b7bcfe4655f219237132772e" name="af9e57c04b7bcfe4655f219237132772e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9e57c04b7bcfe4655f219237132772e">&#9670;&#160;</a></span>extends()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string KUNAI::DEX::ClassAnalysis::extends </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>get the name of the class from which current class extends. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
-
-</div>
-</div>
-<a id="a97e5dc88934aac8beac956e7febd079a" name="a97e5dc88934aac8beac956e7febd079a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a97e5dc88934aac8beac956e7febd079a">&#9670;&#160;</a></span>get_class_definition()</h2>
+<a id="a0454a241674414a05939035879b264d2" name="a0454a241674414a05939035879b264d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0454a241674414a05939035879b264d2">&#9670;&#160;</a></span>get_class_definition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -669,7 +231,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">std::variant&lt; <a class="el" href="../../d4/de3/classKUNAI_1_1DEX_1_1ClassDef.html">ClassDef</a> *, <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a> * &gt; KUNAI::DEX::ClassAnalysis::get_class_definition </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -680,7 +242,7 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Get the class definition object. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::variant&lt;ClassDef*, ExternalClass*&gt; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>ClassDef* or ExternalClass* object </dd></dl>
 
 </div>
 </div>
@@ -700,34 +262,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get one of the <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> object by given encodedfield_t. </p>
+<p>Given an encoded field return a <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html" title="specification of a field analysis">FieldAnalysis</a> pointer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">field</td><td>encodedfield_t object to look for. </td></tr>
+    <tr><td class="paramname">field</td><td>field to look for </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>fieldanalysis_t </dd></dl>
-
-</div>
-</div>
-<a id="a98b4b014a4d82ba1b1ed21071b546985" name="a98b4b014a4d82ba1b1ed21071b546985"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a98b4b014a4d82ba1b1ed21071b546985">&#9670;&#160;</a></span>get_fields()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> * &gt; KUNAI::DEX::ClassAnalysis::get_fields </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>return a vector with all the <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> objects. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;fieldanalysis_t&gt; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html" title="specification of a field analysis">FieldAnalysis</a> pointer </dd></dl>
 
 </div>
 </div>
@@ -747,39 +289,19 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get one of the <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> object by given <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> or <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a>. </p>
+<p>Given an Encoded or <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> returns a <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html" title="Specification of the method analysis, a method contains instructions, exceptions data,...">MethodAnalysis</a> pointer. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">method</td><td>Method to get as a parent method. </td></tr>
+    <tr><td class="paramname">method</td><td>method to look for </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>methodanalysis_t </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html" title="Specification of the method analysis, a method contains instructions, exceptions data,...">MethodAnalysis</a> pointer </dd></dl>
 
 </div>
 </div>
-<a id="a5757eada70575f0ef045ff8298916330" name="a5757eada70575f0ef045ff8298916330"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5757eada70575f0ef045ff8298916330">&#9670;&#160;</a></span>get_methods()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt; KUNAI::DEX::ClassAnalysis::get_methods </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>return a vector with all the <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> objects. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;methodanalysis_t&gt; </dd></dl>
-
-</div>
-</div>
-<a id="a9a584297593503cdf824963cc99010ba" name="a9a584297593503cdf824963cc99010ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9a584297593503cdf824963cc99010ba">&#9670;&#160;</a></span>get_nb_methods()</h2>
+<a id="a3d59300b16b7f26e7447a3951a7d22ec" name="a3d59300b16b7f26e7447a3951a7d22ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d59300b16b7f26e7447a3951a7d22ec">&#9670;&#160;</a></span>get_methods() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -788,7 +310,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t KUNAI::DEX::ClassAnalysis::get_nb_methods </td>
+          <td class="memname">std::unordered_map&lt; std::string, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt; &amp; KUNAI::DEX::ClassAnalysis::get_methods </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -801,13 +323,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get number of stored methods. </p>
-<dl class="section return"><dt>Returns</dt><dd>size_t </dd></dl>
+<p>get a reference to the methods </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to methods </dd></dl>
 
 </div>
 </div>
-<a id="acbd24fe12a687cecd3976d2ba983ae6a" name="acbd24fe12a687cecd3976d2ba983ae6a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbd24fe12a687cecd3976d2ba983ae6a">&#9670;&#160;</a></span>get_xref_const_class()</h2>
+<a id="aee16672824bbb3af4dba0b555aed1971" name="aee16672824bbb3af4dba0b555aed1971"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee16672824bbb3af4dba0b555aed1971">&#9670;&#160;</a></span>get_methods() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -816,7 +338,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const xref_method_idx &amp; KUNAI::DEX::ClassAnalysis::get_xref_const_class </td>
+          <td class="memname">const std::unordered_map&lt; std::string, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt; &amp; KUNAI::DEX::ClassAnalysis::get_methods </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -829,103 +351,19 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Return all the methods where this class is referenced. </p>
-<dl class="section return"><dt>Returns</dt><dd>xref_method_idx </dd></dl>
+<p>get a constant reference to the methods </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to methods </dd></dl>
 
 </div>
 </div>
-<a id="abc8e2303af6ebd3102c9465fdbfc5b49" name="abc8e2303af6ebd3102c9465fdbfc5b49"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc8e2303af6ebd3102c9465fdbfc5b49">&#9670;&#160;</a></span>get_xref_from()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const class_xref &amp; KUNAI::DEX::ClassAnalysis::get_xref_from </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>return all the classes that call this class. </p>
-<dl class="section return"><dt>Returns</dt><dd>class_xref </dd></dl>
-
-</div>
-</div>
-<a id="a1449091050f1fb5c3adc2e485fa9e0b2" name="a1449091050f1fb5c3adc2e485fa9e0b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1449091050f1fb5c3adc2e485fa9e0b2">&#9670;&#160;</a></span>get_xref_new_instance()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const xref_method_idx &amp; KUNAI::DEX::ClassAnalysis::get_xref_new_instance </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Return all the references where the call is instantiated. </p>
-<dl class="section return"><dt>Returns</dt><dd>xref_method_idx </dd></dl>
-
-</div>
-</div>
-<a id="a20162015cfc0ef43744d8950e8919e70" name="a20162015cfc0ef43744d8950e8919e70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a20162015cfc0ef43744d8950e8919e70">&#9670;&#160;</a></span>get_xref_to()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const class_xref &amp; KUNAI::DEX::ClassAnalysis::get_xref_to </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>return all the references to other classes called by this class. </p>
-<dl class="section return"><dt>Returns</dt><dd>class_xref </dd></dl>
-
-</div>
-</div>
-<a id="a5330969eab24905bd2f82032c781020e" name="a5330969eab24905bd2f82032c781020e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5330969eab24905bd2f82032c781020e">&#9670;&#160;</a></span>implements()</h2>
+<a id="a8b0e05a754fadded978ff88a930f0472" name="a8b0e05a754fadded978ff88a930f0472"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b0e05a754fadded978ff88a930f0472">&#9670;&#160;</a></span>implements()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> * &gt; KUNAI::DEX::ClassAnalysis::implements </td>
+          <td class="memname">std::vector&lt; <a class="el" href="../../d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html">DVMClass</a> * &gt; &amp; KUNAI::DEX::ClassAnalysis::implements </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -933,33 +371,13 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>get a list of interfaces that the class implements, in the case of <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a>, none. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;class_t&gt; </dd></dl>
+<p>Return a vector of implemented interfaces, in the case of external class raise exception. </p>
+<dl class="section return"><dt>Returns</dt><dd>implemented interfaces </dd></dl>
 
 </div>
 </div>
-<a id="a5f6b404e78da9f71f56044a9a5ee9dc5" name="a5f6b404e78da9f71f56044a9a5ee9dc5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f6b404e78da9f71f56044a9a5ee9dc5">&#9670;&#160;</a></span>is_android_api()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool KUNAI::DEX::ClassAnalysis::is_android_api </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>check if the current class is an Android API. </p>
-<dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
-
-</div>
-</div>
-<a id="a807931af3273e94cb071a75d422f192e" name="a807931af3273e94cb071a75d422f192e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a807931af3273e94cb071a75d422f192e">&#9670;&#160;</a></span>is_class_external()</h2>
+<a id="ace5bfa809c7645f91c588407c86194d4" name="ace5bfa809c7645f91c588407c86194d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace5bfa809c7645f91c588407c86194d4">&#9670;&#160;</a></span>is_class_external()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -971,7 +389,7 @@ Public Member Functions</h2></td></tr>
           <td class="memname">bool KUNAI::DEX::ClassAnalysis::is_class_external </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -981,33 +399,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>return if the analyzed class is external or not. </p>
-<dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
-
-</div>
-</div>
-<a id="a66ea97b1eda499e77799b0d2e32d0089" name="a66ea97b1eda499e77799b0d2e32d0089"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a66ea97b1eda499e77799b0d2e32d0089">&#9670;&#160;</a></span>name()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string KUNAI::DEX::ClassAnalysis::name </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>get the name of the class. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
+<p>Is the current class an external class? </p>
+<dl class="section return"><dt>Returns</dt><dd>class is external </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/Analysis/<a class="el" href="../../dd/df2/dex__analysis_8hpp_source.html">dex_analysis.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/analysis/<a class="el" href="../../dc/dea/analysis_8hpp_source.html">analysis.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

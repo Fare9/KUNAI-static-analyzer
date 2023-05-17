@@ -1,9 +1,25 @@
 var searchData=
 [
-  ['basicblocks_0',['BasicBlocks',['../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a00f9c66d9e1b4fcc818d13ed8f125f07',1,'KUNAI::DEX::BasicBlocks::BasicBlocks()'],['../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html',1,'KUNAI::DEX::BasicBlocks']]],
-  ['bcomp_5fir_1',['bcomp_ir',['../d9/d2a/ir__grammar_8hpp.html#a275055159732c005e7b6e6d83642d852',1,'KUNAI::MJOLNIR']]],
-  ['be_5faccess_2',['BE_ACCESS',['../db/de6/classKUNAI_1_1MJOLNIR_1_1IRType.html#a25d51b97bed66eb5104f17f31c1896e3a607db98cde4780ca674fe9a18937e310',1,'KUNAI::MJOLNIR::IRType']]],
-  ['bin_5fop_5fir_3',['bin_op_ir',['../d9/d2a/ir__grammar_8hpp.html#a7a1f3b002c69094efba09bae9c2f12f6',1,'KUNAI::MJOLNIR']]],
-  ['breadth_5ffirst_5fsearch_4',['Breadth_First_Search',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#a257e746ca794922f13c7915287e779a9',1,'KUNAI::MJOLNIR::IRGraph']]],
-  ['build_5febb_5',['build_ebb',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#aaf558eeeee3e2e726a9fd07b7039d925',1,'KUNAI::MJOLNIR::IRGraph']]]
+  ['access_5fflags_0',['access_flags',['../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html#aab1b60ccfebf11a02874df2e5cc471fd',1,'KUNAI::DEX::ClassDef::classdefstruct_t']]],
+  ['add_1',['add',['../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a2f051038fe1fefd4521c3989c437e59e',1,'KUNAI::DEX::Analysis']]],
+  ['add_5fdisassembly_2',['add_disassembly',['../dc/db6/classKUNAI_1_1DEX_1_1DexDisassembler.html#adc3347e18074599d19fb1964a4f2d673',1,'KUNAI::DEX::DexDisassembler']]],
+  ['add_5fedge_3',['add_edge',['../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#ad7dcc289f70cf43afac62504ad10f8d1',1,'KUNAI::DEX::BasicBlocks']]],
+  ['add_5fexternal_5ffield_4',['add_external_field',['../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#a36cc4afc506b2f957a3bacde70508758',1,'KUNAI::DEX::ExternalClass']]],
+  ['add_5fexternal_5fmethod_5',['add_external_method',['../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#abc628224b7b1e0eefc842d780885c8c2',1,'KUNAI::DEX::ExternalClass']]],
+  ['add_5finstruction_6',['add_instruction',['../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#aa124257c13ce831704f89fa8e7390c5a',1,'KUNAI::DEX::DVMBasicBlock']]],
+  ['add_5fmethod_7',['add_method',['../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#af05c464ed1e3c3bf9861f709a5ef0f8f',1,'KUNAI::DEX::ClassAnalysis']]],
+  ['add_5fnode_8',['add_node',['../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a453a781baa37f98055d099cd73aa7b2a',1,'KUNAI::DEX::BasicBlocks']]],
+  ['add_5fpredecessor_9',['add_predecessor',['../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a5b6dd45c32bc1c654f7254114acee281',1,'KUNAI::DEX::BasicBlocks']]],
+  ['add_5fsucessor_10',['add_sucessor',['../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a3f6cba998cf5dfbed339fbe71b072f9d',1,'KUNAI::DEX::BasicBlocks']]],
+  ['add_5fxreffrom_11',['add_xreffrom',['../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html#a0438c0b6c7387dd3ccc116748bfd38b6',1,'KUNAI::DEX::StringAnalysis']]],
+  ['add_5fxrefread_12',['add_xrefread',['../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#acfd126317f3da069611882dfb31c94b4',1,'KUNAI::DEX::FieldAnalysis']]],
+  ['add_5fxrefwrite_13',['add_xrefwrite',['../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#a699f07cecf8984c12d607a00040f9395',1,'KUNAI::DEX::FieldAnalysis']]],
+  ['address_14',['address',['../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a8ec4cab94f903644338ac54e410c62b7',1,'KUNAI::DEX::Instruction']]],
+  ['analysis_15',['Analysis',['../db/da8/classKUNAI_1_1DEX_1_1Analysis.html',1,'KUNAI::DEX']]],
+  ['analysisexception_16',['AnalysisException',['../dc/d27/classexceptions_1_1AnalysisException.html#a2db7bd7a3d05739f47c0494f971ad906',1,'exceptions::AnalysisException::AnalysisException()'],['../dc/d27/classexceptions_1_1AnalysisException.html',1,'exceptions::AnalysisException']]],
+  ['annotationdirectoryitem_17',['AnnotationDirectoryItem',['../d1/d85/classKUNAI_1_1DEX_1_1AnnotationDirectoryItem.html#a1cc1c6188eec884ea20663dd96161a55',1,'KUNAI::DEX::AnnotationDirectoryItem::AnnotationDirectoryItem()'],['../d1/d85/classKUNAI_1_1DEX_1_1AnnotationDirectoryItem.html',1,'KUNAI::DEX::AnnotationDirectoryItem']]],
+  ['annotationelement_18',['AnnotationElement',['../d6/d3f/classKUNAI_1_1DEX_1_1AnnotationElement.html#a7c98038cf4c920e93fd78c74ebb76d12',1,'KUNAI::DEX::AnnotationElement::AnnotationElement()'],['../d6/d3f/classKUNAI_1_1DEX_1_1AnnotationElement.html',1,'KUNAI::DEX::AnnotationElement']]],
+  ['annotations_5foff_19',['annotations_off',['../d7/dba/structKUNAI_1_1DEX_1_1ClassDef_1_1classdefstruct__t.html#aec51a7d836861b29d3cb5b1046a6bd89',1,'KUNAI::DEX::ClassDef::classdefstruct_t']]],
+  ['apkunzipexception_20',['ApkUnzipException',['../d0/d34/classexceptions_1_1ApkUnzipException.html#a251e8853e7310241d649d960ac25bbd7',1,'exceptions::ApkUnzipException::ApkUnzipException()'],['../d0/d34/classexceptions_1_1ApkUnzipException.html',1,'exceptions::ApkUnzipException']]],
+  ['array_21',['ARRAY',['../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html#a7bc6a710e48050328f0477aacc11cbfaaa860ca35a28e26474c8b576d472a8e90',1,'KUNAI::DEX::DVMType']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['outs_5fsize_0',['outs_size',['../d6/daf/structKUNAI_1_1DEX_1_1CodeItemStruct_1_1code__item__struct__t.html#ad2a5981be2b64cedc6a37b1f2e21b76c',1,'KUNAI::DEX::CodeItemStruct::code_item_struct_t']]]
+  ['endian_5ftag_0',['endian_tag',['../d4/dc8/structKUNAI_1_1DEX_1_1Header_1_1dexheader__t.html#afcb57e9e766bcfa2b48ba707ccf8961c',1,'KUNAI::DEX::Header::dexheader_t']]]
 ];

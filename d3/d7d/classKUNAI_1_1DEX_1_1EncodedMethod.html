@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,30 +80,275 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::EncodedMethod Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Class that represent the information from a Method.  
+ <a href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2cfc3e6ed493b162932fa965b77be595"><td class="memItemLeft" align="right" valign="top"><a id="a2cfc3e6ed493b162932fa965b77be595" name="a2cfc3e6ed493b162932fa965b77be595"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>EncodedMethod</b> (<a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> *method_id, std::uint64_t access_flags, std::uint64_t code_off, std::ifstream &amp;input_file, std::uint64_t file_size, <a class="el" href="../../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html">DexTypes</a> *dex_types)</td></tr>
-<tr class="separator:a2cfc3e6ed493b162932fa965b77be595"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a946bfaeaff1f4a1d739cdd8cb65b24e0"><td class="memItemLeft" align="right" valign="top"><a id="a946bfaeaff1f4a1d739cdd8cb65b24e0" name="a946bfaeaff1f4a1d739cdd8cb65b24e0"></a>
-<a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_method</b> () const</td></tr>
-<tr class="separator:a946bfaeaff1f4a1d739cdd8cb65b24e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ab8c8bd72ac1c35a49e6aa0cb281fc8"><td class="memItemLeft" align="right" valign="top"><a id="a8ab8c8bd72ac1c35a49e6aa0cb281fc8" name="a8ab8c8bd72ac1c35a49e6aa0cb281fc8"></a>
-DVMTypes::ACCESS_FLAGS&#160;</td><td class="memItemRight" valign="bottom"><b>get_access_flags</b> ()</td></tr>
-<tr class="separator:a8ab8c8bd72ac1c35a49e6aa0cb281fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adef7508b1246b83dcce18400ccec16cc"><td class="memItemLeft" align="right" valign="top"><a id="adef7508b1246b83dcce18400ccec16cc" name="adef7508b1246b83dcce18400ccec16cc"></a>
-std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_code_offset</b> ()</td></tr>
-<tr class="separator:adef7508b1246b83dcce18400ccec16cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89585e0c8829b9ddcd353d44ff6da26e"><td class="memItemLeft" align="right" valign="top"><a id="a89585e0c8829b9ddcd353d44ff6da26e" name="a89585e0c8829b9ddcd353d44ff6da26e"></a>
-<a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html">CodeItemStruct</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_code_item</b> () const</td></tr>
-<tr class="separator:a89585e0c8829b9ddcd353d44ff6da26e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a222b57fb4162aee4bf6131e38a79af9b"><td class="memItemLeft" align="right" valign="top"><a id="a222b57fb4162aee4bf6131e38a79af9b" name="a222b57fb4162aee4bf6131e38a79af9b"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>full_name</b> ()</td></tr>
-<tr class="separator:a222b57fb4162aee4bf6131e38a79af9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ddad13582e8c80dab7a504d8cbfa2b9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html#a4ddad13582e8c80dab7a504d8cbfa2b9">EncodedMethod</a> (<a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> *method_id, TYPES::access_flags access_flags)</td></tr>
+<tr class="memdesc:a4ddad13582e8c80dab7a504d8cbfa2b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of Encoded method.  <br /></td></tr>
+<tr class="separator:a4ddad13582e8c80dab7a504d8cbfa2b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af453fa01796bda2160cc955978037b0d"><td class="memItemLeft" align="right" valign="top"><a id="af453fa01796bda2160cc955978037b0d" name="af453fa01796bda2160cc955978037b0d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~EncodedMethod</b> ()=default</td></tr>
+<tr class="memdesc:af453fa01796bda2160cc955978037b0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of Encoded method. <br /></td></tr>
+<tr class="separator:af453fa01796bda2160cc955978037b0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cd5b3cc6cd8451ffaa7769c94eef935"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html#a0cd5b3cc6cd8451ffaa7769c94eef935">parse_encoded_method</a> (<a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *stream, std::uint64_t code_off, <a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *types)</td></tr>
+<tr class="memdesc:a0cd5b3cc6cd8451ffaa7769c94eef935"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the encoded method, this will parse the code item.  <br /></td></tr>
+<tr class="separator:a0cd5b3cc6cd8451ffaa7769c94eef935"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7940408fb9df32ad21ead5bdf623b4c2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html#a7940408fb9df32ad21ead5bdf623b4c2">getMethodID</a> () const</td></tr>
+<tr class="memdesc:a7940408fb9df32ad21ead5bdf623b4c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant pointer to the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a> of the method.  <br /></td></tr>
+<tr class="separator:a7940408fb9df32ad21ead5bdf623b4c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4572c57ee5bc220e00844971295eb1f4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html#a4572c57ee5bc220e00844971295eb1f4">getMethodID</a> ()</td></tr>
+<tr class="memdesc:a4572c57ee5bc220e00844971295eb1f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pointer to the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a> of the encoded method.  <br /></td></tr>
+<tr class="separator:a4572c57ee5bc220e00844971295eb1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3a85da0597923b6fb096d5a37a46825"><td class="memItemLeft" align="right" valign="top">TYPES::access_flags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html#af3a85da0597923b6fb096d5a37a46825">get_access_flags</a> () const</td></tr>
+<tr class="memdesc:af3a85da0597923b6fb096d5a37a46825"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get access flags from the encoded method.  <br /></td></tr>
+<tr class="separator:af3a85da0597923b6fb096d5a37a46825"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58be83e7b294f64a69291b21e23f8565"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html">CodeItemStruct</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html#a58be83e7b294f64a69291b21e23f8565">get_code_item</a> () const</td></tr>
+<tr class="memdesc:a58be83e7b294f64a69291b21e23f8565"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the code item from the encoded method.  <br /></td></tr>
+<tr class="separator:a58be83e7b294f64a69291b21e23f8565"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6600467466fab58bbb2cf2c3558b17ff"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html">CodeItemStruct</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html#a6600467466fab58bbb2cf2c3558b17ff">get_code_item</a> ()</td></tr>
+<tr class="memdesc:a6600467466fab58bbb2cf2c3558b17ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the code item from the encoded method.  <br /></td></tr>
+<tr class="separator:a6600467466fab58bbb2cf2c3558b17ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class that represent the information from a Method. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a4ddad13582e8c80dab7a504d8cbfa2b9" name="a4ddad13582e8c80dab7a504d8cbfa2b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ddad13582e8c80dab7a504d8cbfa2b9">&#9670;&#160;</a></span>EncodedMethod()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">KUNAI::DEX::EncodedMethod::EncodedMethod </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> *&#160;</td>
+          <td class="paramname"><em>method_id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TYPES::access_flags&#160;</td>
+          <td class="paramname"><em>access_flags</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor of Encoded method. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">method_id</td><td>method of the current encoded method </td></tr>
+    <tr><td class="paramname">access_flags</td><td>access flags of access of the method </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="af3a85da0597923b6fb096d5a37a46825" name="af3a85da0597923b6fb096d5a37a46825"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3a85da0597923b6fb096d5a37a46825">&#9670;&#160;</a></span>get_access_flags()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">TYPES::access_flags KUNAI::DEX::EncodedMethod::get_access_flags </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get access flags from the encoded method. </p>
+<dl class="section return"><dt>Returns</dt><dd>access flags of method </dd></dl>
+
+</div>
+</div>
+<a id="a6600467466fab58bbb2cf2c3558b17ff" name="a6600467466fab58bbb2cf2c3558b17ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6600467466fab58bbb2cf2c3558b17ff">&#9670;&#160;</a></span>get_code_item() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html">CodeItemStruct</a> &amp; KUNAI::DEX::EncodedMethod::get_code_item </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the code item from the encoded method. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to code item </dd></dl>
+
+</div>
+</div>
+<a id="a58be83e7b294f64a69291b21e23f8565" name="a58be83e7b294f64a69291b21e23f8565"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58be83e7b294f64a69291b21e23f8565">&#9670;&#160;</a></span>get_code_item() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../d3/d51/classKUNAI_1_1DEX_1_1CodeItemStruct.html">CodeItemStruct</a> &amp; KUNAI::DEX::EncodedMethod::get_code_item </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the code item from the encoded method. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to code item </dd></dl>
+
+</div>
+</div>
+<a id="a4572c57ee5bc220e00844971295eb1f4" name="a4572c57ee5bc220e00844971295eb1f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4572c57ee5bc220e00844971295eb1f4">&#9670;&#160;</a></span>getMethodID() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> * KUNAI::DEX::EncodedMethod::getMethodID </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a pointer to the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a> of the encoded method. </p>
+<dl class="section return"><dt>Returns</dt><dd>pointer to the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a> </dd></dl>
+
+</div>
+</div>
+<a id="a7940408fb9df32ad21ead5bdf623b4c2" name="a7940408fb9df32ad21ead5bdf623b4c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7940408fb9df32ad21ead5bdf623b4c2">&#9670;&#160;</a></span>getMethodID() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> * KUNAI::DEX::EncodedMethod::getMethodID </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant pointer to the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a> of the method. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant pointer to the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a> </dd></dl>
+
+</div>
+</div>
+<a id="a0cd5b3cc6cd8451ffaa7769c94eef935" name="a0cd5b3cc6cd8451ffaa7769c94eef935"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cd5b3cc6cd8451ffaa7769c94eef935">&#9670;&#160;</a></span>parse_encoded_method()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::EncodedMethod::parse_encoded_method </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint64_t&#160;</td>
+          <td class="paramname"><em>code_off</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *&#160;</td>
+          <td class="paramname"><em>types</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Parse the encoded method, this will parse the code item. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>stream with DEX file </td></tr>
+    <tr><td class="paramname">code_off</td><td>offset where code item struct </td></tr>
+    <tr><td class="paramname">types</td><td>types from the DEX </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../d1/da9/dex__encoded_8hpp_source.html">dex_encoded.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

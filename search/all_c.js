@@ -1,9 +1,13 @@
 var searchData=
 [
-  ['name_0',['name',['../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html#a66ea97b1eda499e77799b0d2e32d0089',1,'KUNAI::DEX::ClassAnalysis::name()'],['../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html#ac09f9cb1180088686e7be45486d2d087',1,'KUNAI::DEX::MethodAnalysis::name()'],['../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#a1b57a5248293fc4d088615639bc4d487',1,'KUNAI::DEX::FieldAnalysis::name()']]],
-  ['new_5fir_1',['new_ir',['../d9/d2a/ir__grammar_8hpp.html#a54ea97c8efaff666280fbec4a8ee9d1b',1,'KUNAI::MJOLNIR']]],
-  ['newdefaultoptimizer_2',['NewDefaultOptimizer',['../d8/d39/optimizer_8hpp.html#a3644514b215b8e2da3334902e7f17330',1,'KUNAI::MJOLNIR']]],
-  ['none_5faccess_3',['NONE_ACCESS',['../db/de6/classKUNAI_1_1MJOLNIR_1_1IRType.html#a25d51b97bed66eb5104f17f31c1896e3a0d03ce143a0e5c92ee68899b740d51ad',1,'KUNAI::MJOLNIR::IRType']]],
-  ['nop_5fir_4',['nop_ir',['../d9/d2a/ir__grammar_8hpp.html#af1f510fc96c05235b79ec78e445fa965',1,'KUNAI::MJOLNIR']]],
-  ['nop_5fremoval_5',['nop_removal',['../d7/daf/single__block__optimizations_8hpp.html#a50f42e5bc61d779e55b5e05012088af2',1,'KUNAI::MJOLNIR']]]
+  ['map_5fitem_0',['map_item',['../d1/d1e/structKUNAI_1_1DEX_1_1MapList_1_1map__item.html',1,'KUNAI::DEX::MapList']]],
+  ['maplist_1',['MapList',['../db/d68/classKUNAI_1_1DEX_1_1MapList.html',1,'KUNAI::DEX::MapList'],['../db/d68/classKUNAI_1_1DEX_1_1MapList.html#a24dbcc81befa5938aca3435017180ef7',1,'KUNAI::DEX::MapList::MapList()']]],
+  ['max_5fansii_5fstr_5fsize_2',['MAX_ANSII_STR_SIZE',['../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html#ae1a8de9dd51e2e258d2c78a7259ef89b',1,'KUNAI::stream::KunaiStream']]],
+  ['may_5fthrow_3',['may_throw',['../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#acbafe54e7aeed582b3ba9515f8f12816',1,'KUNAI::DEX::Instruction']]],
+  ['method_5fids_5foff_4',['method_ids_off',['../d4/dc8/structKUNAI_1_1DEX_1_1Header_1_1dexheader__t.html#a5931b1d8fc6f6ffa96bbdddf79b45c3f',1,'KUNAI::DEX::Header::dexheader_t']]],
+  ['method_5fids_5fsize_5',['method_ids_size',['../d4/dc8/structKUNAI_1_1DEX_1_1Header_1_1dexheader__t.html#a0e7f4dcd10f83d17a26a3a62474276f0',1,'KUNAI::DEX::Header::dexheader_t']]],
+  ['methodanalysis_6',['MethodAnalysis',['../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html',1,'KUNAI::DEX']]],
+  ['methodannotation_7',['MethodAnnotation',['../da/de4/classKUNAI_1_1DEX_1_1MethodAnnotation.html',1,'KUNAI::DEX::MethodAnnotation'],['../da/de4/classKUNAI_1_1DEX_1_1MethodAnnotation.html#a0d334a2a787ca6ae66d7226140c0d054',1,'KUNAI::DEX::MethodAnnotation::MethodAnnotation()']]],
+  ['methodid_8',['MethodID',['../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html',1,'KUNAI::DEX::MethodID'],['../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html#ae05450f99eb585248ad0dbd4e552ef82',1,'KUNAI::DEX::MethodID::MethodID()']]],
+  ['methods_9',['Methods',['../dd/dd5/classKUNAI_1_1DEX_1_1Methods.html',1,'KUNAI::DEX::Methods'],['../dd/dd5/classKUNAI_1_1DEX_1_1Methods.html#a424125d2bda3f8c96be0425389289297',1,'KUNAI::DEX::Methods::Methods()']]]
 ];

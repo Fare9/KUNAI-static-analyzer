@@ -1,4 +1,4 @@
 <map id="KUNAI::DEX::PackedSwitch" name="KUNAI::DEX::PackedSwitch">
-<area shape="rect" id="node1" title=" " alt="" coords="5,79,191,105"/>
-<area shape="rect" id="node2" href="$d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title=" " alt="" coords="17,5,179,31"/>
+<area shape="rect" id="node1" title="Packed Switch instruction present in methods which make use of this kind of data." alt="" coords="5,79,191,105"/>
+<area shape="rect" id="node2" href="$d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode." alt="" coords="17,5,179,31"/>
 </map>

@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,94 +80,468 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::ClassDataItem Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Class that contains the fields and methods from a class in a DEX file.  
+ <a href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d3/d36/classes_8hpp_source.html">classes.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aceb2dbb764d52fd672ed8d36377e5182"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#aceb2dbb764d52fd672ed8d36377e5182">ClassDataItem</a> (std::ifstream &amp;input_file, std::uint64_t file_size, <a class="el" href="../../de/d82/classKUNAI_1_1DEX_1_1DexFields.html">DexFields</a> *dex_fields, <a class="el" href="../../da/dcf/classKUNAI_1_1DEX_1_1DexMethods.html">DexMethods</a> *dex_methods, <a class="el" href="../../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html">DexTypes</a> *dex_types)</td></tr>
-<tr class="memdesc:aceb2dbb764d52fd672ed8d36377e5182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of <a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> here the tool will parse fields and methods.  <br /></td></tr>
-<tr class="separator:aceb2dbb764d52fd672ed8d36377e5182"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a378a700853481d86a847c284a87de389"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a378a700853481d86a847c284a87de389">~ClassDataItem</a> ()=default</td></tr>
-<tr class="memdesc:a378a700853481d86a847c284a87de389"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> destructor.  <br /></td></tr>
+<tr class="memitem:a128513fe8e0bc82dc14841340fab3c45"><td class="memItemLeft" align="right" valign="top"><a id="a128513fe8e0bc82dc14841340fab3c45" name="a128513fe8e0bc82dc14841340fab3c45"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ClassDataItem</b> ()=default</td></tr>
+<tr class="memdesc:a128513fe8e0bc82dc14841340fab3c45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of <a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html" title="Class that contains the fields and methods from a class in a DEX file.">ClassDataItem</a>. <br /></td></tr>
+<tr class="separator:a128513fe8e0bc82dc14841340fab3c45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a378a700853481d86a847c284a87de389"><td class="memItemLeft" align="right" valign="top"><a id="a378a700853481d86a847c284a87de389" name="a378a700853481d86a847c284a87de389"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~ClassDataItem</b> ()=default</td></tr>
+<tr class="memdesc:a378a700853481d86a847c284a87de389"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of <a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html" title="Class that contains the fields and methods from a class in a DEX file.">ClassDataItem</a>. <br /></td></tr>
 <tr class="separator:a378a700853481d86a847c284a87de389"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac029dd04d5e14a713e22210a79aa1322"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#ac029dd04d5e14a713e22210a79aa1322">get_number_of_static_fields</a> ()</td></tr>
-<tr class="memdesc:ac029dd04d5e14a713e22210a79aa1322"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of static fields in the class.  <br /></td></tr>
-<tr class="separator:ac029dd04d5e14a713e22210a79aa1322"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac3a6bc2c2b0dd0ab0734f637ab570a0d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#ac3a6bc2c2b0dd0ab0734f637ab570a0d">get_static_field_by_id</a> (std::uint64_t id)</td></tr>
-<tr class="memdesc:ac3a6bc2c2b0dd0ab0734f637ab570a0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a class static field, by the field id, this is not a sorted number.  <br /></td></tr>
-<tr class="separator:ac3a6bc2c2b0dd0ab0734f637ab570a0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8d683817478536a5b0651104bb445694"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a8d683817478536a5b0651104bb445694">get_static_field_by_pos</a> (std::uint64_t pos)</td></tr>
-<tr class="memdesc:a8d683817478536a5b0651104bb445694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a class static field by its position from parsing.  <br /></td></tr>
-<tr class="separator:a8d683817478536a5b0651104bb445694"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4910f5566db9300e5f881d5555bcdbd3"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a4910f5566db9300e5f881d5555bcdbd3">get_number_of_instance_fields</a> ()</td></tr>
-<tr class="memdesc:a4910f5566db9300e5f881d5555bcdbd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the number of instance fields from the class.  <br /></td></tr>
-<tr class="separator:a4910f5566db9300e5f881d5555bcdbd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c8d5e7e3e985c2d9822931be887ee73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a1c8d5e7e3e985c2d9822931be887ee73">get_instance_field_by_id</a> (std::uint64_t id)</td></tr>
-<tr class="memdesc:a1c8d5e7e3e985c2d9822931be887ee73"><td class="mdescLeft">&#160;</td><td class="mdescRight">return a instance field from a class by the field id.  <br /></td></tr>
-<tr class="separator:a1c8d5e7e3e985c2d9822931be887ee73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a147c1974f740fe9550d00df747966fae"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a147c1974f740fe9550d00df747966fae">get_instance_field_by_pos</a> (std::uint64_t pos)</td></tr>
-<tr class="memdesc:a147c1974f740fe9550d00df747966fae"><td class="mdescLeft">&#160;</td><td class="mdescRight">return a instance field from a class by its position while parsing.  <br /></td></tr>
-<tr class="separator:a147c1974f740fe9550d00df747966fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a764fcd6bc981b01bf263af089dcdf2eb"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a764fcd6bc981b01bf263af089dcdf2eb">get_fields</a> () const</td></tr>
-<tr class="memdesc:a764fcd6bc981b01bf263af089dcdf2eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the fields both static and instance fields.  <br /></td></tr>
-<tr class="separator:a764fcd6bc981b01bf263af089dcdf2eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6405d7ddf8bda422e73f26181391a355"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a6405d7ddf8bda422e73f26181391a355">get_number_of_direct_methods</a> ()</td></tr>
-<tr class="memdesc:a6405d7ddf8bda422e73f26181391a355"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of direct methods from the class.  <br /></td></tr>
-<tr class="separator:a6405d7ddf8bda422e73f26181391a355"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adbe54fe25ce0b138d0c44b9082da054f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#adbe54fe25ce0b138d0c44b9082da054f">get_direct_method_by_id</a> (std::uint64_t id)</td></tr>
-<tr class="memdesc:adbe54fe25ce0b138d0c44b9082da054f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a direct method by the id of the method.  <br /></td></tr>
-<tr class="separator:adbe54fe25ce0b138d0c44b9082da054f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af659551ae436bc967c6ee79e0bd079f5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#af659551ae436bc967c6ee79e0bd079f5">get_direct_method_by_pos</a> (std::uint64_t pos)</td></tr>
-<tr class="memdesc:af659551ae436bc967c6ee79e0bd079f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a direct method by its position while parsing it.  <br /></td></tr>
-<tr class="separator:af659551ae436bc967c6ee79e0bd079f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe19b73282507628b5e210f3491f6bc1"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#abe19b73282507628b5e210f3491f6bc1">get_number_of_virtual_methods</a> ()</td></tr>
-<tr class="memdesc:abe19b73282507628b5e210f3491f6bc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of virtual methods from the class.  <br /></td></tr>
-<tr class="separator:abe19b73282507628b5e210f3491f6bc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a017a22b75dc4daa873738a2505109b04"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a017a22b75dc4daa873738a2505109b04">get_virtual_method_by_id</a> (std::uint64_t id)</td></tr>
-<tr class="memdesc:a017a22b75dc4daa873738a2505109b04"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a method from the class by its method id.  <br /></td></tr>
-<tr class="separator:a017a22b75dc4daa873738a2505109b04"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a07f9b8c46db0d5e9ec02d633424dc844"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a07f9b8c46db0d5e9ec02d633424dc844">get_virtual_method_by_pos</a> (std::uint64_t pos)</td></tr>
-<tr class="memdesc:a07f9b8c46db0d5e9ec02d633424dc844"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a method from the class by its position while parsing.  <br /></td></tr>
-<tr class="separator:a07f9b8c46db0d5e9ec02d633424dc844"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a95aa96c7ae86d8f5d2803ae29963bef0"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a95aa96c7ae86d8f5d2803ae29963bef0">get_methods</a> () const</td></tr>
-<tr class="memdesc:a95aa96c7ae86d8f5d2803ae29963bef0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the methods object.  <br /></td></tr>
-<tr class="separator:a95aa96c7ae86d8f5d2803ae29963bef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0e2c67e2718180547fc8022da3f95c3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a0e2c67e2718180547fc8022da3f95c3b">parse_class_data_item</a> (<a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *stream, <a class="el" href="../../d7/d0b/classKUNAI_1_1DEX_1_1Fields.html">Fields</a> *fields, <a class="el" href="../../dd/dd5/classKUNAI_1_1DEX_1_1Methods.html">Methods</a> *methods, <a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *types)</td></tr>
+<tr class="memdesc:a0e2c67e2718180547fc8022da3f95c3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to parse the <a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html" title="Class that contains the fields and methods from a class in a DEX file.">ClassDataItem</a>.  <br /></td></tr>
+<tr class="separator:a0e2c67e2718180547fc8022da3f95c3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab303b5978ee06c0874f11687daad841f"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#ab303b5978ee06c0874f11687daad841f">get_number_of_static_fields</a> () const</td></tr>
+<tr class="memdesc:ab303b5978ee06c0874f11687daad841f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of the static fields.  <br /></td></tr>
+<tr class="separator:ab303b5978ee06c0874f11687daad841f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88e6d8e7fdc041a763477f2a267b1755"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a88e6d8e7fdc041a763477f2a267b1755">get_number_of_instance_fields</a> () const</td></tr>
+<tr class="memdesc:a88e6d8e7fdc041a763477f2a267b1755"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of instance fields.  <br /></td></tr>
+<tr class="separator:a88e6d8e7fdc041a763477f2a267b1755"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae92aac209ce015442247f3cd0b3d048"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#aae92aac209ce015442247f3cd0b3d048">get_number_of_direct_methods</a> () const</td></tr>
+<tr class="memdesc:aae92aac209ce015442247f3cd0b3d048"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of direct methods.  <br /></td></tr>
+<tr class="separator:aae92aac209ce015442247f3cd0b3d048"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adab3121c48473743b01f767e20a5cffb"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#adab3121c48473743b01f767e20a5cffb">get_number_of_virtual_methods</a> () const</td></tr>
+<tr class="memdesc:adab3121c48473743b01f767e20a5cffb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get number of virtual methods.  <br /></td></tr>
+<tr class="separator:adab3121c48473743b01f767e20a5cffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e5b5997c929a7c0e383f5e5558533ba"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a2e5b5997c929a7c0e383f5e5558533ba">get_static_field_by_order</a> (std::uint32_t ord)</td></tr>
+<tr class="memdesc:a2e5b5997c929a7c0e383f5e5558533ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pointer to static field from the reading order (recommended)  <br /></td></tr>
+<tr class="separator:a2e5b5997c929a7c0e383f5e5558533ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6908a8ced5744e60f2aec2b59db19e12"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a6908a8ced5744e60f2aec2b59db19e12">get_static_field_by_id</a> (std::uint32_t id)</td></tr>
+<tr class="memdesc:a6908a8ced5744e60f2aec2b59db19e12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pointer to static field by the id of the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>.  <br /></td></tr>
+<tr class="separator:a6908a8ced5744e60f2aec2b59db19e12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ea2c4d891ce69a07541da743b710540"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a4ea2c4d891ce69a07541da743b710540">get_instance_field_by_order</a> (std::uint32_t ord)</td></tr>
+<tr class="memdesc:a4ea2c4d891ce69a07541da743b710540"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an instance field from the reading order (recommended)  <br /></td></tr>
+<tr class="separator:a4ea2c4d891ce69a07541da743b710540"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a5590d5ec9eaf6b1cbb146bbb97f4e7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a8a5590d5ec9eaf6b1cbb146bbb97f4e7">get_instance_field_by_id</a> (std::uint32_t id)</td></tr>
+<tr class="memdesc:a8a5590d5ec9eaf6b1cbb146bbb97f4e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an instance field by the id of the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>.  <br /></td></tr>
+<tr class="separator:a8a5590d5ec9eaf6b1cbb146bbb97f4e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba9e079a70b6fe02fac103d19e01fb0d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#aba9e079a70b6fe02fac103d19e01fb0d">get_direct_method_by_order</a> (std::uint32_t ord)</td></tr>
+<tr class="memdesc:aba9e079a70b6fe02fac103d19e01fb0d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a direct method from the reading order (recommended)  <br /></td></tr>
+<tr class="separator:aba9e079a70b6fe02fac103d19e01fb0d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a426aea6681d4a62d7544c8c85478cffa"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a426aea6681d4a62d7544c8c85478cffa">get_direct_method_by_id</a> (std::uint32_t id)</td></tr>
+<tr class="memdesc:a426aea6681d4a62d7544c8c85478cffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a direct method by the id of the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a>.  <br /></td></tr>
+<tr class="separator:a426aea6681d4a62d7544c8c85478cffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a2f28dbe5cc23168a4fb9ea51f9ec05"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a7a2f28dbe5cc23168a4fb9ea51f9ec05">get_virtual_method_by_order</a> (std::uint32_t ord)</td></tr>
+<tr class="memdesc:a7a2f28dbe5cc23168a4fb9ea51f9ec05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a virtual method from the reading order (recommended)  <br /></td></tr>
+<tr class="separator:a7a2f28dbe5cc23168a4fb9ea51f9ec05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addaa001b53b718deb20a45f0dba18a90"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#addaa001b53b718deb20a45f0dba18a90">get_virtual_method_by_id</a> (std::uint32_t id)</td></tr>
+<tr class="memdesc:addaa001b53b718deb20a45f0dba18a90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a virtual method by the id of the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a>.  <br /></td></tr>
+<tr class="separator:addaa001b53b718deb20a45f0dba18a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50dbb7f517c688bd3ff4f30ccf5d5e11"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#a50dbb7f517c688bd3ff4f30ccf5d5e11">get_fields</a> ()</td></tr>
+<tr class="memdesc:a50dbb7f517c688bd3ff4f30ccf5d5e11"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the fields from the class.  <br /></td></tr>
+<tr class="separator:a50dbb7f517c688bd3ff4f30ccf5d5e11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea0b0a435194934146be68335d0830d1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html#aea0b0a435194934146be68335d0830d1">get_methods</a> ()</td></tr>
+<tr class="memdesc:aea0b0a435194934146be68335d0830d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the methods from the class.  <br /></td></tr>
+<tr class="separator:aea0b0a435194934146be68335d0830d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aceb2dbb764d52fd672ed8d36377e5182" name="aceb2dbb764d52fd672ed8d36377e5182"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aceb2dbb764d52fd672ed8d36377e5182">&#9670;&#160;</a></span>ClassDataItem()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class that contains the fields and methods from a class in a DEX file. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a426aea6681d4a62d7544c8c85478cffa" name="a426aea6681d4a62d7544c8c85478cffa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a426aea6681d4a62d7544c8c85478cffa">&#9670;&#160;</a></span>get_direct_method_by_id()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">KUNAI::DEX::ClassDataItem::ClassDataItem </td>
+          <td class="memname"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * KUNAI::DEX::ClassDataItem::get_direct_method_by_id </td>
           <td>(</td>
-          <td class="paramtype">std::ifstream &amp;&#160;</td>
-          <td class="paramname"><em>input_file</em>, </td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a direct method by the id of the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>id of the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to direct encodedmethod </dd></dl>
+
+</div>
+</div>
+<a id="aba9e079a70b6fe02fac103d19e01fb0d" name="aba9e079a70b6fe02fac103d19e01fb0d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba9e079a70b6fe02fac103d19e01fb0d">&#9670;&#160;</a></span>get_direct_method_by_order()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * KUNAI::DEX::ClassDataItem::get_direct_method_by_order </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>ord</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a direct method from the reading order (recommended) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ord</td><td>order of the direct method </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to direct encodedmethod </dd></dl>
+
+</div>
+</div>
+<a id="a50dbb7f517c688bd3ff4f30ccf5d5e11" name="a50dbb7f517c688bd3ff4f30ccf5d5e11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a50dbb7f517c688bd3ff4f30ccf5d5e11">&#9670;&#160;</a></span>get_fields()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * &gt; &amp; KUNAI::DEX::ClassDataItem::get_fields </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get all the fields from the class. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to vector with all the fields </dd></dl>
+
+</div>
+</div>
+<a id="a8a5590d5ec9eaf6b1cbb146bbb97f4e7" name="a8a5590d5ec9eaf6b1cbb146bbb97f4e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a5590d5ec9eaf6b1cbb146bbb97f4e7">&#9670;&#160;</a></span>get_instance_field_by_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * KUNAI::DEX::ClassDataItem::get_instance_field_by_id </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get an instance field by the id of the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>id of the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to instance encodedfield </dd></dl>
+
+</div>
+</div>
+<a id="a4ea2c4d891ce69a07541da743b710540" name="a4ea2c4d891ce69a07541da743b710540"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ea2c4d891ce69a07541da743b710540">&#9670;&#160;</a></span>get_instance_field_by_order()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * KUNAI::DEX::ClassDataItem::get_instance_field_by_order </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>ord</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get an instance field from the reading order (recommended) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ord</td><td>order of the instance field </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to instance encodedfield </dd></dl>
+
+</div>
+</div>
+<a id="aea0b0a435194934146be68335d0830d1" name="aea0b0a435194934146be68335d0830d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea0b0a435194934146be68335d0830d1">&#9670;&#160;</a></span>get_methods()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * &gt; &amp; KUNAI::DEX::ClassDataItem::get_methods </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get all the methods from the class. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to vector with all the methods </dd></dl>
+
+</div>
+</div>
+<a id="aae92aac209ce015442247f3cd0b3d048" name="aae92aac209ce015442247f3cd0b3d048"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae92aac209ce015442247f3cd0b3d048">&#9670;&#160;</a></span>get_number_of_direct_methods()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t KUNAI::DEX::ClassDataItem::get_number_of_direct_methods </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get number of direct methods. </p>
+<dl class="section return"><dt>Returns</dt><dd>size of direct methods </dd></dl>
+
+</div>
+</div>
+<a id="a88e6d8e7fdc041a763477f2a267b1755" name="a88e6d8e7fdc041a763477f2a267b1755"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88e6d8e7fdc041a763477f2a267b1755">&#9670;&#160;</a></span>get_number_of_instance_fields()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t KUNAI::DEX::ClassDataItem::get_number_of_instance_fields </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get number of instance fields. </p>
+<dl class="section return"><dt>Returns</dt><dd>size of instance fields </dd></dl>
+
+</div>
+</div>
+<a id="ab303b5978ee06c0874f11687daad841f" name="ab303b5978ee06c0874f11687daad841f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab303b5978ee06c0874f11687daad841f">&#9670;&#160;</a></span>get_number_of_static_fields()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t KUNAI::DEX::ClassDataItem::get_number_of_static_fields </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the number of the static fields. </p>
+<dl class="section return"><dt>Returns</dt><dd>size of static fields </dd></dl>
+
+</div>
+</div>
+<a id="adab3121c48473743b01f767e20a5cffb" name="adab3121c48473743b01f767e20a5cffb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adab3121c48473743b01f767e20a5cffb">&#9670;&#160;</a></span>get_number_of_virtual_methods()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t KUNAI::DEX::ClassDataItem::get_number_of_virtual_methods </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get number of virtual methods. </p>
+<dl class="section return"><dt>Returns</dt><dd>size of virtual methods </dd></dl>
+
+</div>
+</div>
+<a id="a6908a8ced5744e60f2aec2b59db19e12" name="a6908a8ced5744e60f2aec2b59db19e12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6908a8ced5744e60f2aec2b59db19e12">&#9670;&#160;</a></span>get_static_field_by_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * KUNAI::DEX::ClassDataItem::get_static_field_by_id </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a pointer to static field by the id of the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>id of the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to static encodedfield </dd></dl>
+
+</div>
+</div>
+<a id="a2e5b5997c929a7c0e383f5e5558533ba" name="a2e5b5997c929a7c0e383f5e5558533ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e5b5997c929a7c0e383f5e5558533ba">&#9670;&#160;</a></span>get_static_field_by_order()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * KUNAI::DEX::ClassDataItem::get_static_field_by_order </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>ord</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a pointer to static field from the reading order (recommended) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ord</td><td>order of the static field </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to static encodedfield </dd></dl>
+
+</div>
+</div>
+<a id="addaa001b53b718deb20a45f0dba18a90" name="addaa001b53b718deb20a45f0dba18a90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#addaa001b53b718deb20a45f0dba18a90">&#9670;&#160;</a></span>get_virtual_method_by_id()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * KUNAI::DEX::ClassDataItem::get_virtual_method_by_id </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a virtual method by the id of the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>id of the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to virtual encodedmethod </dd></dl>
+
+</div>
+</div>
+<a id="a7a2f28dbe5cc23168a4fb9ea51f9ec05" name="a7a2f28dbe5cc23168a4fb9ea51f9ec05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a2f28dbe5cc23168a4fb9ea51f9ec05">&#9670;&#160;</a></span>get_virtual_method_by_order()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * KUNAI::DEX::ClassDataItem::get_virtual_method_by_order </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>ord</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get a virtual method from the reading order (recommended) </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ord</td><td>order of the virtual method </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to virtual encodedmethod </dd></dl>
+
+</div>
+</div>
+<a id="a0e2c67e2718180547fc8022da3f95c3b" name="a0e2c67e2718180547fc8022da3f95c3b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0e2c67e2718180547fc8022da3f95c3b">&#9670;&#160;</a></span>parse_class_data_item()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::ClassDataItem::parse_class_data_item </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>file_size</em>, </td>
+          <td class="paramtype"><a class="el" href="../../d7/d0b/classKUNAI_1_1DEX_1_1Fields.html">Fields</a> *&#160;</td>
+          <td class="paramname"><em>fields</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../de/d82/classKUNAI_1_1DEX_1_1DexFields.html">DexFields</a> *&#160;</td>
-          <td class="paramname"><em>dex_fields</em>, </td>
+          <td class="paramtype"><a class="el" href="../../dd/dd5/classKUNAI_1_1DEX_1_1Methods.html">Methods</a> *&#160;</td>
+          <td class="paramname"><em>methods</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../da/dcf/classKUNAI_1_1DEX_1_1DexMethods.html">DexMethods</a> *&#160;</td>
-          <td class="paramname"><em>dex_methods</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html">DexTypes</a> *&#160;</td>
-          <td class="paramname"><em>dex_types</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *&#160;</td>
+          <td class="paramname"><em>types</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -177,428 +551,21 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Constructor of <a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> here the tool will parse fields and methods. </p>
+<p>Method to parse the <a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html" title="Class that contains the fields and methods from a class in a DEX file.">ClassDataItem</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">input_file</td><td>file to parse with <a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a> information. </td></tr>
-    <tr><td class="paramname">file_size</td><td>size of file used for checking. </td></tr>
-    <tr><td class="paramname">dex_fields</td><td>used for getting fields information during parsing. </td></tr>
-    <tr><td class="paramname">dex_methods</td><td>used for getting information from methods during parsing. </td></tr>
-    <tr><td class="paramname">dex_types</td><td>used for getting types information during parsing. </td></tr>
+    <tr><td class="paramname">stream</td><td>stream DEX file </td></tr>
+    <tr><td class="paramname">fields</td><td>fields of the DEX file </td></tr>
+    <tr><td class="paramname">methods</td><td>methods of the DEX file </td></tr>
+    <tr><td class="paramname">types</td><td>types of the DEX file </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a378a700853481d86a847c284a87de389" name="a378a700853481d86a847c284a87de389"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a378a700853481d86a847c284a87de389">&#9670;&#160;</a></span>~ClassDataItem()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">KUNAI::DEX::ClassDataItem::~ClassDataItem </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p><a class="el" href="../../d5/d8b/classKUNAI_1_1DEX_1_1ClassDataItem.html">ClassDataItem</a> destructor. </p>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="adbe54fe25ce0b138d0c44b9082da054f" name="adbe54fe25ce0b138d0c44b9082da054f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adbe54fe25ce0b138d0c44b9082da054f">&#9670;&#160;</a></span>get_direct_method_by_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * KUNAI::DEX::ClassDataItem::get_direct_method_by_id </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get a direct method by the id of the method. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>id of the method to retrieve. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>encodedmethod_t </dd></dl>
-
-</div>
-</div>
-<a id="af659551ae436bc967c6ee79e0bd079f5" name="af659551ae436bc967c6ee79e0bd079f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af659551ae436bc967c6ee79e0bd079f5">&#9670;&#160;</a></span>get_direct_method_by_pos()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * KUNAI::DEX::ClassDataItem::get_direct_method_by_pos </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get a direct method by its position while parsing it. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pos</td><td>position of the method to retrieve. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>encodedmethod_t </dd></dl>
-
-</div>
-</div>
-<a id="a764fcd6bc981b01bf263af089dcdf2eb" name="a764fcd6bc981b01bf263af089dcdf2eb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a764fcd6bc981b01bf263af089dcdf2eb">&#9670;&#160;</a></span>get_fields()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * &gt; KUNAI::DEX::ClassDataItem::get_fields </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get all the fields both static and instance fields. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;EncodedField*&gt; </dd></dl>
-
-</div>
-</div>
-<a id="a1c8d5e7e3e985c2d9822931be887ee73" name="a1c8d5e7e3e985c2d9822931be887ee73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c8d5e7e3e985c2d9822931be887ee73">&#9670;&#160;</a></span>get_instance_field_by_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * KUNAI::DEX::ClassDataItem::get_instance_field_by_id </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>return a instance field from a class by the field id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>id of the <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>encodedfield_t </dd></dl>
-
-</div>
-</div>
-<a id="a147c1974f740fe9550d00df747966fae" name="a147c1974f740fe9550d00df747966fae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a147c1974f740fe9550d00df747966fae">&#9670;&#160;</a></span>get_instance_field_by_pos()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * KUNAI::DEX::ClassDataItem::get_instance_field_by_pos </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>return a instance field from a class by its position while parsing. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pos</td><td>position to retrieve. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>encodedfield_t </dd></dl>
-
-</div>
-</div>
-<a id="a95aa96c7ae86d8f5d2803ae29963bef0" name="a95aa96c7ae86d8f5d2803ae29963bef0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a95aa96c7ae86d8f5d2803ae29963bef0">&#9670;&#160;</a></span>get_methods()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * &gt; &amp; KUNAI::DEX::ClassDataItem::get_methods </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get all the methods object. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;encodedmethod_t&gt;&amp; </dd></dl>
-
-</div>
-</div>
-<a id="a6405d7ddf8bda422e73f26181391a355" name="a6405d7ddf8bda422e73f26181391a355"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6405d7ddf8bda422e73f26181391a355">&#9670;&#160;</a></span>get_number_of_direct_methods()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t KUNAI::DEX::ClassDataItem::get_number_of_direct_methods </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the number of direct methods from the class. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::uint64_t </dd></dl>
-
-</div>
-</div>
-<a id="a4910f5566db9300e5f881d5555bcdbd3" name="a4910f5566db9300e5f881d5555bcdbd3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4910f5566db9300e5f881d5555bcdbd3">&#9670;&#160;</a></span>get_number_of_instance_fields()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t KUNAI::DEX::ClassDataItem::get_number_of_instance_fields </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>return the number of instance fields from the class. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::uint64_t </dd></dl>
-
-</div>
-</div>
-<a id="ac029dd04d5e14a713e22210a79aa1322" name="ac029dd04d5e14a713e22210a79aa1322"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac029dd04d5e14a713e22210a79aa1322">&#9670;&#160;</a></span>get_number_of_static_fields()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t KUNAI::DEX::ClassDataItem::get_number_of_static_fields </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the number of static fields in the class. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::uint64_t </dd></dl>
-
-</div>
-</div>
-<a id="abe19b73282507628b5e210f3491f6bc1" name="abe19b73282507628b5e210f3491f6bc1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe19b73282507628b5e210f3491f6bc1">&#9670;&#160;</a></span>get_number_of_virtual_methods()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t KUNAI::DEX::ClassDataItem::get_number_of_virtual_methods </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the number of virtual methods from the class. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::uint64_t </dd></dl>
-
-</div>
-</div>
-<a id="ac3a6bc2c2b0dd0ab0734f637ab570a0d" name="ac3a6bc2c2b0dd0ab0734f637ab570a0d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac3a6bc2c2b0dd0ab0734f637ab570a0d">&#9670;&#160;</a></span>get_static_field_by_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * KUNAI::DEX::ClassDataItem::get_static_field_by_id </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get a class static field, by the field id, this is not a sorted number. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>id of the field to retrieve. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>encodedfield_t </dd></dl>
-
-</div>
-</div>
-<a id="a8d683817478536a5b0651104bb445694" name="a8d683817478536a5b0651104bb445694"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d683817478536a5b0651104bb445694">&#9670;&#160;</a></span>get_static_field_by_pos()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * KUNAI::DEX::ClassDataItem::get_static_field_by_pos </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get a class static field by its position from parsing. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pos</td><td>position of static field. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>encodedfield_t </dd></dl>
-
-</div>
-</div>
-<a id="a017a22b75dc4daa873738a2505109b04" name="a017a22b75dc4daa873738a2505109b04"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a017a22b75dc4daa873738a2505109b04">&#9670;&#160;</a></span>get_virtual_method_by_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * KUNAI::DEX::ClassDataItem::get_virtual_method_by_id </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get a method from the class by its method id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>id of the method to retrieve. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>encodedmethod_t </dd></dl>
-
-</div>
-</div>
-<a id="a07f9b8c46db0d5e9ec02d633424dc844" name="a07f9b8c46db0d5e9ec02d633424dc844"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a07f9b8c46db0d5e9ec02d633424dc844">&#9670;&#160;</a></span>get_virtual_method_by_pos()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> * KUNAI::DEX::ClassDataItem::get_virtual_method_by_pos </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get a method from the class by its position while parsing. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pos</td><td>position of method while parsing. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>encodedmethod_t </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../dc/d3b/dex__classes_8hpp_source.html">dex_classes.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../d3/d36/classes_8hpp_source.html">classes.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

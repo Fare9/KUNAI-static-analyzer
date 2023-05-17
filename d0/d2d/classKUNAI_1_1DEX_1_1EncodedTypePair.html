@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html">EncodedTypePair</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html">EncodedTypePair</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,21 +80,166 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::EncodedTypePair Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Type of exception to catch with its address.  
+ <a href="../../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:abd7e56bb12654f0dcc425d948622db97"><td class="memItemLeft" align="right" valign="top"><a id="abd7e56bb12654f0dcc425d948622db97" name="abd7e56bb12654f0dcc425d948622db97"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>EncodedTypePair</b> (std::uint64_t type_idx, std::uint64_t addr, <a class="el" href="../../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html">DexTypes</a> *dex_types)</td></tr>
-<tr class="separator:abd7e56bb12654f0dcc425d948622db97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9382032d20ab2506003dfb1b66e3050e"><td class="memItemLeft" align="right" valign="top"><a id="a9382032d20ab2506003dfb1b66e3050e" name="a9382032d20ab2506003dfb1b66e3050e"></a>
-<a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_exception_type</b> ()</td></tr>
-<tr class="separator:a9382032d20ab2506003dfb1b66e3050e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0efc5ae260fc415e4cd9f42643d90da5"><td class="memItemLeft" align="right" valign="top"><a id="a0efc5ae260fc415e4cd9f42643d90da5" name="a0efc5ae260fc415e4cd9f42643d90da5"></a>
-std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_exception_handler_addr</b> ()</td></tr>
-<tr class="separator:a0efc5ae260fc415e4cd9f42643d90da5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad59847c140d0edc0f7a249cac020e84f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html#ad59847c140d0edc0f7a249cac020e84f">EncodedTypePair</a> (<a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *type, std::uint64_t addr)</td></tr>
+<tr class="memdesc:ad59847c140d0edc0f7a249cac020e84f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for <a class="el" href="../../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html" title="Type of exception to catch with its address.">EncodedTypePair</a>.  <br /></td></tr>
+<tr class="separator:ad59847c140d0edc0f7a249cac020e84f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7898764661dd5c64a8a1f565ca61708"><td class="memItemLeft" align="right" valign="top"><a id="af7898764661dd5c64a8a1f565ca61708" name="af7898764661dd5c64a8a1f565ca61708"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~EncodedTypePair</b> ()=default</td></tr>
+<tr class="memdesc:af7898764661dd5c64a8a1f565ca61708"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of <a class="el" href="../../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html" title="Type of exception to catch with its address.">EncodedTypePair</a>. <br /></td></tr>
+<tr class="separator:af7898764661dd5c64a8a1f565ca61708"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada3269fadb1415842458e8cec451c2d2"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html#ada3269fadb1415842458e8cec451c2d2">get_addr</a> () const</td></tr>
+<tr class="memdesc:ada3269fadb1415842458e8cec451c2d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the bytecode address of the associated exception handler.  <br /></td></tr>
+<tr class="separator:ada3269fadb1415842458e8cec451c2d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ef88d93ff611960d39227b93b3e0aa6"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html#a1ef88d93ff611960d39227b93b3e0aa6">get_exception_type</a> () const</td></tr>
+<tr class="memdesc:a1ef88d93ff611960d39227b93b3e0aa6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant pointer to the exception type.  <br /></td></tr>
+<tr class="separator:a1ef88d93ff611960d39227b93b3e0aa6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65999e5af61e810ae29d646b8247edda"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html#a65999e5af61e810ae29d646b8247edda">get_exception_type</a> ()</td></tr>
+<tr class="memdesc:a65999e5af61e810ae29d646b8247edda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get pointer to exception type.  <br /></td></tr>
+<tr class="separator:a65999e5af61e810ae29d646b8247edda"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Type of exception to catch with its address. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ad59847c140d0edc0f7a249cac020e84f" name="ad59847c140d0edc0f7a249cac020e84f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad59847c140d0edc0f7a249cac020e84f">&#9670;&#160;</a></span>EncodedTypePair()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">KUNAI::DEX::EncodedTypePair::EncodedTypePair </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint64_t&#160;</td>
+          <td class="paramname"><em>addr</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor for <a class="el" href="../../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html" title="Type of exception to catch with its address.">EncodedTypePair</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">type</td><td>type of the exception </td></tr>
+    <tr><td class="paramname">addr</td><td>address associated with the exception </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="ada3269fadb1415842458e8cec451c2d2" name="ada3269fadb1415842458e8cec451c2d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada3269fadb1415842458e8cec451c2d2">&#9670;&#160;</a></span>get_addr()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t KUNAI::DEX::EncodedTypePair::get_addr </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the bytecode address of the associated exception handler. </p>
+<dl class="section return"><dt>Returns</dt><dd>address of the exception handler </dd></dl>
+
+</div>
+</div>
+<a id="a65999e5af61e810ae29d646b8247edda" name="a65999e5af61e810ae29d646b8247edda"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65999e5af61e810ae29d646b8247edda">&#9670;&#160;</a></span>get_exception_type() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * KUNAI::DEX::EncodedTypePair::get_exception_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get pointer to exception type. </p>
+<dl class="section return"><dt>Returns</dt><dd>pointer to exception type </dd></dl>
+
+</div>
+</div>
+<a id="a1ef88d93ff611960d39227b93b3e0aa6" name="a1ef88d93ff611960d39227b93b3e0aa6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ef88d93ff611960d39227b93b3e0aa6">&#9670;&#160;</a></span>get_exception_type() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * KUNAI::DEX::EncodedTypePair::get_exception_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant pointer to the exception type. </p>
+<dl class="section return"><dt>Returns</dt><dd>pointer to exception type </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../d1/da9/dex__encoded_8hpp_source.html">dex_encoded.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

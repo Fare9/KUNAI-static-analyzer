@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -81,145 +81,73 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="../../dd/df2/dex__analysis_8hpp_source.html">dex_analysis.hpp</a>&gt;</code></p>
-<div class="dynheader">
-Inheritance diagram for KUNAI::DEX::DVMBasicBlock:</div>
-<div class="dyncontent">
-<div class="center"><img src="../../d2/dcc/classKUNAI_1_1DEX_1_1DVMBasicBlock__inherit__graph.png" border="0" usemap="#aKUNAI_1_1DEX_1_1DVMBasicBlock_inherit__map" alt="Inheritance graph"/></div>
-<map name="aKUNAI_1_1DEX_1_1DVMBasicBlock_inherit__map" id="aKUNAI_1_1DEX_1_1DVMBasicBlock_inherit__map">
-<area shape="rect" title=" " alt="" coords="7,94,203,120"/>
-<area shape="rect" title=" " alt="" coords="5,5,205,46"/>
-</map>
-<center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
-Collaboration diagram for KUNAI::DEX::DVMBasicBlock:</div>
-<div class="dyncontent">
-<div class="center"><img src="../../d7/d19/classKUNAI_1_1DEX_1_1DVMBasicBlock__coll__graph.png" border="0" usemap="#aKUNAI_1_1DEX_1_1DVMBasicBlock_coll__map" alt="Collaboration graph"/></div>
-<map name="aKUNAI_1_1DEX_1_1DVMBasicBlock_coll__map" id="aKUNAI_1_1DEX_1_1DVMBasicBlock_coll__map">
-<area shape="rect" title=" " alt="" coords="7,94,203,120"/>
-<area shape="rect" title=" " alt="" coords="5,5,205,46"/>
-</map>
-<center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
+<p>Class that contain the instructions of basic block different <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html" title="Class that contain the instructions of basic block different DVMBasicBlock exists.">DVMBasicBlock</a> exists.  
+ <a href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../dc/dea/analysis_8hpp_source.html">analysis.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac7bee1f166af4105856982a0d970aec1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#ac7bee1f166af4105856982a0d970aec1">DVMBasicBlock</a> (std::uint64_t start, <a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> *dalvik_opcodes, <a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html">BasicBlocks</a> *context, <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *method, std::map&lt; std::uint64_t, <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> * &gt; &amp;instructions)</td></tr>
-<tr class="memdesc:ac7bee1f166af4105856982a0d970aec1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> object.  <br /></td></tr>
-<tr class="separator:ac7bee1f166af4105856982a0d970aec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3522b77d39bd684e53186f2a71985178"><td class="memItemLeft" align="right" valign="top"><a id="a3522b77d39bd684e53186f2a71985178" name="a3522b77d39bd684e53186f2a71985178"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>~DVMBasicBlock</b> ()=default</td></tr>
-<tr class="memdesc:a3522b77d39bd684e53186f2a71985178"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> object. <br /></td></tr>
-<tr class="separator:a3522b77d39bd684e53186f2a71985178"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4544034508fcbaca182ef2e1ef92d50"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#af4544034508fcbaca182ef2e1ef92d50">get_start</a> () const</td></tr>
-<tr class="memdesc:af4544034508fcbaca182ef2e1ef92d50"><td class="mdescLeft">&#160;</td><td class="mdescRight">get start idx from the current basic block.  <br /></td></tr>
-<tr class="separator:af4544034508fcbaca182ef2e1ef92d50"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4db46fb93d1767c90e793ceee8cf34ab"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a4db46fb93d1767c90e793ceee8cf34ab">get_end</a> () const</td></tr>
-<tr class="memdesc:a4db46fb93d1767c90e793ceee8cf34ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">get end idx from the current basic block.  <br /></td></tr>
-<tr class="separator:a4db46fb93d1767c90e793ceee8cf34ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af937e98abfe073c5b3b57cd7894cd63d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#af937e98abfe073c5b3b57cd7894cd63d">get_instructions</a> ()</td></tr>
-<tr class="memdesc:af937e98abfe073c5b3b57cd7894cd63d"><td class="mdescLeft">&#160;</td><td class="mdescRight">return all the instructions from current basic block.  <br /></td></tr>
-<tr class="separator:af937e98abfe073c5b3b57cd7894cd63d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a620494e03c950ff8cf6c16b95320f09f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a620494e03c950ff8cf6c16b95320f09f">get_last</a> ()</td></tr>
-<tr class="memdesc:a620494e03c950ff8cf6c16b95320f09f"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the last instruction from the basic block.  <br /></td></tr>
-<tr class="separator:a620494e03c950ff8cf6c16b95320f09f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18c87a924c1d13ff1014bb7d073b062a"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::tuple&lt; std::uint64_t, std::uint64_t, dvmbasicblock_t &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a18c87a924c1d13ff1014bb7d073b062a">get_next</a> () const</td></tr>
-<tr class="memdesc:a18c87a924c1d13ff1014bb7d073b062a"><td class="mdescLeft">&#160;</td><td class="mdescRight">return all the child basic blocks.  <br /></td></tr>
-<tr class="separator:a18c87a924c1d13ff1014bb7d073b062a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16d13c96ed61f9248ff7d940b8f9b84b"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::tuple&lt; std::uint64_t, std::uint64_t, dvmbasicblock_t &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a16d13c96ed61f9248ff7d940b8f9b84b">get_prev</a> () const</td></tr>
-<tr class="memdesc:a16d13c96ed61f9248ff7d940b8f9b84b"><td class="mdescLeft">&#160;</td><td class="mdescRight">return all the parent basic blocks.  <br /></td></tr>
-<tr class="separator:a16d13c96ed61f9248ff7d940b8f9b84b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7eb54e39c36ce7b9bf3506bdd6bd3b4d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a7eb54e39c36ce7b9bf3506bdd6bd3b4d">set_parent</a> (std::tuple&lt; std::uint64_t, std::uint64_t, dvmbasicblock_t &gt;)</td></tr>
-<tr class="memdesc:a7eb54e39c36ce7b9bf3506bdd6bd3b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">push a basic block into the vector of parent basic blocks.  <br /></td></tr>
-<tr class="separator:a7eb54e39c36ce7b9bf3506bdd6bd3b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb213916a10c6fe18d86c69735a62e36"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#acb213916a10c6fe18d86c69735a62e36">set_child</a> ()</td></tr>
-<tr class="memdesc:acb213916a10c6fe18d86c69735a62e36"><td class="mdescLeft">&#160;</td><td class="mdescRight">set a children basic block, if no argument is given, this is taken from context.  <br /></td></tr>
-<tr class="separator:acb213916a10c6fe18d86c69735a62e36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a258a151089828435371b0ad61c5afb28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a258a151089828435371b0ad61c5afb28">set_child</a> (const std::vector&lt; int64_t &gt; &amp;values)</td></tr>
-<tr class="memdesc:a258a151089828435371b0ad61c5afb28"><td class="mdescLeft">&#160;</td><td class="mdescRight">set a set of children basic blocks.  <br /></td></tr>
-<tr class="separator:a258a151089828435371b0ad61c5afb28"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a672976d2f19ac04f3c661f9e28543693"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a672976d2f19ac04f3c661f9e28543693">get_last_length</a> ()</td></tr>
-<tr class="memdesc:a672976d2f19ac04f3c661f9e28543693"><td class="mdescLeft">&#160;</td><td class="mdescRight">return last length of <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a>.  <br /></td></tr>
-<tr class="separator:a672976d2f19ac04f3c661f9e28543693"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47c46ac3ea920ffd42f1a43990f96fc4"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a47c46ac3ea920ffd42f1a43990f96fc4">get_nb_instructions</a> ()</td></tr>
-<tr class="memdesc:a47c46ac3ea920ffd42f1a43990f96fc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">return the number of instructions of the <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a>.  <br /></td></tr>
-<tr class="separator:a47c46ac3ea920ffd42f1a43990f96fc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a08b992db78aac2501fb338515138bb96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a08b992db78aac2501fb338515138bb96">push</a> (<a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> *instr)</td></tr>
-<tr class="memdesc:a08b992db78aac2501fb338515138bb96"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate new values with an instruction and push in case is a special instruction.  <br /></td></tr>
-<tr class="separator:a08b992db78aac2501fb338515138bb96"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac4af135c6ad1e7c935acc9ae34027c73"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#ac4af135c6ad1e7c935acc9ae34027c73">get_special_instruction</a> (std::uint64_t idx)</td></tr>
-<tr class="memdesc:ac4af135c6ad1e7c935acc9ae34027c73"><td class="mdescLeft">&#160;</td><td class="mdescRight">get one of the special instructions.  <br /></td></tr>
-<tr class="separator:ac4af135c6ad1e7c935acc9ae34027c73"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8a726d0502beb346e2f91f5ecd2e5b42"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/dd5/classKUNAI_1_1DEX_1_1ExceptionAnalysis.html">ExceptionAnalysis</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a8a726d0502beb346e2f91f5ecd2e5b42">get_exception_analysis</a> () const</td></tr>
-<tr class="memdesc:a8a726d0502beb346e2f91f5ecd2e5b42"><td class="mdescLeft">&#160;</td><td class="mdescRight">return an exception analysis object.  <br /></td></tr>
-<tr class="separator:a8a726d0502beb346e2f91f5ecd2e5b42"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a92d1bfcf5673a3df7012c0b8164b8a1c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a92d1bfcf5673a3df7012c0b8164b8a1c">set_exception_analysis</a> (<a class="el" href="../../d3/dd5/classKUNAI_1_1DEX_1_1ExceptionAnalysis.html">ExceptionAnalysis</a> *exception_analysis)</td></tr>
-<tr class="memdesc:a92d1bfcf5673a3df7012c0b8164b8a1c"><td class="mdescLeft">&#160;</td><td class="mdescRight">set exception analysis object  <br /></td></tr>
-<tr class="separator:a92d1bfcf5673a3df7012c0b8164b8a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6286b9a25b5b246fb7865bcba4b71c57"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a6286b9a25b5b246fb7865bcba4b71c57">get_nb_instructions</a> () const</td></tr>
+<tr class="memdesc:a6286b9a25b5b246fb7865bcba4b71c57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain the number of instructions from the instructions vector.  <br /></td></tr>
+<tr class="separator:a6286b9a25b5b246fb7865bcba4b71c57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa124257c13ce831704f89fa8e7390c5a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#aa124257c13ce831704f89fa8e7390c5a">add_instruction</a> (<a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> *instr)</td></tr>
+<tr class="memdesc:aa124257c13ce831704f89fa8e7390c5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an instruction to the basic block.  <br /></td></tr>
+<tr class="separator:aa124257c13ce831704f89fa8e7390c5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b85da51d5b71789fd64bbdabd662903"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a8b85da51d5b71789fd64bbdabd662903">get_instructions</a> () const</td></tr>
+<tr class="memdesc:a8b85da51d5b71789fd64bbdabd662903"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the vector of instructions.  <br /></td></tr>
+<tr class="separator:a8b85da51d5b71789fd64bbdabd662903"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84187751784af009a94e82fff4c7322b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a84187751784af009a94e82fff4c7322b">get_instructions</a> ()</td></tr>
+<tr class="memdesc:a84187751784af009a94e82fff4c7322b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the vector of instructions.  <br /></td></tr>
+<tr class="separator:a84187751784af009a94e82fff4c7322b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82399c00a87d15743fbec8a9060cf5ec"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a82399c00a87d15743fbec8a9060cf5ec">get_terminator</a> ()</td></tr>
+<tr class="memdesc:a82399c00a87d15743fbec8a9060cf5ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the last instruction in case this is a terminator instruction.  <br /></td></tr>
+<tr class="separator:a82399c00a87d15743fbec8a9060cf5ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1244a54549f2e8050b271262de3215f3"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a1244a54549f2e8050b271262de3215f3">get_first_address</a> ()</td></tr>
+<tr class="memdesc:a1244a54549f2e8050b271262de3215f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the first address of the basic block in case there are instructions.  <br /></td></tr>
+<tr class="separator:a1244a54549f2e8050b271262de3215f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f21e0a296a5cec0d8257103437438bd"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a6f21e0a296a5cec0d8257103437438bd">get_last_address</a> ()</td></tr>
+<tr class="memdesc:a6f21e0a296a5cec0d8257103437438bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the last address of the basic block in case there are instructions.  <br /></td></tr>
+<tr class="separator:a6f21e0a296a5cec0d8257103437438bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0ae9e95b57653cf0b531e0d6b5d006c"><td class="memItemLeft" align="right" valign="top"><a id="af0ae9e95b57653cf0b531e0d6b5d006c" name="af0ae9e95b57653cf0b531e0d6b5d006c"></a>
+std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_name</b> ()</td></tr>
+<tr class="separator:af0ae9e95b57653cf0b531e0d6b5d006c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa88fb1628c4ea330d1d49664a9a96021"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#aa88fb1628c4ea330d1d49664a9a96021">is_try_block</a> () const</td></tr>
+<tr class="memdesc:aa88fb1628c4ea330d1d49664a9a96021"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the current block a try-block?  <br /></td></tr>
+<tr class="separator:aa88fb1628c4ea330d1d49664a9a96021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00be093992f2e1b15cae6c32e722844c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a00be093992f2e1b15cae6c32e722844c">set_try_block</a> (bool try_block)</td></tr>
+<tr class="memdesc:a00be093992f2e1b15cae6c32e722844c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the block is a try block.  <br /></td></tr>
+<tr class="separator:a00be093992f2e1b15cae6c32e722844c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe9d8b1f029232666408cf215767f9d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#afe9d8b1f029232666408cf215767f9d4">is_catch_block</a> () const</td></tr>
+<tr class="memdesc:afe9d8b1f029232666408cf215767f9d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Is the current block a catch-block?  <br /></td></tr>
+<tr class="separator:afe9d8b1f029232666408cf215767f9d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88b32e13de663650044f958e73027dd0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a88b32e13de663650044f958e73027dd0">set_catch_block</a> (bool catch_block)</td></tr>
+<tr class="memdesc:a88b32e13de663650044f958e73027dd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the block is a catch block.  <br /></td></tr>
+<tr class="separator:a88b32e13de663650044f958e73027dd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4613d72263ddf2ec8b41f5eedd275318"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a4613d72263ddf2ec8b41f5eedd275318">get_handler_type</a> ()</td></tr>
+<tr class="memdesc:a4613d72263ddf2ec8b41f5eedd275318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the type of handler in case is a catch block.  <br /></td></tr>
+<tr class="separator:a4613d72263ddf2ec8b41f5eedd275318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab81abdc2d5f8dc9405f5bd0f42547cf3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#ab81abdc2d5f8dc9405f5bd0f42547cf3">set_handler_type</a> (<a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *handler)</td></tr>
+<tr class="memdesc:ab81abdc2d5f8dc9405f5bd0f42547cf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set a handler type.  <br /></td></tr>
+<tr class="separator:ab81abdc2d5f8dc9405f5bd0f42547cf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16639880c255f7d1abaf77635d299ff8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a16639880c255f7d1abaf77635d299ff8">is_start_block</a> () const</td></tr>
+<tr class="memdesc:a16639880c255f7d1abaf77635d299ff8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get if current block is a starting block.  <br /></td></tr>
+<tr class="separator:a16639880c255f7d1abaf77635d299ff8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af71a6cd45d168d2264f2ff919a1a484c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#af71a6cd45d168d2264f2ff919a1a484c">set_start_block</a> (bool start_block)</td></tr>
+<tr class="memdesc:af71a6cd45d168d2264f2ff919a1a484c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the block as a start block.  <br /></td></tr>
+<tr class="separator:af71a6cd45d168d2264f2ff919a1a484c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33a23e3d23ef9b32421949f8f88bb877"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a33a23e3d23ef9b32421949f8f88bb877">is_end_block</a> () const</td></tr>
+<tr class="memdesc:a33a23e3d23ef9b32421949f8f88bb877"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get if current block is an end block.  <br /></td></tr>
+<tr class="separator:a33a23e3d23ef9b32421949f8f88bb877"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13bd753f9b35d35909151bac108e28ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html#a13bd753f9b35d35909151bac108e28ea">set_end_block</a> (bool end_block)</td></tr>
+<tr class="memdesc:a13bd753f9b35d35909151bac108e28ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the block as an end block.  <br /></td></tr>
+<tr class="separator:a13bd753f9b35d35909151bac108e28ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p><a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> definition </p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ac7bee1f166af4105856982a0d970aec1" name="ac7bee1f166af4105856982a0d970aec1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac7bee1f166af4105856982a0d970aec1">&#9670;&#160;</a></span>DVMBasicBlock()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">KUNAI::DEX::DVMBasicBlock::DVMBasicBlock </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>start</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> *&#160;</td>
-          <td class="paramname"><em>dalvik_opcodes</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html">BasicBlocks</a> *&#160;</td>
-          <td class="paramname"><em>context</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *&#160;</td>
-          <td class="paramname"><em>method</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::map&lt; std::uint64_t, <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> * &gt; &amp;&#160;</td>
-          <td class="paramname"><em>instructions</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Construct a new <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a> object. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">start</td><td></td></tr>
-    <tr><td class="paramname">dalvik_opcodes</td><td></td></tr>
-    <tr><td class="paramname">context</td><td></td></tr>
-    <tr><td class="paramname">method</td><td></td></tr>
-    <tr><td class="paramname">instructions</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4db46fb93d1767c90e793ceee8cf34ab" name="a4db46fb93d1767c90e793ceee8cf34ab"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4db46fb93d1767c90e793ceee8cf34ab">&#9670;&#160;</a></span>get_end()</h2>
+<div class="textblock"><p>Class that contain the instructions of basic block different <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html" title="Class that contain the instructions of basic block different DVMBasicBlock exists.">DVMBasicBlock</a> exists. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aa124257c13ce831704f89fa8e7390c5a" name="aa124257c13ce831704f89fa8e7390c5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa124257c13ce831704f89fa8e7390c5a">&#9670;&#160;</a></span>add_instruction()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -228,335 +156,32 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::uint64_t KUNAI::DEX::DVMBasicBlock::get_end </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>get end idx from the current basic block. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::uint64_t </dd></dl>
-
-</div>
-</div>
-<a id="a8a726d0502beb346e2f91f5ecd2e5b42" name="a8a726d0502beb346e2f91f5ecd2e5b42"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8a726d0502beb346e2f91f5ecd2e5b42">&#9670;&#160;</a></span>get_exception_analysis()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d3/dd5/classKUNAI_1_1DEX_1_1ExceptionAnalysis.html">ExceptionAnalysis</a> * KUNAI::DEX::DVMBasicBlock::get_exception_analysis </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>return an exception analysis object. </p>
-<dl class="section return"><dt>Returns</dt><dd>exceptionanalysis_t </dd></dl>
-
-</div>
-</div>
-<a id="af937e98abfe073c5b3b57cd7894cd63d" name="af937e98abfe073c5b3b57cd7894cd63d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af937e98abfe073c5b3b57cd7894cd63d">&#9670;&#160;</a></span>get_instructions()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> * &gt; KUNAI::DEX::DVMBasicBlock::get_instructions </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>return all the instructions from current basic block. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;instruction_t&gt; </dd></dl>
-
-</div>
-</div>
-<a id="a620494e03c950ff8cf6c16b95320f09f" name="a620494e03c950ff8cf6c16b95320f09f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a620494e03c950ff8cf6c16b95320f09f">&#9670;&#160;</a></span>get_last()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> * KUNAI::DEX::DVMBasicBlock::get_last </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>return the last instruction from the basic block. </p>
-<dl class="section return"><dt>Returns</dt><dd>instruction_t </dd></dl>
-
-</div>
-</div>
-<a id="a672976d2f19ac04f3c661f9e28543693" name="a672976d2f19ac04f3c661f9e28543693"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a672976d2f19ac04f3c661f9e28543693">&#9670;&#160;</a></span>get_last_length()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t KUNAI::DEX::DVMBasicBlock::get_last_length </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>return last length of <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::uint64_t </dd></dl>
-
-</div>
-</div>
-<a id="a47c46ac3ea920ffd42f1a43990f96fc4" name="a47c46ac3ea920ffd42f1a43990f96fc4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47c46ac3ea920ffd42f1a43990f96fc4">&#9670;&#160;</a></span>get_nb_instructions()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t KUNAI::DEX::DVMBasicBlock::get_nb_instructions </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>return the number of instructions of the <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html">DVMBasicBlock</a>. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::uint64_t </dd></dl>
-
-</div>
-</div>
-<a id="a18c87a924c1d13ff1014bb7d073b062a" name="a18c87a924c1d13ff1014bb7d073b062a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a18c87a924c1d13ff1014bb7d073b062a">&#9670;&#160;</a></span>get_next()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; std::tuple&lt; std::uint64_t, std::uint64_t, dvmbasicblock_t &gt; &gt; &amp; KUNAI::DEX::DVMBasicBlock::get_next </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>return all the child basic blocks. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;std::tuple&lt;std::uint64_t, std::uint64_t, DVMBasicBlock*&gt;&gt; </dd></dl>
-
-</div>
-</div>
-<a id="a16d13c96ed61f9248ff7d940b8f9b84b" name="a16d13c96ed61f9248ff7d940b8f9b84b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16d13c96ed61f9248ff7d940b8f9b84b">&#9670;&#160;</a></span>get_prev()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const std::vector&lt; std::tuple&lt; std::uint64_t, std::uint64_t, dvmbasicblock_t &gt; &gt; &amp; KUNAI::DEX::DVMBasicBlock::get_prev </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>return all the parent basic blocks. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;std::tuple&lt;std::uint64_t, std::uint64_t, DVMBasicBlock*&gt;&gt; </dd></dl>
-
-</div>
-</div>
-<a id="ac4af135c6ad1e7c935acc9ae34027c73" name="ac4af135c6ad1e7c935acc9ae34027c73"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac4af135c6ad1e7c935acc9ae34027c73">&#9670;&#160;</a></span>get_special_instruction()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> * KUNAI::DEX::DVMBasicBlock::get_special_instruction </td>
-          <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>idx</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>get one of the special instructions. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">idx</td><td>std::uint64_t with index of the special instruction. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Instruction* </dd></dl>
-
-</div>
-</div>
-<a id="af4544034508fcbaca182ef2e1ef92d50" name="af4544034508fcbaca182ef2e1ef92d50"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4544034508fcbaca182ef2e1ef92d50">&#9670;&#160;</a></span>get_start()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t KUNAI::DEX::DVMBasicBlock::get_start </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>get start idx from the current basic block. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::uint64_t </dd></dl>
-
-</div>
-</div>
-<a id="a08b992db78aac2501fb338515138bb96" name="a08b992db78aac2501fb338515138bb96"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08b992db78aac2501fb338515138bb96">&#9670;&#160;</a></span>push()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::DVMBasicBlock::push </td>
+          <td class="memname">void KUNAI::DEX::DVMBasicBlock::add_instruction </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> *&#160;</td>
           <td class="paramname"><em>instr</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Calculate new values with an instruction and push in case is a special instruction. </p>
+<p>Add an instruction to the basic block. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">instr</td><td>instruction_t object to increase diferent values and insert into special instructions. </td></tr>
+    <tr><td class="paramname">instr</td><td>new instructions from the basic block </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
 </div>
-<a id="acb213916a10c6fe18d86c69735a62e36" name="acb213916a10c6fe18d86c69735a62e36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb213916a10c6fe18d86c69735a62e36">&#9670;&#160;</a></span>set_child() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::DVMBasicBlock::set_child </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>set a children basic block, if no argument is given, this is taken from context. </p>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a258a151089828435371b0ad61c5afb28" name="a258a151089828435371b0ad61c5afb28"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a258a151089828435371b0ad61c5afb28">&#9670;&#160;</a></span>set_child() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::DVMBasicBlock::set_child </td>
-          <td>(</td>
-          <td class="paramtype">const std::vector&lt; int64_t &gt; &amp;&#160;</td>
-          <td class="paramname"><em>values</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>set a set of children basic blocks. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">values</td><td>ids from context of basic blocks to push into vector. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a92d1bfcf5673a3df7012c0b8164b8a1c" name="a92d1bfcf5673a3df7012c0b8164b8a1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a92d1bfcf5673a3df7012c0b8164b8a1c">&#9670;&#160;</a></span>set_exception_analysis()</h2>
+<a id="a1244a54549f2e8050b271262de3215f3" name="a1244a54549f2e8050b271262de3215f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1244a54549f2e8050b271262de3215f3">&#9670;&#160;</a></span>get_first_address()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -565,10 +190,9 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void KUNAI::DEX::DVMBasicBlock::set_exception_analysis </td>
+          <td class="memname">std::uint64_t KUNAI::DEX::DVMBasicBlock::get_first_address </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d3/dd5/classKUNAI_1_1DEX_1_1ExceptionAnalysis.html">ExceptionAnalysis</a> *&#160;</td>
-          <td class="paramname"><em>exception_analysis</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -579,46 +203,463 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>set exception analysis object </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">exception_analysis</td><td>exceptionanalysis_t object. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<p>Get the first address of the basic block in case there are instructions. </p>
+<dl class="section return"><dt>Returns</dt><dd>first address of basic block </dd></dl>
 
 </div>
 </div>
-<a id="a7eb54e39c36ce7b9bf3506bdd6bd3b4d" name="a7eb54e39c36ce7b9bf3506bdd6bd3b4d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7eb54e39c36ce7b9bf3506bdd6bd3b4d">&#9670;&#160;</a></span>set_parent()</h2>
+<a id="a4613d72263ddf2ec8b41f5eedd275318" name="a4613d72263ddf2ec8b41f5eedd275318"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4613d72263ddf2ec8b41f5eedd275318">&#9670;&#160;</a></span>get_handler_type()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void KUNAI::DEX::DVMBasicBlock::set_parent </td>
+          <td class="memname"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * KUNAI::DEX::DVMBasicBlock::get_handler_type </td>
           <td>(</td>
-          <td class="paramtype">std::tuple&lt; std::uint64_t, std::uint64_t, dvmbasicblock_t &gt;&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>push a basic block into the vector of parent basic blocks. </p>
+<p>Get the type of handler in case is a catch block. </p>
+<dl class="section return"><dt>Returns</dt><dd>handler type </dd></dl>
+
+</div>
+</div>
+<a id="a84187751784af009a94e82fff4c7322b" name="a84187751784af009a94e82fff4c7322b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84187751784af009a94e82fff4c7322b">&#9670;&#160;</a></span>get_instructions() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> * &gt; &amp; KUNAI::DEX::DVMBasicBlock::get_instructions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to the vector of instructions. </p>
+<dl class="section return"><dt>Returns</dt><dd>instructions from the block </dd></dl>
+
+</div>
+</div>
+<a id="a8b85da51d5b71789fd64bbdabd662903" name="a8b85da51d5b71789fd64bbdabd662903"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b85da51d5b71789fd64bbdabd662903">&#9670;&#160;</a></span>get_instructions() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> * &gt; &amp; KUNAI::DEX::DVMBasicBlock::get_instructions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the vector of instructions. </p>
+<dl class="section return"><dt>Returns</dt><dd>instructions from the block </dd></dl>
+
+</div>
+</div>
+<a id="a6f21e0a296a5cec0d8257103437438bd" name="a6f21e0a296a5cec0d8257103437438bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f21e0a296a5cec0d8257103437438bd">&#9670;&#160;</a></span>get_last_address()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t KUNAI::DEX::DVMBasicBlock::get_last_address </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the last address of the basic block in case there are instructions. </p>
+<dl class="section return"><dt>Returns</dt><dd>last address of basic block </dd></dl>
+
+</div>
+</div>
+<a id="a6286b9a25b5b246fb7865bcba4b71c57" name="a6286b9a25b5b246fb7865bcba4b71c57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6286b9a25b5b246fb7865bcba4b71c57">&#9670;&#160;</a></span>get_nb_instructions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t KUNAI::DEX::DVMBasicBlock::get_nb_instructions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Obtain the number of instructions from the instructions vector. </p>
+<dl class="section return"><dt>Returns</dt><dd>number of instructions of <a class="el" href="../../d4/df6/classKUNAI_1_1DEX_1_1DVMBasicBlock.html" title="Class that contain the instructions of basic block different DVMBasicBlock exists.">DVMBasicBlock</a> </dd></dl>
+
+</div>
+</div>
+<a id="a82399c00a87d15743fbec8a9060cf5ec" name="a82399c00a87d15743fbec8a9060cf5ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82399c00a87d15743fbec8a9060cf5ec">&#9670;&#160;</a></span>get_terminator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a> * KUNAI::DEX::DVMBasicBlock::get_terminator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the last instruction in case this is a terminator instruction. </p>
+<dl class="section return"><dt>Returns</dt><dd>terminator instruction </dd></dl>
+
+</div>
+</div>
+<a id="afe9d8b1f029232666408cf215767f9d4" name="afe9d8b1f029232666408cf215767f9d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe9d8b1f029232666408cf215767f9d4">&#9670;&#160;</a></span>is_catch_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool KUNAI::DEX::DVMBasicBlock::is_catch_block </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is the current block a catch-block? </p>
+<dl class="section return"><dt>Returns</dt><dd>true in case this is a catch block </dd></dl>
+
+</div>
+</div>
+<a id="a33a23e3d23ef9b32421949f8f88bb877" name="a33a23e3d23ef9b32421949f8f88bb877"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33a23e3d23ef9b32421949f8f88bb877">&#9670;&#160;</a></span>is_end_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool KUNAI::DEX::DVMBasicBlock::is_end_block </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get if current block is an end block. </p>
+<dl class="section return"><dt>Returns</dt><dd>true in case this is an end block </dd></dl>
+
+</div>
+</div>
+<a id="a16639880c255f7d1abaf77635d299ff8" name="a16639880c255f7d1abaf77635d299ff8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16639880c255f7d1abaf77635d299ff8">&#9670;&#160;</a></span>is_start_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool KUNAI::DEX::DVMBasicBlock::is_start_block </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get if current block is a starting block. </p>
+<dl class="section return"><dt>Returns</dt><dd>true in case this is a starting block </dd></dl>
+
+</div>
+</div>
+<a id="aa88fb1628c4ea330d1d49664a9a96021" name="aa88fb1628c4ea330d1d49664a9a96021"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa88fb1628c4ea330d1d49664a9a96021">&#9670;&#160;</a></span>is_try_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool KUNAI::DEX::DVMBasicBlock::is_try_block </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Is the current block a try-block? </p>
+<dl class="section return"><dt>Returns</dt><dd>true in case this is a try block </dd></dl>
+
+</div>
+</div>
+<a id="a88b32e13de663650044f958e73027dd0" name="a88b32e13de663650044f958e73027dd0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88b32e13de663650044f958e73027dd0">&#9670;&#160;</a></span>set_catch_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::DVMBasicBlock::set_catch_block </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>catch_block</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the block is a catch block. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">bb</td><td>std::vector&lt;std::tuple&lt;std::uint64_t, std::uint64_t, dvmbasicblock_t&gt;&gt; to push in vector. </td></tr>
+    <tr><td class="paramname">catch_block</td><td>new value </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+</div>
+</div>
+<a id="a13bd753f9b35d35909151bac108e28ea" name="a13bd753f9b35d35909151bac108e28ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13bd753f9b35d35909151bac108e28ea">&#9670;&#160;</a></span>set_end_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::DVMBasicBlock::set_end_block </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>end_block</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the block as an end block. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">end_block</td><td>new value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="ab81abdc2d5f8dc9405f5bd0f42547cf3" name="ab81abdc2d5f8dc9405f5bd0f42547cf3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab81abdc2d5f8dc9405f5bd0f42547cf3">&#9670;&#160;</a></span>set_handler_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::DVMBasicBlock::set_handler_type </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td>
+          <td class="paramname"><em>handler</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set a handler type. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">handler</td><td>handler type </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="af71a6cd45d168d2264f2ff919a1a484c" name="af71a6cd45d168d2264f2ff919a1a484c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af71a6cd45d168d2264f2ff919a1a484c">&#9670;&#160;</a></span>set_start_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::DVMBasicBlock::set_start_block </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>start_block</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the block as a start block. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">start_block</td><td>new value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a00be093992f2e1b15cae6c32e722844c" name="a00be093992f2e1b15cae6c32e722844c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a00be093992f2e1b15cae6c32e722844c">&#9670;&#160;</a></span>set_try_block()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::DVMBasicBlock::set_try_block </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>try_block</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the block is a try block. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">try_block</td><td>new value </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/Analysis/<a class="el" href="../../dd/df2/dex__analysis_8hpp_source.html">dex_analysis.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/analysis/<a class="el" href="../../dc/dea/analysis_8hpp_source.html">analysis.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

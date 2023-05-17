@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -83,56 +83,34 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae9db2463bc1321aaacb46ce1c820e5a4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#ae9db2463bc1321aaacb46ce1c820e5a4">ExternalClass</a> (std::string name)</td></tr>
-<tr class="memdesc:ae9db2463bc1321aaacb46ce1c820e5a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new External <a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> object, representation of class out of <a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a>.  <br /></td></tr>
-<tr class="separator:ae9db2463bc1321aaacb46ce1c820e5a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a378a24cc52752073428f668ea78ac6d4"><td class="memItemLeft" align="right" valign="top"><a id="a378a24cc52752073428f668ea78ac6d4" name="a378a24cc52752073428f668ea78ac6d4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>~ExternalClass</b> ()=default</td></tr>
-<tr class="memdesc:a378a24cc52752073428f668ea78ac6d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the External <a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> object, clear methods. <br /></td></tr>
-<tr class="separator:a378a24cc52752073428f668ea78ac6d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e9e4878f9a94b66960819b5bd0364a6"><td class="memItemLeft" align="right" valign="top"><a id="a2e9e4878f9a94b66960819b5bd0364a6" name="a2e9e4878f9a94b66960819b5bd0364a6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ExternalClass</b> (std::string &amp;name)</td></tr>
+<tr class="separator:a2e9e4878f9a94b66960819b5bd0364a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa195047249d5558bc3d589cef8313d5"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#aaa195047249d5558bc3d589cef8313d5">get_name</a> ()</td></tr>
-<tr class="memdesc:aaa195047249d5558bc3d589cef8313d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get <a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> name.  <br /></td></tr>
+<tr class="memdesc:aaa195047249d5558bc3d589cef8313d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the external class.  <br /></td></tr>
 <tr class="separator:aaa195047249d5558bc3d589cef8313d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad0ebf044279c6ccd366e4005e97be2aa"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#ad0ebf044279c6ccd366e4005e97be2aa">get_number_of_methods</a> ()</td></tr>
-<tr class="memdesc:ad0ebf044279c6ccd366e4005e97be2aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of methods in the class.  <br /></td></tr>
-<tr class="separator:ad0ebf044279c6ccd366e4005e97be2aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1735421c6e11843808d019f1d2afc0bf"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#a1735421c6e11843808d019f1d2afc0bf">get_method_by_pos</a> (std::uint64_t pos)</td></tr>
-<tr class="memdesc:a1735421c6e11843808d019f1d2afc0bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the method by position.  <br /></td></tr>
-<tr class="separator:a1735421c6e11843808d019f1d2afc0bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeef695a184833a3e34bd11c4d230ea61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#aeef695a184833a3e34bd11c4d230ea61">add_method</a> (<a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> *method)</td></tr>
-<tr class="memdesc:aeef695a184833a3e34bd11c4d230ea61"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add external method to class.  <br /></td></tr>
-<tr class="separator:aeef695a184833a3e34bd11c4d230ea61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e7f63b01459eecf536bcc33c69d7331"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#a7e7f63b01459eecf536bcc33c69d7331">get_methods</a> () const</td></tr>
+<tr class="memdesc:a7e7f63b01459eecf536bcc33c69d7331"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the methods of the class.  <br /></td></tr>
+<tr class="separator:a7e7f63b01459eecf536bcc33c69d7331"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17496eb8b665ed9ead1abaec0ea1f56c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#a17496eb8b665ed9ead1abaec0ea1f56c">get_methods</a> ()</td></tr>
+<tr class="memdesc:a17496eb8b665ed9ead1abaec0ea1f56c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the methods of the class.  <br /></td></tr>
+<tr class="separator:a17496eb8b665ed9ead1abaec0ea1f56c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc628224b7b1e0eefc842d780885c8c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#abc628224b7b1e0eefc842d780885c8c2">add_external_method</a> (<a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> *method)</td></tr>
+<tr class="memdesc:abc628224b7b1e0eefc842d780885c8c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add an external method to the list of methods.  <br /></td></tr>
+<tr class="separator:abc628224b7b1e0eefc842d780885c8c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36cc4afc506b2f957a3bacde70508758"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#a36cc4afc506b2f957a3bacde70508758">add_external_field</a> (<a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *field)</td></tr>
+<tr class="memdesc:a36cc4afc506b2f957a3bacde70508758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html" title="Class that represent field information it contains a FieldID and also the access flags.">EncodedField</a> to the class, we do not know if this is static or any other kind of field.  <br /></td></tr>
+<tr class="separator:a36cc4afc506b2f957a3bacde70508758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0a1f7d64b389731d72be058c7e8e206"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#ad0a1f7d64b389731d72be058c7e8e206">get_fields</a> () const</td></tr>
+<tr class="memdesc:ad0a1f7d64b389731d72be058c7e8e206"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the fields of this class.  <br /></td></tr>
+<tr class="separator:ad0a1f7d64b389731d72be058c7e8e206"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecc534fd093ee7a4690d2ccc126dc289"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html#aecc534fd093ee7a4690d2ccc126dc289">get_fields</a> ()</td></tr>
+<tr class="memdesc:aecc534fd093ee7a4690d2ccc126dc289"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the fields of this class.  <br /></td></tr>
+<tr class="separator:aecc534fd093ee7a4690d2ccc126dc289"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ae9db2463bc1321aaacb46ce1c820e5a4" name="ae9db2463bc1321aaacb46ce1c820e5a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae9db2463bc1321aaacb46ce1c820e5a4">&#9670;&#160;</a></span>ExternalClass()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">KUNAI::DEX::ExternalClass::ExternalClass </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>name</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Construct a new External <a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> object, representation of class out of <a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a>. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">name</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="aeef695a184833a3e34bd11c4d230ea61" name="aeef695a184833a3e34bd11c4d230ea61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeef695a184833a3e34bd11c4d230ea61">&#9670;&#160;</a></span>add_method()</h2>
+<a id="a36cc4afc506b2f957a3bacde70508758" name="a36cc4afc506b2f957a3bacde70508758"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36cc4afc506b2f957a3bacde70508758">&#9670;&#160;</a></span>add_external_field()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -141,7 +119,41 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void KUNAI::DEX::ExternalClass::add_method </td>
+          <td class="memname">void KUNAI::DEX::ExternalClass::add_external_field </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *&#160;</td>
+          <td class="paramname"><em>field</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Add a new <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html" title="Class that represent field information it contains a FieldID and also the access flags.">EncodedField</a> to the class, we do not know if this is static or any other kind of field. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">field</td><td><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a> object used to create the <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html" title="Class that represent field information it contains a FieldID and also the access flags.">EncodedField</a> </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="abc628224b7b1e0eefc842d780885c8c2" name="abc628224b7b1e0eefc842d780885c8c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc628224b7b1e0eefc842d780885c8c2">&#9670;&#160;</a></span>add_external_method()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::ExternalClass::add_external_method </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> *&#160;</td>
           <td class="paramname"><em>method</em></td><td>)</td>
@@ -155,40 +167,125 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Add external method to class. </p>
+<p>Add an external method to the list of methods. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">method</td><td></td></tr>
+    <tr><td class="paramname">method</td><td>new method of the class </td></tr>
   </table>
   </dd>
 </dl>
 
 </div>
 </div>
-<a id="a1735421c6e11843808d019f1d2afc0bf" name="a1735421c6e11843808d019f1d2afc0bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1735421c6e11843808d019f1d2afc0bf">&#9670;&#160;</a></span>get_method_by_pos()</h2>
+<a id="aecc534fd093ee7a4690d2ccc126dc289" name="aecc534fd093ee7a4690d2ccc126dc289"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecc534fd093ee7a4690d2ccc126dc289">&#9670;&#160;</a></span>get_fields() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> * KUNAI::DEX::ExternalClass::get_method_by_pos </td>
+          <td class="memname">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> &gt; &gt; &amp; KUNAI::DEX::ExternalClass::get_fields </td>
           <td>(</td>
-          <td class="paramtype">std::uint64_t&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Get the method by position. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pos</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>ExternalMethod* </dd></dl>
+<p>Get a reference to the fields of this class. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to fields </dd></dl>
+
+</div>
+</div>
+<a id="ad0a1f7d64b389731d72be058c7e8e206" name="ad0a1f7d64b389731d72be058c7e8e206"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0a1f7d64b389731d72be058c7e8e206">&#9670;&#160;</a></span>get_fields() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> &gt; &gt; &amp; KUNAI::DEX::ExternalClass::get_fields </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the fields of this class. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to fields </dd></dl>
+
+</div>
+</div>
+<a id="a17496eb8b665ed9ead1abaec0ea1f56c" name="a17496eb8b665ed9ead1abaec0ea1f56c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17496eb8b665ed9ead1abaec0ea1f56c">&#9670;&#160;</a></span>get_methods() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> * &gt; &amp; KUNAI::DEX::ExternalClass::get_methods </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to the methods of the class. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to methods </dd></dl>
+
+</div>
+</div>
+<a id="a7e7f63b01459eecf536bcc33c69d7331" name="a7e7f63b01459eecf536bcc33c69d7331"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e7f63b01459eecf536bcc33c69d7331">&#9670;&#160;</a></span>get_methods() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> * &gt; &amp; KUNAI::DEX::ExternalClass::get_methods </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the methods of the class. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to methods </dd></dl>
 
 </div>
 </div>
@@ -215,41 +312,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get <a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a> name. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
-
-</div>
-</div>
-<a id="ad0ebf044279c6ccd366e4005e97be2aa" name="ad0ebf044279c6ccd366e4005e97be2aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad0ebf044279c6ccd366e4005e97be2aa">&#9670;&#160;</a></span>get_number_of_methods()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::uint64_t KUNAI::DEX::ExternalClass::get_number_of_methods </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the number of methods in the class. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::uint64_t </dd></dl>
+<p>Get the name of the external class. </p>
+<dl class="section return"><dt>Returns</dt><dd>name of the class </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/DVM/<a class="el" href="../../d5/daf/dex__external__classes_8hpp_source.html">dex_external_classes.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/analysis/<a class="el" href="../../dc/db0/external__class_8hpp_source.html">external_class.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

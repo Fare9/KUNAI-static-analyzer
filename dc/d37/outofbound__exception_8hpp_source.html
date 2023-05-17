@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.6"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>KUNAI Static Analyzer: src/include/KUNAI/Exceptions/outofbound_exception.hpp Source File</title>
+<title>KUNAI Static Analyzer: kunai-lib/include/Kunai/Exceptions/outofbound_exception.hpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,37 +70,45 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_b0856f6b0d80ccb263b2f415c91f9e17.html">include</a></li><li class="navelem"><a class="el" href="../../dir_f6632af7ef3002e7a376ef515b96d02b.html">KUNAI</a></li><li class="navelem"><a class="el" href="../../dir_7585cc79d68f00392928a052ac1f8723.html">Exceptions</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_7c4cf7b652f928954c1df5238dcf1835.html">kunai-lib</a></li><li class="navelem"><a class="el" href="../../dir_ce6cedf64e2c4f141915450430ab4aeb.html">include</a></li><li class="navelem"><a class="el" href="../../dir_02a8364d484e4e82fa2772f4bc4e03be.html">Kunai</a></li><li class="navelem"><a class="el" href="../../dir_23e9932b0c1b776fc0718c74343ff0f3.html">Exceptions</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="headertitle"><div class="title">outofbound_exception.hpp</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef OUTOFBOUND_EXCEPTION_HPP</span></div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define OUTOFBOUND_EXCEPTION_HPP</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span>exceptions {</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="../../da/d79/classexceptions_1_1OutOfBoundException.html">    8</a></span>        <span class="keyword">class </span><a class="code hl_class" href="../../da/d79/classexceptions_1_1OutOfBoundException.html">OutOfBoundException</a> : <span class="keyword">public</span> std::exception</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>        {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>            <a class="code hl_class" href="../../da/d79/classexceptions_1_1OutOfBoundException.html">OutOfBoundException</a>(<span class="keyword">const</span> std::string&amp; msg) : _msg(msg) {}</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>            <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* what() <span class="keyword">const</span> <span class="keyword">noexcept</span> <span class="keyword">override</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>            {</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>                <span class="keywordflow">return</span> _msg.c_str();</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>            }</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            std::string _msg;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        };</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>}</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aclassexceptions_1_1OutOfBoundException_html"><div class="ttname"><a href="../../da/d79/classexceptions_1_1OutOfBoundException.html">exceptions::OutOfBoundException</a></div><div class="ttdef"><b>Definition:</b> outofbound_exception.hpp:9</div></div>
+<div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">//--------------------------------------------------------------------*- C++ -*-</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="comment">// Kunai-static-analyzer: library for doing analysis of dalvik files</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="comment">// @author Farenain &lt;kunai.static.analysis@gmail.com&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="comment">// </span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="comment">// @file outofbound_exception.hpp</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifndef KUNAI_EXCEPTIONS_OUTOFBOUND_EXCEPTION_HPP</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#define KUNAI_EXCEPTIONS_OUTOFBOUND_EXCEPTION_HPP</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span>exceptions</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>{</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="../../da/d79/classexceptions_1_1OutOfBoundException.html">   15</a></span>    <span class="keyword">class </span><a class="code hl_class" href="../../da/d79/classexceptions_1_1OutOfBoundException.html">OutOfBoundException</a> : <span class="keyword">public</span> std::exception</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        std::string _msg;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="../../da/d79/classexceptions_1_1OutOfBoundException.html#a447a15fb7be023f0db0cd57fa14c673d">   24</a></span>        <a class="code hl_function" href="../../da/d79/classexceptions_1_1OutOfBoundException.html#a447a15fb7be023f0db0cd57fa14c673d">OutOfBoundException</a>(<span class="keyword">const</span> std::string &amp;msg) : _msg(msg)</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        {}</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="../../da/d79/classexceptions_1_1OutOfBoundException.html#abbc254d8db1bad4c1bfd8c9dbbd50f00">   29</a></span>        <span class="keyword">virtual</span> <span class="keyword">const</span> <span class="keywordtype">char</span>* <a class="code hl_function" href="../../da/d79/classexceptions_1_1OutOfBoundException.html#abbc254d8db1bad4c1bfd8c9dbbd50f00">what</a>() const noexcept<span class="keyword"> override</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            <span class="keywordflow">return</span> _msg.c_str();</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        }</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    };</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>} <span class="comment">// namespace exceptions</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#endif </span><span class="comment">// KUNAI_EXCEPTIONS_OUTOFBOUND_EXCEPTION_HPP</span></div>
+<div class="ttc" id="aclassexceptions_1_1OutOfBoundException_html"><div class="ttname"><a href="../../da/d79/classexceptions_1_1OutOfBoundException.html">exceptions::OutOfBoundException</a></div><div class="ttdoc">Exception raised when a read is done out of bound in case it is detected.</div><div class="ttdef"><b>Definition:</b> outofbound_exception.hpp:16</div></div>
+<div class="ttc" id="aclassexceptions_1_1OutOfBoundException_html_a447a15fb7be023f0db0cd57fa14c673d"><div class="ttname"><a href="../../da/d79/classexceptions_1_1OutOfBoundException.html#a447a15fb7be023f0db0cd57fa14c673d">exceptions::OutOfBoundException::OutOfBoundException</a></div><div class="ttdeci">OutOfBoundException(const std::string &amp;msg)</div><div class="ttdoc">Constructor of exception.</div><div class="ttdef"><b>Definition:</b> outofbound_exception.hpp:24</div></div>
+<div class="ttc" id="aclassexceptions_1_1OutOfBoundException_html_abbc254d8db1bad4c1bfd8c9dbbd50f00"><div class="ttname"><a href="../../da/d79/classexceptions_1_1OutOfBoundException.html#abbc254d8db1bad4c1bfd8c9dbbd50f00">exceptions::OutOfBoundException::what</a></div><div class="ttdeci">virtual const char * what() const noexcept override</div><div class="ttdoc">Return error message.</div><div class="ttdef"><b>Definition:</b> outofbound_exception.hpp:29</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

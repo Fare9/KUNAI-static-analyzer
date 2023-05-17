@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,13 +70,12 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="../../d6/d13/classKUNAI_1_1DEX_1_1ExternalMethod-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">KUNAI::DEX::ExternalMethod Class Reference</div></div>
 </div><!--header-->
@@ -84,86 +83,28 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8549989875fc49e70a401f43aca34691"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#a8549989875fc49e70a401f43aca34691">ExternalMethod</a> (std::string class_idx, std::string name_idx, std::string proto_idx)</td></tr>
-<tr class="memdesc:a8549989875fc49e70a401f43aca34691"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new External Method object.  <br /></td></tr>
-<tr class="separator:a8549989875fc49e70a401f43aca34691"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a41fca6d59c9979380c3a92436850e53e"><td class="memItemLeft" align="right" valign="top"><a id="a41fca6d59c9979380c3a92436850e53e" name="a41fca6d59c9979380c3a92436850e53e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>~ExternalMethod</b> ()=default</td></tr>
-<tr class="memdesc:a41fca6d59c9979380c3a92436850e53e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroy the External Method object. <br /></td></tr>
-<tr class="separator:a41fca6d59c9979380c3a92436850e53e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a251d38f3f56a8bd6e18c53efa1b49bf7"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#a251d38f3f56a8bd6e18c53efa1b49bf7">get_name</a> ()</td></tr>
-<tr class="memdesc:a251d38f3f56a8bd6e18c53efa1b49bf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the method name.  <br /></td></tr>
-<tr class="separator:a251d38f3f56a8bd6e18c53efa1b49bf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42170fe94441d51d61a03aa06ad478bc"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#a42170fe94441d51d61a03aa06ad478bc">get_class_name</a> ()</td></tr>
-<tr class="memdesc:a42170fe94441d51d61a03aa06ad478bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the method class name.  <br /></td></tr>
-<tr class="separator:a42170fe94441d51d61a03aa06ad478bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac5274b7e215f57f2dea111df8174e9d8"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#ac5274b7e215f57f2dea111df8174e9d8">get_descriptor</a> ()</td></tr>
-<tr class="memdesc:ac5274b7e215f57f2dea111df8174e9d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the method descriptor.  <br /></td></tr>
-<tr class="separator:ac5274b7e215f57f2dea111df8174e9d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a835953edb47e508516cbbc02b2669444"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#a835953edb47e508516cbbc02b2669444">full_name</a> ()</td></tr>
-<tr class="memdesc:a835953edb47e508516cbbc02b2669444"><td class="mdescLeft">&#160;</td><td class="mdescRight">return classname + "-&gt;" + name + " " + proto.  <br /></td></tr>
-<tr class="separator:a835953edb47e508516cbbc02b2669444"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abc2339e7fcadcb78125106476556de70"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#abc2339e7fcadcb78125106476556de70">permission_api_name</a> ()</td></tr>
-<tr class="memdesc:abc2339e7fcadcb78125106476556de70"><td class="mdescLeft">&#160;</td><td class="mdescRight">return classname + name + proto in a way useful to look up in permission maps.  <br /></td></tr>
-<tr class="separator:abc2339e7fcadcb78125106476556de70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a117e275dc5746bd39dd7fa440c9cd6a6"><td class="memItemLeft" align="right" valign="top">DVMTypes::ACCESS_FLAGS&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#a117e275dc5746bd39dd7fa440c9cd6a6">get_access_flags</a> ()</td></tr>
-<tr class="memdesc:a117e275dc5746bd39dd7fa440c9cd6a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the access flags of the method, in this case NONE.  <br /></td></tr>
-<tr class="separator:a117e275dc5746bd39dd7fa440c9cd6a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:ac17fe54f087c97bd66008a99958ba7a4"><td class="memItemLeft" align="right" valign="top"><a id="ac17fe54f087c97bd66008a99958ba7a4" name="ac17fe54f087c97bd66008a99958ba7a4"></a>
-std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> &amp;entry)</td></tr>
-<tr class="separator:ac17fe54f087c97bd66008a99958ba7a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a997ab80578aa2c693e2214481dbe53c6"><td class="memItemLeft" align="right" valign="top"><a id="a997ab80578aa2c693e2214481dbe53c6" name="a997ab80578aa2c693e2214481dbe53c6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ExternalMethod</b> (std::string &amp;class_idx, std::string &amp;name_idx, std::string &amp;proto_idx)</td></tr>
+<tr class="separator:a997ab80578aa2c693e2214481dbe53c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5156df6ae951292e0ac8faf76e1a39f9"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#a5156df6ae951292e0ac8faf76e1a39f9">get_class_idx</a> () const</td></tr>
+<tr class="memdesc:a5156df6ae951292e0ac8faf76e1a39f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the name of the class where the method is.  <br /></td></tr>
+<tr class="separator:a5156df6ae951292e0ac8faf76e1a39f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3ff1ad6bb61c7cb9f404d4df0b60c28"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#af3ff1ad6bb61c7cb9f404d4df0b60c28">get_name_idx</a> () const</td></tr>
+<tr class="memdesc:af3ff1ad6bb61c7cb9f404d4df0b60c28"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name of the external method.  <br /></td></tr>
+<tr class="separator:af3ff1ad6bb61c7cb9f404d4df0b60c28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b5a148c6bf68815511477abc6fbee8e"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#a0b5a148c6bf68815511477abc6fbee8e">get_proto_idx</a> () const</td></tr>
+<tr class="memdesc:a0b5a148c6bf68815511477abc6fbee8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the prototype of the external method.  <br /></td></tr>
+<tr class="separator:a0b5a148c6bf68815511477abc6fbee8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a936a180952fcbdaafbd8da41e04be097"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#a936a180952fcbdaafbd8da41e04be097">pretty_method_name</a> () const</td></tr>
+<tr class="memdesc:a936a180952fcbdaafbd8da41e04be097"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pretty printed version of the name that includes class name, name of the method and the prototype.  <br /></td></tr>
+<tr class="separator:a936a180952fcbdaafbd8da41e04be097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c49b4007c6497d7f44f2734dc54ea74"><td class="memItemLeft" align="right" valign="top">TYPES::access_flags&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#a5c49b4007c6497d7f44f2734dc54ea74">get_access_flags</a> () const</td></tr>
+<tr class="memdesc:a5c49b4007c6497d7f44f2734dc54ea74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the access flags from the method.  <br /></td></tr>
+<tr class="separator:a5c49b4007c6497d7f44f2734dc54ea74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a8549989875fc49e70a401f43aca34691" name="a8549989875fc49e70a401f43aca34691"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8549989875fc49e70a401f43aca34691">&#9670;&#160;</a></span>ExternalMethod()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">KUNAI::DEX::ExternalMethod::ExternalMethod </td>
-          <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>class_idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>name_idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>proto_idx</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Construct a new External Method object. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">class_idx</td><td></td></tr>
-    <tr><td class="paramname">name_idx</td><td></td></tr>
-    <tr><td class="paramname">proto_idx</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a835953edb47e508516cbbc02b2669444" name="a835953edb47e508516cbbc02b2669444"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a835953edb47e508516cbbc02b2669444">&#9670;&#160;</a></span>full_name()</h2>
+<a id="a5c49b4007c6497d7f44f2734dc54ea74" name="a5c49b4007c6497d7f44f2734dc54ea74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c49b4007c6497d7f44f2734dc54ea74">&#9670;&#160;</a></span>get_access_flags()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,10 +113,10 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string KUNAI::DEX::ExternalMethod::full_name </td>
+          <td class="memname">TYPES::access_flags KUNAI::DEX::ExternalMethod::get_access_flags </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -185,13 +126,13 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 </table>
 </div><div class="memdoc">
 
-<p>return classname + "-&gt;" + name + " " + proto. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string with full name. </dd></dl>
+<p>Get the access flags from the method. </p>
+<dl class="section return"><dt>Returns</dt><dd>NONE access flags </dd></dl>
 
 </div>
 </div>
-<a id="a117e275dc5746bd39dd7fa440c9cd6a6" name="a117e275dc5746bd39dd7fa440c9cd6a6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a117e275dc5746bd39dd7fa440c9cd6a6">&#9670;&#160;</a></span>get_access_flags()</h2>
+<a id="a5156df6ae951292e0ac8faf76e1a39f9" name="a5156df6ae951292e0ac8faf76e1a39f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5156df6ae951292e0ac8faf76e1a39f9">&#9670;&#160;</a></span>get_class_idx()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -200,10 +141,10 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">DVMTypes::ACCESS_FLAGS KUNAI::DEX::ExternalMethod::get_access_flags </td>
+          <td class="memname">std::string &amp; KUNAI::DEX::ExternalMethod::get_class_idx </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -213,13 +154,13 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 </table>
 </div><div class="memdoc">
 
-<p>Get the access flags of the method, in this case NONE. </p>
-<dl class="section return"><dt>Returns</dt><dd>DVMTypes::ACCESS_FLAGS </dd></dl>
+<p>Return the name of the class where the method is. </p>
+<dl class="section return"><dt>Returns</dt><dd>name of the class </dd></dl>
 
 </div>
 </div>
-<a id="a42170fe94441d51d61a03aa06ad478bc" name="a42170fe94441d51d61a03aa06ad478bc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42170fe94441d51d61a03aa06ad478bc">&#9670;&#160;</a></span>get_class_name()</h2>
+<a id="af3ff1ad6bb61c7cb9f404d4df0b60c28" name="af3ff1ad6bb61c7cb9f404d4df0b60c28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3ff1ad6bb61c7cb9f404d4df0b60c28">&#9670;&#160;</a></span>get_name_idx()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -228,10 +169,10 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string &amp; KUNAI::DEX::ExternalMethod::get_class_name </td>
+          <td class="memname">std::string &amp; KUNAI::DEX::ExternalMethod::get_name_idx </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -241,13 +182,13 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 </table>
 </div><div class="memdoc">
 
-<p>Get the method class name. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
+<p>Get the name of the external method. </p>
+<dl class="section return"><dt>Returns</dt><dd>name of the method </dd></dl>
 
 </div>
 </div>
-<a id="ac5274b7e215f57f2dea111df8174e9d8" name="ac5274b7e215f57f2dea111df8174e9d8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac5274b7e215f57f2dea111df8174e9d8">&#9670;&#160;</a></span>get_descriptor()</h2>
+<a id="a0b5a148c6bf68815511477abc6fbee8e" name="a0b5a148c6bf68815511477abc6fbee8e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b5a148c6bf68815511477abc6fbee8e">&#9670;&#160;</a></span>get_proto_idx()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -256,10 +197,10 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string &amp; KUNAI::DEX::ExternalMethod::get_descriptor </td>
+          <td class="memname">std::string &amp; KUNAI::DEX::ExternalMethod::get_proto_idx </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -269,13 +210,13 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 </table>
 </div><div class="memdoc">
 
-<p>Get the method descriptor. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
+<p>Get the prototype of the external method. </p>
+<dl class="section return"><dt>Returns</dt><dd>prototype of the method </dd></dl>
 
 </div>
 </div>
-<a id="a251d38f3f56a8bd6e18c53efa1b49bf7" name="a251d38f3f56a8bd6e18c53efa1b49bf7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a251d38f3f56a8bd6e18c53efa1b49bf7">&#9670;&#160;</a></span>get_name()</h2>
+<a id="a936a180952fcbdaafbd8da41e04be097" name="a936a180952fcbdaafbd8da41e04be097"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a936a180952fcbdaafbd8da41e04be097">&#9670;&#160;</a></span>pretty_method_name()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -284,10 +225,10 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string &amp; KUNAI::DEX::ExternalMethod::get_name </td>
+          <td class="memname">std::string &amp; KUNAI::DEX::ExternalMethod::pretty_method_name </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td></td>
+          <td> const</td>
         </tr>
       </table>
   </td>
@@ -297,41 +238,13 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 </table>
 </div><div class="memdoc">
 
-<p>Get the method name. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
-
-</div>
-</div>
-<a id="abc2339e7fcadcb78125106476556de70" name="abc2339e7fcadcb78125106476556de70"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc2339e7fcadcb78125106476556de70">&#9670;&#160;</a></span>permission_api_name()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string KUNAI::DEX::ExternalMethod::permission_api_name </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>return classname + name + proto in a way useful to look up in permission maps. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string with full name for permission check. </dd></dl>
+<p>Get a pretty printed version of the name that includes class name, name of the method and the prototype. </p>
+<dl class="section return"><dt>Returns</dt><dd>pretty printed version of the name </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/DVM/<a class="el" href="../../dd/df7/dex__external__methods_8hpp_source.html">dex_external_methods.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/analysis/<a class="el" href="../../df/df0/external__method_8hpp_source.html">external_method.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

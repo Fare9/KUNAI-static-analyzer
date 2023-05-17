@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html">EncodedArray</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html">EncodedArray</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,21 +80,168 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::EncodedArray Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Information of an array with encoded values.  
+ <a href="../../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0d7ab72d9df9b6ff42805136ee5688c1"><td class="memItemLeft" align="right" valign="top"><a id="a0d7ab72d9df9b6ff42805136ee5688c1" name="a0d7ab72d9df9b6ff42805136ee5688c1"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>EncodedArray</b> (std::ifstream &amp;input_file)</td></tr>
-<tr class="separator:a0d7ab72d9df9b6ff42805136ee5688c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a89a1756fd5e9eaec5af67329fa6c15ec"><td class="memItemLeft" align="right" valign="top"><a id="a89a1756fd5e9eaec5af67329fa6c15ec" name="a89a1756fd5e9eaec5af67329fa6c15ec"></a>
-std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_size</b> ()</td></tr>
-<tr class="separator:a89a1756fd5e9eaec5af67329fa6c15ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a55a4346464aa0ea010ed7c04bca38073"><td class="memItemLeft" align="right" valign="top"><a id="a55a4346464aa0ea010ed7c04bca38073" name="a55a4346464aa0ea010ed7c04bca38073"></a>
-const encodedvalues_t &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_values</b> () const</td></tr>
-<tr class="separator:a55a4346464aa0ea010ed7c04bca38073"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af46e09298d5061a241545ee95a4bee73"><td class="memItemLeft" align="right" valign="top"><a id="af46e09298d5061a241545ee95a4bee73" name="af46e09298d5061a241545ee95a4bee73"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>EncodedArray</b> ()=default</td></tr>
+<tr class="memdesc:af46e09298d5061a241545ee95a4bee73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of the encoded array. <br /></td></tr>
+<tr class="separator:af46e09298d5061a241545ee95a4bee73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fa84e038c401cf77166968da00bda30"><td class="memItemLeft" align="right" valign="top"><a id="a6fa84e038c401cf77166968da00bda30" name="a6fa84e038c401cf77166968da00bda30"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~EncodedArray</b> ()=default</td></tr>
+<tr class="memdesc:a6fa84e038c401cf77166968da00bda30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of encoded array. <br /></td></tr>
+<tr class="separator:a6fa84e038c401cf77166968da00bda30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31f39e4753293d61a7de1efb624fdf29"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html#a31f39e4753293d61a7de1efb624fdf29">parse_encoded_array</a> (<a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *stream, <a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *types, <a class="el" href="../../d7/d35/classKUNAI_1_1DEX_1_1Strings.html">Strings</a> *strings)</td></tr>
+<tr class="memdesc:a31f39e4753293d61a7de1efb624fdf29"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parse the encoded Array.  <br /></td></tr>
+<tr class="separator:a31f39e4753293d61a7de1efb624fdf29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe662e39bfc21b708890dc3b4d079070"><td class="memItemLeft" align="right" valign="top">std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html#abe662e39bfc21b708890dc3b4d079070">get_array_size</a> () const</td></tr>
+<tr class="memdesc:abe662e39bfc21b708890dc3b4d079070"><td class="mdescLeft">&#160;</td><td class="mdescRight">get the size of the array  <br /></td></tr>
+<tr class="separator:abe662e39bfc21b708890dc3b4d079070"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ab4a45873d0223eb0b5745ca44a6b93"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; encodedvalue_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html#a5ab4a45873d0223eb0b5745ca44a6b93">get_values</a> () const</td></tr>
+<tr class="memdesc:a5ab4a45873d0223eb0b5745ca44a6b93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get constant reference to encoded values.  <br /></td></tr>
+<tr class="separator:a5ab4a45873d0223eb0b5745ca44a6b93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff721a7e37d50c440df76c5adf57a923"><td class="memItemLeft" align="right" valign="top">std::vector&lt; encodedvalue_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html#aff721a7e37d50c440df76c5adf57a923">get_values</a> ()</td></tr>
+<tr class="memdesc:aff721a7e37d50c440df76c5adf57a923"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to encoded values.  <br /></td></tr>
+<tr class="separator:aff721a7e37d50c440df76c5adf57a923"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Information of an array with encoded values. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="abe662e39bfc21b708890dc3b4d079070" name="abe662e39bfc21b708890dc3b4d079070"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe662e39bfc21b708890dc3b4d079070">&#9670;&#160;</a></span>get_array_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint64_t KUNAI::DEX::EncodedArray::get_array_size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>get the size of the array </p>
+<dl class="section return"><dt>Returns</dt><dd>size of the array </dd></dl>
+
+</div>
+</div>
+<a id="aff721a7e37d50c440df76c5adf57a923" name="aff721a7e37d50c440df76c5adf57a923"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff721a7e37d50c440df76c5adf57a923">&#9670;&#160;</a></span>get_values() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; encodedvalue_t &gt; &amp; KUNAI::DEX::EncodedArray::get_values </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to encoded values. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to encoded values </dd></dl>
+
+</div>
+</div>
+<a id="a5ab4a45873d0223eb0b5745ca44a6b93" name="a5ab4a45873d0223eb0b5745ca44a6b93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ab4a45873d0223eb0b5745ca44a6b93">&#9670;&#160;</a></span>get_values() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::vector&lt; encodedvalue_t &gt; &amp; KUNAI::DEX::EncodedArray::get_values </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get constant reference to encoded values. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to encoded values </dd></dl>
+
+</div>
+</div>
+<a id="a31f39e4753293d61a7de1efb624fdf29" name="a31f39e4753293d61a7de1efb624fdf29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31f39e4753293d61a7de1efb624fdf29">&#9670;&#160;</a></span>parse_encoded_array()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KUNAI::DEX::EncodedArray::parse_encoded_array </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *&#160;</td>
+          <td class="paramname"><em>types</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d7/d35/classKUNAI_1_1DEX_1_1Strings.html">Strings</a> *&#160;</td>
+          <td class="paramname"><em>strings</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Parse the encoded Array. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>stream where to read data </td></tr>
+    <tr><td class="paramname">types</td><td>object with types for parsing encoded array </td></tr>
+    <tr><td class="paramname">strings</td><td>object with strings for parsing encoded array </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../d1/da9/dex__encoded_8hpp_source.html">dex_encoded.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../df/d97/encoded_8hpp_source.html">encoded.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

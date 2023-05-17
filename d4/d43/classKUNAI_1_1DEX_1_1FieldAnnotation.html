@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d4/d43/classKUNAI_1_1DEX_1_1FieldAnnotation.html">FieldAnnotation</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d4/d43/classKUNAI_1_1DEX_1_1FieldAnnotation.html">FieldAnnotation</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,21 +80,135 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::FieldAnnotation Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Information for the list of annotations for the fields.  
+ <a href="../../d4/d43/classKUNAI_1_1DEX_1_1FieldAnnotation.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d0/d4f/annotations_8hpp_source.html">annotations.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ac44a60a07f3c7b8633068c821a1ec053"><td class="memItemLeft" align="right" valign="top"><a id="ac44a60a07f3c7b8633068c821a1ec053" name="ac44a60a07f3c7b8633068c821a1ec053"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>FieldAnnotation</b> (std::uint32_t field_idx, std::uint32_t annotations_off)</td></tr>
+<tr class="memitem:ac44a60a07f3c7b8633068c821a1ec053"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d43/classKUNAI_1_1DEX_1_1FieldAnnotation.html#ac44a60a07f3c7b8633068c821a1ec053">FieldAnnotation</a> (std::uint32_t field_idx, std::uint32_t annotations_off)</td></tr>
+<tr class="memdesc:ac44a60a07f3c7b8633068c821a1ec053"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of <a class="el" href="../../d4/d43/classKUNAI_1_1DEX_1_1FieldAnnotation.html" title="Information for the list of annotations for the fields.">FieldAnnotation</a>.  <br /></td></tr>
 <tr class="separator:ac44a60a07f3c7b8633068c821a1ec053"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0b700ca09fa343df91416b82fb94ad9a"><td class="memItemLeft" align="right" valign="top"><a id="a0b700ca09fa343df91416b82fb94ad9a" name="a0b700ca09fa343df91416b82fb94ad9a"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_field_idx</b> ()</td></tr>
-<tr class="separator:a0b700ca09fa343df91416b82fb94ad9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afc5e8548082271baae95e9923ca7d2b1"><td class="memItemLeft" align="right" valign="top"><a id="afc5e8548082271baae95e9923ca7d2b1" name="afc5e8548082271baae95e9923ca7d2b1"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_annotations_off</b> ()</td></tr>
-<tr class="separator:afc5e8548082271baae95e9923ca7d2b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cd8e3b6f423feb2f28691286319a6ee"><td class="memItemLeft" align="right" valign="top"><a id="a1cd8e3b6f423feb2f28691286319a6ee" name="a1cd8e3b6f423feb2f28691286319a6ee"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~FieldAnnotation</b> ()=default</td></tr>
+<tr class="memdesc:a1cd8e3b6f423feb2f28691286319a6ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of <a class="el" href="../../d4/d43/classKUNAI_1_1DEX_1_1FieldAnnotation.html" title="Information for the list of annotations for the fields.">FieldAnnotation</a>. <br /></td></tr>
+<tr class="separator:a1cd8e3b6f423feb2f28691286319a6ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ecef266a1fc5ef06cfd29e2bfa963d7"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d43/classKUNAI_1_1DEX_1_1FieldAnnotation.html#a1ecef266a1fc5ef06cfd29e2bfa963d7">get_field_idx</a> () const</td></tr>
+<tr class="memdesc:a1ecef266a1fc5ef06cfd29e2bfa963d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the field idx of the annotation.  <br /></td></tr>
+<tr class="separator:a1ecef266a1fc5ef06cfd29e2bfa963d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d991715b8eee9f0e5f8822deda93a30"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d43/classKUNAI_1_1DEX_1_1FieldAnnotation.html#a5d991715b8eee9f0e5f8822deda93a30">get_annotations_off</a> () const</td></tr>
+<tr class="memdesc:a5d991715b8eee9f0e5f8822deda93a30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the offset of the annotation.  <br /></td></tr>
+<tr class="separator:a5d991715b8eee9f0e5f8822deda93a30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Information for the list of annotations for the fields. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ac44a60a07f3c7b8633068c821a1ec053" name="ac44a60a07f3c7b8633068c821a1ec053"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac44a60a07f3c7b8633068c821a1ec053">&#9670;&#160;</a></span>FieldAnnotation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">KUNAI::DEX::FieldAnnotation::FieldAnnotation </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>field_idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>annotations_off</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor of <a class="el" href="../../d4/d43/classKUNAI_1_1DEX_1_1FieldAnnotation.html" title="Information for the list of annotations for the fields.">FieldAnnotation</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">field_idx</td><td>idx of the field </td></tr>
+    <tr><td class="paramname">annotations_off</td><td>offset to the annotations </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a5d991715b8eee9f0e5f8822deda93a30" name="a5d991715b8eee9f0e5f8822deda93a30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d991715b8eee9f0e5f8822deda93a30">&#9670;&#160;</a></span>get_annotations_off()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint32_t KUNAI::DEX::FieldAnnotation::get_annotations_off </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the offset of the annotation. </p>
+<dl class="section return"><dt>Returns</dt><dd>offset of the annotation </dd></dl>
+
+</div>
+</div>
+<a id="a1ecef266a1fc5ef06cfd29e2bfa963d7" name="a1ecef266a1fc5ef06cfd29e2bfa963d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ecef266a1fc5ef06cfd29e2bfa963d7">&#9670;&#160;</a></span>get_field_idx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint32_t KUNAI::DEX::FieldAnnotation::get_field_idx </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the field idx of the annotation. </p>
+<dl class="section return"><dt>Returns</dt><dd>field idx of the annotation </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../df/d86/dex__annotations_8hpp_source.html">dex_annotations.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../d0/d4f/annotations_8hpp_source.html">annotations.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

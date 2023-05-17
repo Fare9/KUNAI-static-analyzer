@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,13 +80,17 @@ $(function() {
 
 <p>This is the complete list of members for <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a>, including all inherited members.</p>
 <table class="directory">
-  <tr class="even"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a8d479ebfbbc4a910211b0d99a5e917f4">FieldID</a>(std::uint16_t class_idx, std::uint16_t type_idx, std::uint32_t name_idx, DexStrings *dex_strings, DexTypes *dex_types)</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#ab6da57d3e4810e454bf02008493f845d">get_class_idx</a>()</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a1c19a07a5563a97e864d4d7166568cea">get_field_str</a>()</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"></td></tr>
-  <tr class="odd"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#ab28fe46fa8808d3d751afce0dd8fcc9a">get_name_idx</a>()</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a1c81452d6fe1b401cdfa41fccfd2000e">get_type_idx</a>()</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"></td></tr>
-  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>operator&lt;&lt;</b> (defined in <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a>)</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"><span class="mlabel">friend</span></td></tr>
-  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>~FieldID</b>()=default (defined in <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a>)</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#ae2b19e221581c4235de40f52621cc0ea">FieldID</a>(DVMType *class_, DVMType *type_, std::string &amp;name_)</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a6f5e4bfa0c829ef484b0483035a0d652">get_class</a>() const</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a0785fe1ea68ca0665c0124463e2835ac">get_class</a>()</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>get_encoded_field</b>() (defined in <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a>)</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#ab71b32bd7c099ddc1852aa26d8a15416">get_name</a>() const</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#af85c1530561e7242505828000abf2eee">get_name</a>()</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#ac7bb8fa164f7ef43fda20bc9c3f81932">get_type</a>() const</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="odd"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#af246ed1b11260c1ac36c3a452501ea15">get_type</a>()</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a411f8fe04cf4bb8e2cf53bcd3c613d43">pretty_field</a>()</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="odd"><td class="entry"><b>set_encoded_field</b>(EncodedField *encoded_field) (defined in <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a>)</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr class="even"><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a562d65130679651c4373d2b7b8896985">~FieldID</a>()=default</td><td class="entry"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">KUNAI::DEX::FieldID</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

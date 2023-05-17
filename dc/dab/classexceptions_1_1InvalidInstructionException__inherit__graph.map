@@ -1,0 +1,4 @@
+<map id="exceptions::InvalidInstructionException" name="exceptions::InvalidInstructionException">
+<area shape="rect" id="node1" title="Exception raised when one of the instructions has not a valid format." alt="" coords="5,79,194,120"/>
+<area shape="rect" id="node2" title=" " alt="" coords="49,5,150,31"/>
+</map>

@@ -1,18 +1,16 @@
 var searchData=
 [
-  ['fallthrough_5ftarget_5fanalysis_0',['fallthrough_target_analysis',['../d6/d70/classKUNAI_1_1MJOLNIR_1_1Optimizer.html#a5ef610987983fb729357dfbeb74508d5',1,'KUNAI::MJOLNIR::Optimizer']]],
-  ['field_5fir_1',['field_ir',['../d9/d2a/ir__grammar_8hpp.html#ade23da336709c88d93d6ab2c03253f70',1,'KUNAI::MJOLNIR']]],
-  ['fieldanalysis_2',['FieldAnalysis',['../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html#a7c6e5675c97a0391ae714b65b426b508',1,'KUNAI::DEX::FieldAnalysis::FieldAnalysis()'],['../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html',1,'KUNAI::DEX::FieldAnalysis']]],
-  ['fieldannotation_3',['FieldAnnotation',['../d4/d43/classKUNAI_1_1DEX_1_1FieldAnnotation.html',1,'KUNAI::DEX']]],
-  ['fieldid_4',['FieldID',['../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a8d479ebfbbc4a910211b0d99a5e917f4',1,'KUNAI::DEX::FieldID::FieldID()'],['../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html',1,'KUNAI::DEX::FieldID']]],
-  ['fillarraydata_5',['FillArrayData',['../de/d27/classKUNAI_1_1DEX_1_1FillArrayData.html',1,'KUNAI::DEX']]],
-  ['find_5fclasses_6',['find_classes',['../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a81e9d9b28be81c92c18421e5d47114a2',1,'KUNAI::DEX::Analysis']]],
-  ['find_5ffields_7',['find_fields',['../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a3d464d1a257984ec82419a1429d4db01',1,'KUNAI::DEX::Analysis']]],
-  ['find_5fmethods_8',['find_methods',['../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a4cefb25c37e6654edbe10f984dd24d59',1,'KUNAI::DEX::Analysis']]],
-  ['find_5fpath_9',['find_path',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#a366b41dd745d3242697da507fd8ef4af',1,'KUNAI::MJOLNIR::IRGraph']]],
-  ['find_5fpath_5ffrom_5fsrc_10',['find_path_from_src',['../d9/de6/classKUNAI_1_1MJOLNIR_1_1IRGraph.html#a8c7ab28dfcb2264bd6cfae7b7cc3a314',1,'KUNAI::MJOLNIR::IRGraph']]],
-  ['find_5fstrings_11',['find_strings',['../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#aba3d08fdffd8d94196e17b05cce74765',1,'KUNAI::DEX::Analysis']]],
-  ['full_5fname_12',['full_name',['../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html#a2b2c8064f4d8dd8ba103953b4b3b9c83',1,'KUNAI::DEX::MethodAnalysis::full_name()'],['../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html#a835953edb47e508516cbbc02b2669444',1,'KUNAI::DEX::ExternalMethod::full_name()']]],
-  ['fundamental_13',['Fundamental',['../d6/dc1/classKUNAI_1_1DEX_1_1Fundamental.html#a11da54f273cd40d9ce619ac0a0961c3d',1,'KUNAI::DEX::Fundamental::Fundamental()'],['../d6/dc1/classKUNAI_1_1DEX_1_1Fundamental.html',1,'KUNAI::DEX::Fundamental']]],
-  ['fundamental_5fir_14',['fundamental_ir',['../d9/d2a/ir__grammar_8hpp.html#a09b76647788caee540f2e6753cf3151c',1,'KUNAI::MJOLNIR']]]
+  ['edges_5ft_0',['edges_t',['../dc/d19/classKUNAI_1_1DEX_1_1BasicBlocks.html#a48843e4163901d2f3dc609b6629ba8c0',1,'KUNAI::DEX::BasicBlocks']]],
+  ['encodedannotation_1',['EncodedAnnotation',['../d9/d0c/classKUNAI_1_1DEX_1_1EncodedAnnotation.html#a29e426e7587123e27f91bf119aa54cf1',1,'KUNAI::DEX::EncodedAnnotation::EncodedAnnotation()'],['../d9/d0c/classKUNAI_1_1DEX_1_1EncodedAnnotation.html',1,'KUNAI::DEX::EncodedAnnotation']]],
+  ['encodedarray_2',['EncodedArray',['../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html#af46e09298d5061a241545ee95a4bee73',1,'KUNAI::DEX::EncodedArray::EncodedArray()'],['../d1/d26/classKUNAI_1_1DEX_1_1EncodedArray.html',1,'KUNAI::DEX::EncodedArray']]],
+  ['encodedcatchhandler_3',['EncodedCatchHandler',['../d4/dac/classKUNAI_1_1DEX_1_1EncodedCatchHandler.html#abae204b96e425e6ac521e459b8aff76e',1,'KUNAI::DEX::EncodedCatchHandler::EncodedCatchHandler()'],['../d4/dac/classKUNAI_1_1DEX_1_1EncodedCatchHandler.html',1,'KUNAI::DEX::EncodedCatchHandler']]],
+  ['encodedfield_4',['EncodedField',['../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html#a6bd323e431e7dd25c204dc7234635b65',1,'KUNAI::DEX::EncodedField::EncodedField()'],['../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html',1,'KUNAI::DEX::EncodedField']]],
+  ['encodedmethod_5',['EncodedMethod',['../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html#a4ddad13582e8c80dab7a504d8cbfa2b9',1,'KUNAI::DEX::EncodedMethod::EncodedMethod()'],['../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html',1,'KUNAI::DEX::EncodedMethod']]],
+  ['encodedtypepair_6',['EncodedTypePair',['../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html#ad59847c140d0edc0f7a249cac020e84f',1,'KUNAI::DEX::EncodedTypePair::EncodedTypePair()'],['../d0/d2d/classKUNAI_1_1DEX_1_1EncodedTypePair.html',1,'KUNAI::DEX::EncodedTypePair']]],
+  ['encodedvalue_7',['EncodedValue',['../d2/d8b/classKUNAI_1_1DEX_1_1EncodedValue.html#a34bda078cfa27efd5a2539b23ec6c9ae',1,'KUNAI::DEX::EncodedValue::EncodedValue()'],['../d2/d8b/classKUNAI_1_1DEX_1_1EncodedValue.html',1,'KUNAI::DEX::EncodedValue']]],
+  ['endian_5ftag_8',['endian_tag',['../d4/dc8/structKUNAI_1_1DEX_1_1Header_1_1dexheader__t.html#afcb57e9e766bcfa2b48ba707ccf8961c',1,'KUNAI::DEX::Header::dexheader_t']]],
+  ['exceptions_5fdata_9',['exceptions_data',['../d1/d61/classKUNAI_1_1DEX_1_1Disassembler.html#a46eded476e64716622d45e9d7bc4e441',1,'KUNAI::DEX::Disassembler']]],
+  ['external_10',['external',['../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html#a60acea349e050c00b788b20ec7f2db7a',1,'KUNAI::DEX::MethodAnalysis']]],
+  ['externalclass_11',['ExternalClass',['../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html',1,'KUNAI::DEX']]],
+  ['externalmethod_12',['ExternalMethod',['../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html',1,'KUNAI::DEX']]]
 ];

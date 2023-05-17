@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['write_5fannotations_0',['write_annotations',['../db/de6/classKUNAI_1_1MJOLNIR_1_1IRType.html#ad1b84ad80f752c6ae86974fefbaf6021',1,'KUNAI::MJOLNIR::IRType']]]
+  ['unknown_0',['Unknown',['../d1/de3/classKUNAI_1_1DEX_1_1Unknown.html#a22a69e91b3c21088b0adb3444a3ad44a',1,'KUNAI::DEX::Unknown']]]
 ];

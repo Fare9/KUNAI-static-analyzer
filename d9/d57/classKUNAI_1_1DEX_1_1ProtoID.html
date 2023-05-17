@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html">ProtoID</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html">ProtoID</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,42 +80,64 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::ProtoID Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Store the information of a <a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html" title="Store the information of a ProtoID, this is a string with the return type, the list of parameters and...">ProtoID</a>, this is a string with the return type, the list of parameters and a string with the prototype.  
+ <a href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../df/df7/protos_8hpp_source.html">protos.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a48dee16eb141fab9f5e4a10b55cf5a43"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#a48dee16eb141fab9f5e4a10b55cf5a43">ProtoID</a> (std::uint32_t shorty_idx, std::uint32_t return_type_idx, std::uint32_t parameters_off, std::ifstream &amp;input_file, <a class="el" href="../../d2/dd6/classKUNAI_1_1DEX_1_1DexStrings.html">DexStrings</a> *dex_strings, <a class="el" href="../../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html">DexTypes</a> *dex_types)</td></tr>
-<tr class="memdesc:a48dee16eb141fab9f5e4a10b55cf5a43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Proto ID object, this represent a prototype of an Android method.  <br /></td></tr>
-<tr class="separator:a48dee16eb141fab9f5e4a10b55cf5a43"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad81a7f9ef5676764281f41a347ac27a2"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#ad81a7f9ef5676764281f41a347ac27a2">get_number_of_parameters</a> ()</td></tr>
-<tr class="memdesc:ad81a7f9ef5676764281f41a347ac27a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of parameters.  <br /></td></tr>
-<tr class="separator:ad81a7f9ef5676764281f41a347ac27a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a009827e71aa66fea0568cc3eccb325b2"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#a009827e71aa66fea0568cc3eccb325b2">get_parameters</a> () const</td></tr>
-<tr class="memdesc:a009827e71aa66fea0568cc3eccb325b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the parameters.  <br /></td></tr>
-<tr class="separator:a009827e71aa66fea0568cc3eccb325b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a376fb9774457a16f5d3ed04c9cf3b8da"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#a376fb9774457a16f5d3ed04c9cf3b8da">get_parameter_type_by_order</a> (size_t pos)</td></tr>
-<tr class="memdesc:a376fb9774457a16f5d3ed04c9cf3b8da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a parameter by its position.  <br /></td></tr>
-<tr class="separator:a376fb9774457a16f5d3ed04c9cf3b8da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a972543c444e71c3869208211ee74e5c9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#a972543c444e71c3869208211ee74e5c9">get_return_idx</a> ()</td></tr>
-<tr class="memdesc:a972543c444e71c3869208211ee74e5c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the returned type.  <br /></td></tr>
-<tr class="separator:a972543c444e71c3869208211ee74e5c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbee924e9cd5a2ab8154c378824032c0"><td class="memItemLeft" align="right" valign="top">std::string *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#acbee924e9cd5a2ab8154c378824032c0">get_shorty_idx</a> ()</td></tr>
-<tr class="memdesc:acbee924e9cd5a2ab8154c378824032c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the proto as a string.  <br /></td></tr>
-<tr class="separator:acbee924e9cd5a2ab8154c378824032c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b1470e649500da84cdb9993a2572229"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#a4b1470e649500da84cdb9993a2572229">get_proto_str</a> ()</td></tr>
-<tr class="memdesc:a4b1470e649500da84cdb9993a2572229"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get prototype string correctly represented.  <br /></td></tr>
-<tr class="separator:a4b1470e649500da84cdb9993a2572229"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab90396598c3e69dc5aa38c5fcb08f10a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#ab90396598c3e69dc5aa38c5fcb08f10a">ProtoID</a> (<a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *stream, <a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *types, std::string &amp;shorty_idx, std::uint32_t return_type_idx, std::uint32_t parameters_off)</td></tr>
+<tr class="memdesc:ab90396598c3e69dc5aa38c5fcb08f10a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of a <a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html" title="Store the information of a ProtoID, this is a string with the return type, the list of parameters and...">ProtoID</a>, the <a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html" title="Store the information of a ProtoID, this is a string with the return type, the list of parameters and...">ProtoID</a> parses its own parameters.  <br /></td></tr>
+<tr class="separator:ab90396598c3e69dc5aa38c5fcb08f10a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ac8c89f8d1faaa525ca787c921801ae"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#a6ac8c89f8d1faaa525ca787c921801ae">get_shorty_idx</a> () const</td></tr>
+<tr class="memdesc:a6ac8c89f8d1faaa525ca787c921801ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get constant reference to shorty_idx string.  <br /></td></tr>
+<tr class="separator:a6ac8c89f8d1faaa525ca787c921801ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9831b86d9072770e3703eef49937d548"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#a9831b86d9072770e3703eef49937d548">get_shorty_idx</a> ()</td></tr>
+<tr class="memdesc:a9831b86d9072770e3703eef49937d548"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to shorty_idx string.  <br /></td></tr>
+<tr class="separator:a9831b86d9072770e3703eef49937d548"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f88db63a74a99b4cb3282b52f8ef8f2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#a1f88db63a74a99b4cb3282b52f8ef8f2">get_return_type</a> () const</td></tr>
+<tr class="memdesc:a1f88db63a74a99b4cb3282b52f8ef8f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the return type.  <br /></td></tr>
+<tr class="separator:a1f88db63a74a99b4cb3282b52f8ef8f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95eeffcaaaf3a039fec64681b15e36dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#a95eeffcaaaf3a039fec64681b15e36dd">get_return_type</a> ()</td></tr>
+<tr class="memdesc:a95eeffcaaaf3a039fec64681b15e36dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the return type.  <br /></td></tr>
+<tr class="separator:a95eeffcaaaf3a039fec64681b15e36dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74ca94885a4bb967549c1a3d7b2c1c42"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#a74ca94885a4bb967549c1a3d7b2c1c42">get_parameters</a> () const</td></tr>
+<tr class="memdesc:a74ca94885a4bb967549c1a3d7b2c1c42"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the parameters.  <br /></td></tr>
+<tr class="separator:a74ca94885a4bb967549c1a3d7b2c1c42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59f32bcf8c1f3b9074f46f684e437880"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html#a59f32bcf8c1f3b9074f46f684e437880">get_parameters</a> ()</td></tr>
+<tr class="memdesc:a59f32bcf8c1f3b9074f46f684e437880"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the parameters.  <br /></td></tr>
+<tr class="separator:a59f32bcf8c1f3b9074f46f684e437880"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a48dee16eb141fab9f5e4a10b55cf5a43" name="a48dee16eb141fab9f5e4a10b55cf5a43"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a48dee16eb141fab9f5e4a10b55cf5a43">&#9670;&#160;</a></span>ProtoID()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Store the information of a <a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html" title="Store the information of a ProtoID, this is a string with the return type, the list of parameters and...">ProtoID</a>, this is a string with the return type, the list of parameters and a string with the prototype. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ab90396598c3e69dc5aa38c5fcb08f10a" name="ab90396598c3e69dc5aa38c5fcb08f10a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab90396598c3e69dc5aa38c5fcb08f10a">&#9670;&#160;</a></span>ProtoID()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">KUNAI::DEX::ProtoID::ProtoID </td>
           <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d7/d48/classKUNAI_1_1stream_1_1KunaiStream.html">stream::KunaiStream</a> *&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../df/d06/classKUNAI_1_1DEX_1_1Types.html">Types</a> *&#160;</td>
+          <td class="paramname"><em>types</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>shorty_idx</em>, </td>
         </tr>
         <tr>
@@ -128,25 +150,7 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>parameters_off</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::ifstream &amp;&#160;</td>
-          <td class="paramname"><em>input_file</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d2/dd6/classKUNAI_1_1DEX_1_1DexStrings.html">DexStrings</a> *&#160;</td>
-          <td class="paramname"><em>dex_strings</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html">DexTypes</a> *&#160;</td>
-          <td class="paramname"><em>dex_types</em>&#160;</td>
+          <td class="paramname"><em>parameters_off</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -154,17 +158,21 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Construct a new Proto ID object, this represent a prototype of an Android method. </p>
+<p>Constructor of a <a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html" title="Store the information of a ProtoID, this is a string with the return type, the list of parameters and...">ProtoID</a>, the <a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html" title="Store the information of a ProtoID, this is a string with the return type, the list of parameters and...">ProtoID</a> parses its own parameters. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">shorty_idx</td><td></td></tr>
-    <tr><td class="paramname">return_type_idx</td><td></td></tr>
-    <tr><td class="paramname">parameters_off</td><td></td></tr>
-    <tr><td class="paramname">input_file</td><td></td></tr>
-    <tr><td class="paramname">dex_strings</td><td></td></tr>
-    <tr><td class="paramname">dex_types</td><td></td></tr>
+    <tr><td class="paramname">stream</td><td>stream to read the parameter types ids </td></tr>
+    <tr><td class="paramname">types</td><td>types to obtain result and parameter types </td></tr>
+    <tr><td class="paramname">shorty_idx</td><td>string with prototype </td></tr>
+    <tr><td class="paramname">return_type_idx</td><td>id of the return type </td></tr>
+    <tr><td class="paramname">parameters_off</td><td>offset where parameter type ids are stored </td></tr>
   </table>
   </dd>
 </dl>
@@ -172,8 +180,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ad81a7f9ef5676764281f41a347ac27a2" name="ad81a7f9ef5676764281f41a347ac27a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad81a7f9ef5676764281f41a347ac27a2">&#9670;&#160;</a></span>get_number_of_parameters()</h2>
+<a id="a59f32bcf8c1f3b9074f46f684e437880" name="a59f32bcf8c1f3b9074f46f684e437880"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a59f32bcf8c1f3b9074f46f684e437880">&#9670;&#160;</a></span>get_parameters() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -182,7 +190,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">size_t KUNAI::DEX::ProtoID::get_number_of_parameters </td>
+          <td class="memname">std::vector&lt; <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * &gt; &amp; KUNAI::DEX::ProtoID::get_parameters </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -195,40 +203,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the number of parameters. </p>
-<dl class="section return"><dt>Returns</dt><dd>size_t </dd></dl>
+<p>Get a reference to the parameters. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to vector with the parameters </dd></dl>
 
 </div>
 </div>
-<a id="a376fb9774457a16f5d3ed04c9cf3b8da" name="a376fb9774457a16f5d3ed04c9cf3b8da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a376fb9774457a16f5d3ed04c9cf3b8da">&#9670;&#160;</a></span>get_parameter_type_by_order()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> * KUNAI::DEX::ProtoID::get_parameter_type_by_order </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>pos</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get a parameter by its position. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">pos</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Type* </dd></dl>
-
-</div>
-</div>
-<a id="a009827e71aa66fea0568cc3eccb325b2" name="a009827e71aa66fea0568cc3eccb325b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a009827e71aa66fea0568cc3eccb325b2">&#9670;&#160;</a></span>get_parameters()</h2>
+<a id="a74ca94885a4bb967549c1a3d7b2c1c42" name="a74ca94885a4bb967549c1a3d7b2c1c42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74ca94885a4bb967549c1a3d7b2c1c42">&#9670;&#160;</a></span>get_parameters() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -237,7 +218,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt; <a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> * &gt; KUNAI::DEX::ProtoID::get_parameters </td>
+          <td class="memname">const std::vector&lt; <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * &gt; &amp; KUNAI::DEX::ProtoID::get_parameters </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -250,33 +231,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the parameters. </p>
-<dl class="section return"><dt>Returns</dt><dd>const std::vector&lt;Type *&gt; </dd></dl>
+<p>Get a constant reference to the parameters. </p>
+<dl class="section return"><dt>Returns</dt><dd>const reference to vector with the parameters </dd></dl>
 
 </div>
 </div>
-<a id="a4b1470e649500da84cdb9993a2572229" name="a4b1470e649500da84cdb9993a2572229"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b1470e649500da84cdb9993a2572229">&#9670;&#160;</a></span>get_proto_str()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string KUNAI::DEX::ProtoID::get_proto_str </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get prototype string correctly represented. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
-
-</div>
-</div>
-<a id="a972543c444e71c3869208211ee74e5c9" name="a972543c444e71c3869208211ee74e5c9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a972543c444e71c3869208211ee74e5c9">&#9670;&#160;</a></span>get_return_idx()</h2>
+<a id="a95eeffcaaaf3a039fec64681b15e36dd" name="a95eeffcaaaf3a039fec64681b15e36dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95eeffcaaaf3a039fec64681b15e36dd">&#9670;&#160;</a></span>get_return_type() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -285,7 +246,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> * KUNAI::DEX::ProtoID::get_return_idx </td>
+          <td class="memname"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * KUNAI::DEX::ProtoID::get_return_type </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -298,13 +259,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the returned type. </p>
-<dl class="section return"><dt>Returns</dt><dd>Type* </dd></dl>
+<p>Get a reference to the return type. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to return type </dd></dl>
 
 </div>
 </div>
-<a id="acbee924e9cd5a2ab8154c378824032c0" name="acbee924e9cd5a2ab8154c378824032c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acbee924e9cd5a2ab8154c378824032c0">&#9670;&#160;</a></span>get_shorty_idx()</h2>
+<a id="a1f88db63a74a99b4cb3282b52f8ef8f2" name="a1f88db63a74a99b4cb3282b52f8ef8f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f88db63a74a99b4cb3282b52f8ef8f2">&#9670;&#160;</a></span>get_return_type() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -313,7 +274,35 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string * KUNAI::DEX::ProtoID::get_shorty_idx </td>
+          <td class="memname">const <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * KUNAI::DEX::ProtoID::get_return_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the return type. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to return type </dd></dl>
+
+</div>
+</div>
+<a id="a9831b86d9072770e3703eef49937d548" name="a9831b86d9072770e3703eef49937d548"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9831b86d9072770e3703eef49937d548">&#9670;&#160;</a></span>get_shorty_idx() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string &amp; KUNAI::DEX::ProtoID::get_shorty_idx </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -326,13 +315,41 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the proto as a string. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string* </dd></dl>
+<p>Get a reference to shorty_idx string. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to shorty_idx </dd></dl>
+
+</div>
+</div>
+<a id="a6ac8c89f8d1faaa525ca787c921801ae" name="a6ac8c89f8d1faaa525ca787c921801ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ac8c89f8d1faaa525ca787c921801ae">&#9670;&#160;</a></span>get_shorty_idx() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; KUNAI::DEX::ProtoID::get_shorty_idx </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get constant reference to shorty_idx string. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to shorty_idx </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../dd/df3/dex__protos_8hpp_source.html">dex_protos.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../df/df7/protos_8hpp_source.html">protos.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

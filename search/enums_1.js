@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['mem_5faccess_5ft_0',['mem_access_t',['../db/de6/classKUNAI_1_1MJOLNIR_1_1IRType.html#a25d51b97bed66eb5104f17f31c1896e3',1,'KUNAI::MJOLNIR::IRType']]],
-  ['method_5fhandle_5ftype_5fcodes_1',['METHOD_HANDLE_TYPE_CODES',['../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a750a62ccf066b9c0386b50415ef50314',1,'KUNAI::DEX::DVMTypes']]]
+  ['fundamental_5fe_0',['fundamental_e',['../d7/d15/classKUNAI_1_1DEX_1_1DVMFundamental.html#adbcd297d363efeed788e3e60d687b099',1,'KUNAI::DEX::DVMFundamental']]]
 ];

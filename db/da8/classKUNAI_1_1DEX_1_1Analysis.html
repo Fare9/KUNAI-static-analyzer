@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html">Analysis</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html">Analysis</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -83,157 +83,80 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa792a5e12161fa36b9b33e132ca8546f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#aa792a5e12161fa36b9b33e132ca8546f">Analysis</a> (<a class="el" href="../../d3/d82/classKUNAI_1_1DEX_1_1DexParser.html">DexParser</a> *dex_parser, <a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> *dalvik_opcodes, <a class="el" href="../../dc/db6/classKUNAI_1_1DEX_1_1DexDisassembler.html">DexDisassembler</a> *disassembler, bool create_xrefs)</td></tr>
-<tr class="memdesc:aa792a5e12161fa36b9b33e132ca8546f"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html">Analysis</a> class constructor, just accept an initial <a class="el" href="../../d3/d82/classKUNAI_1_1DEX_1_1DexParser.html">DexParser</a> object to start the analysis.  <br /></td></tr>
-<tr class="separator:aa792a5e12161fa36b9b33e132ca8546f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6ff8eee4d76efb9e9896968826fca2dd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a6ff8eee4d76efb9e9896968826fca2dd">~Analysis</a> ()=default</td></tr>
-<tr class="memdesc:a6ff8eee4d76efb9e9896968826fca2dd"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html">Analysis</a> class destructor, nothing really interesting in here.  <br /></td></tr>
-<tr class="separator:a6ff8eee4d76efb9e9896968826fca2dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d861723a68228968683bbd26d9ac5a0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a1d861723a68228968683bbd26d9ac5a0">add</a> (<a class="el" href="../../d3/d82/classKUNAI_1_1DEX_1_1DexParser.html">DexParser</a> *dex_parser)</td></tr>
-<tr class="memdesc:a1d861723a68228968683bbd26d9ac5a0"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html">Analysis</a> method to add a new dex_parser we will have to analyze classes, methods, fields and strings from the parser as new objects will be added.  <br /></td></tr>
-<tr class="separator:a1d861723a68228968683bbd26d9ac5a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4813871dcd124d3d5581c634534cc35c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a4813871dcd124d3d5581c634534cc35c">create_xref</a> ()</td></tr>
-<tr class="memdesc:a4813871dcd124d3d5581c634534cc35c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create <a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a>, Method, String and Field cross references If you are using multiple <a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a> files, this function must be called when all <a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a> files are added. If you call the function after every <a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a> file, it will only work for the first time. So ADD ALL THE <a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a> FIRST.  <br /></td></tr>
-<tr class="separator:a4813871dcd124d3d5581c634534cc35c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53f95c9bf7c29cd650646c2fa78c541d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a53f95c9bf7c29cd650646c2fa78c541d">is_class_present</a> (std::string &amp;class_name)</td></tr>
-<tr class="memdesc:a53f95c9bf7c29cd650646c2fa78c541d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a class is present in the <a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html">Analysis</a> object.  <br /></td></tr>
-<tr class="separator:a53f95c9bf7c29cd650646c2fa78c541d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2868b3da14f8721aca7274aadea6dff6"><td class="memItemLeft" align="right" valign="top"><a id="a2868b3da14f8721aca7274aadea6dff6" name="a2868b3da14f8721aca7274aadea6dff6"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Analysis</b> (<a class="el" href="../../d8/dc9/classKUNAI_1_1DEX_1_1Parser.html">Parser</a> *parser, <a class="el" href="../../dc/db6/classKUNAI_1_1DEX_1_1DexDisassembler.html">DexDisassembler</a> *disassembler, bool <a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a36b5fbdb0b9cd9a3e29fff45f190b768">create_xrefs</a>)</td></tr>
+<tr class="separator:a2868b3da14f8721aca7274aadea6dff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f051038fe1fefd4521c3989c437e59e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a2f051038fe1fefd4521c3989c437e59e">add</a> (<a class="el" href="../../d8/dc9/classKUNAI_1_1DEX_1_1Parser.html">Parser</a> *parser)</td></tr>
+<tr class="memdesc:a2f051038fe1fefd4521c3989c437e59e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add all the classes and methods from a parser to the analysis class.  <br /></td></tr>
+<tr class="separator:a2f051038fe1fefd4521c3989c437e59e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36b5fbdb0b9cd9a3e29fff45f190b768"><td class="memItemLeft" align="right" valign="top"><a id="a36b5fbdb0b9cd9a3e29fff45f190b768" name="a36b5fbdb0b9cd9a3e29fff45f190b768"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>create_xrefs</b> ()</td></tr>
+<tr class="memdesc:a36b5fbdb0b9cd9a3e29fff45f190b768"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create class, method, string and field cross references if you are using multiple DEX files, this function must be called when all DEX files are added. If you call the function after every DEX file, it will only work for the first time. ADD ALL DEX FIRST. <br /></td></tr>
+<tr class="separator:a36b5fbdb0b9cd9a3e29fff45f190b768"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d581c684e9fa17073d5ff7440dfe19f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a2d581c684e9fa17073d5ff7440dfe19f">get_class_analysis</a> (std::string &amp;class_name)</td></tr>
-<tr class="memdesc:a2d581c684e9fa17073d5ff7440dfe19f"><td class="mdescLeft">&#160;</td><td class="mdescRight">get a <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> object by a class_name.  <br /></td></tr>
+<tr class="memdesc:a2d581c684e9fa17073d5ff7440dfe19f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html" title="Specification of the class analysis, this class contains fields, strings, methods....">ClassAnalysis</a> object by the class name.  <br /></td></tr>
 <tr class="separator:a2d581c684e9fa17073d5ff7440dfe19f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5ba750a1508cd41ed662b8d69131c3f5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a5ba750a1508cd41ed662b8d69131c3f5">get_classes</a> ()</td></tr>
-<tr class="memdesc:a5ba750a1508cd41ed662b8d69131c3f5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> objects in a vector.  <br /></td></tr>
-<tr class="separator:a5ba750a1508cd41ed662b8d69131c3f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1ae6d2224087e0426e713e40a448b01"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#af1ae6d2224087e0426e713e40a448b01">get_external_classes</a> ()</td></tr>
-<tr class="memdesc:af1ae6d2224087e0426e713e40a448b01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the external classes in a vector.  <br /></td></tr>
-<tr class="separator:af1ae6d2224087e0426e713e40a448b01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb164063174fdc0f20183c23148e0e94"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#adb164063174fdc0f20183c23148e0e94">get_internal_classes</a> ()</td></tr>
-<tr class="memdesc:adb164063174fdc0f20183c23148e0e94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the internal classes in a vector.  <br /></td></tr>
-<tr class="separator:adb164063174fdc0f20183c23148e0e94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a5786d229aa095589f227d77241223b"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a2a5786d229aa095589f227d77241223b">get_classes</a> () const</td></tr>
+<tr class="memdesc:a2a5786d229aa095589f227d77241223b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the classes.  <br /></td></tr>
+<tr class="separator:a2a5786d229aa095589f227d77241223b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afadc386e5aa7db2f5f85b4e4758a79e6"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#afadc386e5aa7db2f5f85b4e4758a79e6">get_classes</a> ()</td></tr>
+<tr class="memdesc:afadc386e5aa7db2f5f85b4e4758a79e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the classes.  <br /></td></tr>
+<tr class="separator:afadc386e5aa7db2f5f85b4e4758a79e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97df950bdb6ccae42fc5ae87b55915b7"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a97df950bdb6ccae42fc5ae87b55915b7">get_external_classes</a> () const</td></tr>
+<tr class="memdesc:a97df950bdb6ccae42fc5ae87b55915b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to external classes.  <br /></td></tr>
+<tr class="separator:a97df950bdb6ccae42fc5ae87b55915b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67d58d8356a365f00e4b5cb690c4b9fc"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a67d58d8356a365f00e4b5cb690c4b9fc">get_external_classes</a> ()</td></tr>
+<tr class="memdesc:a67d58d8356a365f00e4b5cb690c4b9fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to external classes.  <br /></td></tr>
+<tr class="separator:a67d58d8356a365f00e4b5cb690c4b9fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba36dbe684ffd12ab8eb29c7176ee81d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#aba36dbe684ffd12ab8eb29c7176ee81d">get_method</a> (std::variant&lt; <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *, <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> * &gt; method)</td></tr>
-<tr class="memdesc:aba36dbe684ffd12ab8eb29c7176ee81d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> object by giving an <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> or <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> object.  <br /></td></tr>
+<tr class="memdesc:aba36dbe684ffd12ab8eb29c7176ee81d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html" title="Specification of the method analysis, a method contains instructions, exceptions data,...">MethodAnalysis</a> pointer given an Encoded or External Method.  <br /></td></tr>
 <tr class="separator:aba36dbe684ffd12ab8eb29c7176ee81d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a159c9190482cb251bb7b9c457aee2492"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a159c9190482cb251bb7b9c457aee2492">get_method_by_name</a> (std::string &amp;class_name, std::string &amp;method_name, std::string &amp;method_descriptor)</td></tr>
-<tr class="memdesc:a159c9190482cb251bb7b9c457aee2492"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> from internal methods by class name, method name and method descriptor.  <br /></td></tr>
-<tr class="separator:a159c9190482cb251bb7b9c457aee2492"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeff4d9cb533b8ed8912c0a0ae6ba65bc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#aeff4d9cb533b8ed8912c0a0ae6ba65bc">get_method_analysis_by_name</a> (std::string &amp;class_name, std::string &amp;method_name, std::string &amp;method_descriptor)</td></tr>
-<tr class="memdesc:aeff4d9cb533b8ed8912c0a0ae6ba65bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a method analysis given class name, method name and method descriptor.  <br /></td></tr>
+<tr class="memdesc:aeff4d9cb533b8ed8912c0a0ae6ba65bc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain a method anaylsis by different values.  <br /></td></tr>
 <tr class="separator:aeff4d9cb533b8ed8912c0a0ae6ba65bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8faddd595753f9cd3015dcc9550e3b8"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#aa8faddd595753f9cd3015dcc9550e3b8">get_methods</a> ()</td></tr>
-<tr class="memdesc:aa8faddd595753f9cd3015dcc9550e3b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> object in a vector.  <br /></td></tr>
-<tr class="separator:aa8faddd595753f9cd3015dcc9550e3b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32c93b0508eae18d37d69662ba4157fc"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a32c93b0508eae18d37d69662ba4157fc">get_methods_with_hashes</a> () const</td></tr>
-<tr class="memdesc:a32c93b0508eae18d37d69662ba4157fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the methods with hashes object.  <br /></td></tr>
-<tr class="separator:a32c93b0508eae18d37d69662ba4157fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1bb366078b8f509b03a8a25c70b513d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#aa1bb366078b8f509b03a8a25c70b513d">get_method_id_by_name</a> (std::string &amp;class_name, std::string &amp;method_name, std::string &amp;method_descriptor)</td></tr>
+<tr class="memdesc:aa1bb366078b8f509b03a8a25c70b513d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtain a <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a> by different values.  <br /></td></tr>
+<tr class="separator:aa1bb366078b8f509b03a8a25c70b513d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bbdf8f9f2f719fd99dc77113307e5ca"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a6bbdf8f9f2f719fd99dc77113307e5ca">get_methods</a> () const</td></tr>
+<tr class="memdesc:a6bbdf8f9f2f719fd99dc77113307e5ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a constant reference to the method analysis.  <br /></td></tr>
+<tr class="separator:a6bbdf8f9f2f719fd99dc77113307e5ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97371d149c04e7d9d2951791a8f1de5a"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a97371d149c04e7d9d2951791a8f1de5a">get_methods</a> ()</td></tr>
+<tr class="memdesc:a97371d149c04e7d9d2951791a8f1de5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a reference to the method analysis.  <br /></td></tr>
+<tr class="separator:a97371d149c04e7d9d2951791a8f1de5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1256786eac393fb45027e369da4e0cdb"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a1256786eac393fb45027e369da4e0cdb">get_external_methods</a> () const</td></tr>
+<tr class="memdesc:a1256786eac393fb45027e369da4e0cdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a constant reference to the ExternalMethods.  <br /></td></tr>
+<tr class="separator:a1256786eac393fb45027e369da4e0cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95ad3e86c999e09302587bda558e5b32"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a95ad3e86c999e09302587bda558e5b32">get_external_methods</a> ()</td></tr>
+<tr class="memdesc:a95ad3e86c999e09302587bda558e5b32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a reference to the ExternalMethods.  <br /></td></tr>
+<tr class="separator:a95ad3e86c999e09302587bda558e5b32"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12b3eeaebdae567b2630b098777c3ffc"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a12b3eeaebdae567b2630b098777c3ffc">get_field_analysis</a> (<a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *field)</td></tr>
-<tr class="memdesc:a12b3eeaebdae567b2630b098777c3ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> given a field object.  <br /></td></tr>
+<tr class="memdesc:a12b3eeaebdae567b2630b098777c3ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a field given an encoded field.  <br /></td></tr>
 <tr class="separator:a12b3eeaebdae567b2630b098777c3ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea3fa6295f115638f7d8cf89a56ccea4"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#aea3fa6295f115638f7d8cf89a56ccea4">get_fields</a> ()</td></tr>
-<tr class="memdesc:aea3fa6295f115638f7d8cf89a56ccea4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> objects in a vector.  <br /></td></tr>
-<tr class="separator:aea3fa6295f115638f7d8cf89a56ccea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d411a0b4c85246ba6f81b6fd1b3e45a"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, stringanalysis_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a1d411a0b4c85246ba6f81b6fd1b3e45a">get_strings_analysis</a> () const</td></tr>
-<tr class="memdesc:a1d411a0b4c85246ba6f81b6fd1b3e45a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the map of std::string, <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> objects.  <br /></td></tr>
-<tr class="separator:a1d411a0b4c85246ba6f81b6fd1b3e45a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b57b01ebd6b7e5619e471ef3bfa0566"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a4b57b01ebd6b7e5619e471ef3bfa0566">get_strings</a> ()</td></tr>
-<tr class="memdesc:a4b57b01ebd6b7e5619e471ef3bfa0566"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a vector of all the <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> objects.  <br /></td></tr>
-<tr class="separator:a4b57b01ebd6b7e5619e471ef3bfa0566"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81e9d9b28be81c92c18421e5d47114a2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a81e9d9b28be81c92c18421e5d47114a2">find_classes</a> (std::string name, bool no_external)</td></tr>
-<tr class="memdesc:a81e9d9b28be81c92c18421e5d47114a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find classes by name with regular expression, the method returns a list of <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> object that match the regex.  <br /></td></tr>
-<tr class="separator:a81e9d9b28be81c92c18421e5d47114a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4cefb25c37e6654edbe10f984dd24d59"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a4cefb25c37e6654edbe10f984dd24d59">find_methods</a> (std::string class_name, std::string method_name, std::string descriptor, std::string accessflags, bool no_external)</td></tr>
-<tr class="memdesc:a4cefb25c37e6654edbe10f984dd24d59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> by name with regular expression, return a list of <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> objects by different regular expressions. This time is necessary to specify more values specific from the method.  <br /></td></tr>
-<tr class="separator:a4cefb25c37e6654edbe10f984dd24d59"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aba3d08fdffd8d94196e17b05cce74765"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#aba3d08fdffd8d94196e17b05cce74765">find_strings</a> (std::string string)</td></tr>
-<tr class="memdesc:aba3d08fdffd8d94196e17b05cce74765"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> objects using regular expressions.  <br /></td></tr>
-<tr class="separator:aba3d08fdffd8d94196e17b05cce74765"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3d464d1a257984ec82419a1429d4db01"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a3d464d1a257984ec82419a1429d4db01">find_fields</a> (std::string class_name, std::string field_name, std::string field_type, std::string accessflags)</td></tr>
-<tr class="memdesc:a3d464d1a257984ec82419a1429d4db01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> objects using regular expression, find those in classes.  <br /></td></tr>
-<tr class="separator:a3d464d1a257984ec82419a1429d4db01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabffdff1924bcb98e6b454c76c98a0a6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#aabffdff1924bcb98e6b454c76c98a0a6">get_fields</a> ()</td></tr>
+<tr class="memdesc:aabffdff1924bcb98e6b454c76c98a0a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the fields from all the classes.  <br /></td></tr>
+<tr class="separator:aabffdff1924bcb98e6b454c76c98a0a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe705084c1361b801cb39cd29cfda9ed"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#afe705084c1361b801cb39cd29cfda9ed">get_string_analysis</a> () const</td></tr>
+<tr class="memdesc:afe705084c1361b801cb39cd29cfda9ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html" title="specification of a string analysis">StringAnalysis</a> objects.  <br /></td></tr>
+<tr class="separator:afe705084c1361b801cb39cd29cfda9ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdfe354f0be5d3164bfe21a7b209f9f9"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#acdfe354f0be5d3164bfe21a7b209f9f9">get_string_analysis</a> ()</td></tr>
+<tr class="memdesc:acdfe354f0be5d3164bfe21a7b209f9f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html" title="specification of a string analysis">StringAnalysis</a> map.  <br /></td></tr>
+<tr class="separator:acdfe354f0be5d3164bfe21a7b209f9f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a714d4a9c06ad74abc0bae3ed6ba18abf"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a714d4a9c06ad74abc0bae3ed6ba18abf">find_classes</a> (std::string &amp;name, bool no_external)</td></tr>
+<tr class="memdesc:a714d4a9c06ad74abc0bae3ed6ba18abf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find classes by name with regular expression, the method returns a list of <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html" title="Specification of the class analysis, this class contains fields, strings, methods....">ClassAnalysis</a> object that match the regex.  <br /></td></tr>
+<tr class="separator:a714d4a9c06ad74abc0bae3ed6ba18abf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37c0c4da4f3fa350abb7a3d19115b073"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a37c0c4da4f3fa350abb7a3d19115b073">find_methods</a> (std::string &amp;class_name, std::string &amp;method_name, std::string &amp;descriptor, std::string &amp;accessflags, bool no_external)</td></tr>
+<tr class="memdesc:a37c0c4da4f3fa350abb7a3d19115b073"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html" title="Specification of the method analysis, a method contains instructions, exceptions data,...">MethodAnalysis</a> object by name with regular expression. This time is necessary to specify more values for the method.  <br /></td></tr>
+<tr class="separator:a37c0c4da4f3fa350abb7a3d19115b073"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80e82494cc5d672e46fdc40dbdb87156"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a80e82494cc5d672e46fdc40dbdb87156">find_strings</a> (std::string &amp;str)</td></tr>
+<tr class="memdesc:a80e82494cc5d672e46fdc40dbdb87156"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the strings that match a provided regular expression.  <br /></td></tr>
+<tr class="separator:a80e82494cc5d672e46fdc40dbdb87156"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e332b566679ea56e72e9abe4a2e942c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html#a7e332b566679ea56e72e9abe4a2e942c">find_fields</a> (std::string &amp;class_name, std::string &amp;field_name, std::string &amp;field_type, std::string &amp;accessflags)</td></tr>
+<tr class="memdesc:a7e332b566679ea56e72e9abe4a2e942c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html" title="specification of a field analysis">FieldAnalysis</a> objects using regular expressions find those that are in classes.  <br /></td></tr>
+<tr class="separator:a7e332b566679ea56e72e9abe4a2e942c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="aa792a5e12161fa36b9b33e132ca8546f" name="aa792a5e12161fa36b9b33e132ca8546f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa792a5e12161fa36b9b33e132ca8546f">&#9670;&#160;</a></span>Analysis()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">KUNAI::DEX::Analysis::Analysis </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d3/d82/classKUNAI_1_1DEX_1_1DexParser.html">DexParser</a> *&#160;</td>
-          <td class="paramname"><em>dex_parser</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> *&#160;</td>
-          <td class="paramname"><em>dalvik_opcodes</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../dc/db6/classKUNAI_1_1DEX_1_1DexDisassembler.html">DexDisassembler</a> *&#160;</td>
-          <td class="paramname"><em>disassembler</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>create_xrefs</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html">Analysis</a> class constructor, just accept an initial <a class="el" href="../../d3/d82/classKUNAI_1_1DEX_1_1DexParser.html">DexParser</a> object to start the analysis. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">dex_parser</td><td>dexparser_t parser to initialize the analysis. </td></tr>
-    <tr><td class="paramname">dalvik_opcodes</td><td>dalvikopcodes_t used to initialize some objects. </td></tr>
-    <tr><td class="paramname">instructions</td><td>instruction_map_t instructions to initialize methods. </td></tr>
-    <tr><td class="paramname">create_xrefs</td><td>create or not the xrefs for the analysis, not necessary of you do not want cross references, which takes long time. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a6ff8eee4d76efb9e9896968826fca2dd" name="a6ff8eee4d76efb9e9896968826fca2dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6ff8eee4d76efb9e9896968826fca2dd">&#9670;&#160;</a></span>~Analysis()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">KUNAI::DEX::Analysis::~Analysis </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">default</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html">Analysis</a> class destructor, nothing really interesting in here. </p>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1d861723a68228968683bbd26d9ac5a0" name="a1d861723a68228968683bbd26d9ac5a0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d861723a68228968683bbd26d9ac5a0">&#9670;&#160;</a></span>add()</h2>
+<a id="a2f051038fe1fefd4521c3989c437e59e" name="a2f051038fe1fefd4521c3989c437e59e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f051038fe1fefd4521c3989c437e59e">&#9670;&#160;</a></span>add()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -241,46 +164,25 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">void KUNAI::DEX::Analysis::add </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d3/d82/classKUNAI_1_1DEX_1_1DexParser.html">DexParser</a> *&#160;</td>
-          <td class="paramname"><em>dex_parser</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="../../d8/dc9/classKUNAI_1_1DEX_1_1Parser.html">Parser</a> *&#160;</td>
+          <td class="paramname"><em>parser</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html">Analysis</a> method to add a new dex_parser we will have to analyze classes, methods, fields and strings from the parser as new objects will be added. </p>
+<p>Add all the classes and methods from a parser to the analysis class. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">dex_parser</td><td>dexparser_t new parser object to add. </td></tr>
+    <tr><td class="paramname">parser</td><td>parser to extract the information </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
 </div>
-<a id="a4813871dcd124d3d5581c634534cc35c" name="a4813871dcd124d3d5581c634534cc35c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4813871dcd124d3d5581c634534cc35c">&#9670;&#160;</a></span>create_xref()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void KUNAI::DEX::Analysis::create_xref </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Create <a class="el" href="../../dd/d07/classKUNAI_1_1DEX_1_1Class.html">Class</a>, Method, String and Field cross references If you are using multiple <a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a> files, this function must be called when all <a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a> files are added. If you call the function after every <a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a> file, it will only work for the first time. So ADD ALL THE <a class="el" href="../../d3/d3a/classKUNAI_1_1DEX_1_1DEX.html">DEX</a> FIRST. </p>
-<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
-
-</div>
-</div>
-<a id="a81e9d9b28be81c92c18421e5d47114a2" name="a81e9d9b28be81c92c18421e5d47114a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81e9d9b28be81c92c18421e5d47114a2">&#9670;&#160;</a></span>find_classes()</h2>
+<a id="a714d4a9c06ad74abc0bae3ed6ba18abf" name="a714d4a9c06ad74abc0bae3ed6ba18abf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a714d4a9c06ad74abc0bae3ed6ba18abf">&#9670;&#160;</a></span>find_classes()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -288,7 +190,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">std::vector&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> * &gt; KUNAI::DEX::Analysis::find_classes </td>
           <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>name</em>, </td>
         </tr>
         <tr>
@@ -305,14 +207,20 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Find classes by name with regular expression, the method returns a list of <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> object that match the regex. </p>
-<p>name: std::string name with the regex to search.</p>
-<p>no_external: bool want external classes? </p><dl class="section return"><dt>Returns</dt><dd>std::vector&lt;classanalysis_t&gt; </dd></dl>
+<p>Find classes by name with regular expression, the method returns a list of <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html" title="Specification of the class analysis, this class contains fields, strings, methods....">ClassAnalysis</a> object that match the regex. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>regex of name class to find </td></tr>
+    <tr><td class="paramname">no_external</td><td>want external classes too? </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>vector with all <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html" title="Specification of the class analysis, this class contains fields, strings, methods....">ClassAnalysis</a> objects </dd></dl>
 
 </div>
 </div>
-<a id="a3d464d1a257984ec82419a1429d4db01" name="a3d464d1a257984ec82419a1429d4db01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d464d1a257984ec82419a1429d4db01">&#9670;&#160;</a></span>find_fields()</h2>
+<a id="a7e332b566679ea56e72e9abe4a2e942c" name="a7e332b566679ea56e72e9abe4a2e942c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e332b566679ea56e72e9abe4a2e942c">&#9670;&#160;</a></span>find_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -320,25 +228,25 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">std::vector&lt; <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> * &gt; KUNAI::DEX::Analysis::find_fields </td>
           <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>class_name</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>field_name</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>field_type</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>accessflags</em>&#160;</td>
         </tr>
         <tr>
@@ -349,22 +257,22 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Find <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> objects using regular expression, find those in classes. </p>
+<p>Find <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html" title="specification of a field analysis">FieldAnalysis</a> objects using regular expressions find those that are in classes. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">class_name</td><td>std::string class where the field is. </td></tr>
-    <tr><td class="paramname">field_name</td><td>std::string name of the field. </td></tr>
-    <tr><td class="paramname">field_type</td><td>std::string type of the field. </td></tr>
-    <tr><td class="paramname">accessflags</td><td>accessflags from the field. </td></tr>
+    <tr><td class="paramname">class_name</td><td>name of the class where field is </td></tr>
+    <tr><td class="paramname">field_name</td><td>name of the field </td></tr>
+    <tr><td class="paramname">field_type</td><td>type of the field </td></tr>
+    <tr><td class="paramname">accessflags</td><td>access flags of the field </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;fieldanalysis_t&gt; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>vector with all the fields that match the regex </dd></dl>
 
 </div>
 </div>
-<a id="a4cefb25c37e6654edbe10f984dd24d59" name="a4cefb25c37e6654edbe10f984dd24d59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4cefb25c37e6654edbe10f984dd24d59">&#9670;&#160;</a></span>find_methods()</h2>
+<a id="a37c0c4da4f3fa350abb7a3d19115b073" name="a37c0c4da4f3fa350abb7a3d19115b073"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37c0c4da4f3fa350abb7a3d19115b073">&#9670;&#160;</a></span>find_methods()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -372,25 +280,25 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">std::vector&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt; KUNAI::DEX::Analysis::find_methods </td>
           <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>class_name</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>method_name</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>descriptor</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::string&#160;</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>accessflags</em>, </td>
         </tr>
         <tr>
@@ -407,23 +315,24 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Find <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> by name with regular expression, return a list of <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> objects by different regular expressions. This time is necessary to specify more values specific from the method. </p>
+<p>Find <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html" title="Specification of the method analysis, a method contains instructions, exceptions data,...">MethodAnalysis</a> object by name with regular expression. This time is necessary to specify more values for the method. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">class_name</td><td>std::string name of the class where the method is. </td></tr>
-    <tr><td class="paramname">method_name</td><td>std::string name of the method. </td></tr>
-    <tr><td class="paramname">descriptor</td><td>std::string descriptor of method prototype. </td></tr>
-    <tr><td class="paramname">accessflags</td><td>std::string access flags from the method. </td></tr>
-    <tr><td class="paramname">no_external</td><td>bool want external classes? </td></tr>
+    <tr><td class="paramname">class_name</td><td>name of the class to retrieve </td></tr>
+    <tr><td class="paramname">method_name</td><td>name of the method to retrieve </td></tr>
+    <tr><td class="paramname">descriptor</td><td>descriptor of this method </td></tr>
+    <tr><td class="paramname">accessflags</td><td></td></tr>
+    <tr><td class="paramname">no_external</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;methodanalysis_t&gt; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><br  />
+ </dd></dl>
 
 </div>
 </div>
-<a id="aba3d08fdffd8d94196e17b05cce74765" name="aba3d08fdffd8d94196e17b05cce74765"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aba3d08fdffd8d94196e17b05cce74765">&#9670;&#160;</a></span>find_strings()</h2>
+<a id="a80e82494cc5d672e46fdc40dbdb87156" name="a80e82494cc5d672e46fdc40dbdb87156"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a80e82494cc5d672e46fdc40dbdb87156">&#9670;&#160;</a></span>find_strings()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -431,21 +340,21 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">std::vector&lt; <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> * &gt; KUNAI::DEX::Analysis::find_strings </td>
           <td>(</td>
-          <td class="paramtype">std::string&#160;</td>
-          <td class="paramname"><em>string</em></td><td>)</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>str</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Find <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> objects using regular expressions. </p>
+<p>Find the strings that match a provided regular expression. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">string</td><td>std::string regex to look for. </td></tr>
+    <tr><td class="paramname">str</td><td>regular expression to find as string </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;stringanalysis_t&gt; </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>vector of <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html" title="specification of a string analysis">StringAnalysis</a> objects </dd></dl>
 
 </div>
 </div>
@@ -454,6 +363,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> * KUNAI::DEX::Analysis::get_class_analysis </td>
@@ -463,56 +375,189 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>get a <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> object by a class_name. </p>
+<p>Get a <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html" title="Specification of the class analysis, this class contains fields, strings, methods....">ClassAnalysis</a> object by the class name. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">class_name</td><td>std::string class name to retrieve its <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> object. </td></tr>
+    <tr><td class="paramname">class_name</td><td>name of the class to retrieve </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>classanalysis_t </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to ClassAnalysis* </dd></dl>
 
 </div>
 </div>
-<a id="a5ba750a1508cd41ed662b8d69131c3f5" name="a5ba750a1508cd41ed662b8d69131c3f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5ba750a1508cd41ed662b8d69131c3f5">&#9670;&#160;</a></span>get_classes()</h2>
+<a id="afadc386e5aa7db2f5f85b4e4758a79e6" name="afadc386e5aa7db2f5f85b4e4758a79e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afadc386e5aa7db2f5f85b4e4758a79e6">&#9670;&#160;</a></span>get_classes() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> * &gt; KUNAI::DEX::Analysis::get_classes </td>
+          <td class="memname">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> &gt; &gt; &amp; KUNAI::DEX::Analysis::get_classes </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Get all the <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> objects in a vector. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;classanalysis_t&gt; </dd></dl>
+<p>Get a reference to the classes. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to map with classes </dd></dl>
 
 </div>
 </div>
-<a id="af1ae6d2224087e0426e713e40a448b01" name="af1ae6d2224087e0426e713e40a448b01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af1ae6d2224087e0426e713e40a448b01">&#9670;&#160;</a></span>get_external_classes()</h2>
+<a id="a2a5786d229aa095589f227d77241223b" name="a2a5786d229aa095589f227d77241223b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a5786d229aa095589f227d77241223b">&#9670;&#160;</a></span>get_classes() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> * &gt; KUNAI::DEX::Analysis::get_external_classes </td>
+          <td class="memname">const std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> &gt; &gt; &amp; KUNAI::DEX::Analysis::get_classes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the classes. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to map with classes </dd></dl>
+
+</div>
+</div>
+<a id="a67d58d8356a365f00e4b5cb690c4b9fc" name="a67d58d8356a365f00e4b5cb690c4b9fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67d58d8356a365f00e4b5cb690c4b9fc">&#9670;&#160;</a></span>get_external_classes() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a> &gt; &gt; &amp; KUNAI::DEX::Analysis::get_external_classes </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Get all the external classes in a vector. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;classanalysis_t&gt; </dd></dl>
+<p>Get a reference to external classes. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to external classes </dd></dl>
+
+</div>
+</div>
+<a id="a97df950bdb6ccae42fc5ae87b55915b7" name="a97df950bdb6ccae42fc5ae87b55915b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97df950bdb6ccae42fc5ae87b55915b7">&#9670;&#160;</a></span>get_external_classes() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d6/da0/classKUNAI_1_1DEX_1_1ExternalClass.html">ExternalClass</a> &gt; &gt; &amp; KUNAI::DEX::Analysis::get_external_classes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to external classes. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to external classes </dd></dl>
+
+</div>
+</div>
+<a id="a95ad3e86c999e09302587bda558e5b32" name="a95ad3e86c999e09302587bda558e5b32"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95ad3e86c999e09302587bda558e5b32">&#9670;&#160;</a></span>get_external_methods() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> &gt; &gt; &amp; KUNAI::DEX::Analysis::get_external_methods </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return a reference to the ExternalMethods. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to map with <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> </dd></dl>
+
+</div>
+</div>
+<a id="a1256786eac393fb45027e369da4e0cdb" name="a1256786eac393fb45027e369da4e0cdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1256786eac393fb45027e369da4e0cdb">&#9670;&#160;</a></span>get_external_methods() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> &gt; &gt; &amp; KUNAI::DEX::Analysis::get_external_methods </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return a constant reference to the ExternalMethods. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to map with <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> </dd></dl>
 
 </div>
 </div>
@@ -521,6 +566,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> * KUNAI::DEX::Analysis::get_field_analysis </td>
@@ -530,27 +578,32 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Get a <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> given a field object. </p>
+<p>Get a field given an encoded field. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">field</td><td>encodedfield_t field to look for its <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a>. </td></tr>
+    <tr><td class="paramname">field</td><td>field to obtain the <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html" title="specification of a field analysis">FieldAnalysis</a> </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>fieldanalysis_t </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html" title="specification of a field analysis">FieldAnalysis</a> object </dd></dl>
 
 </div>
 </div>
-<a id="aea3fa6295f115638f7d8cf89a56ccea4" name="aea3fa6295f115638f7d8cf89a56ccea4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aea3fa6295f115638f7d8cf89a56ccea4">&#9670;&#160;</a></span>get_fields()</h2>
+<a id="aabffdff1924bcb98e6b454c76c98a0a6" name="aabffdff1924bcb98e6b454c76c98a0a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabffdff1924bcb98e6b454c76c98a0a6">&#9670;&#160;</a></span>get_fields()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> * &gt; KUNAI::DEX::Analysis::get_fields </td>
+          <td class="memname">std::vector&lt; <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> * &gt; &amp; KUNAI::DEX::Analysis::get_fields </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -558,28 +611,8 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Get all the <a class="el" href="../../d9/d79/classKUNAI_1_1DEX_1_1FieldAnalysis.html">FieldAnalysis</a> objects in a vector. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;fieldanalysis_t&gt; </dd></dl>
-
-</div>
-</div>
-<a id="adb164063174fdc0f20183c23148e0e94" name="adb164063174fdc0f20183c23148e0e94"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb164063174fdc0f20183c23148e0e94">&#9670;&#160;</a></span>get_internal_classes()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="../../dc/de9/classKUNAI_1_1DEX_1_1ClassAnalysis.html">ClassAnalysis</a> * &gt; KUNAI::DEX::Analysis::get_internal_classes </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get all the internal classes in a vector. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;classanalysis_t&gt; </dd></dl>
+<p>Get all the fields from all the classes. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to vector with all the fields </dd></dl>
 
 </div>
 </div>
@@ -588,6 +621,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * KUNAI::DEX::Analysis::get_method </td>
@@ -597,16 +633,21 @@ Public Member Functions</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Get <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> object by giving an <a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> or <a class="el" href="../../dc/d17/classKUNAI_1_1DEX_1_1ExternalMethod.html">ExternalMethod</a> object. </p>
+<p>Get a <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html" title="Specification of the method analysis, a method contains instructions, exceptions data,...">MethodAnalysis</a> pointer given an Encoded or External Method. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">method</td><td>std::variant&lt;encodedmethod_t, externalmethod_t&gt; </td></tr>
+    <tr><td class="paramname">method</td><td>method to retrieve </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>methodanalysis_t </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html" title="Specification of the method analysis, a method contains instructions, exceptions data,...">MethodAnalysis</a> from the given method </dd></dl>
 
 </div>
 </div>
@@ -615,6 +656,9 @@ Public Member Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * KUNAI::DEX::Analysis::get_method_analysis_by_name </td>
@@ -640,29 +684,37 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Get a method analysis given class name, method name and method descriptor. </p>
+<p>Obtain a method anaylsis by different values. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">class_name</td><td>std::string class name of the method. </td></tr>
-    <tr><td class="paramname">method_name</td><td>std::string method name. </td></tr>
-    <tr><td class="paramname">method_descriptor</td><td>std::string method descriptor (parameters and return value). </td></tr>
+    <tr><td class="paramname">class_name</td><td>class name of the method </td></tr>
+    <tr><td class="paramname">method_name</td><td>name of the method </td></tr>
+    <tr><td class="paramname">method_descriptor</td><td>prototype descriptor of the method </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>methodanalysis_t </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html" title="Specification of the method analysis, a method contains instructions, exceptions data,...">MethodAnalysis</a> or nullptr </dd></dl>
 
 </div>
 </div>
-<a id="a159c9190482cb251bb7b9c457aee2492" name="a159c9190482cb251bb7b9c457aee2492"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a159c9190482cb251bb7b9c457aee2492">&#9670;&#160;</a></span>get_method_by_name()</h2>
+<a id="aa1bb366078b8f509b03a8a25c70b513d" name="aa1bb366078b8f509b03a8a25c70b513d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1bb366078b8f509b03a8a25c70b513d">&#9670;&#160;</a></span>get_method_id_by_name()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> * KUNAI::DEX::Analysis::get_method_by_name </td>
+          <td class="memname"><a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> * KUNAI::DEX::Analysis::get_method_id_by_name </td>
           <td>(</td>
           <td class="paramtype">std::string &amp;&#160;</td>
           <td class="paramname"><em>class_name</em>, </td>
@@ -685,43 +737,28 @@ Public Member Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Get <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> from internal methods by class name, method name and method descriptor. </p>
+<p>Obtain a <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a> by different values. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">class_name</td><td>std::string class name of the method. </td></tr>
-    <tr><td class="paramname">method_name</td><td>std::string method name. </td></tr>
-    <tr><td class="paramname">method_descriptor</td><td>std::string method descriptor (parameters and return value). </td></tr>
+    <tr><td class="paramname">class_name</td><td>class name of the method </td></tr>
+    <tr><td class="paramname">method_name</td><td>name of the method </td></tr>
+    <tr><td class="paramname">method_descriptor</td><td>prototype descriptor of the method </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>methodid_t </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html" title="MethodID represents a single method from DEX file.">MethodID</a> or nullptr </dd></dl>
 
 </div>
 </div>
-<a id="aa8faddd595753f9cd3015dcc9550e3b8" name="aa8faddd595753f9cd3015dcc9550e3b8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa8faddd595753f9cd3015dcc9550e3b8">&#9670;&#160;</a></span>get_methods()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt; KUNAI::DEX::Analysis::get_methods </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get all the <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> object in a vector. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;methodanalysis_t&gt; </dd></dl>
-
-</div>
-</div>
-<a id="a32c93b0508eae18d37d69662ba4157fc" name="a32c93b0508eae18d37d69662ba4157fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32c93b0508eae18d37d69662ba4157fc">&#9670;&#160;</a></span>get_methods_with_hashes()</h2>
+<a id="a97371d149c04e7d9d2951791a8f1de5a" name="a97371d149c04e7d9d2951791a8f1de5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97371d149c04e7d9d2951791a8f1de5a">&#9670;&#160;</a></span>get_methods() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -730,7 +767,35 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::unordered_map&lt; std::string, <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> * &gt; &amp; KUNAI::DEX::Analysis::get_methods_with_hashes </td>
+          <td class="memname">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> &gt; &gt; &amp; KUNAI::DEX::Analysis::get_methods </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return a reference to the method analysis. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to map woth <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html" title="Specification of the method analysis, a method contains instructions, exceptions data,...">MethodAnalysis</a> </dd></dl>
+
+</div>
+</div>
+<a id="a6bbdf8f9f2f719fd99dc77113307e5ca" name="a6bbdf8f9f2f719fd99dc77113307e5ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bbdf8f9f2f719fd99dc77113307e5ca">&#9670;&#160;</a></span>get_methods() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html">MethodAnalysis</a> &gt; &gt; &amp; KUNAI::DEX::Analysis::get_methods </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -743,33 +808,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the methods with hashes object. </p>
-<dl class="section return"><dt>Returns</dt><dd>const std::unordered_map&lt;std::string, methodanalysis_t&gt;&amp; </dd></dl>
+<p>Return a constant reference to the method analysis. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to map with <a class="el" href="../../d1/d9e/classKUNAI_1_1DEX_1_1MethodAnalysis.html" title="Specification of the method analysis, a method contains instructions, exceptions data,...">MethodAnalysis</a> </dd></dl>
 
 </div>
 </div>
-<a id="a4b57b01ebd6b7e5619e471ef3bfa0566" name="a4b57b01ebd6b7e5619e471ef3bfa0566"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4b57b01ebd6b7e5619e471ef3bfa0566">&#9670;&#160;</a></span>get_strings()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> * &gt; KUNAI::DEX::Analysis::get_strings </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get a vector of all the <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> objects. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::vector&lt;stringanalysis_t&gt; </dd></dl>
-
-</div>
-</div>
-<a id="a1d411a0b4c85246ba6f81b6fd1b3e45a" name="a1d411a0b4c85246ba6f81b6fd1b3e45a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1d411a0b4c85246ba6f81b6fd1b3e45a">&#9670;&#160;</a></span>get_strings_analysis()</h2>
+<a id="acdfe354f0be5d3164bfe21a7b209f9f9" name="acdfe354f0be5d3164bfe21a7b209f9f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdfe354f0be5d3164bfe21a7b209f9f9">&#9670;&#160;</a></span>get_string_analysis() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -778,7 +823,35 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::unordered_map&lt; std::string, stringanalysis_t &gt; &amp; KUNAI::DEX::Analysis::get_strings_analysis </td>
+          <td class="memname">std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> &gt; &gt; &amp; KUNAI::DEX::Analysis::get_string_analysis </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to the <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html" title="specification of a string analysis">StringAnalysis</a> map. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html" title="specification of a string analysis">StringAnalysis</a> map </dd></dl>
+
+</div>
+</div>
+<a id="afe705084c1361b801cb39cd29cfda9ed" name="afe705084c1361b801cb39cd29cfda9ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe705084c1361b801cb39cd29cfda9ed">&#9670;&#160;</a></span>get_string_analysis() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::unordered_map&lt; std::string, std::unique_ptr&lt; <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> &gt; &gt; &amp; KUNAI::DEX::Analysis::get_string_analysis </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -791,40 +864,13 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Get the map of std::string, <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html">StringAnalysis</a> objects. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::unordered_map&lt;std::string, stringanalysis_t&gt; </dd></dl>
-
-</div>
-</div>
-<a id="a53f95c9bf7c29cd650646c2fa78c541d" name="a53f95c9bf7c29cd650646c2fa78c541d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a53f95c9bf7c29cd650646c2fa78c541d">&#9670;&#160;</a></span>is_class_present()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool KUNAI::DEX::Analysis::is_class_present </td>
-          <td>(</td>
-          <td class="paramtype">std::string &amp;&#160;</td>
-          <td class="paramname"><em>class_name</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Check if a class is present in the <a class="el" href="../../db/da8/classKUNAI_1_1DEX_1_1Analysis.html">Analysis</a> object. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">class_name</td><td>std::string class name to search. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
+<p>Get a constant reference to the <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html" title="specification of a string analysis">StringAnalysis</a> objects. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to <a class="el" href="../../d4/db9/classKUNAI_1_1DEX_1_1StringAnalysis.html" title="specification of a string analysis">StringAnalysis</a> map </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/Analysis/<a class="el" href="../../dd/df2/dex__analysis_8hpp_source.html">dex_analysis.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/analysis/<a class="el" href="../../dd/df2/dex__analysis_8hpp_source.html">dex_analysis.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

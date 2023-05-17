@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['value_5fformats_0',['VALUE_FORMATS',['../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a8bb0068240c3b506675c01cea89c91df',1,'KUNAI::DEX::DVMTypes']]]
+  ['unknown_0',['Unknown',['../d1/de3/classKUNAI_1_1DEX_1_1Unknown.html',1,'KUNAI::DEX::Unknown'],['../d1/de3/classKUNAI_1_1DEX_1_1Unknown.html#a22a69e91b3c21088b0adb3444a3ad44a',1,'KUNAI::DEX::Unknown::Unknown()']]],
+  ['unknown_1',['UNKNOWN',['../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html#a7bc6a710e48050328f0477aacc11cbfaaf3600bcb5887f8f76c4c52d6cf812aa9',1,'KUNAI::DEX::DVMType']]],
+  ['unused_2',['unused',['../d1/d1e/structKUNAI_1_1DEX_1_1MapList_1_1map__item.html#aedbc271860ba3794a6a50292363b99b3',1,'KUNAI::DEX::MapList::map_item']]]
 ];

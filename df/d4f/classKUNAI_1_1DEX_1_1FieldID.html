@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,78 +70,88 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#friends">Friends</a> &#124;
 <a href="../../d3/da5/classKUNAI_1_1DEX_1_1FieldID-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">KUNAI::DEX::FieldID Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a> represent one of the fields from the DEX file.  
+ <a href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../de/df8/fields_8hpp_source.html">fields.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8d479ebfbbc4a910211b0d99a5e917f4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a8d479ebfbbc4a910211b0d99a5e917f4">FieldID</a> (std::uint16_t class_idx, std::uint16_t type_idx, std::uint32_t name_idx, <a class="el" href="../../d2/dd6/classKUNAI_1_1DEX_1_1DexStrings.html">DexStrings</a> *dex_strings, <a class="el" href="../../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html">DexTypes</a> *dex_types)</td></tr>
-<tr class="memdesc:a8d479ebfbbc4a910211b0d99a5e917f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a new Field of Android, this contains the class, the type and the name.  <br /></td></tr>
-<tr class="separator:a8d479ebfbbc4a910211b0d99a5e917f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6da57d3e4810e454bf02008493f845d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#ab6da57d3e4810e454bf02008493f845d">get_class_idx</a> ()</td></tr>
-<tr class="memdesc:ab6da57d3e4810e454bf02008493f845d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the class from the field.  <br /></td></tr>
-<tr class="separator:ab6da57d3e4810e454bf02008493f845d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c81452d6fe1b401cdfa41fccfd2000e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a1c81452d6fe1b401cdfa41fccfd2000e">get_type_idx</a> ()</td></tr>
-<tr class="memdesc:a1c81452d6fe1b401cdfa41fccfd2000e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the type from the field.  <br /></td></tr>
-<tr class="separator:a1c81452d6fe1b401cdfa41fccfd2000e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab28fe46fa8808d3d751afce0dd8fcc9a"><td class="memItemLeft" align="right" valign="top">std::string *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#ab28fe46fa8808d3d751afce0dd8fcc9a">get_name_idx</a> ()</td></tr>
-<tr class="memdesc:ab28fe46fa8808d3d751afce0dd8fcc9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the name from the field.  <br /></td></tr>
-<tr class="separator:ab28fe46fa8808d3d751afce0dd8fcc9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1c19a07a5563a97e864d4d7166568cea"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a1c19a07a5563a97e864d4d7166568cea">get_field_str</a> ()</td></tr>
-<tr class="memdesc:a1c19a07a5563a97e864d4d7166568cea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a string representation from the field.  <br /></td></tr>
-<tr class="separator:a1c19a07a5563a97e864d4d7166568cea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
-Friends</h2></td></tr>
-<tr class="memitem:a783f7b26e3ca783f328c14fed78f1fff"><td class="memItemLeft" align="right" valign="top"><a id="a783f7b26e3ca783f328c14fed78f1fff" name="a783f7b26e3ca783f328c14fed78f1fff"></a>
-std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator&lt;&lt;</b> (std::ostream &amp;os, const <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> &amp;entry)</td></tr>
-<tr class="separator:a783f7b26e3ca783f328c14fed78f1fff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2b19e221581c4235de40f52621cc0ea"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#ae2b19e221581c4235de40f52621cc0ea">FieldID</a> (<a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *class_, <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *type_, std::string &amp;name_)</td></tr>
+<tr class="memdesc:ae2b19e221581c4235de40f52621cc0ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>.  <br /></td></tr>
+<tr class="separator:ae2b19e221581c4235de40f52621cc0ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a072bd95e5b9c6c52528fc2d3e1940a2d"><td class="memItemLeft" align="right" valign="top"><a id="a072bd95e5b9c6c52528fc2d3e1940a2d" name="a072bd95e5b9c6c52528fc2d3e1940a2d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>set_encoded_field</b> (<a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *encoded_field)</td></tr>
+<tr class="separator:a072bd95e5b9c6c52528fc2d3e1940a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accd61315261d25f1bdadde06ba5ab0df"><td class="memItemLeft" align="right" valign="top"><a id="accd61315261d25f1bdadde06ba5ab0df" name="accd61315261d25f1bdadde06ba5ab0df"></a>
+<a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_encoded_field</b> ()</td></tr>
+<tr class="separator:accd61315261d25f1bdadde06ba5ab0df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a562d65130679651c4373d2b7b8896985"><td class="memItemLeft" align="right" valign="top"><a id="a562d65130679651c4373d2b7b8896985" name="a562d65130679651c4373d2b7b8896985"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~FieldID</b> ()=default</td></tr>
+<tr class="memdesc:a562d65130679651c4373d2b7b8896985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>. <br /></td></tr>
+<tr class="separator:a562d65130679651c4373d2b7b8896985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f5e4bfa0c829ef484b0483035a0d652"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a6f5e4bfa0c829ef484b0483035a0d652">get_class</a> () const</td></tr>
+<tr class="memdesc:a6f5e4bfa0c829ef484b0483035a0d652"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant pointer to the class where field is.  <br /></td></tr>
+<tr class="separator:a6f5e4bfa0c829ef484b0483035a0d652"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0785fe1ea68ca0665c0124463e2835ac"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a0785fe1ea68ca0665c0124463e2835ac">get_class</a> ()</td></tr>
+<tr class="memdesc:a0785fe1ea68ca0665c0124463e2835ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pointer to the class where field is.  <br /></td></tr>
+<tr class="separator:a0785fe1ea68ca0665c0124463e2835ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7bb8fa164f7ef43fda20bc9c3f81932"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#ac7bb8fa164f7ef43fda20bc9c3f81932">get_type</a> () const</td></tr>
+<tr class="memdesc:ac7bb8fa164f7ef43fda20bc9c3f81932"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant pointer to the type of the field.  <br /></td></tr>
+<tr class="separator:ac7bb8fa164f7ef43fda20bc9c3f81932"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af246ed1b11260c1ac36c3a452501ea15"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#af246ed1b11260c1ac36c3a452501ea15">get_type</a> ()</td></tr>
+<tr class="memdesc:af246ed1b11260c1ac36c3a452501ea15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a pointer to the type of the field.  <br /></td></tr>
+<tr class="separator:af246ed1b11260c1ac36c3a452501ea15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab71b32bd7c099ddc1852aa26d8a15416"><td class="memItemLeft" align="right" valign="top">const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#ab71b32bd7c099ddc1852aa26d8a15416">get_name</a> () const</td></tr>
+<tr class="memdesc:ab71b32bd7c099ddc1852aa26d8a15416"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a constant reference to the name of the field.  <br /></td></tr>
+<tr class="separator:ab71b32bd7c099ddc1852aa26d8a15416"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af85c1530561e7242505828000abf2eee"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#af85c1530561e7242505828000abf2eee">get_name</a> ()</td></tr>
+<tr class="memdesc:af85c1530561e7242505828000abf2eee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a reference to the name of the field.  <br /></td></tr>
+<tr class="separator:af85c1530561e7242505828000abf2eee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a411f8fe04cf4bb8e2cf53bcd3c613d43"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html#a411f8fe04cf4bb8e2cf53bcd3c613d43">pretty_field</a> ()</td></tr>
+<tr class="memdesc:a411f8fe04cf4bb8e2cf53bcd3c613d43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a string representation of the field.  <br /></td></tr>
+<tr class="separator:a411f8fe04cf4bb8e2cf53bcd3c613d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a8d479ebfbbc4a910211b0d99a5e917f4" name="a8d479ebfbbc4a910211b0d99a5e917f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8d479ebfbbc4a910211b0d99a5e917f4">&#9670;&#160;</a></span>FieldID()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a> represent one of the fields from the DEX file. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="ae2b19e221581c4235de40f52621cc0ea" name="ae2b19e221581c4235de40f52621cc0ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2b19e221581c4235de40f52621cc0ea">&#9670;&#160;</a></span>FieldID()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">KUNAI::DEX::FieldID::FieldID </td>
           <td>(</td>
-          <td class="paramtype">std::uint16_t&#160;</td>
-          <td class="paramname"><em>class_idx</em>, </td>
+          <td class="paramtype"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td>
+          <td class="paramname"><em>class_</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::uint16_t&#160;</td>
-          <td class="paramname"><em>type_idx</em>, </td>
+          <td class="paramtype"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> *&#160;</td>
+          <td class="paramname"><em>type_</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>name_idx</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d2/dd6/classKUNAI_1_1DEX_1_1DexStrings.html">DexStrings</a> *&#160;</td>
-          <td class="paramname"><em>dex_strings</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="../../d5/da4/classKUNAI_1_1DEX_1_1DexTypes.html">DexTypes</a> *&#160;</td>
-          <td class="paramname"><em>dex_types</em>&#160;</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>name_</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -149,16 +159,19 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Construct a new Field of Android, this contains the class, the type and the name. </p>
+<p>Constructor of the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html" title="FieldID represent one of the fields from the DEX file.">FieldID</a>. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">class_idx</td><td></td></tr>
-    <tr><td class="paramname">type_idx</td><td></td></tr>
-    <tr><td class="paramname">name_idx</td><td></td></tr>
-    <tr><td class="paramname">dex_strings</td><td></td></tr>
-    <tr><td class="paramname">dex_types</td><td></td></tr>
+    <tr><td class="paramname">class_</td><td>class of the field </td></tr>
+    <tr><td class="paramname">type_</td><td>type of the field </td></tr>
+    <tr><td class="paramname">name_</td><td>name of the field </td></tr>
   </table>
   </dd>
 </dl>
@@ -166,14 +179,182 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="ab6da57d3e4810e454bf02008493f845d" name="ab6da57d3e4810e454bf02008493f845d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab6da57d3e4810e454bf02008493f845d">&#9670;&#160;</a></span>get_class_idx()</h2>
+<a id="a0785fe1ea68ca0665c0124463e2835ac" name="a0785fe1ea68ca0665c0124463e2835ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0785fe1ea68ca0665c0124463e2835ac">&#9670;&#160;</a></span>get_class() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * KUNAI::DEX::FieldID::get_class </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a pointer to the class where field is. </p>
+<dl class="section return"><dt>Returns</dt><dd>pointer to class_ </dd></dl>
+
+</div>
+</div>
+<a id="a6f5e4bfa0c829ef484b0483035a0d652" name="a6f5e4bfa0c829ef484b0483035a0d652"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f5e4bfa0c829ef484b0483035a0d652">&#9670;&#160;</a></span>get_class() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * KUNAI::DEX::FieldID::get_class </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant pointer to the class where field is. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant pointer to class_ </dd></dl>
+
+</div>
+</div>
+<a id="af85c1530561e7242505828000abf2eee" name="af85c1530561e7242505828000abf2eee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af85c1530561e7242505828000abf2eee">&#9670;&#160;</a></span>get_name() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string &amp; KUNAI::DEX::FieldID::get_name </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a reference to the name of the field. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to name_ </dd></dl>
+
+</div>
+</div>
+<a id="ab71b32bd7c099ddc1852aa26d8a15416" name="ab71b32bd7c099ddc1852aa26d8a15416"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab71b32bd7c099ddc1852aa26d8a15416">&#9670;&#160;</a></span>get_name() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::string &amp; KUNAI::DEX::FieldID::get_name </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant reference to the name of the field. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to name_ </dd></dl>
+
+</div>
+</div>
+<a id="af246ed1b11260c1ac36c3a452501ea15" name="af246ed1b11260c1ac36c3a452501ea15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af246ed1b11260c1ac36c3a452501ea15">&#9670;&#160;</a></span>get_type() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * KUNAI::DEX::FieldID::get_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a pointer to the type of the field. </p>
+<dl class="section return"><dt>Returns</dt><dd>pointer to type_ </dd></dl>
+
+</div>
+</div>
+<a id="ac7bb8fa164f7ef43fda20bc9c3f81932" name="ac7bb8fa164f7ef43fda20bc9c3f81932"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7bb8fa164f7ef43fda20bc9c3f81932">&#9670;&#160;</a></span>get_type() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../dd/db3/classKUNAI_1_1DEX_1_1DVMType.html">DVMType</a> * KUNAI::DEX::FieldID::get_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a constant pointer to the type of the field. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant pointer to type_ </dd></dl>
+
+</div>
+</div>
+<a id="a411f8fe04cf4bb8e2cf53bcd3c613d43" name="a411f8fe04cf4bb8e2cf53bcd3c613d43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a411f8fe04cf4bb8e2cf53bcd3c613d43">&#9670;&#160;</a></span>pretty_field()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> * KUNAI::DEX::FieldID::get_class_idx </td>
+          <td class="memname">std::string &amp; KUNAI::DEX::FieldID::pretty_field </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -181,73 +362,13 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
       </table>
 </div><div class="memdoc">
 
-<p>Get the class from the field. </p>
-<dl class="section return"><dt>Returns</dt><dd>Type* </dd></dl>
-
-</div>
-</div>
-<a id="a1c19a07a5563a97e864d4d7166568cea" name="a1c19a07a5563a97e864d4d7166568cea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c19a07a5563a97e864d4d7166568cea">&#9670;&#160;</a></span>get_field_str()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string KUNAI::DEX::FieldID::get_field_str </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get a string representation from the field. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
-
-</div>
-</div>
-<a id="ab28fe46fa8808d3d751afce0dd8fcc9a" name="ab28fe46fa8808d3d751afce0dd8fcc9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab28fe46fa8808d3d751afce0dd8fcc9a">&#9670;&#160;</a></span>get_name_idx()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string * KUNAI::DEX::FieldID::get_name_idx </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the name from the field. </p>
-<dl class="section return"><dt>Returns</dt><dd>std::string* </dd></dl>
-
-</div>
-</div>
-<a id="a1c81452d6fe1b401cdfa41fccfd2000e" name="a1c81452d6fe1b401cdfa41fccfd2000e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1c81452d6fe1b401cdfa41fccfd2000e">&#9670;&#160;</a></span>get_type_idx()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> * KUNAI::DEX::FieldID::get_type_idx </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Get the type from the field. </p>
-<dl class="section return"><dt>Returns</dt><dd>Type* </dd></dl>
+<p>Get a string representation of the field. </p>
+<dl class="section return"><dt>Returns</dt><dd>reference to pretty print of field </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../d6/d2d/dex__fields_8hpp_source.html">dex_fields.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../de/df8/fields_8hpp_source.html">fields.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

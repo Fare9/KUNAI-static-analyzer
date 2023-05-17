@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -80,12 +80,17 @@ $(function() {
   <div class="headertitle"><div class="title">exceptions::DisassemblerException Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Exception raised when a problem happens during disassembly process.  
+ <a href="../../dc/dc8/classexceptions_1_1DisassemblerException.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d1/df9/disassembler__exception_8hpp_source.html">disassembler_exception.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for exceptions::DisassemblerException:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../de/d64/classexceptions_1_1DisassemblerException__inherit__graph.png" border="0" usemap="#aexceptions_1_1DisassemblerException_inherit__map" alt="Inheritance graph"/></div>
 <map name="aexceptions_1_1DisassemblerException_inherit__map" id="aexceptions_1_1DisassemblerException_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,79,174,120"/>
+<area shape="rect" title="Exception raised when a problem happens during disassembly process." alt="" coords="5,79,174,120"/>
 <area shape="rect" title=" " alt="" coords="39,5,140,31"/>
 </map>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
@@ -94,22 +99,88 @@ Collaboration diagram for exceptions::DisassemblerException:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d8/d5d/classexceptions_1_1DisassemblerException__coll__graph.png" border="0" usemap="#aexceptions_1_1DisassemblerException_coll__map" alt="Collaboration graph"/></div>
 <map name="aexceptions_1_1DisassemblerException_coll__map" id="aexceptions_1_1DisassemblerException_coll__map">
-<area shape="rect" title=" " alt="" coords="5,79,174,120"/>
+<area shape="rect" title="Exception raised when a problem happens during disassembly process." alt="" coords="5,79,174,120"/>
 <area shape="rect" title=" " alt="" coords="39,5,140,31"/>
 </map>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8f25b126ee4375d284fab8e068e4800d"><td class="memItemLeft" align="right" valign="top"><a id="a8f25b126ee4375d284fab8e068e4800d" name="a8f25b126ee4375d284fab8e068e4800d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>DisassemblerException</b> (const std::string &amp;msg)</td></tr>
+<tr class="memitem:a8f25b126ee4375d284fab8e068e4800d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dc8/classexceptions_1_1DisassemblerException.html#a8f25b126ee4375d284fab8e068e4800d">DisassemblerException</a> (const std::string &amp;msg)</td></tr>
+<tr class="memdesc:a8f25b126ee4375d284fab8e068e4800d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of exception.  <br /></td></tr>
 <tr class="separator:a8f25b126ee4375d284fab8e068e4800d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b5a631fbfb4d72f267ae54b84ca08b7"><td class="memItemLeft" align="right" valign="top"><a id="a3b5a631fbfb4d72f267ae54b84ca08b7" name="a3b5a631fbfb4d72f267ae54b84ca08b7"></a>
-virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><b>what</b> () const noexcept override</td></tr>
+<tr class="memitem:a3b5a631fbfb4d72f267ae54b84ca08b7"><td class="memItemLeft" align="right" valign="top">virtual const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/dc8/classexceptions_1_1DisassemblerException.html#a3b5a631fbfb4d72f267ae54b84ca08b7">what</a> () const noexcept override</td></tr>
+<tr class="memdesc:a3b5a631fbfb4d72f267ae54b84ca08b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return error message.  <br /></td></tr>
 <tr class="separator:a3b5a631fbfb4d72f267ae54b84ca08b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Exception raised when a problem happens during disassembly process. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a8f25b126ee4375d284fab8e068e4800d" name="a8f25b126ee4375d284fab8e068e4800d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f25b126ee4375d284fab8e068e4800d">&#9670;&#160;</a></span>DisassemblerException()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">exceptions::DisassemblerException::DisassemblerException </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>msg</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor of exception. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">msg</td><td>message to show to the user </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a3b5a631fbfb4d72f267ae54b84ca08b7" name="a3b5a631fbfb4d72f267ae54b84ca08b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b5a631fbfb4d72f267ae54b84ca08b7">&#9670;&#160;</a></span>what()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const char * exceptions::DisassemblerException::what </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return error message. </p>
+<dl class="section return"><dt>Returns</dt><dd>error message in a c string style </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/Exceptions/<a class="el" href="../../d1/df9/disassembler__exception_8hpp_source.html">disassembler_exception.hpp</a></li>
+<li>kunai-lib/include/Kunai/Exceptions/<a class="el" href="../../d1/df9/disassembler__exception_8hpp_source.html">disassembler_exception.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

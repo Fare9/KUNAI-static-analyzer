@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d7/da1/classKUNAI_1_1DEX_1_1ParameterAnnotation.html">ParameterAnnotation</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d7/da1/classKUNAI_1_1DEX_1_1ParameterAnnotation.html">ParameterAnnotation</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,21 +80,135 @@ $(function() {
   <div class="headertitle"><div class="title">KUNAI::DEX::ParameterAnnotation Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Information for the list of annotations for the parameters.  
+ <a href="../../d7/da1/classKUNAI_1_1DEX_1_1ParameterAnnotation.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d0/d4f/annotations_8hpp_source.html">annotations.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a156918a03280b005223f9a8c8b0b76c9"><td class="memItemLeft" align="right" valign="top"><a id="a156918a03280b005223f9a8c8b0b76c9" name="a156918a03280b005223f9a8c8b0b76c9"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>ParameterAnnotation</b> (std::uint32_t method_idx, std::uint32_t annotations_off)</td></tr>
+<tr class="memitem:a156918a03280b005223f9a8c8b0b76c9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/da1/classKUNAI_1_1DEX_1_1ParameterAnnotation.html#a156918a03280b005223f9a8c8b0b76c9">ParameterAnnotation</a> (std::uint32_t method_idx, std::uint32_t annotations_off)</td></tr>
+<tr class="memdesc:a156918a03280b005223f9a8c8b0b76c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of <a class="el" href="../../d7/da1/classKUNAI_1_1DEX_1_1ParameterAnnotation.html" title="Information for the list of annotations for the parameters.">ParameterAnnotation</a>.  <br /></td></tr>
 <tr class="separator:a156918a03280b005223f9a8c8b0b76c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa57a45eccb8c3d307454f05ba6d4b9b9"><td class="memItemLeft" align="right" valign="top"><a id="aa57a45eccb8c3d307454f05ba6d4b9b9" name="aa57a45eccb8c3d307454f05ba6d4b9b9"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_method_idx</b> ()</td></tr>
-<tr class="separator:aa57a45eccb8c3d307454f05ba6d4b9b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acbff45eeff8afea13e180b6f10737d3f"><td class="memItemLeft" align="right" valign="top"><a id="acbff45eeff8afea13e180b6f10737d3f" name="acbff45eeff8afea13e180b6f10737d3f"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_annotations_off</b> ()</td></tr>
-<tr class="separator:acbff45eeff8afea13e180b6f10737d3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a149218aef78426a42977719533a75f5c"><td class="memItemLeft" align="right" valign="top"><a id="a149218aef78426a42977719533a75f5c" name="a149218aef78426a42977719533a75f5c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>~ParameterAnnotation</b> ()=default</td></tr>
+<tr class="memdesc:a149218aef78426a42977719533a75f5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of <a class="el" href="../../d7/da1/classKUNAI_1_1DEX_1_1ParameterAnnotation.html" title="Information for the list of annotations for the parameters.">ParameterAnnotation</a>. <br /></td></tr>
+<tr class="separator:a149218aef78426a42977719533a75f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4294ddc21c5f0d77abd685fdbc9315d9"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/da1/classKUNAI_1_1DEX_1_1ParameterAnnotation.html#a4294ddc21c5f0d77abd685fdbc9315d9">get_method_idx</a> () const</td></tr>
+<tr class="memdesc:a4294ddc21c5f0d77abd685fdbc9315d9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the MethodIDX value.  <br /></td></tr>
+<tr class="separator:a4294ddc21c5f0d77abd685fdbc9315d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39c6818adcb602f5b7a00cde67edc70f"><td class="memItemLeft" align="right" valign="top">std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/da1/classKUNAI_1_1DEX_1_1ParameterAnnotation.html#a39c6818adcb602f5b7a00cde67edc70f">get_annotations_off</a> () const</td></tr>
+<tr class="memdesc:a39c6818adcb602f5b7a00cde67edc70f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the offset to the annotations.  <br /></td></tr>
+<tr class="separator:a39c6818adcb602f5b7a00cde67edc70f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Information for the list of annotations for the parameters. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a156918a03280b005223f9a8c8b0b76c9" name="a156918a03280b005223f9a8c8b0b76c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a156918a03280b005223f9a8c8b0b76c9">&#9670;&#160;</a></span>ParameterAnnotation()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">KUNAI::DEX::ParameterAnnotation::ParameterAnnotation </td>
+          <td>(</td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>method_idx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>annotations_off</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor of <a class="el" href="../../d7/da1/classKUNAI_1_1DEX_1_1ParameterAnnotation.html" title="Information for the list of annotations for the parameters.">ParameterAnnotation</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">method_idx</td><td>idx of the method </td></tr>
+    <tr><td class="paramname">annotations_off</td><td>offset of the annotation </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a39c6818adcb602f5b7a00cde67edc70f" name="a39c6818adcb602f5b7a00cde67edc70f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39c6818adcb602f5b7a00cde67edc70f">&#9670;&#160;</a></span>get_annotations_off()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint32_t KUNAI::DEX::ParameterAnnotation::get_annotations_off </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the offset to the annotations. </p>
+<dl class="section return"><dt>Returns</dt><dd>annotations offset </dd></dl>
+
+</div>
+</div>
+<a id="a4294ddc21c5f0d77abd685fdbc9315d9" name="a4294ddc21c5f0d77abd685fdbc9315d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4294ddc21c5f0d77abd685fdbc9315d9">&#9670;&#160;</a></span>get_method_idx()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::uint32_t KUNAI::DEX::ParameterAnnotation::get_method_idx </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the MethodIDX value. </p>
+<dl class="section return"><dt>Returns</dt><dd>method idx value </dd></dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/parser/<a class="el" href="../../df/d86/dex__annotations_8hpp_source.html">dex_annotations.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/parser/<a class="el" href="../../d0/d4f/annotations_8hpp_source.html">annotations.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,159 +70,133 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="../../d2/df7/classKUNAI_1_1DEX_1_1DalvikOpcodes-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">KUNAI::DEX::DalvikOpcodes Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Class with static functions to manage information about the dalvik opcodes.  
+ <a href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../dc/d98/dalvik__opcodes_8hpp_source.html">dalvik_opcodes.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a5a8d48332912553eb2371bece142df58"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a5a8d48332912553eb2371bece142df58">DalvikOpcodes</a> (<a class="el" href="../../d3/d82/classKUNAI_1_1DEX_1_1DexParser.html">DexParser</a> *dex_parser)</td></tr>
-<tr class="memdesc:a5a8d48332912553eb2371bece142df58"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> constructor.  <br /></td></tr>
-<tr class="separator:a5a8d48332912553eb2371bece142df58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09ed8875f287a92f92e384e41fab8b7e"><td class="memItemLeft" align="right" valign="top"><a id="a09ed8875f287a92f92e384e41fab8b7e" name="a09ed8875f287a92f92e384e41fab8b7e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>DalvikOpcodes</b> ()=default</td></tr>
+<tr class="memdesc:a09ed8875f287a92f92e384e41fab8b7e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of Dalvik Opcodes. <br /></td></tr>
+<tr class="separator:a09ed8875f287a92f92e384e41fab8b7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c607cd56c87c038a9c033c71de4f3e5"><td class="memItemLeft" align="right" valign="top"><a id="a8c607cd56c87c038a9c033c71de4f3e5" name="a8c607cd56c87c038a9c033c71de4f3e5"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>~DalvikOpcodes</b> ()=default</td></tr>
-<tr class="memdesc:a8c607cd56c87c038a9c033c71de4f3e5"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> destructor. <br /></td></tr>
+<tr class="memdesc:a8c607cd56c87c038a9c033c71de4f3e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of Dalvik Opcodes. <br /></td></tr>
 <tr class="separator:a8c607cd56c87c038a9c033c71de4f3e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7aafb49cde0be9f07301bd5e4f436747"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a7aafb49cde0be9f07301bd5e4f436747">get_instruction_name</a> (std::uint32_t instruction)</td></tr>
-<tr class="memdesc:a7aafb49cde0be9f07301bd5e4f436747"><td class="mdescLeft">&#160;</td><td class="mdescRight">find the instruction opcode in the map to get instruction name.  <br /></td></tr>
-<tr class="separator:a7aafb49cde0be9f07301bd5e4f436747"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47306cb13c5a168af44e264f328342b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad34d1d3d2a524055a447dcc49d3b4c12">DVMTypes::Kind</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a47306cb13c5a168af44e264f328342b7">get_instruction_type</a> (std::uint32_t instruction)</td></tr>
-<tr class="memdesc:a47306cb13c5a168af44e264f328342b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">find the instruction Kind given an instruction opcode.  <br /></td></tr>
-<tr class="separator:a47306cb13c5a168af44e264f328342b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a102b3088534840f5d8d1b9ab9456d901"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a715364edc01994da4a9332029552bb2a">DVMTypes::Operation</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a102b3088534840f5d8d1b9ab9456d901">get_instruction_operation</a> (std::uint32_t instruction)</td></tr>
-<tr class="memdesc:a102b3088534840f5d8d1b9ab9456d901"><td class="mdescLeft">&#160;</td><td class="mdescRight">find the instruction Operation given an instruction opcode.  <br /></td></tr>
-<tr class="separator:a102b3088534840f5d8d1b9ab9456d901"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4fe44be792906d99bdde68542d567b6"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#af4fe44be792906d99bdde68542d567b6">get_instruction_type_str</a> (std::uint32_t instruction)</td></tr>
-<tr class="memdesc:af4fe44be792906d99bdde68542d567b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">get instruction type as string.  <br /></td></tr>
-<tr class="separator:af4fe44be792906d99bdde68542d567b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2833f15ab7a5ec4489817c7805ca83cb"><td class="memItemLeft" align="right" valign="top">std::string *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a2833f15ab7a5ec4489817c7805ca83cb">get_dalvik_string_by_id</a> (std::uint32_t id)</td></tr>
-<tr class="memdesc:a2833f15ab7a5ec4489817c7805ca83cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">get string* by id.  <br /></td></tr>
-<tr class="separator:a2833f15ab7a5ec4489817c7805ca83cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9f9f394b51e4cd5c88b07caaca335e63"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a9f9f394b51e4cd5c88b07caaca335e63">get_dalvik_Type_by_id</a> (std::uint32_t id)</td></tr>
-<tr class="memdesc:a9f9f394b51e4cd5c88b07caaca335e63"><td class="mdescLeft">&#160;</td><td class="mdescRight">get Type* by id.  <br /></td></tr>
-<tr class="separator:a9f9f394b51e4cd5c88b07caaca335e63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6734932b3c369060e676f22dd1f28272"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a6734932b3c369060e676f22dd1f28272">get_dalvik_field_by_id</a> (std::uint32_t id)</td></tr>
-<tr class="memdesc:a6734932b3c369060e676f22dd1f28272"><td class="mdescLeft">&#160;</td><td class="mdescRight">get FieldID* by id.  <br /></td></tr>
-<tr class="separator:a6734932b3c369060e676f22dd1f28272"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab39a7556aff93c0e0af78b57a8132b9a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#ab39a7556aff93c0e0af78b57a8132b9a">get_dalvik_method_by_id</a> (std::uint32_t id)</td></tr>
-<tr class="memdesc:ab39a7556aff93c0e0af78b57a8132b9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">get MethodID* by id.  <br /></td></tr>
-<tr class="separator:ab39a7556aff93c0e0af78b57a8132b9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8271a93012a4b8406a4f4ff1fc08493e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html">ProtoID</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a8271a93012a4b8406a4f4ff1fc08493e">get_dalvik_proto_by_id</a> (std::uint32_t id)</td></tr>
-<tr class="memdesc:a8271a93012a4b8406a4f4ff1fc08493e"><td class="mdescLeft">&#160;</td><td class="mdescRight">get ProtoID* by id.  <br /></td></tr>
-<tr class="separator:a8271a93012a4b8406a4f4ff1fc08493e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a96dae366eae7520b1ce3749e98a0ce6b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a96dae366eae7520b1ce3749e98a0ce6b">get_dalvik_encoded_field_by_fieldid</a> (<a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *field)</td></tr>
-<tr class="memdesc:a96dae366eae7520b1ce3749e98a0ce6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a dalvik EncodedField* by a given FieldID*.  <br /></td></tr>
-<tr class="separator:a96dae366eae7520b1ce3749e98a0ce6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad856f2d7133b6fadfa1011ad784e9662"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#ad856f2d7133b6fadfa1011ad784e9662">get_dalvik_string_by_id_str</a> (std::uint32_t id)</td></tr>
-<tr class="memdesc:ad856f2d7133b6fadfa1011ad784e9662"><td class="mdescLeft">&#160;</td><td class="mdescRight">get string by id.  <br /></td></tr>
-<tr class="separator:ad856f2d7133b6fadfa1011ad784e9662"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acb42b8939914d0056c12d75a8f6b3035"><td class="memItemLeft" align="right" valign="top">std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#acb42b8939914d0056c12d75a8f6b3035">get_dalvik_type_by_id_str</a> (std::uint32_t id)</td></tr>
-<tr class="memdesc:acb42b8939914d0056c12d75a8f6b3035"><td class="mdescLeft">&#160;</td><td class="mdescRight">get raw string from <a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> by id.  <br /></td></tr>
-<tr class="separator:acb42b8939914d0056c12d75a8f6b3035"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a082a63de84c4f341bde2a3b5742e71fc"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a082a63de84c4f341bde2a3b5742e71fc">get_dalvik_static_field_by_id_str</a> (std::uint32_t id)</td></tr>
-<tr class="memdesc:a082a63de84c4f341bde2a3b5742e71fc"><td class="mdescLeft">&#160;</td><td class="mdescRight">get <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> as string by id.  <br /></td></tr>
-<tr class="separator:a082a63de84c4f341bde2a3b5742e71fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa6a0c30bc5b0ec694b12e6efc8de59e5"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#aa6a0c30bc5b0ec694b12e6efc8de59e5">get_dalvik_method_by_id_str</a> (std::uint32_t id)</td></tr>
-<tr class="memdesc:aa6a0c30bc5b0ec694b12e6efc8de59e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">get <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> as string by id.  <br /></td></tr>
-<tr class="separator:aa6a0c30bc5b0ec694b12e6efc8de59e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7311fa5febebd246599dc528e5772a2e"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a7311fa5febebd246599dc528e5772a2e">get_dalvik_proto_by_id_str</a> (std::uint32_t id)</td></tr>
-<tr class="memdesc:a7311fa5febebd246599dc528e5772a2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">get <a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html">ProtoID</a> as string by id.  <br /></td></tr>
-<tr class="separator:a7311fa5febebd246599dc528e5772a2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a532ff74b0ab90cbaa010a086b2eb52ed"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a532ff74b0ab90cbaa010a086b2eb52ed">get_access_flags_string</a> (DVMTypes::ACCESS_FLAGS acc_flag)</td></tr>
-<tr class="memdesc:a532ff74b0ab90cbaa010a086b2eb52ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Method to get a string from the access flags.  <br /></td></tr>
-<tr class="separator:a532ff74b0ab90cbaa010a086b2eb52ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a7e8f5aa467018d3e613bbba3538b762b"><td class="memItemLeft" align="right" valign="top">static const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a7e8f5aa467018d3e613bbba3538b762b">get_instruction_name</a> (std::uint32_t instruction)</td></tr>
+<tr class="memdesc:a7e8f5aa467018d3e613bbba3538b762b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the instruction opcode in a map to obtain the instruction name.  <br /></td></tr>
+<tr class="separator:a7e8f5aa467018d3e613bbba3538b762b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9b4d622eb6c3fbd2047544a4fda3ee4"><td class="memItemLeft" align="right" valign="top">static TYPES::Kind&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#ae9b4d622eb6c3fbd2047544a4fda3ee4">get_instruction_type</a> (std::uint32_t instruction)</td></tr>
+<tr class="memdesc:ae9b4d622eb6c3fbd2047544a4fda3ee4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the instruction type given an instruction opcode.  <br /></td></tr>
+<tr class="separator:ae9b4d622eb6c3fbd2047544a4fda3ee4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48ed55f5e54916e0fc225e8858e621da"><td class="memItemLeft" align="right" valign="top">static const std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a48ed55f5e54916e0fc225e8858e621da">get_instruction_type_string</a> (std::uint32_t instruction)</td></tr>
+<tr class="memdesc:a48ed55f5e54916e0fc225e8858e621da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get an instruction type given an instruction opcode in string format.  <br /></td></tr>
+<tr class="separator:a48ed55f5e54916e0fc225e8858e621da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d49ea8a6aef4c79493c9d9ff7667b1e"><td class="memItemLeft" align="right" valign="top">static TYPES::Operation&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a8d49ea8a6aef4c79493c9d9ff7667b1e">get_instruction_operation</a> (std::uint32_t instruction)</td></tr>
+<tr class="memdesc:a8d49ea8a6aef4c79493c9d9ff7667b1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find the instruction operation given an instruction opcode.  <br /></td></tr>
+<tr class="separator:a8d49ea8a6aef4c79493c9d9ff7667b1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f8b12506da77befbff97163216a861d"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a0f8b12506da77befbff97163216a861d">get_method_access_flags</a> (<a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *method)</td></tr>
+<tr class="memdesc:a0f8b12506da77befbff97163216a861d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a string representation of the access flags from a method.  <br /></td></tr>
+<tr class="separator:a0f8b12506da77befbff97163216a861d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa146b08e53d1d8c84b37225cd45e71db"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#aa146b08e53d1d8c84b37225cd45e71db">get_field_access_flags</a> (<a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *field)</td></tr>
+<tr class="memdesc:aa146b08e53d1d8c84b37225cd45e71db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a string representation of the access flags from a field.  <br /></td></tr>
+<tr class="separator:aa146b08e53d1d8c84b37225cd45e71db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52c5579674b8f69f4b42b99dd759409e"><td class="memItemLeft" align="right" valign="top">static std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html#a52c5579674b8f69f4b42b99dd759409e">get_access_flags_str</a> (TYPES::access_flags flags)</td></tr>
+<tr class="memdesc:a52c5579674b8f69f4b42b99dd759409e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a string representation of any access flags.  <br /></td></tr>
+<tr class="separator:a52c5579674b8f69f4b42b99dd759409e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a5a8d48332912553eb2371bece142df58" name="a5a8d48332912553eb2371bece142df58"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5a8d48332912553eb2371bece142df58">&#9670;&#160;</a></span>DalvikOpcodes()</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Class with static functions to manage information about the dalvik opcodes. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a52c5579674b8f69f4b42b99dd759409e" name="a52c5579674b8f69f4b42b99dd759409e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52c5579674b8f69f4b42b99dd759409e">&#9670;&#160;</a></span>get_access_flags_str()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">KUNAI::DEX::DalvikOpcodes::DalvikOpcodes </td>
+          <td class="memname">static std::string KUNAI::DEX::DalvikOpcodes::get_access_flags_str </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d3/d82/classKUNAI_1_1DEX_1_1DexParser.html">DexParser</a> *&#160;</td>
-          <td class="paramname"><em>dex_parser</em></td><td>)</td>
+          <td class="paramtype">TYPES::access_flags&#160;</td>
+          <td class="paramname"><em>flags</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p><a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> constructor. </p>
+<p>Get a string representation of any access flags. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">dex_parser</td><td>DexParser* object to use in the object. </td></tr>
+    <tr><td class="paramname">access_flags</td><td>access flags value </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>string representation of access flags </dd></dl>
 
 </div>
 </div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a532ff74b0ab90cbaa010a086b2eb52ed" name="a532ff74b0ab90cbaa010a086b2eb52ed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a532ff74b0ab90cbaa010a086b2eb52ed">&#9670;&#160;</a></span>get_access_flags_string()</h2>
+<a id="aa146b08e53d1d8c84b37225cd45e71db" name="aa146b08e53d1d8c84b37225cd45e71db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa146b08e53d1d8c84b37225cd45e71db">&#9670;&#160;</a></span>get_field_access_flags()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string KUNAI::DEX::DalvikOpcodes::get_access_flags_string </td>
+          <td class="memname">static std::string KUNAI::DEX::DalvikOpcodes::get_field_access_flags </td>
           <td>(</td>
-          <td class="paramtype">DVMTypes::ACCESS_FLAGS&#160;</td>
-          <td class="paramname"><em>acc_flag</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Method to get a string from the access flags. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">acc_flag</td><td>value from enum DVMTypes::ACCESS_FLAGS. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
-
-</div>
-</div>
-<a id="a96dae366eae7520b1ce3749e98a0ce6b" name="a96dae366eae7520b1ce3749e98a0ce6b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a96dae366eae7520b1ce3749e98a0ce6b">&#9670;&#160;</a></span>get_dalvik_encoded_field_by_fieldid()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> * KUNAI::DEX::DalvikOpcodes::get_dalvik_encoded_field_by_fieldid </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d4/d1f/classKUNAI_1_1DEX_1_1EncodedField.html">EncodedField</a> *&#160;</td>
           <td class="paramname"><em>field</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>Get a dalvik EncodedField* by a given FieldID*. </p>
+<p>Get a string representation of the access flags from a field. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">field</td><td>FieldID* field to obtain its EncodedField* </td></tr>
+    <tr><td class="paramname">method</td><td>field to retrieve its access flags </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>EncodedField* </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>string representation of access flags </dd></dl>
 
 </div>
 </div>
-<a id="a6734932b3c369060e676f22dd1f28272" name="a6734932b3c369060e676f22dd1f28272"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6734932b3c369060e676f22dd1f28272">&#9670;&#160;</a></span>get_dalvik_field_by_id()</h2>
+<a id="a7e8f5aa467018d3e613bbba3538b762b" name="a7e8f5aa467018d3e613bbba3538b762b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e8f5aa467018d3e613bbba3538b762b">&#9670;&#160;</a></span>get_instruction_name()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -231,432 +205,173 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> * KUNAI::DEX::DalvikOpcodes::get_dalvik_field_by_id </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>get FieldID* by id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>std::uint32_t of the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>FieldID* </dd></dl>
-
-</div>
-</div>
-<a id="ab39a7556aff93c0e0af78b57a8132b9a" name="ab39a7556aff93c0e0af78b57a8132b9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab39a7556aff93c0e0af78b57a8132b9a">&#9670;&#160;</a></span>get_dalvik_method_by_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> * KUNAI::DEX::DalvikOpcodes::get_dalvik_method_by_id </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>get MethodID* by id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>std::uint32_t of the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>MethodID* </dd></dl>
-
-</div>
-</div>
-<a id="aa6a0c30bc5b0ec694b12e6efc8de59e5" name="aa6a0c30bc5b0ec694b12e6efc8de59e5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa6a0c30bc5b0ec694b12e6efc8de59e5">&#9670;&#160;</a></span>get_dalvik_method_by_id_str()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string KUNAI::DEX::DalvikOpcodes::get_dalvik_method_by_id_str </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>get <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a> as string by id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>std::uint32_t id of the <a class="el" href="../../dd/dda/classKUNAI_1_1DEX_1_1MethodID.html">MethodID</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
-
-</div>
-</div>
-<a id="a8271a93012a4b8406a4f4ff1fc08493e" name="a8271a93012a4b8406a4f4ff1fc08493e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8271a93012a4b8406a4f4ff1fc08493e">&#9670;&#160;</a></span>get_dalvik_proto_by_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html">ProtoID</a> * KUNAI::DEX::DalvikOpcodes::get_dalvik_proto_by_id </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>get ProtoID* by id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>std::uint32_t of the <a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html">ProtoID</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>ProtoID* </dd></dl>
-
-</div>
-</div>
-<a id="a7311fa5febebd246599dc528e5772a2e" name="a7311fa5febebd246599dc528e5772a2e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7311fa5febebd246599dc528e5772a2e">&#9670;&#160;</a></span>get_dalvik_proto_by_id_str()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string KUNAI::DEX::DalvikOpcodes::get_dalvik_proto_by_id_str </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>get <a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html">ProtoID</a> as string by id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>std::uint32_t id of the <a class="el" href="../../d9/d57/classKUNAI_1_1DEX_1_1ProtoID.html">ProtoID</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
-
-</div>
-</div>
-<a id="a082a63de84c4f341bde2a3b5742e71fc" name="a082a63de84c4f341bde2a3b5742e71fc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a082a63de84c4f341bde2a3b5742e71fc">&#9670;&#160;</a></span>get_dalvik_static_field_by_id_str()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string KUNAI::DEX::DalvikOpcodes::get_dalvik_static_field_by_id_str </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>get <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a> as string by id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>std::uint32_t id of the <a class="el" href="../../df/d4f/classKUNAI_1_1DEX_1_1FieldID.html">FieldID</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
-
-</div>
-</div>
-<a id="a2833f15ab7a5ec4489817c7805ca83cb" name="a2833f15ab7a5ec4489817c7805ca83cb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2833f15ab7a5ec4489817c7805ca83cb">&#9670;&#160;</a></span>get_dalvik_string_by_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string * KUNAI::DEX::DalvikOpcodes::get_dalvik_string_by_id </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>get string* by id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>std::uint32_t id of string. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string* </dd></dl>
-
-</div>
-</div>
-<a id="ad856f2d7133b6fadfa1011ad784e9662" name="ad856f2d7133b6fadfa1011ad784e9662"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad856f2d7133b6fadfa1011ad784e9662">&#9670;&#160;</a></span>get_dalvik_string_by_id_str()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string &amp; KUNAI::DEX::DalvikOpcodes::get_dalvik_string_by_id_str </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>get string by id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>std::uint32_t id of the string. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
-
-</div>
-</div>
-<a id="a9f9f394b51e4cd5c88b07caaca335e63" name="a9f9f394b51e4cd5c88b07caaca335e63"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9f9f394b51e4cd5c88b07caaca335e63">&#9670;&#160;</a></span>get_dalvik_Type_by_id()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> * KUNAI::DEX::DalvikOpcodes::get_dalvik_Type_by_id </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>get Type* by id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>std::uint32_t id of the <a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>Type* </dd></dl>
-
-</div>
-</div>
-<a id="acb42b8939914d0056c12d75a8f6b3035" name="acb42b8939914d0056c12d75a8f6b3035"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acb42b8939914d0056c12d75a8f6b3035">&#9670;&#160;</a></span>get_dalvik_type_by_id_str()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string &amp; KUNAI::DEX::DalvikOpcodes::get_dalvik_type_by_id_str </td>
-          <td>(</td>
-          <td class="paramtype">std::uint32_t&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>get raw string from <a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a> by id. </p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">id</td><td>std::uint32_t id of the <a class="el" href="../../de/d54/classKUNAI_1_1DEX_1_1Type.html">Type</a>. </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
-
-</div>
-</div>
-<a id="a7aafb49cde0be9f07301bd5e4f436747" name="a7aafb49cde0be9f07301bd5e4f436747"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7aafb49cde0be9f07301bd5e4f436747">&#9670;&#160;</a></span>get_instruction_name()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string KUNAI::DEX::DalvikOpcodes::get_instruction_name </td>
+          <td class="memname">static const std::string &amp; KUNAI::DEX::DalvikOpcodes::get_instruction_name </td>
           <td>(</td>
           <td class="paramtype">std::uint32_t&#160;</td>
           <td class="paramname"><em>instruction</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>find the instruction opcode in the map to get instruction name. </p>
+<p>Find the instruction opcode in a map to obtain the instruction name. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">instruction</td><td>std::uint32_t instruction opcode. </td></tr>
+    <tr><td class="paramname">instruction</td><td>opcode of the instruction </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>reference to instruction name </dd></dl>
 
 </div>
 </div>
-<a id="a102b3088534840f5d8d1b9ab9456d901" name="a102b3088534840f5d8d1b9ab9456d901"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a102b3088534840f5d8d1b9ab9456d901">&#9670;&#160;</a></span>get_instruction_operation()</h2>
+<a id="a8d49ea8a6aef4c79493c9d9ff7667b1e" name="a8d49ea8a6aef4c79493c9d9ff7667b1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d49ea8a6aef4c79493c9d9ff7667b1e">&#9670;&#160;</a></span>get_instruction_operation()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a715364edc01994da4a9332029552bb2a">DVMTypes::Operation</a> KUNAI::DEX::DalvikOpcodes::get_instruction_operation </td>
+          <td class="memname">static TYPES::Operation KUNAI::DEX::DalvikOpcodes::get_instruction_operation </td>
           <td>(</td>
           <td class="paramtype">std::uint32_t&#160;</td>
           <td class="paramname"><em>instruction</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>find the instruction Operation given an instruction opcode. </p>
+<p>Find the instruction operation given an instruction opcode. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">instruction</td><td>std::uint32_t instruction opcode. </td></tr>
+    <tr><td class="paramname">instruction</td><td>opcode of the instruction </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a715364edc01994da4a9332029552bb2a" title="Identify different type of operations from instructions like branching, break, write or read.">DVMTypes::Operation</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>operation of a instruction </dd></dl>
 
 </div>
 </div>
-<a id="a47306cb13c5a168af44e264f328342b7" name="a47306cb13c5a168af44e264f328342b7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47306cb13c5a168af44e264f328342b7">&#9670;&#160;</a></span>get_instruction_type()</h2>
+<a id="ae9b4d622eb6c3fbd2047544a4fda3ee4" name="ae9b4d622eb6c3fbd2047544a4fda3ee4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9b4d622eb6c3fbd2047544a4fda3ee4">&#9670;&#160;</a></span>get_instruction_type()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad34d1d3d2a524055a447dcc49d3b4c12">DVMTypes::Kind</a> KUNAI::DEX::DalvikOpcodes::get_instruction_type </td>
+          <td class="memname">static TYPES::Kind KUNAI::DEX::DalvikOpcodes::get_instruction_type </td>
           <td>(</td>
           <td class="paramtype">std::uint32_t&#160;</td>
           <td class="paramname"><em>instruction</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>find the instruction Kind given an instruction opcode. </p>
+<p>Find the instruction type given an instruction opcode. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">instruction</td><td>std::uint32_t instruction opcode. </td></tr>
+    <tr><td class="paramname">instruction</td><td>opcode of the instruction </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd><a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad34d1d3d2a524055a447dcc49d3b4c12" title="Identify kind of argument inside of argument inside a Dalvik Instruction.">DVMTypes::Kind</a> </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>kind of a instruction </dd></dl>
 
 </div>
 </div>
-<a id="af4fe44be792906d99bdde68542d567b6" name="af4fe44be792906d99bdde68542d567b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af4fe44be792906d99bdde68542d567b6">&#9670;&#160;</a></span>get_instruction_type_str()</h2>
+<a id="a48ed55f5e54916e0fc225e8858e621da" name="a48ed55f5e54916e0fc225e8858e621da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48ed55f5e54916e0fc225e8858e621da">&#9670;&#160;</a></span>get_instruction_type_string()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::string &amp; KUNAI::DEX::DalvikOpcodes::get_instruction_type_str </td>
+          <td class="memname">static const std::string &amp; KUNAI::DEX::DalvikOpcodes::get_instruction_type_string </td>
           <td>(</td>
           <td class="paramtype">std::uint32_t&#160;</td>
           <td class="paramname"><em>instruction</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p>get instruction type as string. </p>
+<p>Get an instruction type given an instruction opcode in string format. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">instruction</td><td>std::uint32_t instruction opcode. </td></tr>
+    <tr><td class="paramname">instruction</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>std::string </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>constant reference to string with the Kind </dd></dl>
+
+</div>
+</div>
+<a id="a0f8b12506da77befbff97163216a861d" name="a0f8b12506da77befbff97163216a861d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f8b12506da77befbff97163216a861d">&#9670;&#160;</a></span>get_method_access_flags()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static std::string KUNAI::DEX::DalvikOpcodes::get_method_access_flags </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d3/d7d/classKUNAI_1_1DEX_1_1EncodedMethod.html">EncodedMethod</a> *&#160;</td>
+          <td class="paramname"><em>method</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a string representation of the access flags from a method. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">method</td><td>method to retrieve its access flags </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>string representation of access flags </dd></dl>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/DVM/<a class="el" href="../../dd/d30/dex__dalvik__opcodes_8hpp_source.html">dex_dalvik_opcodes.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/DVM/<a class="el" href="../../dc/d98/dalvik__opcodes_8hpp_source.html">dalvik_opcodes.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

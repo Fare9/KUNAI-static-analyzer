@@ -23,7 +23,7 @@
   <td id="projectalign">
    <div id="projectname">KUNAI Static Analyzer
    </div>
-   <div id="projectbrief">KUNAI is a static analysis tool for different binary file formats and architectures which focuses on the analysis at an IR high level.</div>
+   <div id="projectbrief">Kunai is a library for doing static binary analysis of Dalvik.</div>
   </td>
  </tr>
  </tbody>
@@ -70,7 +70,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><b>KUNAI</b></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../d2/dc1/namespaceKUNAI.html">KUNAI</a></li><li class="navelem"><b>DEX</b></li><li class="navelem"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html">Instruction</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -78,122 +78,582 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="../../d5/d44/classKUNAI_1_1DEX_1_1Instruction-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">KUNAI::DEX::Instruction Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+  <div class="headertitle"><div class="title">KUNAI::DEX::Instruction Class Reference</div></div>
 </div><!--header-->
 <div class="contents">
+
+<p>Base class for the Instructions of the Dalvik Bytecode.  
+ <a href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d8/dce/dalvik__instructions_8hpp_source.html">dalvik_instructions.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for KUNAI::DEX::Instruction:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../df/d2b/classKUNAI_1_1DEX_1_1Instruction__inherit__graph.png" border="0" usemap="#aKUNAI_1_1DEX_1_1Instruction_inherit__map" alt="Inheritance graph"/></div>
 <map name="aKUNAI_1_1DEX_1_1Instruction_inherit__map" id="aKUNAI_1_1DEX_1_1Instruction_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,810,168,836"/>
-<area shape="rect" href="../../d7/d71/classKUNAI_1_1DEX_1_1DalvikIncorrectInstruction.html" title=" " alt="" coords="217,5,405,46"/>
-<area shape="rect" href="../../de/d27/classKUNAI_1_1DEX_1_1FillArrayData.html" title=" " alt="" coords="223,70,399,96"/>
-<area shape="rect" href="../../d1/dd8/classKUNAI_1_1DEX_1_1Instruction00x.html" title=" " alt="" coords="220,120,402,145"/>
-<area shape="rect" href="../../d9/de3/classKUNAI_1_1DEX_1_1Instruction10t.html" title=" " alt="" coords="221,169,401,195"/>
-<area shape="rect" href="../../de/df3/classKUNAI_1_1DEX_1_1Instruction10x.html" title=" " alt="" coords="220,218,402,244"/>
-<area shape="rect" href="../../df/de3/classKUNAI_1_1DEX_1_1Instruction11n.html" title=" " alt="" coords="219,268,403,293"/>
-<area shape="rect" href="../../d4/df5/classKUNAI_1_1DEX_1_1Instruction11x.html" title=" " alt="" coords="220,317,402,343"/>
-<area shape="rect" href="../../d4/d29/classKUNAI_1_1DEX_1_1Instruction12x.html" title=" " alt="" coords="220,366,402,392"/>
-<area shape="rect" href="../../d3/d85/classKUNAI_1_1DEX_1_1Instruction20bc.html" title=" " alt="" coords="216,416,406,441"/>
-<area shape="rect" href="../../d3/d09/classKUNAI_1_1DEX_1_1Instruction20t.html" title=" " alt="" coords="221,465,401,491"/>
-<area shape="rect" href="../../dd/dcf/classKUNAI_1_1DEX_1_1Instruction21c.html" title=" " alt="" coords="219,514,403,540"/>
-<area shape="rect" href="../../d7/d71/classKUNAI_1_1DEX_1_1Instruction21h.html" title=" " alt="" coords="219,564,403,589"/>
-<area shape="rect" href="../../d0/df9/classKUNAI_1_1DEX_1_1Instruction21s.html" title=" " alt="" coords="219,613,403,639"/>
-<area shape="rect" href="../../d5/d90/classKUNAI_1_1DEX_1_1Instruction21t.html" title=" " alt="" coords="221,662,401,688"/>
-<area shape="rect" href="../../df/da8/classKUNAI_1_1DEX_1_1Instruction22b.html" title=" " alt="" coords="219,712,403,737"/>
-<area shape="rect" href="../../d8/d08/classKUNAI_1_1DEX_1_1Instruction22c.html" title=" " alt="" coords="219,761,403,787"/>
-<area shape="rect" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html" title=" " alt="" coords="216,810,406,836"/>
-<area shape="rect" href="../../db/d80/classKUNAI_1_1DEX_1_1Instruction22s.html" title=" " alt="" coords="219,860,403,885"/>
-<area shape="rect" href="../../dd/d2e/classKUNAI_1_1DEX_1_1Instruction22t.html" title=" " alt="" coords="221,909,401,935"/>
-<area shape="rect" href="../../d6/d9b/classKUNAI_1_1DEX_1_1Instruction22x.html" title=" " alt="" coords="220,958,402,984"/>
-<area shape="rect" href="../../d3/d00/classKUNAI_1_1DEX_1_1Instruction23x.html" title=" " alt="" coords="220,1008,402,1033"/>
-<area shape="rect" href="../../d8/d04/classKUNAI_1_1DEX_1_1Instruction30t.html" title=" " alt="" coords="221,1057,401,1083"/>
-<area shape="rect" href="../../d3/dfd/classKUNAI_1_1DEX_1_1Instruction31c.html" title=" " alt="" coords="219,1106,403,1132"/>
-<area shape="rect" href="../../d4/d90/classKUNAI_1_1DEX_1_1Instruction31i.html" title=" " alt="" coords="221,1156,401,1181"/>
-<area shape="rect" href="../../d5/daa/classKUNAI_1_1DEX_1_1Instruction31t.html" title=" " alt="" coords="221,1205,401,1231"/>
-<area shape="rect" href="../../d8/d17/classKUNAI_1_1DEX_1_1Instruction32x.html" title=" " alt="" coords="220,1254,402,1280"/>
-<area shape="rect" href="../../d2/d62/classKUNAI_1_1DEX_1_1Instruction35c.html" title=" " alt="" coords="219,1304,403,1329"/>
-<area shape="rect" href="../../d0/d31/classKUNAI_1_1DEX_1_1Instruction3rc.html" title=" " alt="" coords="221,1353,401,1379"/>
-<area shape="rect" href="../../dc/d71/classKUNAI_1_1DEX_1_1Instruction45cc.html" title=" " alt="" coords="216,1402,406,1428"/>
-<area shape="rect" href="../../d5/db5/classKUNAI_1_1DEX_1_1Instruction4rcc.html" title=" " alt="" coords="217,1452,405,1477"/>
-<area shape="rect" href="../../d3/dfb/classKUNAI_1_1DEX_1_1Instruction51l.html" title=" " alt="" coords="221,1501,401,1527"/>
-<area shape="rect" href="../../df/d1e/classKUNAI_1_1DEX_1_1PackedSwitch.html" title=" " alt="" coords="218,1550,404,1576"/>
-<area shape="rect" href="../../d7/d0e/classKUNAI_1_1DEX_1_1SparseSwitch.html" title=" " alt="" coords="220,1600,402,1625"/>
+<area shape="rect" title="Base class for the Instructions of the Dalvik Bytecode." alt="" coords="5,810,168,836"/>
+<area shape="rect" href="../../d7/d71/classKUNAI_1_1DEX_1_1DalvikIncorrectInstruction.html" title="In case there is an incorrect instruction this one holds all the opcodes and the length of previous i..." alt="" coords="217,5,405,46"/>
+<area shape="rect" href="../../de/d27/classKUNAI_1_1DEX_1_1FillArrayData.html" title="Class present in methods which uses array data." alt="" coords="223,70,399,96"/>
+<area shape="rect" href="../../d1/dd8/classKUNAI_1_1DEX_1_1Instruction00x.html" title="Useless instruction with opcode of 00 no instruction represents this, it&#39;s not either a nop." alt="" coords="220,120,402,145"/>
+<area shape="rect" href="../../d9/de3/classKUNAI_1_1DEX_1_1Instruction10t.html" title="Unconditional jump instruction. An offset is given to know where to jump." alt="" coords="221,169,401,195"/>
+<area shape="rect" href="../../de/df3/classKUNAI_1_1DEX_1_1Instruction10x.html" title="Instruction for wasting cycles. It represents a nop, it has a length of 2." alt="" coords="220,218,402,244"/>
+<area shape="rect" href="../../df/de3/classKUNAI_1_1DEX_1_1Instruction11n.html" title="Instruction for moving a given literal, the instruction has a register and a literal value,..." alt="" coords="219,268,403,293"/>
+<area shape="rect" href="../../d4/df5/classKUNAI_1_1DEX_1_1Instruction11x.html" title="Move single, double&#45;words or objects from invoke results, also save caught exception into given regis..." alt="" coords="220,317,402,343"/>
+<area shape="rect" href="../../d4/d29/classKUNAI_1_1DEX_1_1Instruction12x.html" title="Move the contents of one register to another length of the instruction is 2 bytes,..." alt="" coords="220,366,402,392"/>
+<area shape="rect" href="../../d3/d85/classKUNAI_1_1DEX_1_1Instruction20bc.html" title="opAA, kind@BBBB, where AA indicates a type of error and BBBB and index into the appropiate table" alt="" coords="216,416,406,441"/>
+<area shape="rect" href="../../d3/d09/classKUNAI_1_1DEX_1_1Instruction20t.html" title="Another unconditional jump with a bigger offset of 2 bytes for the offset." alt="" coords="221,465,401,491"/>
+<area shape="rect" href="../../dd/dcf/classKUNAI_1_1DEX_1_1Instruction21c.html" title="Move a reference to a register from a string, type, etc example instruction: const&#45;string vAA,..." alt="" coords="219,514,403,540"/>
+<area shape="rect" href="../../d7/d71/classKUNAI_1_1DEX_1_1Instruction21h.html" title="Move given literal value into specified register. Example: const/high16 vAA, #+BBBB0000 where vAA is ..." alt="" coords="219,564,403,589"/>
+<area shape="rect" href="../../d0/df9/classKUNAI_1_1DEX_1_1Instruction21s.html" title="Move given literal value into specified register. Example of instruction: const/16 vAA,..." alt="" coords="219,613,403,639"/>
+<area shape="rect" href="../../d5/d90/classKUNAI_1_1DEX_1_1Instruction21t.html" title="Branch to the given destination if the given register&#39;s value compares with 0 as specified...." alt="" coords="221,662,401,688"/>
+<area shape="rect" href="../../df/da8/classKUNAI_1_1DEX_1_1Instruction22b.html" title="Perform indicated binary operation on the indicated register and literal value, storing result in des..." alt="" coords="219,712,403,737"/>
+<area shape="rect" href="../../d8/d08/classKUNAI_1_1DEX_1_1Instruction22c.html" title="Store in the given destination 1 if the register provided contains an instance of the given type/fiel..." alt="" coords="219,761,403,787"/>
+<area shape="rect" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html" title="Format suggested for statically linked field access instructions or Types. Example: op vA,..." alt="" coords="216,810,406,836"/>
+<area shape="rect" href="../../db/d80/classKUNAI_1_1DEX_1_1Instruction22s.html" title="Perform indicated binary operation on the operands storing finally the result in the destination regi..." alt="" coords="219,860,403,885"/>
+<area shape="rect" href="../../dd/d2e/classKUNAI_1_1DEX_1_1Instruction22t.html" title="Branch to given offset after comparison of two registers. Example if&#45;test vA, vB, +CCCC." alt="" coords="221,909,401,935"/>
+<area shape="rect" href="../../d6/d9b/classKUNAI_1_1DEX_1_1Instruction22x.html" title="Move the contents of one non&#45;object register to another. an instruction like move/from16 vAA,..." alt="" coords="220,958,402,984"/>
+<area shape="rect" href="../../d3/d00/classKUNAI_1_1DEX_1_1Instruction23x.html" title="Perform indicated floating point or long comparison Example: cmpkind vAA, vBB, vCC." alt="" coords="220,1008,402,1033"/>
+<area shape="rect" href="../../d8/d04/classKUNAI_1_1DEX_1_1Instruction30t.html" title="Unconditional jump to indicated offset Example: goto/32 +AAAAAAAA." alt="" coords="221,1057,401,1083"/>
+<area shape="rect" href="../../d3/dfd/classKUNAI_1_1DEX_1_1Instruction31c.html" title="Move a reference to string specified by given index into the specified register. Example: const&#45;strin..." alt="" coords="219,1106,403,1132"/>
+<area shape="rect" href="../../d4/d90/classKUNAI_1_1DEX_1_1Instruction31i.html" title="Instructions between a register and a literal value of 32 bits. Example: const vAA,..." alt="" coords="221,1156,401,1181"/>
+<area shape="rect" href="../../d5/daa/classKUNAI_1_1DEX_1_1Instruction31t.html" title="Fill given array with indicated data. Reference must be an array of primitives. Also used for specify..." alt="" coords="221,1205,401,1231"/>
+<area shape="rect" href="../../d8/d17/classKUNAI_1_1DEX_1_1Instruction32x.html" title="Binary operation between registers of 16 bits Example: move/16 vAAAA, vBBBB." alt="" coords="220,1254,402,1280"/>
+<area shape="rect" href="../../d2/d62/classKUNAI_1_1DEX_1_1Instruction35c.html" title="Construct array of given type and size, filling it with supplied contents. Type must be an array type..." alt="" coords="219,1304,403,1329"/>
+<area shape="rect" href="../../d0/d31/classKUNAI_1_1DEX_1_1Instruction3rc.html" title="Construct array of given type and size, filling it with supplied contents. Example instructions: op {..." alt="" coords="221,1353,401,1379"/>
+<area shape="rect" href="../../dc/d71/classKUNAI_1_1DEX_1_1Instruction45cc.html" title="Invoke indicated signature polymorphic method. The result (if any) may be stored with an appropiate m..." alt="" coords="216,1402,406,1428"/>
+<area shape="rect" href="../../d5/db5/classKUNAI_1_1DEX_1_1Instruction4rcc.html" title="Invoke the method handle indicated, this time it can provide with a range of arguments given by a siz..." alt="" coords="217,1452,405,1477"/>
+<area shape="rect" href="../../d3/dfb/classKUNAI_1_1DEX_1_1Instruction51l.html" title="Move given literal value into specified register pair Example: const&#45;wide vAA, #+BBBBBBBBBBBBBBBB." alt="" coords="221,1501,401,1527"/>
+<area shape="rect" href="../../df/d1e/classKUNAI_1_1DEX_1_1PackedSwitch.html" title="Packed Switch instruction present in methods which make use of this kind of data." alt="" coords="218,1550,404,1576"/>
+<area shape="rect" href="../../d7/d0e/classKUNAI_1_1DEX_1_1SparseSwitch.html" title="Sparse switch instruction present in methods which make use of this kind of data, this contain the ke..." alt="" coords="220,1600,402,1625"/>
 </map>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a2e7f6a38f7d1dff5ef3e9cb7cf5c7e69"><td class="memItemLeft" align="right" valign="top"><a id="a2e7f6a38f7d1dff5ef3e9cb7cf5c7e69" name="a2e7f6a38f7d1dff5ef3e9cb7cf5c7e69"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Instruction</b> (<a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> *dalvik_opcodes, std::istream &amp;input_file)</td></tr>
-<tr class="separator:a2e7f6a38f7d1dff5ef3e9cb7cf5c7e69"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a688dbaa279aed01fc67c308064c410c1"><td class="memItemLeft" align="right" valign="top"><a id="a688dbaa279aed01fc67c308064c410c1" name="a688dbaa279aed01fc67c308064c410c1"></a>
-virtual DexInstType_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_inst_type</b> ()=0</td></tr>
-<tr class="separator:a688dbaa279aed01fc67c308064c410c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93c3385fa6ab0c63358b769aab4a958c"><td class="memItemLeft" align="right" valign="top"><a id="a93c3385fa6ab0c63358b769aab4a958c" name="a93c3385fa6ab0c63358b769aab4a958c"></a>
-<a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad34d1d3d2a524055a447dcc49d3b4c12">DVMTypes::Kind</a>&#160;</td><td class="memItemRight" valign="bottom"><b>get_kind</b> ()</td></tr>
-<tr class="separator:a93c3385fa6ab0c63358b769aab4a958c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abcbf6f51abd84e99b63b09512cd9eb97"><td class="memItemLeft" align="right" valign="top"><a id="abcbf6f51abd84e99b63b09512cd9eb97" name="abcbf6f51abd84e99b63b09512cd9eb97"></a>
-std::string &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_translated_kind</b> ()</td></tr>
-<tr class="separator:abcbf6f51abd84e99b63b09512cd9eb97"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a822ddec8ab0f34f47de05b0822691d26"><td class="memItemLeft" align="right" valign="top"><a id="a822ddec8ab0f34f47de05b0822691d26" name="a822ddec8ab0f34f47de05b0822691d26"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_name</b> ()</td></tr>
-<tr class="separator:a822ddec8ab0f34f47de05b0822691d26"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a029a902d80c36f28fc7878697f102150"><td class="memItemLeft" align="right" valign="top"><a id="a029a902d80c36f28fc7878697f102150" name="a029a902d80c36f28fc7878697f102150"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_length</b> ()</td></tr>
-<tr class="separator:a029a902d80c36f28fc7878697f102150"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0eaf3a91803fe4a7ab0552e13c7f0e0"><td class="memItemLeft" align="right" valign="top"><a id="aa0eaf3a91803fe4a7ab0552e13c7f0e0" name="aa0eaf3a91803fe4a7ab0552e13c7f0e0"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_OP</b> ()</td></tr>
-<tr class="separator:aa0eaf3a91803fe4a7ab0552e13c7f0e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0d11ceafe47fc129b7c84fd0135f1acf"><td class="memItemLeft" align="right" valign="top"><a id="a0d11ceafe47fc129b7c84fd0135f1acf" name="a0d11ceafe47fc129b7c84fd0135f1acf"></a>
-<a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html">DalvikOpcodes</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>get_dalvik_opcodes</b> ()</td></tr>
-<tr class="separator:a0d11ceafe47fc129b7c84fd0135f1acf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a46193481bf400c7ea5b0238a99c07237"><td class="memItemLeft" align="right" valign="top"><a id="a46193481bf400c7ea5b0238a99c07237" name="a46193481bf400c7ea5b0238a99c07237"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_length</b> (std::uint32_t length)</td></tr>
-<tr class="separator:a46193481bf400c7ea5b0238a99c07237"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad519f8394eea7b4935d7047b677a5e09"><td class="memItemLeft" align="right" valign="top"><a id="ad519f8394eea7b4935d7047b677a5e09" name="ad519f8394eea7b4935d7047b677a5e09"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_OP</b> (std::uint32_t OP)</td></tr>
-<tr class="separator:ad519f8394eea7b4935d7047b677a5e09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98c82eb1efab67abcfe55670b9ca6175"><td class="memItemLeft" align="right" valign="top"><a id="a98c82eb1efab67abcfe55670b9ca6175" name="a98c82eb1efab67abcfe55670b9ca6175"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>show_instruction</b> ()</td></tr>
-<tr class="separator:a98c82eb1efab67abcfe55670b9ca6175"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab78e90508f825ce4c40462496581c0af"><td class="memItemLeft" align="right" valign="top"><a id="ab78e90508f825ce4c40462496581c0af" name="ab78e90508f825ce4c40462496581c0af"></a>
-virtual void&#160;</td><td class="memItemRight" valign="bottom"><b>give_me_instruction</b> (std::ostream &amp;os)</td></tr>
-<tr class="separator:ab78e90508f825ce4c40462496581c0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e48e56ec31b14ca3c4075ec7d5b05ef"><td class="memItemLeft" align="right" valign="top"><a id="a1e48e56ec31b14ca3c4075ec7d5b05ef" name="a1e48e56ec31b14ca3c4075ec7d5b05ef"></a>
-virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_output</b> ()</td></tr>
-<tr class="separator:a1e48e56ec31b14ca3c4075ec7d5b05ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1aab62888f7058cad11d3b5c9684083c"><td class="memItemLeft" align="right" valign="top"><a id="a1aab62888f7058cad11d3b5c9684083c" name="a1aab62888f7058cad11d3b5c9684083c"></a>
-virtual const std::vector&lt; std::uint8_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>get_raw</b> () const</td></tr>
-<tr class="separator:a1aab62888f7058cad11d3b5c9684083c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36c241c7b94e5148aa524f2f9b33ce2f"><td class="memItemLeft" align="right" valign="top"><a id="a36c241c7b94e5148aa524f2f9b33ce2f" name="a36c241c7b94e5148aa524f2f9b33ce2f"></a>
-virtual std::vector&lt; std::tuple&lt; <a class="el" href="../../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#a7c47b39b4158b9565b9f505ef49615ad">DVMTypes::Operand</a>, std::uint64_t &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_operands</b> ()</td></tr>
-<tr class="separator:a36c241c7b94e5148aa524f2f9b33ce2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af65b90189d187b994c80080f99dec9d7"><td class="memItemLeft" align="right" valign="top"><a id="af65b90189d187b994c80080f99dec9d7" name="af65b90189d187b994c80080f99dec9d7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_number_of_registers</b> (std::uint32_t number_of_registers)</td></tr>
-<tr class="separator:af65b90189d187b994c80080f99dec9d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a454a6c830811e768b3554f5f8ecd3ffb"><td class="memItemLeft" align="right" valign="top"><a id="a454a6c830811e768b3554f5f8ecd3ffb" name="a454a6c830811e768b3554f5f8ecd3ffb"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>set_number_of_parameters</b> (std::uint32_t number_of_parameters)</td></tr>
-<tr class="separator:a454a6c830811e768b3554f5f8ecd3ffb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aff7403874e65ad742fbc005d8584305f"><td class="memItemLeft" align="right" valign="top"><a id="aff7403874e65ad742fbc005d8584305f" name="aff7403874e65ad742fbc005d8584305f"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_number_of_registers</b> ()</td></tr>
-<tr class="separator:aff7403874e65ad742fbc005d8584305f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ac5d336b702d0ceb13b991351bc27c7"><td class="memItemLeft" align="right" valign="top"><a id="a0ac5d336b702d0ceb13b991351bc27c7" name="a0ac5d336b702d0ceb13b991351bc27c7"></a>
-std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>get_number_of_parameters</b> ()</td></tr>
-<tr class="separator:a0ac5d336b702d0ceb13b991351bc27c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4306cc7258409240b93695a540bb4c97"><td class="memItemLeft" align="right" valign="top"><a id="a4306cc7258409240b93695a540bb4c97" name="a4306cc7258409240b93695a540bb4c97"></a>
-std::string&#160;</td><td class="memItemRight" valign="bottom"><b>get_register_correct_representation</b> (std::uint32_t reg)</td></tr>
-<tr class="separator:a4306cc7258409240b93695a540bb4c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c11bacc65bf8f98c461ccc087613675"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a5c11bacc65bf8f98c461ccc087613675">Instruction</a> (std::vector&lt; uint8_t &gt; &amp;bytecode, std::size_t index, dexinsttype_t instruction_type)</td></tr>
+<tr class="memdesc:a5c11bacc65bf8f98c461ccc087613675"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor of the <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode.">Instruction</a>, here is applied the parsing of the opcodes.  <br /></td></tr>
+<tr class="separator:a5c11bacc65bf8f98c461ccc087613675"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4fefb886bc871b23b568010ebb1a479"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#aa4fefb886bc871b23b568010ebb1a479">Instruction</a> (std::vector&lt; uint8_t &gt; &amp;bytecode, std::size_t index, dexinsttype_t instruction_type, std::uint32_t <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a96b475217d4adbc1dabfbb31b25bccb6">length</a>)</td></tr>
+<tr class="separator:aa4fefb886bc871b23b568010ebb1a479"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a006b95f5a8fe59218cc42678fc0582db"><td class="memItemLeft" align="right" valign="top"><a id="a006b95f5a8fe59218cc42678fc0582db" name="a006b95f5a8fe59218cc42678fc0582db"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~Instruction</b> ()=default</td></tr>
+<tr class="memdesc:a006b95f5a8fe59218cc42678fc0582db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor of the instruction. <br /></td></tr>
+<tr class="separator:a006b95f5a8fe59218cc42678fc0582db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a472c657c9fa34d4e01d386e6eefe1964"><td class="memItemLeft" align="right" valign="top">virtual TYPES::Kind&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a472c657c9fa34d4e01d386e6eefe1964">get_kind</a> () const</td></tr>
+<tr class="memdesc:a472c657c9fa34d4e01d386e6eefe1964"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the kind of instruction, use a <a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html" title="Class with static functions to manage information about the dalvik opcodes.">DalvikOpcodes</a> function.  <br /></td></tr>
+<tr class="separator:a472c657c9fa34d4e01d386e6eefe1964"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45e0692a98ace99be05f35a0bf69db81"><td class="memItemLeft" align="right" valign="top">virtual dexinsttype_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a45e0692a98ace99be05f35a0bf69db81">get_instruction_type</a> () const</td></tr>
+<tr class="memdesc:a45e0692a98ace99be05f35a0bf69db81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the instruction type from the enum.  <br /></td></tr>
+<tr class="separator:a45e0692a98ace99be05f35a0bf69db81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d480484604e26f2eb44e36861d7882d"><td class="memItemLeft" align="right" valign="top">virtual std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a0d480484604e26f2eb44e36861d7882d">get_instruction_length</a> () const</td></tr>
+<tr class="memdesc:a0d480484604e26f2eb44e36861d7882d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the length of the instruction.  <br /></td></tr>
+<tr class="separator:a0d480484604e26f2eb44e36861d7882d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64661757f727130a7d01ed99ebde240e"><td class="memItemLeft" align="right" valign="top">virtual std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a64661757f727130a7d01ed99ebde240e">get_instruction_opcode</a> () const</td></tr>
+<tr class="memdesc:a64661757f727130a7d01ed99ebde240e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the opcode of the instruction.  <br /></td></tr>
+<tr class="separator:a64661757f727130a7d01ed99ebde240e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aa2ef888ff1320391408a158e669101"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a9aa2ef888ff1320391408a158e669101">set_address</a> (std::uint64_t <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a8ec4cab94f903644338ac54e410c62b7">address</a>)</td></tr>
+<tr class="memdesc:a9aa2ef888ff1320391408a158e669101"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the address of the instruction.  <br /></td></tr>
+<tr class="separator:a9aa2ef888ff1320391408a158e669101"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14bdfe1df81a2dfa26170caee14dcddd"><td class="memItemLeft" align="right" valign="top">virtual std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a14bdfe1df81a2dfa26170caee14dcddd">get_address</a> () const</td></tr>
+<tr class="memdesc:a14bdfe1df81a2dfa26170caee14dcddd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the address of the instruction.  <br /></td></tr>
+<tr class="separator:a14bdfe1df81a2dfa26170caee14dcddd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb6977c5a59b8e9981c52c9446b48582"><td class="memItemLeft" align="right" valign="top">virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#adb6977c5a59b8e9981c52c9446b48582">print_instruction</a> ()</td></tr>
+<tr class="memdesc:adb6977c5a59b8e9981c52c9446b48582"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return a string with the representation of the instruction.  <br /></td></tr>
+<tr class="separator:adb6977c5a59b8e9981c52c9446b48582"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a841369271d9ab6e6410f6c5f2a6d1e9e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a841369271d9ab6e6410f6c5f2a6d1e9e">print_instruction</a> (std::ostream &amp;os)</td></tr>
+<tr class="memdesc:a841369271d9ab6e6410f6c5f2a6d1e9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print the instruction on a given stream.  <br /></td></tr>
+<tr class="separator:a841369271d9ab6e6410f6c5f2a6d1e9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6fc52ee7333cd7a5d4e2be0ec52abde"><td class="memItemLeft" align="right" valign="top">virtual const std::span&lt; std::uint8_t &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#ad6fc52ee7333cd7a5d4e2be0ec52abde">get_opcodes</a> ()</td></tr>
+<tr class="memdesc:ad6fc52ee7333cd7a5d4e2be0ec52abde"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return the op codes in raw from the instruction.  <br /></td></tr>
+<tr class="separator:ad6fc52ee7333cd7a5d4e2be0ec52abde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad155323eddc3b63c32a6e6ee803b173c"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#ad155323eddc3b63c32a6e6ee803b173c">is_terminator</a> ()</td></tr>
+<tr class="memdesc:ad155323eddc3b63c32a6e6ee803b173c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the instruction is a terminator (branch, ret, multibranch)  <br /></td></tr>
+<tr class="separator:ad155323eddc3b63c32a6e6ee803b173c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cd8ed205abd5a19e4fe9b36d1aaa8f6"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#a7cd8ed205abd5a19e4fe9b36d1aaa8f6">has_side_effects</a> () const</td></tr>
+<tr class="memdesc:a7cd8ed205abd5a19e4fe9b36d1aaa8f6"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode.">Instruction</a> has or can have some side effect.  <br /></td></tr>
+<tr class="separator:a7cd8ed205abd5a19e4fe9b36d1aaa8f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbafe54e7aeed582b3ba9515f8f12816"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html#acbafe54e7aeed582b3ba9515f8f12816">may_throw</a> () const</td></tr>
+<tr class="memdesc:acbafe54e7aeed582b3ba9515f8f12816"><td class="mdescLeft">&#160;</td><td class="mdescRight">May throw an exception.  <br /></td></tr>
+<tr class="separator:acbafe54e7aeed582b3ba9515f8f12816"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a8af625df8224834659af6e87399d228a"><td class="memItemLeft" align="right" valign="top"><a id="a8af625df8224834659af6e87399d228a" name="a8af625df8224834659af6e87399d228a"></a>
-std::vector&lt; std::uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>op_codes</b></td></tr>
-<tr class="separator:a8af625df8224834659af6e87399d228a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4ff19d5d81395a8d71a126efdcb891c"><td class="memItemLeft" align="right" valign="top"><a id="af4ff19d5d81395a8d71a126efdcb891c" name="af4ff19d5d81395a8d71a126efdcb891c"></a>
+std::span&lt; std::uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>op_codes</b></td></tr>
+<tr class="memdesc:af4ff19d5d81395a8d71a126efdcb891c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Opcodes of the instruction. <br /></td></tr>
+<tr class="separator:af4ff19d5d81395a8d71a126efdcb891c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96b475217d4adbc1dabfbb31b25bccb6"><td class="memItemLeft" align="right" valign="top"><a id="a96b475217d4adbc1dabfbb31b25bccb6" name="a96b475217d4adbc1dabfbb31b25bccb6"></a>
+std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>length</b></td></tr>
+<tr class="memdesc:a96b475217d4adbc1dabfbb31b25bccb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Length of the instruction. <br /></td></tr>
+<tr class="separator:a96b475217d4adbc1dabfbb31b25bccb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bffaaca246106d3ca54a53bdd9a9b16"><td class="memItemLeft" align="right" valign="top"><a id="a8bffaaca246106d3ca54a53bdd9a9b16" name="a8bffaaca246106d3ca54a53bdd9a9b16"></a>
+std::uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>op</b></td></tr>
+<tr class="memdesc:a8bffaaca246106d3ca54a53bdd9a9b16"><td class="mdescLeft">&#160;</td><td class="mdescRight">op code from the instruction <br /></td></tr>
+<tr class="separator:a8bffaaca246106d3ca54a53bdd9a9b16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ec4cab94f903644338ac54e410c62b7"><td class="memItemLeft" align="right" valign="top"><a id="a8ec4cab94f903644338ac54e410c62b7" name="a8ec4cab94f903644338ac54e410c62b7"></a>
+std::uint64_t&#160;</td><td class="memItemRight" valign="bottom"><b>address</b></td></tr>
+<tr class="memdesc:a8ec4cab94f903644338ac54e410c62b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">address of the instruction <br /></td></tr>
+<tr class="separator:a8ec4cab94f903644338ac54e410c62b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Base class for the Instructions of the Dalvik Bytecode. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a5c11bacc65bf8f98c461ccc087613675" name="a5c11bacc65bf8f98c461ccc087613675"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c11bacc65bf8f98c461ccc087613675">&#9670;&#160;</a></span>Instruction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">KUNAI::DEX::Instruction::Instruction </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; uint8_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>bytecode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dexinsttype_t&#160;</td>
+          <td class="paramname"><em>instruction_type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Constructor of the <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode.">Instruction</a>, here is applied the parsing of the opcodes. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bytecode</td><td></td></tr>
+    <tr><td class="paramname">index</td><td></td></tr>
+    <tr><td class="paramname">instruction_type</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aa4fefb886bc871b23b568010ebb1a479" name="aa4fefb886bc871b23b568010ebb1a479"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4fefb886bc871b23b568010ebb1a479">&#9670;&#160;</a></span>Instruction() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">KUNAI::DEX::Instruction::Instruction </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; uint8_t &gt; &amp;&#160;</td>
+          <td class="paramname"><em>bytecode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">dexinsttype_t&#160;</td>
+          <td class="paramname"><em>instruction_type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::uint32_t&#160;</td>
+          <td class="paramname"><em>length</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>op_codes we can read here for all the classes that derives from <a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode.">Instruction</a>, we have that is the bytecode from the index to index+length</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a14bdfe1df81a2dfa26170caee14dcddd" name="a14bdfe1df81a2dfa26170caee14dcddd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14bdfe1df81a2dfa26170caee14dcddd">&#9670;&#160;</a></span>get_address()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::uint64_t KUNAI::DEX::Instruction::get_address </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the address of the instruction. </p>
+<dl class="section return"><dt>Returns</dt><dd>address of the instruction </dd></dl>
+
+</div>
+</div>
+<a id="a0d480484604e26f2eb44e36861d7882d" name="a0d480484604e26f2eb44e36861d7882d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d480484604e26f2eb44e36861d7882d">&#9670;&#160;</a></span>get_instruction_length()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::uint32_t KUNAI::DEX::Instruction::get_instruction_length </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the length of the instruction. </p>
+<dl class="section return"><dt>Returns</dt><dd>current length of the instruction </dd></dl>
+
+</div>
+</div>
+<a id="a64661757f727130a7d01ed99ebde240e" name="a64661757f727130a7d01ed99ebde240e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64661757f727130a7d01ed99ebde240e">&#9670;&#160;</a></span>get_instruction_opcode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::uint32_t KUNAI::DEX::Instruction::get_instruction_opcode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the opcode of the instruction. </p>
+<dl class="section return"><dt>Returns</dt><dd>opcode of the instruction </dd></dl>
+
+</div>
+</div>
+<a id="a45e0692a98ace99be05f35a0bf69db81" name="a45e0692a98ace99be05f35a0bf69db81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45e0692a98ace99be05f35a0bf69db81">&#9670;&#160;</a></span>get_instruction_type()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual dexinsttype_t KUNAI::DEX::Instruction::get_instruction_type </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the instruction type from the enum. </p>
+<dl class="section return"><dt>Returns</dt><dd>dex instruction type </dd></dl>
+
+</div>
+</div>
+<a id="a472c657c9fa34d4e01d386e6eefe1964" name="a472c657c9fa34d4e01d386e6eefe1964"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a472c657c9fa34d4e01d386e6eefe1964">&#9670;&#160;</a></span>get_kind()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual TYPES::Kind KUNAI::DEX::Instruction::get_kind </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the kind of instruction, use a <a class="el" href="../../db/d96/classKUNAI_1_1DEX_1_1DalvikOpcodes.html" title="Class with static functions to manage information about the dalvik opcodes.">DalvikOpcodes</a> function. </p>
+<dl class="section return"><dt>Returns</dt><dd>TYPES::Kind of the instruction </dd></dl>
+
+</div>
+</div>
+<a id="ad6fc52ee7333cd7a5d4e2be0ec52abde" name="ad6fc52ee7333cd7a5d4e2be0ec52abde"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6fc52ee7333cd7a5d4e2be0ec52abde">&#9670;&#160;</a></span>get_opcodes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const std::span&lt; std::uint8_t &gt; &amp; KUNAI::DEX::Instruction::get_opcodes </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return the op codes in raw from the instruction. </p>
+<dl class="section return"><dt>Returns</dt><dd>constant reference with op codes in raw </dd></dl>
+
+</div>
+</div>
+<a id="a7cd8ed205abd5a19e4fe9b36d1aaa8f6" name="a7cd8ed205abd5a19e4fe9b36d1aaa8f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cd8ed205abd5a19e4fe9b36d1aaa8f6">&#9670;&#160;</a></span>has_side_effects()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool KUNAI::DEX::Instruction::has_side_effects </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="../../d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode.">Instruction</a> has or can have some side effect. </p>
+<dl class="section return"><dt>Returns</dt><dd>boolean indicating if a side effect exists </dd></dl>
+
+</div>
+</div>
+<a id="ad155323eddc3b63c32a6e6ee803b173c" name="ad155323eddc3b63c32a6e6ee803b173c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad155323eddc3b63c32a6e6ee803b173c">&#9670;&#160;</a></span>is_terminator()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool KUNAI::DEX::Instruction::is_terminator </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Check if the instruction is a terminator (branch, ret, multibranch) </p>
+<dl class="section return"><dt>Returns</dt><dd>true if instruction is a terminator instruction </dd></dl>
+
+</div>
+</div>
+<a id="acbafe54e7aeed582b3ba9515f8f12816" name="acbafe54e7aeed582b3ba9515f8f12816"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbafe54e7aeed582b3ba9515f8f12816">&#9670;&#160;</a></span>may_throw()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool KUNAI::DEX::Instruction::may_throw </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>May throw an exception. </p>
+<dl class="section return"><dt>Returns</dt><dd>boolean indicating if instruction can throw an exception </dd></dl>
+
+</div>
+</div>
+<a id="adb6977c5a59b8e9981c52c9446b48582" name="adb6977c5a59b8e9981c52c9446b48582"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb6977c5a59b8e9981c52c9446b48582">&#9670;&#160;</a></span>print_instruction() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::string KUNAI::DEX::Instruction::print_instruction </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Return a string with the representation of the instruction. </p>
+<dl class="section return"><dt>Returns</dt><dd>string with instruction </dd></dl>
+
+<p>Reimplemented in <a class="el" href="../../de/df3/classKUNAI_1_1DEX_1_1Instruction10x.html#a007303fe55d5f530e0ccb1683b816802">KUNAI::DEX::Instruction10x</a>, <a class="el" href="../../d4/d29/classKUNAI_1_1DEX_1_1Instruction12x.html#aa1ae9e3d1e929098e8b89c5d92e28afe">KUNAI::DEX::Instruction12x</a>, <a class="el" href="../../df/de3/classKUNAI_1_1DEX_1_1Instruction11n.html#a36ac5151477c4d645a4636037e63004d">KUNAI::DEX::Instruction11n</a>, <a class="el" href="../../d4/df5/classKUNAI_1_1DEX_1_1Instruction11x.html#a2e449703f4491bb4f75877f4e435249c">KUNAI::DEX::Instruction11x</a>, <a class="el" href="../../d9/de3/classKUNAI_1_1DEX_1_1Instruction10t.html#a2950f5131ad85d39f0e68e30064bf806">KUNAI::DEX::Instruction10t</a>, <a class="el" href="../../d3/d09/classKUNAI_1_1DEX_1_1Instruction20t.html#ac8420829ee437e0ba2d5086e159beaed">KUNAI::DEX::Instruction20t</a>, <a class="el" href="../../d3/d85/classKUNAI_1_1DEX_1_1Instruction20bc.html#abab217d0863e3c73ba95e721ece3a353">KUNAI::DEX::Instruction20bc</a>, <a class="el" href="../../d6/d9b/classKUNAI_1_1DEX_1_1Instruction22x.html#aa992fc16408fc91ef82bace68571214d">KUNAI::DEX::Instruction22x</a>, <a class="el" href="../../d5/d90/classKUNAI_1_1DEX_1_1Instruction21t.html#a70def659a21be689221ea88b558197ae">KUNAI::DEX::Instruction21t</a>, <a class="el" href="../../d0/df9/classKUNAI_1_1DEX_1_1Instruction21s.html#a6812b493c3674bab785d668e55c46ec2">KUNAI::DEX::Instruction21s</a>, <a class="el" href="../../d7/d71/classKUNAI_1_1DEX_1_1Instruction21h.html#afd2863803c5ad0556b1e6c1740588c74">KUNAI::DEX::Instruction21h</a>, <a class="el" href="../../dd/dcf/classKUNAI_1_1DEX_1_1Instruction21c.html#a7c9bfdc3dabd5dd66daa0b966603722a">KUNAI::DEX::Instruction21c</a>, <a class="el" href="../../d3/d00/classKUNAI_1_1DEX_1_1Instruction23x.html#abb04110d41a7cff37c85201e0ce7ea08">KUNAI::DEX::Instruction23x</a>, <a class="el" href="../../df/da8/classKUNAI_1_1DEX_1_1Instruction22b.html#adc596b11c18ad9c18e99b9177273b0f2">KUNAI::DEX::Instruction22b</a>, <a class="el" href="../../dd/d2e/classKUNAI_1_1DEX_1_1Instruction22t.html#ac7b588e8b12587223516b18f855dee6d">KUNAI::DEX::Instruction22t</a>, <a class="el" href="../../db/d80/classKUNAI_1_1DEX_1_1Instruction22s.html#ab0de101fd585cf1316d85b9975689008">KUNAI::DEX::Instruction22s</a>, <a class="el" href="../../d8/d08/classKUNAI_1_1DEX_1_1Instruction22c.html#a1c791bd02e1714cff148112f30c084fa">KUNAI::DEX::Instruction22c</a>, <a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#afb404fe2e1dba9cf715b706e578055d2">KUNAI::DEX::Instruction22cs</a>, <a class="el" href="../../d8/d04/classKUNAI_1_1DEX_1_1Instruction30t.html#a43e649b0b4eed07b4a94d60d99a4f687">KUNAI::DEX::Instruction30t</a>, <a class="el" href="../../d8/d17/classKUNAI_1_1DEX_1_1Instruction32x.html#a8371b91853fc4d560c0c788e6b93009f">KUNAI::DEX::Instruction32x</a>, <a class="el" href="../../d4/d90/classKUNAI_1_1DEX_1_1Instruction31i.html#a4564048c07cfc89dd3fa45f4bd2d090c">KUNAI::DEX::Instruction31i</a>, <a class="el" href="../../d5/daa/classKUNAI_1_1DEX_1_1Instruction31t.html#ab4285ba47b205d4ab941d90c8d340c4a">KUNAI::DEX::Instruction31t</a>, <a class="el" href="../../d3/dfd/classKUNAI_1_1DEX_1_1Instruction31c.html#a749db9fdc6f5ec30d13c09daa67d47b1">KUNAI::DEX::Instruction31c</a>, <a class="el" href="../../d2/d62/classKUNAI_1_1DEX_1_1Instruction35c.html#aa0708978e03c559fcff4ba347885cde4">KUNAI::DEX::Instruction35c</a>, <a class="el" href="../../d0/d31/classKUNAI_1_1DEX_1_1Instruction3rc.html#a7a5694eff6d7b21a4e61c02b837a8a19">KUNAI::DEX::Instruction3rc</a>, <a class="el" href="../../dc/d71/classKUNAI_1_1DEX_1_1Instruction45cc.html#aa14bf7f74ae27fe18fa4f08920b93a3a">KUNAI::DEX::Instruction45cc</a>, <a class="el" href="../../d5/db5/classKUNAI_1_1DEX_1_1Instruction4rcc.html#ae2328c6d15b233c888f2503a73c094c9">KUNAI::DEX::Instruction4rcc</a>, <a class="el" href="../../d3/dfb/classKUNAI_1_1DEX_1_1Instruction51l.html#af7bb6b50a2bfba8435e1629313138e6d">KUNAI::DEX::Instruction51l</a>, <a class="el" href="../../df/d1e/classKUNAI_1_1DEX_1_1PackedSwitch.html#a49b5fc3468e8d9feac314ac11a9848c3">KUNAI::DEX::PackedSwitch</a>, <a class="el" href="../../d7/d0e/classKUNAI_1_1DEX_1_1SparseSwitch.html#add22fe465e65ab72fe461d36cdb94bc0">KUNAI::DEX::SparseSwitch</a>, <a class="el" href="../../de/d27/classKUNAI_1_1DEX_1_1FillArrayData.html#ae96607c8d53a4407fcca267c392d2890">KUNAI::DEX::FillArrayData</a>, and <a class="el" href="../../d7/d71/classKUNAI_1_1DEX_1_1DalvikIncorrectInstruction.html#a3589a5723cec37ef128ada341cdd6c8d">KUNAI::DEX::DalvikIncorrectInstruction</a>.</p>
+
+</div>
+</div>
+<a id="a841369271d9ab6e6410f6c5f2a6d1e9e" name="a841369271d9ab6e6410f6c5f2a6d1e9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a841369271d9ab6e6410f6c5f2a6d1e9e">&#9670;&#160;</a></span>print_instruction() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void KUNAI::DEX::Instruction::print_instruction </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>os</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Print the instruction on a given stream. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">os</td><td>stream where to print the instruction </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Reimplemented in <a class="el" href="../../de/df3/classKUNAI_1_1DEX_1_1Instruction10x.html#a9d4f3bfc4a36a6d7be764fa03dbddf90">KUNAI::DEX::Instruction10x</a>, <a class="el" href="../../d4/d29/classKUNAI_1_1DEX_1_1Instruction12x.html#a65e5759fbc86811712a948f10cb38d3d">KUNAI::DEX::Instruction12x</a>, <a class="el" href="../../df/de3/classKUNAI_1_1DEX_1_1Instruction11n.html#a1f35d65a8d9256273686b01cdc9afb9e">KUNAI::DEX::Instruction11n</a>, <a class="el" href="../../d4/df5/classKUNAI_1_1DEX_1_1Instruction11x.html#a0d628ad4e5dc3d99b19de7805207b5e7">KUNAI::DEX::Instruction11x</a>, <a class="el" href="../../d9/de3/classKUNAI_1_1DEX_1_1Instruction10t.html#ab5a0cad38525b2d9b98b69664970d0b0">KUNAI::DEX::Instruction10t</a>, <a class="el" href="../../d3/d09/classKUNAI_1_1DEX_1_1Instruction20t.html#a9a5e7c48dde0154f1be6fa1aaffb29ea">KUNAI::DEX::Instruction20t</a>, <a class="el" href="../../d3/d85/classKUNAI_1_1DEX_1_1Instruction20bc.html#a9709b54b24fef3cf79a7c216709fb622">KUNAI::DEX::Instruction20bc</a>, <a class="el" href="../../d6/d9b/classKUNAI_1_1DEX_1_1Instruction22x.html#aa6af41abbdd39d3d90cd7b2fd311eecb">KUNAI::DEX::Instruction22x</a>, <a class="el" href="../../d5/d90/classKUNAI_1_1DEX_1_1Instruction21t.html#ab1ca44f9efaf00ae244e5b24a7b5bf3e">KUNAI::DEX::Instruction21t</a>, <a class="el" href="../../d0/df9/classKUNAI_1_1DEX_1_1Instruction21s.html#a50f1ba069bc2ab82656d69e6e3fe6328">KUNAI::DEX::Instruction21s</a>, <a class="el" href="../../d7/d71/classKUNAI_1_1DEX_1_1Instruction21h.html#aabee107ec520ae891f0651e7cda5c5cc">KUNAI::DEX::Instruction21h</a>, <a class="el" href="../../dd/dcf/classKUNAI_1_1DEX_1_1Instruction21c.html#af2ea1ff0b6d6ae464ea5a492118f1bee">KUNAI::DEX::Instruction21c</a>, <a class="el" href="../../d3/d00/classKUNAI_1_1DEX_1_1Instruction23x.html#a10acf0bb413646953dcad70fc8e46b13">KUNAI::DEX::Instruction23x</a>, <a class="el" href="../../df/da8/classKUNAI_1_1DEX_1_1Instruction22b.html#a99eaf81502fd6d48490918025bcbea39">KUNAI::DEX::Instruction22b</a>, <a class="el" href="../../dd/d2e/classKUNAI_1_1DEX_1_1Instruction22t.html#a38d4ff9b1b29a1133aa0d21759d1aa85">KUNAI::DEX::Instruction22t</a>, <a class="el" href="../../db/d80/classKUNAI_1_1DEX_1_1Instruction22s.html#aa2cd9c184556a588b835ec7079aceb11">KUNAI::DEX::Instruction22s</a>, <a class="el" href="../../d8/d08/classKUNAI_1_1DEX_1_1Instruction22c.html#a21a5a1582ae71b0efa03b5fda95eebf2">KUNAI::DEX::Instruction22c</a>, <a class="el" href="../../d1/dc9/classKUNAI_1_1DEX_1_1Instruction22cs.html#afe15149a49c204f4cf48e670e4013b48">KUNAI::DEX::Instruction22cs</a>, <a class="el" href="../../d8/d04/classKUNAI_1_1DEX_1_1Instruction30t.html#a932afa751ae21252f2a0dc873a448a3a">KUNAI::DEX::Instruction30t</a>, <a class="el" href="../../d8/d17/classKUNAI_1_1DEX_1_1Instruction32x.html#aefb67050e75df24a4386ac1215d7fafd">KUNAI::DEX::Instruction32x</a>, <a class="el" href="../../d4/d90/classKUNAI_1_1DEX_1_1Instruction31i.html#ae94d606b9fcceb1b7e97380787c93315">KUNAI::DEX::Instruction31i</a>, <a class="el" href="../../d5/daa/classKUNAI_1_1DEX_1_1Instruction31t.html#ad6139fdfc1bd71a2751b78c6d51c60b5">KUNAI::DEX::Instruction31t</a>, <a class="el" href="../../d3/dfd/classKUNAI_1_1DEX_1_1Instruction31c.html#a2c95b139a9d23a347d38f4b8beabd063">KUNAI::DEX::Instruction31c</a>, <a class="el" href="../../d2/d62/classKUNAI_1_1DEX_1_1Instruction35c.html#a47e7aaf504362e189f24c5adfcc3b9dd">KUNAI::DEX::Instruction35c</a>, <a class="el" href="../../d0/d31/classKUNAI_1_1DEX_1_1Instruction3rc.html#a6d6a26c3884d8c4bf44493dc4ce161a5">KUNAI::DEX::Instruction3rc</a>, <a class="el" href="../../dc/d71/classKUNAI_1_1DEX_1_1Instruction45cc.html#af572d398f24d47ecc632c15095e960fc">KUNAI::DEX::Instruction45cc</a>, <a class="el" href="../../d5/db5/classKUNAI_1_1DEX_1_1Instruction4rcc.html#ad22389727e92e6dcaffdec725a82a284">KUNAI::DEX::Instruction4rcc</a>, <a class="el" href="../../d3/dfb/classKUNAI_1_1DEX_1_1Instruction51l.html#a571dff903d9dea0cae99eb6f2038e2c3">KUNAI::DEX::Instruction51l</a>, <a class="el" href="../../df/d1e/classKUNAI_1_1DEX_1_1PackedSwitch.html#a1abd342d92d9365de313dd64e7e53526">KUNAI::DEX::PackedSwitch</a>, <a class="el" href="../../d7/d0e/classKUNAI_1_1DEX_1_1SparseSwitch.html#a0f561c255bd0d4e87f6228e313e137ad">KUNAI::DEX::SparseSwitch</a>, <a class="el" href="../../de/d27/classKUNAI_1_1DEX_1_1FillArrayData.html#ae7ff6b48bc7bea01a516567c9a153165">KUNAI::DEX::FillArrayData</a>, and <a class="el" href="../../d7/d71/classKUNAI_1_1DEX_1_1DalvikIncorrectInstruction.html#a895a4af73b193688fa29a7bf1e50ad8d">KUNAI::DEX::DalvikIncorrectInstruction</a>.</p>
+
+</div>
+</div>
+<a id="a9aa2ef888ff1320391408a158e669101" name="a9aa2ef888ff1320391408a158e669101"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9aa2ef888ff1320391408a158e669101">&#9670;&#160;</a></span>set_address()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void KUNAI::DEX::Instruction::set_address </td>
+          <td>(</td>
+          <td class="paramtype">std::uint64_t&#160;</td>
+          <td class="paramname"><em>address</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the address of the instruction. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>new address of the instruction </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>src/include/KUNAI/DEX/DVM/<a class="el" href="../../d2/d2b/dex__instructions_8hpp_source.html">dex_instructions.hpp</a></li>
+<li>kunai-lib/include/Kunai/DEX/DVM/<a class="el" href="../../d8/dce/dalvik__instructions_8hpp_source.html">dalvik_instructions.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

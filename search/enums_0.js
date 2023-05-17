@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['kind_0',['Kind',['../de/dc8/classKUNAI_1_1DEX_1_1DVMTypes.html#ad34d1d3d2a524055a447dcc49d3b4c12',1,'KUNAI::DEX::DVMTypes']]]
+  ['disassembly_5falgorithm_0',['disassembly_algorithm',['../dc/db6/classKUNAI_1_1DEX_1_1DexDisassembler.html#ad2b8c3a94744568223006118ae7196bb',1,'KUNAI::DEX::DexDisassembler']]]
 ];
