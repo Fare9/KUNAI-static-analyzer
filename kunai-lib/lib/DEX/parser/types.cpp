@@ -128,18 +128,6 @@ void Types::parse_types(
     logger->debug("finished parsing types");
 }
 
-std::ostream &operator<<(std::ostream &os, const Types &entry)
-{
-    const auto & types = entry.get_ordered_types();
-
-    os << std::setw(30) << std::left << std::setfill(' ') << "DEX Types:\n";
-
-    for (size_t I = 0; I < types.size(); ++I)
-        os << std::left << std::setfill(' ') << "Type (" << I << ") -> \"" << types[I]->pretty_print() << "\"\n";
-    
-    return os;
-}
-
 void Types::to_xml(std::ofstream& xml_file)
 {
     xml_file << "<types>\n";
@@ -153,4 +141,22 @@ void Types::to_xml(std::ofstream& xml_file)
     }
 
     xml_file << "</types>\n";
+}
+
+namespace KUNAI
+{
+namespace DEX
+{
+    std::ostream &operator<<(std::ostream &os, const Types &entry)
+    {
+        const auto & types = entry.get_ordered_types();
+
+        os << "DEX Types:\n";
+
+        for (size_t I = 0; I < types.size(); ++I)
+            os << std::left << std::setfill(' ') << "Type (" << I << ") -> \"" << types[I]->pretty_print() << "\"\n";
+        
+        return os;
+    }
+}
 }
