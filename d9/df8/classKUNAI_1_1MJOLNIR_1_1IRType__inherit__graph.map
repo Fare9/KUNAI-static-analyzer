@@ -1,14 +1,14 @@
 <map id="KUNAI::MJOLNIR::IRType" name="KUNAI::MJOLNIR::IRType">
-<area shape="rect" id="node1" title=" " alt="" coords="457,203,633,228"/>
-<area shape="rect" id="node4" href="$db/dff/classKUNAI_1_1MJOLNIR_1_1IRCallee.html" title=" " alt="" coords="701,5,885,31"/>
-<area shape="rect" id="node5" href="$d4/dad/classKUNAI_1_1MJOLNIR_1_1IRClass.html" title=" " alt="" coords="702,55,883,80"/>
-<area shape="rect" id="node6" href="$d9/d8a/classKUNAI_1_1MJOLNIR_1_1IRConstInt.html" title=" " alt="" coords="694,104,891,129"/>
-<area shape="rect" id="node7" href="$d7/d5e/classKUNAI_1_1MJOLNIR_1_1IRField.html" title=" " alt="" coords="705,153,881,179"/>
-<area shape="rect" id="node8" href="$d2/d29/classKUNAI_1_1MJOLNIR_1_1IRFundamental.html" title=" " alt="" coords="681,203,904,228"/>
-<area shape="rect" id="node9" href="$d0/d5d/classKUNAI_1_1MJOLNIR_1_1IRMemory.html" title=" " alt="" coords="695,252,890,277"/>
-<area shape="rect" id="node10" href="$dc/daf/classKUNAI_1_1MJOLNIR_1_1IRReg.html" title=" " alt="" coords="707,301,878,327"/>
-<area shape="rect" id="node11" href="$d7/dd3/classKUNAI_1_1MJOLNIR_1_1IRString.html" title=" " alt="" coords="701,351,884,376"/>
-<area shape="rect" id="node12" href="$d5/d67/classKUNAI_1_1MJOLNIR_1_1IRTempReg.html" title=" " alt="" coords="691,400,895,425"/>
-<area shape="rect" id="node2" href="$df/d12/classKUNAI_1_1MJOLNIR_1_1IRExpr.html" title=" " alt="" coords="236,203,409,228"/>
+<area shape="rect" id="node1" title=" " alt="" coords="456,203,631,228"/>
+<area shape="rect" id="node4" href="$db/dff/classKUNAI_1_1MJOLNIR_1_1IRCallee.html" title=" " alt="" coords="699,5,882,31"/>
+<area shape="rect" id="node5" href="$d4/dad/classKUNAI_1_1MJOLNIR_1_1IRClass.html" title=" " alt="" coords="700,55,881,80"/>
+<area shape="rect" id="node6" href="$d9/d8a/classKUNAI_1_1MJOLNIR_1_1IRConstInt.html" title=" " alt="" coords="692,104,889,130"/>
+<area shape="rect" id="node7" href="$d7/d5e/classKUNAI_1_1MJOLNIR_1_1IRField.html" title=" " alt="" coords="703,153,878,179"/>
+<area shape="rect" id="node8" href="$d2/d29/classKUNAI_1_1MJOLNIR_1_1IRFundamental.html" title=" " alt="" coords="679,203,902,228"/>
+<area shape="rect" id="node9" href="$d0/d5d/classKUNAI_1_1MJOLNIR_1_1IRMemory.html" title=" " alt="" coords="694,252,887,278"/>
+<area shape="rect" id="node10" href="$dc/daf/classKUNAI_1_1MJOLNIR_1_1IRReg.html" title=" " alt="" coords="705,301,876,327"/>
+<area shape="rect" id="node11" href="$d7/dd3/classKUNAI_1_1MJOLNIR_1_1IRString.html" title=" " alt="" coords="700,351,881,376"/>
+<area shape="rect" id="node12" href="$d5/d67/classKUNAI_1_1MJOLNIR_1_1IRTempReg.html" title=" " alt="" coords="689,400,892,426"/>
+<area shape="rect" id="node2" href="$df/d12/classKUNAI_1_1MJOLNIR_1_1IRExpr.html" title=" " alt="" coords="236,203,408,228"/>
 <area shape="rect" id="node3" href="$d0/d8d/classKUNAI_1_1MJOLNIR_1_1IRStmnt.html" title=" " alt="" coords="5,203,188,228"/>
 </map>
