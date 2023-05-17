@@ -12,14 +12,14 @@
 
 using namespace KUNAI::DEX;
 
-namespace
-{
-    bool compare_by_address(const std::unique_ptr<Instruction>& a, 
-                            const std::unique_ptr<Instruction>& b)
-    {
-        return a->get_address() < b->get_address();
-    }
-}
+///namespace
+///{
+///    bool compare_by_address(const std::unique_ptr<Instruction> &a,
+///                            const std::unique_ptr<Instruction> &b)
+///    {
+///        return a->get_address() < b->get_address();
+///    }
+///}
 
 void RecursiveTraversalDisassembler::disassembly(std::vector<std::uint8_t> &buffer_bytes,
                                                  EncodedMethod *method,
@@ -147,7 +147,9 @@ void RecursiveTraversalDisassembler::disassembly(std::vector<std::uint8_t> &buff
         }
     }
 
-    std::sort(instructions.begin(), instructions.end(), ::compare_by_address);
+    /// std::sort(instructions.begin(), instructions.end(), ::compare_by_address);
+    std::sort(instructions.begin(), instructions.end(), [=](const std::unique_ptr<Instruction> &a, const std::unique_ptr<Instruction> &b)
+              { return a->get_address() < b->get_address(); });
 }
 
 void RecursiveTraversalDisassembler::analyze_switch(
