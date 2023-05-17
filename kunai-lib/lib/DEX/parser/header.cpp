@@ -92,8 +92,8 @@ namespace DEX
 
         auto &dex_struct = entry.get_dex_header_const();
 
-        os << std::setw(30) << std::left << std::setfill(' ') << "DEX Header\n";
-        os << std::setw(30) << std::left << std::setfill(' ') << "Magic: ";
+        os << "DEX Header\n";
+        os << "Magic: ";
 
         for (i = 0; i < 8; ++i)
         {
