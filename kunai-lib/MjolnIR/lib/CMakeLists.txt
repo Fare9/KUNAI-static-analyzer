@@ -1,0 +1,2 @@
+add_subdirectory(Dalvik)
+add_subdirectory(Lifter)

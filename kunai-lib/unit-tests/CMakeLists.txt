@@ -1,0 +1,6 @@
+add_subdirectory(parser)
+add_subdirectory(disassembler)
+add_subdirectory(xrefs)
+add_subdirectory(graph)
+add_subdirectory(lifter)
+add_subdirectory(print-header)

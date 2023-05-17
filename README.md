@@ -344,3 +344,5 @@ For any question, or issues about the tool you can always refer to the issues fr
   year         = "2021"
 }
 ```
+=======
+Tool aimed to provide a binary analysis of different file formats through the use of an Intermmediate Representation.
