@@ -38,3 +38,31 @@ void MapList::parse_map_list(stream::KunaiStream *stream,
 
     logger->debug("map_item.cpp: finished parsing of map list");
 }
+
+namespace KUNAI
+{
+namespace DEX
+{
+    std::ostream &operator<<(std::ostream &os, const MapList &entry)
+    {
+        size_t i = 0;
+        const auto &map_items = entry.get_map_items();
+
+        os << "DEX Map List:\n";
+        for (auto &map_item : map_items){
+            os << "Map item ("<< i++ <<"): ";
+            auto type_name = entry.type_names.find(map_item.first);
+            if (type_name != entry.type_names.end())
+            {
+                os << type_name->second << ", Size: " << map_item.second.size << ", Offset: " << map_item.second.offset << "\n"; 
+            }
+            else
+            {
+                os << "Unknown type code\n";
+            }
+        }
+        return os;
+    }
+
+}
+}

@@ -48,6 +48,31 @@ namespace DEX
             TYPE_HIDDENAPI_CLASS_DATA_ITEM = 0xF000
         };
 
+        /// @brief Map to store each item type name with its value
+        std::unordered_map<std::uint16_t, std::string> type_names = {
+            {TYPE_HEADER_ITEM, "TYPE_HEADER_ITEM"},
+            {TYPE_STRING_ID_ITEM, "TYPE_STRING_ID_ITEM"},
+            {TYPE_TYPE_ID_ITEM, "TYPE_TYPE_ID_ITEM"},
+            {TYPE_PROTO_ID_ITEM, "TYPE_PROTO_ID_ITEM"},
+            {TYPE_FIELD_ID_ITEM, "TYPE_FIELD_ID_ITEM"},
+            {TYPE_METHOD_ID_ITEM, "TYPE_METHOD_ID_ITEM"},
+            {TYPE_CLASS_DEF_ITEM, "TYPE_CLASS_DEF_ITEM"},
+            {TYPE_CALL_SITE_ID_ITEM, "TYPE_CALL_SITE_ID_ITEM"},
+            {TYPE_METHOD_HANDLE_ITEM, "TYPE_METHOD_HANDLE_ITEM"},
+            {TYPE_MAP_LIST, "TYPE_MAP_LIST"},
+            {TYPE_TYPE_LIST, "TYPE_TYPE_LIST"},
+            {TYPE_ANNOTATION_SET_REF_LIST, "TYPE_ANNOTATION_SET_REF_LIST"},
+            {TYPE_ANNOTATION_SET_ITEM, "TYPE_ANNOTATION_SET_ITEM"},
+            {TYPE_CLASS_DATA_ITEM, "TYPE_CLASS_DATA_ITEM"},
+            {TYPE_CODE_ITEM, "TYPE_CODE_ITEM"},
+            {TYPE_STRING_DATA_ITEM, "TYPE_STRING_DATA_ITEM"},
+            {TYPE_DEBUG_INFO_ITEM, "TYPE_DEBUG_INFO_ITEM"},
+            {TYPE_ANNOTATION_ITEM, "TYPE_ANNOTATION_ITEM"},
+            {TYPE_ENCODED_ARRAY_ITEM, "TYPE_ENCODED_ARRAY_ITEM"},
+            {TYPE_ANNOTATIONS_DIRECTORY_ITEM, "TYPE_ANNOTATIONS_DIRECTORY_ITEM"},
+            {TYPE_HIDDENAPI_CLASS_DATA_ITEM, "TYPE_HIDDENAPI_CLASS_DATA_ITEM"}
+        };
+
         /// @brief Map that store the information of the map
         struct map_item
         {
@@ -84,6 +109,12 @@ namespace DEX
         {
             return items;
         }
+
+        /// @brief Pretty printer for the operator << of the DEX map list
+        /// @param os stream to print the DEX map list
+        /// @param entry entry to print
+        /// @return stream  
+        friend std::ostream& operator<<(std::ostream& os, const MapList& entry);
     };
 } // namespace DEX
 } // namespace KUNAI
