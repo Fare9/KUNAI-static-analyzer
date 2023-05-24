@@ -10,7 +10,9 @@
 #include "Lifter/MjolnIRLifter.hpp"
 #include <memory>
 
-int main(int argc, char ** argv)
+#include <mlir/Support/FileUtilities.h>
+
+int main(int argc, char **argv)
 {
     std::string dex_file_path;
     std::string method_name;
@@ -34,18 +36,18 @@ int main(int argc, char ** argv)
 
     if (!dex->get_parsing_correct())
         return -1;
-    
+
     auto analysis = dex->get_analysis(false);
 
     const auto &methods = analysis->get_methods();
 
-    for (const auto & method : methods)
+    for (const auto &method : methods)
     {
         if (method.second->get_name() != method_name)
             continue;
 
         mlir::DialectRegistry registry;
-        
+
         registry.insert<::mlir::KUNAI::MjolnIR::MjolnIRDialect>();
 
         mlir::MLIRContext context;
@@ -56,7 +58,21 @@ int main(int argc, char ** argv)
         auto module_op = lifter.mlirGen(method.second.get());
 
         module_op->dump();
-        
-        break;
+
+        std::string filePath = "./output.mlir";
+        std::error_code error;
+        llvm::raw_fd_ostream fileStream(filePath, error);
+
+        if (error)
+        {
+            llvm::errs() << "Error opening file: " << error.message() << "\n";
+            // Handle the error appropriately
+        }
+        else
+        {
+            mlir::OpPrintingFlags printFlags;
+            module_op->print(fileStream, printFlags);
+            llvm::outs() << "MLIR module written to file: " << filePath << "\n";
+        }
     }
 }

@@ -21,28 +21,28 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
     case KUNAI::DEX::TYPES::OP_IGET_OBJECT:
     case KUNAI::DEX::TYPES::OP_IGET_BOOLEAN:
     case KUNAI::DEX::TYPES::OP_IGET_BYTE:
-    case KUNAI::DEX::TYPES::OP_IGET_CHAR:        
+    case KUNAI::DEX::TYPES::OP_IGET_CHAR:
     case KUNAI::DEX::TYPES::OP_IGET_SHORT:
-        {
-            auto field = instr->get_checked_field();
-            auto field_ref = instr->get_checked_id();
+    {
+        auto field = instr->get_checked_field();
+        auto field_ref = instr->get_checked_id();
 
-            std::string &field_name = field->get_name();
-            std::string &field_class = field->get_class()->get_raw();
+        std::string &field_name = field->get_name();
+        std::string &field_class = field->get_class()->get_raw();
 
-            if (!destination_type)
-                destination_type = get_type(field->get_type());
+        if (!destination_type)
+            destination_type = get_type(field->get_type());
 
-            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::LoadFieldOp>(
-                location,
-                destination_type,
-                field_name,
-                field_class,
-                field_ref);
+        auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::LoadFieldOp>(
+            location,
+            destination_type,
+            field_name,
+            field_class,
+            field_ref);
 
-            writeLocalVariable(current_basic_block, reg, generated_value);
-        }
-        break;
+        writeLocalVariable(current_basic_block, reg, generated_value);
+    }
+    break;
     case KUNAI::DEX::TYPES::OP_IPUT:
     case KUNAI::DEX::TYPES::OP_IPUT_WIDE:
     case KUNAI::DEX::TYPES::OP_IPUT_OBJECT:
@@ -65,6 +65,25 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
             field_name,
             field_class,
             field_ref);
+    }
+    break;
+    case KUNAI::DEX::TYPES::OP_NEW_ARRAY:
+    {
+        auto array_type = instr->get_checked_dvmtype();
+
+        assert(array_type && "type of the array cannot be null");
+
+        auto array = get_array(array_type);
+
+        auto size = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), instr->get_operand());
+
+        auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::NewArrayOp>(
+            location,
+            array,
+            size
+        );
+
+        writeLocalVariable(current_basic_block, reg, gen_value);
     }
     break;
     default:

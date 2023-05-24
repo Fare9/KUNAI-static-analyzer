@@ -4,6 +4,8 @@ public class Simple {
 
     public int my_add(int a, int b)
     {
+        int array[2];
+
         int c = a + b;
         
         int d = c * a;
@@ -13,6 +15,8 @@ public class Simple {
         short f = test_field;
         
         test_field = f;
+
+        array[0] = 1;
 
         int x = a;
 

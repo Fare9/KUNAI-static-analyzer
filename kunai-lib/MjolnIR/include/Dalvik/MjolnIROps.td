@@ -524,7 +524,7 @@ def FallthroughOp : MjolnIR_Op<"fallthrough", [
 //===----------------------------------------------------------------------===//
 // New operation
 //===----------------------------------------------------------------------===//
-def NewOp : MjolnIR_Op<"new">
+def NewOp : MjolnIR_Op<"new", [Pure]>
 {
     let summary = "Create a new object";
 
@@ -538,5 +538,49 @@ def NewOp : MjolnIR_Op<"new">
         AnyType // object created with new
     );
 }
+
+//===----------------------------------------------------------------------===//
+// NewArray operation
+//===----------------------------------------------------------------------===//
+def NewArrayOp : MjolnIR_Op<"new-array", [Pure]>
+{
+    let summary = "Create a new array object";
+
+    let description = [{
+        This instruction creates a SSA Value for an array
+        type, the array will contain the base type and the
+        size of the array.
+    }];
+
+    let arguments = (ins
+        DVM_BasicType:$size
+    );
+
+    let results = (outs
+        AnyType
+    );
+
+}
+
+
+//===----------------------------------------------------------------------===//
+// LoadValueArray operation
+//===----------------------------------------------------------------------===//
+def LoadValueArrayOp : MjolnIR_Op<"load-value-array", [Pure]>
+{
+    let summary = "Create an access to an array with an index";
+
+    let description = [{
+        This instruction makes an access to an index from an array
+        for writing.
+    }];
+
+    let arguments = (ins
+        AnyType:$base,
+        UI32Attr:$index,
+        DVM_BasicType:$value
+    );
+}
+
 
 #endif // DALVIK_MJOLNIROPS_TD

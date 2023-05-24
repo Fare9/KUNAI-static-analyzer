@@ -17,6 +17,29 @@ using namespace ::mlir::KUNAI::MjolnIR;
 #define GET_TYPEDEF_CLASSES
 #include "Dalvik/MjolnIROpsTypes.cpp.inc"
 
+
+//===----------------------------------------------------------------------===//
+// DVMArrayType
+//===----------------------------------------------------------------------===//
+
+bool DVMArrayType::isValidElementType(Type type)
+{
+    return !type.isa<DVMBoolType, DVMByteType, DVMCharType,
+                    DVMCharType, DVMDoubleType, DVMFloatType,
+                    DVMIntType, DVMLongType, DVMObjectType,
+                    DVMShortType>();
+}
+
+DVMArrayType DVMArrayType::get(Type elementType)
+{
+    assert(elementType && "expected non-null subtype");
+    return Base::get(elementType.getContext(), elementType);
+}
+
+
+//===----------------------------------------------------------------------===//
+// MjolnIRDialect
+//===----------------------------------------------------------------------===//
 void MjolnIRDialect::registerTypes()
 {
     addTypes<

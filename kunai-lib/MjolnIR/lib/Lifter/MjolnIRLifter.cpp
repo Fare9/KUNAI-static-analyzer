@@ -51,6 +51,11 @@ mlir::Type Lifter::get_type(KUNAI::DEX::DVMFundamental *fundamental)
     }
 }
 
+mlir::Type Lifter::get_array(KUNAI::DEX::DVMType * type)
+{
+    return ::mlir::KUNAI::MjolnIR::DVMArrayType::get(&context, get_type(type));
+}
+
 mlir::Type Lifter::get_type(KUNAI::DEX::DVMClass *cls)
 {
     return ::mlir::KUNAI::MjolnIR::DVMObjectType::get(&context, cls->get_name());

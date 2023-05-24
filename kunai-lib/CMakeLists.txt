@@ -99,6 +99,12 @@ set(TARGET_INCLUDE_LIBS
     zip
 )
 
+set(TARGET_INSTALLATION_LIBS
+    KUNAI
+    spdlog
+    zip
+)
+
 set(TARGET_LINK_DIRECTORIES)
 
 # #########################################
@@ -146,6 +152,15 @@ if(USE_MJOLNIR)
         MjolnIR
         Lifter
     )
+
+    list(APPEND TARGET_INSTALLATION_LIBS
+        MjolnIR
+        Lifter
+    )
+
+    list(APPEND KUNAI_LIB_PUBLIC_INCLUDE_FILES
+        "${CMAKE_CURRENT_SOURCE_DIR}/MjolnIR/include/"
+    )
 endif()
 
 add_library(KUNAI SHARED
@@ -187,7 +202,7 @@ if(USE_MJOLNIR STREQUAL "OFF")
 
     # install the libraries
     install(
-        TARGETS KUNAI spdlog zip
+        TARGETS ${TARGET_INSTALLATION_LIBS}
         EXPORT KUNAITargets
         ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

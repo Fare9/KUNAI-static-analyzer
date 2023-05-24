@@ -70,6 +70,31 @@ def DVMObject : MjolnIRType<"DVMObject", "object"> {
   }];
 }
 
+def DVMArrayType : MjolnIRType<"DVMArray", "array">
+{
+  let summary = "Simple MjolnIR Array Type";
+
+  let description = [{
+    This type represents a fixed-size array from Dalvik. It contains
+    the size of the array and the type of the array.
+  }];
+
+  let parameters = (ins "Type":$elementType);
+  let assemblyFormat = [{
+    `<` $elementType `>`
+  }];
+
+
+  let builders = [
+    TypeBuilderWithInferredContext<(ins "Type":$elementType)>
+  ];
+
+  let extraClassDeclaration = [{
+    /// Checks the type inside of the array.
+    static bool isValidElementType(Type type);
+  }];
+}
+
 def DVM_BasicType : AnyTypeOf<[DVMBool, DVMChar, DVMShort, DVMInt, DVMLong, DVMFloat, DVMDouble]>;
 
 

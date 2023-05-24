@@ -147,7 +147,7 @@ namespace MjolnIR
         //===----------------------------------------------------------------------===//
         // Some generators methods
         //===----------------------------------------------------------------------===//
-
+        mlir::Type get_array(KUNAI::DEX::DVMType * type);
         /// @brief Return an mlir::Type from a Fundamental type of Dalvik
         /// @param fundamental fundamental type of Dalvik
         /// @return different type depending on input
