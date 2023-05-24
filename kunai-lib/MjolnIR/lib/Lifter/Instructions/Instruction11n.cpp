@@ -20,7 +20,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction11n *instr)
 
         auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadValue>(
             location,
-            ::mlir::KUNAI::MjolnIR::DVMByteType::get(&context),
+            byteType,
             value);
 
         writeLocalVariable(current_basic_block, dest, gen_value);

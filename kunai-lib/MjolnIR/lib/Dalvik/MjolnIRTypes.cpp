@@ -4,7 +4,6 @@
 //
 // @file MjolnIRDialect.cpp
 
-
 #include "Dalvik/MjolnIRTypes.hpp"
 
 #include "Dalvik/MjolnIRDialect.hpp"
@@ -17,17 +16,14 @@ using namespace ::mlir::KUNAI::MjolnIR;
 #define GET_TYPEDEF_CLASSES
 #include "Dalvik/MjolnIROpsTypes.cpp.inc"
 
-
 //===----------------------------------------------------------------------===//
 // DVMArrayType
 //===----------------------------------------------------------------------===//
 
 bool DVMArrayType::isValidElementType(Type type)
 {
-    return !type.isa<DVMBoolType, DVMByteType, DVMCharType,
-                    DVMCharType, DVMDoubleType, DVMFloatType,
-                    DVMIntType, DVMLongType, DVMObjectType,
-                    DVMShortType>();
+    return !type.isa<::mlir::IntegerType, ::mlir::FloatType,
+                     DVMObjectType>();
 }
 
 DVMArrayType DVMArrayType::get(Type elementType)
@@ -35,7 +31,6 @@ DVMArrayType DVMArrayType::get(Type elementType)
     assert(elementType && "expected non-null subtype");
     return Base::get(elementType.getContext(), elementType);
 }
-
 
 //===----------------------------------------------------------------------===//
 // MjolnIRDialect

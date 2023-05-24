@@ -22,58 +22,71 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction21t *instr)
     {
     case KUNAI::DEX::TYPES::OP_IF_EQZ:
         if (!cmp_value)
+            
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpEqz>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::eq,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                v2);
+                v2
+            );
         }
     case KUNAI::DEX::TYPES::OP_IF_NEZ:
         if (!cmp_value)
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpNeqz>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::ne,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                v2);
+                v2
+            );
         }
     case KUNAI::DEX::TYPES::OP_IF_LTZ:
         if (!cmp_value)
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpLtz>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::slt,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                v2);
+                v2
+            );
         }
     case KUNAI::DEX::TYPES::OP_IF_GEZ:
         if (!cmp_value)
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpGez>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::sge,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                v2);
+                v2
+            );
         }
     case KUNAI::DEX::TYPES::OP_IF_GTZ:
         if (!cmp_value)
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpGtz>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::sgt,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                v2);
+                v2
+            );
         }
     case KUNAI::DEX::TYPES::OP_IF_LEZ:
     {
         if (!cmp_value)
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpLez>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::sle,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                v2);
+                v2
+            );
         }
 
         auto location_jcc = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 1);

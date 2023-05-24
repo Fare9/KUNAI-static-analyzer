@@ -25,7 +25,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
         {
             auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
 
-            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::AddOp>(
+            auto generated_value = builder.create<::mlir::arith::AddIOp>(
                 location_1,
                 intType,
                 src1_value,
@@ -40,7 +40,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
         {
             auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
 
-            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::SubOp>(
+            auto generated_value = builder.create<::mlir::arith::SubIOp>(
                 location_1,
                 intType,
                 src1_value,
@@ -55,7 +55,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
         {
             auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
 
-            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::MulOp>(
+            auto generated_value = builder.create<::mlir::arith::MulIOp>(
                 location_1,
                 intType,
                 src1_value,
@@ -70,7 +70,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
         {
             auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
 
-            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::DivOp>(
+            auto generated_value = builder.create<::mlir::arith::DivSIOp>(
                 location_1,
                 intType,
                 src1_value,
@@ -85,7 +85,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
         {
             auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
 
-            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::RemOp>(
+            auto generated_value = builder.create<::mlir::arith::RemSIOp>(
                 location_1,
                 intType,
                 src1_value,
@@ -100,7 +100,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
         {
             auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
 
-            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::AndOp>(
+            auto generated_value = builder.create<::mlir::arith::AndIOp>(
                 location_1,
                 intType,
                 src1_value,
@@ -115,7 +115,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
         {
             auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
 
-            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::OrOp>(
+            auto generated_value = builder.create<::mlir::arith::OrIOp>(
                 location_1,
                 intType,
                 src1_value,
@@ -130,7 +130,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
         {
             auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
 
-            auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::XorOp>(
+            auto generated_value = builder.create<::mlir::arith::XOrIOp>(
                 location_1,
                 intType,
                 src1_value,

@@ -23,9 +23,10 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
     {
         if (!cmp_value)
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpEq>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::eq,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
         }
@@ -34,9 +35,10 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
     {
         if (!cmp_value)
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpNEq>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::ne,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
         }
@@ -45,9 +47,10 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
     {
         if (!cmp_value)
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpLt>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::slt,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
         }
@@ -56,9 +59,10 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
     {
         if (!cmp_value)
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpGe>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::sge,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
         }
@@ -67,9 +71,10 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
     {
         if (!cmp_value)
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpGt>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::sgt,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
         }
@@ -78,9 +83,10 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
     {
         if (!cmp_value)
         {
-            cmp_value = builder.create<::mlir::KUNAI::MjolnIR::CmpLe>(
+            cmp_value = builder.create<::mlir::arith::CmpIOp>(
                 location,
                 I1,
+                ::mlir::arith::CmpIPredicate::sle,
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
                 readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
         }

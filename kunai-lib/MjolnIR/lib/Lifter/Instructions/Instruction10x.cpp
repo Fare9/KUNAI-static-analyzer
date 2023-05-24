@@ -13,7 +13,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction10x *instr)
     switch (op_code)
     {
     case KUNAI::DEX::TYPES::OP_RETURN_VOID:
-        builder.create<::mlir::KUNAI::MjolnIR::ReturnOp>(
+        builder.create<::mlir::func::ReturnOp>(
             location);
         break;
     case KUNAI::DEX::TYPES::OP_NOP:

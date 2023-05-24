@@ -21,41 +21,8 @@ class MjolnIRType<string typeName, string typeMnemonic, list<Trait> traits = []>
 //===----------------------------------------------------------------------===//
 // Basic Types
 //===----------------------------------------------------------------------===//
-
 def DVMVoid : MjolnIRType<"DVMVoid", "dvmvoid"> {
   let summary = "Void type from Dalvik, returns nothing";
-}
-
-def DVMByte : MjolnIRType<"DVMByte", "dvmbyte"> {
-  let summary = "Bool type from Dalvik";
-}
-
-def DVMBool : MjolnIRType<"DVMBool", "dvmbool"> {
-  let summary = "Bool type from Dalvik";
-}
-
-def DVMChar : MjolnIRType<"DVMChar", "dvmchar"> {
-  let summary = "Char type from Dalvik";
-}
-
-def DVMShort : MjolnIRType<"DVMShort", "dvmshort"> {
-  let summary = "Short type from Dalvik";
-}
-
-def DVMInt : MjolnIRType<"DVMInt", "dvmint"> {
-  let summary = "Integer type from Dalvik";
-}
-
-def DVMLong : MjolnIRType<"DVMLong", "dvmlong"> {
-  let summary = "Long type from Dalvik";
-}
-
-def DVMFloat : MjolnIRType<"DVMFloat", "dvmfloat"> {
-  let summary = "Float type from Dalvik";
-}
-
-def DVMDouble : MjolnIRType<"DVMDouble", "dvmdouble"> {
-  let summary = "Double type from Dalvik";
 }
 
 def DVMObject : MjolnIRType<"DVMObject", "object"> {
@@ -94,8 +61,5 @@ def DVMArrayType : MjolnIRType<"DVMArray", "array">
     static bool isValidElementType(Type type);
   }];
 }
-
-def DVM_BasicType : AnyTypeOf<[DVMBool, DVMChar, DVMShort, DVMInt, DVMLong, DVMFloat, DVMDouble]>;
-
 
 #endif // DALVIK_MJOLNIRTYPES_TD

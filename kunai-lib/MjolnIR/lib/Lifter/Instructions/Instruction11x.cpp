@@ -20,7 +20,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction11x *instr)
     {
         auto reg_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), dest);
 
-        builder.create<::mlir::KUNAI::MjolnIR::ReturnOp>(
+        builder.create<::mlir::func::ReturnOp>(
             location,
             reg_value);
     }

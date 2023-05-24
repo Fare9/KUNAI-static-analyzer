@@ -6,6 +6,8 @@
 #include "Lifter/MjolnIRLifter.hpp"
 #include "Kunai/Exceptions/lifter_exception.hpp"
 
+#include <type_traits>
+
 using namespace KUNAI::MjolnIR;
 
 void Lifter::init()
@@ -13,16 +15,17 @@ void Lifter::init()
     context.getOrLoadDialect<::mlir::KUNAI::MjolnIR::MjolnIRDialect>();
     context.getOrLoadDialect<::mlir::cf::ControlFlowDialect>();
     context.getOrLoadDialect<::mlir::arith::ArithDialect>();
+    context.getOrLoadDialect<::mlir::func::FuncDialect>();
 
     voidType = ::mlir::KUNAI::MjolnIR::DVMVoidType::get(&context);
-    byteType = ::mlir::KUNAI::MjolnIR::DVMByteType::get(&context);
-    boolType = ::mlir::KUNAI::MjolnIR::DVMBoolType::get(&context);
-    charType = ::mlir::KUNAI::MjolnIR::DVMCharType::get(&context);
-    shortType = ::mlir::KUNAI::MjolnIR::DVMShortType::get(&context);
-    intType = ::mlir::KUNAI::MjolnIR::DVMIntType::get(&context);
-    longType = ::mlir::KUNAI::MjolnIR::DVMLongType::get(&context);
-    floatType = ::mlir::KUNAI::MjolnIR::DVMFloatType::get(&context);
-    doubleType = ::mlir::KUNAI::MjolnIR::DVMDoubleType::get(&context);
+    byteType = ::mlir::IntegerType::get(&context, 8);
+    boolType = ::mlir::IntegerType::get(&context, 1);
+    charType = ::mlir::IntegerType::get(&context, 16);
+    shortType = ::mlir::IntegerType::get(&context, 16);
+    intType = ::mlir::IntegerType::get(&context, 32);
+    longType = ::mlir::IntegerType::get(&context, 64);
+    floatType = ::mlir::Float32Type::get(&context);
+    doubleType = ::mlir::Float64Type::get(&context);
     strObjectType = ::mlir::KUNAI::MjolnIR::DVMObjectType::get(&context, "Ljava/lang/String;");
 }
 
@@ -51,9 +54,15 @@ mlir::Type Lifter::get_type(KUNAI::DEX::DVMFundamental *fundamental)
     }
 }
 
-mlir::Type Lifter::get_array(KUNAI::DEX::DVMType * type)
+mlir::Type Lifter::get_array(KUNAI::DEX::DVMType *type)
 {
     return ::mlir::KUNAI::MjolnIR::DVMArrayType::get(&context, get_type(type));
+}
+
+mlir::Type Lifter::get_type(KUNAI::DEX::DVMArray *array)
+{
+    return ::mlir::KUNAI::MjolnIR::DVMArrayType::get(&context, 
+        get_type(const_cast<KUNAI::DEX::DVMType*>(array->get_array_type())));
 }
 
 mlir::Type Lifter::get_type(KUNAI::DEX::DVMClass *cls)
@@ -68,7 +77,7 @@ mlir::Type Lifter::get_type(KUNAI::DEX::DVMType *type)
     else if (type->get_type() == KUNAI::DEX::DVMType::CLASS)
         return get_type(reinterpret_cast<KUNAI::DEX::DVMClass *>(type));
     else if (type->get_type() == KUNAI::DEX::DVMType::ARRAY)
-        throw exceptions::LifterException("MjolnIRLIfter::get_type: type ARRAY not implemented yet...");
+        return get_type(reinterpret_cast<KUNAI::DEX::DVMArray *>(type));
     else
         throw exceptions::LifterException("MjolnIRLifter::get_type: that type is unknown or I don't know what it is...");
 }
@@ -151,6 +160,9 @@ mlir::Value Lifter::readLocalVariableRecursive(KUNAI::DEX::DVMBasicBlock *BB,
             gen_block(pred);
         auto Val = readLocalVariable(pred, BBs, Reg);
 
+        if (!Val)
+            continue;
+
         /// if the value is required, add the argument to the block
         /// write the local variable and erase from required
         if (CurrentDef[BB].required.find(Reg) != CurrentDef[BB].required.end())
@@ -216,6 +228,17 @@ void Lifter::gen_block(KUNAI::DEX::DVMBasicBlock *bb)
 {
     /// update current basic block
     current_basic_block = bb;
+
+    if (bb->is_try_block())
+    {
+        auto Loc = mlir::FileLineColLoc::get(&context, module_name, bb->get_first_address(), 0);
+        builder.create<::mlir::KUNAI::MjolnIR::TryOp>(Loc);
+    }
+    else if (bb->is_catch_block())
+    {
+        auto Loc = mlir::FileLineColLoc::get(&context, module_name, bb->get_first_address(), 0);
+        builder.create<::mlir::KUNAI::MjolnIR::CatchOp>(Loc);
+    }
 
     for (auto instr : bb->get_instructions())
     {

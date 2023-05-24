@@ -26,11 +26,11 @@ class MjolnIR_UnaryOpBase<string mnemonic, list<Trait> traits = []> :
     MjolnIR_Op<mnemonic, !listconcat(traits, [Pure])>
 {
     let arguments = (ins
-        DVM_BasicType:$src
+        AnyType:$src
     );
 
     let results = (outs
-        DVM_BasicType:$dst
+        AnyType:$dst
     );
 }
 
@@ -38,36 +38,17 @@ class MjolnIR_BinaryOpBase<string mnemonic, list<Trait> traits = []> :
     MjolnIR_Op<mnemonic, !listconcat(traits, [Pure])>
 {
     let description = [{
-        Binary operation receives two Values of DVM_BasicTypes,
+        Binary operation receives two Values of AnyTypes,
         each one of these operations return only one Value.
     }];
 
     let arguments = (ins
-        DVM_BasicType:$lhs,
-        DVM_BasicType:$rhs
+        AnyType:$lhs,
+        AnyType:$rhs
     );
 
     let results = (outs
-        DVM_BasicType:$res
-    );
-}
-
-class MjolnIR_ComparisonOpBase<string mnemonic, list<Trait> traits = []> :
-    MjolnIR_Op<mnemonic, !listconcat(traits, [Pure])>
-{
-    let description = [{
-        Different type of comparisons in Dalvik, the types of the arguments
-        can be any of the Dalvik Machine, but always as result the operation
-        returns a bool value for ControlFlowOps Dialect (I1 value)
-    }];
-
-    let arguments = (ins
-        DVM_BasicType:$lhs,
-        DVM_BasicType:$rhs
-    );
-
-    let results = (outs
-        I1:$res
+        AnyType:$res
     );
 }
 
@@ -111,7 +92,7 @@ def MjolnIR_LoadValue : MjolnIR_Op<"load-value", [Pure, ConstantLike]>
     );
 
     let results = (outs
-        DVM_BasicType:$res
+        AnyType:$res
     );
 
     let assemblyFormat = "`(` $value `)` attr-dict `:` type($res)";
@@ -142,134 +123,11 @@ def MjolnIR_LoadString : MjolnIR_Op<"load-string", [Pure, ConstantLike]>
     );
 
     let results = (outs
-        DVM_BasicType:$res
+        AnyType:$res
     );
 
     let assemblyFormat = "`(` $string `)` attr-dict `:` type($res)";
 }
-
-//===----------------------------------------------------------------------===//
-// Binary operations
-//===----------------------------------------------------------------------===//
-def MjolnIR_AddOp : MjolnIR_BinaryOpBase<"add", [Commutative]>
-{
-    let summary = "Add two DVM registers";
-}
-
-def MjolnIR_SubOp : MjolnIR_BinaryOpBase<"sub">
-{
-    let summary = "Substract two DVM registers";
-}
-
-def MjolnIR_MulOp : MjolnIR_BinaryOpBase<"mul", [Commutative]>
-{
-    let summary = "Multiply two DVM registers";
-}
-
-def MjolnIR_DivOp : MjolnIR_BinaryOpBase<"div">
-{
-    let summary = "Divide two DVM registers";
-}
-
-def MjolnIR_RemOp : MjolnIR_BinaryOpBase<"rem">
-{
-    let summary = "Divide two DVM registers and get the remainder";
-}
-
-def MjolnIR_AndOp : MjolnIR_BinaryOpBase<"and">
-{
-    let summary = "Apply AND operation in two DVM registers";
-}
-
-def MjolnIR_OrOp  : MjolnIR_BinaryOpBase<"or">
-{
-    let summary = "Apply OR operation in two DVM registers";
-}
-
-def MjolnIR_XorOp : MjolnIR_BinaryOpBase<"xor">
-{
-    let summary = "Apply XOR operation in two DVM registers";
-}
-
-def MjolnIR_Shl   : MjolnIR_BinaryOpBase<"shl">
-{
-    let summary = "Shift Left a DVM register";
-}
-
-def MjolnIR_Shr   : MjolnIR_BinaryOpBase<"shr">
-{
-    let summary = "Shift Right a DVM register";
-}
-
-def MjolnIR_UShr  : MjolnIR_BinaryOpBase<"ushr">
-{
-    let summary = "Unsigned Shift Right a DVM register";
-}
-
-//===----------------------------------------------------------------------===//
-// Comparison Operations
-//===----------------------------------------------------------------------===//
-
-def MjolnIR_CmpEq : MjolnIR_ComparisonOpBase<"cmp-eq", [Commutative]>
-{
-    let summary = "Compare if values are equal";
-}
-
-def MjolnIR_CmpNEq : MjolnIR_ComparisonOpBase<"cmp-neq", [Commutative]>
-{
-    let summary = "Compare if values are not equal";
-}
-
-def MjolnIR_CmpLt : MjolnIR_ComparisonOpBase<"cmp-lt">
-{
-    let summary = "Compare a value is lower than other";
-}
-
-def MjolnIR_CmpGe : MjolnIR_ComparisonOpBase<"cmp-ge">
-{
-    let summary = "Compare a value is greater or equal than other";
-}
-
-def MjolnIR_CmpGt : MjolnIR_ComparisonOpBase<"cmp-gt">
-{
-    let summary = "Compare a value is greater than other";
-}
-
-def MjolnIR_CmpLe : MjolnIR_ComparisonOpBase<"cmp-le">
-{
-    let summary = "Compare a value is lower or equal than other";
-}
-
-def MjolnIR_CmpEqz : MjolnIR_ComparisonOpBase<"cmp-eqz">
-{
-    let summary = "Compare a value is equal to zero";
-}
-
-def MjolnIR_CmpNeqz : MjolnIR_ComparisonOpBase<"cmp-neqz">
-{
-    let summary = "Compare a value is not equal to zero";
-}
-
-def MjolnIR_CmpLtz : MjolnIR_ComparisonOpBase<"cmp-ltz">
-{
-    let summary = "Compare a value is lower than zero";
-}
-
-def MjolnIR_CmpGez : MjolnIR_ComparisonOpBase<"cmp-gez">
-{
-    let summary = "Compare a value is greater or equal to zero";
-}
-
-def MjolnIR_CmpGtz : MjolnIR_ComparisonOpBase<"cmp-gtz">
-{
-    let summary = "Compare a value is greater than zero";
-}
-
-def MjolnIR_CmpLez : MjolnIR_ComparisonOpBase<"cmp-lez">
-{
-    let summary = "Compare a value is lower or equal to zero";
-}
-
 
 
 //===----------------------------------------------------------------------===//
@@ -301,7 +159,7 @@ def LoadFieldOp : MjolnIR_Op<"loadfield",
     );
 
     let results = (outs
-        DVM_BasicType               // any of the DVM Basic Types
+        AnyType               // any of the DVM Basic Types
     );
 
     let assemblyFormat = "attr-dict $fieldClass`->`$fieldName `(` $fieldRef `)` `:` type(results)";
@@ -326,7 +184,7 @@ def StoreFieldOp : MjolnIR_Op<"storefield", []>
     }];
 
     let arguments = (ins
-        DVM_BasicType:$value,   // value to store in the Field
+        AnyType:$value,   // value to store in the Field
         FlatSymbolRefAttr:$fieldName, // name of Field
         FlatSymbolRefAttr:$fieldClass, // class of Field
         UI32Attr: $fieldRef // reference to Field in Dalvik code
@@ -402,14 +260,14 @@ def InvokeOp : MjolnIR_Op<"invoke", [
         FlatSymbolRefAttr:$callee, // called method
         UI32Attr:$methodRef,
         UI32Attr:$isStatic,
-        Variadic<DVM_BasicType>: $inputs // the inputs that must be the same
+        Variadic<AnyType>: $inputs // the inputs that must be the same
                                          // of those from the callee
     );
 
     // The return type must also be the same than the returned type
     // from the callee
     let results = (outs
-        Optional<DVM_BasicType>
+        Optional<AnyType>
     );
 
     let assemblyFormat = [{
@@ -458,11 +316,11 @@ def ReturnOp : MjolnIR_Op<"return", [
     // an optional value is given as an input to return. This return value
     // must match the return type of the enclosing function.
     let arguments = (ins
-    Variadic<DVM_BasicType>:$input
+        Variadic<AnyType>:$input
     );
 
     // return operation only emits the input in the format if it is present.
-    let assemblyFormat = "($input^ `:` type($input))? attr-dict ";
+    let assemblyFormat = "attr-dict ($input^ `:` type($input))?";
 
     // Allow building a ReturnOp with no return operand.
     let builders = [
@@ -521,6 +379,39 @@ def FallthroughOp : MjolnIR_Op<"fallthrough", [
   }];
 }
 
+def TryOp : MjolnIR_Op<"try_block">
+{
+    let summary = "Instruction to specify that the block is a try block";
+
+    let description = [{
+        This instruction will specify that the block is a try
+        block, when we find this instruction during the transformation
+        from MLIR to Dalvik bytecode, we set the block as a
+        try block.
+    }];
+
+    let assemblyFormat = [{
+        `:` attr-dict
+    }];
+}
+
+def CatchOp : MjolnIR_Op<"catch_block">
+{
+    let summary = "Instruction to specify that the block is a catch block";
+
+    let description = [{
+        This instruction will specify that the block is a catch
+        block, when we find this instruction during the transformatino
+        from MLIR to Dalvik bytecode, we set the block as a
+        catch block.
+    }];
+
+    let assemblyFormat = [{
+        `:` attr-dict
+    }];
+}
+
+
 //===----------------------------------------------------------------------===//
 // New operation
 //===----------------------------------------------------------------------===//
@@ -553,7 +444,7 @@ def NewArrayOp : MjolnIR_Op<"new-array", [Pure]>
     }];
 
     let arguments = (ins
-        DVM_BasicType:$size
+        AnyType:$size
     );
 
     let results = (outs
@@ -578,7 +469,7 @@ def LoadValueArrayOp : MjolnIR_Op<"load-value-array", [Pure]>
     let arguments = (ins
         AnyType:$base,
         UI32Attr:$index,
-        DVM_BasicType:$value
+        AnyType:$value
     );
 }
 

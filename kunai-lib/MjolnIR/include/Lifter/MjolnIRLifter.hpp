@@ -26,6 +26,7 @@
 #include <mlir/Dialect/ControlFlow/IR/ControlFlow.h>
 #include <mlir/Dialect/ControlFlow/IR/ControlFlowOps.h>
 #include <mlir/Dialect/Arith/IR/Arith.h>
+#include <mlir/Dialect/Func/IR/FuncOps.h>
 
 #include <unordered_map>
 #include <utility>
@@ -133,14 +134,14 @@ namespace MjolnIR
 
         // types from DVM for not generating it many times
         ::mlir::KUNAI::MjolnIR::DVMVoidType voidType;
-        ::mlir::KUNAI::MjolnIR::DVMByteType byteType;
-        ::mlir::KUNAI::MjolnIR::DVMBoolType boolType;
-        ::mlir::KUNAI::MjolnIR::DVMCharType charType;
-        ::mlir::KUNAI::MjolnIR::DVMShortType shortType;
-        ::mlir::KUNAI::MjolnIR::DVMIntType intType;
-        ::mlir::KUNAI::MjolnIR::DVMLongType longType;
-        ::mlir::KUNAI::MjolnIR::DVMFloatType floatType;
-        ::mlir::KUNAI::MjolnIR::DVMDoubleType doubleType;
+        ::mlir::IntegerType boolType;
+        ::mlir::IntegerType byteType;
+        ::mlir::IntegerType charType;
+        ::mlir::IntegerType shortType;
+        ::mlir::IntegerType intType;
+        ::mlir::IntegerType longType;
+        ::mlir::FloatType floatType;
+        ::mlir::FloatType doubleType;
         ::mlir::KUNAI::MjolnIR::DVMObjectType strObjectType;
 
 
@@ -148,6 +149,12 @@ namespace MjolnIR
         // Some generators methods
         //===----------------------------------------------------------------------===//
         mlir::Type get_array(KUNAI::DEX::DVMType * type);
+
+        /// @brief Return an mlir::Type from an Array type of Dalvik
+        /// @param array array type of Dalvik
+        /// @return a mlir::Type which contains data from an array
+        mlir::Type get_type(KUNAI::DEX::DVMArray *array);
+
         /// @brief Return an mlir::Type from a Fundamental type of Dalvik
         /// @param fundamental fundamental type of Dalvik
         /// @return different type depending on input
