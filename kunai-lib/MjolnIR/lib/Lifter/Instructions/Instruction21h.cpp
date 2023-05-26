@@ -12,40 +12,41 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction21h *instr)
 
     auto dest = instr->get_destination();
 
-    mlir::Type dest_type;
-
     switch (op_code)
     {
     case KUNAI::DEX::TYPES::opcodes::OP_CONST_HIGH16:
-        if (!dest_type)
-            dest_type = floatType;
+    {
+        auto value = instr->get_source();
+        
+        union 
         {
-            /// const/high16 vx, lit16 : vx = lit16 << 16
-            auto value = static_cast<std::int64_t>(instr->get_source() << 16);
+            float f;
+            std::uint32_t i;
+        } conv;
+        
+        conv.i = value;
 
-            auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadValue>(
-                location,
-                dest_type,
-                value);
+        auto gen_value = builder.create<::mlir::arith::ConstantFloatOp>(
+            location,
+            ::mlir::APFloat(conv.f),
+            ::mlir::Float32Type::get(&context));
 
-            writeLocalVariable(current_basic_block, dest, gen_value);
-        }
-        break;
+        writeLocalVariable(current_basic_block, dest, gen_value);
+    }
+    break;
     case KUNAI::DEX::TYPES::opcodes::OP_CONST_WIDE_HIGH16:
-        if (!dest_type)
-            dest_type = doubleType;
-        {
-            /// const-wide/high16 vx,lit16 : vx = list16 << 48
-            auto value = static_cast<std::int64_t>(instr->get_source() << 48);
+    {
+        /// const-wide/high16 vx,lit16 : vx = list16 << 48
+        auto value = static_cast<std::int64_t>(instr->get_source() << 48);
 
-            auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadValue>(
-                location,
-                dest_type,
-                value);
+        auto gen_value = builder.create<::mlir::arith::ConstantIntOp>(
+            location,
+            value,
+            64);
 
-            writeLocalVariable(current_basic_block, dest, gen_value);
-        }
-        break;
+        writeLocalVariable(current_basic_block, dest, gen_value);
+    }
+    break;
     default:
         throw exceptions::LifterException("Lifter::gen_instruction: Instruction21h not supported");
         break;

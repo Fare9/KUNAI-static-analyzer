@@ -12,8 +12,6 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction31i *instr)
 
     auto dest = instr->get_destination();
 
-    mlir::Type dest_type;
-
     switch (op_code)
     {
     case KUNAI::DEX::TYPES::OP_CONST:
@@ -21,15 +19,14 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction31i *instr)
     {
         /// for the moment set destination type as a long,
         /// we need to think a better algorithm
-        if (!dest_type)
-            dest_type = longType;
 
-        auto value = static_cast<std::int64_t>(instr->get_source());
+        auto value = instr->get_source_float();
 
-        auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadValue>(
+        auto gen_value = builder.create<::mlir::arith::ConstantFloatOp>(
             location,
-            dest_type,
-            value);
+            ::mlir::APFloat(value),
+            ::mlir::Float32Type::get(&context)
+        );
 
         writeLocalVariable(current_basic_block, dest, gen_value);
     }

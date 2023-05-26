@@ -14,24 +14,20 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction51l *instr)
     /// for storing a 64-bit value
     auto dest_reg = instr->get_first_register();
 
-    mlir::Type dest_type;
-
     switch (op_code)
     {
     case KUNAI::DEX::TYPES::OP_CONST_WIDE:
-        if (!dest_type)
-            dest_type = doubleType;
-        {
-            auto value = static_cast<std::int64_t>(instr->get_wide_value());
+    {
+        auto value = instr->get_wide_value_as_double();
 
-            auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadValue>(
-                location,
-                dest_type,
-                value);
+        auto gen_value = builder.create<::mlir::arith::ConstantFloatOp>(
+            location,
+            ::mlir::APFloat(value),
+            mlir::Float64Type::get(&context));
 
-            writeLocalVariable(current_basic_block, dest_reg, gen_value);
-        }
-        break;
+        writeLocalVariable(current_basic_block, dest_reg, gen_value);
+    }
+    break;
 
     default:
         throw exceptions::LifterException("Lifter::gen_instruction: Instruction51l not supported");
