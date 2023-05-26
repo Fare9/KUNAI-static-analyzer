@@ -1575,6 +1575,19 @@ namespace DEX
             return nBBBBBBBB;
         }
 
+        float get_source_float() const
+        {
+            union
+            {
+                float f;
+                std::uint32_t i;
+            } conv;
+            
+            conv.i = nBBBBBBBB;
+
+            return conv.f;
+        }
+
         /// @brief Get the source operand type of the instruction
         /// @return return LITERAL type
         TYPES::Operand get_source_type() const
@@ -1586,16 +1599,32 @@ namespace DEX
         /// @return string with instruction
         virtual std::string print_instruction()
         {
+            union
+            {
+                float f;
+                std::uint32_t i;
+            } conv;
+
+            conv.i = nBBBBBBBB;
+
             return DalvikOpcodes::get_instruction_name(op) + " v" + 
-                    std::to_string(vAA) + ", " + std::to_string(nBBBBBBBB);
+                    std::to_string(vAA) + ", " + std::to_string(conv.f) + " // " + std::to_string(nBBBBBBBB);
         }
 
         /// @brief Print the instruction on a given stream
         /// @param os stream where to print the instruction
         virtual void print_instruction(std::ostream &os)
         {
+            union
+            {
+                float f;
+                std::uint32_t i;
+            } conv;
+
+            conv.i = nBBBBBBBB;
+
             os << DalvikOpcodes::get_instruction_name(op) + " v" + 
-                    std::to_string(vAA) + ", " + std::to_string(nBBBBBBBB);
+                    std::to_string(vAA) + ", " + std::to_string(conv.f) + " // " + std::to_string(nBBBBBBBB);
         }
     };
 
@@ -2216,6 +2245,19 @@ namespace DEX
             return nBBBBBBBBBBBBBBBB;
         }
 
+        double get_wide_value_as_double() const
+        {
+            union
+            {
+                double d;
+                std::uint64_t j;
+            } conv;
+
+            conv.j = nBBBBBBBBBBBBBBBB;
+
+            return conv.d;
+        }
+
         TYPES::Operand get_wide_value_type() const
         {
             return TYPES::Operand::LITERAL;
@@ -2225,16 +2267,34 @@ namespace DEX
         /// @return string with instruction
         virtual std::string print_instruction()
         {
-            return DalvikOpcodes::get_instruction_name(op) + ", {v" + std::to_string(vAA) + 
-                    ", v" + std::to_string(vBB) + "}, " + std::to_string(nBBBBBBBBBBBBBBBB);
+            /// https://android.googlesource.com/platform/art/+/master/dexdump/dexdump.cc#1212
+            union
+            {
+                double d;
+                std::uint64_t j;
+            } conv;
+            
+            conv.j = nBBBBBBBBBBBBBBBB;
+
+            return DalvikOpcodes::get_instruction_name(op) + " v" + std::to_string(vAA) +
+                    ", #double " + std::to_string(conv.d) + " // " + std::to_string(nBBBBBBBBBBBBBBBB);
         }
 
         /// @brief Print the instruction on a given stream
         /// @param os stream where to print the instruction
         virtual void print_instruction(std::ostream &os)
         {
-            os << DalvikOpcodes::get_instruction_name(op) + ", {v" + std::to_string(vAA) + 
-                    ", v" + std::to_string(vBB) + "}, " + std::to_string(nBBBBBBBBBBBBBBBB);
+            /// https://android.googlesource.com/platform/art/+/master/dexdump/dexdump.cc#1212
+            union
+            {
+                double d;
+                std::uint64_t j;
+            } conv;
+
+            conv.j = nBBBBBBBBBBBBBBBB;
+
+            os << DalvikOpcodes::get_instruction_name(op) + " v" + std::to_string(vAA) +
+                    ", #double " + std::to_string(conv.d) + " // " + std::to_string(nBBBBBBBBBBBBBBBB);
         }
     };
 
