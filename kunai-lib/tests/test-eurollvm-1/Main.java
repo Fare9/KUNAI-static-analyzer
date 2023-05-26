@@ -14,6 +14,8 @@ public class Main
 
         int c = a * 40;
 
+        c = c + 4;
+
         r = c;
 
         d = 2 * pi * r;
