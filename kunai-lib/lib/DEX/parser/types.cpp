@@ -30,7 +30,7 @@ DVMType *Types::get_type_from_order(std::uint32_t pos)
     return ordered_types[pos].get();
 }
 
-const std::string& DVMClass::pretty_print()
+const std::string &DVMClass::pretty_print()
 {
     if (!pretty_name.empty())
         return pretty_name;
@@ -40,7 +40,7 @@ const std::string& DVMClass::pretty_print()
     return pretty_name;
 }
 
-const std::string& DVMArray::pretty_print()
+const std::string &DVMArray::pretty_print()
 {
     if (!pretty_name.empty())
         return pretty_name;
@@ -103,7 +103,9 @@ void Types::parse_types(
     auto current_offset = stream->tellg();
     this->number_of_types = number_of_types;
     this->offset = types_offset;
-   
+
+    std::vector<std::uint32_t> type_ids;
+
     dvmtype_t type;
     std::uint32_t type_id;
 
@@ -119,8 +121,13 @@ void Types::parse_types(
         type = parse_type(strings->get_string_by_id(type_id));
 
         ordered_types.push_back(std::move(type));
-        types_by_id[type_id] = ordered_types.back().get();
+        type_ids.push_back(type_id);
     }
+
+    for (size_t I = 0, E = type_ids.size();
+         I < E;
+         ++I)
+        types_by_id[type_ids[I]] = ordered_types[I].get();
 
     // return to your position
     stream->seekg(current_offset, std::ios_base::beg);
@@ -128,7 +135,7 @@ void Types::parse_types(
     logger->debug("finished parsing types");
 }
 
-void Types::to_xml(std::ofstream& xml_file)
+void Types::to_xml(std::ofstream &xml_file)
 {
     xml_file << "<types>\n";
 
@@ -145,18 +152,18 @@ void Types::to_xml(std::ofstream& xml_file)
 
 namespace KUNAI
 {
-namespace DEX
-{
-    std::ostream &operator<<(std::ostream &os, const Types &entry)
+    namespace DEX
     {
-        const auto & types = entry.get_ordered_types();
+        std::ostream &operator<<(std::ostream &os, const Types &entry)
+        {
+            const auto &types = entry.get_ordered_types();
 
-        os << "DEX Types:\n";
+            os << "DEX Types:\n";
 
-        for (size_t I = 0; I < types.size(); ++I)
-            os << std::left << std::setfill(' ') << "Type (" << I << ") -> \"" << types[I]->pretty_print() << "\"\n";
-        
-        return os;
+            for (size_t I = 0; I < types.size(); ++I)
+                os << std::left << std::setfill(' ') << "Type (" << I << ") -> \"" << types[I]->pretty_print() << "\"\n";
+
+            return os;
+        }
     }
-}
 }

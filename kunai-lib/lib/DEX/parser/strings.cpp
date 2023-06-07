@@ -27,7 +27,9 @@ Strings::Strings(Strings &str)
         ordered_strings.push_back(*ptr_str);
     }
 
-    for (size_t I = 0; I < ordered_strings.size(); ++I)
+    for (size_t I = 0, E = ordered_strings.size();
+         I < E;
+         ++I)
         offset_strings[str_offsets[I]] = &ordered_strings[I];
 }
 
@@ -104,18 +106,18 @@ void Strings::to_xml(std::ofstream &fos)
 
 namespace KUNAI
 {
-namespace DEX
-{
-    std::ostream &operator<<(std::ostream &os, const Strings &entry)
+    namespace DEX
     {
-        size_t I = 0;
-        auto &ordered_strings = entry.get_ordered_strings();
-        auto &offset_strings = entry.get_offset_strings();
-        os << std::hex;
-        os << "Dex Strings\n";
-        for (const auto s : offset_strings)
-            os << std::left << std::setfill(' ') << "String (" << std::dec << I++ << "): " << s.first << "->\"" << *s.second << "\"\n";
-        return os;
+        std::ostream &operator<<(std::ostream &os, const Strings &entry)
+        {
+            size_t I = 0;
+            auto &ordered_strings = entry.get_ordered_strings();
+            auto &offset_strings = entry.get_offset_strings();
+            os << std::hex;
+            os << "Dex Strings\n";
+            for (const auto s : offset_strings)
+                os << std::left << std::setfill(' ') << "String (" << std::dec << I++ << "): " << s.first << "->\"" << *s.second << "\"\n";
+            return os;
+        }
     }
-}
 }
