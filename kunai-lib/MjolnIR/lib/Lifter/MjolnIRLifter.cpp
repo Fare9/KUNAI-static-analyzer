@@ -97,7 +97,7 @@ llvm::SmallVector<mlir::Type> Lifter::gen_prototype(KUNAI::DEX::ProtoID *proto)
     return argTypes;
 }
 
-::mlir::KUNAI::MjolnIR::MethodOp Lifter::get_method(KUNAI::DEX::MethodAnalysis *M)
+::mlir::func::FuncOp Lifter::get_method(KUNAI::DEX::MethodAnalysis *M)
 {
     auto encoded_method = std::get<KUNAI::DEX::EncodedMethod *>(M->get_encoded_method());
 
@@ -118,7 +118,9 @@ llvm::SmallVector<mlir::Type> Lifter::gen_prototype(KUNAI::DEX::ProtoID *proto)
     // create now the method type
     auto methodType = builder.getFunctionType(paramTypes, {retType});
 
-    auto methodOp = builder.create<::mlir::KUNAI::MjolnIR::MethodOp>(method_location, name, methodType);
+    auto methodOp = builder.create<::mlir::func::FuncOp>(method_location, name, methodType);
+
+    auto entryBB = &methodOp.getBody().emplaceBlock();
 
     /// declare the register parameters, these are used during the
     /// program
@@ -135,8 +137,9 @@ llvm::SmallVector<mlir::Type> Lifter::gen_prototype(KUNAI::DEX::ProtoID *proto)
          ++Reg,
                        ++Argument)
     {
-        /// get the value from the parameter
-        auto value = methodOp.getArgument(Argument);
+        /// generate and get the value from the parameter
+        auto value = entryBB->addArgument(paramTypes[Argument], method_location);
+        //auto value = methodOp.getArgument(Argument);
         /// write to a local variable
         writeLocalVariable(first_block, Reg, value);
     }

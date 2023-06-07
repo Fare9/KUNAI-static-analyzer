@@ -178,7 +178,7 @@ namespace MjolnIR
         /// @brief Generate a MethodOp from a EncodedMethod given
         /// @param method pointer to an encoded method to generate a MethodOp
         /// @return method operation from Dalvik
-        ::mlir::KUNAI::MjolnIR::MethodOp get_method(KUNAI::DEX::MethodAnalysis * M);
+        ::mlir::func::FuncOp get_method(KUNAI::DEX::MethodAnalysis * M);
 
 
         //===----------------------------------------------------------------------===//
