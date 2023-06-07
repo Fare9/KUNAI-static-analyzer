@@ -12,22 +12,44 @@
 
 #include <mlir/Support/FileUtilities.h>
 
+#include <mlir/IR/AsmState.h>
+#include <mlir/IR/BuiltinOps.h>
+#include <mlir/IR/MLIRContext.h>
+#include <mlir/IR/Verifier.h>
+#include <mlir/Parser/Parser.h>
+
+#include <mlir/Pass/Pass.h>
+#include <mlir/Pass/PassManager.h>
+#include <mlir/Transforms/ViewOpGraph.h>
+
+#include <llvm/Support/CommandLine.h>
+
+namespace cl = llvm::cl;
+
+
+
 int main(int argc, char **argv)
 {
+    mlir::registerAsmPrinterCLOptions();
+    mlir::registerMLIRContextCLOptions();
+    mlir::registerPassManagerCLOptions();
+    cl::ParseCommandLineOptions(argc, argv, "MjolnIR Dialect\n");
+
     std::string dex_file_path;
     std::string method_name;
 
-    if (argc == 1)
-    {
+    //if (argc == 1)
+    //{
         dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test-very-simple/classes.dex";
         method_name = "my_add";
-    }
+    //}
+    /*
     else if (argc == 3)
     {
         dex_file_path = argv[1];
         method_name = argv[2];
     }
-
+    */
     auto logger = KUNAI::LOGGER::logger();
 
     logger->set_level(spdlog::level::debug);

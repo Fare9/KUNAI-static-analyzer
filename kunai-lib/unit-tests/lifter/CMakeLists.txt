@@ -13,6 +13,10 @@ if(USE_MJOLNIR)
         KUNAI
         MjolnIR
         Lifter
+
+        
+        MLIRPass
+        MLIRParser
         )
 
     add_test(NAME test-lifter
