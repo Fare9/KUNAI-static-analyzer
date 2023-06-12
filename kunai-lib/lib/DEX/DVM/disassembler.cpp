@@ -468,6 +468,8 @@ std::vector<std::int64_t> Disassembler::determine_next(Instruction *instruction,
                 x.push_back(curr_idx + std::get<1>(key_target) * 2);
         }
         break;
+        default:
+            throw exceptions::DisassemblerException("disassembler.cpp::determine_next: switch instruction not recognized");
         }
 
         return x;
