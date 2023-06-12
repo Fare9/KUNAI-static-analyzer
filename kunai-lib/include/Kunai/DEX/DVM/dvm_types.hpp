@@ -175,17 +175,21 @@ namespace KUNAI
                     {access_flags::ACC_STATIC, "static"},
                     {access_flags::ACC_FINAL, "final"},
                     {access_flags::ACC_SYNCHRONIZED, "synchronized"},
+                    {access_flags::ACC_VOLATILE, "volatile"},
                     {access_flags::ACC_BRIDGE, "bridge"},
+                    {access_flags::ACC_TRANSIENT, "transient"},
                     {access_flags::ACC_VARARGS, "varargs"},
                     {access_flags::ACC_NATIVE, "native"},
                     {access_flags::ACC_INTERFACE, "interface"},
                     {access_flags::ACC_ABSTRACT, "abstract"},
                     {access_flags::ACC_STRICT, "strictfp"},
                     {access_flags::ACC_SYNTHETIC, "synthetic"},
+                    {access_flags::ACC_ANNOTATION, "annotation"},
                     {access_flags::ACC_ENUM, "enum"},
                     {access_flags::UNUSED, "unused"},
                     {access_flags::ACC_CONSTRUCTOR, "constructor"},
-                    {access_flags::ACC_DECLARED_SYNCHRONIZED, "synchronized"}};
+                    {access_flags::ACC_DECLARED_SYNCHRONIZED, "synchronized"},
+                    };
 
             /// @brief String name from a char for basic types
             static const std::unordered_map<char, std::string> type_descriptor_map =
