@@ -137,11 +137,11 @@ int main(int argc, char **argv)
 
             if (show_blocks)
             {
-                const auto &blocks = method.second->get_basic_blocks();
+                auto &blocks = method.second->get_basic_blocks();
 
                 std::cout << encoded_method->getMethodID()->pretty_method() << "\n";
 
-                for (const auto block : blocks.get_nodes())
+                for (auto block : blocks.nodes())
                 {
                     if (block->is_start_block())
                         std::cout << "BB-Start Block\n";
@@ -156,17 +156,17 @@ int main(int argc, char **argv)
                     else
                         std::cout << "BB-" << block->get_first_address() << "\n";
 
-                    for (auto &instr : block->get_instructions())
+                    for (auto instr : block->instructions())
                         show_instruction(instr);
                 }
 
                 std::cout << "Edges: ";
-                for (const auto & edge : blocks.get_edges())
+                for (auto edge : blocks.edges())
                 {
-                    if (std::get<0>(edge)->is_start_block() || std::get<1>(edge)->is_end_block())
+                    if (edge.first->is_start_block() || edge.second->is_end_block())
                         continue;
-                    std::cout << "BB-" << std::get<0>(edge)->get_first_address() 
-                        << " -> BB-" << std::get<1>(edge)->get_first_address() << "\n";
+                    std::cout << "BB-" << edge.first->get_first_address() 
+                        << " -> BB-" << edge.second->get_first_address() << "\n";
                 }
             }
             else if (show_plot)

@@ -16,7 +16,7 @@ void BasicBlocks::remove_node(DVMBasicBlock *node)
     // TODO: Remove unused variable
     std::unique_ptr<DVMBasicBlock> const node_ (node);
 
-    if (std::find(nodes.begin(), nodes.end(), node) == nodes.end())
+    if (std::find(nodes_.begin(), nodes_.end(), node) == nodes_.end())
         throw exceptions::AnalysisException("remove_mode: given node does not exist in graph");
 
     if (node->is_start_block() || node->is_end_block())
@@ -26,104 +26,104 @@ void BasicBlocks::remove_node(DVMBasicBlock *node)
 
     if (node_type == JOIN_NODE) // len(predecessors) > 1
     {
-        auto suc = *sucessors[node].begin();
+        auto suc = *sucessors_[node].begin();
 
         // delete from predecessors of sucessor
-        predecessors[suc].erase(node);
+        predecessors_[suc].erase(node);
         // remove the edge
-        std::remove(edges.begin(), edges.end(), std::make_pair(node, suc));
+        std::remove(edges_.begin(), edges_.end(), std::make_pair(node, suc));
 
-        for (auto pred : predecessors[node])
+        for (auto pred : predecessors_[node])
         {
             // delete the edge from predecessor to the node
-            std::remove(edges.begin(), edges.end(), std::make_pair(pred, node));
+            std::remove(edges_.begin(), edges_.end(), std::make_pair(pred, node));
             // delete from sucessors[pred] the node
-            sucessors[pred].erase(node);
+            sucessors_[pred].erase(node);
         }
 
-        for (auto pred : predecessors[node])
+        for (auto pred : predecessors_[node])
         {
             // now add new one with successor
-            edges.push_back(std::make_pair(pred, suc));
+            edges_.push_back(std::make_pair(pred, suc));
             // add the predecessor of sucesspr
-            predecessors[suc]
+            predecessors_[suc]
                 .insert(pred);
             // add the sucessor of pred
-            sucessors[pred].insert(suc);
+            sucessors_[pred].insert(suc);
         }
     }
     else if (node_type == BRANCH_NODE) // len(sucessors) > 1
     {
-        auto pred = *predecessors[node].begin();
+        auto pred = *predecessors_[node].begin();
 
         // delete from sucessors of pred
-        sucessors[pred].erase(node);
+        sucessors_[pred].erase(node);
         // remove the edge
-        remove(edges.begin(), edges.end(), std::make_pair(pred, node));
+        remove(edges_.begin(), edges_.end(), std::make_pair(pred, node));
 
         // now disconnect the node from the sucessors
-        for (auto suc : sucessors[node])
+        for (auto suc : sucessors_[node])
         {
             // remove the edges node->suc
-            std::remove(edges.begin(), edges.end(), std::make_pair(node, suc));
+            std::remove(edges_.begin(), edges_.end(), std::make_pair(node, suc));
             // remove the node as predecessor of this sucessor
-            predecessors[suc].erase(node);
+            predecessors_[suc].erase(node);
         }
 
-        for (auto suc : sucessors[node])
+        for (auto suc : sucessors_[node])
         {
             // add the edges
-            edges.push_back(std::make_pair(pred, suc));
+            edges_.push_back(std::make_pair(pred, suc));
             // add the predecessor of sucesspr
-            predecessors[suc].insert(pred);
+            predecessors_[suc].insert(pred);
             // add the sucessor of pred
-            sucessors[pred].insert(suc);
+            sucessors_[pred].insert(suc);
         }
     }
     else
     {
         DVMBasicBlock *pred, *suc;
-        if (predecessors[node].size() == 1)
+        if (predecessors_[node].size() == 1)
         {
-            pred = *predecessors[node].begin();
+            pred = *predecessors_[node].begin();
 
             // delete from sucessors of pred
-            sucessors[pred].erase(node);
+            sucessors_[pred].erase(node);
             // remove the edge
-            remove(edges.begin(), edges.end(), std::make_pair(pred, node));
+            remove(edges_.begin(), edges_.end(), std::make_pair(pred, node));
         }
 
-        if (sucessors[node].size() == 1)
+        if (sucessors_[node].size() == 1)
         {
-            auto suc = *sucessors[node].begin();
+            auto suc = *sucessors_[node].begin();
 
             // delete from predecessors of sucessor
-            predecessors[suc].erase(node);
+            predecessors_[suc].erase(node);
             // remove the edge
-            std::remove(edges.begin(), edges.end(), std::make_pair(node, suc));
+            std::remove(edges_.begin(), edges_.end(), std::make_pair(node, suc));
         }
 
         if (pred != nullptr && suc != nullptr)
         {
-            edges.push_back(std::make_pair(pred, suc));
+            edges_.push_back(std::make_pair(pred, suc));
             // add sucessor to pred
-            sucessors[pred].insert(suc);
+            sucessors_[pred].insert(suc);
             // add predecessor to suc
-            predecessors[suc].insert(pred);
+            predecessors_[suc].insert(pred);
         }
     }
 
     // now delete the node from the predecessors and sucessors
-    predecessors.erase(node);
-    sucessors.erase(node);
+    predecessors_.erase(node);
+    sucessors_.erase(node);
 
     // finally delete from vector
-    std::remove(nodes.begin(), nodes.end(), node);
+    std::remove(nodes_.begin(), nodes_.end(), node);
 }
 
 DVMBasicBlock *BasicBlocks::get_basic_block_by_idx(std::uint64_t idx)
 {
-    for (const auto node : nodes)
+    for (const auto node : nodes_)
     {
         if (node->is_start_block() || node->is_end_block())
             continue;

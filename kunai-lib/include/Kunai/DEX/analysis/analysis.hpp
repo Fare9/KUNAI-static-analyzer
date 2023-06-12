@@ -15,6 +15,7 @@
 #include "Kunai/DEX/analysis/external_class.hpp"
 #include "Kunai/DEX/DVM/dalvik_instructions.hpp"
 #include "Kunai/Exceptions/analysis_exception.hpp"
+#include "Kunai/Utils/iterator_range.hpp"
 
 #include <set>
 #include <variant>
@@ -33,8 +34,9 @@ namespace KUNAI
         /// different DVMBasicBlock exists
         class DVMBasicBlock
         {
+        private:
             /// @brief instructions of the current basic block
-            std::vector<Instruction *> instructions;
+            std::vector<Instruction *> instructions_;
 
             /// @brief is a try block?
             bool try_block = false;
@@ -50,6 +52,26 @@ namespace KUNAI
             /// @brief name of the block composed by
             /// first and last address
             std::string name;
+
+        public:
+
+            using instructioniterator_t = std::vector<Instruction *>::iterator;
+            using reverseinstructioniterator_t = std::vector<Instruction *>::reverse_iterator;
+
+        private:
+
+            instructioniterator_t instructions_begin() { return instructions_.begin(); }
+            instructioniterator_t instructions_end() { return instructions_.end(); }
+
+            reverseinstructioniterator_t instructions_rbegin() { return instructions_.rbegin(); }
+            reverseinstructioniterator_t instructions_rend() { return instructions_.rend(); }
+
+        public:
+
+            iterator_range<instructioniterator_t> instructions() { return make_range(instructions_begin(), instructions_end()); }
+
+            iterator_range<reverseinstructioniterator_t>  reverse_instructions() { return make_range(instructions_rbegin(), instructions_rend()); }
+
         public:
             DVMBasicBlock() = default;
 
@@ -57,36 +79,36 @@ namespace KUNAI
             /// @return number of instructions of DVMBasicBlock
             size_t get_nb_instructions() const
             {
-                return instructions.size();
+                return instructions_.size();
             }
 
             /// @brief Add an instruction to the basic block
             /// @param instr new instructions from the basic block
             void add_instruction(Instruction *instr)
             {
-                instructions.push_back(instr);
+                instructions_.push_back(instr);
             }
 
             /// @brief Get a constant reference to the vector of instructions
             /// @return instructions from the block
             const std::vector<Instruction *> &get_instructions() const
             {
-                return instructions;
+                return instructions_;
             }
 
             /// @brief Get a reference to the vector of instructions
             /// @return instructions from the block
             std::vector<Instruction *> &get_instructions()
             {
-                return instructions;
+                return instructions_;
             }
 
             /// @brief Return the last instruction in case this is a terminator instruction
             /// @return terminator instruction
             Instruction *get_terminator()
             {
-                if (instructions.size() > 0 && instructions.back()->is_terminator())
-                    return instructions.back();
+                if (instructions_.size() > 0 && instructions_.back()->is_terminator())
+                    return instructions_.back();
                 return nullptr;
             }
 
@@ -94,8 +116,8 @@ namespace KUNAI
             /// @return first address of basic block
             std::uint64_t get_first_address()
             {
-                if (instructions.size() > 0)
-                    return instructions[0]->get_address();
+                if (instructions_.size() > 0)
+                    return instructions_[0]->get_address();
                 throw exceptions::AnalysisException("get_first_address(): basic block has no instructions");
             }
 
@@ -103,8 +125,8 @@ namespace KUNAI
             /// @return last address of basic block
             std::uint64_t get_last_address()
             {
-                if (instructions.size() > 0)
-                    return instructions.back()->get_address();
+                if (instructions_.size() > 0)
+                    return instructions_.back()->get_address();
                 throw exceptions::AnalysisException("get_last_address(): basic block has no instructions");
             }
 
@@ -218,19 +240,87 @@ namespace KUNAI
                 REGULAR_NODE,  // other cases
             };
 
+            /// @brief Iterator for going through a list of basic blocks in order
+            using nodesiterator_t = std::vector<DVMBasicBlock*>::iterator;
+            /// @brief Iterator for going through a list of basic blocks in reverse order
+            using reversenodesiterator_t = std::vector<DVMBasicBlock*>::reverse_iterator;
+
+            /// @brief Iterator for going throw a list of sucessors or predecessors
+            using nodesetiterator_t = std::set<DVMBasicBlock *>::iterator;
+            /// @brief Iterator for going throw a list of sucessors or predecessors in reverse order
+            using reversenodesetiterator_t = std::set<DVMBasicBlock *>::reverse_iterator;
+
+            /// @brief Iterator for going through the edges
+            using edgesiterator_t = edges_t::iterator;
+            /// @brief Iterator for going through the edges in reverse order
+            using reverseedgesiterator_t = edges_t::reverse_iterator;
+
+            
+
         private:
             /// @brief all the basic blocks from a method
-            std::vector<DVMBasicBlock *> nodes;
+            std::vector<DVMBasicBlock *> nodes_;
 
             /// @brief set of nodes that are predecessors of a node
-            connected_blocks_t predecessors;
+            connected_blocks_t predecessors_;
 
             /// @brief set of nodes that are sucessors of a node
-            connected_blocks_t sucessors;
+            connected_blocks_t sucessors_;
 
             /// @brief edges in the graph, this is a directed graph
-            edges_t edges;
+            edges_t edges_;
+            
+            nodesiterator_t nodes_begin() { return nodes_.begin(); }
+            nodesiterator_t nodes_end() { return nodes_.end(); }
+            reversenodesiterator_t nodes_rbegin() { return nodes_.rbegin(); }
+            reversenodesiterator_t nodes_rend() { return nodes_.rend(); }
 
+            edgesiterator_t edges_begin() { return edges_.begin(); }
+            edgesiterator_t edges_end() { return edges_.end(); }
+            reverseedgesiterator_t edges_rbegin() { return edges_.rbegin(); }
+            reverseedgesiterator_t edges_rend() { return edges_.rend(); }
+
+            
+
+        public:
+            
+            iterator_range<nodesiterator_t> nodes() { return make_range(nodes_begin(), nodes_end()); }
+            iterator_range<reversenodesiterator_t> reverse_nodes() { return make_range(nodes_rbegin(), nodes_rend()); }
+
+            iterator_range<edgesiterator_t> edges() { return make_range(edges_begin(), edges_end()); }
+            iterator_range<reverseedgesiterator_t> reverse_edges() { return make_range(edges_rbegin(), edges_rend()); }
+
+            iterator_range<nodesetiterator_t> successors(DVMBasicBlock *node)
+            {
+                if (sucessors_.find(node) == sucessors_.end())
+                    throw exceptions::AnalysisException("analysis.hpp::sucessors: given node has no sucessors");
+                
+                return make_range(sucessors_[node].begin(), sucessors_[node].end());
+            }
+
+            iterator_range<nodesetiterator_t> predecessors(DVMBasicBlock *node)
+            {
+                if (predecessors_.find(node) == predecessors_.end())
+                    throw exceptions::AnalysisException("analysis.hpp::sucessors: given node has no predecessors");
+
+                return make_range(predecessors_[node].begin(), predecessors_[node].end());
+            }
+
+            iterator_range<reversenodesetiterator_t> reverse_sucessors(DVMBasicBlock *node)
+            {
+                if (sucessors_.find(node) == sucessors_.end())
+                    throw exceptions::AnalysisException("analysis.hpp::sucessors: given node has no sucessors");
+                
+                return make_range(sucessors_[node].rbegin(), sucessors_[node].rend());
+            }
+
+            iterator_range<reversenodesetiterator_t> reverse_predecessors(DVMBasicBlock *node)
+            {
+                if (predecessors_.find(node) == predecessors_.end())
+                    throw exceptions::AnalysisException("analysis.hpp::sucessors: given node has no predecessors");
+
+                return make_range(predecessors_[node].rbegin(), predecessors_[node].rend());
+            }
         public:
             BasicBlocks() = default;
 
@@ -239,31 +329,31 @@ namespace KUNAI
             ~BasicBlocks()
             {
                 // free memory
-                for (auto p : nodes)
+                for (auto p : nodes_)
                     delete p;
                 // clear de vector of nodes
-                nodes.clear();
+                nodes_.clear();
             }
 
             /// @brief Return the number of basic blocks in the graph
             /// @return number of basic blocks
             size_t get_number_of_basic_blocks() const
             {
-                return nodes.size();
+                return nodes_.size();
             }
 
             /// @brief Get all predecessors from all the blocks
             /// @return constant reference to predecessors
             const connected_blocks_t& get_predecessors() const
             {
-                return predecessors;
+                return predecessors_;
             }
 
             /// @brief Get all predecessors from all the blocks
             /// @return reference to predecessors
             connected_blocks_t& get_predecessors()
             {
-                return predecessors;
+                return predecessors_;
             }
 
             /// @brief Add a node to the list of predecessors of another
@@ -271,21 +361,21 @@ namespace KUNAI
             /// @param pred predecessor node
             void add_predecessor(DVMBasicBlock *node, DVMBasicBlock *pred)
             {
-                predecessors[node].insert(pred);
+                predecessors_[node].insert(pred);
             }
 
             /// @brief Get all sucessors from all the blocks
             /// @return constant reference to sucessors
             const connected_blocks_t& get_sucessors() const
             {
-                return sucessors;
+                return sucessors_;
             }
 
             /// @brief Get all sucessors from all the blocks
             /// @return reference to sucessors
             connected_blocks_t& get_sucessors()
             {
-                return sucessors;
+                return sucessors_;
             }
 
             /// @brief Add a node to the list of sucessors of another
@@ -293,7 +383,7 @@ namespace KUNAI
             /// @param suc sucessor node
             void add_sucessor(DVMBasicBlock *node, DVMBasicBlock *suc)
             {
-                sucessors[node].insert(suc);
+                sucessors_[node].insert(suc);
             }
 
             /// @brief Add a node to the vector of nodes, we will transfer the
@@ -301,8 +391,8 @@ namespace KUNAI
             /// @param node node to push into our vector
             void add_node(DVMBasicBlock *node)
             {
-                if (std::find(nodes.begin(), nodes.end(), node) == nodes.end())
-                    nodes.push_back(node);
+                if (std::find(nodes_.begin(), nodes_.end(), node) == nodes_.end())
+                    nodes_.push_back(node);
             }
 
             /// @brief Add an edge to the basic blocks
@@ -314,8 +404,8 @@ namespace KUNAI
                 add_node(dst);
                 // now insert the edge
                 auto edge_pair = std::make_pair(src, dst);
-                if (std::find(edges.begin(), edges.end(), edge_pair) == edges.end())
-                    edges.push_back(edge_pair);
+                if (std::find(edges_.begin(), edges_.end(), edge_pair) == edges_.end())
+                    edges_.push_back(edge_pair);
                 /// now add the sucessors and predecessors
                 add_sucessor(src, dst);
                 add_predecessor(dst, src);
@@ -325,14 +415,14 @@ namespace KUNAI
             /// @return constant reference to the edges
             const edges_t& get_edges() const
             {
-                return edges;
+                return edges_;
             }
 
             /// @brief Get a reference to the edges of the graph
             /// @return reference to the edges
             edges_t& get_edges()
             {
-                return edges;
+                return edges_;
             }
 
             /// @brief Get the node type between JOIN_NODE, BRANCH_NODE or REGULAR_NODE
@@ -340,9 +430,9 @@ namespace KUNAI
             /// @return type of node
             node_type_t get_node_type(DVMBasicBlock *node)
             {
-                if (predecessors[node].size() > 1)
+                if (predecessors_[node].size() > 1)
                     return JOIN_NODE;
-                else if (sucessors[node].size() > 1)
+                else if (sucessors_[node].size() > 1)
                     return BRANCH_NODE;
                 else
                     return REGULAR_NODE;
@@ -363,14 +453,14 @@ namespace KUNAI
             /// @return constant reference to basic blocks
             const std::vector<DVMBasicBlock *>& get_nodes() const
             {
-                return nodes;
+                return nodes_;
             }
 
             /// @brief Get a reference to the nodes of the graph
             /// @return reference to basic blocks
             std::vector<DVMBasicBlock *>& get_nodes()
             {
-                return nodes;
+                return nodes_;
             }
         };
 
