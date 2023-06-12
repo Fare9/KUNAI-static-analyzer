@@ -254,12 +254,12 @@ void ClassDef::parse_class_def(stream::KunaiStream *stream,
 
         encodedarray_t encodedarray;
 
-        for (I = 0; I < size; ++I)
-        {
-            encodedarray = std::make_unique<EncodedArray>();
-            encodedarray->parse_encoded_array(stream, types, strings);
-            static_values.push_back(std::move(encodedarray));
-        }
+        //for (I = 0; I < size; ++I)
+        //{
+        encodedarray = std::make_unique<EncodedArray>();
+        encodedarray->parse_encoded_array(stream, types, strings);
+        static_values.push_back(std::move(encodedarray));
+        //}
     }
 
     stream->seekg(current_offset, std::ios_base::beg);

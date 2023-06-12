@@ -15,12 +15,22 @@ void EncodedValue::parse_encoded_value(
     Types *types,
     Strings *strings)
 {
+    auto read_from_stream = [&](size_t size)
+    {
+        std::uint8_t aux;
+        for(size_t I = 0; I <= size; ++I)
+        {
+            stream->read_data<std::uint8_t>(aux, sizeof(std::uint8_t));
+            values.push_back(aux);
+        }
+    };
+
     std::uint8_t value;
 
     stream->read_data<std::uint8_t>(value, sizeof(std::uint8_t));
 
     value_type = static_cast<TYPES::value_format>(value & 0x1f);
-    value_args = ((value & 0xe0) >> 5);
+    value_args = (value >> 5);
 
     switch (value_type)
     {
@@ -28,8 +38,8 @@ void EncodedValue::parse_encoded_value(
     case TYPES::value_format::VALUE_SHORT:
     case TYPES::value_format::VALUE_CHAR:
     case TYPES::value_format::VALUE_INT:
-    case TYPES::value_format::VALUE_LONG:
     case TYPES::value_format::VALUE_FLOAT:
+    case TYPES::value_format::VALUE_LONG:
     case TYPES::value_format::VALUE_DOUBLE:
     case TYPES::value_format::VALUE_STRING:
     case TYPES::value_format::VALUE_TYPE:
@@ -37,12 +47,7 @@ void EncodedValue::parse_encoded_value(
     case TYPES::value_format::VALUE_METHOD:
     case TYPES::value_format::VALUE_ENUM:
     {
-        std::uint8_t aux;
-        for (size_t I = 0; I < value_args; ++I)
-        {
-            stream->read_data<std::uint8_t>(aux, sizeof(std::uint8_t));
-            values.push_back(aux);
-        }
+        read_from_stream(value_args);
         break;
     }
     case TYPES::value_format::VALUE_ARRAY:
