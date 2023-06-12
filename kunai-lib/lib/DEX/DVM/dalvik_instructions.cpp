@@ -296,6 +296,8 @@ Instruction21c::Instruction21c(std::vector<uint8_t> &bytecode, std::size_t index
         is_proto = true;
         source_str = parser->get_protos().get_proto_by_order(iBBBB)->get_shorty_idx();
         break;
+    default:
+        throw exceptions::InvalidInstructionException("dalvik_instructions.cpp::Instruction21c: get_kind() value not supported", 4);
     }
 }
 
