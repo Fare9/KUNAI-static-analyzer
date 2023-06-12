@@ -186,7 +186,7 @@ namespace DEX
         ClassDataItem class_data_item;
 
         /// @brief Array of initial values for static fields.
-        std::vector<encodedarray_t> static_values;
+        EncodedArray static_values;
     public:
         /// @brief Constructor of ClassDef
         ClassDef() = default;
@@ -279,8 +279,20 @@ namespace DEX
         {
             return class_data_item;
         }
-    
 
+        /// @brief Return a constant reference to the encoded array
+        /// @return static values as encoded array
+        const EncodedArray& get_static_values() const
+        {
+            return static_values;
+        }
+
+        /// @brief Return a reference to the encoded array
+        /// @return static values as encoded array
+        EncodedArray& get_static_values()
+        {
+            return static_values;
+        }
     };
 
     using classdef_t = std::unique_ptr<ClassDef>;

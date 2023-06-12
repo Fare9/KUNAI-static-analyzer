@@ -248,18 +248,7 @@ void ClassDef::parse_class_def(stream::KunaiStream *stream,
     {
         stream->seekg(classdefstruct.static_values_off, std::ios_base::beg);
 
-        // the number of static values, is the number of static
-        // fields of the class
-        size = class_data_item.get_number_of_static_fields();
-
-        encodedarray_t encodedarray;
-
-        //for (I = 0; I < size; ++I)
-        //{
-        encodedarray = std::make_unique<EncodedArray>();
-        encodedarray->parse_encoded_array(stream, types, strings);
-        static_values.push_back(std::move(encodedarray));
-        //}
+        static_values.parse_encoded_array(stream, types, strings);
     }
 
     stream->seekg(current_offset, std::ios_base::beg);
