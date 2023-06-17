@@ -2,6 +2,14 @@
 
 This folder represents the library from the Kunai-Static-Analyzer project, Kunai lib is intended to analyze Dex and Apk files. Projects using Kunai can compile this folder and then use the compiled library and the headers.
 
+
+<figure>
+<a href="../images/Kunai-arch.png"><img src="../images/Kunai-arch.png"></a>
+<figcaption>Kunai Architecture.</figcaption>
+</figure>
+
+
+
 ## Installation
 
 Kunai uses *CMake* to control compilation proces, so you can use this building system for compiling Kunai. The next command is used to configure the compilation of Kunai:
