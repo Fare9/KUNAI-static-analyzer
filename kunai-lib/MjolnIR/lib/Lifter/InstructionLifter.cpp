@@ -3,7 +3,7 @@
 // @author Farenain <kunai.static.analysis@gmail.com>
 //
 // @file InstructionLifter.cpp
-#include "Lifter/MjolnIRLifter.hpp"
+#include "MjolnIR/Lifter/MjolnIRLifter.hpp"
 #include "Kunai/Exceptions/lifter_exception.hpp"
 #include <mlir/IR/OpDefinition.h>
 

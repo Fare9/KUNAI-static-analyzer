@@ -4,9 +4,9 @@
 //
 // @file MjolnIROps.cpp
 
-#include "Dalvik/MjolnIROps.hpp"
-#include "Dalvik/MjolnIRDialect.hpp"
-#include "Dalvik/MjolnIRTypes.hpp"
+#include "MjolnIR/Dalvik/MjolnIROps.hpp"
+#include "MjolnIR/Dalvik/MjolnIRDialect.hpp"
+#include "MjolnIR/Dalvik/MjolnIRTypes.hpp"
 
 // include from MLIR
 #include <mlir/IR/Builders.h>

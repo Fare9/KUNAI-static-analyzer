@@ -5,7 +5,7 @@ add_mlir_dialect_library(MjolnIR
 
     ADDITIONAL_HEADER_DIRS
     ${PROJECT_BINARY_DIR}/MjolnIR/include/
-    ${PROJECT_BINARY_DIR}/MjolnIR/include/Dalvik
+    ${PROJECT_BINARY_DIR}/MjolnIR/include/MjolnIR/Dalvik
 
     DEPENDS
     MLIRMjolnIROpsIncGen

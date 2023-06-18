@@ -4,9 +4,9 @@
 //
 // @file MjolnIRDialect.cpp
 
-#include "Dalvik/MjolnIRDialect.hpp"
-#include "Dalvik/MjolnIROps.hpp"
-#include "Dalvik/MjolnIRTypes.hpp"
+#include "MjolnIR/Dalvik/MjolnIRDialect.hpp"
+#include "MjolnIR/Dalvik/MjolnIROps.hpp"
+#include "MjolnIR/Dalvik/MjolnIRTypes.hpp"
 
 using namespace mlir;
 using namespace ::mlir::KUNAI::MjolnIR;

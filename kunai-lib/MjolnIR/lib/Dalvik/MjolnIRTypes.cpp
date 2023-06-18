@@ -4,9 +4,9 @@
 //
 // @file MjolnIRDialect.cpp
 
-#include "Dalvik/MjolnIRTypes.hpp"
+#include "MjolnIR/Dalvik/MjolnIRTypes.hpp"
 
-#include "Dalvik/MjolnIRDialect.hpp"
+#include "MjolnIR/Dalvik/MjolnIRDialect.hpp"
 #include <mlir/IR/Builders.h>
 #include <mlir/IR/DialectImplementation.h>
 #include <llvm/ADT/TypeSwitch.h>

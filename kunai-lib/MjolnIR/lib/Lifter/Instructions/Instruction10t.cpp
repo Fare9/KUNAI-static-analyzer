@@ -1,4 +1,4 @@
-#include "Lifter/MjolnIRLifter.hpp"
+#include "MjolnIR/Lifter/MjolnIRLifter.hpp"
 #include "Kunai/Exceptions/lifter_exception.hpp"
 #include <mlir/IR/OpDefinition.h>
 

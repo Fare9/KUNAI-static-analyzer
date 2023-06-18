@@ -3,7 +3,7 @@
 // @author Farenain <kunai.static.analysis@gmail.com>
 //
 // @file MjolnIRLifter.cpp
-#include "Lifter/MjolnIRLifter.hpp"
+#include "MjolnIR/Lifter/MjolnIRLifter.hpp"
 #include "Kunai/Exceptions/lifter_exception.hpp"
 
 #include <type_traits>
