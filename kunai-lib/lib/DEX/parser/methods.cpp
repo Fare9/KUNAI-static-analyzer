@@ -66,7 +66,7 @@ void Methods::parse_methods(
             protos->get_proto_by_order(proto_idx),
             strings->get_string_by_id(name_idx));
         // move the ownership to the vector
-        methods.push_back(std::move(methodid));
+        methods_.push_back(std::move(methodid));
     }
 
     // return to the previous offset
@@ -75,15 +75,15 @@ void Methods::parse_methods(
 
 MethodID *Methods::get_method(std::uint32_t pos)
 {
-    if (pos >= methods.size())
+    if (pos >= methods_.size())
         throw exceptions::IncorrectIDException("methods.cpp: position for method incorrect");
-    return methods[pos].get();
+    return methods_[pos].get();
 }
 
 void Methods::to_xml(std::ofstream &fos)
 {
     fos << "<methods>\n";
-    for (auto &method : methods)
+    for (auto &method : methods_)
     {
         fos << "\t<method>\n";
         fos << "\t\t<type>" << method->get_proto()->get_shorty_idx() << "</type>\n";

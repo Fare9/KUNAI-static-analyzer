@@ -11,6 +11,7 @@
 #include "Kunai/DEX/parser/protos.hpp"
 #include "Kunai/DEX/parser/strings.hpp"
 #include "Kunai/Utils/kunaistream.hpp"
+#include "Kunai/Utils/iterator_range.hpp"
 
 #include <memory>
 #include <vector>
@@ -117,10 +118,21 @@ namespace KUNAI
         class Methods
         {
             /// @brief vector for containing the methods
-            std::vector<methodid_t> methods;
+            std::vector<methodid_t> methods_;
 
             /// @brief number of methods
             std::uint32_t methods_size;
+        public:
+            /// @brief iterator for the methods
+            using methoditerator_t = std::vector<methodid_t>::iterator;
+        
+        private:
+            /// @brief Get begin iterator of methods
+            /// @return iterator for methods
+            methoditerator_t methods_begin() { return methods_.begin(); }
+            /// @brief Get end iterator of methods
+            /// @return iterator for methods
+            methoditerator_t methods_end() { return methods_.end(); }
         public:
 
             /// @brief Constructor of Methods, default
@@ -148,20 +160,28 @@ namespace KUNAI
             /// @return constant reference to vector of method ids
             const std::vector<methodid_t>& get_methods() const
             {
-                return methods;
+                return methods_;
             }
 
             /// @brief Get a reference to all the methods
             /// @return reference to vector of method ids
             std::vector<methodid_t>& get_methods()
             {
-                return methods;
+                return methods_;
             }
 
             /// @brief Get one of the methods by its position
             /// @param pos position in the vector
             /// @return pointer to MethodID
             MethodID* get_method(std::uint32_t pos);
+
+            /// @brief Get an iterator range for the methods
+            /// @return iterator_range with the methods instead
+            /// of managing iterators
+            iterator_range<methoditerator_t> methods()
+            {
+                return make_range(methods_begin(), methods_end());
+            }
 
             /// @brief Get the number of the methods
             /// @return value of methods_size
