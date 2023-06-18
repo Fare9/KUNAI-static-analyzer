@@ -7,7 +7,8 @@
 #include "test-lifter.inc"
 #include "Kunai/DEX/dex.hpp"
 #include "Kunai/Utils/logger.hpp"
-#include "Lifter/MjolnIRLifter.hpp"
+#include "MjolnIR/Lifter/MjolnIRLifter.hpp"
+#include "MjolnIR/Transforms/MjolnIRToOpGraph.hpp"
 #include <memory>
 
 #include <mlir/Support/FileUtilities.h>
@@ -95,6 +96,18 @@ int main(int argc, char **argv)
             mlir::OpPrintingFlags printFlags;
             module_op->print(fileStream, printFlags);
             llvm::outs() << "MLIR module written to file: " << filePath << "\n";
+
+            mlir::PassManager pm(module_op.get()->getName());
+
+            pm.addPass(mlir::createPrintOpGraphPass());
+            pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIROpGraphPass());
+
+            // Apply any generic pass manager command line options and run the pipeline.
+            if (mlir::failed(mlir::applyPassManagerCLOptions(pm)))
+                return 4;
+
+            if (mlir::failed(pm.run(*module_op)))
+                return 5;
         }
     }
 }
