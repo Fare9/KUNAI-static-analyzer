@@ -338,6 +338,7 @@ def ReturnOp : MjolnIR_Op<"return", [
 //===----------------------------------------------------------------------===//
 
 def FallthroughOp : MjolnIR_Op<"fallthrough", [
+    DeclareOpInterfaceMethods<BranchOpInterface, ["getSuccessorForOperands"]>,
     Pure, Terminator
   ]> {
   let summary = "FallThrough jump";

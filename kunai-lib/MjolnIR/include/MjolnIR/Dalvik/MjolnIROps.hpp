@@ -13,7 +13,7 @@
 #include <mlir/Interfaces/CallInterfaces.h>
 #include <mlir/Interfaces/CastInterfaces.h>
 #include <mlir/Interfaces/SideEffectInterfaces.h>
-
+#include <mlir/Interfaces/ControlFlowInterfaces.h>
 
 #define GET_OP_CLASSES
 #include "MjolnIR/Dalvik/MjolnIROps.h.inc"

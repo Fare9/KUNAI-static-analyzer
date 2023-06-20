@@ -16,6 +16,7 @@
 #include <mlir/IR/OpImplementation.h>
 #include <mlir/Transforms/InliningUtils.h>
 #include <mlir/Interfaces/ControlFlowInterfaces.h>
+#include <mlir/Interfaces/SideEffectInterfaces.h>
 // include from LLVM
 #include <llvm/ADT/TypeSwitch.h>
 
@@ -171,3 +172,14 @@ Operation::operand_range InvokeOp::getArgOperands() { return getInputs(); }
 void FallthroughOp::setDest(Block *block) { return setSuccessor(block); }
 
 void FallthroughOp::eraseOperand(unsigned index) { (*this)->eraseOperand(index); }
+
+SuccessorOperands FallthroughOp::getSuccessorOperands(unsigned index)
+{
+    assert(index == 0 && "invalid successor index");
+    return SuccessorOperands(getDestOperandsMutable());
+}
+
+Block *FallthroughOp::getSuccessorForOperands(ArrayRef<Attribute>)
+{
+    return getDest();
+}
