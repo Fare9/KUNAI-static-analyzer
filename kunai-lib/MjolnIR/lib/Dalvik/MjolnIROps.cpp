@@ -20,7 +20,7 @@
 #include <llvm/ADT/TypeSwitch.h>
 
 #define GET_OP_CLASSES
-#include "Dalvik/MjolnIROps.cpp.inc"
+#include "MjolnIR/Dalvik/MjolnIROps.cpp.inc"
 
 using namespace mlir;
 using namespace ::mlir::KUNAI::MjolnIR;

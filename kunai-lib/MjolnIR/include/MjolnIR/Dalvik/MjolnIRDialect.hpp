@@ -10,6 +10,6 @@
 
 #include <mlir/IR/Dialect.h>
 
-#include "Dalvik/MjolnIROpsDialect.h.inc"
+#include "MjolnIR/Dalvik/MjolnIROpsDialect.h.inc"
 
 #endif // DALVIK_MJOLNIRDIALECT_HPP

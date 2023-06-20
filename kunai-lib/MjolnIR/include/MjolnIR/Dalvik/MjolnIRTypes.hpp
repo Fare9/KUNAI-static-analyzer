@@ -10,6 +10,6 @@
 #include <mlir/IR/BuiltinTypes.h>
 
 #define GET_TYPEDEF_CLASSES
-#include "Dalvik/MjolnIROpsTypes.h.inc"
+#include "MjolnIR/Dalvik/MjolnIROpsTypes.h.inc"
 
 #endif

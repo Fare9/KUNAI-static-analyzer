@@ -16,7 +16,7 @@
 
 
 #define GET_OP_CLASSES
-#include "Dalvik/MjolnIROps.h.inc"
+#include "MjolnIR/Dalvik/MjolnIROps.h.inc"
 
 
 #endif // DALVIK_MJOLNIROPS_HPP

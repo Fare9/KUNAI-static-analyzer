@@ -14,7 +14,7 @@
 using namespace ::mlir::KUNAI::MjolnIR;
 
 #define GET_TYPEDEF_CLASSES
-#include "Dalvik/MjolnIROpsTypes.cpp.inc"
+#include "MjolnIR/Dalvik/MjolnIROpsTypes.cpp.inc"
 
 //===----------------------------------------------------------------------===//
 // DVMArrayType
@@ -39,6 +39,6 @@ void MjolnIRDialect::registerTypes()
 {
     addTypes<
 #define GET_TYPEDEF_LIST
-#include "Dalvik/MjolnIROpsTypes.cpp.inc"
+#include "MjolnIR/Dalvik/MjolnIROpsTypes.cpp.inc"
         >();
 }

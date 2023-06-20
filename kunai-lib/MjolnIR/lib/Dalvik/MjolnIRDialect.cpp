@@ -12,7 +12,7 @@ using namespace mlir;
 using namespace ::mlir::KUNAI::MjolnIR;
 
 // import the cpp generated from tablegen
-#include "Dalvik/MjolnIROpsDialect.cpp.inc"
+#include "MjolnIR/Dalvik/MjolnIROpsDialect.cpp.inc"
 
 //===----------------------------------------------------------------------===//
 // MjolnIR Dialect
@@ -24,7 +24,7 @@ void MjolnIRDialect::initialize()
 {
     addOperations<
 #define GET_OP_LIST
-#include "Dalvik/MjolnIROps.cpp.inc"
+#include "MjolnIR/Dalvik/MjolnIROps.cpp.inc"
         >();
     registerTypes();
 }
