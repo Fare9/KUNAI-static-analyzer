@@ -289,14 +289,17 @@ public:
                     os << "v" << instrToNode.at(&dest_block_insns).id;
                     os << "[style=\"solid,bold\",color=blue,weight=10,constraint=true];\n";
                 }
-                else if (auto ft = mlir::dyn_cast<mlir::KUNAI::MjolnIR::FallthroughOp>(terminator_instr))
+                else if (auto bi = mlir::dyn_cast<mlir::BranchOpInterface>(terminator_instr))
                 {
-                    auto & dest_block_insns = ft.getDest()->getOperations().front();
-
-                    os << "v" << terminator_node.id;
-                    os << " -> ";
-                    os << "v" << instrToNode.at(&dest_block_insns).id;
-                    os << "[style=\"solid,bold\",color=black,weight=10,constraint=true];\n";
+                    for (auto successor : bi.getOperation()->getSuccessors())
+                    {
+                        auto & dest_block_insns = successor->getOperations().front();
+                        
+                        os << "v" << terminator_node.id;
+                        os << " -> ";
+                        os << "v" << instrToNode.at(&dest_block_insns).id;
+                        os << "[style=\"solid,bold\",color=black,weight=10,constraint=true];\n";
+                    }
                 }
             }
         }
