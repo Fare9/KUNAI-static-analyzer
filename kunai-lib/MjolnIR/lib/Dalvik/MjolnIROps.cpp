@@ -169,16 +169,26 @@ Operation::operand_range InvokeOp::getArgOperands() { return getInputs(); }
 //===----------------------------------------------------------------------===//
 // FallthroughOp
 //===----------------------------------------------------------------------===//
+
+/// @brief Set the destination block of the fallthrough
+/// @param block destination block
 void FallthroughOp::setDest(Block *block) { return setSuccessor(block); }
 
+/// @brief Erase an operand by its index
 void FallthroughOp::eraseOperand(unsigned index) { (*this)->eraseOperand(index); }
 
+/// @brief For the BranchOpInterface get the sucessor operands from index
+/// @param index index to retrieve the sucessor operands
+/// @return sucessor operands
 SuccessorOperands FallthroughOp::getSuccessorOperands(unsigned index)
 {
     assert(index == 0 && "invalid successor index");
     return SuccessorOperands(getDestOperandsMutable());
 }
 
+/// @brief For the BranchOpInterface same as before
+/// @param  attributes not used
+/// @return destination block
 Block *FallthroughOp::getSuccessorForOperands(ArrayRef<Attribute>)
 {
     return getDest();
