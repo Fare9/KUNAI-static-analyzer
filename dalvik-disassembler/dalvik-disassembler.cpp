@@ -13,6 +13,7 @@ void show_help(char **argv)
     std::cerr << "\t[-r]: optional argument, use recursive disassembly algorithm\n";
     std::cerr << "\t[-b]: show the instructions as basic blocks\n";
     std::cerr << "\t[-p]: show a plot with the blocks in .dot format\n";
+    std::cerr << "\t[-y]: show the disassembled method in a way useful for adding it as yara rule.\n";
 }
 
 void show_instruction(KUNAI::DEX::Instruction *instr)
@@ -53,12 +54,66 @@ void show_instruction(KUNAI::DEX::Instruction *instr)
     std::cout << instr->print_instruction() << "\n";
 }
 
+void show_instruction_yara_rule(KUNAI::DEX::Instruction *instr)
+{
+    std::vector<std::string> opcodes;
+
+    std::vector<std::uint8_t> instr_opcode(instr->get_opcodes().size());
+    auto opcode = instr->get_instruction_opcode();
+
+    std::memcpy(instr_opcode.data() + 0, &opcode, std::min(sizeof(std::uint32_t), instr_opcode.size()));
+    
+    for (auto byte : instr_opcode)
+    {
+        if (byte != 0)
+        {
+            std::stringstream s;
+            s << std::setfill('0') << std::setw(2) << std::hex << (std::uint32_t)byte;
+            opcodes.push_back(s.str());
+        }
+        else
+            opcodes.push_back("??");
+    }
+    
+    if (opcodes.size() > 8)
+    {
+        auto remaining = 8 - (opcodes.size() % 8);
+
+        size_t aux = 0;
+
+        for (const auto & opcode : opcodes)
+        {
+            std::cout << std::right << opcode << " ";
+            aux++;
+            if (aux % 8 == 0)
+            {
+                std::cout << "\n"
+                          << "          ";
+            }
+        }
+
+        for (std::uint8_t i = 0; i < remaining; i++)
+            std::cout << "   ";
+    }
+    else
+    {
+        for (const auto & opcode : opcodes)
+            std::cout << std::right << opcode << " ";
+
+        for (std::uint8_t i = 0, remaining_size = 8 - opcodes.size(); i < remaining_size; ++i)
+            std::cout << "   ";
+    }
+
+    std::cout << " // " << instr->print_instruction() << "\n";
+}
+
 int main(int argc, char **argv)
 {
     /// use the recursive disassembler?
     bool use_recursive = false;
     bool show_blocks = false;
     bool show_plot = false;
+    bool show_yara = false;
 
     if (argc == 1 || (argc > 1 && !strcmp("-h", argv[1])))
     {
@@ -87,6 +142,8 @@ int main(int argc, char **argv)
                 show_blocks = true;
             if (val == "-p")
                 show_plot = true;
+            if (val == "-y")
+                show_yara = true;
         }
     }
 
@@ -194,6 +251,7 @@ int main(int argc, char **argv)
         ///     - encoded_method : instructions from method
         /// we will check for each one if class name and method names
         /// are correct
+
         for (const auto &disassembly : dex_instructions)
         {
             auto encoded_method = disassembly.first;
@@ -208,11 +266,33 @@ int main(int argc, char **argv)
                 encoded_method->getMethodID()->get_name() != method_name)
                 continue;
 
-            std::cout << encoded_method->getMethodID()->pretty_method() << "\n";
+            if (show_yara)
+            {
+                std::cout << "rule " << method_name << '\n';
+                std::cout << "{\n";
+                std::cout << "\tmeta:\n";
+                std::cout << "\t\tDescription = \"" << encoded_method->getMethodID()->pretty_method() << "\"\n";
+                std::cout << "\tstrings:\n";
+                std::cout << "\t\t$pattern = {\n";
+            }
+            else
+                std::cout << encoded_method->getMethodID()->pretty_method() << "\n";
 
             for (const auto &instr : instrs)
             {
-                show_instruction(instr.get());
+                if (show_yara)
+                {
+                    std::cout << "\t\t\t";
+                    show_instruction_yara_rule(instr.get());
+                }
+                else
+                    show_instruction(instr.get());
+            }
+
+            if (show_yara)
+            {
+                std::cout << "\t\t}\n";
+                std::cout << "\tcondition:\n\t\t$pattern\n}\n";
             }
         }
     }
