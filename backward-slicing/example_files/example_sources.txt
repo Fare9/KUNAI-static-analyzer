@@ -1,0 +1,2 @@
+Ljava.io.PrintStream;->println(I)V
+LBackwardSlicing;->test(I)V
