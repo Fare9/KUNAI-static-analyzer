@@ -8,15 +8,29 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 find_package(KUNAI REQUIRED)
 find_package(Threads REQUIRED)
 
-add_library(backward_analysis_lib backward_analysis.cpp backward_analysis.hpp)
-add_executable(backward-slicing backward-slicing.cpp)
+set(BACKWARD_SLICING_INCLUDE_FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/include/"
+)
+
+set(BACKWARD_SLICING_SRC_FILES
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/backward_analysis.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/backward-slicing.cpp"
+)
+
+
+include_directories(BEFORE
+    ${BACKWARD_SLICING_INCLUDE_FILES}
+)
+
+add_executable(backward-slicing
+    ${BACKWARD_SLICING_SRC_FILES}
+)
 
 # needed, I don't know why
 target_link_libraries(backward-slicing PRIVATE Threads::Threads)
 
 # Link against the KUNAI library
 target_link_libraries(backward-slicing PRIVATE KUNAI)
-target_link_libraries(backward-slicing PRIVATE backward_analysis_lib)
 
 # Set the include directories for the target
 target_include_directories(backward-slicing PRIVATE ${KUNAI_INCLUDE_DIRS})
