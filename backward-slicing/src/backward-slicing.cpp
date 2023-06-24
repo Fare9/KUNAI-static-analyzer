@@ -3,7 +3,8 @@
 #include <regex>
 
 #include <Kunai/DEX/dex.hpp>
-#include "backward_analysis.hpp"
+#include <Kunai/DEX/DVM/dvm_types.hpp>
+#include "backward-slicing/backward_analysis.hpp"
 //#include "KUNAI/DEX/DVM/dex_dvm_types.hpp"
 
 
