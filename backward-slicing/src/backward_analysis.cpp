@@ -59,7 +59,7 @@ void BackwardAnalysis::find_parameters_registers(KUNAI::DEX::MethodAnalysis *xre
             const auto instruc_type = instruc->get_instruction_type();
             if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION35C)
             {
-                std::cout << "Invoke instruction in xreffrom method: " << instruc->print_instruction() << std::endl;
+                //std::cout << "Invoke instruction in xreffrom method: " << instruc->print_instruction() << std::endl;
 
                 KUNAI::DEX::Instruction35c *instruction35c = reinterpret_cast<KUNAI::DEX::Instruction35c *>(instruc.get());
 
@@ -68,18 +68,16 @@ void BackwardAnalysis::find_parameters_registers(KUNAI::DEX::MethodAnalysis *xre
                 {
                     auto &regs = instruction35c->get_registers();
                     parameters_registers = regs;
-                    // if instruction is invoke-virtual or invoke-direct params start from the second register
-                    // KUNAI::DEX::DVMTypes::Opcode::OP_INVOKE_VIRTUAL || KUNAI::DEX::DVMTypes::Opcode::OP_INVOKE_DIRECT
-
+                    
                     auto opcode = static_cast<KUNAI::DEX::TYPES::opcodes>(instruction35c->get_instruction_opcode());
 
+                    // if instruction is invoke-virtual or invoke-direct params start from the second register
                     if (opcode == KUNAI::DEX::TYPES::OP_INVOKE_VIRTUAL ||
                         opcode == KUNAI::DEX::TYPES::OP_INVOKE_DIRECT)
                     {
                         parameters_registers.erase(parameters_registers.begin());
                     }
-                    // else instruction is invoke-super, invoke-static or invoke-interface
-                    // params start from the first register
+                    // else instruction is invoke-super, invoke-static or invoke-interface params start from the first register
                 }
             }
             else if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION45CC ||
@@ -92,7 +90,213 @@ void BackwardAnalysis::find_parameters_registers(KUNAI::DEX::MethodAnalysis *xre
     }
     else
     {
-        // else not encoded method but external, we don't have the method id but could use method name
+        // TODO: else not encoded method but external, we don't have the method id but could use method name
         // auto &em = std::get<KUNAI::DEX::ExternalMethod*>(encoded_method);
+    }
+}
+
+void BackwardAnalysis::find_parameters_definition(KUNAI::DEX::MethodAnalysis *xreffrom_method){
+    // check if registers have been identified prior to this
+    if (!parameters_registers.empty()){
+        u_int8_t reg;
+        auto &instructions = xreffrom_method->get_instructions();
+        for (auto &instruc : instructions)
+        {
+            // Check for each possible write instruction type (move, const, return, binary operation)
+            if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION12X)
+            {
+                KUNAI::DEX::Instruction12x *instruction12x = reinterpret_cast<KUNAI::DEX::Instruction12x *>(instruc.get());
+                reg = instruction12x->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION11N)
+            {
+                KUNAI::DEX::Instruction11n *instruction11n = reinterpret_cast<KUNAI::DEX::Instruction11n *>(instruc.get());
+                reg = instruction11n->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION22X)
+            {
+                KUNAI::DEX::Instruction22x *instruction22x = reinterpret_cast<KUNAI::DEX::Instruction22x *>(instruc.get());
+                reg = instruction22x->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION21S)
+            {
+                KUNAI::DEX::Instruction21s *instruction21s = reinterpret_cast<KUNAI::DEX::Instruction21s *>(instruc.get());
+                reg = instruction21s->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION21H)
+            {
+                KUNAI::DEX::Instruction21h *instruction21h = reinterpret_cast<KUNAI::DEX::Instruction21h *>(instruc.get());
+                reg = instruction21h->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION21C)
+            {
+                KUNAI::DEX::Instruction21c *instruction21c = reinterpret_cast<KUNAI::DEX::Instruction21c *>(instruc.get());
+                reg = instruction21c->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION31I)
+            {
+                KUNAI::DEX::Instruction31i *instruction31i = reinterpret_cast<KUNAI::DEX::Instruction31i *>(instruc.get());
+                reg = instruction31i->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION31C)
+            {
+                KUNAI::DEX::Instruction31c *instruction31c = reinterpret_cast<KUNAI::DEX::Instruction31c *>(instruc.get());
+                reg = instruction31c->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION11X)
+            {
+                KUNAI::DEX::Instruction11x *instruction11x = reinterpret_cast<KUNAI::DEX::Instruction11x *>(instruc.get());
+                reg = instruction11x->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION22B)
+            {
+                KUNAI::DEX::Instruction22b *instruction22b = reinterpret_cast<KUNAI::DEX::Instruction22b *>(instruc.get());
+                reg = instruction22b->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION22S)
+            {
+                KUNAI::DEX::Instruction22s *instruction22s = reinterpret_cast<KUNAI::DEX::Instruction22s *>(instruc.get());
+                reg = instruction22s->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION22C)
+            {
+                KUNAI::DEX::Instruction22c *instruction22c = reinterpret_cast<KUNAI::DEX::Instruction22c *>(instruc.get());
+                reg = instruction22c->get_destination();
+                
+                for (auto & pr : parameters_registers){
+                    if (pr == reg)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+            // Write instruction double (two destination registers)
+            else if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION51L)
+            {
+                KUNAI::DEX::Instruction51l *instruction51l = reinterpret_cast<KUNAI::DEX::Instruction51l *>(instruc.get());
+                reg = instruction51l->get_first_register();
+                auto reg2 = instruction51l->get_second_register();
+                for (auto & pr : parameters_registers){
+                    if (pr == reg || pr == reg2)
+                    {
+                        instruction_mapped_registers[pr] = instruc.get();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        std::cerr << "Backward analysis error: Parameter registers not identified" << std::endl;
+    }
+}
+
+void BackwardAnalysis::print_parameters_definition(KUNAI::DEX::MethodAnalysis *xreffrom_method){
+    if (!instruction_mapped_registers.empty()){
+        size_t i = 1;
+        for (auto & r : parameters_registers){
+            auto e = instruction_mapped_registers.find(r);
+            if (e != instruction_mapped_registers.end()) {
+                std::cout << "\tParameter " << i++ << " (register v" << unsigned(e->first) << "): defined in instruction " << e->second->print_instruction() << " (address " << e->second->get_address() << ")\n";
+            }
+            else
+            {
+                std::cout << "\tParameter " << i++ << " (register v" << r << "): defined in method invocation" << xreffrom_method->get_full_name() << "\n";
+            }
+        }
+    }
+    else
+    {
+        std::cerr << "Error: Did not perform backward analysis" << std::endl;
     }
 }
