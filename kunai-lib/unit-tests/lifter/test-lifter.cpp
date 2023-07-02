@@ -9,6 +9,7 @@
 #include "Kunai/Utils/logger.hpp"
 #include "MjolnIR/Lifter/MjolnIRLifter.hpp"
 #include "MjolnIR/Transforms/MjolnIRToOpGraph.hpp"
+#include "MjolnIR/Transforms/CfgToScf.hpp"
 #include <memory>
 
 #include <mlir/Support/FileUtilities.h>
@@ -41,8 +42,8 @@ int main(int argc, char **argv)
 
     //if (argc == 1)
     //{
-        dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test-very-simple/classes.dex";
-        method_name = "my_add";
+    dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test-very-simple/classes.dex";
+    method_name = "my_add";
     //}
     /*
     else if (argc == 3)
@@ -101,7 +102,7 @@ int main(int argc, char **argv)
 
             pm.addPass(mlir::createPrintOpGraphPass());
             pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIROpGraphPass());
-
+            pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIRCfgToScfgPass());
             // Apply any generic pass manager command line options and run the pipeline.
             if (mlir::failed(mlir::applyPassManagerCLOptions(pm)))
                 return 4;
