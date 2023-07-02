@@ -283,6 +283,7 @@ void Lifter::gen_method(KUNAI::DEX::MethodAnalysis *method)
         if (bb->is_start_block() || bb->is_end_block())
             continue;
 
+        /// fix for whenever we have a fallthrough
         if (!bb->get_instructions().back()->is_terminator())
         {
             auto last_instr = bb->get_instructions().back();
@@ -300,7 +301,6 @@ void Lifter::gen_method(KUNAI::DEX::MethodAnalysis *method)
         }
 
         fillBlockArgs(bbs, bb);
-        // gen_terminators(bb);
     }
 }
 
