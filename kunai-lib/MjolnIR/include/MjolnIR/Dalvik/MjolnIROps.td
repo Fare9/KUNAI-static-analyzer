@@ -134,7 +134,7 @@ def MjolnIR_LoadString : MjolnIR_Op<"load-string", [Pure, ConstantLike]>
 // LoadFieldOp
 //===----------------------------------------------------------------------===//
 def LoadFieldOp : MjolnIR_Op<"loadfield",
-    [ConstantLike, Pure]>
+    [Pure]>
 {
     let summary = "Load a field value";
 
