@@ -291,10 +291,16 @@ void Lifter::gen_terminators(KUNAI::DEX::DVMBasicBlock *bb)
 
             auto loc = mlir::FileLineColLoc::get(&context, module_name, last_instr->get_address(), 1);
 
-            builder.create<::mlir::KUNAI::MjolnIR::FallthroughOp>(
+            builder.create<mlir::cf::BranchOp>(
                 loc,
                 map_blocks[next_block],
-                CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, next_block)]);
+                CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, next_block)]
+            );
+            
+            ///builder.create<::mlir::KUNAI::MjolnIR::FallthroughOp>(
+            ///    loc,
+            ///    map_blocks[next_block],
+            ///    CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, next_block)]);
         }
     }
     catch (const exceptions::LifterException &e)
