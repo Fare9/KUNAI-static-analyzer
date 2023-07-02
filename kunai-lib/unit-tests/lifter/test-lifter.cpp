@@ -109,6 +109,8 @@ int main(int argc, char **argv)
 
             if (mlir::failed(pm.run(*module_op)))
                 return 5;
+
+            module_op->dump();            
         }
     }
 }

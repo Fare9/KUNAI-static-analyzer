@@ -118,9 +118,6 @@ namespace
                     if (auto br = mlir::dyn_cast_or_null<mlir::cf::BranchOp>(term))
                         return br.getDest();
 
-                    if (auto ft = mlir::dyn_cast_or_null<::mlir::KUNAI::MjolnIR::FallthroughOp>(term))
-                        return ft.getDest();
-
                     if (auto ret = mlir::dyn_cast_or_null<mlir::func::ReturnOp>(term))
                         return returnBlock;
 
@@ -173,7 +170,7 @@ namespace
                 /// Mapper for the operations
                 mlir::IRMapping mapper;
                 /// vector to store yield values
-                mlir::SmallVector<mlir::Value> yieldVals;
+                llvm::SmallVector<mlir::Value> yieldVals;
 
                 /// Copy a block as a yield operation
                 auto copyBlock = [&](mlir::OpBuilder &builder, mlir::Location loc,
@@ -199,31 +196,26 @@ namespace
                         if (joiningBlock == returnBlock)
                             return mlir::cast<mlir::func::ReturnOp>(term).getOperands();
                         else
-                        {
-                            if (auto ft = mlir::dyn_cast_or_null<::mlir::KUNAI::MjolnIR::FallthroughOp>(term))
-                                return ft.getDestOperands();
-                            else
-                                return mlir::cast<mlir::cf::BranchOp>(term).getDestOperands();
-                        }
+                            return mlir::cast<mlir::cf::BranchOp>(term).getDestOperands();
                     }();
 
                     /// Create the yield values from the previous mapper
                     yieldVals.clear();
                     /// reserve the size
-                    yieldVals.resize(operands.size());
+                    ///yieldVals.resize(operands.size());
 
                     /// get the values from the previous mapper, the values
                     /// must be those from the operands from the terminator
                     for (auto op : operands)
                         yieldVals.emplace_back(mapper.lookupOrDefault(op));
                     /// build the yield operation
-                    ///builder.create<mlir::scf::YieldOp>(loc, yieldVals);
+                    builder.create<mlir::scf::YieldOp>(loc, yieldVals);
                 };
 
                 /// for generating if instructions we need
                 /// lambda functions for true and false bodies
                 auto trueBodyGenerator = [&](mlir::OpBuilder &builder, mlir::Location loc)
-                { return copyBlock(builder, loc, *trueBlock, getOperands(trueBlock)); };
+                { return copyBlock(builder, loc, *trueBlock, getOperands(!reverse)); };
 
                 /// now set a variable to know if there's an else block, to know that
                 /// we compare the falseBlock, with the joining node, so we would have
@@ -237,13 +229,10 @@ namespace
                     /// if the next block is a return block
                     /// the terminator is a return statement
                     if (joiningBlock == returnBlock)
-                        return mlir::cast<mlir::func::FuncOp>(term)->getOperandTypes();
+                        return mlir::cast<mlir::func::ReturnOp>(term).getOperands().getTypes();
                     else
                     {
-                        if (auto ft = mlir::dyn_cast_or_null<::mlir::KUNAI::MjolnIR::FallthroughOp>(term))
-                            return ft->getOperandTypes();
-                        else
-                            return mlir::cast<mlir::cf::BranchOp>(term)->getOperandTypes();
+                        return mlir::cast<mlir::cf::BranchOp>(term).getDestOperands().getTypes();
                     }
                 }();
 
@@ -253,7 +242,7 @@ namespace
                 if (hasElse)
                 {
                     auto falseBodyGenerator = [&](mlir::OpBuilder &builder, mlir::Location loc)
-                    { return copyBlock(builder, loc, *falseBlock, getOperands(falseBlock)); };
+                    { return copyBlock(builder, loc, *falseBlock, getOperands(reverse)); };
 
                     /// finally create the ifOp now
                     ifOp = rewriter.create<mlir::scf::IfOp>(loc, cond, trueBodyGenerator, falseBodyGenerator);
