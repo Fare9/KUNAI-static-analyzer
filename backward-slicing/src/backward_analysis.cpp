@@ -46,46 +46,53 @@ int8_t BackwardAnalysis::parse_targets_file(std::string file_path)
     }
 }
 
-void BackwardAnalysis::find_parameters_registers(KUNAI::DEX::MethodAnalysis *xreffrom_method, KUNAI::DEX::MethodAnalysis *target_method)
+void BackwardAnalysis::find_parameters_registers(KUNAI::DEX::MethodAnalysis *xreffrom_method, KUNAI::DEX::MethodAnalysis *target_method, std::uint64_t addr)
 {
     auto &instructions = xreffrom_method->get_instructions();
     const auto &encoded_method = target_method->get_encoded_method();
+    
     if (std::holds_alternative<KUNAI::DEX::EncodedMethod *>(encoded_method))
     {
         auto &em = std::get<KUNAI::DEX::EncodedMethod *>(encoded_method);
-        // read instructions to find all invoke instructions
-        for (auto &instruc : instructions)
+
+        auto it = std::find_if(instructions.begin(), instructions.end(), [&](std::unique_ptr<KUNAI::DEX::Instruction> &instr)
         {
-            const auto instruc_type = instruc->get_instruction_type();
-            if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION35C)
+            return instr->get_address() == addr;
+        });
+
+        if (it == instructions.end())
+            return;
+        
+        auto instruc = it->get();
+
+        const auto instruc_type = instruc->get_instruction_type();
+        if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION35C)
+        {
+            //std::cout << "Invoke instruction in xreffrom method: " << instruc->print_instruction() << std::endl;
+
+            KUNAI::DEX::Instruction35c *instruction35c = reinterpret_cast<KUNAI::DEX::Instruction35c *>(instruc);
+
+            // find invoke instruction that calls the target method
+            if (instruction35c->get_method() && instruction35c->get_method() == em->getMethodID())
             {
-                //std::cout << "Invoke instruction in xreffrom method: " << instruc->print_instruction() << std::endl;
+                auto &regs = instruction35c->get_registers();
+                parameters_registers = regs;
+                
+                auto opcode = static_cast<KUNAI::DEX::TYPES::opcodes>(instruction35c->get_instruction_opcode());
 
-                KUNAI::DEX::Instruction35c *instruction35c = reinterpret_cast<KUNAI::DEX::Instruction35c *>(instruc.get());
-
-                // find invoke instruction that calls the target method
-                if (instruction35c->get_method() && instruction35c->get_method() == em->getMethodID())
+                // if instruction is invoke-virtual or invoke-direct params start from the second register
+                if (opcode == KUNAI::DEX::TYPES::OP_INVOKE_VIRTUAL ||
+                    opcode == KUNAI::DEX::TYPES::OP_INVOKE_DIRECT)
                 {
-                    auto &regs = instruction35c->get_registers();
-                    parameters_registers = regs;
-                    
-                    auto opcode = static_cast<KUNAI::DEX::TYPES::opcodes>(instruction35c->get_instruction_opcode());
-
-                    // if instruction is invoke-virtual or invoke-direct params start from the second register
-                    if (opcode == KUNAI::DEX::TYPES::OP_INVOKE_VIRTUAL ||
-                        opcode == KUNAI::DEX::TYPES::OP_INVOKE_DIRECT)
-                    {
-                        parameters_registers.erase(parameters_registers.begin());
-                    }
-                    // else instruction is invoke-super, invoke-static or invoke-interface params start from the first register
+                    parameters_registers.erase(parameters_registers.begin());
                 }
+                // else instruction is invoke-super, invoke-static or invoke-interface params start from the first register
             }
-            else if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION45CC ||
-                     instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION4RCC)
-            {
-                // TODO: other types of invoke instructions
-                continue;
-            }
+        }
+        else if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION45CC ||
+                    instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION4RCC)
+        {
+            // TODO: other types of invoke instructions
         }
     }
     else
@@ -98,7 +105,7 @@ void BackwardAnalysis::find_parameters_registers(KUNAI::DEX::MethodAnalysis *xre
 void BackwardAnalysis::find_parameters_definition(KUNAI::DEX::MethodAnalysis *xreffrom_method){
     // check if registers have been identified prior to this
     if (!parameters_registers.empty()){
-        u_int8_t reg;
+        std::uint8_t reg;
         auto &instructions = xreffrom_method->get_instructions();
         for (auto &instruc : instructions)
         {

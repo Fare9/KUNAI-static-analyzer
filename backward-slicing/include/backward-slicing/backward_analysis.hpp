@@ -21,22 +21,28 @@ namespace DEX
             std::vector<target_info> targets_info;
 
             // Vector containing the register number of each of the parameters of a target method
-            std::vector<u_int8_t> parameters_registers;
+            std::vector<std::uint8_t> parameters_registers;
 
             // Map for register number and a reference to its defining instruction
-            std::unordered_map<u_int8_t, KUNAI::DEX::Instruction*> instruction_mapped_registers;
+            std::unordered_map<std::uint8_t, KUNAI::DEX::Instruction*> instruction_mapped_registers;
 
-            // Parse the targets file and extracts the corresponding data from each line
+            /// @brief Parse the targets file and extracts the corresponding data from each line
+            /// @param file_path path of the file to extract information
+            /// @return error code
             int8_t parse_targets_file(std::string file_path);
 
-            // Find the invoking instruction in the xreffrom and the registers corresponding to the parameters
-            void find_parameters_registers(KUNAI::DEX::MethodAnalysis* xreffrom_method, KUNAI::DEX::MethodAnalysis* target_method);
+            /// @brief Find the invoking instruction in the xreffrom and the registers corresponding to the parameters
+            /// @param xreffrom_method 
+            /// @param target_method 
+            void find_parameters_registers(KUNAI::DEX::MethodAnalysis* xreffrom_method, KUNAI::DEX::MethodAnalysis* target_method, std::uint64_t addr);
 
-            // Find the instruction that defines each parameter of the target method from its 'xreffrom'
+            /// @brief Find the instruction that defines each parameter of the target method from its 'xreffrom'
+            /// @param xreffrom_method 
             void find_parameters_definition(KUNAI::DEX::MethodAnalysis *xreffrom_method);
 
-            // Print the instruction where the parameters are first defined or the method name if it was
-            // defined as a method parameter
+            /// @brief Print the instruction where the parameters are first defined or the method name if it was
+            /// defined as a method parameter
+            /// @param xreffrom_method 
             void print_parameters_definition(KUNAI::DEX::MethodAnalysis *xreffrom_method);
     };
 

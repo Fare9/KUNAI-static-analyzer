@@ -27,47 +27,52 @@ int main(int argc, char **argv)
 
     // parse targets file
     KUNAI::DEX::BackwardAnalysis backward_analysis;
-    if (backward_analysis.parse_targets_file(argv[2]) == 0)
+
+    if (backward_analysis.parse_targets_file(argv[2]))
+        return -1;
+
+    
+    size_t i = 1;
+    for (auto &t : backward_analysis.targets_info)
     {
-        size_t i = 1;
-        for (auto &t : backward_analysis.targets_info)
+        if (t.is_parsed_correct)
         {
-            if (t.is_parsed_correct)
+            std::string access_flags = ".*";
+
+            // Find method analysis object corresponding to the parsed line
+            auto method_analysis_vector = analysis->find_methods(t.class_name, t.method_name, t.prototype, access_flags, false);
+            if (!method_analysis_vector.empty())
             {
-                std::string access_flags = ".*";
-
-                // Find method analysis object corresponding to the parsed line
-                auto method_analysis_vector = analysis->find_methods(t.class_name, t.method_name, t.prototype, access_flags, false);
-                if (!method_analysis_vector.empty())
+                for (auto method_analysis : method_analysis_vector)
                 {
-                    for (auto method_analysis : method_analysis_vector)
+                    // Having the MethodAnalysis for our target method, now obtain its xreffrom list
+                    // For each xreffrom we must find the instruction that invokes our 
+                    // target method to retrieve the registers that correspond to the parameters
+                    auto &xreffrom = method_analysis->get_xreffrom();
+                    for (auto xref : xreffrom)
                     {
-                        // Having the MethodAnalysis for our target method, now obtain its xreffrom list
-                        // For each xreffrom we must find the instruction that invokes our 
-                        // target method to retrieve the registers that correspond to the parameters
-                        auto &xreffrom = method_analysis->get_xreffrom();
-                        for (auto xref : xreffrom)
-                        {
-                            std::cout << "\nTarget " << i << std::endl;
-                            std::cout << "xreffrom: " << get<1>(xref)->get_full_name() << "\n";
-                            backward_analysis.find_parameters_registers(get<1>(xref), method_analysis);
+                        auto xref_method = get<1>(xref);
 
-                            // Find the instruction within the xreffrom method that defined each parameter (register)
-                            backward_analysis.find_parameters_definition(get<1>(xref));
+                        std::cout << "\nTarget " << i << std::endl;
+                        std::cout << "xreffrom: " << xref_method->get_full_name() << "\n";
 
-                            // Print parameter definition information on console
-                            backward_analysis.print_parameters_definition(get<1>(xref));
-                        }
+                        backward_analysis.find_parameters_registers(xref_method, method_analysis, get<2>(xref));
+
+                        // Find the instruction within the xreffrom method that defined each parameter (register)
+                        backward_analysis.find_parameters_definition(xref_method);
+
+                        // Print parameter definition information on console
+                        backward_analysis.print_parameters_definition(xref_method);
                     }
                 }
             }
-            else
-            {
-                std::cout << "Target " << i << " : Couldn't find class and method" << std::endl;
-            }
-            i++;
-            
         }
+        else
+            std::cout << "Target " << i << " : Couldn't find class and method" << std::endl;
+        
+        i++;
+        
     }
+    
     return 0;
 }
