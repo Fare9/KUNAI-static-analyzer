@@ -106,9 +106,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
             location_jcc,
             cmp_value,
             map_blocks[true_block],
-            CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, true_block)],
-            map_blocks[false_block],
-            CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, false_block)]);
+            map_blocks[false_block]
+            );
     }
     break;
     default:

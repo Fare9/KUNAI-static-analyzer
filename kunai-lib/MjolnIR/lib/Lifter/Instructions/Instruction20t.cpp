@@ -21,8 +21,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction20t *instr)
 
         builder.create<::mlir::cf::BranchOp>(
             location,
-            map_blocks[target_block],
-            CurrentDef[current_basic_block].jmpParameters[std::make_pair(current_basic_block, target_block)]);
+            map_blocks[target_block]);
     }
     break;
 
