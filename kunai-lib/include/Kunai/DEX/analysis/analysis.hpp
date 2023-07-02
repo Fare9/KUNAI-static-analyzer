@@ -30,6 +30,12 @@ namespace KUNAI
         class FieldAnalysis;
         class BasicBlocks;
 
+        using instructioniterator_t = std::vector<Instruction *>::iterator;
+        using reverseinstructioniterator_t = std::vector<Instruction *>::reverse_iterator;
+
+        using uniqueinstructioniterator_t = std::vector<std::unique_ptr<Instruction>>::iterator;
+        using reverseuniqueinstructioniterator_t = std::vector<std::unique_ptr<Instruction>>::reverse_iterator;
+
         /// @brief Class that contain the instructions of basic block
         /// different DVMBasicBlock exists
         class DVMBasicBlock
@@ -53,11 +59,6 @@ namespace KUNAI
             /// first and last address
             std::string name;
 
-        public:
-
-            using instructioniterator_t = std::vector<Instruction *>::iterator;
-            using reverseinstructioniterator_t = std::vector<Instruction *>::reverse_iterator;
-
         private:
 
             instructioniterator_t instructions_begin() { return instructions_.begin(); }
@@ -67,9 +68,12 @@ namespace KUNAI
             reverseinstructioniterator_t instructions_rend() { return instructions_.rend(); }
 
         public:
-
+            /// @brief Return a range for going forward through the instructions 
+            /// @return forward range for instructions
             iterator_range<instructioniterator_t> instructions() { return make_range(instructions_begin(), instructions_end()); }
 
+            /// @brief Return a range for going backward through the instructiosn
+            /// @return backward range for instructions
             iterator_range<reverseinstructioniterator_t>  reverse_instructions() { return make_range(instructions_rbegin(), instructions_rend()); }
 
         public:
@@ -619,7 +623,7 @@ namespace KUNAI
             std::uint16_t num_of_params;
 
             /// @brief Instructions of the current method
-            std::vector<std::unique_ptr<Instruction>> instructions;
+            std::vector<std::unique_ptr<Instruction>> instructions_;
 
             /// @brief BasicBlocks from the method
             BasicBlocks basic_blocks;
@@ -662,10 +666,16 @@ namespace KUNAI
             /// will generate the basic blocks.
             void create_basic_blocks();
 
+            uniqueinstructioniterator_t instructions_begin() { return instructions_.begin(); }
+            uniqueinstructioniterator_t instructions_end() { return instructions_.end(); }
+
+            reverseuniqueinstructioniterator_t instructions_rbegin() { return instructions_.rbegin(); }
+            reverseuniqueinstructioniterator_t instructions_rend() { return instructions_.rend(); }
+
         public:
             MethodAnalysis(
                 std::variant<EncodedMethod *, ExternalMethod *> method_encoded,
-                std::vector<std::unique_ptr<Instruction>> &instructions) : method_encoded(method_encoded), instructions(std::move(instructions))
+                std::vector<std::unique_ptr<Instruction>> &instructions) : method_encoded(method_encoded), instructions_(std::move(instructions))
             {
                 is_external = method_encoded.index() == 0 ? false : true;
 
@@ -678,7 +688,7 @@ namespace KUNAI
                     num_of_params = em->getMethodID()->get_proto()->get_parameters().size();
                 }
 
-                if (this->instructions.size() > 0)
+                if (this->instructions_.size() > 0)
                     create_basic_blocks();
             }
 
@@ -738,8 +748,16 @@ namespace KUNAI
 
             std::vector<std::unique_ptr<Instruction>>& get_instructions()
             {
-                return instructions;
+                return instructions_;
             }
+
+            /// @brief Get a range for going forward through the instructions
+            /// @return forward range of instructions
+            iterator_range<uniqueinstructioniterator_t> instructions() { return make_range(instructions_begin(), instructions_end()); }
+
+            /// @brief Get a range for going backward through the instructions
+            /// @return backward range of instructions
+            iterator_range<reverseuniqueinstructioniterator_t> reverse_instructions() { return make_range(instructions_rbegin(), instructions_rend()); }
 
             std::variant<EncodedMethod *, ExternalMethod *> get_encoded_method() const
             {

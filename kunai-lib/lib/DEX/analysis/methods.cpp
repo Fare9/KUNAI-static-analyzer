@@ -123,7 +123,7 @@ void MethodAnalysis::create_basic_blocks()
     basic_blocks.add_edge(start, current);
 
     // detect the targets of the jumps and switches
-    for (const auto &instruction : instructions)
+    for (const auto &instruction : instructions_)
     {
         auto operation = DalvikOpcodes::get_instruction_operation(instruction->get_instruction_opcode());
 
@@ -154,7 +154,7 @@ void MethodAnalysis::create_basic_blocks()
         }
     }
 
-    for (const auto &instruction : instructions)
+    for (const auto &instruction : instructions_)
     {
         auto idx = instruction->get_address();
         auto ins = instruction.get();

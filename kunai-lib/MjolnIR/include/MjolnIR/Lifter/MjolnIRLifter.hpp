@@ -108,7 +108,7 @@ namespace MjolnIR
                                                  KUNAI::DEX::BasicBlocks& BBs,
                                                  std::uint32_t Reg);
         
-
+        void fillBlockArgs(KUNAI::DEX::BasicBlocks &BBs, KUNAI::DEX::DVMBasicBlock* block);
 
         /// @brief Reference to an MLIR Context
         mlir::MLIRContext & context;
@@ -252,8 +252,6 @@ namespace MjolnIR
         /// @param bb DVMBasicBlock to lift
         /// @param method method where the basic block is
         void gen_block(KUNAI::DEX::DVMBasicBlock* bb);
-
-        void gen_terminators(KUNAI::DEX::DVMBasicBlock * bb);
 
         /// @brief Generate a MethodOp from a MethodAnalysis
         /// @param method MethodAnalysis object to lift
