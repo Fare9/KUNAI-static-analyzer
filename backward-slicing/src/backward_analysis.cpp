@@ -49,56 +49,51 @@ int8_t BackwardAnalysis::parse_targets_file(std::string file_path)
 void BackwardAnalysis::find_parameters_registers(KUNAI::DEX::MethodAnalysis *xreffrom_method, KUNAI::DEX::MethodAnalysis *target_method, std::uint64_t addr)
 {
     auto &instructions = xreffrom_method->get_instructions();
-    const auto &encoded_method = target_method->get_encoded_method();
+
+    // find invoke instruction within the instructions of the xreffrom method using the address of the xref
+    auto it = std::find_if(instructions.begin(), instructions.end(), [&](std::unique_ptr<KUNAI::DEX::Instruction> &instr)
+    {
+        return instr->get_address() == addr;
+    });
+
+    if (it == instructions.end())
+        return;
     
-    if (std::holds_alternative<KUNAI::DEX::EncodedMethod *>(encoded_method))
+    auto instruc = it->get();
+
+    // check specific invoke instruction type to obtain the method's parameters' registers
+    const auto instruc_type = instruc->get_instruction_type();
+    if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION35C)
     {
-        auto &em = std::get<KUNAI::DEX::EncodedMethod *>(encoded_method);
+        //std::cout << "Invoke instruction in xreffrom method: " << instruc->print_instruction() << std::endl;
 
-        auto it = std::find_if(instructions.begin(), instructions.end(), [&](std::unique_ptr<KUNAI::DEX::Instruction> &instr)
-        {
-            return instr->get_address() == addr;
-        });
+        KUNAI::DEX::Instruction35c *instruction35c = reinterpret_cast<KUNAI::DEX::Instruction35c *>(instruc);
 
-        if (it == instructions.end())
-            return;
+        parameters_registers = instruction35c->get_registers();
         
-        auto instruc = it->get();
+        auto opcode = static_cast<KUNAI::DEX::TYPES::opcodes>(instruction35c->get_instruction_opcode());
 
-        const auto instruc_type = instruc->get_instruction_type();
-        if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION35C)
+        // if instruction is invoke-virtual or invoke-direct params start from the second register
+        if (opcode == KUNAI::DEX::TYPES::OP_INVOKE_VIRTUAL || opcode == KUNAI::DEX::TYPES::OP_INVOKE_DIRECT)
         {
-            //std::cout << "Invoke instruction in xreffrom method: " << instruc->print_instruction() << std::endl;
-
-            KUNAI::DEX::Instruction35c *instruction35c = reinterpret_cast<KUNAI::DEX::Instruction35c *>(instruc);
-
-            // find invoke instruction that calls the target method
-            if (instruction35c->get_method() && instruction35c->get_method() == em->getMethodID())
-            {
-                auto &regs = instruction35c->get_registers();
-                parameters_registers = regs;
-                
-                auto opcode = static_cast<KUNAI::DEX::TYPES::opcodes>(instruction35c->get_instruction_opcode());
-
-                // if instruction is invoke-virtual or invoke-direct params start from the second register
-                if (opcode == KUNAI::DEX::TYPES::OP_INVOKE_VIRTUAL ||
-                    opcode == KUNAI::DEX::TYPES::OP_INVOKE_DIRECT)
-                {
-                    parameters_registers.erase(parameters_registers.begin());
-                }
-                // else instruction is invoke-super, invoke-static or invoke-interface params start from the first register
-            }
+            parameters_registers.erase(parameters_registers.begin());
         }
-        else if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION45CC ||
-                    instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION4RCC)
-        {
-            // TODO: other types of invoke instructions
-        }
+        // else instruction is invoke-super, invoke-static or invoke-interface params start from the first register
+
     }
-    else
+    else if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION45CC)
     {
-        // TODO: else not encoded method but external, we don't have the method id but could use method name
-        // auto &em = std::get<KUNAI::DEX::ExternalMethod*>(encoded_method);
+        KUNAI::DEX::Instruction45cc *instruction45cc = reinterpret_cast<KUNAI::DEX::Instruction45cc *>(instruc);
+        parameters_registers = instruction45cc->get_registers();
+        parameters_registers.erase(parameters_registers.begin());
+    }
+    else if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION4RCC)
+    {
+        KUNAI::DEX::Instruction4rcc *instruction4rcc = reinterpret_cast<KUNAI::DEX::Instruction4rcc *>(instruc);
+        auto &regs = instruction4rcc->get_registers();
+        for (std::size_t i = 0; i < parameters_registers.size(); ++i) 
+            parameters_registers[i] = static_cast<uint8_t>(regs[i]);
+        parameters_registers.erase(parameters_registers.begin());
     }
 }
 

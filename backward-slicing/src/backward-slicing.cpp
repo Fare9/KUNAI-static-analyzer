@@ -53,7 +53,7 @@ int main(int argc, char **argv)
                     {
                         auto xref_method = get<1>(xref);
 
-                        std::cout << "\nTarget " << i << std::endl;
+                        std::cout << "\nTarget " << i << ": " << backward_analysis.targets_info[i-1].class_name << "->" << backward_analysis.targets_info[i-1].method_name << std::endl;
                         std::cout << "xreffrom: " << xref_method->get_full_name() << "\n";
 
                         backward_analysis.find_parameters_registers(xref_method, method_analysis, get<2>(xref));
