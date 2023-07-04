@@ -1,258 +1,114 @@
-| Opcode | Opcode name | MjolnIR |
-|:------:|:------------|:--------|
-| 0x00 | nop | Nop |
-| 0x01 | move vx,vy | MoveOp |
-| 0x02 | move/from16 | MoveOp |
-| 0x03 | move/16 | MoveOp |
-| 0x04 | move-wide | MoveOp |
-| 0x05 | move-wide/from16 vx,vy | MoveOp |
-| 0x06 | move-wide/16 | MoveOp |
-| 0x07 | move-object vx,vy | MoveOp |
-| 0x08 | move-object/from16 vx,vy | MoveOp |
-| 0x09 | move-object/16 | MoveOp |
-| 0x0A | move-result vx | write a local variable |
-| 0x0B | move-result-wide vx | write a local variable |
-| 0x0C | move-result-object vx | write a local variable |
-| 0x0D | move-exception vx |   |
-| 0x0E | return-void | ReturnOp |
-| 0x0F | return vx | ReturnOp |
-| 0x10 | return-wide vx | ReturnOp |
-| 0x11 | return-object vx | ReturnOp |
-| 0x12 | const/4 vx,lit4 | LoadValue |
-| 0x13 | const/16 vx,lit16 | LoadValue |
-| 0x14 | const vx, lit32 | LoadValue |
-| 0x15 | const/high16 v0, lit16 | LoadValue |
-| 0x16 | const-wide/16 vx, lit16 | LoadValue |
-| 0x17 | const-wide/32 vx, lit32 | LoadValue |
-| 0x18 | const-wide vx, lit64 | LoadValue |
-| 0x19 | const-wide/high16 vx,lit16 | LoadValue |
-| 0x1A | const-string vx,string id | LoadString |
-| 0x1B | const-string-jumbo vx,string | LoadString |
-| 0x1C | const-class vx,type id | |
-| 0x1D | monitor-enter vx |   |
-| 0x1E | monitor-exit vx |   |
-| 0x1F | check-cast vx, type id |   |
-| 0x20 | instance-of vx,vy,type id |   |
-| 0x21 | array-length vx,vy |   |
-| 0x22 | new-instance vx,type | NewOp |
-| 0x23 | new-array vx,vy,type id | |
-| 0x24 | filled-new-array {parameters},type id |   |
-| 0x25 | filled-new-array-range {vx..vy},type id |   |
-| 0x26 | fill-array-data vx,array\_data\_offset |   |
-| 0x27 | throw vx |   |
-| 0x28 | goto target | cf::BranchOp |
-| 0x29 | goto/16 target | cf::BranchOp |
-| 0x2A | goto/32 target | cf::BranchOp |
-| 0x2B | packed-switch vx,table | |
-| 0x2C | sparse-switch vx,table | |
-| 0x2D | cmpl-float | |
-| 0x2E | cmpg-float vx, vy, vz | |
-| 0x2F | cmpl-double vx,vy,vz | |
-| 0x30 | cmpg-double vx, vy, vz | |
-| 0x31 | cmp-long vx, vy, vz | |
-| 0x32 | if-eq vx,vy,target | CmpEq + cf::CondBranchOp |
-| 0x33 | if-ne vx,vy,target | CmpNEq + cf::CondBranchOp |
-| 0x34 | if-lt vx,vy,target | CmpLt + cf::CondBranchOp |
-| 0x35 | if-ge vx, vy,target | CmpGe + cf::CondBranchOp |
-| 0x36 | if-gt vx,vy,target | CmpGt + cf::CondBranchOp |
-| 0x37 | if-le vx,vy,target | CmpLe + cf::CondBranchOp |
-| 0x38 | if-eqz vx,target | CmpEqz + cf::CondBranchOp |
-| 0x39 | if-nez vx,target | CmpNeqz + cf::CondBranchOp |
-| 0x3A | if-ltz vx,target | CmpLtz + cf::CondBranchOp|
-| 0x3B | if-gez vx,target | CmpGez + cf::CondBranchOp |
-| 0x3C | if-gtz vx,target | CmpGtz + cf::CondBranchOp |
-| 0x3D | if-lez vx,target | CmpLez + cf::CondBranchOp |
-| 0x3E | unused 3E |   |
-| 0x3F | unused 3F |   |
-| 0x40 | unused 40 |   |
-| 0x41 | unused 41 |   |
-| 0x42 | unused 42 |   |
-| 0x43 | unused 43 |   |
-| 0x44 | aget vx,vy,vz | |
-| 0x45 | aget-wide vx,vy,vz | |
-| 0x46 | aget-object vx,vy,vz | |
-| 0x47 | aget-boolean vx,vy,vz | |
-| 0x48 | aget-byte vx,vy,vz | |
-| 0x49 | aget-char vx, vy,vz | |
-| 0x4A | aget-short vx,vy,vz | |
-| 0x4B | aput vx,vy,vz | |
-| 0x4C | aput-wide vx,vy,vz | |
-| 0x4D | aput-object vx,vy,vz | |
-| 0x4E | aput-boolean vx,vy,vz | |
-| 0x4F | aput-byte vx,vy,vz | |
-| 0x50 | aput-char vx,vy,vz | |
-| 0x51 | aput-short vx,vy,vz | |
-| 0x52 | iget vx, vy, field\_id | LoadFieldOp |
-| 0x53 | iget-wide vx,vy,field\_id | LoadFieldOp |
-| 0x54 | iget-object vx,vy,field\_id | LoadFieldOp |
-| 0x55 | iget-boolean vx,vy,field\_id | LoadFieldOp |
-| 0x56 | iget-byte vx,vy,field\_id | LoadFieldOp |
-| 0x57 | iget-char vx,vy,field\_id | LoadFieldOp |
-| 0x58 | iget-short vx,vy,field\_id | LoadFieldOp |
-| 0x59 | iput vx,vy, field\_id | StoreFieldOp |
-| 0x5A | iput-wide vx,vy, field\_id | StoreFieldOp |
-| 0x5B | iput-object vx,vy,field\_id | StoreFieldOp |
-| 0x5C | iput-boolean vx,vy, field\_id | StoreFieldOp |
-| 0x5D | iput-byte vx,vy,field\_id  | StoreFieldOp |
-| 0x5E | iput-char vx,vy,field\_id  | StoreFieldOp |
-| 0x5F | iput-short vx,vy,field\_id  | StoreFieldOp |
-| 0x60 | sget vx,field\_id  | LoadFieldOp |
-| 0x61 | sget-wide vx, field\_id  | LoadFieldOp |
-| 0x62 | sget-object vx,field\_id  | LoadFieldOp |
-| 0x63 | sget-boolean vx,field\_id  | LoadFieldOp |
-| 0x64 | sget-byte vx,field\_id  | LoadFieldOp |
-| 0x65 | sget-char vx,field\_id  | LoadFieldOp |
-| 0x66 | sget-short vx,field\_id  | LoadFieldOp |
-| 0x67 | sput vx, field\_id  | |
-| 0x68 | sput-wide vx, field\_id  | |
-| 0x69 | sput-object vx,field\_id  | |
-| 0x6A | sput-boolean vx,field\_id  | |
-| 0x6B | sput-byte vx,field\_id  | |
-| 0x6C | sput-char vx,field\_id  | |
-| 0x6D | sput-short vx,field\_id  | |
-| 0x6E | invoke-virtual {parameters},methodtocall | InvokeOp |
-| 0x6F | invoke-super {parameter},methodtocall | InvokeOp |
-| 0x70 | invoke-direct {parameters },methodtocall | InvokeOp |
-| 0x71 | invoke-static {parameters},methodtocall | InvokeOp |
-| 0x72 | invoke-interface {parameters},methodtocall | InvokeOp |
-| 0x73 | unused 73 |   |
-| 0x74 | invoke-virtual/range {vx..vy},methodtocall | |
-| 0x75 | invoke-super/range invoke-special | |
-| 0x76 | invoke-direct/range {vx..vy},methodtocall | |
-| 0x77 | invoke-static/range {vx..vy},methodtocall | |
-| 0x78 | invoke-interface-range invoke-interface | |
-| 0x79 | unused 79 |   |
-| 0x7A | unused 7A |   |
-| 0x7B | neg-int vx,vy  | Neg |
-| 0x7C | not-int vx,vy  | Not |
-| 0x7D | neg-long vx,vy  | Neg |
-| 0x7E | not-long vx,vy  | Not |
-| 0x7F | neg-float vx,vy  | Neg |
-| 0x80 | neg-double vx,vy  | Neg |
-| 0x81 | int-to-long vx, vy  | CastOp |
-| 0x82 | int-to-float vx, vy  | CastOp |
-| 0x83 | int-to-double vx, vy  | CastOp |
-| 0x84 | long-to-int vx,vy  | CastOp |
-| 0x85 | long-to-float vx, vy  | CastOp |
-| 0x86 | long-to-double vx, vy | CastOp |
-| 0x87 | float-to-int vx, vy | CastOp |
-| 0x88 | float-to-long vx,vy | CastOp |
-| 0x89 | float-to-double vx, vy | CastOp |
-| 0x8A | double-to-int vx, vy | CastOp |
-| 0x8B | double-to-long vx, vy | CastOp |
-| 0x8C | double-to-float vx, vy | CastOp |
-| 0x8D | int-to-byte vx,vy | CastOp |
-| 0x8E | int-to-char vx,vy | CastOp |
-| 0x8F | int-to-short vx,vy | CastOp |
-| 0x90 | add-int vx,vy,vz | AddOp  |
-| 0x91 | sub-int vx,vy,vz | SubOp |
-| 0x92 | mul-int vx, vy, vz | MulOp |
-| 0x93 | div-int vx,vy,vz | DivOp |
-| 0x94 | rem-int vx,vy,vz | RemOp |
-| 0x95 | and-int vx, vy, vz | AndOp |
-| 0x96 | or-int vx, vy, vz | OrOp |
-| 0x97 | xor-int vx, vy, vz | XorOp |
-| 0x98 | shl-int vx, vy, vz | Shl |
-| 0x99 | shr-int vx, vy, vz | Shr |
-| 0x9A | ushr-int vx, vy, vz | Ushr |
-| 0x9B | add-long vx, vy, vz | AddOp |
-| 0x9C | sub-long vx,vy,vz | SubOp |
-| 0x9D | mul-long vx,vy,vz | MulOp |
-| 0x9E | div-long vx, vy, vz | DivOp |
-| 0x9F | rem-long vx,vy,vz | RemOp |
-| 0xA0 | and-long vx, vy, vz | AndOp |
-| 0xA1 | or-long vx, vy, vz | OrOp |
-| 0xA2 | xor-long vx, vy, vz | XorOp |
-| 0xA3 | shl-long vx, vy, vz | Shl |
-| 0xA4 | shr-long vx,vy,vz | Shr |
-| 0xA5 | ushr-long vx, vy, vz | UShr |
-| 0xA6 | add-float vx,vy,vz | AddOp |
-| 0xA7 | sub-float vx,vy,vz | SubOp |
-| 0xA8 | mul-float vx, vy, vz | MulOp |
-| 0xA9 | div-float vx, vy, vz | DivOp |
-| 0xAA | rem-float vx,vy,vz | RemOp |
-| 0xAB | add-double vx,vy,vz | AddOp |
-| 0xAC | sub-double vx,vy,vz | SubOp |
-| 0xAD | mul-double vx, vy, vz | MulOp |
-| 0xAE | div-double vx, vy, vz | DivOp |
-| 0xAF | rem-double vx,vy,vz | RemOp |
-| 0xB0 | add-int/2addr vx,vy | AddOp |
-| 0xB1 | sub-int/2addr vx,vy | SubOp |
-| 0xB2 | mul-int/2addr vx,vy | MulOp |
-| 0xB3 | div-int/2addr vx,vy | DivOp |
-| 0xB4 | rem-int/2addr vx,vy | RemOp |
-| 0xB5 | and-int/2addr vx, vy | AndOp |
-| 0xB6 | or-int/2addr vx, vy | OrOp |
-| 0xB7 | xor-int/2addr vx, vy | XorOp |
-| 0xB8 | shl-int/2addr vx, vy | Shl|
-| 0xB9 | shr-int/2addr vx, vy | Shr |
-| 0xBA | ushr-int/2addr vx, vy | UShr |
-| 0xBB | add-long/2addr vx,vy | AddOp |
-| 0xBC | sub-long/2addr vx,vy | SubOp |
-| 0xBD | mul-long/2addr vx,vy | MulOp |
-| 0xBE | div-long/2addr vx, vy | DivOp |
-| 0xBF | rem-long/2addr vx,vy | RemOp |
-| 0xC0 | and-long/2addr vx, vy | AndOp |
-| 0xC1 | or-long/2addr vx, vy | OrOp |
-| 0xC2 | xor-long/2addr vx, vy | XorOp |
-| 0xC3 | shl-long/2addr vx, vy | Shl |
-| 0xC4 | shr-long/2addr vx, vy | Shr |
-| 0xC5 | ushr-long/2addr vx, vy | UShr |
-| 0xC6 | add-float/2addr vx,vy | AddOp |
-| 0xC7 | sub-float/2addr vx,vy | SubOp |
-| 0xC8 | mul-float/2addr vx, vy | MulOp |
-| 0xC9 | div-float/2addr vx, vy | DivOp |
-| 0xCA | rem-float/2addr vx,vy | RemOp |
-| 0xCB | add-double/2addr vx, vy | AddOp |
-| 0xCC | sub-double/2addr vx, vy | SubOp |
-| 0xCD | mul-double/2addr vx, vy | MulOp |
-| 0xCE | div-double/2addr vx, vy | DivOp |
-| 0xCF | rem-double/2addr vx,vy | RemOp |
-| 0xD0 | add-int/lit16 vx,vy,lit16 | AddOp |
-| 0xD1 | sub-int/lit16 vx,vy,lit16 | SubOp |
-| 0xD2 | mul-int/lit16 vx,vy,lit16 | MulOp |
-| 0xD3 | div-int/lit16 vx,vy,lit16 | DivOp |
-| 0xD4 | rem-int/lit16 vx,vy,lit16 | RemOp |
-| 0xD5 | and-int/lit16 vx,vy,lit16 | AndOp |
-| 0xD6 | or-int/lit16 vx,vy,lit16 | OrOp |
-| 0xD7 | xor-int/lit16 vx,vy,lit16 | XorOp |
-| 0xD8 | add-int/lit8 vx,vy,lit8 | AddOp |
-| 0xD9 | sub-int/lit8 vx,vy,lit8 | SubOp |
-| 0xDA | mul-int/lit-8 vx,vy,lit8 | MulOp |
-| 0xDB | div-int/lit8 vx,vy,lit8 | DivOp |
-| 0xDC | rem-int/lit8 vx,vy,lit8 | RemOp |
-| 0xDD | and-int/lit8 vx,vy,lit8 | AndOp |
-| 0xDE | or-int/lit8 vx, vy, lit8 | OrOp |
-| 0xDF | xor-int/lit8 vx, vy, lit8 | XorOp |
-| 0xE0 | shl-int/lit8 vx, vy, lit8 | Shl |
-| 0xE1 | shr-int/lit8 vx, vy, lit8 | Shr |
-| 0xE2 | ushr-int/lit8 vx, vy, lit8 | UShr |
-| 0xE3 | unused E3 |   |
-| 0xE4 | unused E4 |   |
-| 0xE5 | unused E5 |   |
-| 0xE6 | unused E6 |   |
-| 0xE7 | unused E7 |   |
-| 0xE8 | unused E8  |   |
-| 0xE9 | unused E9  |   |
-| 0xEA | unused EA  |   |
-| 0xEB | unused EB  |   |
-| 0xEC | unused EC  |   |
-| 0xED | unused ED  |   |
-| 0xEE | execute-inline {parameters},inline ID |   |
-| 0xEF | unused EF  |   |
-| 0xF0 | invoke-direct-empty |   |
-| 0xF1 | unused F1  |   |
-| 0xF2 | iget-quick vx,vy,offset  |   |
-| 0xF3 | iget-wide-quick vx,vy,offset  |   |
-| 0xF4 | iget-object-quick vx,vy,offset  |   |
-| 0xF5 | iput-quick vx,vy,offset  |   |
-| 0xF6 | iput-wide-quick vx,vy,offset  |   |
-| 0xF7 | iput-object-quick vx,vy,offset  |   |
-| 0xF8 | invoke-virtual-quick {parameters},vtable offset |   |
-| 0xF9 | invoke-virtual-quick/range {parameter range},vtable offset |   |
-| 0xFA | invoke-super-quick {parameters},vtable offset |   |
-| 0xFB | invoke-super-quick/range {register range},vtable offset |   |
-| 0xFC | unused FC  |   |
-| 0xFD | unused FD  |   |
-| 0xFE | unused FE  |   |
-| 0xFF | unused FF  |   |
+| Instruction Type | Opcode | Opcode name | IR code |
+|:----------------:|:------:|:------------|:--------|
+| Instruction10t | 40 | OP_GOTO | cf::BranchOp |
+| Instruction10x | 14 | OP_RETURN_VOID | func::ReturnOp |
+| | 0 | OP_NOP | KUNAI::MjolnIR::Nop |
+| Instruction11n | 18 | OP_CONST_4 | KUNAI::MjolnIR::LoadValue |
+| Instruction11x | 15 | OP_RETURN | func::ReturnOp |
+| | 16 | OP_RETURN_WIDE | func::ReturnOp |
+| | 17 | OP_RETURN_OBJECT | func::ReturnOp |
+| | 10 | OP_MOVE_RESULT | Generate result in KUNAI::MjolnIR::InvokeOp |
+| | 11 | OP_MOVE_RESULT_WIDE | Generate result in KUNAI::MjolnIR::InvokeOp |
+| | 12 | OP_MOVE_RESULT_OBJECT | Generate result in KUNAI::MjolnIR::InvokeOp |
+| Instruction12x | 1 | OP_MOVE | KUNAI::MjolnIR::MoveOp |
+| | 4 | OP_MOVE_WIDE | KUNAI::MjolnIR::MoveOp |
+| | 7 | OP_MOVE_OBJECT | KUNAI::MjolnIR::MoveOp |
+| | 176 | OP_ADD_INT_2ADDR | arith::AddIOp |
+| | 187 | OP_ADD_LONG_2ADDR | arith::AddIOp |
+| | 198 | OP_ADD_FLOAT_2ADDR | arith::AddIOp |
+| | 203 | OP_ADD_DOUBLE_2ADDR | arith::AddIOp |
+| | 177 | OP_SUB_INT_2ADDR | arith::SubIOp |
+| | 188 | OP_SUB_LONG_2ADDR | arith::SubIOp |
+| | 199 | OP_SUB_FLOAT_2ADDR | arith::SubIOp |
+| | 204 | OP_SUB_DOUBLE_2ADDR | arith::SubIOp |
+| | 178 | OP_MUL_INT_2ADDR | arith::MulIOp |
+| | 189 | OP_MUL_LONG_2ADDR | arith::MulIOp |
+| | 200 | OP_MUL_FLOAT_2ADDR | arith::MulIOp |
+| | 205 | OP_MUL_DOUBLE_2ADDR | arith::MulIOp |
+| | 179 | OP_DIV_INT_2ADDR | arith::DivSIOp |
+| | 190 | OP_DIV_LONG_2ADDR | arith::DivSIOp |
+| | 201 | OP_DIV_FLOAT_2ADDR | arith::DivFOp |
+| | 206 | OP_DIV_DOUBLE_2ADDR | arith::DivFOp |
+| | 180 | OP_REM_INT_2ADDR | arith::RemSIOp |
+| | 191 | OP_REM_LONG_2ADDR | arith::RemSIOp |
+| | 202 | OP_REM_FLOAT_2ADDR | arith::RemFOp |
+| | 207 | OP_REM_DOUBLE_2ADDR | arith::RemFOp |
+| | 181 | OP_AND_INT_2ADDR | arith::AndIOp |
+| | 192 | OP_AND_LONG_2ADDR | arith::AndIOp |
+| | 182 | OP_OR_INT_2ADDR | arith::OrIOp |
+| | 193 | OP_OR_LONG_2ADDR | arith::OrIOp |
+| | 183 | OP_XOR_INT_2ADDR | arith::XOrIOp |
+| | 194 | OP_XOR_LONG_2ADDR | arith::XOrIOp |
+| | 184 | OP_SHL_INT_2ADDR | arith::ShLIOp |
+| | 195 | OP_SHR_LONG_2ADDR | arith::ShLIOp |
+| | 185 | OP_SHR_INT_2ADDR | arith::ShRSIOp |
+| | 196 | OP_SHR_LONG_2ADDR | arith::ShRSIOp |
+| | 186 | OP_USHR_INT_2ADDR | arith::ShRUIOp |
+| | 197 | OP_USHR_LONG_2ADDR |  arith::ShRUIOp |
+| | 123 | OP_NEG_INT | KUNAI::MjolnIR::Neg |
+| | 125 | OP_NEG_LONG | KUNAI::MjolnIR::Neg |
+| | 127 | OP_NEG_FLOAT | KUNAI::MjolnIR::Neg |
+| | 128 | OP_NEG_DOUBLE | KUNAI::MjolnIR::Neg |
+| | 124 | OP_NOT_INT | KUNAI::MjolnIR::Not |
+| | 126 | OP_NOT_LONG | KUNAI::MjolnIR::Not | 
+| | 129 | OP_INT_TO_LONG | MjolnIR::CastOp |
+| | 136 | OP_FLOAT_TO_LONG | MjolnIR::CastOp |
+| | 139 | OP_DOUBLE_TO_LONG | MjolnIR::CastOp |
+| | 130 | OP_INT_TO_FLOAT | MjolnIR::CastOp |
+| | 133 | OP_LONG_TO_FLOAT | MjolnIR::CastOp |
+| | 140 | OP_DOUBLE_TO_FLOAT | MjolnIR::CastOp |
+| | 131 | OP_INT_TO_DOUBLE | MjolnIR::CastOp |
+| | 134 | OP_LONG_TO_DOUBLE | MjolnIR::CastOp |
+| | 137 | OP_FLOAT_TO_DOBULE | MjolnIR::CastOp |
+| | 132 | OP_LONG_TO_INT | MjolnIR::CastOp |
+| | 135 | OP_FLOAT_TO_INT | MjolnIR::CastOp |
+| | 138 | OP_DOUBLE_TO_INT | MjolnIR::CastOp |
+| | 141 | OP_INT_TO_BYTE | MjolnIR::CastOp |
+| | 142 | OP_INT_TO_CHAR | MjolnIR::CastOp |
+| | 143 | OP_INT_TO_SHORT | MjolnIR::CastOp |
+| Instruction20t | 41 | OP_GOTO_16 | cf::BranchOp |
+| Instruction21c | 34 | OP_NEW_INSTANCE | KUNAI::MjolnIR::NewOp |
+| | 26 | OP_CONST_STRING | KUNAI::MjolnIR::LoadString |
+| | 96 | OP_SGET | KUNAI::MjolnIR::LoadFieldOp |
+| | 97 | OP_SGET_WIDE | KUNAI::MjolnIR::LoadFieldOp |
+| | 98 | OP_SGET_OBJECT | KUNAI::MjolnIR::LoadFieldOp |
+| | 99 | OP_SGET_BOOLEAN | KUNAI::MjolnIR::LoadFieldOp |
+| | 100 | OP_SGET_BYTE | KUNAI::MjolnIR::LoadFieldOp |
+| | 101 | OP_SGET_CHAR | KUNAI::MjolnIR::LoadFieldOp |
+| | 102 | OP_SGET_SHORT | KUNAI::MjolnIR::LoadFieldOp |
+| Instruction21h | 21 | OP_CONST_HIGH16 | arith::ConstantFloatOp |
+| | 25 | OP_CONST_WIDE_HIGH16 | arith::ConstantIntOp |
+| Instruction21s | 19 | OP_CONST_16 | arith::ConstantIntOp |
+| | 22 | OP_CONST_WIDE_16 | arith::ConstantIntOp |
+| Instruction21t | 56 | OP_IF_EQZ | arith::CmpIOp + cf::CondBranchOp |
+| | 57 | OP_IF_NEZ | arith::CmpIOp + cf::CondBranchOp |
+| | 58 | OP_IF_LTZ | arith::CmpIOp + cf::CondBranchOp |
+| | 59 | OP_IF_GEZ | arith::CmpIOp + cf::CondBranchOp |
+| | 60 | OP_IF_GTZ | arith::CmpIOp + cf::CondBranchOp |
+| | 61 | OP_IF_LEZ | arith::CmpIOp + cf::CondBranchOp |
+| Instruction22b | 216 | OP_ADD_INT_LIT8 | arith::ConstantIntOp + arith::AddIOp |
+| | 217 | OP_SUB_INT_LIT8 | arith::ConstantIntOp + arith::SubIOp |
+| | 218 | OP_MUL_INT_LIT8 | arith::ConstantIntOp + arith::MulIOp |
+| | 219 | OP_DIV_INT_LIT8 | arith::ConstantIntOp + arith::DivSIOp |
+| | 220 | OP_REM_INT_LIT8 | arith::ConstantIntOp + arith::RemSIOp |
+| | 221 | OP_AND_INT_LIT8 | arith::ConstantIntOp + arith::AndIOp |
+| | 222 | OP_OR_INT_LIT8 | arith::ConstantIntOp + arith::OrIOp |
+| | 223 | OP_XOR_INT_LIT8 | arith::ConstantIntOp + arith::XOrIOp |
+| | 224 | OP_SHL_INT_LIT8 | arith::ConstantIntOp + arith::ShLIOp |
+| | 225 | OP_SHR_INT_LIT8 | arith::ConstantIntOp + arith::ShRSIOp |
+| | 226 | OP_USHR_INT_LIT8 | arith::ConstantIntOp + arith::ShRUIOp |
+| Instruction22c | 82 | OP_IGET | KUNAI::MjolnIR::LoadFieldOp |
+| | 83 | OP_IGET_WIDE | KUNAI::MjolnIR::LoadFieldOp |
+| | 84 | OP_IGET_OBJECT | KUNAI::MjolnIR::LoadFieldOp |
+| | 85 | OP_IGET_BOOLEAN | KUNAI::MjolnIR::LoadFieldOp |
+| | 86 | OP_IGET_BYTE | KUNAI::MjolnIR::LoadFieldOp |
+| | 87 | OP_IGET_CHAR | KUNAI::MjolnIR::LoadFieldOp |
+| | 88 | OP_IGET_SHORT | KUNAI::MjolnIR::LoadFieldOp |
+| | 89 | OP_IPUT | KUNAI::MjolnIR::StoreFieldOp |
+| | 90 | OP_IPUT_WIDE | KUNAI::MjolnIR::StoreFieldOp |
+| | 91 | OP_IPUT_OBJECT | KUNAI::MjolnIR::StoreFieldOp |
+| | 92 | OP_IPUT_BOOLEAN | KUNAI::MjolnIR::StoreFieldOp |
+| | 93 | OP_IPUT_BYTE | KUNAI::MjolnIR::StoreFieldOp |
+| | 94 | OP_IPUT_CHAR | KUNAI::MjolnIR::StoreFieldOp |
+| | 95 | OP_IPUT_SHORT | KUNAI::MjolnIR::StoreFieldOp |
+| | 35 | OP_NEW_ARRAY | KUNAI::MjolnIR::NewArrayOp |
