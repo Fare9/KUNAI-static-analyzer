@@ -112,3 +112,65 @@
 | | 94 | OP_IPUT_CHAR | KUNAI::MjolnIR::StoreFieldOp |
 | | 95 | OP_IPUT_SHORT | KUNAI::MjolnIR::StoreFieldOp |
 | | 35 | OP_NEW_ARRAY | KUNAI::MjolnIR::NewArrayOp |
+| Instruction22s | 208 | OP_ADD_INT_LIT16 | arith::ConstantIntOp + arith::AddIOp |
+| | 209 | OP_SUB_INT_LIT16 | arith::ConstantIntOp + arith::SubIOp |
+| | 210 | OP_MUL_INT_LIT16 | arith::ConstantIntOp + arith::MulIOp |
+| | 211 | OP_DIV_INT_LIT16 | arith::ConstantIntOp + arith::DivSIOp |
+| | 212 | OP_REM_INT_LIT16 | arith::ConstantIntOp + arith::RemSIOp |
+| | 213 | OP_AND_INT_LIT16 | arith::ConstantIntOp + arith::AndIOp |
+| | 214 | OP_OR_INT_LIT16 | arith::ConstantIntOp + arith::OrIOp |
+| | 215 | OP_XOR_INT_LIT16 | arith::ConstantIntOp + arith::XOrIOp |
+| Instruction22t | 50 | OP_IF_EQ | arith::CmpIOp + cf::CondBranchOp |
+| | 51 | OP_IF_NE | arith::CmpIOp + cf::CondBranchOp |
+| | 52 | OP_IF_LT | arith::CmpIOp + cf::CondBranchOp |
+| | 53 | OP_IF_GE | arith::CmpIOp + cf::CondBranchOp |
+| | 54 | OP_IF_GT | arith::CmpIOp + cf::CondBranchOp |
+| | 55 | OP_IF_LE | arith::CmpIOp + cf::CondBranchOp |
+| Instruction22x | 2 | OP_MOVE_FROM16 | KUNAI::MjolnIR::MoveOp |
+| | 5 | OP_MOVE_WIDE_FROM16 | KUNAI::MjolnIR::MoveOp |
+| | 8 | OP_MOVE_OBJECT_FROM16 | KUNAI::MjolnIR::MoveOp |
+| Instruction23x | 144 | OP_ADD_INT | arith::AddIOp |
+| | 155 | OP_ADD_LONG | arith::AddIOp |
+| | 166 | OP_ADD_FLOAT | arith::AddFOp |
+| | 171 | OP_ADD_DOUBLE | arith::AddFOp |
+| | 145 | OP_SUB_INT | arith::SubIOp |
+| | 156 | OP_SUB_LONG | arith::SubIOp |
+| | 167 | OP_SUB_FLOAT | arith::SubFOp |
+| | 172 | OP_SUB_DOUBLE | arith::SubFOp |
+| | 146 | OP_MUL_INT | arith::MulIOp |
+| | 157 | OP_MUL_LONG | arith::MulIOp |
+| | 168 | OP_MUL_FLOAT | arith::MulFOp |
+| | 173 | OP_MUL_DOUBLE | arith::MulFOp |
+| | 147 | OP_DIV_INT | arith::DivSIOp |
+| | 158 | OP_DIV_LONG | arith::DivSIOp |
+| | 169 | OP_DIV_FLOAT | arith::DivFOp |
+| | 174 | OP_DIV_DOUBLE | arith::DivFOp |
+| | 148 | OP_REM_INT | arith::RemSIOp |
+| | 159 | OP_REM_LONG | arith::RemSIOp |
+| | 170 | OP_REM_FLOAT | arith::RemFOp |
+| | 175 | OP_REM_DOUBLE | arith::RemFOp |
+| | 149 | OP_AND_INT | arith::AndIOp |
+| | 160 | OP_AND_LONG | arith::AndIOp |
+| | 150 | OP_OR_INT | arith::OrIOp |
+| | 161 | OP_OR_LONG | arith::OrIOp |
+| | 151 | OP_XOR_INT | arith::XOrIOp |
+| | 162 | OP_XOR_LONG | arith::XOrIOp |
+| | 152 | OP_SHL_INT | arith::ShLIOp |
+| | 163 | OP_SHL_LONG | arith::ShLIOp |
+| | 153 | OP_SHR_INT | arith::ShRSIOp |
+| | 164 | OP_SHR_LONG | arith::ShRSIOp |
+| | 154 | OP_USHR_INT | arith::ShRUIOp |
+| | 165 | OP_USHR_LONG | arith::ShRUIOp |
+| Instruction30t | 42 | OP_GOTO_32 | cf::BranchOp |
+| Instruction31c | 27 | OP_CONST_STRING_JUMBO | KUNAI::MjolnIR::LoadString |
+| Instruction31i | 20 | OP_CONST | arith::ConstantFloatOp |
+| | 23 | OP_CONST_WIDE_32 | arith::ConstantFloatOp |
+| Instruction32x | 3 | OP_MOVE_16 | KUNAI::MjolnIR::MoveOp |
+| | 6 | OP_MOVE_WIDE_16 | KUNAI::MjolnIR::MoveOp |
+| | 9 | OP_MOVE_OBJECT_16 | KUNAI::MjolnIR::MoveOp |
+| Instruction35c | 110 | OP_INVOKE_VIRTUAL | KUNAI::MjolnIR::InvokeOp |
+| | 111 | OP_INVOKE_SUPER | KUNAI::MjolnIR::InvokeOp |
+| | 112 | OP_INVOKE_DIRECT | KUNAI::MjolnIR::InvokeOp |
+| | 113 | OP_INVOKE_STATIC | KUNAI::MjolnIR::InvokeOp |
+| | 114 | OP_INVOKE_INTERFACE | KUNAI::MjolnIR::InvokeOp |
+| Instruction51l | 24 | OP_CONST_WIDE | arith::ConstantFloatOp |
