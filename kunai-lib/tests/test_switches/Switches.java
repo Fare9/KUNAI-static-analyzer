@@ -70,6 +70,29 @@ public class Switches
         }
     }
 
+    public int switch5(int a)
+    {
+        int c = 5;
+        int d = 0;
+        switch(a)
+        {
+        case 52:
+            d = 32 + c;
+            break;
+        case 86:
+            d = 11 + c;
+            break;
+        case 109:
+            d = 2 + 2;
+            break;
+        case 1:
+            System.out.println("Value is equals to 1");
+            break;
+        }
+
+        return d;
+    }
+
     public static void main(String[] args)
     {
         Switches s = new Switches();
@@ -81,5 +104,6 @@ public class Switches
         s.switch2(c);
         s.switch3(number);
         s.switch4(c);
+        s.switch5(number);
     }
 }

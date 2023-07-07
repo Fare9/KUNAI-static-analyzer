@@ -43,7 +43,7 @@ int main(int argc, char **argv)
     //if (argc == 1)
     //{
     dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test_switches/classes.dex";
-    method_name = "switch2";
+    method_name = "switch5";
     //}
     /*
     else if (argc == 3)
