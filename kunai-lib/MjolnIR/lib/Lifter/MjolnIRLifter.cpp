@@ -147,11 +147,22 @@ llvm::SmallVector<mlir::Type> Lifter::gen_prototype(KUNAI::DEX::ProtoID *proto)
     // the type of the parameters
     auto paramTypes = gen_prototype(proto);
 
-    // now retrieve the return type
-    mlir::Type retType = get_type(proto->get_return_type());
+    mlir::FunctionType methodType;
 
-    // create now the method type
-    auto methodType = builder.getFunctionType(paramTypes, {retType});
+    // now retrieve the return type
+    // we have to check if the method returns void
+    if (proto->get_return_type()->get_type() == KUNAI::DEX::DVMType::FUNDAMENTAL &&
+        reinterpret_cast<KUNAI::DEX::DVMFundamental *>(proto->get_return_type())->get_fundamental_type() == 
+            KUNAI::DEX::DVMFundamental::VOID)
+    {
+        methodType = builder.getFunctionType(paramTypes, mlir::TypeRange());
+    }
+    else
+    {
+        mlir::Type retType = get_type(proto->get_return_type());
+        // create now the method type
+        methodType = builder.getFunctionType(paramTypes, {retType});
+    }
 
     auto methodOp = builder.create<::mlir::func::FuncOp>(method_location, name, methodType);
 
@@ -284,7 +295,8 @@ void Lifter::gen_method(KUNAI::DEX::MethodAnalysis *method)
             continue;
 
         /// fix for whenever we have a fallthrough
-        if (!bb->get_instructions().back()->is_terminator())
+        if (!bb->get_instructions().back()->is_terminator() &&
+            !(*bbs.get_sucessors()[bb].begin())->is_end_block())
         {
             auto last_instr = bb->get_instructions().back();
 
