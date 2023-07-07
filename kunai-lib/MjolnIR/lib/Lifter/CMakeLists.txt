@@ -23,6 +23,7 @@ add_library(Lifter
   Instructions/Instruction32x.cpp
   Instructions/Instruction35c.cpp
   Instructions/Instruction51l.cpp
+  Instructions/Instruction31t.cpp
 )
 
 target_link_libraries(Lifter PUBLIC

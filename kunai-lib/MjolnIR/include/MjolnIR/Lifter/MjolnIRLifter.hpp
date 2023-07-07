@@ -212,6 +212,8 @@ namespace MjolnIR
         void gen_instruction(KUNAI::DEX::Instruction20t *instr);
 
         void gen_instruction(KUNAI::DEX::Instruction30t *instr);
+
+        void gen_instruction(KUNAI::DEX::Instruction31t *instr);
         /// @brief Lift an instruction of the type Instruction23x
         /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction23x *instr);

@@ -79,6 +79,13 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction *instr)
     case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION22B:
         gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction22b *>(instr));
         break;
+    case KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION31T:
+        gen_instruction(reinterpret_cast<KUNAI::DEX::Instruction31t *>(instr));
+        break;
+    /// no need to implement these
+    case KUNAI::DEX::dexinsttype_t::DEX_PACKEDSWITCH:
+    case KUNAI::DEX::dexinsttype_t::DEX_SPARSESWITCH:
+        break;
     default:
         throw exceptions::LifterException("MjolnIRLifter::gen_instruction: InstructionType not implemented");
     }
