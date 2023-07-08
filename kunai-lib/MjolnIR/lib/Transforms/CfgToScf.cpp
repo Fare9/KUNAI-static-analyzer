@@ -18,6 +18,7 @@
 #include <mlir/Dialect/SCF/IR/SCF.h>
 
 #include <mlir/IR/IRMapping.h>
+#include <mlir/IR/Dominance.h>
 #include <mlir/Transforms/Passes.h>
 #include <mlir/Transforms/RegionUtils.h>
 
@@ -27,6 +28,18 @@ using namespace mlir;
 
 namespace
 {
+    static void eraseBlocks(mlir::PatternRewriter &rewriter,
+                            llvm::ArrayRef<mlir::Block *> blocks)
+    {
+        for (auto block : blocks)
+        {
+            assert(nullptr != block);
+            block->dropAllDefinedValueUses();
+        }
+        for (auto block : blocks)
+            rewriter.eraseBlock(block);
+    }
+
     /// @brief Check that all the given blocks are different
     /// @param blocks arrayre fof blocks
     /// @return boolean indicating if all blocks are different
@@ -202,7 +215,7 @@ namespace
                     /// Create the yield values from the previous mapper
                     yieldVals.clear();
                     /// reserve the size
-                    ///yieldVals.resize(operands.size());
+                    /// yieldVals.resize(operands.size());
 
                     /// get the values from the previous mapper, the values
                     /// must be those from the operands from the terminator
@@ -294,6 +307,298 @@ namespace
         }
     };
 
+    /// @brief Return the defined values in the blocks from a method
+    /// @param blocks blocks where to look for the defined values
+    /// @param postBlock an optional post block
+    /// @return list of defined values
+    static llvm::SmallVector<mlir::Value>
+    getDefinedValues(llvm::ArrayRef<mlir::Block *> blocks,
+                     mlir::Block *postBlock = nullptr)
+    {
+        llvm::SmallVector<mlir::Value> ret;
+        /// no blocks? return
+        if (blocks.empty())
+            return ret;
+
+        /// Get the region where the basic blocks are
+        auto region = blocks.front()->getParent();
+
+        /// check all the uses from the value
+        /// and where it's used
+        auto checkVal = [&](mlir::Value val)
+        {
+            for (auto &use : val.getUses())
+            {
+                /// get the block where the use is
+                auto block = region->findAncestorBlockInRegion(*use.getOwner()->getBlock());
+
+                /// check if the value is not used or used out of
+                /// the checked regions
+                if (!block || !llvm::is_contained(blocks, block))
+                {
+                    ret.emplace_back(val);
+                    return;
+                }
+            }
+        };
+
+        /// study the dominance from the blocks
+        mlir::DominanceInfo dom;
+        for (auto block : blocks)
+        {
+            /// in case user gave a post block,
+            /// but the block does not dominate it
+            /// continue
+            if (postBlock && !dom.dominates(block, postBlock))
+                continue;
+
+            /// get the arguments from the block
+            /// and check if they have to be added
+            for (auto arg : block->getArguments())
+                checkVal(arg);
+            /// get the results from the operations
+            /// this must be a definition
+            for (auto &op : block->getOperations())
+                for (auto res : op.getResults())
+                    checkVal(res);
+        }
+
+        return ret;
+    }
+
+    static std::optional<mlir::Block *>
+    tailLoopToWhile(mlir::PatternRewriter &rewriter, mlir::Location loc,
+                    mlir::Block *bodyBlock, mlir::ValueRange initArgs)
+    {
+        /// we need the bodyBlock to work
+        assert(bodyBlock);
+
+        /// get the branch instruction from the body of he loop
+        auto bodyBr = mlir::dyn_cast<mlir::cf::CondBranchOp>(bodyBlock->getTerminator());
+
+        /// if it's not a conditional branch
+        /// leave
+        if (!bodyBr)
+            return std::nullopt;
+
+        /// if the conditional jump jumps always to
+        /// same place, leave too
+        if (bodyBr.getTrueDest() == bodyBr.getFalseDest())
+            return std::nullopt;
+
+        /// as before, go over false and true, starting by false first
+        for (bool reverse : {false, true})
+        {
+            /// first we take the body block as the true branch destination
+            auto bodyBlock1 = reverse ? bodyBr.getFalseDest() : bodyBr.getTrueDest();
+
+            /// now the exit block, in first case, this is the false destination
+            auto exitBlock = reverse ? bodyBr.getTrueDest() : bodyBr.getFalseDest();
+
+            /// check that the bodyBlock1 and given bodyBlock
+            /// are the same, that means the loop's body is
+            /// correct
+            if (bodyBlock1 != bodyBlock)
+                continue; /// if not okay, try the other way
+
+            /// get the arguments from the body block
+            mlir::ValueRange bodyArgs =
+                reverse ? bodyBr.getFalseDestOperands() : bodyBr.getTrueDestOperands();
+            /// and the arguments from the exit block
+            mlir::ValueRange exitArgs =
+                reverse ? bodyBr.getTrueDestOperands() : bodyBr.getFalseDestOperands();
+            /// get the list of definitions from loop's block
+            llvm::SmallVector<mlir::Value> toReplace = getDefinedValues(bodyBlock);
+
+            /// mapping of different variables
+            mlir::IRMapping mapping;
+
+            auto beforeBuilder = [&](mlir::OpBuilder &builder, mlir::Location loc,
+                                     mlir::ValueRange args)
+            {
+                /// check given arguments are the same size than loop's body
+                /// loop's exit and definition size
+                assert(bodyArgs.size() + exitArgs.size() + toReplace.size() ==
+                       args.size());
+
+                /// map the values from the body args, the exit args
+                /// to values given in args
+                mapping.map(bodyArgs, args.take_front(bodyArgs.size()));
+                mapping.map(exitArgs, args.take_back(exitArgs.size()));
+                mapping.map(bodyBlock->getArguments(), args.take_front(bodyArgs.size()));
+
+                /// clone the operands from the operations
+                for (auto &op : bodyBlock->without_terminator())
+                    builder.clone(op, mapping);
+
+                /// Get in results the body args and exit args
+                /// values
+                llvm::SmallVector<mlir::Value> results;
+                results.reserve(bodyArgs.size() + exitArgs.size());
+
+                for (mlir::ValueRange ranges : {bodyArgs, exitArgs})
+                    for (mlir::Value val : ranges)
+                        results.emplace_back(mapping.lookupOrDefault(val));
+
+                /// get the values to replace in results
+                for (auto val : toReplace)
+                    results.emplace_back(mapping.lookupOrDefault(val));
+
+                /// create a condition from the condition of the body branch
+                mlir::Value cond = mapping.lookupOrDefault(bodyBr.getCondition());
+                if (reverse)
+                {
+                    mlir::Value one =
+                        builder.create<mlir::arith::ConstantIntOp>(loc, 1, /*width*/ 1);
+                    cond = builder.create<mlir::arith::XOrIOp>(loc, cond, one);
+                }
+                /// create a condition for while
+                builder.create<mlir::scf::ConditionOp>(loc, cond, results);
+            };
+
+            /// simple lambda for creating a YieldOperation for returning from While
+            auto afterBuilder = [](mlir::OpBuilder &builder, mlir::Location loc,
+                                   mlir::ValueRange args)
+            {
+                builder.create<mlir::scf::YieldOp>(loc, args);
+            };
+
+            /// get the type from body arguments and exit arguments
+            auto bodyArgsTypes = bodyArgs.getTypes();
+            auto exitTypes = exitArgs.getTypes();
+
+            /// value range of the definitions in loop's body
+            mlir::ValueRange toReplaceRange(toReplace);
+            /// type of values to replace
+            auto definedTypes = toReplaceRange.getTypes();
+
+            /// add all the arguments and defined value types
+            /// into a vector of types (probably to create
+            /// values for all of them
+            llvm::SmallVector<mlir::Type> whileTypes(bodyArgsTypes.begin(),
+                                                     bodyArgsTypes.end());
+            whileTypes.append(exitTypes.begin(), exitTypes.end());
+            whileTypes.append(definedTypes.begin(), definedTypes.end());
+            /// arguments for while loop (this will be used inside)
+            llvm::SmallVector<mlir::Value> whileArgs(initArgs.begin(), initArgs.end());
+
+            mlir::OpBuilder::InsertionGuard g(rewriter);
+            /// locations for the body of the while loop
+            llvm::SmallVector<mlir::Location> locs(bodyBlock->getNumArguments(),
+                                                   rewriter.getUnknownLoc());
+
+            /// create a block for the while loop
+            auto newBlock = rewriter.createBlock(bodyBlock->getParent(), {},
+                                                 bodyBlock->getArgumentTypes(), locs);
+
+            /// create undef values for each one of the arguments
+            /// from the while loop
+            for (auto types : {exitTypes, definedTypes})
+            {
+                for (auto type : types)
+                {
+                    mlir::Value val = rewriter.create<::mlir::KUNAI::MjolnIR::UndefOp>(loc, type);
+                    whileArgs.emplace_back(val);
+                }
+            }
+
+            /// create a while operation
+            /// using the whileArgs created
+            /// this probably will be replaced
+            /// for correct one
+            auto whileOp = rewriter.create<mlir::scf::WhileOp>(
+                loc, whileTypes, whileArgs, beforeBuilder, afterBuilder);
+
+            auto results = whileOp.getResults();
+            auto bodyResults = results.take_front(bodyArgsTypes.size());
+            auto exitResults =
+                results.drop_front(bodyArgsTypes.size()).take_front(exitTypes.size());
+            auto definedResults = results.take_back(toReplace.size());
+            assert(bodyResults.size() == bodyArgs.size());
+            assert(exitResults.size() == exitBlock->getNumArguments());
+            /// create the branch to go out to the exit block
+            rewriter.create<mlir::cf::BranchOp>(loc, exitBlock, exitResults);
+            /// replace old values to replace, for new defined results
+            for (auto &&[oldVal, newVal] : llvm::zip(toReplace, definedResults))
+                rewriter.replaceAllUsesWith(oldVal, newVal);
+
+            if (llvm::hasSingleElement(bodyBlock->getUses()))
+                eraseBlocks(rewriter, bodyBlock);
+
+            return newBlock;
+        }
+        return std::nullopt;
+    }
+
+    struct TailLoopToWhile : public mlir::OpRewritePattern<mlir::cf::BranchOp>
+    {
+        // Set benefit higher than execute_region _passes
+        TailLoopToWhile(mlir::MLIRContext *context)
+            : mlir::OpRewritePattern<mlir::cf::BranchOp>(context,
+                                                         /*benefit*/ 10)
+        {
+        }
+
+        mlir::LogicalResult
+        matchAndRewrite(mlir::cf::BranchOp op,
+                        mlir::PatternRewriter &rewriter) const override
+        {
+            /// get the block where conditional jump goes
+            auto bodyBlock = op.getDest();
+            /// apply the transformation to obtain a while loop with a condition
+            /// and a yield value
+            auto res =
+                tailLoopToWhile(rewriter, op.getLoc(), bodyBlock, op.getDestOperands());
+            if (!res)
+                return mlir::failure();
+            /// set the destination of the branch operation to
+            /// the created block
+            rewriter.updateRootInPlace(op, [&]()
+                                       { op.setDest(*res); });
+            return mlir::success();
+        }
+    };
+
+    struct TailLoopToWhileCond
+        : public mlir::OpRewritePattern<mlir::cf::CondBranchOp>
+    {
+        // Set benefit higher than execute_region _passes
+        TailLoopToWhileCond(mlir::MLIRContext *context)
+            : mlir::OpRewritePattern<mlir::cf::CondBranchOp>(context,
+                                                             /*benefit*/ 10)
+        {
+        }
+
+        mlir::LogicalResult
+        matchAndRewrite(mlir::cf::CondBranchOp op,
+                        mlir::PatternRewriter &rewriter) const override
+        {
+            /// in case we have a conditional loop instead of a branch
+            for (bool reverse : {false, true})
+            {
+                /// we will follow common approach of going from true destination
+                /// to false destination, and viceversa
+                auto bodyBlock = reverse ? op.getFalseDest() : op.getTrueDest();
+                if (bodyBlock == op->getBlock())
+                    continue;
+                /// try to apply the transformation
+                auto args =
+                    reverse ? op.getFalseDestOperands() : op.getTrueDestOperands();
+                auto res = tailLoopToWhile(rewriter, op.getLoc(), bodyBlock, args);
+                if (!res)
+                    continue;
+                /// in case we 
+                auto newTrueDest = reverse ? op.getTrueDest() : *res;
+                auto newFalseDest = reverse ? *res : op.getFalseDest();
+                rewriter.replaceOpWithNewOp<mlir::cf::CondBranchOp>(
+                    op, op.getCondition(), newTrueDest, op.getTrueDestOperands(),
+                    newFalseDest, op.getFalseDestOperands());
+                return mlir::success();
+            }
+            return mlir::failure();
+        }
+    };
+
     class CfgToScf : public mlir::PassWrapper<CfgToScf, mlir::OperationPass<void>>
     {
     public:
@@ -317,6 +622,8 @@ namespace
             mlir::RewritePatternSet patterns(context);
 
             patterns.insert<ScfIfRewriteOneExit>(context);
+            patterns.insert<TailLoopToWhile>(context);
+            patterns.insert<TailLoopToWhileCond>(context);
 
             /// Get the canonicalization patterns from ControlFlowDialect
             context->getLoadedDialect<mlir::cf::ControlFlowDialect>()

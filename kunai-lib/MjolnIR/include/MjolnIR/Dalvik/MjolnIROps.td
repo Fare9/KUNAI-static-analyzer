@@ -69,7 +69,7 @@ def MjolnIR_Not : MjolnIR_UnaryOpBase<"not", [AllTypesMatch<["src", "dst"]>]>;
 //===----------------------------------------------------------------------===//
 // Load values operations
 //===----------------------------------------------------------------------===//
-def MjolnIR_LoadValue : MjolnIR_Op<"load-value", [Pure, ConstantLike]>
+def MjolnIR_LoadValue : MjolnIR_Op<"load-value", [Pure]>
 {
     let summary = "Load a constant value";
 
@@ -101,7 +101,7 @@ def MjolnIR_LoadValue : MjolnIR_Op<"load-value", [Pure, ConstantLike]>
 //===----------------------------------------------------------------------===//
 // Load string operations
 //===----------------------------------------------------------------------===//
-def MjolnIR_LoadString : MjolnIR_Op<"load-string", [Pure, ConstantLike]>
+def MjolnIR_LoadString : MjolnIR_Op<"load-string", [Pure]>
 {
     let summary = "Load a String into a String object";
 
@@ -472,6 +472,16 @@ def LoadValueArrayOp : MjolnIR_Op<"load-value-array", [Pure]>
         UI32Attr:$index,
         AnyType:$value
     );
+}
+
+//===----------------------------------------------------------------------===//
+// UndefOp from Numba project to create a value to use in transformations
+//===----------------------------------------------------------------------===//
+def UndefOp : MjolnIR_Op<"undef", [Pure]> {
+  let results = (outs AnyType:$result);
+
+  let assemblyFormat = "attr-dict `:` type($result)";
+  let hasCanonicalizer = 1;
 }
 
 

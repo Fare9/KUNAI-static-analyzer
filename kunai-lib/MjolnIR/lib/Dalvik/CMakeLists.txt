@@ -12,6 +12,7 @@ add_mlir_dialect_library(MjolnIR
 
     LINK_LIBS PUBLIC
     MLIRArithDialect
+    MLIRMathDialect
     MLIRControlFlowInterfaces
     MLIRFuncDialect
     MLIRIR

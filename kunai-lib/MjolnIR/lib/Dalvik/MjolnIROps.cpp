@@ -14,9 +14,14 @@
 #include <mlir/IR/BuiltinTypes.h>
 #include <mlir/IR/FunctionImplementation.h>
 #include <mlir/IR/OpImplementation.h>
+#include <mlir/IR/PatternMatch.h>
 #include <mlir/Transforms/InliningUtils.h>
 #include <mlir/Interfaces/ControlFlowInterfaces.h>
 #include <mlir/Interfaces/SideEffectInterfaces.h>
+
+#include <mlir/Dialect/Arith/IR/Arith.h>
+#include <mlir/Dialect/Math/IR/Math.h>
+
 // include from LLVM
 #include <llvm/ADT/TypeSwitch.h>
 
@@ -192,4 +197,104 @@ SuccessorOperands FallthroughOp::getSuccessorOperands(unsigned index)
 Block *FallthroughOp::getSuccessorForOperands(ArrayRef<Attribute>)
 {
     return getDest();
+}
+
+//===----------------------------------------------------------------------===//
+// UndefOp - From numba-mlir project
+//===----------------------------------------------------------------------===//
+
+namespace {
+struct MergeUndefs : public mlir::OpRewritePattern<KUNAI::MjolnIR::UndefOp> {
+  using OpRewritePattern::OpRewritePattern;
+
+  mlir::LogicalResult
+  matchAndRewrite(KUNAI::MjolnIR::UndefOp op,
+                  mlir::PatternRewriter &rewriter) const override {
+    auto parent = op->getParentOfType<mlir::FunctionOpInterface>();
+    if (!parent)
+      return mlir::failure();
+
+    auto &block = parent.front();
+
+    auto type = op.getType();
+    auto insertionPoint = [&]() -> mlir::Operation * {
+      for (auto &op : block.without_terminator()) {
+        if (op.hasTrait<mlir::OpTrait::ConstantLike>())
+          continue;
+
+        auto undef = mlir::dyn_cast<KUNAI::MjolnIR::UndefOp>(op);
+        if (undef && undef.getType() != type)
+          continue;
+
+        return &op;
+      }
+      return block.getTerminator();
+    }();
+
+    if (insertionPoint == op)
+      return mlir::failure();
+
+    auto existingUndef = mlir::dyn_cast<KUNAI::MjolnIR::UndefOp>(insertionPoint);
+    if (!existingUndef) {
+      mlir::OpBuilder::InsertionGuard g(rewriter);
+      rewriter.setInsertionPoint(insertionPoint);
+      existingUndef = rewriter.create<KUNAI::MjolnIR::UndefOp>(op.getLoc(), type);
+    }
+
+    rewriter.replaceOp(op, existingUndef.getResult());
+    return mlir::success();
+  }
+};
+
+struct SelectOfUndef : public mlir::OpRewritePattern<mlir::arith::SelectOp> {
+  // Higher benefit than upstream select patterns
+  SelectOfUndef(mlir::MLIRContext *context)
+      : mlir::OpRewritePattern<mlir::arith::SelectOp>(context, /*benefit*/ 10) {
+  }
+
+  mlir::LogicalResult
+  matchAndRewrite(mlir::arith::SelectOp op,
+                  mlir::PatternRewriter &rewriter) const override {
+    mlir::Value result;
+    if (op.getTrueValue().getDefiningOp<KUNAI::MjolnIR::UndefOp>()) {
+      result = op.getFalseValue();
+    } else if (op.getFalseValue().getDefiningOp<KUNAI::MjolnIR::UndefOp>()) {
+      result = op.getTrueValue();
+    } else {
+      return mlir::failure();
+    }
+
+    rewriter.replaceOp(op, result);
+    return mlir::success();
+  }
+};
+
+struct ReplaceUndefUse : public mlir::OpRewritePattern<KUNAI::MjolnIR::UndefOp> {
+  using OpRewritePattern::OpRewritePattern;
+
+  mlir::LogicalResult
+  matchAndRewrite(KUNAI::MjolnIR::UndefOp op,
+                  mlir::PatternRewriter &rewriter) const override {
+    bool changed = false;
+    for (auto &use : llvm::make_early_inc_range(op->getUses())) {
+      auto owner = use.getOwner();
+      if (!mlir::isa<mlir::arith::ArithDialect, mlir::math::MathDialect>(
+              owner->getDialect()))
+        continue;
+
+      if (owner->getNumOperands() != 1 || owner->getNumResults() != 1)
+        continue;
+
+      auto resType = owner->getResult(0).getType();
+      rewriter.replaceOpWithNewOp<KUNAI::MjolnIR::UndefOp>(owner, resType);
+      changed = true;
+    }
+    return mlir::success(changed);
+  }
+};
+} // namespace
+
+void UndefOp::getCanonicalizationPatterns(mlir::RewritePatternSet &results,
+                                          mlir::MLIRContext *context) {
+  results.insert<MergeUndefs, SelectOfUndef, ReplaceUndefUse>(context);
 }

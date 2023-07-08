@@ -42,8 +42,8 @@ int main(int argc, char **argv)
 
     //if (argc == 1)
     //{
-    dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test_switches/classes.dex";
-    method_name = "switch5";
+    dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test-loop/classes.dex";
+    method_name = "test";
     //}
     /*
     else if (argc == 3)
@@ -100,8 +100,8 @@ int main(int argc, char **argv)
 
             mlir::PassManager pm(module_op.get()->getName());
 
-            pm.addPass(mlir::createPrintOpGraphPass());
-            pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIROpGraphPass());
+            //pm.addPass(mlir::createPrintOpGraphPass());
+            //pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIROpGraphPass());
             pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIRCfgToScfgPass());
             // Apply any generic pass manager command line options and run the pipeline.
             if (mlir::failed(mlir::applyPassManagerCLOptions(pm)))
