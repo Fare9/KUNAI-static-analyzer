@@ -79,6 +79,12 @@ namespace KUNAI
         public:
             DVMBasicBlock() = default;
 
+            /// avoid any kind of copy constructor    
+            DVMBasicBlock(const DVMBasicBlock& temp_obj) = delete;
+            DVMBasicBlock& operator=(const DVMBasicBlock& temp_obj) = delete;
+
+        public:
+
             /// @brief Obtain the number of instructions from the instructions vector
             /// @return number of instructions of DVMBasicBlock
             size_t get_nb_instructions() const
@@ -327,6 +333,10 @@ namespace KUNAI
             }
         public:
             BasicBlocks() = default;
+
+            /// avoid any kind of copy constructor    
+            BasicBlocks(const BasicBlocks& temp_obj) = delete;
+            BasicBlocks& operator=(const BasicBlocks& temp_obj) = delete;
 
             /// @brief Destructor of the BasicBlocks, we need
             /// to free the memory
