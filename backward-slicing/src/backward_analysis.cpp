@@ -2,6 +2,23 @@
 
 using namespace KUNAI::DEX;
 
+namespace
+{
+    /// for obtaining all the predecessors of a given basic block,
+    /// moved to an unnamed namespace for avoiding collisions with
+    /// other possible get_predecessors
+    void get_predecessors(KUNAI::DEX::DVMBasicBlock *bb, KUNAI::DEX::BasicBlocks &blocks, std::set<DVMBasicBlock *> &predecessors)
+    {
+        if (!bb->is_start_block())
+        {
+            for (auto pred : blocks.predecessors(bb))
+            {
+                predecessors.insert(pred);
+            }
+        }
+    }
+}
+
 int8_t BackwardAnalysis::parse_targets_file(std::string file_path)
 {
     std::ifstream targetsfs;
@@ -52,25 +69,23 @@ void BackwardAnalysis::find_parameters_registers(KUNAI::DEX::MethodAnalysis *xre
 
     // find invoke instruction within the instructions of the xreffrom method using the address of the xref
     auto it = std::find_if(instructions.begin(), instructions.end(), [&](std::unique_ptr<KUNAI::DEX::Instruction> &instr)
-    {
-        return instr->get_address() == addr;
-    });
+                           { return instr->get_address() == addr; });
 
     if (it == instructions.end())
         return;
-    
+
     auto instruc = it->get();
 
     // check specific invoke instruction type to obtain the method's parameters' registers
     const auto instruc_type = instruc->get_instruction_type();
     if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION35C)
     {
-        //std::cout << "Invoke instruction in xreffrom method: " << instruc->print_instruction() << std::endl;
+        // std::cout << "Invoke instruction in xreffrom method: " << instruc->print_instruction() << std::endl;
 
         KUNAI::DEX::Instruction35c *instruction35c = reinterpret_cast<KUNAI::DEX::Instruction35c *>(instruc);
 
         parameters_registers = instruction35c->get_registers();
-        
+
         auto opcode = static_cast<KUNAI::DEX::TYPES::opcodes>(instruction35c->get_instruction_opcode());
 
         // if instruction is invoke-virtual or invoke-direct params start from the second register
@@ -79,7 +94,6 @@ void BackwardAnalysis::find_parameters_registers(KUNAI::DEX::MethodAnalysis *xre
             parameters_registers.erase(parameters_registers.begin());
         }
         // else instruction is invoke-super, invoke-static or invoke-interface params start from the first register
-
     }
     else if (instruc_type == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION45CC)
     {
@@ -91,48 +105,44 @@ void BackwardAnalysis::find_parameters_registers(KUNAI::DEX::MethodAnalysis *xre
     {
         KUNAI::DEX::Instruction4rcc *instruction4rcc = reinterpret_cast<KUNAI::DEX::Instruction4rcc *>(instruc);
         auto &regs = instruction4rcc->get_registers();
-        for (std::size_t i = 0; i < parameters_registers.size(); ++i) 
+        for (std::size_t i = 0; i < parameters_registers.size(); ++i)
             parameters_registers[i] = static_cast<uint8_t>(regs[i]);
         parameters_registers.erase(parameters_registers.begin());
     }
 }
 
-void get_predecessors(KUNAI::DEX::DVMBasicBlock* bb, KUNAI::DEX::BasicBlocks blocks, std::set<DVMBasicBlock*> &predecessors){
-    if (!bb->is_start_block()){
-        for (auto& pred : blocks.predecessors(bb))
-        {
-            predecessors.insert(pred);
-        }
-    }
-}
-
-void BackwardAnalysis::find_parameters_definition(KUNAI::DEX::MethodAnalysis *xreffrom_method){
+void BackwardAnalysis::find_parameters_definition(KUNAI::DEX::MethodAnalysis *xreffrom_method)
+{
     // Check if registers have been identified prior to this
-    if (!parameters_registers.empty()){
+    if (!parameters_registers.empty())
+    {
         // Set of predecessors left to check
-        std::set<DVMBasicBlock*> predecessors;
+        std::set<DVMBasicBlock *> predecessors;
 
         // Obtain basic blocks of the method and insert end block to predecessors
-        auto& blocks = xreffrom_method->get_basic_blocks();
+        auto &blocks = xreffrom_method->get_basic_blocks();
         auto first_block = *blocks.reverse_nodes().begin();
-        
+
         // Iterate for each register or, equivalently, each parameter from our target method
-        for (auto& reg : parameters_registers){       
+        for (auto &reg : parameters_registers)
+        {
             predecessors.clear();
             predecessors.insert(first_block);
 
-            while (!predecessors.empty()){
+            while (!predecessors.empty())
+            {
                 // Pop the first block
                 auto bb = *predecessors.begin();
-                predecessors.erase(predecessors.begin());
+                predecessors.erase(bb);
 
                 // If defining instruction found, no need to explore that branch any further
-                if (analyze_block(bb, reg)){
+                if (analyze_block(bb, reg))
+                {
                     continue;
                 }
 
                 // Otherwise, retrieve that basic block's predecessors
-                get_predecessors(bb, blocks, predecessors);
+                ::get_predecessors(bb, blocks, predecessors);
             }
         }
     }
@@ -142,8 +152,10 @@ void BackwardAnalysis::find_parameters_definition(KUNAI::DEX::MethodAnalysis *xr
     }
 }
 
-int8_t BackwardAnalysis::analyze_block(KUNAI::DEX::DVMBasicBlock* bb, uint8_t reg){
-    if (!bb->is_start_block() && !bb->is_end_block()){
+int8_t BackwardAnalysis::analyze_block(KUNAI::DEX::DVMBasicBlock *bb, uint8_t reg)
+{
+    if (!bb->is_start_block() && !bb->is_end_block())
+    {
 
         // apparently when i try to access anything from bb i get a segmentation fault
 
@@ -160,7 +172,8 @@ int8_t BackwardAnalysis::analyze_block(KUNAI::DEX::DVMBasicBlock* bb, uint8_t re
     return 0;
 }
 
-int8_t BackwardAnalysis::find_defining_instruction(KUNAI::DEX::Instruction* instruc, uint8_t pr){
+int8_t BackwardAnalysis::find_defining_instruction(KUNAI::DEX::Instruction *instruc, uint8_t pr)
+{
     std::uint8_t reg;
 
     // Check for each possible write instruction type (move, const, return, binary operation)
@@ -236,7 +249,7 @@ int8_t BackwardAnalysis::find_defining_instruction(KUNAI::DEX::Instruction* inst
             auto reg_exists = instruction_mapped_registers.find(pr);
             if (reg_exists == instruction_mapped_registers.end())
             {
-                instruction_mapped_registers[pr] = std::vector<KUNAI::DEX::Instruction*>{instruc};
+                instruction_mapped_registers[pr] = std::vector<KUNAI::DEX::Instruction *>{instruc};
             }
             else
             {
@@ -253,28 +266,30 @@ int8_t BackwardAnalysis::find_defining_instruction(KUNAI::DEX::Instruction* inst
         auto reg_exists = instruction_mapped_registers.find(pr);
         if (reg_exists == instruction_mapped_registers.end())
         {
-            instruction_mapped_registers[pr] = std::vector<KUNAI::DEX::Instruction*>{instruc};
+            instruction_mapped_registers[pr] = std::vector<KUNAI::DEX::Instruction *>{instruc};
         }
         else
         {
             reg_exists->second.push_back(instruc);
         }
-        
+
         return 1;
     }
 
     return 0;
 }
 
-void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction* instruc){
+void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction *instruc)
+{
     std::uint8_t reg;
     // Check for each possible write instruction type (move, const, return, binary operation)
     if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION12X)
     {
         KUNAI::DEX::Instruction12x *instruction12x = reinterpret_cast<KUNAI::DEX::Instruction12x *>(instruc);
         reg = instruction12x->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -286,8 +301,9 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     {
         KUNAI::DEX::Instruction11n *instruction11n = reinterpret_cast<KUNAI::DEX::Instruction11n *>(instruc);
         reg = instruction11n->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -299,8 +315,9 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     {
         KUNAI::DEX::Instruction22x *instruction22x = reinterpret_cast<KUNAI::DEX::Instruction22x *>(instruc);
         reg = instruction22x->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -312,8 +329,9 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     {
         KUNAI::DEX::Instruction21s *instruction21s = reinterpret_cast<KUNAI::DEX::Instruction21s *>(instruc);
         reg = instruction21s->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -325,8 +343,9 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     {
         KUNAI::DEX::Instruction21h *instruction21h = reinterpret_cast<KUNAI::DEX::Instruction21h *>(instruc);
         reg = instruction21h->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -338,8 +357,9 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     {
         KUNAI::DEX::Instruction21c *instruction21c = reinterpret_cast<KUNAI::DEX::Instruction21c *>(instruc);
         reg = instruction21c->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -351,8 +371,9 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     {
         KUNAI::DEX::Instruction31i *instruction31i = reinterpret_cast<KUNAI::DEX::Instruction31i *>(instruc);
         reg = instruction31i->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -364,8 +385,9 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     {
         KUNAI::DEX::Instruction31c *instruction31c = reinterpret_cast<KUNAI::DEX::Instruction31c *>(instruc);
         reg = instruction31c->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -377,8 +399,9 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     {
         KUNAI::DEX::Instruction11x *instruction11x = reinterpret_cast<KUNAI::DEX::Instruction11x *>(instruc);
         reg = instruction11x->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -390,8 +413,9 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     {
         KUNAI::DEX::Instruction22b *instruction22b = reinterpret_cast<KUNAI::DEX::Instruction22b *>(instruc);
         reg = instruction22b->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -403,8 +427,9 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     {
         KUNAI::DEX::Instruction22s *instruction22s = reinterpret_cast<KUNAI::DEX::Instruction22s *>(instruc);
         reg = instruction22s->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -416,8 +441,9 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     {
         KUNAI::DEX::Instruction22c *instruction22c = reinterpret_cast<KUNAI::DEX::Instruction22c *>(instruc);
         reg = instruction22c->get_destination();
-        
-        for (auto & pr : parameters_registers){
+
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -431,7 +457,8 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
         KUNAI::DEX::Instruction51l *instruction51l = reinterpret_cast<KUNAI::DEX::Instruction51l *>(instruc);
         reg = instruction51l->get_first_register();
         auto reg2 = instruction51l->get_second_register();
-        for (auto & pr : parameters_registers){
+        for (auto &pr : parameters_registers)
+        {
             if (pr == reg || pr == reg2)
             {
                 instruction_mapped_registers_single[pr] = instruc;
@@ -441,9 +468,11 @@ void BackwardAnalysis::find_defining_instruction_single(KUNAI::DEX::Instruction*
     }
 }
 
-void BackwardAnalysis::find_parameters_definition_single(KUNAI::DEX::MethodAnalysis *xreffrom_method){
+void BackwardAnalysis::find_parameters_definition_single(KUNAI::DEX::MethodAnalysis *xreffrom_method)
+{
     // check if registers have been identified prior to this
-    if (!parameters_registers.empty()){
+    if (!parameters_registers.empty())
+    {
         auto &instructions = xreffrom_method->get_instructions();
         for (auto &instruc : instructions)
         {
@@ -456,21 +485,25 @@ void BackwardAnalysis::find_parameters_definition_single(KUNAI::DEX::MethodAnaly
     }
 }
 
-void BackwardAnalysis::print_parameters_definition(KUNAI::DEX::MethodAnalysis *xreffrom_method){
-    if (!instruction_mapped_registers.empty()){
+void BackwardAnalysis::print_parameters_definition(KUNAI::DEX::MethodAnalysis *xreffrom_method)
+{
+    if (!instruction_mapped_registers.empty())
+    {
         size_t i = 1;
-        for (auto & r : parameters_registers){
+        for (auto &r : parameters_registers)
+        {
             auto e = instruction_mapped_registers.find(r);
-            if (e != instruction_mapped_registers.end()) 
+            if (e != instruction_mapped_registers.end())
             {
                 std::cout << "\tParameter " << i++ << " (register v" << unsigned(e->first) << "): defined in instruction(s) ";
-                for (auto& instruc : e->second){
+                for (auto &instruc : e->second)
+                {
                     if (e->second.size() == 1)
                         std::cout << instruc->print_instruction() << " (address " << instruc->get_address() << ")";
                     else
                         std::cout << "\n\t  - " << instruc->print_instruction() << " (address " << instruc->get_address() << ")";
                 }
-                
+
                 std::cout << std::endl;
             }
             else
@@ -485,12 +518,16 @@ void BackwardAnalysis::print_parameters_definition(KUNAI::DEX::MethodAnalysis *x
     }
 }
 
-void BackwardAnalysis::print_parameters_definition_single(KUNAI::DEX::MethodAnalysis *xreffrom_method){
-    if (!instruction_mapped_registers_single.empty()){
+void BackwardAnalysis::print_parameters_definition_single(KUNAI::DEX::MethodAnalysis *xreffrom_method)
+{
+    if (!instruction_mapped_registers_single.empty())
+    {
         size_t i = 1;
-        for (auto & r : parameters_registers){
+        for (auto &r : parameters_registers)
+        {
             auto e = instruction_mapped_registers_single.find(r);
-            if (e != instruction_mapped_registers_single.end()) {
+            if (e != instruction_mapped_registers_single.end())
+            {
                 std::cout << "\tParameter " << i++ << " (register v" << unsigned(e->first) << "): defined in instruction " << e->second->print_instruction() << " (address " << e->second->get_address() << ")\n";
             }
             else
