@@ -161,7 +161,7 @@ int8_t BackwardAnalysis::analyze_block(KUNAI::DEX::DVMBasicBlock *bb, uint8_t re
 
         for (auto instruc : bb->reverse_instructions())
         {
-            std::cout << instruc->print_instruction() << std::endl;
+            // std::cout << instruc->print_instruction() << std::endl;
             if (find_defining_instruction(instruc, reg))
             {
                 return 1;
@@ -174,7 +174,7 @@ int8_t BackwardAnalysis::analyze_block(KUNAI::DEX::DVMBasicBlock *bb, uint8_t re
 
 int8_t BackwardAnalysis::find_defining_instruction(KUNAI::DEX::Instruction *instruc, uint8_t pr)
 {
-    std::uint8_t reg;
+    std::int8_t reg = -1;
 
     // Check for each possible write instruction type (move, const, return, binary operation)
     if (instruc->get_instruction_type() == KUNAI::DEX::dexinsttype_t::DEX_INSTRUCTION12X)

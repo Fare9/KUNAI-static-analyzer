@@ -1,0 +1,2 @@
+Ljava.io.PrintStream;->println(I)V
+LTest2;->test(I)V

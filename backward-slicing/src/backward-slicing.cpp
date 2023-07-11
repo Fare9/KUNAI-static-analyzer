@@ -51,6 +51,8 @@ int main(int argc, char **argv)
                     auto &xreffrom = method_analysis->get_xreffrom();
                     for (auto xref : xreffrom)
                     {
+                        // Clean the map of already identified registers for previous iteration
+                        backward_analysis.instruction_mapped_registers.clear();
                         auto xref_method = get<1>(xref);
 
                         std::cout << "\nTarget " << i << ": " << backward_analysis.targets_info[i-1].class_name << "->" << backward_analysis.targets_info[i-1].method_name << std::endl;
