@@ -211,7 +211,15 @@ mlir::Value Lifter::readLocalVariableRecursive(KUNAI::DEX::DVMBasicBlock *BB,
     for (auto pred : predecessors)
     {
         if (!CurrentDef[pred].Analyzed)
+        {
+            /// store where we are inserting the data
+            auto aux_current_block = current_basic_block;
+            auto aux_block = builder.getInsertionBlock();
             gen_block(pred);
+            /// set again the insertion point to the end of that block
+            current_basic_block = aux_current_block;
+            builder.setInsertionPointToEnd(aux_block);
+        }
         auto Val = readLocalVariable(pred, BBs, Reg);
 
         if (!Val)
@@ -281,11 +289,12 @@ void Lifter::gen_method(KUNAI::DEX::MethodAnalysis *method)
     /// now traverse each node for generating instructions
     for (auto bb : bbs.get_nodes())
     {
-        if (bb->is_start_block() || bb->is_end_block())
+        /// if it's a starting block
+        /// or it's an ending block
+        /// or it's has already been analyzed
+        if (bb->is_start_block() || bb->is_end_block() || CurrentDef[bb].Analyzed)
             continue;
-        /// set as the insertion point of the instructions
-        builder.setInsertionPointToStart(map_blocks[bb]);
-
+        
         gen_block(bb);
     }
 
@@ -318,6 +327,9 @@ void Lifter::gen_method(KUNAI::DEX::MethodAnalysis *method)
 
 void Lifter::gen_block(KUNAI::DEX::DVMBasicBlock *bb)
 {
+    /// set as the insertion point of the instructions
+    builder.setInsertionPointToStart(map_blocks[bb]);
+
     /// update current basic block
     current_basic_block = bb;
 
@@ -336,7 +348,6 @@ void Lifter::gen_block(KUNAI::DEX::DVMBasicBlock *bb)
     {
         try
         {
-            auto operation = KUNAI::DEX::DalvikOpcodes::get_instruction_operation(instr->get_instruction_opcode());
             /// generate the instruction
             gen_instruction(instr);
         }

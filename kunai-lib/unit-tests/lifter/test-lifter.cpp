@@ -101,7 +101,7 @@ int main(int argc, char **argv)
             mlir::PassManager pm(module_op.get()->getName());
 
             //pm.addPass(mlir::createPrintOpGraphPass());
-            //pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIROpGraphPass());
+            pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIROpGraphPass());
             pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIRCfgToScfgPass());
             // Apply any generic pass manager command line options and run the pipeline.
             if (mlir::failed(mlir::applyPassManagerCLOptions(pm)))
