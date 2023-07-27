@@ -53,14 +53,13 @@ namespace KUNAI
             /// @brief is end block? (empty block)
             bool end_block = false;
             /// @brief Handler type
-            DVMType * handler_type;
+            DVMType *handler_type;
 
             /// @brief name of the block composed by
             /// first and last address
             std::string name;
 
         private:
-
             instructioniterator_t instructions_begin() { return instructions_.begin(); }
             instructioniterator_t instructions_end() { return instructions_.end(); }
 
@@ -68,23 +67,22 @@ namespace KUNAI
             reverseinstructioniterator_t instructions_rend() { return instructions_.rend(); }
 
         public:
-            /// @brief Return a range for going forward through the instructions 
+            /// @brief Return a range for going forward through the instructions
             /// @return forward range for instructions
             iterator_range<instructioniterator_t> instructions() { return make_range(instructions_begin(), instructions_end()); }
 
             /// @brief Return a range for going backward through the instructiosn
             /// @return backward range for instructions
-            iterator_range<reverseinstructioniterator_t>  reverse_instructions() { return make_range(instructions_rbegin(), instructions_rend()); }
+            iterator_range<reverseinstructioniterator_t> reverse_instructions() { return make_range(instructions_rbegin(), instructions_rend()); }
 
         public:
             DVMBasicBlock() = default;
 
-            /// avoid any kind of copy constructor    
-            DVMBasicBlock(const DVMBasicBlock& temp_obj) = delete;
-            DVMBasicBlock& operator=(const DVMBasicBlock& temp_obj) = delete;
+            /// avoid any kind of copy constructor
+            DVMBasicBlock(const DVMBasicBlock &temp_obj) = delete;
+            DVMBasicBlock &operator=(const DVMBasicBlock &temp_obj) = delete;
 
         public:
-
             /// @brief Obtain the number of instructions from the instructions vector
             /// @return number of instructions of DVMBasicBlock
             size_t get_nb_instructions() const
@@ -140,7 +138,7 @@ namespace KUNAI
                 throw exceptions::AnalysisException("get_last_address(): basic block has no instructions");
             }
 
-            std::string& get_name()
+            std::string &get_name()
             {
                 if (!name.empty())
                     return name;
@@ -154,7 +152,7 @@ namespace KUNAI
                 else
                 {
                     s << "BB." << get_first_address()
-                        << "-" << get_last_address();
+                      << "-" << get_last_address();
                     name = s.str();
                 }
 
@@ -191,14 +189,14 @@ namespace KUNAI
 
             /// @brief Get the type of handler in case is a catch block
             /// @return handler type
-            DVMType * get_handler_type()
+            DVMType *get_handler_type()
             {
                 return handler_type;
             }
 
             /// @brief Set a handler type
             /// @param handler handler type
-            void set_handler_type(DVMType * handler)
+            void set_handler_type(DVMType *handler)
             {
                 handler_type = handler;
             }
@@ -251,9 +249,9 @@ namespace KUNAI
             };
 
             /// @brief Iterator for going through a list of basic blocks in order
-            using nodesiterator_t = std::vector<DVMBasicBlock*>::iterator;
+            using nodesiterator_t = std::vector<DVMBasicBlock *>::iterator;
             /// @brief Iterator for going through a list of basic blocks in reverse order
-            using reversenodesiterator_t = std::vector<DVMBasicBlock*>::reverse_iterator;
+            using reversenodesiterator_t = std::vector<DVMBasicBlock *>::reverse_iterator;
 
             /// @brief Iterator for going throw a list of sucessors or predecessors
             using nodesetiterator_t = std::set<DVMBasicBlock *>::iterator;
@@ -264,8 +262,6 @@ namespace KUNAI
             using edgesiterator_t = edges_t::iterator;
             /// @brief Iterator for going through the edges in reverse order
             using reverseedgesiterator_t = edges_t::reverse_iterator;
-
-            
 
         private:
             /// @brief all the basic blocks from a method
@@ -279,7 +275,7 @@ namespace KUNAI
 
             /// @brief edges in the graph, this is a directed graph
             edges_t edges_;
-            
+
             nodesiterator_t nodes_begin() { return nodes_.begin(); }
             nodesiterator_t nodes_end() { return nodes_.end(); }
             reversenodesiterator_t nodes_rbegin() { return nodes_.rbegin(); }
@@ -290,10 +286,7 @@ namespace KUNAI
             reverseedgesiterator_t edges_rbegin() { return edges_.rbegin(); }
             reverseedgesiterator_t edges_rend() { return edges_.rend(); }
 
-            
-
         public:
-            
             iterator_range<nodesiterator_t> nodes() { return make_range(nodes_begin(), nodes_end()); }
             iterator_range<reversenodesiterator_t> reverse_nodes() { return make_range(nodes_rbegin(), nodes_rend()); }
 
@@ -304,7 +297,7 @@ namespace KUNAI
             {
                 if (sucessors_.find(node) == sucessors_.end())
                     throw exceptions::AnalysisException("analysis.hpp::sucessors: given node has no sucessors");
-                
+
                 return make_range(sucessors_[node].begin(), sucessors_[node].end());
             }
 
@@ -320,7 +313,7 @@ namespace KUNAI
             {
                 if (sucessors_.find(node) == sucessors_.end())
                     throw exceptions::AnalysisException("analysis.hpp::sucessors: given node has no sucessors");
-                
+
                 return make_range(sucessors_[node].rbegin(), sucessors_[node].rend());
             }
 
@@ -331,12 +324,13 @@ namespace KUNAI
 
                 return make_range(predecessors_[node].rbegin(), predecessors_[node].rend());
             }
+
         public:
             BasicBlocks() = default;
 
-            /// avoid any kind of copy constructor    
-            BasicBlocks(const BasicBlocks& temp_obj) = delete;
-            BasicBlocks& operator=(const BasicBlocks& temp_obj) = delete;
+            /// avoid any kind of copy constructor
+            BasicBlocks(const BasicBlocks &temp_obj) = delete;
+            BasicBlocks &operator=(const BasicBlocks &temp_obj) = delete;
 
             /// @brief Destructor of the BasicBlocks, we need
             /// to free the memory
@@ -358,14 +352,14 @@ namespace KUNAI
 
             /// @brief Get all predecessors from all the blocks
             /// @return constant reference to predecessors
-            const connected_blocks_t& get_predecessors() const
+            const connected_blocks_t &get_predecessors() const
             {
                 return predecessors_;
             }
 
             /// @brief Get all predecessors from all the blocks
             /// @return reference to predecessors
-            connected_blocks_t& get_predecessors()
+            connected_blocks_t &get_predecessors()
             {
                 return predecessors_;
             }
@@ -380,14 +374,14 @@ namespace KUNAI
 
             /// @brief Get all sucessors from all the blocks
             /// @return constant reference to sucessors
-            const connected_blocks_t& get_sucessors() const
+            const connected_blocks_t &get_sucessors() const
             {
                 return sucessors_;
             }
 
             /// @brief Get all sucessors from all the blocks
             /// @return reference to sucessors
-            connected_blocks_t& get_sucessors()
+            connected_blocks_t &get_sucessors()
             {
                 return sucessors_;
             }
@@ -427,14 +421,14 @@ namespace KUNAI
 
             /// @brief Get a constant reference to the edges of the graph
             /// @return constant reference to the edges
-            const edges_t& get_edges() const
+            const edges_t &get_edges() const
             {
                 return edges_;
             }
 
             /// @brief Get a reference to the edges of the graph
             /// @return reference to the edges
-            edges_t& get_edges()
+            edges_t &get_edges()
             {
                 return edges_;
             }
@@ -465,14 +459,14 @@ namespace KUNAI
 
             /// @brief Get a constant reference to the nodes of the graph
             /// @return constant reference to basic blocks
-            const std::vector<DVMBasicBlock *>& get_nodes() const
+            const std::vector<DVMBasicBlock *> &get_nodes() const
             {
                 return nodes_;
             }
 
             /// @brief Get a reference to the nodes of the graph
             /// @return reference to basic blocks
-            std::vector<DVMBasicBlock *>& get_nodes()
+            std::vector<DVMBasicBlock *> &get_nodes()
             {
                 return nodes_;
             }
@@ -659,17 +653,17 @@ namespace KUNAI
             /// @brief Pretty print an instruction and its opcodes in a dot format to an output dot file
             /// @param dot_file file where to dump the instruction
             /// @param instr instruction to dump to dot file
-            void dump_instruction_dot(std::ofstream& dot_file, Instruction* instr);
+            void dump_instruction_dot(std::ofstream &dot_file, Instruction *instr);
 
             /// @brief Pretty print a basic block in a dot graph
             /// @param dot_file file where to dump the basic block
             /// @param bb basic block to dump to dot file
-            void dump_block_dot(std::ofstream& dot_file, DVMBasicBlock* bb);
+            void dump_block_dot(std::ofstream &dot_file, DVMBasicBlock *bb);
 
             /// @brief Pretty print a method in a dot graph
             /// @param dot_file file where to dump the basic block
             /// @param name name of the dot file
-            void dump_method_dot(std::ofstream& dot_file);
+            void dump_method_dot(std::ofstream &dot_file);
 
             /// @brief Some kind of magic function that will take all
             /// the instructions from the method, and after some wololo
@@ -691,7 +685,7 @@ namespace KUNAI
 
                 if (!is_external)
                 {
-                    auto em = std::get<EncodedMethod*>(method_encoded);
+                    auto em = std::get<EncodedMethod *>(method_encoded);
 
                     regs_from_method = em->get_code_item().get_registers_size();
 
@@ -706,7 +700,7 @@ namespace KUNAI
             /// the current path
             /// @param file_path reference to a path where
             /// to dump the content
-            void dump_dot_file(std::string& file_path)
+            void dump_dot_file(std::string &file_path)
             {
                 std::ofstream dot_file;
 
@@ -722,12 +716,12 @@ namespace KUNAI
                 return is_external;
             }
 
-            const BasicBlocks& get_basic_blocks() const
+            const BasicBlocks &get_basic_blocks() const
             {
                 return basic_blocks;
             }
 
-            BasicBlocks& get_basic_blocks()
+            BasicBlocks &get_basic_blocks()
             {
                 return basic_blocks;
             }
@@ -756,9 +750,23 @@ namespace KUNAI
 
             const std::string &get_full_name() const;
 
-            std::vector<std::unique_ptr<Instruction>>& get_instructions()
+            std::vector<std::unique_ptr<Instruction>> &get_instructions()
             {
                 return instructions_;
+            }
+
+            /// @brief Retrieve a pointer to an instruction by a given address
+            /// @param addr address of the instruction to retrieve
+            /// @return pointer to instruction or nullptr
+            Instruction *get_instruction_by_addr(std::uint64_t addr)
+            {
+                auto it = std::ranges::find_if(instructions_, [=](std::unique_ptr<Instruction> &instr)
+                                               { return instr->get_address() == addr; });
+
+                if (it == instructions_.end())
+                    return nullptr;
+
+                return it->get();
             }
 
             /// @brief Get a range for going forward through the instructions
@@ -949,9 +957,9 @@ namespace KUNAI
                 return is_external;
             }
 
-            std::string& extends() const;
+            std::string &extends() const;
 
-            std::string& name() const;
+            std::string &name() const;
 
             /// @brief Return a vector of implemented interfaces, in
             /// the case of external class raise exception
