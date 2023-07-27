@@ -31,6 +31,7 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
+#include <stack>
 
 namespace KUNAI
 {
@@ -41,6 +42,7 @@ namespace MjolnIR
     public:
         using edge_t = std::pair<KUNAI::DEX::DVMBasicBlock*, KUNAI::DEX::DVMBasicBlock*>;
 
+        /// @brief Definitions inside of a basic block of the registers, and the values
         struct BasicBlockDef
         {
             /// Map a register to its definition in IR
@@ -60,6 +62,18 @@ namespace MjolnIR
             BasicBlockDef() : Analyzed(0) {}
         };
 
+        /// @brief Context for the analysis where we save the current method
+        /// and the current basic blocks.
+        struct AnalysisContext
+        {
+            /// @brief Method currently analyzed, must be updated for each analyzed method
+            KUNAI::DEX::MethodAnalysis * current_method;
+            /// @brief Basic block currently analyzed, must be updated for each basic block analyzed
+            KUNAI::DEX::DVMBasicBlock * current_basic_block;
+            /// @brief An insertion block that can be used to current MLIR basic block
+            mlir::Block * current_ir_block;
+        };
+
     private:
         /// @brief A map to keep the definitions of variables, and
         /// know if a basic block is completely analyzed
@@ -75,7 +89,7 @@ namespace MjolnIR
         /// used for local value analysis
         /// @param BB block where we find the assignment
         /// @param Reg register written
-        /// @param Val 
+        /// @param Val last value for register in basic block
         void writeLocalVariable(KUNAI::DEX::DVMBasicBlock* BB,
                                 std::uint32_t Reg,
                                 mlir::Value Val)
@@ -104,10 +118,21 @@ namespace MjolnIR
             return readLocalVariableRecursive(BB, BBs, Reg);
         }
 
+        /// @brief In case the variable is not in the current basic block,
+        /// this function is called, this function will retrieve the predecessors
+        /// of the basic block and try to look for the value in those basic
+        /// blocks
+        /// @param BB analyzed basic block
+        /// @param BBs reference to all the basic blocks in a structure
+        /// @param Reg register we are looking for
+        /// @return last value defined for the register.
         mlir::Value readLocalVariableRecursive(KUNAI::DEX::DVMBasicBlock* BB,
                                                  KUNAI::DEX::BasicBlocks& BBs,
                                                  std::uint32_t Reg);
         
+        /// @brief For all the basic blocks, set the correct basic block parameters.
+        /// @param BBs reference to all basic blocks
+        /// @param block analyzed basic block
         void fillBlockArgs(KUNAI::DEX::BasicBlocks &BBs, KUNAI::DEX::DVMBasicBlock* block);
 
         /// @brief Reference to an MLIR Context
@@ -125,10 +150,13 @@ namespace MjolnIR
         /// generate an exception or generate a NOP instruction
         bool gen_exception;
 
-        /// @brief Method currently analyzed, must be updated for each analyzed method
-        KUNAI::DEX::MethodAnalysis * current_method;
-        /// @brief Basic block currently analyzed, must be updated for each basic block analyzed
-        KUNAI::DEX::DVMBasicBlock * current_basic_block;
+
+        std::stack<AnalysisContext> scope_context;
+        /// @brief A context for the analysis, it contains the current analyzed
+        /// method and the current analyzed basic block, it can be pushed into
+        /// an stack and later retrieved.
+        AnalysisContext analysis_context;
+
         /// @brief name of the module where we will write all the methods
         std::string module_name;
 
@@ -175,45 +203,114 @@ namespace MjolnIR
         /// @return vector with the generated types from the parameters
         llvm::SmallVector<mlir::Type> gen_prototype(KUNAI::DEX::ProtoID * proto);
 
-        /// @brief Generate a MethodOp from a EncodedMethod given
+        /// @brief Generate a FuncOp from a MethodAnalysis given
         /// @param method pointer to an encoded method to generate a MethodOp
         /// @return method operation from Dalvik
         ::mlir::func::FuncOp get_method(KUNAI::DEX::MethodAnalysis * M);
 
+        /// @brief Initialize possible used types and other necessary stuff
+        void init();
 
+        /// @brief Cast to the indicated type
+        /// @param reg register to cast
+        /// @param type type to cast to
+        /// @param loc location for cast operation
+        void cast_to_type(std::uint32_t reg,
+                          mlir::Type type, 
+                          mlir::FileLineColLoc loc);
+        
+        /// @brief Check types from registers, and cast to the appropiate type
+        /// @param reg1 first register to check
+        /// @param reg2 second register to check
+        /// @param loc location for the cast operation
+        void cast_to_type(std::uint32_t reg1,
+                          std::uint32_t reg2,
+                          mlir::FileLineColLoc loc);
+
+        /// @brief Cast two registers to the provided type
+        /// @param reg1 first register to cast
+        /// @param reg2 second register to cast
+        /// @param type type to cast to
+        /// @param loc location for the cast operation
+        void cast_to_type(std::uint32_t reg1,
+                          std::uint32_t reg2,
+                          mlir::Type type,
+                          mlir::FileLineColLoc loc);
+
+        /// @brief Cast a given value to the provided type
+        /// @param curr_value value to be casted
+        /// @param type target type
+        /// @param loc location for the cast operation
+        /// @return casted type, or previous value if no change.
+        mlir::Value cast_value(mlir::Value curr_value,
+                        mlir::Type type, 
+                        mlir::FileLineColLoc loc);
+    public:
         //===----------------------------------------------------------------------===//
         // Lifting instructions, these class functions will be specialized for the
         // different function types.
         //===----------------------------------------------------------------------===//
+
+        /// @brief Lift an instruction of the type Instruction31c
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction31c *instr);
 
+        /// @brief Lift an instruction of the type Instruction31i
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction31i *instr);
         
+        /// @brief Lift an instruction of the type Instruction32x
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction32x *instr);
 
+        /// @brief Lift an instruction of the type Instruction22x
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction22x *instr);
         
+        /// @brief Lift an instruction of the type Instruction21c
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction21c *instr);
         
+        /// @brief Lift an instruction of the type Instruction35c
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction35c *instr);
         
+        /// @brief Lift an instruction of the type Instruction51l
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction51l *instr);
 
+        /// @brief Lift an instruction of the type Instruction21h
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction21h *instr);
 
+        /// @brief Lift an instruction of the type Instruction21s
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction21s *instr);
 
+        /// @brief Lift an instruction of the type Instruction11n
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction11n *instr);
-
+        
+        /// @brief Lift an instruction of the type Instruction10x
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction10x *instr);
 
+        /// @brief Lift an instruction of the type Instruction10t
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction10t *instr);
 
+        /// @brief Lift an instruction of the type Instruction20t
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction20t *instr);
 
+        /// @brief Lift an instruction of the type Instruction30t
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction30t *instr);
 
+        /// @brief Lift an instruction of the type Instruction31t
+        /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction31t *instr);
+
         /// @brief Lift an instruction of the type Instruction23x
         /// @param instr instruction to lift
         void gen_instruction(KUNAI::DEX::Instruction23x *instr);
@@ -258,11 +355,6 @@ namespace MjolnIR
         /// @brief Generate a MethodOp from a MethodAnalysis
         /// @param method MethodAnalysis object to lift
         void gen_method(KUNAI::DEX::MethodAnalysis* method);
-
-        /// @brief Initialize possible used types and other necessary stuff
-        void init();
-    
-    public:
 
         /// @brief Constructor of Lifter
         /// @param context context from MjolnIR
