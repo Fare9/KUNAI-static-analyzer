@@ -31,7 +31,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction21h *instr)
             ::mlir::APFloat(conv.f),
             ::mlir::Float32Type::get(&context));
 
-        writeLocalVariable(current_basic_block, dest, gen_value);
+        writeLocalVariable(analysis_context.current_basic_block, dest, gen_value);
     }
     break;
     case KUNAI::DEX::TYPES::opcodes::OP_CONST_WIDE_HIGH16:
@@ -44,7 +44,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction21h *instr)
             value,
             64);
 
-        writeLocalVariable(current_basic_block, dest, gen_value);
+        writeLocalVariable(analysis_context.current_basic_block, dest, gen_value);
     }
     break;
     default:

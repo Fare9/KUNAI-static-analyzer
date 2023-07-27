@@ -35,8 +35,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction35c *instr)
              I < Limit;
              ++I)
         {
-            parameters.push_back(readLocalVariable(current_basic_block,
-                                                   current_method->get_basic_blocks(), invoke_parameters[I]));
+            parameters.push_back(readLocalVariable(analysis_context.current_basic_block,
+                                                   analysis_context.current_method->get_basic_blocks(), invoke_parameters[I]));
 
             /// If the method is not static, the first
             /// register is a pointer to the object

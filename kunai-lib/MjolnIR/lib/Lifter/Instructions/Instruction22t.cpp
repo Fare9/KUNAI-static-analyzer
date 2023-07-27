@@ -17,6 +17,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
 
     mlir::Type I1 = ::mlir::IntegerType::get(&context, 1);
 
+    cast_to_type(v1, v2, location);
+
     switch (op_code)
     {
     case KUNAI::DEX::TYPES::OP_IF_EQ:
@@ -27,8 +29,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
                 location,
                 I1,
                 ::mlir::arith::CmpIPredicate::eq,
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v1),
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v2));
         }
     }
     case KUNAI::DEX::TYPES::OP_IF_NE:
@@ -39,8 +41,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
                 location,
                 I1,
                 ::mlir::arith::CmpIPredicate::ne,
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v1),
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v2));
         }
     }
     case KUNAI::DEX::TYPES::OP_IF_LT:
@@ -51,8 +53,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
                 location,
                 I1,
                 ::mlir::arith::CmpIPredicate::slt,
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v1),
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v2));
         }
     }
     case KUNAI::DEX::TYPES::OP_IF_GE:
@@ -63,8 +65,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
                 location,
                 I1,
                 ::mlir::arith::CmpIPredicate::sge,
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v1),
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v2));
         }
     }
     case KUNAI::DEX::TYPES::OP_IF_GT:
@@ -75,8 +77,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
                 location,
                 I1,
                 ::mlir::arith::CmpIPredicate::sgt,
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v1),
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v2));
         }
     }
     case KUNAI::DEX::TYPES::OP_IF_LE:
@@ -87,8 +89,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
                 location,
                 I1,
                 ::mlir::arith::CmpIPredicate::sle,
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v1),
-                readLocalVariable(current_basic_block, current_method->get_basic_blocks(), v2));
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v1),
+                readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), v2));
         }
 
         auto location_jcc = mlir::FileLineColLoc::get(&context, module_name, instr->get_address(), 1);
@@ -99,8 +101,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22t *instr)
         ///     - current_block: for obtaining the required arguments.
         ///     - true_block: for generating branch to `true` block
         ///     - false_block: for generating fallthrough to `false` block.
-        auto true_block = current_method->get_basic_blocks().get_basic_block_by_idx(true_idx);
-        auto false_block = current_method->get_basic_blocks().get_basic_block_by_idx(false_idx);
+        auto true_block = analysis_context.current_method->get_basic_blocks().get_basic_block_by_idx(true_idx);
+        auto false_block = analysis_context.current_method->get_basic_blocks().get_basic_block_by_idx(false_idx);
         /// create the conditional branch
         builder.create<::mlir::cf::CondBranchOp>(
             location_jcc,

@@ -12,11 +12,11 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction31t *instr)
 
     auto location = mlir::FileLineColLoc::get(&context, module_name, curr_idx, 0);
 
-    auto & bbs = current_method->get_basic_blocks();
+    auto & bbs = analysis_context.current_method->get_basic_blocks();
 
     /// get checked value
     auto checked_reg = instr->get_ref_register();
-    auto checked_reg_value = readLocalVariable(current_basic_block, bbs, checked_reg);
+    auto checked_reg_value = readLocalVariable(analysis_context.current_basic_block, bbs, checked_reg);
 
     /// values for generating switch
     mlir::SmallVector<mlir::Block *> caseSuccessors;

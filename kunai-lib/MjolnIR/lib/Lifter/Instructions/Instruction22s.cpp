@@ -23,7 +23,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
         if (!val)
             val = builder.create<mlir::arith::ConstantIntOp>(location, src2, 16);
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
 
             auto generated_value = builder.create<::mlir::arith::AddIOp>(
                 location_1,
@@ -31,14 +31,14 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
                 src1_value,
                 val);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     case KUNAI::DEX::TYPES::OP_SUB_INT_LIT16:
         if (!val)
             val = builder.create<mlir::arith::ConstantIntOp>(location, src2, 16);
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
 
             auto generated_value = builder.create<::mlir::arith::SubIOp>(
                 location_1,
@@ -46,14 +46,14 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
                 src1_value,
                 val);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     case KUNAI::DEX::TYPES::OP_MUL_INT_LIT16:
         if (!val)
             val = builder.create<mlir::arith::ConstantIntOp>(location, src2, 16);
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
 
             auto generated_value = builder.create<::mlir::arith::MulIOp>(
                 location_1,
@@ -61,14 +61,14 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
                 src1_value,
                 val);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     case KUNAI::DEX::TYPES::OP_DIV_INT_LIT16:
         if (!val)
             val = builder.create<mlir::arith::ConstantIntOp>(location, src2, 16);
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
 
             auto generated_value = builder.create<::mlir::arith::DivSIOp>(
                 location_1,
@@ -76,14 +76,14 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
                 src1_value,
                 val);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     case KUNAI::DEX::TYPES::OP_REM_INT_LIT16:
         if (!val)
             val = builder.create<mlir::arith::ConstantIntOp>(location, src2, 16);
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
 
             auto generated_value = builder.create<::mlir::arith::RemSIOp>(
                 location_1,
@@ -91,14 +91,14 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
                 src1_value,
                 val);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     case KUNAI::DEX::TYPES::OP_AND_INT_LIT16:
         if (!val)
             val = builder.create<mlir::arith::ConstantIntOp>(location, src2, 16);
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
 
             auto generated_value = builder.create<::mlir::arith::AndIOp>(
                 location_1,
@@ -106,14 +106,14 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
                 src1_value,
                 val);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     case KUNAI::DEX::TYPES::OP_OR_INT_LIT16:
         if (!val)
             val = builder.create<mlir::arith::ConstantIntOp>(location, src2, 16);
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
 
             auto generated_value = builder.create<::mlir::arith::OrIOp>(
                 location_1,
@@ -121,14 +121,14 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
                 src1_value,
                 val);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     case KUNAI::DEX::TYPES::OP_XOR_INT_LIT16:
         if (!val)
             val = builder.create<mlir::arith::ConstantIntOp>(location, src2, 16);
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
 
             auto generated_value = builder.create<::mlir::arith::XOrIOp>(
                 location_1,
@@ -136,7 +136,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22s *instr)
                 src1_value,
                 val);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     default:

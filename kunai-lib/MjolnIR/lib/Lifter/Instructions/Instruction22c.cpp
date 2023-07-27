@@ -40,7 +40,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
             field_class,
             field_ref);
 
-        writeLocalVariable(current_basic_block, reg, generated_value);
+        writeLocalVariable(analysis_context.current_basic_block, reg, generated_value);
     }
     break;
     case KUNAI::DEX::TYPES::OP_IPUT:
@@ -57,7 +57,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
         std::string &field_name = field->get_name();
         std::string &field_class = field->get_class()->get_raw();
 
-        auto reg_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), reg);
+        auto reg_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), reg);
 
         builder.create<::mlir::KUNAI::MjolnIR::StoreFieldOp>(
             location,
@@ -75,7 +75,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
 
         auto array = get_array(array_type);
 
-        auto size = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), instr->get_operand());
+        auto size = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), instr->get_operand());
 
         auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::NewArrayOp>(
             location,
@@ -83,7 +83,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
             size
         );
 
-        writeLocalVariable(current_basic_block, reg, gen_value);
+        writeLocalVariable(analysis_context.current_basic_block, reg, gen_value);
     }
     break;
     default:

@@ -32,8 +32,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
         if (!dest_type)
             dest_type = doubleType;
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
-            auto src2_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src2);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
+            auto src2_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src2);
 
             mlir::Value generated_value;
 
@@ -54,7 +54,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
                     src2_value);
             }
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     /// Different Sub operations
@@ -71,8 +71,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
         if (!dest_type)
             dest_type = doubleType;
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
-            auto src2_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src2);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
+            auto src2_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src2);
             mlir::Value generated_value;
 
             if (llvm::isa<mlir::IntegerType>(dest_type))
@@ -92,7 +92,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
                     src2_value);
             }
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     /// Different Mul operations
@@ -109,8 +109,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
         if (!dest_type)
             dest_type = doubleType;
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
-            auto src2_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src2);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
+            auto src2_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src2);
             ::mlir::Value generated_value;
 
             if (llvm::isa<::mlir::IntegerType>(dest_type))
@@ -130,7 +130,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
                     src2_value);
             }
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     /// Different Div operations
@@ -147,8 +147,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
         if (!dest_type)
             dest_type = doubleType;
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
-            auto src2_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src2);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
+            auto src2_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src2);
             ::mlir::Value generated_value;
 
             if (llvm::isa<::mlir::IntegerType>(dest_type))
@@ -168,7 +168,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
                     src2_value);
             }
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
     /// Different Rem operations
@@ -185,8 +185,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
         if (!dest_type)
             dest_type = doubleType;
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
-            auto src2_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src2);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
+            auto src2_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src2);
             ::mlir::Value generated_value;
 
             if (llvm::isa<::mlir::IntegerType>(dest_type))
@@ -206,7 +206,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
                     src2_value);
             }
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
 
@@ -218,8 +218,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
         if (!dest_type)
             dest_type = longType;
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
-            auto src2_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src2);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
+            auto src2_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src2);
 
             auto generated_value = builder.create<::mlir::arith::AndIOp>(
                 location,
@@ -227,7 +227,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
                 src1_value,
                 src2_value);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
 
@@ -239,8 +239,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
         if (!dest_type)
             dest_type = longType;
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
-            auto src2_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src2);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
+            auto src2_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src2);
 
             auto generated_value = builder.create<::mlir::arith::OrIOp>(
                 location,
@@ -248,7 +248,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
                 src1_value,
                 src2_value);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
 
@@ -260,8 +260,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
         if (!dest_type)
             dest_type = longType;
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
-            auto src2_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src2);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
+            auto src2_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src2);
 
             auto generated_value = builder.create<::mlir::arith::XOrIOp>(
                 location,
@@ -269,7 +269,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
                 src1_value,
                 src2_value);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
 
@@ -281,8 +281,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
         if (!dest_type)
             dest_type = longType;
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
-            auto src2_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src2);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
+            auto src2_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src2);
 
             auto generated_value = builder.create<::mlir::arith::ShLIOp>(
                 location,
@@ -290,7 +290,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
                 src1_value,
                 src2_value);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
 
@@ -302,8 +302,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
         if (!dest_type)
             dest_type = longType;
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
-            auto src2_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src2);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
+            auto src2_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src2);
 
             auto generated_value = builder.create<::mlir::arith::ShRSIOp>(
                 location,
@@ -311,7 +311,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
                 src1_value,
                 src2_value);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
 
@@ -323,8 +323,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
         if (!dest_type)
             dest_type = longType;
         {
-            auto src1_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src1);
-            auto src2_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src2);
+            auto src1_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src1);
+            auto src2_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src2);
 
             auto generated_value = builder.create<::mlir::arith::ShRUIOp>(
                 location,
@@ -332,7 +332,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction23x *instr)
                 src1_value,
                 src2_value);
 
-            writeLocalVariable(current_basic_block, dest, generated_value);
+            writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
         }
         break;
 

@@ -24,7 +24,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction21c *instr)
             location,
             cls_type);
 
-        writeLocalVariable(current_basic_block, dest, gen_value);
+        writeLocalVariable(analysis_context.current_basic_block, dest, gen_value);
     }
     break;
     case KUNAI::DEX::TYPES::OP_CONST_STRING:
@@ -38,7 +38,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction21c *instr)
             str_value,
             str_ref);
 
-        writeLocalVariable(current_basic_block, dest, gen_value);
+        writeLocalVariable(analysis_context.current_basic_block, dest, gen_value);
     }
     break;
     case KUNAI::DEX::TYPES::OP_SGET:
@@ -64,7 +64,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction21c *instr)
             field_class,
             field_ref);
 
-        writeLocalVariable(current_basic_block, dest, generated_value);
+        writeLocalVariable(analysis_context.current_basic_block, dest, generated_value);
     }
     break;
 

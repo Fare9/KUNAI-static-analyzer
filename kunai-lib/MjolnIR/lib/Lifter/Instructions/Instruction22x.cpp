@@ -19,14 +19,14 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22x *instr)
     case KUNAI::DEX::TYPES::OP_MOVE_WIDE_FROM16:
     case KUNAI::DEX::TYPES::OP_MOVE_OBJECT_FROM16:
     {
-        auto src_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), src);
+        auto src_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), src);
 
         auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::MoveOp>(
             location,
             src_value.getType(),
             src_value);
 
-        writeLocalVariable(current_basic_block, dest, gen_value);
+        writeLocalVariable(analysis_context.current_basic_block, dest, gen_value);
     }
     break;
 

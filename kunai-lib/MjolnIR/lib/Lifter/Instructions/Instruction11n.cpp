@@ -18,12 +18,12 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction11n *instr)
     {
         auto value = instr->get_source();
 
-        auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::LoadValue>(
+        auto gen_value = builder.create<::mlir::arith::ConstantIntOp>(
             location,
-            byteType,
-            value);
+            value,
+            32);
 
-        writeLocalVariable(current_basic_block, dest, gen_value);
+        writeLocalVariable(analysis_context.current_basic_block, dest, gen_value);
     }
     break;
 

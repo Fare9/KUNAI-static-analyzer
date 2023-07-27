@@ -25,7 +25,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction31c *instr)
             str_value,
             str_ref);
 
-        writeLocalVariable(current_basic_block, dest, gen_value);
+        writeLocalVariable(analysis_context.current_basic_block, dest, gen_value);
     }
     break;
 

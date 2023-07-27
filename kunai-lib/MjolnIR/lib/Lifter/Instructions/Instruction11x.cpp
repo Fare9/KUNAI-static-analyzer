@@ -18,7 +18,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction11x *instr)
     case KUNAI::DEX::TYPES::OP_RETURN_WIDE:
     case KUNAI::DEX::TYPES::OP_RETURN_OBJECT:
     {
-        auto reg_value = readLocalVariable(current_basic_block, current_method->get_basic_blocks(), dest);
+        auto reg_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), dest);
 
         builder.create<::mlir::func::ReturnOp>(
             location,
@@ -29,12 +29,12 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction11x *instr)
     case KUNAI::DEX::TYPES::OP_MOVE_RESULT_WIDE:
     case KUNAI::DEX::TYPES::OP_MOVE_RESULT_OBJECT:
     {
-        if (auto call = mlir::dyn_cast<::mlir::KUNAI::MjolnIR::InvokeOp>(map_blocks[current_basic_block]->back()))
+        if (auto call = mlir::dyn_cast<::mlir::KUNAI::MjolnIR::InvokeOp>(map_blocks[analysis_context.current_basic_block]->back()))
         {
             if (call.getNumResults() == 0)
                 break;
             auto call_result = call.getResult(0);
-            writeLocalVariable(current_basic_block, dest, call_result);
+            writeLocalVariable(analysis_context.current_basic_block, dest, call_result);
         }
         else
             throw exceptions::LifterException("Lifter::gen_instruction: error lifting OP_MOVE_RESULT*, last instruction is not an invoke...");

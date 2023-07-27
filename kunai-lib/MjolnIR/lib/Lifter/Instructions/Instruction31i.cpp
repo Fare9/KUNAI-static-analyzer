@@ -28,7 +28,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction31i *instr)
             ::mlir::Float32Type::get(&context)
         );
 
-        writeLocalVariable(current_basic_block, dest, gen_value);
+        writeLocalVariable(analysis_context.current_basic_block, dest, gen_value);
     }
     break;
 
