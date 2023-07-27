@@ -28,7 +28,8 @@
 
 namespace cl = llvm::cl;
 
-
+static cl::opt<std::string> FilePath("file", llvm::cl::desc("File path"), llvm::cl::value_desc("filename"), llvm::cl::Required);
+static cl::opt<std::string> MethodName("method", llvm::cl::desc("Method name"), llvm::cl::value_desc("methodname"), llvm::cl::Required);
 
 int main(int argc, char **argv)
 {
@@ -40,18 +41,11 @@ int main(int argc, char **argv)
     std::string dex_file_path;
     std::string method_name;
 
-    //if (argc == 1)
-    //{
-    dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test-loop/classes.dex";
-    method_name = "test";
-    //}
-    /*
-    else if (argc == 3)
-    {
-        dex_file_path = argv[1];
-        method_name = argv[2];
-    }
-    */
+    ///dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test-loop/classes.dex";
+    ///method_name = "test";
+    dex_file_path = FilePath;
+    method_name = MethodName;
+    
     auto logger = KUNAI::LOGGER::logger();
 
     logger->set_level(spdlog::level::debug);

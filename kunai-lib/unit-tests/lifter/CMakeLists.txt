@@ -10,6 +10,7 @@ if(USE_MJOLNIR)
 
     target_link_libraries(test-lifter
         PRIVATE
+        
         KUNAI
         MjolnIR
         Lifter
@@ -18,7 +19,10 @@ if(USE_MJOLNIR)
         MLIRPass
         MLIRParser
         MLIRTransforms
+
+        ${LLVM_COMMON_LIBS}
         )
+
 
     add_test(NAME test-lifter
         COMMAND test-lifter)

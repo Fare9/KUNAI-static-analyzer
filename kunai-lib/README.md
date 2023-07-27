@@ -79,7 +79,7 @@ Once we have it installed in our system, I will use the same compiler and the sa
 ```console
 $ cd kunai-lib/
 # configure the project
-$ cmake -S . -B build/ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Debug -DUSE_MJOLNIR=ON -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DUNIT_TESTING=ON
+$ CXXFLAGS="-fno-rtti" cmake -S . -B build/ -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=Debug -DUSE_MJOLNIR=ON -DCMAKE_EXE_LINKER_FLAGS="-fuse-ld=lld" -DUNIT_TESTING=ON
 -- The CXX compiler identification is Clang 17.0.0
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
@@ -95,6 +95,14 @@ $ cmake --build build/ -j
 ```
 
 With this you should have been able to compile Kunai together with MjolnIR, and also the unit tests. As previously stated this part of the project is right now very experimental, and no code warranty is provided, soon we will try to improve the installation of Kunai with MjolnIR and also improve the Lifter for making its usage easier for analysis.
+
+The included `CXXFLAGS="-fno-rtti"` is used to avoid the next error:
+
+```
+error: undefined symbol: typeinfo for llvm::cl::GenericOptionValue
+```
+
+In the case you compiled LLVM without RTTI (Recommended since it's very slow), with this the error compiling the `test-lifter` is avoided.
 
 
 ## Project Structure
