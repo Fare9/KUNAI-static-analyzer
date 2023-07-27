@@ -43,6 +43,26 @@ namespace
                "successor operands size doesn't match block arg count");
     }
 
+    /// @brief MjolnIR only has F32 (float) and F64 (double) floats,
+    /// return if it's a float
+    /// @param type type to check
+    /// @return if type is floating point
+    bool is_float(mlir::Type type)
+    {
+        return (type.isF32() || type.isF64());
+    }
+
+    /// @brief MjolnIR has different Integer types, check if it's one of them
+    /// @param type type to check
+    /// @return if type is integer
+    bool is_integer(mlir::Type type)
+    {
+        return (
+            type.isInteger(8) ||
+            type.isInteger(16) ||
+            type.isInteger(32) ||
+            type.isInteger(64));
+    }
 }
 
 void Lifter::init()
@@ -152,7 +172,7 @@ llvm::SmallVector<mlir::Type> Lifter::gen_prototype(KUNAI::DEX::ProtoID *proto)
     // now retrieve the return type
     // we have to check if the method returns void
     if (proto->get_return_type()->get_type() == KUNAI::DEX::DVMType::FUNDAMENTAL &&
-        reinterpret_cast<KUNAI::DEX::DVMFundamental *>(proto->get_return_type())->get_fundamental_type() == 
+        reinterpret_cast<KUNAI::DEX::DVMFundamental *>(proto->get_return_type())->get_fundamental_type() ==
             KUNAI::DEX::DVMFundamental::VOID)
     {
         methodType = builder.getFunctionType(paramTypes, mlir::TypeRange());
@@ -198,6 +218,21 @@ mlir::Value Lifter::readLocalVariableRecursive(KUNAI::DEX::DVMBasicBlock *BB,
                                                KUNAI::DEX::BasicBlocks &BBs,
                                                std::uint32_t Reg)
 {
+    /// for checking the predecessor block
+    auto _check_pred = [this](KUNAI::DEX::DVMBasicBlock *pred)
+    {
+        /// If the predecessor block was analyzed, it's okay
+        if (CurrentDef[pred].Analyzed)
+            return;
+        /// in other case, generate it
+        scope_context.push(analysis_context);
+        gen_block(pred);
+        analysis_context = scope_context.top();
+        scope_context.pop();
+        /// set again the insertion point to the end of that block
+        builder.setInsertionPointToEnd(analysis_context.current_ir_block);
+    };
+
     mlir::Value new_value;
 
     /// because block doesn't have it add it to required.
@@ -210,16 +245,8 @@ mlir::Value Lifter::readLocalVariableRecursive(KUNAI::DEX::DVMBasicBlock *BB,
 
     for (auto pred : predecessors)
     {
-        if (!CurrentDef[pred].Analyzed)
-        {
-            /// store where we are inserting the data
-            auto aux_current_block = current_basic_block;
-            auto aux_block = builder.getInsertionBlock();
-            gen_block(pred);
-            /// set again the insertion point to the end of that block
-            current_basic_block = aux_current_block;
-            builder.setInsertionPointToEnd(aux_block);
-        }
+        _check_pred(pred);
+
         auto Val = readLocalVariable(pred, BBs, Reg);
 
         if (!Val)
@@ -266,12 +293,37 @@ void Lifter::fillBlockArgs(KUNAI::DEX::BasicBlocks &BBs, KUNAI::DEX::DVMBasicBlo
 
 void Lifter::gen_method(KUNAI::DEX::MethodAnalysis *method)
 {
+    /// fix for whenever we have a fallthrough
+    auto _gen_fallthrough_jmp = [this](KUNAI::DEX::DVMBasicBlock *bb,
+                                       KUNAI::DEX::BasicBlocks::connected_blocks_t &sucessors,
+                                       KUNAI::DEX::BasicBlocks &bbs)
+    {
+        /// if the block doesn't finish with a terminator instruction
+        if (!bb->get_instructions().back()->is_terminator() &&
+            /// and also it cannot be a right predecessor from an end block
+            !(*sucessors[bb].begin())->is_end_block())
+        {
+            auto last_instr = bb->get_instructions().back();
+
+            auto next_block = bbs.get_basic_block_by_idx(
+                last_instr->get_address() + last_instr->get_instruction_length());
+
+            auto loc = mlir::FileLineColLoc::get(&context, module_name, last_instr->get_address(), 1);
+
+            builder.setInsertionPointToEnd(map_blocks[bb]);
+
+            builder.create<mlir::cf::BranchOp>(
+                loc,
+                map_blocks[next_block]);
+        }
+    };
+
     /// create the method
     auto function = get_method(method);
     /// obtain the basic blocks
     auto &bbs = method->get_basic_blocks();
     /// update the current method
-    current_method = method;
+    analysis_context.current_method = method;
 
     /// generate the blocks for each node
     for (auto bb : bbs.get_nodes())
@@ -294,34 +346,280 @@ void Lifter::gen_method(KUNAI::DEX::MethodAnalysis *method)
         /// or it's has already been analyzed
         if (bb->is_start_block() || bb->is_end_block() || CurrentDef[bb].Analyzed)
             continue;
-        
+
         gen_block(bb);
     }
+
+    auto &sucessors = bbs.get_sucessors();
 
     for (auto bb : bbs.get_nodes())
     {
         if (bb->is_start_block() || bb->is_end_block())
             continue;
 
-        /// fix for whenever we have a fallthrough
-        if (!bb->get_instructions().back()->is_terminator() &&
-            !(*bbs.get_sucessors()[bb].begin())->is_end_block())
-        {
-            auto last_instr = bb->get_instructions().back();
-
-            auto next_block = current_method->get_basic_blocks().get_basic_block_by_idx(
-                last_instr->get_address() + last_instr->get_instruction_length());
-
-            auto loc = mlir::FileLineColLoc::get(&context, module_name, last_instr->get_address(), 1);
-
-            builder.setInsertionPointToEnd(map_blocks[bb]);
-
-            builder.create<mlir::cf::BranchOp>(
-                loc,
-                map_blocks[next_block]);
-        }
+        _gen_fallthrough_jmp(bb, sucessors, bbs);
 
         fillBlockArgs(bbs, bb);
+    }
+}
+
+void Lifter::cast_to_type(std::uint32_t reg,
+                          mlir::Type type,
+                          mlir::FileLineColLoc loc)
+{
+    bool changed_value = false;
+    mlir::Value new_value;
+    auto curr_value = readLocalVariable(analysis_context.current_basic_block,
+                                        analysis_context.current_method->get_basic_blocks(),
+                                        reg);
+    auto curr_type = curr_value.getType();
+
+    if (type == curr_type) // if type is equal return
+        return;
+
+    if (::is_float(type)) /// type is float
+    {
+        if (::is_integer(curr_type)) /// int to float
+        {
+            new_value = builder.create<::mlir::arith::SIToFPOp>(
+                loc,
+                type,
+                curr_value);
+            changed_value = true;
+        }
+
+        if (::is_float(curr_type)) /// both are float
+        {
+            if (type.getIntOrFloatBitWidth() >
+                curr_type.getIntOrFloatBitWidth()) /// extend float
+            {
+                new_value = builder.create<::mlir::arith::ExtFOp>(
+                    loc,
+                    type,
+                    curr_value);
+                changed_value = true;
+            }
+            else /// trunc float
+            {
+                new_value = builder.create<::mlir::arith::TruncFOp>(
+                    loc,
+                    type,
+                    curr_value);
+                changed_value = true;
+            }
+        }
+    }
+    else if (::is_integer(type))
+    {
+        if (::is_integer(curr_type))
+        {
+            if (type.getIntOrFloatBitWidth() >
+                curr_type.getIntOrFloatBitWidth()) /// extend int
+            {
+                new_value = builder.create<::mlir::arith::ExtSIOp>(
+                    loc,
+                    type,
+                    curr_value);
+                changed_value = true;
+            }
+            else /// trunc integer
+            {
+                new_value = builder.create<::mlir::arith::TruncIOp>(
+                    loc,
+                    type,
+                    curr_value);
+                changed_value = true;
+            }
+        }
+
+        if (::is_float(curr_type)) /// float to int
+        {
+            new_value = builder.create<::mlir::arith::FPToSIOp>(
+                loc,
+                type,
+                curr_value);
+            changed_value = true;
+        }
+    }
+
+    if (changed_value)
+    {
+        /// write the new value as the current one
+        writeLocalVariable(analysis_context.current_basic_block, reg, new_value);
+    }
+}
+
+mlir::Value Lifter::cast_value(mlir::Value curr_value,
+                        mlir::Type type, 
+                        mlir::FileLineColLoc loc)
+{
+    bool changed_value = false;
+    mlir::Value new_value;
+    auto curr_type = curr_value.getType();
+
+    if (::is_float(type)) /// type is float
+    {
+        if (::is_integer(curr_type)) /// int to float
+        {
+            new_value = builder.create<::mlir::arith::SIToFPOp>(
+                loc,
+                type,
+                curr_value);
+            changed_value = true;
+        }
+
+        if (::is_float(curr_type)) /// both are float
+        {
+            if (type.getIntOrFloatBitWidth() >
+                curr_type.getIntOrFloatBitWidth()) /// extend float
+            {
+                new_value = builder.create<::mlir::arith::ExtFOp>(
+                    loc,
+                    type,
+                    curr_value);
+                changed_value = true;
+            }
+            else /// trunc float
+            {
+                new_value = builder.create<::mlir::arith::TruncFOp>(
+                    loc,
+                    type,
+                    curr_value);
+                changed_value = true;
+            }
+        }
+    }
+    else if (::is_integer(type))
+    {
+        if (::is_integer(curr_type))
+        {
+            if (type.getIntOrFloatBitWidth() >
+                curr_type.getIntOrFloatBitWidth()) /// extend int
+            {
+                new_value = builder.create<::mlir::arith::ExtSIOp>(
+                    loc,
+                    type,
+                    curr_value);
+            }
+            else /// trunc integer
+            {
+                new_value = builder.create<::mlir::arith::TruncIOp>(
+                    loc,
+                    type,
+                    curr_value);
+            }
+        }
+
+        if (::is_float(curr_type)) /// float to int
+        {
+            new_value = builder.create<::mlir::arith::FPToSIOp>(
+                loc,
+                type,
+                curr_value);
+            changed_value = true;
+        }
+    }
+
+    if (changed_value)
+        return new_value;
+    return curr_value;
+}
+
+void Lifter::cast_to_type(std::uint32_t reg1,
+                          std::uint32_t reg2,
+                          mlir::FileLineColLoc loc)
+{
+    bool changed_value1 = false;
+    bool changed_value2 = false;
+
+    mlir::Value new_value;
+
+    auto curr_value1 = readLocalVariable(analysis_context.current_basic_block,
+                                         analysis_context.current_method->get_basic_blocks(),
+                                         reg1);
+    auto curr_value2 = readLocalVariable(analysis_context.current_basic_block,
+                                         analysis_context.current_method->get_basic_blocks(),
+                                         reg2);
+
+    auto curr_type1 = curr_value1.getType();
+    auto curr_type2 = curr_value2.getType();
+
+    if (curr_type1 == curr_type2)
+        return;
+    
+    if (::is_float(curr_type1) && ::is_float(curr_type2))
+    {
+        if (curr_type1.getIntOrFloatBitWidth() > curr_type2.getIntOrFloatBitWidth())
+        {
+            new_value = builder.create<::mlir::arith::ExtFOp>(
+                loc,
+                curr_type1,
+                curr_value2
+            );
+            changed_value2 = true;
+        }
+        else
+        {
+            new_value = builder.create<::mlir::arith::ExtFOp>(
+                loc,
+                curr_type2,
+                curr_value1
+            );
+            changed_value1 = true;
+        }
+    }
+
+    else if (::is_integer(curr_type1) && ::is_integer(curr_type2))
+    {
+        if (curr_type1.getIntOrFloatBitWidth() > curr_type2.getIntOrFloatBitWidth())
+        {
+            new_value = builder.create<::mlir::arith::ExtSIOp>(
+                loc,
+                curr_type1,
+                curr_value2
+            );
+            changed_value2 = true;
+        }
+        else
+        {
+            new_value = builder.create<::mlir::arith::ExtSIOp>(
+                loc,
+                curr_type2,
+                curr_value1
+            );
+            changed_value1 = true;
+        }
+    }
+
+    else if (::is_float(curr_type1))
+    {
+        new_value = builder.create<::mlir::arith::SIToFPOp>(
+            loc,
+            curr_type1,
+            curr_value2
+        );
+        changed_value2 = true;
+    }
+
+    else if (::is_float(curr_type2))
+    {
+        new_value = builder.create<::mlir::arith::SIToFPOp>(
+            loc,
+            curr_type2,
+            curr_value1
+        );
+        changed_value1 = true;
+    }
+
+    if (changed_value1)
+    {
+        /// write the new value as the current one
+        writeLocalVariable(analysis_context.current_basic_block, reg1, new_value);
+    }
+    else if (changed_value2)
+    {
+        /// write the new value as the current one
+        writeLocalVariable(analysis_context.current_basic_block, reg2, new_value);        
     }
 }
 
@@ -330,8 +628,9 @@ void Lifter::gen_block(KUNAI::DEX::DVMBasicBlock *bb)
     /// set as the insertion point of the instructions
     builder.setInsertionPointToStart(map_blocks[bb]);
 
-    /// update current basic block
-    current_basic_block = bb;
+    /// update current basic blocks
+    analysis_context.current_basic_block = bb;
+    analysis_context.current_ir_block = map_blocks[bb];
 
     if (bb->is_try_block())
     {
