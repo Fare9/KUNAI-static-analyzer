@@ -70,8 +70,8 @@ namespace MjolnIR
             KUNAI::DEX::MethodAnalysis * current_method;
             /// @brief Basic block currently analyzed, must be updated for each basic block analyzed
             KUNAI::DEX::DVMBasicBlock * current_basic_block;
-            /// @brief An insertion block that can be used to current MLIR basic block
-            mlir::Block * current_ir_block;
+            /// @brief insertion point to be restored
+            mlir::OpBuilder::InsertPoint ip;
         };
 
     private:

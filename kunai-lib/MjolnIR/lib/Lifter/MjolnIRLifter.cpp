@@ -225,12 +225,13 @@ mlir::Value Lifter::readLocalVariableRecursive(KUNAI::DEX::DVMBasicBlock *BB,
         if (CurrentDef[pred].Analyzed)
             return;
         /// in other case, generate it
+        analysis_context.ip = builder.saveInsertionPoint();
         scope_context.push(analysis_context);
         gen_block(pred);
         analysis_context = scope_context.top();
         scope_context.pop();
-        /// set again the insertion point to the end of that block
-        builder.setInsertionPointToEnd(analysis_context.current_ir_block);
+        /// set again the insertion point
+        builder.restoreInsertionPoint(analysis_context.ip);
     };
 
     mlir::Value new_value;
@@ -630,7 +631,6 @@ void Lifter::gen_block(KUNAI::DEX::DVMBasicBlock *bb)
 
     /// update current basic blocks
     analysis_context.current_basic_block = bb;
-    analysis_context.current_ir_block = map_blocks[bb];
 
     if (bb->is_try_block())
     {
