@@ -30,6 +30,8 @@ namespace cl = llvm::cl;
 
 static cl::opt<std::string> FilePath("file", llvm::cl::desc("File path"), llvm::cl::value_desc("filename"), llvm::cl::Required);
 static cl::opt<std::string> MethodName("method", llvm::cl::desc("Method name"), llvm::cl::value_desc("methodname"), llvm::cl::Required);
+static cl::opt<bool> GenCFG("gen-cfg", llvm::cl::desc("Generate CFG"), llvm::cl::value_desc("gen-cfg"));
+static cl::opt<bool> Decompile("decomp", llvm::cl::desc("Apply simple decompilation"), llvm::cl::value_desc("decomp"));
 
 int main(int argc, char **argv)
 {
@@ -41,10 +43,16 @@ int main(int argc, char **argv)
     std::string dex_file_path;
     std::string method_name;
 
-    ///dex_file_path = std::string(KUNAI_TEST_FOLDER) + "/test-loop/classes.dex";
-    ///method_name = "test";
+    bool gen_cfg = false;
+    bool decompile = false;
+
     dex_file_path = FilePath;
     method_name = MethodName;
+
+    if (GenCFG)
+        gen_cfg = GenCFG;
+    if (Decompile)
+        decompile = Decompile;
     
     auto logger = KUNAI::LOGGER::logger();
 
@@ -88,23 +96,28 @@ int main(int argc, char **argv)
         }
         else
         {
+            
             mlir::OpPrintingFlags printFlags;
             module_op->print(fileStream, printFlags);
             llvm::outs() << "MLIR module written to file: " << filePath << "\n";
 
-            mlir::PassManager pm(module_op.get()->getName());
+            if (gen_cfg || decompile)
+            {
+                mlir::PassManager pm(module_op.get()->getName());
 
-            //pm.addPass(mlir::createPrintOpGraphPass());
-            pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIROpGraphPass());
-            pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIRCfgToScfgPass());
-            // Apply any generic pass manager command line options and run the pipeline.
-            if (mlir::failed(mlir::applyPassManagerCLOptions(pm)))
-                return 4;
+                if (gen_cfg)
+                    pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIROpGraphPass());
+                if (decompile)
+                    pm.addNestedPass<mlir::func::FuncOp>(KUNAI::MjolnIR::createMjolnIRCfgToScfgPass());
+                // Apply any generic pass manager command line options and run the pipeline.
+                if (mlir::failed(mlir::applyPassManagerCLOptions(pm)))
+                    std::cout << "Failed applyPassManagerCLOptions...\n";
 
-            if (mlir::failed(pm.run(*module_op)))
-                return 5;
-
-            module_op->dump();            
+                if (mlir::failed(pm.run(*module_op)))
+                    std::cout << "Failed pass manager run...\n";
+                
+                module_op->dump();
+            }     
         }
     }
 }

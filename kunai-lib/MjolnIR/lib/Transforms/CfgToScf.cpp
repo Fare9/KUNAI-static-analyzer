@@ -28,6 +28,8 @@ using namespace mlir;
 
 namespace
 {
+    static const constexpr bool debugLoopRestructuring = false;
+
     static void eraseBlocks(mlir::PatternRewriter &rewriter,
                             llvm::ArrayRef<mlir::Block *> blocks)
     {
@@ -587,7 +589,7 @@ namespace
                 auto res = tailLoopToWhile(rewriter, op.getLoc(), bodyBlock, args);
                 if (!res)
                     continue;
-                /// in case we 
+                /// in case we
                 auto newTrueDest = reverse ? op.getTrueDest() : *res;
                 auto newFalseDest = reverse ? *res : op.getFalseDest();
                 rewriter.replaceOpWithNewOp<mlir::cf::CondBranchOp>(
@@ -596,6 +598,898 @@ namespace
                 return mlir::success();
             }
             return mlir::failure();
+        }
+    };
+
+    namespace
+    {
+        /// @brief Structure represented strongly connected components
+        struct SCC
+        {
+            struct Node
+            {
+                mlir::SmallVector<mlir::Block *, 4> blocks;
+            };
+            mlir::SmallVector<Node> nodes;
+
+            /// @brief function for dumping the strongly connected components
+            void dump() const
+            {
+                for (auto &&[i, node] : llvm::enumerate(nodes))
+                {
+                    llvm::errs() << "scc node " << i << "\n";
+                    for (auto b : node.blocks)
+                    {
+                        llvm::errs() << " block ";
+                        b->dump();
+                    }
+                }
+            }
+        };
+
+        struct BlockDesc
+        {
+            enum
+            {
+                UndefinedIndex = -1
+            };
+            int index = UndefinedIndex;
+            int lowLink = UndefinedIndex;
+            bool onStack = false;
+        };
+
+        /// @brief define an Edge type for the mlir blocks
+        using Edge = std::pair<mlir::Block *, mlir::Block *>;
+    } /// namespace
+
+    static void strongconnect(
+        mlir::Block *block,
+        llvm::SmallDenseMap<mlir::Block *, BlockDesc> &blocks,
+        llvm::SmallVectorImpl<mlir::Block *> &stack,
+        int &index,
+        SCC &scc)
+    {
+        assert(block);
+        auto &desc = blocks[block];
+        /// check if the description of the block
+        /// was already initialized
+        if (desc.index != BlockDesc::UndefinedIndex)
+            return;
+        /// initialize the description of the block
+        desc.index = index;
+        desc.lowLink = index;
+        ++index;
+
+        desc.onStack = true;
+        stack.push_back(block);
+
+        /// get the region where blocks are contained
+        auto region = block->getParent();
+        for (mlir::Block *successor : block->getSuccessors())
+        {
+            /// go over the successors, we will create strongly connected components
+
+            if (region != successor->getParent())
+                continue;
+
+            auto &successorDesc = blocks[successor];
+
+            bool update = false;
+            if (successorDesc.index == BlockDesc::UndefinedIndex) /// if successor has not been processed
+            {
+                /// Strongly connect components
+                strongconnect(successor, blocks, stack, index, scc);
+                update = true;
+            }
+            else if (successorDesc.onStack)
+            {
+                update = true;
+            }
+
+            if (update)
+            {
+                /// blocks dense map may have been reallocated, retrieve
+                /// again the values
+                auto &successorDesc1 = blocks[successor];
+                auto &desc1 = blocks[block];
+                /// for predecessor block, set the low link
+                desc1.lowLink = std::min(desc1.lowLink, successorDesc1.index);
+            }
+        }
+
+        auto &desc1 = blocks[block];
+        /// if blocks were connected to the current one
+        if (desc1.lowLink != desc1.index)
+            return;
+
+        auto &sccNode = scc.nodes.emplace_back();
+        mlir::Block *currentBlock = nullptr;
+        /// go over the stack of nodes adding it to
+        /// to the vector of strongly connected blocks
+        do
+        {
+            assert(!stack.empty());
+            currentBlock = stack.pop_back_val();
+            blocks[currentBlock].onStack = false;
+            sccNode.blocks.emplace_back(currentBlock);
+        } while (currentBlock != block);
+    }
+
+    /// SCC construction algorithm from
+    /// https://en.wikipedia.org/wiki/Tarjan%27s_strongly_connected_components_algorithm
+    static SCC buildSCC(mlir::Region &region)
+    {
+        SCC scc;
+
+        llvm::SmallDenseMap<mlir::Block *, BlockDesc> blocks;
+        llvm::SmallVector<mlir::Block *> stack;
+        int index = 0;
+        /// strongly connect the blocks from the region
+        /// following Tarjan algorithm
+        for (auto &block : region)
+            strongconnect(&block, blocks, stack, index, scc);
+
+        return scc;
+    }
+
+    /// @brief From a terminator instruction retrieve its operands
+    /// in case it's a conditional terminator, get the one from
+    /// target provided
+    /// @param term instruction to retrieve arguments
+    /// @param target target in case a conditional branch is provided.
+    /// @return
+    static mlir::ValueRange getTerminatorArgs(mlir::Operation *term, mlir::Block *target)
+    {
+        assert(term);
+        assert(target);
+
+        if (auto br = mlir::dyn_cast<mlir::cf::BranchOp>(term)) /// in case it is a branch operation
+        {
+            assert(target == br.getDest());
+            return br.getDestOperands();
+        }
+
+        if (auto condBr = mlir::dyn_cast<mlir::cf::CondBranchOp>(term))
+        {
+            assert(target == condBr.getTrueDest() || target == condBr.getFalseDest());
+
+            return target == condBr.getTrueDest() ? condBr.getTrueDestOperands() : condBr.getFalseDestOperands();
+        }
+
+        llvm_unreachable("getTerminatorArgs: terminator provided not supported");
+    }
+
+    /// @brief From an edge object (Node->Node) retrieve
+    /// the arguments from the terminator instruction.
+    /// @param edge edge to retrieve the arguments
+    /// @return arguments from edge
+    static mlir::ValueRange getEdgeArgs(Edge edge)
+    {
+        auto term = edge.first->getTerminator();
+        auto args = getTerminatorArgs(term, edge.second);
+        assert(args.size() == edge.second->getNumArguments());
+        return args;
+    }
+
+    /// @brief Replace the destination from an edge for a new destination
+    /// @param rewriter rewriter from MLIR to create a new instruction
+    /// @param edge edge where to modify the destination
+    /// @param newDest new destination to set
+    /// @param newArgs new arguments to set
+    static void replaceEdgeDest(mlir::PatternRewriter &rewriter,
+                                Edge edge,
+                                mlir::Block *newDest,
+                                mlir::ValueRange newArgs)
+    {
+        /// check that the new arguments and the number of
+        /// arguments of the new destination have same size
+        assert(newDest->getNumArguments() == newArgs.size());
+
+        auto term = edge.first->getTerminator();
+        /// keep the insertion point
+        mlir::OpBuilder::InsertionGuard g(rewriter);
+        rewriter.setInsertionPoint(term); /// set the insertion point in the terminator instruction
+
+        /// replace a branch instruction
+        if (auto br = mlir::dyn_cast<mlir::cf::BranchOp>(term)) /// is a BranchOp?
+        {
+            assert(edge.second == br.getDest());
+            /// replace previous branch, with a new one pointing to a new destination
+            rewriter.replaceOpWithNewOp<mlir::cf::BranchOp>(br, newDest, newArgs);
+            return;
+        }
+
+        /// replace a conditional branch instruction
+        if (auto condBr = mlir::dyn_cast<mlir::cf::CondBranchOp>(term))
+        {
+            mlir::Block *trueDest = condBr.getTrueDest();
+            mlir::ValueRange trueArgs = condBr.getTrueDestOperands();
+            mlir::Block *falseDest = condBr.getFalseDest();
+            mlir::ValueRange falseArgs = condBr.getFalseDestOperands();
+
+            if (edge.second == trueDest) /// replace the true destination
+            {
+                trueDest = newDest;
+                trueArgs = newArgs;
+            }
+            if (edge.second == falseDest)
+            {
+                falseDest = newDest;
+                falseArgs = falseArgs;
+            }
+
+            auto cond = condBr.getCondition();
+            rewriter.replaceOpWithNewOp<mlir::cf::CondBranchOp>(condBr, cond, trueDest, trueArgs, falseDest, falseArgs);
+            return;
+        }
+
+        llvm_unreachable("replaceEdgeDest: unsupported terminator");
+    }
+
+    static void addTypesFromEdges(llvm::ArrayRef<Edge> edges, llvm::SmallVectorImpl<mlir::Type> &ret)
+    {
+        for (auto edge : edges)
+        {
+            auto edgeArgs = edge.second->getArgumentTypes();
+            ret.append(edgeArgs.begin(), edgeArgs.end());
+        }
+    }
+
+    static void generateMultiplexedBranches(mlir::PatternRewriter &rewriter,
+                                            mlir::Location loc,
+                                            mlir::Block *srcBlock,
+                                            mlir::ValueRange multiplexArgs,
+                                            mlir::ValueRange srcArgs,
+                                            llvm::ArrayRef<Edge> edges)
+    {
+        assert(srcBlock);
+        assert(!edges.empty());
+
+        /// store the point where we are inserting data
+        mlir::OpBuilder::InsertionGuard g(rewriter);
+
+        auto region = srcBlock->getParent();
+        auto numMultiplexVars = edges.size() - 1;
+        assert(multiplexArgs.size() == numMultiplexVars);
+
+        /// only two nodes
+        if (edges.size() == 1)
+        {
+            rewriter.setInsertionPointToEnd(srcBlock);
+            auto dst = edges.front().second;
+            assert(dst->getNumArguments() == srcArgs.size());
+            rewriter.create<mlir::cf::BranchOp>(loc, dst, srcArgs);
+            return;
+        }
+
+        mlir::Block *currentBlock = srcBlock;
+        for (auto &&[i, edge] : llvm::enumerate(edges.drop_back()))
+        {
+            /// get destination of the edge
+            mlir::Block *dst = edge.second;
+            auto numArgs = dst->getNumArguments();
+            auto args = srcArgs.take_front(numArgs);
+            /// check the args from the source and destination
+            /// are of same size
+            assert(numArgs == args.size());
+
+            rewriter.setInsertionPointToEnd(currentBlock);
+
+            auto cond = multiplexArgs[i];
+
+            if (i == (numMultiplexVars - 1))
+            {
+                auto lastEdge = edges.back();
+                auto lastDst = lastEdge.second;
+                auto falseArgs = srcArgs.drop_front(numArgs);
+                assert(lastDst->getNumArguments() == falseArgs.size());
+                rewriter.create<mlir::cf::CondBranchOp>(loc, cond, dst, args, lastDst,
+                                                        falseArgs);
+            }
+            else
+            {
+                auto nextBlock = [&]() -> mlir::Block *
+                {
+                    mlir::OpBuilder::InsertionGuard g(rewriter);
+                    return rewriter.createBlock(region);
+                }();
+                assert(nextBlock->getNumArguments() == 0);
+                rewriter.create<mlir::cf::CondBranchOp>(loc, cond, dst, args, nextBlock,
+                                                        mlir::ValueRange{});
+                currentBlock = nextBlock;
+            }
+            srcArgs = srcArgs.drop_front(numArgs);
+        }
+    }
+
+    static void initMultiplexConds(mlir::PatternRewriter &rewriter,
+                                   mlir::Location loc, size_t currentBlock,
+                                   size_t numBlocks,
+                                   llvm::SmallVectorImpl<mlir::Value> &res)
+    {
+        assert(numBlocks > 0);
+        assert(currentBlock < numBlocks);
+        auto boolType = rewriter.getI1Type();
+        auto trueVal = rewriter.create<mlir::arith::ConstantIntOp>(loc, 1, boolType);
+        auto falseVal = rewriter.create<mlir::arith::ConstantIntOp>(loc, 0, boolType);
+        for (auto j : llvm::seq<size_t>(0, numBlocks - 1))
+        {
+            auto val = (j == currentBlock ? trueVal : falseVal);
+            res.emplace_back(val);
+        }
+    }
+
+    static void initUndefMultiplexConds(mlir::PatternRewriter &rewriter,
+                                        mlir::Location loc, size_t numBlocks,
+                                        llvm::SmallVectorImpl<mlir::Value> &res)
+    {
+        assert(numBlocks > 0);
+        auto boolType = rewriter.getI1Type();
+        auto undefVal = rewriter.create<mlir::KUNAI::MjolnIR::UndefOp>(loc, boolType);
+        for (auto j : llvm::seq<size_t>(0, numBlocks - 1))
+        {
+            (void)j;
+            res.emplace_back(undefVal);
+        }
+    }
+
+    static void initMultiplexVars(mlir::PatternRewriter &rewriter,
+                                  mlir::Location loc, size_t currentBlock,
+                                  llvm::ArrayRef<Edge> edges,
+                                  llvm::SmallVectorImpl<mlir::Value> &res)
+    {
+        assert(currentBlock < edges.size());
+        for (auto &&[j, edge] : llvm::enumerate(edges))
+        {
+            mlir::ValueRange args = getEdgeArgs(edge);
+            if (j == currentBlock)
+            {
+                res.append(args.begin(), args.end());
+            }
+            else
+            {
+                for (auto type : args.getTypes())
+                {
+                    mlir::Value init = rewriter.create<mlir::KUNAI::MjolnIR::UndefOp>(loc, type);
+                    res.emplace_back(init);
+                }
+            }
+        }
+    }
+
+    static void initUndefMultiplexVars(mlir::PatternRewriter &rewriter,
+                                       mlir::Location loc,
+                                       llvm::ArrayRef<Edge> edges,
+                                       llvm::SmallVectorImpl<mlir::Value> &res)
+    {
+        for (auto &&[j, edge] : llvm::enumerate(edges))
+        {
+            for (auto type : edge.second->getArgumentTypes())
+            {
+                mlir::Value init = rewriter.create<mlir::KUNAI::MjolnIR::UndefOp>(loc, type);
+                res.emplace_back(init);
+            }
+        }
+    }
+
+    /// @brief Check if a loop is structured, check the edges are correct.
+    /// @param inEdges input edges from the loop
+    /// @param outEdges output edges from the loop
+    /// @param repEdges these must be those that point to itself
+    /// @return if loop is structured
+    static bool isStructuredLoop(llvm::ArrayRef<Edge> inEdges,
+                                 llvm::ArrayRef<Edge> outEdges,
+                                 llvm::ArrayRef<Edge> repEdges)
+    {
+        if (inEdges.empty())
+            return false;
+
+        if (outEdges.size() != 1)
+            return false;
+
+        auto outBlock = outEdges.front().first;
+
+        auto inBlock = inEdges.front().second;
+
+        for (auto edge : inEdges.drop_front())
+        {
+            if (edge.second != inBlock) /// check if point to the correct block
+                return false;
+        }
+
+        if (outBlock->getNumSuccessors() != 2) /// check the out block of the loop
+                                               /// has only two sucessors (out and begin of loop)
+            return false;
+
+        /// get sucessors from out block of the loop
+        auto succ1 = outBlock->getSuccessor(0);
+        auto succ2 = outBlock->getSuccessor(1);
+        /// check successors do not point to same block
+        return (succ1 == inBlock && succ2 != inBlock) ||
+               (succ2 == inBlock && succ1 != inBlock);
+    }
+
+    static void visitBlock(mlir::Block *block,
+                           mlir::Block *begin,
+                           mlir::Block *end,
+                           llvm::SmallSetVector<mlir::Block *, 8> &blocks)
+    {
+        assert(block);
+        assert(begin);
+        assert(end);
+
+        /// block cannot be begin nor end
+        if (block == begin || block == end)
+            return;
+        /// if block is already in set of visited blocks...
+        if (blocks.count(block))
+            return;
+
+        /// visit the block, and continue
+        blocks.insert(block);
+        for (auto successor : block->getSuccessors())
+            visitBlock(successor, begin, end, blocks);
+    }
+
+    static auto collectBlocks(mlir::Block *begin, mlir::Block *end)
+    {
+        assert(begin);
+        assert(end);
+
+        llvm::SmallSetVector<mlir::Block *, 8> blocks;
+        for (auto successor : begin->getSuccessors())
+            visitBlock(successor, begin, end, blocks);
+
+        return blocks.takeVector();
+    }
+
+    static mlir::Block *wrapIntoRegion(mlir::PatternRewriter &rewriter,
+                                       mlir::Block *entryBlock,
+                                       mlir::Block *exitBlock)
+    {
+        assert(entryBlock);
+        assert(exitBlock);
+        assert(entryBlock->getParent() == exitBlock->getParent());
+        mlir::OpBuilder::InsertionGuard g(rewriter);
+
+        auto region = entryBlock->getParent();
+        auto loc = rewriter.getUnknownLoc();
+        llvm::SmallVector<mlir::Location> locs(entryBlock->getNumArguments(), loc);
+
+        /// @brief lambda for creating a block
+        auto createBlock = [&](mlir::TypeRange types = std::nullopt) -> mlir::Block *
+        {
+            locs.resize(types.size(), loc);
+            return rewriter.createBlock(region, {}, types, locs);
+        };
+
+        llvm::SmallVector<mlir::Block *> cachedPredecessors;
+        mlir::IRMapping cachedMapping;
+
+        /// @brief Lambda for making predecessors of a block, point to a new block
+        auto updatePredecessors = [&](mlir::Block *block, mlir::Block *newBlock)
+        {
+            assert(block);
+            assert(newBlock);
+            assert(block->getArgumentTypes() == newBlock->getArgumentTypes());
+
+            cachedMapping.clear();
+            cachedMapping.map(block, newBlock);
+            auto preds = block->getPredecessors();
+            cachedPredecessors.clear();
+            cachedPredecessors.assign(preds.begin(), preds.end());
+            /// make every predecessor points to the new block
+            for (auto predecessor : cachedPredecessors)
+            {
+                auto term = predecessor->getTerminator();
+                rewriter.setInsertionPoint(term);
+                /// deep copy of terminal instruction
+                /// changed the mapped operands
+                rewriter.clone(*term, cachedMapping);
+                rewriter.eraseOp(term);
+            }
+        };
+
+        /// create an empty block
+        auto newEntryBlock = createBlock();
+        /// predecessor block
+        auto preBlock = createBlock(entryBlock->getArgumentTypes());
+        /// branch operation to just created block
+        rewriter.create<mlir::cf::BranchOp>(loc, newEntryBlock);
+
+        /// update the predecessors of entryBlock to point to preBlock
+        updatePredecessors(entryBlock, preBlock);
+        /// entryBlock to -> newEntryBlock
+        rewriter.mergeBlocks(entryBlock, newEntryBlock, preBlock->getArguments());
+
+        /// create new exit block for the loop
+        auto newExitBlock = createBlock(exitBlock->getArgumentTypes());
+
+        /// we will merge the exit block into the new exit block
+        /// so clone the exit terminator into postBlock, and erase
+        /// current one
+        auto exitTerm = exitBlock->getTerminator();
+        auto postBlock = createBlock();
+        rewriter.clone(*exitTerm);
+        rewriter.eraseOp(exitTerm);
+        /// now replace the exit block
+        updatePredecessors(exitBlock, newExitBlock);
+        rewriter.mergeBlocks(exitBlock, newExitBlock, newExitBlock->getArguments());
+
+        /// create a terminator to the post block
+        rewriter.setInsertionPointToEnd(newExitBlock);
+        rewriter.create<mlir::cf::BranchOp>(loc, postBlock);
+
+        auto blocks = collectBlocks(preBlock, postBlock);
+
+        auto definedValues = getDefinedValues(blocks, postBlock);
+
+        mlir::ValueRange definedValuesRange(definedValues);
+        auto newBlock = createBlock();
+        auto regionOp = rewriter.create<mlir::scf::ExecuteRegionOp>(
+            loc, definedValuesRange.getTypes());
+
+        rewriter.setInsertionPoint(newExitBlock->getTerminator());
+        rewriter.replaceOpWithNewOp<mlir::scf::YieldOp>(newExitBlock->getTerminator(),
+                                                        definedValues);
+
+        for (auto &&[oldVal, newVal] :
+             llvm::zip(definedValues, regionOp->getResults()))
+        {
+            for (auto &use : llvm::make_early_inc_range(oldVal.getUses()))
+            {
+                auto owner = use.getOwner();
+                auto block = region->findAncestorBlockInRegion(*owner->getBlock());
+                if (block && llvm::is_contained(blocks, block))
+                    continue;
+
+                mlir::Value val = newVal;
+                rewriter.updateRootInPlace(owner, [&]()
+                                           { use.set(val); });
+            }
+        }
+
+        auto &regionOpRegion = regionOp.getRegion();
+        auto dummyBlock = rewriter.createBlock(&regionOpRegion);
+        for (auto block : blocks)
+            block->moveBefore(dummyBlock);
+
+        rewriter.eraseBlock(dummyBlock);
+
+        rewriter.mergeBlocks(postBlock, newBlock);
+
+        rewriter.eraseOp(preBlock->getTerminator());
+        rewriter.mergeBlocks(newBlock, preBlock);
+
+        return preBlock;
+    }
+
+    static void buildEdges(llvm::ArrayRef<mlir::Block *> blocks,
+                           llvm::SmallVectorImpl<Edge> &inEdges,
+                           llvm::SmallVectorImpl<Edge> &outEdges,
+                           llvm::SmallVectorImpl<Edge> &repetitionEdges)
+    {
+        llvm::SmallDenseSet<mlir::Block *> blocksSet(blocks.begin(), blocks.end());
+
+        auto region = blocks.front()->getParent();
+
+        /// @brief check if block is a strongly connected block
+        auto isInSCC = [&](mlir::Block *block)
+        {
+            assert(block);
+            return blocksSet.count(block) != 0;
+        };
+
+        for (auto block : blocks)
+        {
+            bool isInput = false;
+
+            /// generate the inEdges of the loop
+            for (auto predecessor : block->getPredecessors())
+            {
+                /// predecessor block is not in same region
+                if (predecessor->getParent() != region)
+                    continue;
+
+                if (!isInSCC(predecessor))
+                {
+                    inEdges.emplace_back(predecessor, block);
+                    isInput = true;
+                }
+            }
+
+            /// generate the outEdges of the loop
+            for (auto successor : block->getSuccessors())
+            {
+                if (successor->getParent() != region)
+                    continue;
+
+                if (!isInSCC(successor))
+                    outEdges.emplace_back(block, successor);
+            }
+
+            /// generate the repetitionEdges
+            if (isInput)
+            {
+                for (auto predecessor : block->getPredecessors())
+                {
+                    if (predecessor->getParent() != region)
+                        continue;
+
+                    if (isInSCC(predecessor))
+                        repetitionEdges.emplace_back(predecessor, block);
+                }
+            }
+        }
+
+        if (debugLoopRestructuring)
+        {
+            auto printEdges = [](auto &edges, llvm::StringRef name)
+            {
+                llvm::errs() << name << " edges begin\n";
+                for (auto e : edges)
+                {
+                    llvm::errs() << " edge\n";
+                    e.first->dump();
+                    e.second->dump();
+                }
+                llvm::errs() << name << " edges end\n";
+            };
+            printEdges(inEdges, "inEdges");
+            printEdges(outEdges, "outEdges");
+            printEdges(repetitionEdges, "repetitionEdges");
+        }
+    }
+
+    /// @brief Main algorithm from paper https://dl.acm.org/doi/pdf/10.1145/2693261
+    /// implemented in Numba, restructure loop into tail-controlled form according
+    /// to algorithm described in the paper.
+    /// @param rewriter rewriter from MLIR
+    /// @param node strongly connected components
+    /// @return true if any modification was done to the IR
+    static bool restructureLoop(mlir::PatternRewriter &rewriter, SCC::Node &node)
+    {
+        assert(!node.blocks.empty());
+
+        if (node.blocks.size() == 1)
+            return false;
+
+        auto &blocks = node.blocks;
+        auto region = blocks.front()->getParent();
+
+        /// create edges of blocks
+        llvm::SmallVector<Edge> inEdges;
+        llvm::SmallVector<Edge> outEdges;
+        llvm::SmallVector<Edge> repetitionEdges;
+        buildEdges(blocks, inEdges, outEdges, repetitionEdges);
+
+        if (inEdges.empty())
+            return false;
+
+        llvm::SmallVector<Edge> multiplexEdges(inEdges.begin(), inEdges.end());
+        multiplexEdges.append(repetitionEdges.begin(), repetitionEdges.end());
+        assert(!multiplexEdges.empty());
+
+        // Check if we are already in structured form.
+        if (isStructuredLoop(inEdges, outEdges, repetitionEdges))
+            return false;
+
+        auto boolType = rewriter.getI1Type();
+        auto numInMultiplexVars = multiplexEdges.size() - 1;
+        mlir::Block *multiplexEntryBlock = nullptr;
+        auto loc = rewriter.getUnknownLoc();
+        auto createBlock = [&](mlir::TypeRange types =
+                                   std::nullopt) -> mlir::Block *
+        {
+            llvm::SmallVector<mlir::Location> locs(types.size(), loc);
+            return rewriter.createBlock(region, {}, types, locs);
+        };
+
+        {
+            llvm::SmallVector<mlir::Type> entryBlockTypes(numInMultiplexVars, boolType);
+            addTypesFromEdges(multiplexEdges, entryBlockTypes);
+            multiplexEntryBlock = createBlock(entryBlockTypes);
+            mlir::ValueRange blockArgs = multiplexEntryBlock->getArguments();
+            generateMultiplexedBranches(rewriter, loc, multiplexEntryBlock,
+                                        blockArgs.take_front(numInMultiplexVars),
+                                        blockArgs.drop_front(numInMultiplexVars),
+                                        multiplexEdges);
+        }
+
+        mlir::ValueRange repMultiplexOutVars;
+        mlir::ValueRange exitArgs;
+        mlir::Block *repBlock = nullptr;
+        mlir::Block *exitBlock = nullptr;
+        auto numOutMultiplexVars = repetitionEdges.size() + outEdges.size() - 2;
+        {
+            llvm::SmallVector<mlir::Type> repBlockTypes(numOutMultiplexVars + 1,
+                                                        boolType);
+            auto prevSize = repBlockTypes.size();
+            addTypesFromEdges(repetitionEdges, repBlockTypes);
+            auto numRepArgs = repBlockTypes.size() - prevSize;
+
+            addTypesFromEdges(outEdges, repBlockTypes);
+
+            repBlock = createBlock(repBlockTypes);
+            exitBlock = createBlock();
+
+            mlir::Value cond = repBlock->getArgument(0);
+            auto repBlockArgs =
+                repBlock->getArguments().drop_front(numOutMultiplexVars + 1);
+            auto repMultiplexVars =
+                repBlock->getArguments().drop_front().take_front(numOutMultiplexVars);
+            auto repMultiplexRepVars =
+                repMultiplexVars.take_front(repetitionEdges.size() - 1);
+            repMultiplexOutVars = repMultiplexVars.take_back(outEdges.size() - 1);
+
+            {
+                rewriter.setInsertionPointToStart(repBlock);
+                mlir::Value falseVal =
+                    rewriter.create<mlir::arith::ConstantIntOp>(loc, 0, boolType);
+                llvm::SmallVector<mlir::Value> multiplexArgs(inEdges.size(), falseVal);
+                multiplexArgs.append(repMultiplexRepVars.begin(),
+                                     repMultiplexRepVars.end());
+
+                initUndefMultiplexVars(rewriter, loc, inEdges, multiplexArgs);
+                mlir::ValueRange repetitionArgs = repBlockArgs.take_front(numRepArgs);
+                multiplexArgs.append(repetitionArgs.begin(), repetitionArgs.end());
+
+                assert(multiplexEntryBlock->getNumArguments() == multiplexArgs.size());
+                rewriter.create<mlir::cf::CondBranchOp>(loc, cond, multiplexEntryBlock,
+                                                        multiplexArgs, exitBlock,
+                                                        mlir::ValueRange{});
+            }
+
+            exitArgs = repBlockArgs.drop_front(numRepArgs);
+
+            llvm::SmallVector<mlir::Value> branchArgs;
+            llvm::SmallVector<mlir::Block *> toReplace;
+
+            toReplace.clear();
+            for (auto &&[i, inEdge] : llvm::enumerate(inEdges))
+            {
+                auto entryBlock = createBlock();
+                rewriter.setInsertionPointToStart(entryBlock);
+                branchArgs.clear();
+                initMultiplexConds(rewriter, loc, i, multiplexEdges.size(), branchArgs);
+                initMultiplexVars(rewriter, loc, i, inEdges, branchArgs);
+                initUndefMultiplexVars(rewriter, loc, repetitionEdges, branchArgs);
+
+                assert(multiplexEntryBlock->getNumArguments() == branchArgs.size());
+                rewriter.create<mlir::cf::BranchOp>(loc, multiplexEntryBlock, branchArgs);
+                toReplace.emplace_back(entryBlock);
+            }
+            for (auto &&[i, edge] : llvm::enumerate(inEdges))
+                replaceEdgeDest(rewriter, edge, toReplace[i], {});
+
+            toReplace.clear();
+            for (auto &&[i, repEdge] : llvm::enumerate(repetitionEdges))
+            {
+                auto preRepBlock = createBlock();
+                rewriter.setInsertionPointToStart(preRepBlock);
+                mlir::Value trueVal =
+                    rewriter.create<mlir::arith::ConstantIntOp>(loc, 1, boolType);
+
+                branchArgs.clear();
+                branchArgs.emplace_back(trueVal);
+
+                initMultiplexConds(rewriter, loc, i, repetitionEdges.size(), branchArgs);
+                initUndefMultiplexConds(rewriter, loc, outEdges.size(), branchArgs);
+
+                initMultiplexVars(rewriter, loc, i, repetitionEdges, branchArgs);
+                initUndefMultiplexVars(rewriter, loc, outEdges, branchArgs);
+
+                assert(branchArgs.size() == repBlock->getNumArguments());
+                rewriter.create<mlir::cf::BranchOp>(loc, repBlock, branchArgs);
+                toReplace.emplace_back(preRepBlock);
+            }
+            for (auto &&[i, edge] : llvm::enumerate(repetitionEdges))
+                replaceEdgeDest(rewriter, edge, toReplace[i], {});
+
+            toReplace.clear();
+            for (auto &&[i, outEdge] : llvm::enumerate(outEdges))
+            {
+                auto preRepBlock = createBlock();
+                rewriter.setInsertionPointToStart(preRepBlock);
+                mlir::Value falseVal =
+                    rewriter.create<mlir::arith::ConstantIntOp>(loc, 0, boolType);
+
+                branchArgs.clear();
+                branchArgs.emplace_back(falseVal);
+
+                initUndefMultiplexConds(rewriter, loc, repetitionEdges.size(),
+                                        branchArgs);
+                initMultiplexConds(rewriter, loc, i, outEdges.size(), branchArgs);
+
+                initUndefMultiplexVars(rewriter, loc, repetitionEdges, branchArgs);
+                initMultiplexVars(rewriter, loc, i, outEdges, branchArgs);
+
+                assert(branchArgs.size() == repBlock->getNumArguments());
+                rewriter.create<mlir::cf::BranchOp>(loc, repBlock, branchArgs);
+                toReplace.emplace_back(preRepBlock);
+            }
+            for (auto &&[i, edge] : llvm::enumerate(outEdges))
+                replaceEdgeDest(rewriter, edge, toReplace[i], {});
+        }
+
+        generateMultiplexedBranches(rewriter, loc, exitBlock, repMultiplexOutVars,
+                                    exitArgs, outEdges);
+
+        auto resultingBlock = wrapIntoRegion(rewriter, multiplexEntryBlock, repBlock);
+
+        // Invoke TailLoopToWhile directly, so it will run before region inlining.
+        for (auto predBlock : resultingBlock->getPredecessors())
+        {
+            auto root = mlir::dyn_cast<mlir::cf::BranchOp>(predBlock->getTerminator());
+            if (!root)
+                continue;
+
+            rewriter.setInsertionPoint(root);
+            auto res =
+                TailLoopToWhile(rewriter.getContext()).matchAndRewrite(root, rewriter);
+            if (mlir::succeeded(res))
+                break;
+        }
+
+        return true;
+    }
+
+    static bool isEntryBlock(mlir::Block &block)
+    {
+        auto region = block.getParent();
+        return &(region->front()) == &block;
+    }
+
+    static mlir::LogicalResult runLoopRestructuring(mlir::PatternRewriter &rewriter,
+                                                    mlir::Region &region)
+    {
+        auto scc = buildSCC(region);
+
+        if (debugLoopRestructuring)
+            scc.dump();
+
+        bool changed = false;
+        for (auto &node : scc.nodes)
+            changed = restructureLoop(rewriter, node) || changed;
+
+        return mlir::success(changed);
+    }
+
+    struct LoopRestructuringBr : public mlir::OpRewritePattern<mlir::cf::BranchOp>
+    {
+        // Set low benefit so all simplifications will run first
+        LoopRestructuringBr(mlir::MLIRContext *context) : mlir::OpRewritePattern<mlir::cf::BranchOp>(context, /*benefit=*/0)
+        {
+        }
+
+        mlir::LogicalResult matchAndRewrite(mlir::cf::BranchOp op, mlir::PatternRewriter &rewriter) const override
+        {
+            auto block = op->getBlock();
+            if (!isEntryBlock(*block))
+                return mlir::failure();
+            return runLoopRestructuring(rewriter, *block->getParent());
+        }
+    };
+
+    struct LoopRestructuringCondBr
+        : public mlir::OpRewritePattern<mlir::cf::CondBranchOp>
+    {
+        // Set low benefit, so all if simplifications will run first.
+        LoopRestructuringCondBr(mlir::MLIRContext *context)
+            : mlir::OpRewritePattern<mlir::cf::CondBranchOp>(context,
+                                                             /*benefit*/ 0)
+        {
+        }
+
+        mlir::LogicalResult
+        matchAndRewrite(mlir::cf::CondBranchOp op,
+                        mlir::PatternRewriter &rewriter) const override
+        {
+            auto block = op->getBlock();
+            if (!isEntryBlock(*block))
+                return mlir::failure();
+
+            return runLoopRestructuring(rewriter, *block->getParent());
         }
     };
 
@@ -621,9 +1515,12 @@ namespace
 
             mlir::RewritePatternSet patterns(context);
 
-            patterns.insert<ScfIfRewriteOneExit>(context);
-            patterns.insert<TailLoopToWhile>(context);
-            patterns.insert<TailLoopToWhileCond>(context);
+            patterns.insert<
+                ScfIfRewriteOneExit,
+                LoopRestructuringBr,
+                LoopRestructuringCondBr,
+                TailLoopToWhile,
+                TailLoopToWhileCond>(context);
 
             /// Get the canonicalization patterns from ControlFlowDialect
             context->getLoadedDialect<mlir::cf::ControlFlowDialect>()
