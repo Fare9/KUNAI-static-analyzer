@@ -412,11 +412,19 @@ namespace KUNAI
                 add_node(dst);
                 // now insert the edge
                 auto edge_pair = std::make_pair(src, dst);
-                if (std::find(edges_.begin(), edges_.end(), edge_pair) == edges_.end())
+                /// check if edge already exists
+                auto it = std::find_if(edges_.begin(), edges_.end(), [&](std::pair<DVMBasicBlock *, DVMBasicBlock *> &edge)
+                {
+                    return (edge_pair.first == edge.first) && (edge_pair.second == edge.second);
+                });
+                /// if not, add it
+                if (it == edges_.end())
+                {
                     edges_.push_back(edge_pair);
-                /// now add the sucessors and predecessors
-                add_sucessor(src, dst);
-                add_predecessor(dst, src);
+                    /// now add the sucessors and predecessors
+                    add_sucessor(src, dst);
+                    add_predecessor(dst, src);
+                }
             }
 
             /// @brief Get a constant reference to the edges of the graph
