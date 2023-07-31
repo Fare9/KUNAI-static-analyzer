@@ -38,9 +38,9 @@ namespace
 
         successorOperands.append(setTo);
 
-        ///assert(successorOperands.size() == blockArgParent->getNumArguments() &&
-        ///       successorOperands.size() - 1 == blockArg.getArgNumber() &&
-        ///       "successor operands size doesn't match block arg count");
+        /// assert(successorOperands.size() == blockArgParent->getNumArguments() &&
+        ///        successorOperands.size() - 1 == blockArg.getArgNumber() &&
+        ///        "successor operands size doesn't match block arg count");
     }
 
     /// @brief MjolnIR only has F32 (float) and F64 (double) floats,
@@ -282,32 +282,28 @@ void Lifter::fillBlockArgs(KUNAI::DEX::BasicBlocks &BBs, KUNAI::DEX::DVMBasicBlo
 {
     auto MjolnIrBlock = map_blocks[block];
 
-    std::cout << "Processing basic block: " << block->get_first_address() << "\n";
-        
-    std::cout << "Number of predecessors: " << BBs.get_predecessors()[block].size() << '\n';
-
     if (MjolnIrBlock->getArguments().size() == 0)
         return;
 
-    for (auto [i, pred] : llvm::enumerate(BBs.predecessors(block)))
+    auto preds = BBs.get_predecessors()[block];
+    /// getArguments will have one entry
+    /// for each predecessor
+    for (auto [i, blockArg] : llvm::enumerate(MjolnIrBlock->getArguments()))
     {
+        /// get the correct predecessor
+        auto pred = *std::next(preds.begin(), i);
+        
         if (pred->is_start_block() || pred->is_end_block())
             continue;
-        
-        auto blockArg = MjolnIrBlock->getArguments()[i];
-
-        std::cout << "Predecessor is: " << pred->get_first_address() << '\n';
 
         assert(CurrentDef.find(pred) != CurrentDef.end() && "Checked block not found in CurrentDef");
 
         auto edge = std::make_pair(pred, block);
 
-        std::cout << "Number of jump parameters: " << CurrentDef[pred].jmpParameters[edge].size() << '\n';
-
         for (auto param : CurrentDef[pred].jmpParameters[edge])
             ::set_block_args_for_predecessor(map_blocks[block], map_blocks[pred], blockArg, param);
+        
     }
-    
 }
 
 void Lifter::gen_method(KUNAI::DEX::MethodAnalysis *method)
