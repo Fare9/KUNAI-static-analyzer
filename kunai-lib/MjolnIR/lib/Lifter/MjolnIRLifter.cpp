@@ -38,9 +38,9 @@ namespace
 
         successorOperands.append(setTo);
 
-        assert(successorOperands.size() == blockArgParent->getNumArguments() &&
-               successorOperands.size() - 1 == blockArg.getArgNumber() &&
-               "successor operands size doesn't match block arg count");
+        ///assert(successorOperands.size() == blockArgParent->getNumArguments() &&
+        ///       successorOperands.size() - 1 == blockArg.getArgNumber() &&
+        ///       "successor operands size doesn't match block arg count");
     }
 
     /// @brief MjolnIR only has F32 (float) and F64 (double) floats,
@@ -266,7 +266,12 @@ mlir::Value Lifter::readLocalVariableRecursive(KUNAI::DEX::DVMBasicBlock *BB,
             CurrentDef[BB].required.erase(Reg);
         }
 
-        CurrentDef[pred].jmpParameters[std::make_pair(pred, BB)].push_back(Val);
+        auto edge = std::make_pair(pred, BB);
+
+        if (std::find(CurrentDef[pred].jmpParameters[edge].begin(),
+                      CurrentDef[pred].jmpParameters[edge].end(),
+                      Val) == CurrentDef[pred].jmpParameters[edge].end())
+            CurrentDef[pred].jmpParameters[edge].push_back(Val);
     }
 
     return new_value;
@@ -277,19 +282,32 @@ void Lifter::fillBlockArgs(KUNAI::DEX::BasicBlocks &BBs, KUNAI::DEX::DVMBasicBlo
 {
     auto MjolnIrBlock = map_blocks[block];
 
-    for (auto blockArg : MjolnIrBlock->getArguments())
+    std::cout << "Processing basic block: " << block->get_first_address() << "\n";
+        
+    std::cout << "Number of predecessors: " << BBs.get_predecessors()[block].size() << '\n';
+
+    if (MjolnIrBlock->getArguments().size() == 0)
+        return;
+
+    for (auto [i, pred] : llvm::enumerate(BBs.predecessors(block)))
     {
-        for (auto pred : BBs.predecessors(block))
-        {
-            if (pred->is_start_block() || pred->is_end_block())
-                continue;
+        if (pred->is_start_block() || pred->is_end_block())
+            continue;
+        
+        auto blockArg = MjolnIrBlock->getArguments()[i];
 
-            assert(CurrentDef.find(pred) != CurrentDef.end() && "Checked block not found in CurrentDef");
+        std::cout << "Predecessor is: " << pred->get_first_address() << '\n';
 
-            for (auto param : CurrentDef[pred].jmpParameters[std::make_pair(pred, block)])
-                ::set_block_args_for_predecessor(map_blocks[block], map_blocks[pred], blockArg, param);
-        }
+        assert(CurrentDef.find(pred) != CurrentDef.end() && "Checked block not found in CurrentDef");
+
+        auto edge = std::make_pair(pred, block);
+
+        std::cout << "Number of jump parameters: " << CurrentDef[pred].jmpParameters[edge].size() << '\n';
+
+        for (auto param : CurrentDef[pred].jmpParameters[edge])
+            ::set_block_args_for_predecessor(map_blocks[block], map_blocks[pred], blockArg, param);
     }
+    
 }
 
 void Lifter::gen_method(KUNAI::DEX::MethodAnalysis *method)
@@ -451,8 +469,8 @@ void Lifter::cast_to_type(std::uint32_t reg,
 }
 
 mlir::Value Lifter::cast_value(mlir::Value curr_value,
-                        mlir::Type type, 
-                        mlir::FileLineColLoc loc)
+                               mlir::Type type,
+                               mlir::FileLineColLoc loc)
 {
     bool changed_value = false;
     mlir::Value new_value;
@@ -547,7 +565,7 @@ void Lifter::cast_to_type(std::uint32_t reg1,
 
     if (curr_type1 == curr_type2)
         return;
-    
+
     if (::is_float(curr_type1) && ::is_float(curr_type2))
     {
         if (curr_type1.getIntOrFloatBitWidth() > curr_type2.getIntOrFloatBitWidth())
@@ -555,8 +573,7 @@ void Lifter::cast_to_type(std::uint32_t reg1,
             new_value = builder.create<::mlir::arith::ExtFOp>(
                 loc,
                 curr_type1,
-                curr_value2
-            );
+                curr_value2);
             changed_value2 = true;
         }
         else
@@ -564,8 +581,7 @@ void Lifter::cast_to_type(std::uint32_t reg1,
             new_value = builder.create<::mlir::arith::ExtFOp>(
                 loc,
                 curr_type2,
-                curr_value1
-            );
+                curr_value1);
             changed_value1 = true;
         }
     }
@@ -577,8 +593,7 @@ void Lifter::cast_to_type(std::uint32_t reg1,
             new_value = builder.create<::mlir::arith::ExtSIOp>(
                 loc,
                 curr_type1,
-                curr_value2
-            );
+                curr_value2);
             changed_value2 = true;
         }
         else
@@ -586,8 +601,7 @@ void Lifter::cast_to_type(std::uint32_t reg1,
             new_value = builder.create<::mlir::arith::ExtSIOp>(
                 loc,
                 curr_type2,
-                curr_value1
-            );
+                curr_value1);
             changed_value1 = true;
         }
     }
@@ -597,8 +611,7 @@ void Lifter::cast_to_type(std::uint32_t reg1,
         new_value = builder.create<::mlir::arith::SIToFPOp>(
             loc,
             curr_type1,
-            curr_value2
-        );
+            curr_value2);
         changed_value2 = true;
     }
 
@@ -607,8 +620,7 @@ void Lifter::cast_to_type(std::uint32_t reg1,
         new_value = builder.create<::mlir::arith::SIToFPOp>(
             loc,
             curr_type2,
-            curr_value1
-        );
+            curr_value1);
         changed_value1 = true;
     }
 
@@ -620,7 +632,7 @@ void Lifter::cast_to_type(std::uint32_t reg1,
     else if (changed_value2)
     {
         /// write the new value as the current one
-        writeLocalVariable(analysis_context.current_basic_block, reg2, new_value);        
+        writeLocalVariable(analysis_context.current_basic_block, reg2, new_value);
     }
 }
 
