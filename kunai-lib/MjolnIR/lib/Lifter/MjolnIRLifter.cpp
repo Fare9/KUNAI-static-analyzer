@@ -15,7 +15,7 @@ using namespace KUNAI::MjolnIR;
 namespace
 {
     /// Code from: https://github.com/J-MR-T/blc/blob/50da676f8c3fa965d5c877534cb068bdfc95dcf2/src/mlir.cpp#L163-L187
-    inline void set_block_args_for_predecessor(mlir::Block *blockArgParent, mlir::Block *pred, mlir::BlockArgument blockArg, mlir::Value setTo)
+    inline void set_block_args_for_predecessor(mlir::Block *blockArgParent, mlir::Block *pred, mlir::SmallVector<mlir::Value, 4> &jmpParameters)
     {
         auto term = pred->getTerminator();
 
@@ -36,11 +36,8 @@ namespace
             assert(false && "Sucessor not found");
         }();
 
-        successorOperands.append(setTo);
-
-        /// assert(successorOperands.size() == blockArgParent->getNumArguments() &&
-        ///        successorOperands.size() - 1 == blockArg.getArgNumber() &&
-        ///        "successor operands size doesn't match block arg count");
+        for (auto setTo : jmpParameters)
+            successorOperands.append(setTo);
     }
 
     /// @brief MjolnIR only has F32 (float) and F64 (double) floats,
@@ -280,19 +277,8 @@ mlir::Value Lifter::readLocalVariableRecursive(KUNAI::DEX::DVMBasicBlock *BB,
 // fills phi nodes with correct values, assumes block is sealed
 void Lifter::fillBlockArgs(KUNAI::DEX::BasicBlocks &BBs, KUNAI::DEX::DVMBasicBlock *block)
 {
-    auto MjolnIrBlock = map_blocks[block];
-
-    if (MjolnIrBlock->getArguments().size() == 0)
-        return;
-
-    auto preds = BBs.get_predecessors()[block];
-    /// getArguments will have one entry
-    /// for each predecessor
-    for (auto [i, blockArg] : llvm::enumerate(MjolnIrBlock->getArguments()))
+    for (auto pred : BBs.predecessors(block))
     {
-        /// get the correct predecessor
-        auto pred = *std::next(preds.begin(), i);
-        
         if (pred->is_start_block() || pred->is_end_block())
             continue;
 
@@ -300,9 +286,7 @@ void Lifter::fillBlockArgs(KUNAI::DEX::BasicBlocks &BBs, KUNAI::DEX::DVMBasicBlo
 
         auto edge = std::make_pair(pred, block);
 
-        for (auto param : CurrentDef[pred].jmpParameters[edge])
-            ::set_block_args_for_predecessor(map_blocks[block], map_blocks[pred], blockArg, param);
-        
+        ::set_block_args_for_predecessor(map_blocks[block], map_blocks[pred], CurrentDef[pred].jmpParameters[edge]);
     }
 }
 
