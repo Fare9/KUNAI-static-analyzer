@@ -141,21 +141,29 @@ if(USE_MJOLNIR)
         POSITION_INDEPENDENT_CODE 1
     )
 
+    set_target_properties(IRManager
+        PROPERTIES
+        POSITION_INDEPENDENT_CODE 1
+    )
+
     # include TARGET_LINK_DIRECTORIES in case
     list(APPEND TARGET_LINK_DIRECTORIES
         ${PROJECT_BINARY_DIR}/lib/
         ${PROJECT_BINARY_DIR}/MjolnIR/lib/Lifter/
+        ${PROJECT_BINARY_DIR}/MjolnIR/lib/Analysis/
     )
 
     # include TARGET_INCLUDE_LIBS the Lifter and MjolnIR dialect
     list(APPEND TARGET_INCLUDE_LIBS
         MjolnIR
         Lifter
+        IRManager
     )
 
     list(APPEND TARGET_INSTALLATION_LIBS
         MjolnIR
         Lifter
+        IRManager
     )
 
     list(APPEND KUNAI_LIB_PUBLIC_INCLUDE_FILES
