@@ -15,8 +15,9 @@
 #include <mlir/Interfaces/SideEffectInterfaces.h>
 #include <mlir/Interfaces/ControlFlowInterfaces.h>
 
+#include "MjolnIR/Dalvik/MjolnIREnums.h.inc"
+
 #define GET_OP_CLASSES
 #include "MjolnIR/Dalvik/MjolnIROps.h.inc"
-
 
 #endif // DALVIK_MJOLNIROPS_HPP

@@ -10,6 +10,7 @@
 #define DALVIK_MJOLNIRDIALECT_TD
 
 include "mlir/IR/OpBase.td"
+include "mlir/IR/EnumAttr.td"
 
 
 //===----------------------------------------------------------------------===//
@@ -41,5 +42,20 @@ def MjolnIR_Dialect : Dialect
 //      * List of traits for the operation
 class MjolnIR_Op<string mnemonic, list<Trait> traits = []> :
     Op<MjolnIR_Dialect, mnemonic, traits>;
+
+
+//===----------------------------------------------------------------------===//
+// MjolnIR_FieldType
+//===----------------------------------------------------------------------===//
+def MjolnIR_FieldType : I32EnumAttr<
+    "FieldType", "",
+    [
+        I32EnumAttrCase<"STATIC", 0, "static">,
+        I32EnumAttrCase<"INSTANCE", 1, "instance">
+    ]
+> {
+    let cppNamespace = "::mlir::KUNAI::MjolnIR";
+}
+
 
 #endif // DALVIK_MJOLNIRDIALECT_TD

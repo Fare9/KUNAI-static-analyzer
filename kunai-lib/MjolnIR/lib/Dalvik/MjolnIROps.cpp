@@ -25,6 +25,8 @@
 // include from LLVM
 #include <llvm/ADT/TypeSwitch.h>
 
+#include "MjolnIR/Dalvik/MjolnIREnums.cpp.inc"
+
 #define GET_OP_CLASSES
 #include "MjolnIR/Dalvik/MjolnIROps.cpp.inc"
 
@@ -167,9 +169,14 @@ CallInterfaceCallable InvokeOp::getCallableForCallee()
     return (*this)->getAttrOfType<SymbolRefAttr>("callee");
 }
 
+/// Set the callee for this operation.
+void InvokeOp::setCalleeFromCallable(CallInterfaceCallable callee) {
+  (*this)->setAttr("callee", callee.get<SymbolRefAttr>());
+}
+
 /// Get the argument operands to the called function, this is required by the
 /// call interface.
-Operation::operand_range InvokeOp::getArgOperands() { return getInputs(); }
+Operation::operand_range InvokeOp::getArgOperands() { return getOperands(); }
 
 //===----------------------------------------------------------------------===//
 // FallthroughOp

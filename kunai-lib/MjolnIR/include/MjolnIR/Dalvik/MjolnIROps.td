@@ -129,7 +129,6 @@ def MjolnIR_LoadString : MjolnIR_Op<"load-string", [Pure]>
     let assemblyFormat = "`(` $string `)` attr-dict `:` type($res)";
 }
 
-
 //===----------------------------------------------------------------------===//
 // LoadFieldOp
 //===----------------------------------------------------------------------===//
@@ -153,16 +152,41 @@ def LoadFieldOp : MjolnIR_Op<"loadfield",
     }];
 
     let arguments = (ins
+        MjolnIR_FieldType:$access,      // How access to the field is done
         FlatSymbolRefAttr:$fieldName, // name of Field
         FlatSymbolRefAttr:$fieldClass, // class of Field
-        UI32Attr: $fieldRef // reference to Field in Dalvik code
+        UI32Attr: $fieldRef, // reference to Field in Dalvik code
+        Optional<AnyType>:$object   // in case it is an instance field, here it goes the object
     );
 
     let results = (outs
         AnyType               // any of the DVM Basic Types
     );
 
-    let assemblyFormat = "attr-dict $fieldClass`->`$fieldName `(` $fieldRef `)` `:` type(results)";
+    let builders = [
+        OpBuilder<
+            (ins "Type":$resultType, "StringRef":$fieldName, "StringRef":$fieldClass, "uint32_t":$fieldRef), [{
+    /** In case of access to a static field */
+    odsState.addAttribute(getAccessAttrName(odsState.name), ::mlir::KUNAI::MjolnIR::FieldTypeAttr::get(odsBuilder.getContext(), FieldType::STATIC));
+    odsState.addAttribute(getFieldNameAttrName(odsState.name), ::mlir::SymbolRefAttr::get(odsBuilder.getContext(), fieldName));
+    odsState.addAttribute(getFieldClassAttrName(odsState.name), ::mlir::SymbolRefAttr::get(odsBuilder.getContext(), fieldClass));
+    odsState.addAttribute(getFieldRefAttrName(odsState.name), odsBuilder.getIntegerAttr(odsBuilder.getIntegerType(32, /*isSigned=*/false), fieldRef));
+    odsState.addTypes(resultType);
+}]
+        >,
+        OpBuilder<
+            (ins "Type":$resultType, "StringRef":$fieldName, "StringRef":$fieldClass, "uint32_t":$fieldRef, "Value":$object), [{
+    /** In case of access to a field through an instance of an object */
+    odsState.addOperands(object);
+    odsState.addAttribute(getAccessAttrName(odsState.name), ::mlir::KUNAI::MjolnIR::FieldTypeAttr::get(odsBuilder.getContext(), FieldType::INSTANCE));
+    odsState.addAttribute(getFieldNameAttrName(odsState.name), ::mlir::SymbolRefAttr::get(odsBuilder.getContext(), fieldName));
+    odsState.addAttribute(getFieldClassAttrName(odsState.name), ::mlir::SymbolRefAttr::get(odsBuilder.getContext(), fieldClass));
+    odsState.addAttribute(getFieldRefAttrName(odsState.name), odsBuilder.getIntegerAttr(odsBuilder.getIntegerType(32, /*isSigned=*/false), fieldRef));
+    odsState.addTypes(resultType);
+}]
+        >
+    ];
+
 }
 
 //===----------------------------------------------------------------------===//
@@ -184,13 +208,40 @@ def StoreFieldOp : MjolnIR_Op<"storefield", []>
     }];
 
     let arguments = (ins
-        AnyType:$value,   // value to store in the Field
-        FlatSymbolRefAttr:$fieldName, // name of Field
-        FlatSymbolRefAttr:$fieldClass, // class of Field
-        UI32Attr: $fieldRef // reference to Field in Dalvik code
+        AnyType:$value,                 // value to store in the Field
+        MjolnIR_FieldType:$access,      // How access to the field is done
+        FlatSymbolRefAttr:$fieldName,   // name of Field
+        FlatSymbolRefAttr:$fieldClass,  // class of Field
+        UI32Attr: $fieldRef,            // reference to Field in Dalvik code
+        Optional<AnyType>:$object   // in case it is an instance field, here it goes the object
     );
 
-    let assemblyFormat = "attr-dict $value`:`type($value)`,` $fieldClass`->`$fieldName `(`$fieldRef`)`";
+    let builders = [
+        OpBuilder<
+            (ins "Value":$value, "StringRef":$fieldName, "StringRef":$fieldClass, "uint32_t":$fieldRef), [{
+    /** In case of access to a static field */
+    odsState.addOperands(value);
+    odsState.addAttribute(getAccessAttrName(odsState.name), ::mlir::KUNAI::MjolnIR::FieldTypeAttr::get(odsBuilder.getContext(), FieldType::STATIC));
+    odsState.addAttribute(getFieldNameAttrName(odsState.name), ::mlir::SymbolRefAttr::get(odsBuilder.getContext(), fieldName));
+    odsState.addAttribute(getFieldClassAttrName(odsState.name), ::mlir::SymbolRefAttr::get(odsBuilder.getContext(), fieldClass));
+    odsState.addAttribute(getFieldRefAttrName(odsState.name), odsBuilder.getIntegerAttr(odsBuilder.getIntegerType(32, /*isSigned=*/false), fieldRef));
+}]
+        >,
+        OpBuilder<
+            (ins "Value":$value, "StringRef":$fieldName, "StringRef":$fieldClass, "uint32_t":$fieldRef, "Value":$object), [{
+    /** In case of access to a field through an instance of an object */
+    odsState.addOperands(value);
+    odsState.addOperands(object);
+    odsState.addAttribute(getAccessAttrName(odsState.name), ::mlir::KUNAI::MjolnIR::FieldTypeAttr::get(odsBuilder.getContext(), FieldType::INSTANCE));
+    odsState.addAttribute(getFieldNameAttrName(odsState.name), ::mlir::SymbolRefAttr::get(odsBuilder.getContext(), fieldName));
+    odsState.addAttribute(getFieldClassAttrName(odsState.name), ::mlir::SymbolRefAttr::get(odsBuilder.getContext(), fieldClass));
+    odsState.addAttribute(getFieldRefAttrName(odsState.name), odsBuilder.getIntegerAttr(odsBuilder.getIntegerType(32, /*isSigned=*/false), fieldRef));
+}]
+        >
+    ];
+
+    
+
 }
 
 
@@ -260,7 +311,7 @@ def InvokeOp : MjolnIR_Op<"invoke", [
         FlatSymbolRefAttr:$callee, // called method
         UI32Attr:$methodRef,
         UI32Attr:$isStatic,
-        Variadic<AnyType>: $inputs // the inputs that must be the same
+        Variadic<AnyType>: $operands // the inputs that must be the same
                                          // of those from the callee
     );
 
@@ -271,7 +322,7 @@ def InvokeOp : MjolnIR_Op<"invoke", [
     );
 
     let assemblyFormat = [{
-        $callee `(` $inputs `)` attr-dict `:` functional-type($inputs, results)
+        $callee `(` $operands `)` attr-dict `:` functional-type($operands, results)
     }];
 
     let builders = [
@@ -292,6 +343,23 @@ def InvokeOp : MjolnIR_Op<"invoke", [
                 $_state.addTypes(result);
         }]>,
     ];
+
+    let extraClassDeclaration = [{
+        FunctionType getCalleeType();
+
+
+        /// return iterator to the beginning of the operands
+        operand_iterator arg_operand_begin()
+        {
+            return operand_begin();
+        }
+
+        /// return iterator to the end of the operands
+        operand_iterator arg_operand_end()
+        {
+            return operand_end();
+        }
+    }];
 }
 
 
