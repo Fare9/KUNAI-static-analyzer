@@ -160,6 +160,7 @@ llvm::SmallVector<mlir::Type> Lifter::gen_prototype(KUNAI::DEX::ProtoID *proto)
 
     auto method_location = mlir::FileLineColLoc::get(&context, llvm::StringRef(name.c_str()), 0, 0);
 
+    
     // now let's create a MethodOp, for that we will need first to retrieve
     // the type of the parameters
     auto paramTypes = gen_prototype(proto);
@@ -188,6 +189,12 @@ llvm::SmallVector<mlir::Type> Lifter::gen_prototype(KUNAI::DEX::ProtoID *proto)
     /// declare the register parameters, these are used during the
     /// program
     auto number_of_params = proto->get_parameters().size();
+
+    if (!(encoded_method->get_access_flags() & KUNAI::DEX::TYPES::ACC_STATIC))
+    {
+        paramTypes.insert(paramTypes.begin(), get_type(method->get_class()));
+        number_of_params++;
+    }
 
     auto number_of_registers = encoded_method->get_code_item().get_registers_size();
 

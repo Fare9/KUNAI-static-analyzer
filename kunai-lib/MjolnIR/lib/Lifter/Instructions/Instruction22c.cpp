@@ -33,12 +33,18 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
         if (!destination_type)
             destination_type = get_type(field->get_type());
 
+        auto reg_instance = instr->get_operand();
+        auto instance = readLocalVariable(analysis_context.current_basic_block,
+                                          analysis_context.current_method->get_basic_blocks(),
+                                          reg_instance);
+
         auto generated_value = builder.create<::mlir::KUNAI::MjolnIR::LoadFieldOp>(
             location,
             destination_type,
             field_name,
             field_class,
-            field_ref);
+            field_ref,
+            instance);
 
         writeLocalVariable(analysis_context.current_basic_block, reg, generated_value);
     }
@@ -57,6 +63,11 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
         std::string &field_name = field->get_name();
         std::string &field_class = field->get_class()->get_raw();
 
+        auto reg_instance = instr->get_operand();
+        auto instance = readLocalVariable(analysis_context.current_basic_block,
+                                          analysis_context.current_method->get_basic_blocks(),
+                                          reg_instance);
+
         auto reg_value = readLocalVariable(analysis_context.current_basic_block, analysis_context.current_method->get_basic_blocks(), reg);
 
         builder.create<::mlir::KUNAI::MjolnIR::StoreFieldOp>(
@@ -64,7 +75,8 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
             reg_value,
             field_name,
             field_class,
-            field_ref);
+            field_ref,
+            instance);
     }
     break;
     case KUNAI::DEX::TYPES::OP_NEW_ARRAY:
@@ -80,8 +92,7 @@ void Lifter::gen_instruction(KUNAI::DEX::Instruction22c *instr)
         auto gen_value = builder.create<::mlir::KUNAI::MjolnIR::NewArrayOp>(
             location,
             array,
-            size
-        );
+            size);
 
         writeLocalVariable(analysis_context.current_basic_block, reg, gen_value);
     }
