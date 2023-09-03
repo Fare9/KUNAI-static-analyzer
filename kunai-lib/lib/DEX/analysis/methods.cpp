@@ -183,15 +183,24 @@ void MethodAnalysis::create_basic_blocks()
     if (current->get_nb_instructions() == 0)
         basic_blocks.remove_node(current);
 
+    auto out_range = instructions_.back()->get_address() +
+                     instructions_.back()->get_instruction_length();
+
     /// add the jump targets
     for (const auto &jump_target : targets_jumps)
     {
         auto src_idx = jump_target.first;
         auto src = basic_blocks.get_basic_block_by_idx(src_idx);
+        /// need to check how target jump is generated
+        if (src_idx >= out_range || src == nullptr)
+            continue;
 
         for (auto dst_idx : jump_target.second)
         {
             auto dst = basic_blocks.get_basic_block_by_idx(dst_idx);
+            /// need to check how target jump is generated
+            if (dst_idx >= out_range || dst == nullptr)
+                continue;
 
             basic_blocks.add_edge(src, dst);
         }
@@ -339,9 +348,9 @@ void MethodAnalysis::dump_method_dot(std::ofstream &dot_file)
                 dot_file << "\"" << edge.first->get_name() << "\" -> "
                          << "\"" << edge.second->get_name() << "\" [style=\"solid,bold\",color=green,weight=10,constraint=true];\n";
         }
-        else  if (terminator_instr &&
-            DalvikOpcodes::get_instruction_operation(terminator_instr->get_instruction_opcode()) ==
-                TYPES::Operation::UNCONDITIONAL_BRANCH_DVM_OPCODE)
+        else if (terminator_instr &&
+                 DalvikOpcodes::get_instruction_operation(terminator_instr->get_instruction_opcode()) ==
+                     TYPES::Operation::UNCONDITIONAL_BRANCH_DVM_OPCODE)
         {
             dot_file << "\"" << edge.first->get_name() << "\" -> "
                      << "\"" << edge.second->get_name() << "\" [style=\"solid,bold\",color=blue,weight=10,constraint=true];\n";
