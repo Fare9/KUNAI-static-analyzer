@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  kunai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kunai:latest
+
