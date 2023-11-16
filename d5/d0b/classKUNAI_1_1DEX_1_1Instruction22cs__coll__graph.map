@@ -1,4 +1,5 @@
 <map id="KUNAI::DEX::Instruction22cs" name="KUNAI::DEX::Instruction22cs">
-<area shape="rect" id="node1" title="Format suggested for statically linked field access instructions or Types. Example: op vA,..." alt="" coords="5,79,196,105"/>
-<area shape="rect" id="node2" href="$d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode." alt="" coords="19,5,182,31"/>
+<area shape="rect" id="Node000001" title="Format suggested for statically linked field access instructions or Types. Example: op vA,..." alt="" coords="5,79,196,105"/>
+<area shape="rect" id="Node000002" href="$d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode." alt="" coords="19,5,182,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,46,103,79,98,79,98,46"/>
 </map>

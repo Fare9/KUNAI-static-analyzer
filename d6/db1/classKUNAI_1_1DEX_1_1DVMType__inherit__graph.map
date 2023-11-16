@@ -1,7 +1,11 @@
 <map id="KUNAI::DEX::DVMType" name="KUNAI::DEX::DVMType">
-<area shape="rect" id="node1" title="Represents the base class of a Type in the DVM we have different types." alt="" coords="5,80,164,106"/>
-<area shape="rect" id="node2" href="$dc/df9/classKUNAI_1_1DEX_1_1DVMArray.html" title="Class that represent the array types." alt="" coords="234,5,395,31"/>
-<area shape="rect" id="node3" href="$d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html" title="Classes of the DVM." alt="" coords="233,55,396,80"/>
-<area shape="rect" id="node4" href="$d7/d15/classKUNAI_1_1DEX_1_1DVMFundamental.html" title="Fundamental types from the DVM, these are the common from many other languages." alt="" coords="212,104,417,130"/>
-<area shape="rect" id="node5" href="$d1/de3/classKUNAI_1_1DEX_1_1Unknown.html" title="In case something unknown is found, we categorize it." alt="" coords="236,153,393,179"/>
+<area shape="rect" id="Node000001" title="Represents the base class of a Type in the DVM we have different types." alt="" coords="5,80,164,106"/>
+<area shape="rect" id="Node000002" href="$dc/df9/classKUNAI_1_1DEX_1_1DVMArray.html" title="Class that represent the array types." alt="" coords="234,5,395,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,71,211,40,249,29,251,34,212,45,130,76"/>
+<area shape="rect" id="Node000003" href="$d6/db2/classKUNAI_1_1DEX_1_1DVMClass.html" title="Classes of the DVM." alt="" coords="233,55,396,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,80,232,74,233,79,179,85"/>
+<area shape="rect" id="Node000004" href="$d7/d15/classKUNAI_1_1DEX_1_1DVMFundamental.html" title="Fundamental types from the DVM, these are the common from many other languages." alt="" coords="212,104,417,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="179,100,211,103,211,109,179,105"/>
+<area shape="rect" id="Node000005" href="$d1/de3/classKUNAI_1_1DEX_1_1Unknown.html" title="In case something unknown is found, we categorize it." alt="" coords="236,153,393,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="131,110,212,140,251,150,249,155,211,145,129,115"/>
 </map>

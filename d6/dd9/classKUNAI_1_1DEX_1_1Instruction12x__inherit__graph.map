@@ -1,4 +1,5 @@
 <map id="KUNAI::DEX::Instruction12x" name="KUNAI::DEX::Instruction12x">
-<area shape="rect" id="node1" title="Move the contents of one register to another length of the instruction is 2 bytes,..." alt="" coords="5,79,188,105"/>
-<area shape="rect" id="node2" href="$d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode." alt="" coords="15,5,178,31"/>
+<area shape="rect" id="Node000001" title="Move the contents of one register to another length of the instruction is 2 bytes,..." alt="" coords="5,79,188,105"/>
+<area shape="rect" id="Node000002" href="$d7/d1e/classKUNAI_1_1DEX_1_1Instruction.html" title="Base class for the Instructions of the Dalvik Bytecode." alt="" coords="15,5,178,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,46,99,79,94,79,94,46"/>
 </map>

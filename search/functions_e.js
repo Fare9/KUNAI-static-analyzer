@@ -16,5 +16,5 @@ var searchData=
   ['size_13',['size',['../d5/d48/classexceptions_1_1InvalidInstructionException.html#a5ae9f9933f5e7a22b30b8a37073f363f',1,'exceptions::InvalidInstructionException']]],
   ['size_5fof_5fvalue_14',['size_of_value',['../d2/d8b/classKUNAI_1_1DEX_1_1EncodedValue.html#a59be24c356d6860676f2be965ffc1b5f',1,'KUNAI::DEX::EncodedValue']]],
   ['streamexception_15',['StreamException',['../de/dbf/classexceptions_1_1StreamException.html#a481b4aaa9cfdb1545d9513965a41a1c0',1,'exceptions::StreamException']]],
-  ['strings_16',['Strings',['../d7/d35/classKUNAI_1_1DEX_1_1Strings.html#a6ea122d008706b145f483ef57e2e5d8c',1,'KUNAI::DEX::Strings::Strings()=default'],['../d7/d35/classKUNAI_1_1DEX_1_1Strings.html#a330c91915647a26a77d840a62349add7',1,'KUNAI::DEX::Strings::Strings(Strings &amp;str)']]]
+  ['strings_16',['strings',['../d7/d35/classKUNAI_1_1DEX_1_1Strings.html#a6ea122d008706b145f483ef57e2e5d8c',1,'KUNAI::DEX::Strings::Strings()=default'],['../d7/d35/classKUNAI_1_1DEX_1_1Strings.html#a330c91915647a26a77d840a62349add7',1,'KUNAI::DEX::Strings::Strings(Strings &amp;str)']]]
 ];
