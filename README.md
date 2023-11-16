@@ -346,3 +346,9 @@ For any question, or issues about the tool you can always refer to the issues fr
 ```
 =======
 Tool aimed to provide a binary analysis of different file formats through the use of an Intermmediate Representation.
+
+## Acknowledgements
+
+This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No. 101021377
+
+![logoEU](./images/logoeu.png)
